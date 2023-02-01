@@ -50,7 +50,7 @@ namespace ExolRebirth.NPCs.Terrortoma
             NPC.lifeMax = 4500;
             NPC.damage = 40;
             NPC.noTileCollide = true;
-            NPC.defense = 25;
+            NPC.defense = 20;
             NPC.knockBackResist = 0;
             NPC.width = 118;
             NPC.height = 120;
