@@ -1,0 +1,23 @@
+using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
+namespace ExolRebirth.Buffs
+{
+    public class ExolStun : ModBuff
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("stunned");
+            Main.buffNoTimeDisplay[Type] = false;
+        }
+        public override void Update(NPC npc, ref int buffIndex)
+        {
+            npc.GetGlobalNPC<NPCs.ModGlobalNPC>().stunned = true;
+        }
+    }
+}

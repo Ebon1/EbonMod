@@ -1,0 +1,3 @@
+displayName = Ebonian Mod
+author = Ebon
+version = 0.1
