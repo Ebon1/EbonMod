@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-namespace ExolRebirth
+namespace EbonianMod
 {
     public class VerletPoint
     {
@@ -100,7 +100,7 @@ namespace ExolRebirth
             foreach (VerletPoint p in points)
             {
                 if (p == null) continue;
-                spriteBatch.Draw(ModContent.Request<Texture2D>("ExolRebirth/circle").Value, p.position - Main.screenPosition, null, (!p.locked ? Color.White * p.alpha : Color.Red * p.alpha), 0, new Vector2(16, 16), 1, SpriteEffects.None, 0f);
+                spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/circle").Value, p.position - Main.screenPosition, null, (!p.locked ? Color.White * p.alpha : Color.Red * p.alpha), 0, new Vector2(16, 16), 1, SpriteEffects.None, 0f);
             }
             foreach (VerletStick s in sticks)
             {

@@ -4,12 +4,12 @@ using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ExolRebirth.Buffs;
+using EbonianMod.Buffs;
 
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
-namespace ExolRebirth.Projectiles.ExolOld
+namespace EbonianMod.Projectiles.ExolOld
 {
     public class ExolSmallerFlame : ModProjectile
     {
@@ -54,7 +54,7 @@ namespace ExolRebirth.Projectiles.ExolOld
     public class ExolFireRise : ModProjectile
     {
         public int KillTimer = 0;
-        public override string Texture => "ExolRebirth/Projectiles/ExolOld/ExolSmallerFlame";
+        public override string Texture => "EbonianMod/Projectiles/ExolOld/ExolSmallerFlame";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spiteful Flame");

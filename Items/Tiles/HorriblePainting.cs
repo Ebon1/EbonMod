@@ -1,4 +1,4 @@
-﻿using ExolRebirth.Tiles;
+﻿using EbonianMod.Tiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace ExolRebirth.Items.Tiles
+namespace EbonianMod.Items.Tiles
 {
     public class HorriblePainting : ModItem
     {

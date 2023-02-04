@@ -1,13 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using ExolRebirth.Effects.Prims;
+using EbonianMod.Effects.Prims;
 using System;
 using Terraria.ModLoader;
 using System.Collections.Generic;
+using Terraria.DataStructures;
 
-
-namespace ExolRebirth.Projectiles
+namespace EbonianMod.Projectiles
 {
     public class TelegraphLine : ModProjectile
     {
@@ -15,7 +15,7 @@ namespace ExolRebirth.Projectiles
         {
             DisplayName.SetDefault("Telegraph line");
         }
-        public override string Texture => "ExolRebirth/Extras/Empty";
+        public override string Texture => "EbonianMod/Extras/Empty";
 
         public override void SetDefaults()
         {
@@ -35,6 +35,7 @@ namespace ExolRebirth.Projectiles
         {
             behindNPCs.Add(Projectile.whoAmI);
         }
+        float alpha;
         public override void AI()
         {
             if (Projectile.ai[1] == 1)
@@ -49,7 +50,7 @@ namespace ExolRebirth.Projectiles
                 RunOnce = true;
             }
             float progress = Utils.GetLerpValue(0, MAX_TIME, Projectile.timeLeft);
-            Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
+            alpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 2, 0, 1);
         }
         public override bool ShouldUpdatePosition()
         {
@@ -57,7 +58,7 @@ namespace ExolRebirth.Projectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + Projectile.velocity * Main.screenWidth, Color.White * 0.5f, Color.White, 2);
+            Utils.DrawLine(Main.spriteBatch, Projectile.Center, Projectile.Center + Projectile.velocity * Main.screenWidth, Color.White * 0f, Color.Red * alpha, 2);
             return false;
         }
         /*private void DrawBeam(SpriteBatch spriteBatch, Texture2D texture, Vector2 startPosition, Vector2 endPosition, Vector2 drawScale, Color beamColor)

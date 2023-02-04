@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
 
-namespace ExolRebirth.Projectiles
+namespace EbonianMod.Projectiles
 {
     public class EBeam : ModProjectile
     {
@@ -27,7 +27,7 @@ namespace ExolRebirth.Projectiles
             Projectile.localNPCHitCooldown = 10;
         }
 
-        public override string Texture => "ExolRebirth/Extras/Empty";
+        public override string Texture => "EbonianMod/Extras/Empty";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Beam");
@@ -83,7 +83,7 @@ namespace ExolRebirth.Projectiles
 
             float mult = (0.55f + (float)Math.Sin(Main.GlobalTimeWrappedHourly/* * 2*/) * 0.1f);
             float scale = Projectile.scale * 4 * mult;
-            Texture2D texture = ModContent.Request<Texture2D>("ExolRebirth/Extras/Line").Value;
+            Texture2D texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Line").Value;
             Texture2D bolt = Helper.GetExtraTexture("laser4");
             Vector2 start = Projectile.Center;
             Vector2 end = Projectile.Center + Projectile.velocity * /*Helper.TRay.CastLength(Projectile.Center, Projectile.velocity,*/ Main.screenWidth;//);
@@ -97,13 +97,13 @@ namespace ExolRebirth.Projectiles
                 Main.spriteBatch.Draw(bolt, vector2 - Main.screenPosition, null, Color.White, rotation, bolt.Size() / 2, new Vector2(1, Projectile.scale), SpriteEffects.None, 0f);
                 vector2 = start + i * vector;
             }
-            texture = ModContent.Request<Texture2D>("ExolRebirth/Extras/Spotlight").Value;
+            texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Spotlight").Value;
 
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.OrangeRed, 0, new Vector2(texture.Width, texture.Height) / 2, scale, SpriteEffects.None, 0f);
 
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.White, 0, new Vector2(texture.Width, texture.Height) / 2, scale, SpriteEffects.None, 0f);
 
-            texture = ModContent.Request<Texture2D>("ExolRebirth/Extras/Spotlight").Value;
+            texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Spotlight").Value;
             for (int i = 0; i < 5; i++)
                 Main.spriteBatch.Draw(texture, end - Main.screenPosition, null, Color.OrangeRed, Projectile.rotation, new Vector2(texture.Width, texture.Height) / 2, scale * 0.15f, SpriteEffects.None, 0f);
 

@@ -24,13 +24,13 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.IO;
 using static Terraria.ModLoader.ModContent;
 
-namespace ExolRebirth
+namespace EbonianMod
 {
     public class EbonianSystem : ModSystem
     {
         public override void PostUpdateEverything()
         {
-            if (!NPC.AnyNPCs(ExolRebirth.ExolID))
+            if (!NPC.AnyNPCs(EbonianMod.ExolID))
             {
                 VerletSystem.ClearAll();
             }
@@ -39,13 +39,13 @@ namespace ExolRebirth
         {
             int textIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
             int textIndex2 = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Map / Minimap")) + 1;
-            layers.Insert(textIndex, new LegacyGameInterfaceLayer("Regressus: BossText", () =>
+            layers.Insert(textIndex, new LegacyGameInterfaceLayer("EbonianMod: BossText", () =>
             {
                 Helper.DrawBossTitle();
 
                 return true;
             }, InterfaceScaleType.UI));
-            layers.Insert(textIndex2, new LegacyGameInterfaceLayer("Regressus: BossText", () =>
+            layers.Insert(textIndex2, new LegacyGameInterfaceLayer("EbonianMod: BossText", () =>
             {
                 Helper.DrawDialogue();
 

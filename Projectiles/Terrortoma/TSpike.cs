@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace ExolRebirth.Projectiles.Terrortoma
+namespace EbonianMod.Projectiles.Terrortoma
 {
     public class TSpike : ModProjectile
     {
@@ -20,6 +21,10 @@ namespace ExolRebirth.Projectiles.Terrortoma
             Projectile.hostile = true;
 
             Projectile.timeLeft = 190;
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White * ((255 - Projectile.alpha) / 255);
         }
         public override void AI()
         {

@@ -4,12 +4,12 @@ using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ExolRebirth.Buffs;
+using EbonianMod.Buffs;
 
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
-namespace ExolRebirth.Projectiles.ExolOld
+namespace EbonianMod.Projectiles.ExolOld
 {
     public class ExolRing2 : ModProjectile
     {
@@ -69,8 +69,8 @@ namespace ExolRebirth.Projectiles.ExolOld
                     float angle = 2f * (float)Math.PI / 15f * k;
                     Vector2 velocity = new Vector2(5f, 5f).RotatedBy(angle);
                     int damage = ((Main.expertMode) ? 12 : 20);
-                    int NoClipLmao = Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, velocity, ModContent.ProjectileType<ExolRing3>(), damage, 0, 0, 1);
-                    Main.projectile[NoClipLmao].tileCollide = false;
+                    int projInt = Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, velocity, ModContent.ProjectileType<ExolRing3>(), damage, 0, 0, 1);
+                    Main.projectile[projInt].tileCollide = false;
                 }
                 Projectile.Kill();
             }

@@ -5,9 +5,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent;
-using ExolRebirth;
+using EbonianMod;
 
-namespace ExolRebirth.Projectiles
+namespace EbonianMod.Projectiles
 {
     public abstract class HeldSword : ModProjectile
     {

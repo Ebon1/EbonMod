@@ -14,7 +14,7 @@ using Terraria.WorldBuilding;
 using System;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
-namespace ExolRebirth.NPCs
+namespace EbonianMod.NPCs
 {
     public class ModGlobalNPC : GlobalNPC
     {

@@ -4,8 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
+using Terraria.DataStructures;
+using Terraria.GameContent.Bestiary;
 
-namespace ExolRebirth.NPCs.Corruption
+namespace EbonianMod.NPCs.Corruption
 {
     public class EbonFly : ModNPC
     {
@@ -13,6 +15,13 @@ namespace ExolRebirth.NPCs.Corruption
         {
             DisplayName.SetDefault("Ebon Fly");
             Main.npcFrameCount[NPC.type] = 2;
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+                new FlavorTextBestiaryInfoElement("These flies are pretty harmless on their own but when they're in huge packs, combined with other enemies, they can create some intense situations."),
+            });
         }
         public override void SetDefaults()
         {
@@ -46,15 +55,23 @@ namespace ExolRebirth.NPCs.Corruption
                 NPC.frameCounter = 0;
             }
         }
+        public override void OnSpawn(IEntitySource source)
+        {
+            NPC.velocity = Main.rand.NextVector2Unit() * 5;
+        }
         public override void PostAI()
         {
             foreach (NPC npc in Main.npc)
             {
-                if (npc.active && npc.type == NPC.type && npc.whoAmI != NPC.whoAmI)
+                if (npc.active && npc.whoAmI != NPC.whoAmI)
                 {
-                    if (npc.Center.Distance(NPC.Center) < NPC.width)
+                    if (npc.Center.Distance(NPC.Center) < npc.width * npc.scale)
                     {
                         NPC.velocity += Helper.FromAToB(NPC.Center, npc.Center, true, true) * 0.5f;
+                    }
+                    if (npc.Center == NPC.Center)
+                    {
+                        NPC.velocity = Main.rand.NextVector2Unit() * 5;
                     }
                 }
             }
@@ -64,9 +81,9 @@ namespace ExolRebirth.NPCs.Corruption
         }
         public override bool CheckDead()
         {
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore").Type, NPC.scale);
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore2").Type, NPC.scale);
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore3").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
             return true;
         }
     }

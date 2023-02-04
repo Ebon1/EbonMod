@@ -5,13 +5,13 @@ using System;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ExolRebirth.Buffs;
-using ExolRebirth.NPCs.Exol;
+using EbonianMod.Buffs;
+using EbonianMod.NPCs.Exol;
 
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
-namespace ExolRebirth.Projectiles.ExolOld
+namespace EbonianMod.Projectiles.ExolOld
 {
     public class ExolRing1 : ModProjectile
     {

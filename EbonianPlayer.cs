@@ -7,7 +7,7 @@ using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.ID;
 
-namespace ExolRebirth
+namespace EbonianMod
 {
     public class EbonianPlayer : ModPlayer
     {
@@ -15,6 +15,7 @@ namespace ExolRebirth
         public string bossName;
         public string bossTitle;
         public string dialogue;
+        public int bossStyle;
         public Color bossColor, dialogueColor;
         public static EbonianPlayer Instance;
         public override void OnEnterWorld(Player player)
@@ -29,6 +30,7 @@ namespace ExolRebirth
             {
                 bossName = null;
                 bossTitle = null;
+                bossStyle = -1;
                 bossMaxProgress = 0;
                 bossColor = Color.White;
             }

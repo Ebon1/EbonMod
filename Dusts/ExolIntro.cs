@@ -1,12 +1,12 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using ExolRebirth.NPCs.Exol;
+using EbonianMod.NPCs.Exol;
 
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
-namespace ExolRebirth.Dusts
+namespace EbonianMod.Dusts
 {
     internal class ExolIntro : ModDust
     {

@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ExolRebirth.Effects.Prims
+namespace EbonianMod.Effects.Prims
 {
     public struct VertexTest : IVertexType
     {

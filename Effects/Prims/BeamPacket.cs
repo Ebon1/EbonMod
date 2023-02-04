@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 
-namespace ExolRebirth.Effects.Prims
+namespace EbonianMod.Effects.Prims
 {
     public class BeamPacket
     {
         public List<VertexPositionColorTexture> Vertices = new List<VertexPositionColorTexture>();
         public PrimitiveType Type = PrimitiveType.TriangleList;
-        public Effect Effect = ExolRebirth.BeamShader;
+        public Effect Effect = EbonianMod.BeamShader;
         public string Pass = "Basic";
         public int Count
         {

@@ -7,36 +7,36 @@ using Terraria;
 using Terraria.GameContent;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
-using ExolRebirth.Dusts;
-using ExolRebirth.NPCs.Exol;
+using EbonianMod.Dusts;
+using EbonianMod.NPCs.Exol;
 
-namespace ExolRebirth
+namespace EbonianMod
 {
-    public class ExolRebirth : Mod
+    public class EbonianMod : Mod
     {
-        public static ExolRebirth Instance;
+        public static EbonianMod Instance;
         public static Effect BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, TrailShader, RTAlpha;
         public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, TextGradient, TextGradient2, TextGradientY;
         public RenderTarget2D render, render3, render4;
         public override void Load()
         {
             Instance = this;
-            Test1 = ModContent.Request<Effect>("ExolRebirth/Effects/Test1", (AssetRequestMode)1).Value;
-            RTAlpha = ModContent.Request<Effect>("ExolRebirth/Effects/RTAlpha", (AssetRequestMode)1).Value;
-            CrystalShine = ModContent.Request<Effect>("ExolRebirth/Effects/CrystalShine", (AssetRequestMode)1).Value;
-            TextGradient = ModContent.Request<Effect>("ExolRebirth/Effects/TextGradient", (AssetRequestMode)1).Value;
-            TextGradient2 = ModContent.Request<Effect>("ExolRebirth/Effects/TextGradient2", (AssetRequestMode)1).Value;
-            TextGradientY = ModContent.Request<Effect>("ExolRebirth/Effects/TextGradientY", (AssetRequestMode)1).Value;
-            Test2 = ModContent.Request<Effect>("ExolRebirth/Effects/Test2", (AssetRequestMode)1).Value;
-            Galaxy = ModContent.Request<Effect>("ExolRebirth/Effects/Galaxy", (AssetRequestMode)1).Value;
-            LavaRT = ModContent.Request<Effect>("ExolRebirth/Effects/LavaRT", (AssetRequestMode)1).Value;
-            BeamShader = ModContent.Request<Effect>("ExolRebirth/Effects/Beam", (AssetRequestMode)1).Value;
-            Lens = ModContent.Request<Effect>("ExolRebirth/Effects/Lens", (AssetRequestMode)1).Value;
-            Tentacle = ModContent.Request<Effect>("ExolRebirth/Effects/Tentacle", (AssetRequestMode)1).Value;
-            TentacleRT = ModContent.Request<Effect>("ExolRebirth/Effects/TentacleRT", (AssetRequestMode)1).Value;
-            ScreenDistort = ModContent.Request<Effect>("ExolRebirth/Effects/DistortMove", (AssetRequestMode)1).Value;
-            TentacleBlack = ModContent.Request<Effect>("ExolRebirth/Effects/TentacleBlack", (AssetRequestMode)1).Value;
-            TrailShader = ModContent.Request<Effect>("ExolRebirth/Effects/TrailShader", (AssetRequestMode)1).Value;
+            Test1 = ModContent.Request<Effect>("EbonianMod/Effects/Test1", (AssetRequestMode)1).Value;
+            RTAlpha = ModContent.Request<Effect>("EbonianMod/Effects/RTAlpha", (AssetRequestMode)1).Value;
+            CrystalShine = ModContent.Request<Effect>("EbonianMod/Effects/CrystalShine", (AssetRequestMode)1).Value;
+            TextGradient = ModContent.Request<Effect>("EbonianMod/Effects/TextGradient", (AssetRequestMode)1).Value;
+            TextGradient2 = ModContent.Request<Effect>("EbonianMod/Effects/TextGradient2", (AssetRequestMode)1).Value;
+            TextGradientY = ModContent.Request<Effect>("EbonianMod/Effects/TextGradientY", (AssetRequestMode)1).Value;
+            Test2 = ModContent.Request<Effect>("EbonianMod/Effects/Test2", (AssetRequestMode)1).Value;
+            Galaxy = ModContent.Request<Effect>("EbonianMod/Effects/Galaxy", (AssetRequestMode)1).Value;
+            LavaRT = ModContent.Request<Effect>("EbonianMod/Effects/LavaRT", (AssetRequestMode)1).Value;
+            BeamShader = ModContent.Request<Effect>("EbonianMod/Effects/Beam", (AssetRequestMode)1).Value;
+            Lens = ModContent.Request<Effect>("EbonianMod/Effects/Lens", (AssetRequestMode)1).Value;
+            Tentacle = ModContent.Request<Effect>("EbonianMod/Effects/Tentacle", (AssetRequestMode)1).Value;
+            TentacleRT = ModContent.Request<Effect>("EbonianMod/Effects/TentacleRT", (AssetRequestMode)1).Value;
+            ScreenDistort = ModContent.Request<Effect>("EbonianMod/Effects/DistortMove", (AssetRequestMode)1).Value;
+            TentacleBlack = ModContent.Request<Effect>("EbonianMod/Effects/TentacleBlack", (AssetRequestMode)1).Value;
+            TrailShader = ModContent.Request<Effect>("EbonianMod/Effects/TrailShader", (AssetRequestMode)1).Value;
             On.Terraria.Graphics.Effects.FilterManager.EndCapture += FilterManager_EndCapture;
             Main.OnResolutionChanged += Main_OnResolutionChanged;
             VerletSystem.Load();
@@ -86,11 +86,11 @@ namespace ExolRebirth
             sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
             sb.End();
             sb.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            gd.Textures[1] = ModContent.Request<Texture2D>("ExolRebirth/Extras/bg", (AssetRequestMode)1).Value;
-            Effect effect = ExolRebirth.RTAlpha;
+            gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/bg", (AssetRequestMode)1).Value;
+            Effect effect = EbonianMod.RTAlpha;
             effect.Parameters["m"].SetValue(1f);
             effect.Parameters["screenPosition"].SetValue(Main.screenPosition);
-            effect.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("ExolRebirth/Extras/seamlessNoise").Value);
+            effect.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("EbonianMod/Extras/seamlessNoise").Value);
             effect.Parameters["distortionMultiplier"].SetValue(1.5f);
             effect.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) * -25f);
             effect.Parameters["alpha"].SetValue(0.25f);
@@ -125,11 +125,11 @@ namespace ExolRebirth
             sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
             sb.End();
             sb.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            gd.Textures[1] = ModContent.Request<Texture2D>("ExolRebirth/Extras/starSky", (AssetRequestMode)1).Value;
-            Effect effect = ExolRebirth.RTAlpha;
+            gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/starSky", (AssetRequestMode)1).Value;
+            Effect effect = EbonianMod.RTAlpha;
             effect.Parameters["m"].SetValue(1f);
             effect.Parameters["screenPosition"].SetValue(Main.screenPosition);
-            effect.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("ExolRebirth/Extras/seamlessNoise").Value);
+            effect.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("EbonianMod/Extras/seamlessNoise").Value);
             effect.Parameters["distortionMultiplier"].SetValue(1.5f);
             effect.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) * -25f);
             effect.Parameters["alpha"].SetValue(0.5f);
@@ -161,10 +161,10 @@ namespace ExolRebirth
             sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
             sb.End();
             sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            gd.Textures[1] = ModContent.Request<Texture2D>("ExolRebirth/Extras/starSky", (AssetRequestMode)1).Value;
+            gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/starSky", (AssetRequestMode)1).Value;
             effect.Parameters["m"].SetValue(1f);
             effect.Parameters["screenPosition"].SetValue(Main.screenPosition);
-            effect.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("ExolRebirth/Extras/seamlessNoise").Value);
+            effect.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("EbonianMod/Extras/seamlessNoise").Value);
             effect.Parameters["distortionMultiplier"].SetValue(1.5f);
             effect.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) * -25f);
             effect.Parameters["alpha"].SetValue(0.5f);
@@ -176,7 +176,7 @@ namespace ExolRebirth
             sb.End();
 
             */
-            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             FireDust.DrawAll(sb);
             ColoredFireDust.DrawAll(sb);
             sb.End();
@@ -221,10 +221,10 @@ namespace ExolRebirth
             gd.SetRenderTarget(Main.screenTarget);
             gd.Clear(Color.Transparent);
             sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            ExolRebirth.TextGradient2.CurrentTechnique.Passes[0].Apply();
-            ExolRebirth.TextGradient2.Parameters["color2"].SetValue(new Vector4(0.7803921568627451f, 0.0941176470588235f, 1, 1));
-            ExolRebirth.TextGradient2.Parameters["color3"].SetValue(new Vector4(0.0509803921568627f, 1, 1, 1));
-            ExolRebirth.TextGradient2.Parameters["amount"].SetValue(Main.GlobalTimeWrappedHourly);
+            EbonianMod.TextGradient2.CurrentTechnique.Passes[0].Apply();
+            EbonianMod.TextGradient2.Parameters["color2"].SetValue(new Vector4(0.7803921568627451f, 0.0941176470588235f, 1, 1));
+            EbonianMod.TextGradient2.Parameters["color3"].SetValue(new Vector4(0.0509803921568627f, 1, 1, 1));
+            EbonianMod.TextGradient2.Parameters["amount"].SetValue(Main.GlobalTimeWrappedHourly);
             sb.Draw(render4, Vector2.Zero, Color.White);
             sb.End();
             */

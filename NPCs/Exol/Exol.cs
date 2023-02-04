@@ -8,11 +8,11 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
-using ExolRebirth.Projectiles;
-using ExolRebirth;
-using ExolRebirth.Projectiles.ExolOld;
+using EbonianMod.Projectiles;
+using EbonianMod;
+using EbonianMod.Projectiles.ExolOld;
 
-namespace ExolRebirth.NPCs.Exol
+namespace EbonianMod.NPCs.Exol
 {
     [AutoloadBossHead]
     public class Exol : ModNPC
@@ -45,7 +45,7 @@ namespace ExolRebirth.NPCs.Exol
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.TrailingMode[NPC.type] = 0;
         }
-        public override string Texture => "ExolRebirth/NPCs/Exol/Exol";
+        public override string Texture => "EbonianMod/NPCs/Exol/Exol";
 
         public override bool CheckDead()
         {
@@ -54,19 +54,19 @@ namespace ExolRebirth.NPCs.Exol
         }
         public int damage = ((Main.expertMode) ? 20 : 40);
         public bool goBack;
-        SoundStyle DashSound = new SoundStyle("ExolRebirth/Sounds/ExolDash");
-        SoundStyle RoarSound = new SoundStyle("ExolRebirth/Sounds/ExolRoar");
+        SoundStyle DashSound = new SoundStyle("EbonianMod/Sounds/ExolDash");
+        SoundStyle RoarSound = new SoundStyle("EbonianMod/Sounds/ExolRoar");
         private int num103 = 0;
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color lightColor)
         {
-            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>("ExolRebirth/NPCs/Exol/Exol").Value.Width * 0.5f, NPC.height * 0.5f);
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>("EbonianMod/NPCs/Exol/Exol").Value.Width * 0.5f, NPC.height * 0.5f);
             for (int k = 0; k < NPC.oldPos.Length; k++)
             {
                 Vector2 drawPos = NPC.oldPos[k] - pos + drawOrigin + new Vector2(0, NPC.gfxOffY);
-                spriteBatch.Draw(ModContent.Request<Texture2D>("ExolRebirth/NPCs/Exol/ExolBoss_Pulse").Value, drawPos, NPC.frame, Color.White * 0.5f, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/NPCs/Exol/ExolBoss_Pulse").Value, drawPos, NPC.frame, Color.White * 0.5f, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
             }
-            spriteBatch.Draw(ModContent.Request<Texture2D>("ExolRebirth/NPCs/Exol/ExolBoss_Pulse").Value, NPC.Center - pos, NPC.frame, Color.White, NPC.rotation, drawOrigin, NPC.scale * multiplier, SpriteEffects.None, 0);
-            spriteBatch.Draw(ModContent.Request<Texture2D>("ExolRebirth/NPCs/Exol/Exol").Value, NPC.Center - pos, NPC.frame, lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/NPCs/Exol/ExolBoss_Pulse").Value, NPC.Center - pos, NPC.frame, Color.White, NPC.rotation, drawOrigin, NPC.scale * multiplier, SpriteEffects.None, 0);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/NPCs/Exol/Exol").Value, NPC.Center - pos, NPC.frame, lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
             return true;
         }
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
@@ -100,7 +100,7 @@ namespace ExolRebirth.NPCs.Exol
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit41;
-            NPC.DeathSound = new SoundStyle("ExolRebirth/Sounds/NPCHit/EDead");
+            NPC.DeathSound = new SoundStyle("EbonianMod/Sounds/NPCHit/EDead");
             NPC.buffImmune[24] = true;
             NPC.netAlways = true;
             Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Exol");
@@ -691,12 +691,12 @@ namespace ExolRebirth.NPCs.Exol
                     if (AITimer2 >= 5)
                     {
                         Vector2 rainPos = new Vector2(Main.screenPosition.X + Main.screenWidth * Main.rand.NextFloat(), Main.screenPosition.Y);
-                        int NoClipLmao = Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, new Vector2(0, 0), ModContent.ProjectileType<ExolRockFall>(), damage, 0, 0, 1);
-                        int NoClipLmao2 = Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.projectile[NoClipLmao].Center + new Vector2(0, -40), new Vector2(0, 1), ModContent.ProjectileType<TelegraphLine>(), 0, 0, 0, 1);
-                        Main.projectile[NoClipLmao].tileCollide = false;
-                        Main.projectile[NoClipLmao].friendly = false;
-                        Main.projectile[NoClipLmao].hostile = true;
-                        Main.projectile[NoClipLmao2].timeLeft = 20;
+                        int projInt = Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, new Vector2(0, 0), ModContent.ProjectileType<ExolRockFall>(), damage, 0, 0, 1);
+                        int projInt2 = Projectile.NewProjectile(NPC.GetSource_FromAI(), Main.projectile[projInt].Center + new Vector2(0, -40), new Vector2(0, 1), ModContent.ProjectileType<TelegraphLine>(), 0, 0, 0, 1);
+                        Main.projectile[projInt].tileCollide = false;
+                        Main.projectile[projInt].friendly = false;
+                        Main.projectile[projInt].hostile = true;
+                        Main.projectile[projInt2].timeLeft = 20;
                         AITimer2 = 0;
                     }
 
@@ -877,8 +877,8 @@ namespace ExolRebirth.NPCs.Exol
                         {
                             float angle = 2f * (float)Math.PI / 3f * k;
                             Vector2 velocity = new Vector2(10, 10).RotatedBy(angle);
-                            int NoClipLmao = Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawnPoint, velocity, ModContent.ProjectileType<HomingDust>(), 0, 0, 0, 1);
-                            Main.projectile[NoClipLmao].tileCollide = false;
+                            int projInt = Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawnPoint, velocity, ModContent.ProjectileType<HomingDust>(), 0, 0, 0, 1);
+                            Main.projectile[projInt].tileCollide = false;
                         }
                         AITimer2 = 0;
                     }
@@ -1154,7 +1154,7 @@ namespace ExolRebirth.NPCs.Exol
                 {
                     if (AITimer == 1)
                     {
-                        SoundEngine.PlaySound(new("ExolRebirth/Sounds/ExolSummon"));
+                        SoundEngine.PlaySound(new("EbonianMod/Sounds/ExolSummon"));
                         Minus = Main.rand.NextBool();
                     }
                     if (AITimer == 2)

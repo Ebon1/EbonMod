@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;
 
-namespace ExolRebirth.Projectiles.Terrortoma
+namespace EbonianMod.Projectiles.Terrortoma
 {
     public class TExplosion : ModProjectile
     {
@@ -31,7 +31,7 @@ namespace ExolRebirth.Projectiles.Terrortoma
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = TextureAssets.Projectile[Type].Value;
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 80, 116, 80), lightColor, Projectile.rotation, new Vector2(tex.Width / 2, 78), Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 80, 116, 80), Color.White, Projectile.rotation, new Vector2(tex.Width / 2, 78), Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
         public override Color? GetAlpha(Color lightColor) => Color.White;

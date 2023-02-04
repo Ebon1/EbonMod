@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExolRebirth.Effects.Prims
+namespace EbonianMod.Effects.Prims
 {
     public interface IPrimitiveDrawer
     {

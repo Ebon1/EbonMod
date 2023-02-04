@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace ExolRebirth.Effects.Prims
+namespace EbonianMod.Effects.Prims
 {
     public class MatrixCollection
     {

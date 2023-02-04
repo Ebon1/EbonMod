@@ -11,11 +11,11 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
-namespace ExolRebirth.Projectiles.ExolOld
+namespace EbonianMod.Projectiles.ExolOld
 {
     public class DustSpawnerExol : ModProjectile
     {
-        public override string Texture => "ExolRebirth/Extras/Empty";
+        public override string Texture => "EbonianMod/Extras/Empty";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spiteful Flame");

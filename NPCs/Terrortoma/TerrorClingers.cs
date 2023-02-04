@@ -8,10 +8,10 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
-using ExolRebirth.NPCs.Corruption;
-using ExolRebirth.Projectiles.Terrortoma;
+using EbonianMod.NPCs.Corruption;
+using EbonianMod.Projectiles.Terrortoma;
 
-namespace ExolRebirth.NPCs.Terrortoma
+namespace EbonianMod.NPCs.Terrortoma
 {
     public class TerrorClingerRanged : ModNPC
     {
@@ -26,7 +26,6 @@ namespace ExolRebirth.NPCs.Terrortoma
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Clinger");
-            Main.npcFrameCount[NPC.type] = 3;
         }
         public override void SetDefaults()
         {
@@ -46,26 +45,6 @@ namespace ExolRebirth.NPCs.Terrortoma
             NPC.netAlways = true;
         }
         //npc.rotation = npc.velocity.ToRotation() - MathHelper.PiOver2;
-        public override void FindFrame(int frameHeight)
-        {
-            NPC.frameCounter++;
-            if (NPC.frameCounter < 10)
-            {
-                NPC.frame.Y = 0 * frameHeight;
-            }
-            else if (NPC.frameCounter < 20)
-            {
-                NPC.frame.Y = 1 * frameHeight;
-            }
-            else if (NPC.frameCounter < 30)
-            {
-                NPC.frame.Y = 2 * frameHeight;
-            }
-            else
-            {
-                NPC.frameCounter = 0;
-            }
-        }
         private const int TimerSlot = 1;
 
         public float AITimer
@@ -117,25 +96,31 @@ namespace ExolRebirth.NPCs.Terrortoma
                     Vector2 distToProj = neckOrigin - NPC.Center;
                     float projRotation = distToProj.ToRotation() - 1.57f;
                     float distance = distToProj.Length();
-                    while (distance > 6 && !float.IsNaN(distance))
+                    while (distance > 20 && !float.IsNaN(distance))
                     {
                         distToProj.Normalize();
-                        distToProj *= 6;
+                        distToProj *= 20;
                         NPCcenter += distToProj;
                         distToProj = neckOrigin - NPCcenter;
                         distance = distToProj.Length();
 
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore2").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore3").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
                     }
                     NPC.life = 0;
                     NPC.checkDead();
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore2").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
                     for (int i = 0; i < 10; i++)
                     {
+
+                        Projectile projectilee = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextVector2Unit() * 2f, ModContent.ProjectileType<TFlameThrower2>(), 0, 1f, Main.myPlayer)];
+                        projectilee.tileCollide = false;
+                        projectilee.timeLeft = 310;
+                        projectilee.friendly = false;
+                        projectilee.hostile = true;
                         Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.CursedTorch, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                     }
                 }
@@ -189,7 +174,7 @@ namespace ExolRebirth.NPCs.Terrortoma
                 if (AITimer >= 90)
                 {
                     float rotation = (float)Math.Atan2(NPC.Center.Y - (player.position.Y + (player.height * 0.5f)), NPC.Center.X - (player.position.X + (player.width * 0.5f)));
-                    Projectile projectilee = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * 12f) * -1), (float)((Math.Sin(rotation) * 12f) * -1), ModContent.ProjectileType<TFlameThrower3>(), 35, 1f, Main.myPlayer)];
+                    Projectile projectilee = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * 12f) * -1), (float)((Math.Sin(rotation) * 12f) * -1), ModContent.ProjectileType<TFlameThrower3>(), 20, 1f, Main.myPlayer)];
                 }
                 if (AITimer >= 95)
                 {
@@ -207,7 +192,7 @@ namespace ExolRebirth.NPCs.Terrortoma
                 AITimer++;
                 if (AITimer >= 80)
                 {
-                    Projectile projectilee = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -5), ModContent.ProjectileType<TFlameThrower2>(), 35, 1f, Main.myPlayer)];
+                    Projectile projectilee = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -5), ModContent.ProjectileType<TFlameThrower2>(), 20, 1f, Main.myPlayer)];
                     projectilee.tileCollide = false;
                     projectilee.timeLeft = 310;
                     projectilee.friendly = false;
@@ -252,24 +237,25 @@ namespace ExolRebirth.NPCs.Terrortoma
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
             Player player = Main.player[NPC.target];
-
+            if (NPC.IsABestiaryIconDummy)
+                return true;
             Vector2 neckOrigin = terrortomaCenter;
             Vector2 center = NPC.Center;
             Vector2 distToProj = neckOrigin - NPC.Center;
             float projRotation = distToProj.ToRotation() - 1.57f;
             float distance = distToProj.Length();
-            while (distance > 6 && !float.IsNaN(distance))
+            while (distance > 20 && !float.IsNaN(distance))
             {
                 distToProj.Normalize();
-                distToProj *= 6;
+                distToProj *= 20;
                 center += distToProj;
                 distToProj = neckOrigin - center;
                 distance = distToProj.Length();
 
                 //Draw chain
                 spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Terrortoma/ClingerChain").Value, center - pos,
-                    new Rectangle(0, 0, 18, 6), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
-                    new Vector2(18 * 0.5f, 6 * 0.5f), 1f, SpriteEffects.None, 0);
+                    new Rectangle(0, 0, 26, 20), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
+                    new Vector2(26 * 0.5f, 20 * 0.5f), 1f, SpriteEffects.None, 0);
             }
             return true;
 
@@ -359,24 +345,24 @@ namespace ExolRebirth.NPCs.Terrortoma
                     Vector2 distToProj = neckOrigin - NPC.Center;
                     float projRotation = distToProj.ToRotation() - 1.57f;
                     float distance = distToProj.Length();
-                    while (distance > 6 && !float.IsNaN(distance))
+                    while (distance > 20 && !float.IsNaN(distance))
                     {
                         distToProj.Normalize();
-                        distToProj *= 6;
+                        distToProj *= 20;
                         NPCcenter += distToProj;
                         distToProj = neckOrigin - NPCcenter;
                         distance = distToProj.Length();
 
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore2").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore3").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
                     }
 
                     for (int i = 0; i < 5; i++)
                     {
-                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore2").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore3").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
                         NPC funny = Main.npc[NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<NPCs.Corruption.EbonFly>())];
                         funny.lifeMax = 450;
                         funny.life = 450;
@@ -430,10 +416,11 @@ namespace ExolRebirth.NPCs.Terrortoma
                 AITimer++;
                 if (AITimer >= 45)
                 {
-                    for (int i = 0; i < 5; i++)
+                    for (int i = 0; i < 3; i++)
                     {
-                        float angle = Helper.CircleDividedEqually(i, 5);
-                        Vector2 vel = Vector2.UnitX.RotatedBy(angle) * 5;
+                        float angle = Helper.CircleDividedEqually(i, 3) + Main.rand.NextFloat(MathHelper.Pi * 2);
+                        Vector2 vel = Vector2.UnitX.RotatedBy(angle) * 1;
+                        Helper.SpawnTelegraphLine(NPC.Center, vel);
                         Projectile.NewProjectile(NPC.InheritSource(center), NPC.Center, vel, ModContent.ProjectileType<TSpike>(), 15, 0);
                     }
                     NPC funny = Main.npc[NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<EbonFly>())];
@@ -458,23 +445,25 @@ namespace ExolRebirth.NPCs.Terrortoma
         {
             Player player = Main.player[NPC.target];
 
+            if (NPC.IsABestiaryIconDummy)
+                return true;
             Vector2 neckOrigin = terrortomaCenter;
             Vector2 center = NPC.Center;
             Vector2 distToProj = neckOrigin - NPC.Center;
             float projRotation = distToProj.ToRotation() - 1.57f;
             float distance = distToProj.Length();
-            while (distance > 6 && !float.IsNaN(distance))
+            while (distance > 20 && !float.IsNaN(distance))
             {
                 distToProj.Normalize();
-                distToProj *= 6;
+                distToProj *= 20;
                 center += distToProj;
                 distToProj = neckOrigin - center;
                 distance = distToProj.Length();
 
                 //Draw chain
                 spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Terrortoma/ClingerChain").Value, center - pos,
-                    new Rectangle(0, 0, 18, 6), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
-                    new Vector2(18 * 0.5f, 6 * 0.5f), 1f, SpriteEffects.None, 0);
+                    new Rectangle(0, 0, 26, 20), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
+                    new Vector2(26 * 0.5f, 20 * 0.5f), 1f, SpriteEffects.None, 0);
             }
             return true;
 
@@ -514,14 +503,8 @@ namespace ExolRebirth.NPCs.Terrortoma
             NPC.netAlways = true;
         }
 
-        private const int TimerSlot = 1;
-
-        public float AITimer
-        {
-            get => NPC.ai[TimerSlot];
-            set => NPC.ai[TimerSlot] = value;
-        }
         private Vector2 terrortomaCenter;
+        Vector2 lastPos;
         private bool IsDashing = false;
         public override void AI()
         {
@@ -532,10 +515,6 @@ namespace ExolRebirth.NPCs.Terrortoma
             {
                 NPC.TargetClosest(false);
                 player = Main.player[NPC.target];
-                if (NPC.HasValidTarget)
-                {
-                    AITimer = 0;
-                }
                 if (!player.active || player.dead)
                 {
                     NPC.velocity = new Vector2(0, 10f);
@@ -554,42 +533,55 @@ namespace ExolRebirth.NPCs.Terrortoma
             if (center.ai[0] == -1)
             {
                 IsDashing = false;
-                NPC.velocity = Vector2.UnitY * 5;
-                NPC.rotation += MathHelper.ToRadians(3);
-                if (center.ai[1] == 1)
+                if (center.ai[1] > 100)
+                {
+                    NPC.velocity = Vector2.UnitY * 5;
+                    NPC.rotation += MathHelper.ToRadians(3);
+                }
+                else
+                {
+
+                    Vector2 toPlayer = player.Center - NPC.Center;
+                    NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
+                    Vector2 pos = center.Center + new Vector2(0, 80).RotatedBy(center.rotation);
+                    Vector2 target = pos;
+                    Vector2 moveTo = target - NPC.Center;
+                    NPC.velocity = (moveTo) * 0.09f;
+                }
+                if (center.ai[1] == 100)
                 {
                     Vector2 neckOrigin = terrortomaCenter;
                     Vector2 NPCcenter = NPC.Center;
                     Vector2 distToProj = neckOrigin - NPC.Center;
                     float projRotation = distToProj.ToRotation() - 1.57f;
                     float distance = distToProj.Length();
-                    while (distance > 6 && !float.IsNaN(distance))
+                    while (distance > 20 && !float.IsNaN(distance))
                     {
                         distToProj.Normalize();
-                        distToProj *= 6;
+                        distToProj *= 20;
                         NPCcenter += distToProj;
                         distToProj = neckOrigin - NPCcenter;
                         distance = distToProj.Length();
 
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore2").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore3").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
                     }
                 }
                 if (center.ai[1] == 350)
                 {
                     NPC.life = 0;
                     NPC.checkDead();
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore2").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("ExolRebirth/EbonFlyGore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
                     for (int i = 0; i < 10; i++)
                     {
                         Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.CursedTorch, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                     }
                 }
             }
-            else if (center.ai[0] != 2 && center.ai[0] != 1 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
+            else if (center.ai[0] != 0 && center.ai[0] != 2 && center.ai[0] != 1 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
             {
 
                 if (!IsDashing)
@@ -599,18 +591,20 @@ namespace ExolRebirth.NPCs.Terrortoma
                     Vector2 moveTo = target - NPC.Center;
                     NPC.velocity = (moveTo) * 0.05f;
                 }
-                AITimer++;
-                if (AITimer == 130)
+                center.ai[3]++;
+                if (center.ai[3] == 100)
+                {
+                    Helper.SpawnTelegraphLine(NPC.Center, Helper.FromAToB(NPC.Center, player.Center));
+                    lastPos = player.Center;
+                }
+                if (center.ai[3] == 140)
                 {
                     IsDashing = true;
                     NPC.velocity.X *= 0.98f;
                     NPC.velocity.Y *= 0.98f;
-                    {
-                        float rotation2 = (float)Math.Atan2((NPC.Center.Y) - (player.Center.Y), (NPC.Center.X) - (player.Center.X));
-                        NPC.velocity.X = (float)(Math.Cos(rotation2) * 23) * -1;
-                        NPC.velocity.Y = (float)(Math.Sin(rotation2) * 23) * -1;
-                    }
-                    Vector2 offset = new Vector2((float)Math.Cos(NPC.ai[0]), (float)Math.Sin(NPC.ai[0]));
+                    float rotation2 = (float)Math.Atan2((NPC.Center.Y) - (lastPos.Y), (NPC.Center.X) - (lastPos.X));
+                    NPC.velocity.X = (float)(Math.Cos(rotation2) * 18) * -1;
+                    NPC.velocity.Y = (float)(Math.Sin(rotation2) * 18) * -1;
                 }
                 if (IsDashing)
                 {
@@ -621,15 +615,16 @@ namespace ExolRebirth.NPCs.Terrortoma
                     Vector2 toPlayer = player.Center - NPC.Center;
                     NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
                 }
-                if (AITimer >= 160)
+                if (center.ai[3] >= 160)
                 {
                     IsDashing = false;
                     NPC.velocity = Vector2.Zero;
-                    AITimer = 0;
+                    center.ai[3] = 0;
                 }
             }
             else if (center.ai[0] == 5 || center.ai[0] == 1 || center.ai[0] == 8 || center.ai[0] == 3)
             {
+                IsDashing = false;
                 Vector2 toPlayer = player.Center - NPC.Center;
                 NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
                 Vector2 pos = center.Center + new Vector2(0, 80).RotatedBy(center.rotation);
@@ -639,9 +634,9 @@ namespace ExolRebirth.NPCs.Terrortoma
             }
             else if (center.ai[0] == 14 || center.ai[0] == 12)
             {
+                IsDashing = false;
                 Vector2 toPlayer = player.Center - NPC.Center;
                 NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-                AITimer = 0;
                 Vector2 pos = center.Center + new Vector2(0, 80).RotatedBy(center.rotation);
                 Vector2 target = pos;
                 Vector2 moveTo = target - NPC.Center;
@@ -649,7 +644,7 @@ namespace ExolRebirth.NPCs.Terrortoma
             }
             else if (center.ai[0] == 2)
             {
-                AITimer = 0;
+                IsDashing = false;
                 Vector2 pos = center.Center + new Vector2(0, 5).RotatedBy(center.rotation);
                 Vector2 target = pos;
                 Vector2 moveTo = target - NPC.Center;
@@ -657,9 +652,9 @@ namespace ExolRebirth.NPCs.Terrortoma
             }
             else
             {
+                IsDashing = false;
                 Vector2 toPlayer = player.Center - NPC.Center;
                 NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-                AITimer = 0;
                 Vector2 pos = center.Center + new Vector2(30, 80).RotatedBy(center.rotation);
                 Vector2 target = pos;
                 Vector2 moveTo = target - NPC.Center;
@@ -669,34 +664,36 @@ namespace ExolRebirth.NPCs.Terrortoma
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
             Player player = Main.player[NPC.target];
-            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>("ExolRebirth/NPCs/Terrortoma/TerrorClingerMelee").Value.Width * 0.5f, NPC.height * 0.5f);
+            if (NPC.IsABestiaryIconDummy)
+                return true;
+            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrorClingerMelee").Value.Width * 0.5f, NPC.height * 0.5f);
             if (IsDashing)
             {
                 for (int k = 0; k < NPC.oldPos.Length; k++)
                 {
                     Vector2 drawPos = NPC.oldPos[k] - pos + drawOrigin + new Vector2(0, NPC.gfxOffY);
-                    spriteBatch.Draw(ModContent.Request<Texture2D>("ExolRebirth/NPCs/Terrortoma/TerrorClingerMelee").Value, drawPos, NPC.frame, Color.White * 0.5f, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
+                    spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrorClingerMelee").Value, drawPos, NPC.frame, Color.White * 0.5f, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
                 }
             }
-            if (Main.npc[(int)NPC.ai[0]].ai[0] == -1)
+            if (Main.npc[(int)NPC.ai[0]].ai[0] == -1 && Main.npc[(int)NPC.ai[0]].ai[1] > 100)
                 return true;
             Vector2 neckOrigin = terrortomaCenter;
             Vector2 center = NPC.Center;
             Vector2 distToProj = neckOrigin - NPC.Center;
             float projRotation = distToProj.ToRotation() - 1.57f;
             float distance = distToProj.Length();
-            while (distance > 6 && !float.IsNaN(distance))
+            while (distance > 20 && !float.IsNaN(distance))
             {
                 distToProj.Normalize();
-                distToProj *= 6;
+                distToProj *= 20;
                 center += distToProj;
                 distToProj = neckOrigin - center;
                 distance = distToProj.Length();
 
                 //Draw chain
                 spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Terrortoma/ClingerChain").Value, center - pos,
-                    new Rectangle(0, 0, 18, 6), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
-                    new Vector2(18 * 0.5f, 6 * 0.5f), 1f, SpriteEffects.None, 0);
+                    new Rectangle(0, 0, 26, 20), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
+                    new Vector2(26 * 0.5f, 20 * 0.5f), 1f, SpriteEffects.None, 0);
             }
             return true;
 

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Collections;
 using System;
 
-namespace ExolRebirth.Effects.Prims
+namespace EbonianMod.Effects.Prims
 {
     public static class PrimitiveHelper
     {
@@ -65,7 +65,7 @@ namespace ExolRebirth.Effects.Prims
         readonly PrimitiveType type;
 
         readonly int vertexCount;
-        Effect effect = ExolRebirth.TrailShader;
+        Effect effect = EbonianMod.TrailShader;
         string pass = "Default";
         Texture2D usedTexture;
         public PrimitivePacket(IEnumerable<VertexPositionColorTexture> vertices, PrimitiveType type, int vertexCount, Texture2D texture = default)

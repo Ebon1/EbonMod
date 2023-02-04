@@ -12,11 +12,11 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 using Terraria.Graphics;
 
-namespace ExolRebirth.Projectiles.ExolOld
+namespace EbonianMod.Projectiles.ExolOld
 {
     public class ExolRockFall : ModProjectile
     {
-        public override string Texture => "ExolRebirth/Projectiles/ExolOld/ExolRing1";
+        public override string Texture => "EbonianMod/Projectiles/ExolOld/ExolRing1";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("ash");

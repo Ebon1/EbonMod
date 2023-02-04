@@ -18,10 +18,11 @@ using Terraria.GameContent.UI.Chat;
 using System.IO;
 using System.Text;
 using static Terraria.ModLoader.ModContent;
-using ExolRebirth.Projectiles;
+using EbonianMod.Projectiles;
 using XPT.Core.Audio.MP3Sharp.Decoding.Decoders.LayerIII;
+using Terraria.Graphics.Shaders;
 
-namespace ExolRebirth
+namespace EbonianMod
 {
     public struct Text
     {
@@ -128,7 +129,7 @@ namespace ExolRebirth
         {
             if (vertices.Length < 6) return;
             GraphicsDevice device = Main.graphics.GraphicsDevice;
-            Effect effect = ExolRebirth.TrailShader;
+            Effect effect = EbonianMod.TrailShader;
             effect.Parameters["WorldViewProjection"].SetValue(GetMatrix());
             effect.CurrentTechnique.Passes["Default"].Apply();
             if (drawBacksides)
@@ -171,7 +172,7 @@ namespace ExolRebirth
         public static void DrawTexturedPrimitives(VertexPositionColorTexture[] vertices, PrimitiveType type, Texture2D texture, bool drawBacksides = true)
         {
             GraphicsDevice device = Main.graphics.GraphicsDevice;
-            Effect effect = ExolRebirth.TrailShader;
+            Effect effect = EbonianMod.TrailShader;
             effect.Parameters["WorldViewProjection"].SetValue(GetMatrix());
             effect.Parameters["tex"].SetValue(texture);
             effect.CurrentTechnique.Passes["Texture"].Apply();
@@ -241,9 +242,9 @@ namespace ExolRebirth
 
             return sb.ToString();
         }
-        public static string BuffPlaceholder = "Regressus/Buffs/Debuffs/DecryptCooldown";
-        public static string Empty = "Regressus/Extras/Empty";
-        public static string Placeholder = "Regressus/Extras/Placeholder";
+        public static string BuffPlaceholder = "EbonianMod/Buffs/Debuffs/DecryptCooldown";
+        public static string Empty = "EbonianMod/Extras/Empty";
+        public static string Placeholder = "EbonianMod/Extras/Placeholder";
         public static class TRay
         {
             public static Vector2 Cast(Vector2 start, Vector2 direction, float length)
@@ -277,7 +278,7 @@ namespace ExolRebirth
         }
         public static Texture2D GetTexture(string path)
         {
-            return ModContent.Request<Texture2D>("Regressus/" + path).Value;
+            return ModContent.Request<Texture2D>("EbonianMod/" + path).Value;
         }
         public static Texture2D GetThisTexture(Item obj)
         {
@@ -293,7 +294,7 @@ namespace ExolRebirth
         }
         public static Texture2D GetTextureAlt(string path)
         {
-            return ExolRebirth.Instance.Assets.Request<Texture2D>(path).Value;
+            return EbonianMod.Instance.Assets.Request<Texture2D>(path).Value;
         }
         public static Vector4 ColorToVector4(Color color)
         {
@@ -513,8 +514,9 @@ namespace ExolRebirth
             Projectile b = Projectile.NewProjectileDirect(source, position, Vector2.UnitY.RotatedBy(rot), ModContent.ProjectileType<TelegraphLine>(), 0, 0);
             a.timeLeft = b.timeLeft = timeleft;
         }
-        public static void SpawnTelegraphLine(Vector2 position, IEntitySource source, Vector2 velocity, int timeleft = 30)
+        public static void SpawnTelegraphLine(Vector2 position, Vector2 velocity, int timeleft = 30, IEntitySource source = default)
         {
+            velocity.Normalize();
             Projectile a = Projectile.NewProjectileDirect(source, position, velocity, ModContent.ProjectileType<TelegraphLine>(), 0, 0);
             a.timeLeft = timeleft;
         }
@@ -573,6 +575,7 @@ namespace ExolRebirth
             player.bossName = name;
             player.bossTitle = title;
             player.bossColor = color;
+            player.bossStyle = style;
         }
         public static string GetBossText()
         {
@@ -594,12 +597,13 @@ namespace ExolRebirth
             string something = $"{text.Substring(0, count)}";
             return something;
         }
-        public static void SetDialogue(int progress, string text)
+        public static void SetDialogue(int progress, string text, Color color)
         {
             EbonianPlayer player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
             player.dialogueMax = progress;
             player.dialogueProg = progress;
             player.dialogue = text;
+            player.dialogueColor = color;
         }
         public static void DrawDialogue()
         {
@@ -610,9 +614,9 @@ namespace ExolRebirth
                 float alpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
                 string text = GetDialogueText();
                 Main.spriteBatch.Reload(BlendState.Additive);
-                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("ExolRebirth/Extras/textGlow").Value, new Vector2(Main.screenWidth / 2, (int)(Main.screenHeight * 0.2f)), null, Main.DiscoColor * alpha, 0f, new Vector2(256) / 2, new Vector2(10, 3f), SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/Extras/textGlow").Value, new Vector2(Main.screenWidth / 2, (int)(Main.screenHeight * 0.2f)), null, player.dialogueColor * alpha, 0f, new Vector2(256) / 2, new Vector2(10, 3f), SpriteEffects.None, 0f);
                 Main.spriteBatch.Reload(BlendState.AlphaBlend);
-                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, text, new Vector2(100, Main.screenHeight * 0.2f), Main.DiscoColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f), Main.screenWidth - 100);
+                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, text, new Vector2(100, Main.screenHeight * 0.2f), player.dialogueColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f), Main.screenWidth - 100);
                 Main.spriteBatch.Reload(Main.DefaultSamplerState);
             }
         }
@@ -621,25 +625,102 @@ namespace ExolRebirth
             var player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
             if (player.bossTextProgress > 0)
             {
+                switch (player.bossStyle)
+                {
+                    case -1:
+                        float progress = Utils.GetLerpValue(0, player.bossMaxProgress, player.bossTextProgress);
+                        float alpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
+                        ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.DeathText.Value, player.bossName, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(player.bossName).X / 2, Main.screenHeight * 0.25f), player.bossColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f));
+                        if (player.bossTitle != null)
+                        {
+                            ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, player.bossTitle, new Vector2(Main.screenWidth / 2 - FontAssets.MouseText.Value.MeasureString(player.bossTitle).X / 2, Main.screenHeight * 0.225f), player.bossColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f));
+                        }
+                        break;
+                    case 0:
+                        MiscDrawingMethods.DrawTerrorTitle();
+                        break;
+
+                        /*case 0:
+                            BossTitles.DrawOracleTitle();
+                            break;
+                        case 1:
+                            BossTitles.DrawVagrantTitle();
+                            break;
+                        case 2:
+                            BossTitles.DrawSSWTitle();
+                            break;*/
+                }
+
+            }
+        }
+    }
+    public class MiscDrawingMethods
+    {
+        public static void DrawTerrorTitle()
+        {
+            var player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
+            if (player.bossTextProgress > 0)
+            {
                 float progress = Utils.GetLerpValue(0, player.bossMaxProgress, player.bossTextProgress);
                 float alpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
+                Vector2 neckOrigin = new Vector2(-100, Main.screenHeight * 0.2f);
+                Vector2 center = new Vector2(Main.screenWidth + 100, Main.screenHeight * 0.2f);
+                Vector2 distToProj = neckOrigin - center;
+                float projRotation = distToProj.ToRotation() - 1.57f;
+                float distance = distToProj.Length();
+                while (distance > 20 && !float.IsNaN(distance))
+                {
+                    distToProj.Normalize();
+                    distToProj *= 20;
+                    center += distToProj;
+                    distToProj = neckOrigin - center;
+                    distance = distToProj.Length();
+
+                    //Draw chain
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Vector2 offset = Vector2.Zero;
+                        offset.Y += i == 1 ? Main.screenHeight * 0.12f : 0;
+                        Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/NPCs/Terrortoma/ClingerChain").Value, center + offset,
+                            new Rectangle(0, 0, 26, 20), Color.White * alpha, projRotation,
+                            new Vector2(26 * 0.5f, 20 / 2), 1f, SpriteEffects.None, 0);
+                    }
+                }
                 ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.DeathText.Value, player.bossName, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(player.bossName).X / 2, Main.screenHeight * 0.25f), player.bossColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f));
+
                 if (player.bossTitle != null)
                 {
                     ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, player.bossTitle, new Vector2(Main.screenWidth / 2 - FontAssets.MouseText.Value.MeasureString(player.bossTitle).X / 2, Main.screenHeight * 0.225f), player.bossColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f));
                 }
-
-                /*case 0:
-                    BossTitles.DrawOracleTitle();
-                    break;
-                case 1:
-                    BossTitles.DrawVagrantTitle();
-                    break;
-                case 2:
-                    BossTitles.DrawSSWTitle();
-                    break;*/
-
             }
+        }
+        public static readonly BlendState Subtractive = new BlendState
+        {
+            ColorSourceBlend = Blend.SourceAlpha,
+            ColorDestinationBlend = Blend.One,
+            ColorBlendFunction = BlendFunction.ReverseSubtract,
+            AlphaSourceBlend = Blend.SourceAlpha,
+            AlphaDestinationBlend = Blend.One,
+            AlphaBlendFunction = BlendFunction.ReverseSubtract
+        };
+        public readonly static BlendState AlphaSubtractive = new BlendState
+        {
+            ColorSourceBlend = Blend.SourceAlpha,
+            AlphaSourceBlend = Blend.SourceAlpha,
+            ColorDestinationBlend = Blend.One,
+            AlphaDestinationBlend = Blend.One,
+            ColorBlendFunction = BlendFunction.ReverseSubtract,
+            AlphaBlendFunction = BlendFunction.ReverseSubtract
+        };
+        public static void DrawWithDye(SpriteBatch spriteBatch, DrawData data, int dye, Entity entity, bool Additive = false)
+        {
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, Additive ? BlendState.Additive : BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.Transform);
+            //DrawData a = new(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, tex.Size() / 2, 1, SpriteEffects.None, 0);
+            GameShaders.Armor.GetShaderFromItemId(dye).Apply(entity, data);
+            data.Draw(Main.spriteBatch);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.Transform);
         }
     }
 }

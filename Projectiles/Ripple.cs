@@ -9,9 +9,9 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using ExolRebirth.NPCs;
+using EbonianMod.NPCs;
 
-namespace ExolRebirth.Projectiles
+namespace EbonianMod.Projectiles
 {
     class Ripple : ModProjectile
     {
@@ -19,7 +19,7 @@ namespace ExolRebirth.Projectiles
         {
             return false;
         }
-        public override string Texture => "ExolRebirth/Extras/ripple";
+        public override string Texture => "EbonianMod/Extras/ripple";
         public override void SetDefaults()
         {
             Projectile.width = 100;

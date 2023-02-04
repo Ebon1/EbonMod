@@ -12,11 +12,11 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace ExolRebirth.Dusts
+namespace EbonianMod.Dusts
 {
     public class FireDust : ModDust
     {
-        public override string Texture => "ExolRebirth/Extras/Empty";
+        public override string Texture => "EbonianMod/Extras/Empty";
         public override void OnSpawn(Dust dust)
         {
             dust.alpha = 255;
@@ -41,7 +41,7 @@ namespace ExolRebirth.Dusts
             {
                 if (d.type == ModContent.DustType<FireDust>() && d.active)
                 {
-                    Texture2D tex = ModContent.Request<Texture2D>("ExolRebirth/Extras/Extras2/fire_0" + d.customData).Value;
+                    Texture2D tex = ModContent.Request<Texture2D>("EbonianMod/Extras/Extras2/fire_0" + d.customData).Value;
                     sb.Draw(tex, d.position - Main.screenPosition, null, Color.White, 0, tex.Size() / 2, d.scale * 0.85f, SpriteEffects.None, 0);
                     sb.Draw(tex, d.position - Main.screenPosition, null, Color.OrangeRed, 0, tex.Size() / 2, d.scale, SpriteEffects.None, 0); ;
                 }
@@ -50,7 +50,7 @@ namespace ExolRebirth.Dusts
     }
     public class ColoredFireDust : ModDust
     {
-        public override string Texture => "ExolRebirth/Extras/Empty";
+        public override string Texture => "EbonianMod/Extras/Empty";
         public override void OnSpawn(Dust dust)
         {
             dust.alpha = 255;
@@ -78,8 +78,8 @@ namespace ExolRebirth.Dusts
             {
                 if (d.type == ModContent.DustType<ColoredFireDust>() && d.active)
                 {
-                    Texture2D tex = ModContent.Request<Texture2D>("ExolRebirth/Extras/Extras2/fire_0" + d.customData).Value;
-                    sb.Draw(tex, d.position - Main.screenPosition, null, Color.White, 0, tex.Size() / 2, d.scale * 0.85f, SpriteEffects.None, 0);
+                    Texture2D tex = ModContent.Request<Texture2D>("EbonianMod/Extras/Extras2/fire_0" + d.customData).Value;
+                    sb.Draw(tex, d.position - Main.screenPosition, null, Color.White * (d.color.A / 255), 0, tex.Size() / 2, d.scale * 0.85f, SpriteEffects.None, 0);
                     sb.Draw(tex, d.position - Main.screenPosition, null, d.color, 0, tex.Size() / 2, d.scale, SpriteEffects.None, 0); ;
                 }
             }

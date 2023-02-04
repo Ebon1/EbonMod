@@ -6,16 +6,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.IO;
-using ExolRebirth.NPCs.Exol;
+using EbonianMod.NPCs.Exol;
 
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
-namespace ExolRebirth.Projectiles.ExolOld
+namespace EbonianMod.Projectiles.ExolOld
 {
     public class ExolPortalTelegraph : ModProjectile
     {
-        public override string Texture => "ExolRebirth/Projectiles/ExolOld/ExolDashPortal";
+        public override string Texture => "EbonianMod/Projectiles/ExolOld/ExolDashPortal";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exol Portal effect");
@@ -76,7 +76,7 @@ namespace ExolRebirth.Projectiles.ExolOld
     }
     /*public class ExolPortalTelegraph2 : ModProjectile
 	{
-        public override string Texture => "ExolRebirth/Projectiles/ExolOld/ExolDashPortal";
+        public override string Texture => "EbonianMod/Projectiles/ExolOld/ExolDashPortal";
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Exol Portal effect");
@@ -119,7 +119,7 @@ namespace ExolRebirth.Projectiles.ExolOld
 	}
 	public class ExolPortalTelegraph3 : ModProjectile
 	{
-        public override string Texture => "ExolRebirth/Projectiles/ExolOld/ExolDashPortal";
+        public override string Texture => "EbonianMod/Projectiles/ExolOld/ExolDashPortal";
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Exol Portal effect");
@@ -162,7 +162,7 @@ namespace ExolRebirth.Projectiles.ExolOld
 	}
 	public class ExolPortalTelegraph4 : ModProjectile
 	{
-        public override string Texture => "ExolRebirth/Projectiles/ExolOld/ExolDashPortal";
+        public override string Texture => "EbonianMod/Projectiles/ExolOld/ExolDashPortal";
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Exol Portal effect");

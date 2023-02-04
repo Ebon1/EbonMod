@@ -1,4 +1,4 @@
-﻿using ExolRebirth.Items.Tiles;
+﻿using EbonianMod.Items.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -13,7 +13,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace ExolRebirth.Tiles
+namespace EbonianMod.Tiles
 {
     public class ThePaintingOfAllTime : ModTile
     {
