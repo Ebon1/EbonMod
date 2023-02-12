@@ -94,7 +94,6 @@ namespace EbonianMod.Projectiles.Terrortoma
             for (int i = 0; i < num; i++)
             {
                 Main.spriteBatch.Draw(bolt, vector2 - Main.screenPosition, null, Color.LawnGreen, rotation, bolt.Size() / 2, new Vector2(1, Projectile.scale), SpriteEffects.None, 0f);
-                Main.spriteBatch.Draw(bolt, vector2 - Main.screenPosition, null, Color.White, rotation, bolt.Size() / 2, new Vector2(1, Projectile.scale), SpriteEffects.None, 0f);
                 vector2 = start + i * vector;
             }
             texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Spotlight").Value;

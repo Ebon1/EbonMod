@@ -10,6 +10,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 using EbonianMod.NPCs.Corruption;
 using EbonianMod.Projectiles.Terrortoma;
+using System.Text.Encodings.Web;
 
 namespace EbonianMod.NPCs.Terrortoma
 {
@@ -125,7 +126,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     }
                 }
             }
-            else if (center.ai[0] != 2 && center.ai[0] != 1 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 10 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
+            else if (center.ai[0] != 2 && center.ai[0] != -12124 && center.ai[0] != 1 && center.ai[0] != 11 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 10 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
             {
                 Vector2 toPlayer = player.Center - NPC.Center;
                 NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
@@ -370,7 +371,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     }
                 }
             }
-            else if (center.ai[0] != 2 && center.ai[0] != 1 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
+            else if (center.ai[0] != 2 && center.ai[0] != -12124 && center.ai[0] != 1 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
             {
                 angle = 0;
                 Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
@@ -494,8 +495,8 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.noTileCollide = true;
             NPC.defense = 10;
             NPC.knockBackResist = 0;
-            NPC.width = 46;
-            NPC.height = 42;
+            NPC.width = 58;
+            NPC.height = 46;
             NPC.npcSlots = 1f;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
@@ -506,6 +507,19 @@ namespace EbonianMod.NPCs.Terrortoma
         private Vector2 terrortomaCenter;
         Vector2 lastPos;
         private bool IsDashing = false;
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            NPC center = Main.npc[(int)NPC.ai[0]];
+            if (center.ai[3] > 20)
+            {
+                Texture2D tex = Helper.GetExtraTexture("Extras2/magic_03");
+                spriteBatch.Reload(BlendState.Additive);
+                alpha = MathHelper.Clamp(alpha, 0, 1f);
+                spriteBatch.Draw(tex, lastPos - screenPos, null, Color.LawnGreen * 0.65f, Main.GameUpdateCount * 0.02f, tex.Size() / 2, 0.3f * alpha, SpriteEffects.None, 0);
+                spriteBatch.Reload(BlendState.AlphaBlend);
+            }
+        }
+        float alpha;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
@@ -532,6 +546,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             if (center.ai[0] == -1)
             {
+                center.ai[3] = 0;
                 IsDashing = false;
                 if (center.ai[1] > 100)
                 {
@@ -581,7 +596,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     }
                 }
             }
-            else if (center.ai[0] != 0 && center.ai[0] != 2 && center.ai[0] != 1 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
+            else if (center.ai[0] != 0 && center.ai[0] != 2 && center.ai[0] != -12124 && center.ai[0] != 1 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
             {
 
                 if (!IsDashing)
@@ -592,19 +607,24 @@ namespace EbonianMod.NPCs.Terrortoma
                     NPC.velocity = (moveTo) * 0.05f;
                 }
                 center.ai[3]++;
-                if (center.ai[3] == 100)
+                if (NPC.Center.Distance(player.Center) > 750)
+                    center.ai[3] = -400;
+                if (center.ai[3] > 20 && center.ai[3] < 40)
+                    alpha += 0.1f;
+                else if (center.ai[3] > 40)
+                    alpha -= 0.1f;
+                if (center.ai[3] == 20)
                 {
-                    Helper.SpawnTelegraphLine(NPC.Center, Helper.FromAToB(NPC.Center, player.Center));
                     lastPos = player.Center;
                 }
-                if (center.ai[3] == 140)
+                if (center.ai[3] == 40)
                 {
                     IsDashing = true;
                     NPC.velocity.X *= 0.98f;
                     NPC.velocity.Y *= 0.98f;
                     float rotation2 = (float)Math.Atan2((NPC.Center.Y) - (lastPos.Y), (NPC.Center.X) - (lastPos.X));
-                    NPC.velocity.X = (float)(Math.Cos(rotation2) * 18) * -1;
-                    NPC.velocity.Y = (float)(Math.Sin(rotation2) * 18) * -1;
+                    NPC.velocity.X = (float)(Math.Cos(rotation2) * 20) * -1;
+                    NPC.velocity.Y = (float)(Math.Sin(rotation2) * 20) * -1;
                 }
                 if (IsDashing)
                 {
@@ -615,8 +635,9 @@ namespace EbonianMod.NPCs.Terrortoma
                     Vector2 toPlayer = player.Center - NPC.Center;
                     NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
                 }
-                if (center.ai[3] >= 160)
+                if (center.ai[3] >= 60)
                 {
+                    alpha = 0;
                     IsDashing = false;
                     NPC.velocity = Vector2.Zero;
                     center.ai[3] = 0;
@@ -624,6 +645,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else if (center.ai[0] == 5 || center.ai[0] == 1 || center.ai[0] == 8 || center.ai[0] == 3)
             {
+                center.ai[3] = 0;
                 IsDashing = false;
                 Vector2 toPlayer = player.Center - NPC.Center;
                 NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
@@ -634,6 +656,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else if (center.ai[0] == 14 || center.ai[0] == 12)
             {
+                center.ai[3] = 0;
                 IsDashing = false;
                 Vector2 toPlayer = player.Center - NPC.Center;
                 NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
@@ -644,6 +667,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else if (center.ai[0] == 2)
             {
+                center.ai[3] = 0;
                 IsDashing = false;
                 Vector2 pos = center.Center + new Vector2(0, 5).RotatedBy(center.rotation);
                 Vector2 target = pos;
@@ -652,10 +676,11 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else
             {
+                center.ai[3] = 0;
                 IsDashing = false;
                 Vector2 toPlayer = player.Center - NPC.Center;
                 NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-                Vector2 pos = center.Center + new Vector2(30, 80).RotatedBy(center.rotation);
+                Vector2 pos = center.Center + new Vector2(0, 80).RotatedBy(center.rotation);
                 Vector2 target = pos;
                 Vector2 moveTo = target - NPC.Center;
                 NPC.velocity = (moveTo) * 0.09f;

@@ -9,17 +9,20 @@ using Microsoft.Xna.Framework;
 using Terraria.ID;
 using EbonianMod.Dusts;
 using EbonianMod.NPCs.Exol;
+using EbonianMod.Skies;
+using System.Collections.Generic;
 
 namespace EbonianMod
 {
     public class EbonianMod : Mod
     {
         public static EbonianMod Instance;
-        public static Effect BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, TrailShader, RTAlpha;
-        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, TextGradient, TextGradient2, TextGradientY;
-        public RenderTarget2D render, render3, render4;
+        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, TrailShader, RTAlpha;
+        public RenderTarget2D render;
+        public static BGParticleSys sys;
         public override void Load()
         {
+            sys = new();
             Instance = this;
             Test1 = ModContent.Request<Effect>("EbonianMod/Effects/Test1", (AssetRequestMode)1).Value;
             RTAlpha = ModContent.Request<Effect>("EbonianMod/Effects/RTAlpha", (AssetRequestMode)1).Value;
@@ -37,10 +40,45 @@ namespace EbonianMod
             ScreenDistort = ModContent.Request<Effect>("EbonianMod/Effects/DistortMove", (AssetRequestMode)1).Value;
             TentacleBlack = ModContent.Request<Effect>("EbonianMod/Effects/TentacleBlack", (AssetRequestMode)1).Value;
             TrailShader = ModContent.Request<Effect>("EbonianMod/Effects/TrailShader", (AssetRequestMode)1).Value;
+            Filters.Scene["EbonianMod:CorruptTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.68f, .56f, .73f).UseOpacity(0.35f), EffectPriority.Medium);
+            SkyManager.Instance["EbonianMod:CorruptTint"] = new BasicTint();
+            Filters.Scene["EbonianMod:CrimsonTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.75f, 0f, 0f).UseOpacity(0.45f), EffectPriority.Medium);
+            SkyManager.Instance["EbonianMod:CrimsonTint"] = new BasicTint();
+            Filters.Scene["EbonianMod:HellTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.35f), EffectPriority.Medium);
+            SkyManager.Instance["EbonianMod:HellTint"] = new BasicTint();
             On.Terraria.Graphics.Effects.FilterManager.EndCapture += FilterManager_EndCapture;
             Main.OnResolutionChanged += Main_OnResolutionChanged;
+            On.Terraria.Main.DrawBG += DrawBehindTilesAndWalls;
             VerletSystem.Load();
             CreateRender();
+        }
+        public void DrawBehindTilesAndWalls(On.Terraria.Main.orig_DrawBG orig, global::Terraria.Main self)
+        {
+            orig(self);
+            sys.DrawParticles();
+        }
+        public override void Unload()
+        {
+            sys = null;
+            Test1 = null;
+            RTAlpha = null;
+            CrystalShine = null;
+            TextGradient = null;
+            TextGradient2 = null;
+            TextGradientY = null;
+            Test2 = null;
+            Galaxy = null;
+            LavaRT = null;
+            BeamShader = null;
+            Lens = null;
+            Tentacle = null;
+            TentacleRT = null;
+            ScreenDistort = null;
+            TentacleBlack = null;
+            TrailShader = null;
+            On.Terraria.Graphics.Effects.FilterManager.EndCapture -= FilterManager_EndCapture;
+            Main.OnResolutionChanged -= Main_OnResolutionChanged;
+            On.Terraria.Main.DrawBG -= DrawBehindTilesAndWalls;
         }
         private void Main_OnResolutionChanged(Vector2 obj)
         {
@@ -51,8 +89,6 @@ namespace EbonianMod
             Main.QueueMainThreadAction(() =>
             {
                 render = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-                render3 = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-                render4 = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
             });
         }
         public static int ExolID = ModContent.NPCType<Exol>();
@@ -61,128 +97,13 @@ namespace EbonianMod
             GraphicsDevice gd = Main.instance.GraphicsDevice;
             SpriteBatch sb = Main.spriteBatch;
             #region "rt2d"
-            /*gd.SetRenderTarget(Main.screenTargetSwap);
-            gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
-            sb.End();
-
-            gd.SetRenderTarget(render);
-            gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-            foreach (NPC npc in Main.npc)
-            {
-                if (npc.active && npc.type == DukeRainbowID)
-                {
-                    sb.Draw(Helper.GetExtraTexture("Line"), new Rectangle(0, 0, Main.screenWidth * 2, Main.screenHeight * 2), Color.White);
-                    npc.ModNPC.PreDraw(sb, Main.screenPosition, default);
-                }
-            }
-            sb.End();
-
-            gd.SetRenderTarget(Main.screenTarget);
-            gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
-            sb.End();
-            sb.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/bg", (AssetRequestMode)1).Value;
-            Effect effect = EbonianMod.RTAlpha;
-            effect.Parameters["m"].SetValue(1f);
-            effect.Parameters["screenPosition"].SetValue(Main.screenPosition);
-            effect.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("EbonianMod/Extras/seamlessNoise").Value);
-            effect.Parameters["distortionMultiplier"].SetValue(1.5f);
-            effect.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) * -25f);
-            effect.Parameters["alpha"].SetValue(0.25f);
-            effect.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
-            effect.CurrentTechnique.Passes[0].Apply();
-            sb.Draw(render, Vector2.Zero, Color.White);
-            sb.End();
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            sb.End();*/
-            /*gd.SetRenderTarget(Main.screenTargetSwap);
-            gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
-            sb.End();
-
-            gd.SetRenderTarget(render);
-            gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-            foreach (Projectile proj in Main.projectile)
-            {
-                if (proj.active && proj.timeLeft > 1 && proj.type == ModContent.ProjectileType<Items.Accessories.GinnungagapP>())
-                {
-                    Color color = Color.White;
-                    proj.ModProjectile.PreDraw(ref color);
-                }
-            }
-            sb.End();
-
-            gd.SetRenderTarget(Main.screenTarget);
-            gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
-            sb.End();
-            sb.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/starSky", (AssetRequestMode)1).Value;
-            Effect effect = EbonianMod.RTAlpha;
-            effect.Parameters["m"].SetValue(1f);
-            effect.Parameters["screenPosition"].SetValue(Main.screenPosition);
-            effect.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("EbonianMod/Extras/seamlessNoise").Value);
-            effect.Parameters["distortionMultiplier"].SetValue(1.5f);
-            effect.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) * -25f);
-            effect.Parameters["alpha"].SetValue(0.5f);
-            effect.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
-            effect.CurrentTechnique.Passes[0].Apply();
-            sb.Draw(render, Vector2.Zero, Color.White);
-            sb.End();
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            sb.End();
-
-
-
-
-            gd.SetRenderTarget(Main.screenTargetSwap);
-            gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
-            sb.End();
-
-            gd.SetRenderTarget(render);
-            gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-            GinnungagapDust.DrawAll(sb);
-            sb.End();
-
-            gd.SetRenderTarget(Main.screenTarget);
-            gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
-            sb.End();
-            sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/starSky", (AssetRequestMode)1).Value;
-            effect.Parameters["m"].SetValue(1f);
-            effect.Parameters["screenPosition"].SetValue(Main.screenPosition);
-            effect.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("EbonianMod/Extras/seamlessNoise").Value);
-            effect.Parameters["distortionMultiplier"].SetValue(1.5f);
-            effect.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight) * -25f);
-            effect.Parameters["alpha"].SetValue(0.5f);
-            effect.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
-            effect.CurrentTechnique.Passes[0].Apply();
-            sb.Draw(render, Vector2.Zero, Color.White);
-            sb.End();
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            sb.End();
-
-            */
+            #endregion
             sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             FireDust.DrawAll(sb);
             ColoredFireDust.DrawAll(sb);
             sb.End();
-            #endregion
             #region "ripple"
-            gd.SetRenderTarget(render3);
+            gd.SetRenderTarget(render);
             gd.Clear(Color.Transparent);
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
             sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
@@ -205,29 +126,11 @@ namespace EbonianMod
             Test2.CurrentTechnique.Passes[0].Apply();
             Test2.Parameters["tex0"].SetValue(Main.screenTargetSwap);
             Test2.Parameters["i"].SetValue(0.02f);
-            sb.Draw(render3, Vector2.Zero, Color.White);
+            sb.Draw(render, Vector2.Zero, Color.White);
             sb.End();
 
 
             #endregion
-            /*
-
-            gd.SetRenderTarget(render4);
-            gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            var font = FontAssets.DeathText.Value;
-            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, font, "poopshitter", Vector2.Zero, Color.White, 0, Vector2.Zero, 10, SpriteEffects.None, 0f);
-            sb.End();
-            gd.SetRenderTarget(Main.screenTarget);
-            gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            EbonianMod.TextGradient2.CurrentTechnique.Passes[0].Apply();
-            EbonianMod.TextGradient2.Parameters["color2"].SetValue(new Vector4(0.7803921568627451f, 0.0941176470588235f, 1, 1));
-            EbonianMod.TextGradient2.Parameters["color3"].SetValue(new Vector4(0.0509803921568627f, 1, 1, 1));
-            EbonianMod.TextGradient2.Parameters["amount"].SetValue(Main.GlobalTimeWrappedHourly);
-            sb.Draw(render4, Vector2.Zero, Color.White);
-            sb.End();
-            */
             orig(self, finalTexture, screenTarget1, screenTarget2, clearColor);
         }
     }

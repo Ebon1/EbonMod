@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace EbonianMod.Projectiles.Terrortoma
@@ -29,6 +30,35 @@ namespace EbonianMod.Projectiles.Terrortoma
         public override void AI()
         {
             Projectile.velocity *= 1.025f;
+            Projectile.rotation = Projectile.velocity.ToRotation();
+        }
+    }
+    public class TFang : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Type] = 4;
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 12;
+            Projectile.height = 10;
+            Projectile.aiStyle = 1;
+            Projectile.tileCollide = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.penetrate = -1;
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+            Projectile.frame = Main.rand.Next(4);
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White * ((255 - Projectile.alpha) / 255);
+        }
+        public override void AI()
+        {
             Projectile.rotation = Projectile.velocity.ToRotation();
         }
     }

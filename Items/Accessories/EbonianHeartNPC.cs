@@ -1,0 +1,140 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.IO;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.Bestiary;
+using EbonianMod.Projectiles.Terrortoma;
+
+namespace EbonianMod.Items.Accessories
+{
+    internal class EbonianHeartNPC : ModNPC
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Heart");
+            Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
+        }
+        public override void SetDefaults()
+        {
+            NPC.width = 40;
+            NPC.height = 40;
+            NPC.damage = 0;
+            NPC.defense = 132;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.knockBackResist = 0;
+            NPC.aiStyle = 0;
+            NPC.noGravity = true;
+            NPC.noTileCollide = true;
+            NPC.lifeMax = 69420;
+            NPC.dontTakeDamage = true;
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
+        {
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/Items/Accessories/EbonianHeartNPC").Value, NPC.Center - pos,
+                        NPC.frame, drawColor, NPC.rotation,
+                        new Vector2(40 * 0.5f, 40 * 0.5f), 1f, SpriteEffects.None, 0);
+            spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Accessories/EbonianHeartNPC_Glow").Value, NPC.Center - pos,
+                        NPC.frame, Color.White, NPC.rotation,
+                        new Vector2(40 * 0.5f, 40 * 0.5f), 1f, SpriteEffects.None, 0);
+        }
+        public override void AI()
+        {
+            Player player = Main.player[NPC.target];
+            NPC.netUpdate = true;
+            NPC.TargetClosest(true);
+
+            Vector2 pos = player.Center + new Vector2(player.direction == 1 ? -40 : 40, -80);
+            NPC.Center = Vector2.Lerp(NPC.Center, pos, 0.2f);
+            if (++NPC.ai[0] % 30 == 0 && NPC.ai[0] > 0)
+                foreach (NPC npc in Main.npc)
+                {
+                    if (npc.active && !npc.friendly && !npc.dontTakeDamage && npc.Center.Distance(NPC.Center) < 1000)
+                    {
+                        NPC.ai[1]++;
+                        if (NPC.ai[1] > 6)
+                        {
+                            NPC.ai[0] = -200;
+                            break;
+                        }
+                        Projectile p = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Helper.FromAToB(NPC.Center, npc.Center) * 10, ModContent.ProjectileType<TFlameThrower3>(), 30, 0, player.whoAmI);
+                        p.friendly = true;
+                        p.hostile = false;
+                    }
+                }
+            NPC.ai[1] = 0;
+
+            EbonianPlayer modPlayer = player.GetModPlayer<EbonianPlayer>();
+            if (!modPlayer.heartAcc)
+            {
+                NPC.life = 0;
+            }
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+
+            NPC.frameCounter++;
+            if (NPC.frameCounter < 10)
+            {
+                NPC.frame.Y = 0 * frameHeight;
+            }
+            else if (NPC.frameCounter < 20)
+            {
+                NPC.frame.Y = 1 * frameHeight;
+            }
+            else if (NPC.frameCounter < 30)
+            {
+                NPC.frame.Y = 2 * frameHeight;
+            }
+            else if (NPC.frameCounter < 40)
+            {
+                NPC.frame.Y = 3 * frameHeight;
+            }
+            else
+            {
+                NPC.frameCounter = 0;
+            }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
+        {
+            if (NPC.ai[0] != -1)
+            {
+                Player player = Main.player[NPC.target];
+
+                Vector2 neckOrigin = new Vector2(player.Center.X, player.Center.Y);
+                Vector2 center = NPC.Center;
+                Vector2 distToProj = neckOrigin - NPC.Center;
+                float projRotation = distToProj.ToRotation() - 1.57f;
+                float distance = distToProj.Length();
+                while (distance > 8 && !float.IsNaN(distance))
+                {
+                    distToProj.Normalize();
+                    distToProj *= 8;
+                    center += distToProj;
+                    distToProj = neckOrigin - center;
+                    distance = distToProj.Length();
+
+                    //Draw chain
+                    spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Accessories/HeartChain").Value, center - pos,
+                        new Rectangle(0, 0, 14, 8), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
+                        new Vector2(14 * 0.5f, 8 * 0.5f), 1f, SpriteEffects.None, 0);
+                }
+            }
+            return false;
+        }
+    }
+}

@@ -24,6 +24,11 @@ namespace EbonianMod.NPCs
         {
             stunned = false;
         }
+        public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
+        {
+            if (NPC.AnyNPCs(ModContent.NPCType<Terrortoma.Terrortoma>()))
+                spawnRate = 0;
+        }
 
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {

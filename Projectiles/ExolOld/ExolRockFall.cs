@@ -21,13 +21,13 @@ namespace EbonianMod.Projectiles.ExolOld
         {
             DisplayName.SetDefault("ash");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[Projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 14;
-            Projectile.height = 14;
+            Projectile.width = 64;
+            Projectile.height = 64;
             Projectile.aiStyle = 1;
             Projectile.friendly = false;
             Projectile.hostile = true;
@@ -43,7 +43,7 @@ namespace EbonianMod.Projectiles.ExolOld
             Vector2 drawOrigin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
             for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
-                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0, Projectile.gfxOffY);
+                Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin;
                 Color color = Color.White;
                 Main.EntitySpriteDraw(texture, drawPos, null, color * 0.5f, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0);
             }

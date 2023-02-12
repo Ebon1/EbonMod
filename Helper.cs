@@ -39,6 +39,22 @@ namespace EbonianMod
 
     public static class Helper
     {
+        public static bool Grounded(this NPC NPC, float offset = .5f, float offsetX = 1f)
+        {
+            if (NPC.collideY || (!Collision.CanHitLine(new Vector2(NPC.Center.X, NPC.Center.Y + NPC.height / 2), 1, 1, new Vector2(NPC.Center.X, NPC.Center.Y + (NPC.height * offset) / 2), 1, 1) || Collision.FindCollisionDirection(out int dir, NPC.Center, 1, NPC.height / 2)))
+            { //basic checks
+
+                return true;
+            }
+            for (int i = 0; i < NPC.width * offsetX; i++) //full sprite check
+            {
+                bool a = TRay.CastLength(NPC.BottomLeft + Vector2.UnitX * i, Vector2.UnitY, 1000) < NPC.height * offset;
+                if (!a)
+                    continue;
+                return a;
+            }
+            return false; //give up
+        }
         public static VertexPositionColorTexture AsVertex(Vector2 position, Color color, Vector2 texCoord)
         {
             return new VertexPositionColorTexture(new Vector3(position, 50), color, texCoord);
@@ -68,7 +84,7 @@ namespace EbonianMod
             return true;
         }
 
-        public static void QuickDustLine(this Dust dust, Vector2 start, Vector2 end, float splits, Color color)
+        public static void QuickDustLine(Vector2 start, Vector2 end, float splits, Color color)
         {
             Dust.QuickDust(start, color).scale = 1f;
             Dust.QuickDust(end, color).scale = 1f;
@@ -242,7 +258,7 @@ namespace EbonianMod
 
             return sb.ToString();
         }
-        public static string BuffPlaceholder = "EbonianMod/Buffs/Debuffs/DecryptCooldown";
+        public static string BuffPlaceholder = "EbonianMod/Buffs/ExolStun";
         public static string Empty = "EbonianMod/Extras/Empty";
         public static string Placeholder = "EbonianMod/Extras/Placeholder";
         public static class TRay
@@ -663,29 +679,6 @@ namespace EbonianMod
             {
                 float progress = Utils.GetLerpValue(0, player.bossMaxProgress, player.bossTextProgress);
                 float alpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
-                Vector2 neckOrigin = new Vector2(-100, Main.screenHeight * 0.2f);
-                Vector2 center = new Vector2(Main.screenWidth + 100, Main.screenHeight * 0.2f);
-                Vector2 distToProj = neckOrigin - center;
-                float projRotation = distToProj.ToRotation() - 1.57f;
-                float distance = distToProj.Length();
-                while (distance > 20 && !float.IsNaN(distance))
-                {
-                    distToProj.Normalize();
-                    distToProj *= 20;
-                    center += distToProj;
-                    distToProj = neckOrigin - center;
-                    distance = distToProj.Length();
-
-                    //Draw chain
-                    for (int i = 0; i < 2; i++)
-                    {
-                        Vector2 offset = Vector2.Zero;
-                        offset.Y += i == 1 ? Main.screenHeight * 0.12f : 0;
-                        Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/NPCs/Terrortoma/ClingerChain").Value, center + offset,
-                            new Rectangle(0, 0, 26, 20), Color.White * alpha, projRotation,
-                            new Vector2(26 * 0.5f, 20 / 2), 1f, SpriteEffects.None, 0);
-                    }
-                }
                 ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.DeathText.Value, player.bossName, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(player.bossName).X / 2, Main.screenHeight * 0.25f), player.bossColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f));
 
                 if (player.bossTitle != null)

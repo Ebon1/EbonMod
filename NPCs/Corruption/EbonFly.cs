@@ -23,12 +23,18 @@ namespace EbonianMod.NPCs.Corruption
                 new FlavorTextBestiaryInfoElement("These flies are pretty harmless on their own but when they're in huge packs, combined with other enemies, they can create some intense situations."),
             });
         }
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            Texture2D tex = Helper.GetTexture("NPCs/Corruption/EbonFly_Glow");
+            SpriteEffects effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, effects, 0);
+        }
         public override void SetDefaults()
         {
             NPC.aiStyle = 5;
             AIType = 205;
             NPC.width = 32;
-            NPC.height = 32;
+            NPC.height = 30;
             NPC.lifeMax = 30;
             NPC.damage = 12;
             NPC.lavaImmune = true;
@@ -36,7 +42,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.buffImmune[24] = true;
-            NPC.noTileCollide = true;
+            NPC.noTileCollide = false;
             NPC.defense = 0;
         }
         public override void FindFrame(int frameHeight)
@@ -58,6 +64,8 @@ namespace EbonianMod.NPCs.Corruption
         public override void OnSpawn(IEntitySource source)
         {
             NPC.velocity = Main.rand.NextVector2Unit() * 5;
+            if (NPC.lifeMax != 450 && NPC.lifeMax != 200)
+                NPC.lifeMax = 30;
         }
         public override void PostAI()
         {
