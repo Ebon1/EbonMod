@@ -37,7 +37,7 @@ namespace EbonianMod.Projectiles.Terrortoma
         public override Color? GetAlpha(Color lightColor) => Color.White;
         public override void AI()
         {
-            if (++Projectile.frameCounter >= 5)
+            if (++Projectile.frameCounter >= 3)
             {
                 Projectile.frameCounter = 0;
                 if (++Projectile.frame >= 10)

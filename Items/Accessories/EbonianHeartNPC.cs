@@ -13,11 +13,11 @@ using EbonianMod.Projectiles.Terrortoma;
 
 namespace EbonianMod.Items.Accessories
 {
-    internal class EbonianHeartNPC : ModNPC
+    public class EbonianHeartNPC : ModNPC
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Heart");
+            DisplayName.SetDefault("");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
@@ -43,6 +43,7 @@ namespace EbonianMod.Items.Accessories
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
+            Player player = Main.player[NPC.target];
             spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/Items/Accessories/EbonianHeartNPC").Value, NPC.Center - pos,
                         NPC.frame, drawColor, NPC.rotation,
                         new Vector2(40 * 0.5f, 40 * 0.5f), 1f, SpriteEffects.None, 0);

@@ -6,11 +6,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace EbonianMod.Items.Accessories
 {
-    internal class TinyBrain : ModNPC //the class name is a reference to my brain.
+    public class TinyBrain : ModNPC //the class name is a reference to my brain.
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brain");
+            DisplayName.SetDefault("");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {

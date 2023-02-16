@@ -17,6 +17,7 @@ namespace EbonianMod
     }
     public class VerletStick
     {
+        public Texture2D texture;
         public VerletPoint pointA, pointB;
         public float length;
         public VerletStick(VerletPoint a, VerletPoint b)
@@ -99,14 +100,33 @@ namespace EbonianMod
         {
             foreach (VerletPoint p in points)
             {
-                if (p == null) continue;
-                spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/circle").Value, p.position - Main.screenPosition, null, (!p.locked ? Color.White * p.alpha : Color.Red * p.alpha), 0, new Vector2(16, 16), 1, SpriteEffects.None, 0f);
+                /*if (p == null) continue;
+                spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/circle").Value, p.position - Main.screenPosition, null, (!p.locked ? Color.White * p.alpha : Color.Red * p.alpha), 0, new Vector2(16, 16), 1, SpriteEffects.None, 0f);*/
             }
             foreach (VerletStick s in sticks)
             {
                 VerletSystem v = new VerletSystem();
                 if (s == null) continue;
-                Utils.DrawLine(spriteBatch, s.pointA.position, s.pointB.position, Color.White, Color.White, 5f);
+
+                Vector2 neckOrigin = s.pointA.position;
+                Vector2 center = s.pointB.position;
+                Vector2 distToProj = neckOrigin - s.pointB.position;
+                float projRotation = distToProj.ToRotation() - 1.57f;
+                float distance = distToProj.Length();
+                while (distance > s.texture.Height && !float.IsNaN(distance))
+                {
+                    distToProj.Normalize();
+                    distToProj *= 8;
+                    center += distToProj;
+                    distToProj = neckOrigin - center;
+                    distance = distToProj.Length();
+
+                    //Draw chain
+                    spriteBatch.Draw(s.texture, center - Main.screenPosition,
+                        null, Color.White, projRotation,
+s.texture.Size() / 2, 1f, SpriteEffects.None, 0);
+                }
+                //Utils.DrawLine(spriteBatch, s.pointA.position, s.pointB.position, Color.White, Color.White, 5f);
             }
         }
         public static T[] ShuffleArray<T>(T[] array, Random prng)

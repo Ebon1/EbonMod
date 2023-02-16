@@ -11,7 +11,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 namespace EbonianMod.Items.Accessories
 {
-    internal class ToxicGland : ModItem
+    public class ToxicGland : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -8,7 +8,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 namespace EbonianMod.Dusts
 {
-    internal class ExolIntro2 : ModDust
+    public class ExolIntro2 : ModDust
     {
 
         public override void OnSpawn(Dust dust)

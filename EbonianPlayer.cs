@@ -21,10 +21,11 @@ namespace EbonianMod
         public int bossStyle;
         public Color bossColor, dialogueColor;
         public static EbonianPlayer Instance;
-        public bool rolleg, brainAcc, heartAcc, ToxicGland;
+        public bool rolleg, brainAcc, heartAcc, ToxicGland, doomMinion;
         public override void ResetEffects()
         {
             rolleg = false;
+            doomMinion = false;
             brainAcc = false;
             heartAcc = false;
             ToxicGland = false;
@@ -47,8 +48,8 @@ namespace EbonianMod
         public override void PostUpdateMiscEffects()
         {
             EbonianMod.sys.UpdateParticles();
-            Player.ManageSpecialBiomeVisuals("EbonianMod:CorruptTint", Player.ZoneCorrupt && !Player.ZoneUnderworldHeight);
-            Player.ManageSpecialBiomeVisuals("EbonianMod:CrimsonTint", Player.ZoneCrimson && !Player.ZoneUnderworldHeight);
+            //Player.ManageSpecialBiomeVisuals("EbonianMod:CorruptTint", Player.ZoneCorrupt && !Player.ZoneUnderworldHeight);
+            //Player.ManageSpecialBiomeVisuals("EbonianMod:CrimsonTint", Player.ZoneCrimson && !Player.ZoneUnderworldHeight);
             #region "hell stuff"
             /*Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight);
             if (Player.ZoneUnderworldHeight && Main.BackgroundEnabled)
@@ -88,7 +89,7 @@ namespace EbonianMod
                 }
             }*/ // saved for the hell update
             #endregion 
-            //dont delete
+            //dont delete hell stuff...
         }
         public override void OnEnterWorld(Player player)
         {

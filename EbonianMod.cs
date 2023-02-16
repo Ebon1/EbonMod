@@ -11,6 +11,7 @@ using EbonianMod.Dusts;
 using EbonianMod.NPCs.Exol;
 using EbonianMod.Skies;
 using System.Collections.Generic;
+using EbonianMod.Projectiles.Terrortoma;
 
 namespace EbonianMod
 {
@@ -101,6 +102,17 @@ namespace EbonianMod
             sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             FireDust.DrawAll(sb);
             ColoredFireDust.DrawAll(sb);
+            SmokeDustAkaFireDustButNoGlow.DrawAll(sb);
+            sb.End();
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            foreach (Projectile projectile in Main.projectile)
+            {
+                if (projectile.active && projectile.type == ModContent.ProjectileType<TExplosion>())
+                {
+                    Color color = Color.White;
+                    projectile.ModProjectile.PreDraw(ref color);
+                }
+            }
             sb.End();
             #region "ripple"
             gd.SetRenderTarget(render);

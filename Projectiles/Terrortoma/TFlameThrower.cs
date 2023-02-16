@@ -19,7 +19,7 @@ namespace EbonianMod.Projectiles.Terrortoma
 
         public override void PostAI()
         {
-            Helper.DustExplosion(Projectile.Center, Projectile.Size, true, Color.LawnGreen * 0.25f, false, false, 0.1f);
+            Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.LawnGreen, false, false, 0.04f);
         }
         public override bool PreKill(int timeLeft)
         {
@@ -41,7 +41,7 @@ namespace EbonianMod.Projectiles.Terrortoma
 
         public override void PostAI()
         {
-            Helper.DustExplosion(Projectile.Center, Projectile.Size, true, Color.LawnGreen * 0.25f, false, false, 0.1f);
+            Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.LawnGreen, false, false, 0.04f);
         }
     }
     public class TFlameThrower3 : ModProjectile
@@ -58,7 +58,7 @@ namespace EbonianMod.Projectiles.Terrortoma
 
         public override void PostAI()
         {
-            Helper.DustExplosion(Projectile.Center, Projectile.Size, true, Color.LawnGreen * 0.25f, false, false, 0.1f);
+            Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.LawnGreen, false, false, 0.04f);
         }
     }
 }

@@ -12,7 +12,7 @@ using Terraria.GameContent.Bestiary;
 namespace EbonianMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Back)]
-    internal class EbonianHeart : ModItem
+    public class EbonianHeart : ModItem
     {
         public override void SetStaticDefaults()
         {

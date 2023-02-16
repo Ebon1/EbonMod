@@ -30,10 +30,10 @@ namespace EbonianMod
     {
         public override void PostUpdateEverything()
         {
-            if (!NPC.AnyNPCs(EbonianMod.ExolID))
+            /*if (!NPC.AnyNPCs(EbonianMod.ExolID))
             {
                 VerletSystem.ClearAll();
-            }
+            }*/
         }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {

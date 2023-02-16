@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using System.Collections.Generic;
 namespace EbonianMod.Items.Accessories
 {
-    internal class BrainAcc : ModItem
+    public class BrainAcc : ModItem
     {
         public override void SetStaticDefaults()
         {

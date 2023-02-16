@@ -75,7 +75,7 @@ namespace EbonianMod.Projectiles.ExolOld
 
             int dusts = 15;
             Vector2 velocityyyy = Vector2.Zero;
-            Helper.DustExplosion(Projectile.Center, Projectile.Size, true, Color.OrangeRed);
+            Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.OrangeRed);
             /*Dust dust3 = Dust.NewDustPerfect(Projectile.Center, DustID.Smoke, velocityyyy, 150, Color.White, 1.5f);
             dust3.noGravity = true;
             dust3.scale = 3.5f;

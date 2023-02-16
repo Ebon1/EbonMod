@@ -63,7 +63,7 @@ namespace EbonianMod.Projectiles.Dev
             {
                 target.StrikeNPC(damage * 3, knockback, 0, crit);
                 Player player = Main.player[Projectile.owner];
-                Helper.DustExplosion(Projectile.Center, Projectile.Size * 2f, true, Color.Gold, false);
+                Helper.DustExplosion(Projectile.Center, Projectile.Size * 2f, 0, Color.Gold, false);
                 SoundEngine.PlaySound(SoundID.Item62);
                 Projectile.Center = player.Center;
                 Projectile.ai[0] = 2;

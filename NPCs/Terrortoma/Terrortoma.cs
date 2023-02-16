@@ -261,7 +261,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             if (NPC.alpha <= 0 && AIState != Death)
             {
-                if (!HasSummonedClingers)
+                /*if (!HasSummonedClingers)
                 {
                     NPC fune = Main.npc[NPC.NewNPC(NPC.InheritSource(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TerrorClingerMelee>())];
                     NPC fune2 = Main.npc[NPC.NewNPC(NPC.InheritSource(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TerrorClingerSummoner>())];
@@ -270,7 +270,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     fune2.ai[0] = NPC.whoAmI;
                     fune3.ai[0] = NPC.whoAmI;
                     HasSummonedClingers = true;
-                }
+                }*/
                 if (!NPC.AnyNPCs(ModContent.NPCType<TerrorClingerMelee>()))
                 {
                     NPC fune = Main.npc[NPC.NewNPC(NPC.InheritSource(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TerrorClingerMelee>())];
@@ -296,7 +296,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     AITimer = 0;
                     NPC.velocity = Vector2.Zero;
                     if (NPC.life > NPC.lifeMax / 2)
-                        AIState = Vilethorn;
+                        AIState = Intro;
                     else
                         AIState = ApeShitMode;
                 }
@@ -317,7 +317,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     if (Helper.TRay.CastLength(NPC.Center, Vector2.UnitY, Main.screenWidth) < NPC.width / 2)
                     {
                         Projectile.NewProjectileDirect(NPC.InheritSource(NPC), Helper.TRay.Cast(NPC.Center, Vector2.UnitY, Main.screenWidth), Vector2.Zero, ModContent.ProjectileType<TExplosion>(), 0, 0).scale = 2f;
-                        SoundEngine.PlaySound(SoundID.Item62);
+                        SoundEngine.PlaySound(new("EbonianMod/Sounds/Eggplosion"));
                         NPC.immortal = false;
                         NPC.life = 0;
                         NPC.checkDead();

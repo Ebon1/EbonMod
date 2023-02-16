@@ -430,14 +430,32 @@ namespace EbonianMod
             }
             return baseVel;
         }
-        public static void DustExplosion(Vector2 pos, Vector2 size = default, bool colored = false, Color color = default, bool sound = true, bool smoke = true, float scaleFactor = 1)
+        public static void DustExplosion(Vector2 pos, Vector2 size = default, int type = 0, Color color = default, bool sound = true, bool smoke = true, float scaleFactor = 1, float increment = 0.125f)
         {
-            int dustType = colored ? ModContent.DustType<Dusts.ColoredFireDust>() : ModContent.DustType<Dusts.FireDust>();
+
+            int dustType = ModContent.DustType<Dusts.ColoredFireDust>();
+            switch (type)
+            {
+                case 0:
+                    dustType = ModContent.DustType<Dusts.ColoredFireDust>();
+                    break;
+                case 1:
+                    dustType = ModContent.DustType<Dusts.FireDust>();
+                    break;
+                case 2:
+                    dustType = ModContent.DustType<Dusts.SmokeDustAkaFireDustButNoGlow>();
+                    break;
+            }
             if (sound)
                 Terraria.Audio.SoundEngine.PlaySound(SoundID.Item14, pos);
-            for (float num614 = 0f; num614 < 1f; num614 += 0.125f)
+            for (float num614 = 0f; num614 < 1f; num614 += increment)
             {
-                Dust.NewDustPerfect(pos, dustType, Vector2.UnitY.RotatedBy(num614 * ((float)Math.PI * 2f) + Main.rand.NextFloat() * 0.5f) * (4f + Main.rand.NextFloat() * 4f), 150, color, Main.rand.NextFloat(1, 1.75f) * scaleFactor).noGravity = true;
+                Vector2 velocity = Vector2.UnitY.RotatedBy(num614 * ((float)Math.PI * 2f) + Main.rand.NextFloat() * 0.5f) * (4f + Main.rand.NextFloat() * 4f);
+                if (increment == 1 || type == 2)
+                    velocity = Vector2.Zero;
+                Dust dust = Dust.NewDustPerfect(pos, dustType, velocity, 150, color, Main.rand.NextFloat(1, 1.75f) * scaleFactor);
+                dust.noGravity = true;
+
             }
             if (smoke)
                 for (int num905 = 0; num905 < 10; num905++)
