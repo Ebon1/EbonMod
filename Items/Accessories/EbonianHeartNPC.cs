@@ -5,7 +5,6 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
@@ -18,7 +17,7 @@ namespace EbonianMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("");
-            Main.npcFrameCount[NPC.type] = 4;
+            Main.npcFrameCount[NPC.type] = 3;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Hide = true
@@ -88,21 +87,17 @@ namespace EbonianMod.Items.Accessories
         {
 
             NPC.frameCounter++;
-            if (NPC.frameCounter < 10)
+            if (NPC.frameCounter < 5)
             {
                 NPC.frame.Y = 0 * frameHeight;
             }
-            else if (NPC.frameCounter < 20)
+            else if (NPC.frameCounter < 10)
             {
                 NPC.frame.Y = 1 * frameHeight;
             }
-            else if (NPC.frameCounter < 30)
+            else if (NPC.frameCounter < 15)
             {
                 NPC.frame.Y = 2 * frameHeight;
-            }
-            else if (NPC.frameCounter < 40)
-            {
-                NPC.frame.Y = 3 * frameHeight;
             }
             else
             {
@@ -121,18 +116,18 @@ namespace EbonianMod.Items.Accessories
                 Vector2 distToProj = neckOrigin - NPC.Center;
                 float projRotation = distToProj.ToRotation() - 1.57f;
                 float distance = distToProj.Length();
-                while (distance > 8 && !float.IsNaN(distance))
+                while (distance > 6 && !float.IsNaN(distance))
                 {
                     distToProj.Normalize();
-                    distToProj *= 8;
+                    distToProj *= 6;
                     center += distToProj;
                     distToProj = neckOrigin - center;
                     distance = distToProj.Length();
 
                     //Draw chain
                     spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Accessories/HeartChain").Value, center - pos,
-                        new Rectangle(0, 0, 14, 8), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
-                        new Vector2(14 * 0.5f, 8 * 0.5f), 1f, SpriteEffects.None, 0);
+                        null, Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
+                        new Vector2(12 * 0.5f, 6 * 0.5f), 1f, SpriteEffects.None, 0);
                 }
             }
             return false;

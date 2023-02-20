@@ -17,7 +17,7 @@ namespace EbonianMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ebonian Heart");
-            Tooltip.SetDefault("16 Minion damage\nSummons a corrupted heart that follows you and shoots cursed flames at nearby enemies.\n\"That thing is still beating...?\"");
+            Tooltip.SetDefault("Summons a corrupted heart that follows you and shoots cursed flames at nearby enemies.\n\"This one doesnt seem to be pumping blood.\"");
         }
         public override void SetDefaults()
         {

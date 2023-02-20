@@ -29,8 +29,8 @@ namespace EbonianMod.NPCs.Corruption
             Texture2D tex = Helper.GetTexture("NPCs/Corruption/EbonFly_Glow");
             Texture2D tex2 = Helper.GetTexture("NPCs/Corruption/EbonFly");
             SpriteEffects effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            Main.EntitySpriteDraw(tex2, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, effects, 0);
             Main.EntitySpriteDraw(tex, NPC.Center - screenPos, null, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, effects, 0);
-            Main.EntitySpriteDraw(tex2, NPC.Center - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, effects, 0);
             return false;
         }
 
