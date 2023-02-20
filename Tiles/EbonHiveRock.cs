@@ -17,7 +17,6 @@ namespace EbonianMod.Tiles
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileObsidianKill[Type] = true;
-
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
             Main.tileMerge[ModContent.TileType<EbonHiveBlock>()][Type] = true;

@@ -57,11 +57,6 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.aiStyle = 0;
 
         }
-        public override void OnSpawn(IEntitySource source)
-        {
-
-            Projectile.ai[1] = Main.rand.Next(new int[] { 1, -1 });
-        }
         public override void AI()
         {
             Projectile.rotation += MathHelper.ToRadians(10);
