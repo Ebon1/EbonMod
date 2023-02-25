@@ -55,6 +55,7 @@ namespace EbonianMod.Items.Weapons.Melee
         {
             Projectile.CloneDefaults(ProjectileID.WoodenBoomerang);
             Projectile.aiStyle = 0;
+            Projectile.Size = new Vector2(36, 44);
 
         }
         public override void AI()

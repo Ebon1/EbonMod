@@ -18,7 +18,7 @@ namespace EbonianMod
     public class EbonianMod : Mod
     {
         public static EbonianMod Instance;
-        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, TrailShader, RTAlpha;
+        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, TrailShader, RTAlpha, Crack;
         public RenderTarget2D render;
         public static BGParticleSys sys;
         public override void Load()
@@ -26,6 +26,7 @@ namespace EbonianMod
             sys = new();
             Instance = this;
             Test1 = ModContent.Request<Effect>("EbonianMod/Effects/Test1", (AssetRequestMode)1).Value;
+            Crack = ModContent.Request<Effect>("EbonianMod/Effects/crackTest", (AssetRequestMode)1).Value;
             RTAlpha = ModContent.Request<Effect>("EbonianMod/Effects/RTAlpha", (AssetRequestMode)1).Value;
             CrystalShine = ModContent.Request<Effect>("EbonianMod/Effects/CrystalShine", (AssetRequestMode)1).Value;
             TextGradient = ModContent.Request<Effect>("EbonianMod/Effects/TextGradient", (AssetRequestMode)1).Value;
@@ -144,6 +145,18 @@ namespace EbonianMod
 
             #endregion
             orig(self, finalTexture, screenTarget1, screenTarget2, clearColor);
+        }
+    }
+    public class EbonMenu : ModMenu
+    {
+        public override string DisplayName => "Ebonian Mod";
+        public override ModSurfaceBackgroundStyle MenuBackgroundStyle => ModContent.GetInstance<EbonMenuBG>();
+        public override Asset<Texture2D> Logo => ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/Logo");
+        public class EbonMenuBG : ModSurfaceBackgroundStyle
+        {
+            public override void ModifyFarFades(float[] fades, float transitionSpeed)
+            {
+            }
         }
     }
 }

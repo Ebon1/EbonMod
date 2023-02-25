@@ -21,7 +21,8 @@ namespace EbonianMod.NPCs.Terrortoma
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[ModContent.NPCType<Terrortoma>()], quickUnlock: true);
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("These Clingers help The Terrortoma in battle, this one shoots cursed flames at foes."),
+                new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
+                new FlavorTextBestiaryInfoElement("These creatures were the heads of infected corpses, they connect to the Terrortoma with part of the Eater of World's spine. The glow tricks living things into thinking it's an eye, but it is a tiny spark of flame deep in its maw."),
             });
         }
         public override void SetStaticDefaults()
@@ -269,7 +270,8 @@ namespace EbonianMod.NPCs.Terrortoma
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[ModContent.NPCType<Terrortoma>()], quickUnlock: true);
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("These Clingers help The Terrortoma in battle, this one spits out Ebon Flies to track down and kill foes."),
+                new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
+                new FlavorTextBestiaryInfoElement("These creatures were the heads of infected corpses, they connect to the Terrortoma with part of the Eater of World's spine. This creature in particular appears to contain a microcosm of corruption creatures, the apex predators being the tiny ebonflies it releases."),
             });
         }
         private float angle = 0;
@@ -477,7 +479,8 @@ namespace EbonianMod.NPCs.Terrortoma
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[ModContent.NPCType<Terrortoma>()], quickUnlock: true);
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("These Clingers help The Terrortoma in battle, this one charges at nearby foes with incredible speed."),
+                new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
+                new FlavorTextBestiaryInfoElement("These creatures were the heads of infected corpses, they connect to the Terrortoma with part of the Eater of World's spine. This creature's body is made from the remains of a long extinct ancestor to all of the many eaters in this region."),
             });
         }
         public override void SetStaticDefaults()

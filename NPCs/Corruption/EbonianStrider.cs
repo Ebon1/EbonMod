@@ -15,14 +15,15 @@ namespace EbonianMod.NPCs.Corruption
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ebonian Strider");
+            DisplayName.SetDefault("Regurgitator");
             Main.npcFrameCount[NPC.type] = 16;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("These striders like to play peek-a-boo with their foes, but they do it in a... firey way."),
+                new FlavorTextBestiaryInfoElement("Type: Infected Organism"),
+                new FlavorTextBestiaryInfoElement("A barrel shaped monster with confusing anatomy. Most of the creature is actually hollow, raising questions about how it manifests cursed flame at all."),
             });
         }
 

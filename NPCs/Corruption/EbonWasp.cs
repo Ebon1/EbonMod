@@ -17,13 +17,15 @@ namespace EbonianMod.NPCs.Corruption
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Winged Worm");
             Main.npcFrameCount[NPC.type] = 4;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("Smart, fast, infected and annoying, that's what Ebon wasps are."),
+                new FlavorTextBestiaryInfoElement("Type: Infected Insect"),
+                new FlavorTextBestiaryInfoElement("Notorious for chewing through bags and latching onto pets, the Ebon Wasp, or Winged Worm, is hated by just about everyone."),
             });
         }
 

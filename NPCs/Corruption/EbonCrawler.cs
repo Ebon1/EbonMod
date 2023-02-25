@@ -15,13 +15,15 @@ namespace EbonianMod.NPCs.Corruption
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Waster");
             Main.npcFrameCount[NPC.type] = 6;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("These insects are both oversized and infected, gross."),
+                new FlavorTextBestiaryInfoElement("Type: Infected Insect"),
+                new FlavorTextBestiaryInfoElement("The Waster is a product of the Corruption’s failures. It is an evolutionary mishap, that’s only purpose now is to be fed upon and recycled into microbes."),
             });
         }
         public override void SetDefaults()

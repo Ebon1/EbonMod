@@ -21,7 +21,8 @@ namespace EbonianMod.NPCs.Corruption
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("This infected slime-like creature can split open and reveal a tentacle made of cursed flames."),
+                new FlavorTextBestiaryInfoElement("Type: Infected Organism"),
+                new FlavorTextBestiaryInfoElement("Resembling a slime, it uses its unassuming appearance to get close to any potential prey, and lashes out with a fast moving tentacle. It is worth noting that it isn’t actually a slime at all."),
             });
         }
 

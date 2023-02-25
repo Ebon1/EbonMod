@@ -27,7 +27,8 @@ namespace EbonianMod.NPCs.Terrortoma
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("The rotten corpse of many soul eaters, melded together through the Corruption's natural processes, creating an extremely vile and murderous monster."),
+                new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
+                new FlavorTextBestiaryInfoElement("The Corruption is not capable of thought and only acts based on stimulus, it created the Terrortoma from the corpses of infected creatures specifically as a defense from the creatures released from the demise of the Wall of Flesh."),
             });
         }
         public override void SetStaticDefaults()
@@ -40,7 +41,7 @@ namespace EbonianMod.NPCs.Terrortoma
             NPCID.Sets.TrailingMode[NPC.type] = 0;
             NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                CustomTexturePath = "EbonianMod/NPCs/Terrortoma/Terrortoma_Bosschecklist",
+                //CustomTexturePath = "EbonianMod/NPCs/Terrortoma/Terrortoma_Bosschecklist",
                 PortraitScale = 0.6f,
                 PortraitPositionYOverride = 0f,
             };
@@ -101,22 +102,24 @@ namespace EbonianMod.NPCs.Terrortoma
                 if (NPC.IsABestiaryIconDummy)
                 {
                     spriteBatch.Draw(tex, eyePosition - screenPos, null, Color.White, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
-                    return;
-                }
-                Vector2 fromTo = Helper.FromAToB(eyeOGPosition, player.Center);
-                float dist = MathHelper.Clamp(Helper.FromAToB(eyeOGPosition, player.Center, false).Length() * 0.1f, 0, 6);
-                if (AIState == Death)
-                {
-                    Vector2 vel = NPC.velocity;
-                    vel.Normalize();
-                    if (NPC.velocity == Vector2.Zero)
-                        eyePosition += Main.rand.NextVector2Unit() * Main.rand.NextFloat(3);
-                    else
-                        eyePosition += vel * 5;
                 }
                 else
-                    eyePosition += dist * fromTo;
-                spriteBatch.Draw(tex, eyePosition - screenPos, null, Color.White, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
+                {
+                    Vector2 fromTo = Helper.FromAToB(eyeOGPosition, player.Center);
+                    float dist = MathHelper.Clamp(Helper.FromAToB(eyeOGPosition, player.Center, false).Length() * 0.1f, 0, 6);
+                    if (AIState == Death)
+                    {
+                        Vector2 vel = NPC.velocity;
+                        vel.Normalize();
+                        if (NPC.velocity == Vector2.Zero)
+                            eyePosition += Main.rand.NextVector2Unit() * Main.rand.NextFloat(3);
+                        else
+                            eyePosition += vel * 5;
+                    }
+                    else
+                        eyePosition += dist * fromTo;
+                    spriteBatch.Draw(tex, eyePosition - screenPos, null, Color.White, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
+                }
             }
         }
         //npc.rotation = npc.velocity.ToRotation() - MathHelper.PiOver2;

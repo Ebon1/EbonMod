@@ -21,7 +21,8 @@ namespace EbonianMod.NPCs.Exol
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
-                new FlavorTextBestiaryInfoElement("Its violent fury rivals yours after not immediately defeating it after a couple of tries."),
+                new FlavorTextBestiaryInfoElement("Type: Demonic Construct"),
+                new FlavorTextBestiaryInfoElement("A boiling, blazing core sealed within a cold shell of stone. Its purpose and origin are unclear and most are content not knowing."),
             });
         }
         private static int hellLayer => Main.maxTilesY - 200;
@@ -67,7 +68,8 @@ namespace EbonianMod.NPCs.Exol
             }
             spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/NPCs/Exol/ExolBoss_Pulse").Value, NPC.Center - pos, NPC.frame, Color.White, NPC.rotation, drawOrigin, NPC.scale * multiplier, SpriteEffects.None, 0);
             spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/NPCs/Exol/Exol").Value, NPC.Center - pos, NPC.frame, lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
-            return true;
+
+            return false;
         }
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {

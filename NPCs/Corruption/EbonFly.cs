@@ -13,14 +13,15 @@ namespace EbonianMod.NPCs.Corruption
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ebon Fly");
+            DisplayName.SetDefault("Ebonfly");
             Main.npcFrameCount[NPC.type] = 2;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("These flies are pretty harmless on their own but when they're in huge packs, combined with other enemies, they can create some intense situations."),
+                new FlavorTextBestiaryInfoElement("Type: Infected Insect"),
+                new FlavorTextBestiaryInfoElement("An insect that prefers to fly in groups. They feed by eating dead flesh off of other surfaces. Some say that one day they will grow too big for their wings and become the worms their homeland is known for. Whether this is true or not is debatable."),
             });
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
