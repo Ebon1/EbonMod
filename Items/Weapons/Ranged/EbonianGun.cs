@@ -108,6 +108,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.rotation = (pos - player.Center).ToRotation() + Projectile.ai[0] * Projectile.spriteDirection;
             Projectile.Center = pos;
             player.itemTime = 2;
+            player.heldProj = Projectile.whoAmI;
             player.itemAnimation = 2;
         }
         public override bool PreDraw(ref Color lightColor)
