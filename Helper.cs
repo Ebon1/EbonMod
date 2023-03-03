@@ -21,6 +21,7 @@ using static Terraria.ModLoader.ModContent;
 using EbonianMod.Projectiles;
 using XPT.Core.Audio.MP3Sharp.Decoding.Decoders.LayerIII;
 using Terraria.Graphics.Shaders;
+using System.ComponentModel;
 
 namespace EbonianMod
 {
@@ -39,13 +40,15 @@ namespace EbonianMod
 
     public static class Helper
     {
+        /// <summary>
+        /// Extremely laggy grounded check, only use this for stuff like death animations where you absolutely dont want the npc to not be able to detect the ground
+        /// </summary>
         public static bool Grounded(this NPC NPC, float offset = .5f, float offsetX = 1f)
         {
-            if (NPC.collideY || (!Collision.CanHitLine(new Vector2(NPC.Center.X, NPC.Center.Y + NPC.height / 2), 1, 1, new Vector2(NPC.Center.X, NPC.Center.Y + (NPC.height * offset) / 2), 1, 1) || Collision.FindCollisionDirection(out int dir, NPC.Center, 1, NPC.height / 2)))
-            { //basic checks
-
+            if (NPC.collideY)
                 return true;
-            }
+            if ((!Collision.CanHitLine(new Vector2(NPC.Center.X, NPC.Center.Y + NPC.height / 2), 1, 1, new Vector2(NPC.Center.X, NPC.Center.Y + (NPC.height * offset) / 2), 1, 1) || Collision.FindCollisionDirection(out int dir, NPC.Center, 1, NPC.height / 2)))
+                return true;
             for (int i = 0; i < NPC.width * offsetX; i++) //full sprite check
             {
 
@@ -431,7 +434,7 @@ namespace EbonianMod
             }
             return baseVel;
         }
-        public static void DustExplosion(Vector2 pos, Vector2 size = default, int type = 0, Color color = default, bool sound = true, bool smoke = true, float scaleFactor = 1, float increment = 0.125f)
+        public static void DustExplosion(Vector2 pos, Vector2 size = default, int type = 0, Color color = default, bool sound = true, bool smoke = true, float scaleFactor = 1, float increment = 0.125f, Vector2 _vel = default)
         {
 
             int dustType = ModContent.DustType<Dusts.ColoredFireDust>();
@@ -453,9 +456,10 @@ namespace EbonianMod
             {
                 Vector2 velocity = Vector2.UnitY.RotatedBy(num614 * ((float)Math.PI * 2f) + Main.rand.NextFloat() * 0.5f) * (4f + Main.rand.NextFloat() * 4f);
                 if (increment == 1 || type == 2)
-                    velocity = Vector2.Zero;
+                    velocity = _vel;
                 Dust dust = Dust.NewDustPerfect(pos, dustType, velocity, 150, color, Main.rand.NextFloat(1, 1.75f) * scaleFactor);
                 dust.noGravity = true;
+                dust.color = color;
 
             }
             if (smoke)
@@ -649,7 +653,7 @@ namespace EbonianMod
                 float alpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
                 string text = GetDialogueText();
                 Main.spriteBatch.Reload(BlendState.Additive);
-                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/Extras/textGlow").Value, new Vector2(Main.screenWidth / 2, (int)(Main.screenHeight * 0.2f)), null, player.dialogueColor * alpha, 0f, new Vector2(256) / 2, new Vector2(10, 3f), SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/Extras/textGlow").Value, new Vector2(Main.screenWidth / 2, (int)(Main.screenHeight * 0.2f)), null, player.dialogueColor * alpha * 0.5f, 0f, new Vector2(256) / 2, new Vector2(10, 3f), SpriteEffects.None, 0f);
                 Main.spriteBatch.Reload(BlendState.AlphaBlend);
                 ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, text, new Vector2(100, Main.screenHeight * 0.2f), player.dialogueColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f), Main.screenWidth - 100);
                 Main.spriteBatch.Reload(Main.DefaultSamplerState);

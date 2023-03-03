@@ -12,6 +12,7 @@ using EbonianMod.NPCs.Exol;
 using EbonianMod.Skies;
 using System.Collections.Generic;
 using EbonianMod.Projectiles.Terrortoma;
+using EbonianMod.Projectiles.VFXProjectiles;
 
 namespace EbonianMod
 {
@@ -46,14 +47,27 @@ namespace EbonianMod
             SkyManager.Instance["EbonianMod:CorruptTint"] = new BasicTint();
             Filters.Scene["EbonianMod:CrimsonTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.75f, 0f, 0f).UseOpacity(0.45f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:CrimsonTint"] = new BasicTint();
-            Filters.Scene["EbonianMod:HellTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.35f), EffectPriority.Medium);
+            Filters.Scene["EbonianMod:HellTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.2f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:HellTint"] = new BasicTint();
+            Filters.Scene["EbonianMod:ScreenFlash"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("EbonianMod/Effects/ScreenFlash", (AssetRequestMode)1).Value), "Flash"), EffectPriority.VeryHigh);
             On.Terraria.Graphics.Effects.FilterManager.EndCapture += FilterManager_EndCapture;
             Main.OnResolutionChanged += Main_OnResolutionChanged;
             On.Terraria.Main.DrawBG += DrawBehindTilesAndWalls;
+            On.Terraria.Main.DrawNPC += DrawNPC;
             VerletSystem.Load();
             CreateRender();
         }
+        void DrawNPC(On.Terraria.Main.orig_DrawNPC orig, global::Terraria.Main self, int iNPCIndex, bool behindTiles)
+        {
+            SpriteBatch sb = Main.spriteBatch;
+            sb.End();
+            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            SmokeDustAkaFireDustButNoGlow.DrawAll(Main.spriteBatch);
+            sb.End();
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            orig(self, iNPCIndex, behindTiles);
+        }
+
         public void DrawBehindTilesAndWalls(On.Terraria.Main.orig_DrawBG orig, global::Terraria.Main self)
         {
             orig(self);
@@ -93,6 +107,7 @@ namespace EbonianMod
                 render = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
             });
         }
+
         public static int ExolID = ModContent.NPCType<Exol>();
         private void FilterManager_EndCapture(On.Terraria.Graphics.Effects.FilterManager.orig_EndCapture orig, Terraria.Graphics.Effects.FilterManager self, RenderTarget2D finalTexture, RenderTarget2D screenTarget1, RenderTarget2D screenTarget2, Color clearColor)
         {
@@ -103,17 +118,25 @@ namespace EbonianMod
             sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             FireDust.DrawAll(sb);
             ColoredFireDust.DrawAll(sb);
-            SmokeDustAkaFireDustButNoGlow.DrawAll(sb);
+            GenericAdditiveDust.DrawAll(sb);
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             foreach (Projectile projectile in Main.projectile)
             {
-                if (projectile.active && projectile.type == ModContent.ProjectileType<TExplosion>())
+                if (projectile.active && (projectile.type == ModContent.ProjectileType<TExplosion>() || projectile.type == ModContent.ProjectileType<ScreenFlash>()))
                 {
                     Color color = Color.White;
                     projectile.ModProjectile.PreDraw(ref color);
                 }
             }
+            /*foreach (NPC npc in Main.npc)
+            {
+                if (npc.active && npc.type == ModContent.NPCType<Exol>())
+                {
+                    Color color = Color.White;
+                    npc.ModNPC.PreDraw(sb, Main.screenPosition, color);
+                }
+            }*/
             sb.End();
             #region "ripple"
             gd.SetRenderTarget(render);
@@ -152,6 +175,11 @@ namespace EbonianMod
         public override string DisplayName => "Ebonian Mod";
         public override ModSurfaceBackgroundStyle MenuBackgroundStyle => ModContent.GetInstance<EbonMenuBG>();
         public override Asset<Texture2D> Logo => ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/Logo");
+        public override bool PreDrawLogo(SpriteBatch spriteBatch, ref Vector2 logoDrawCenter, ref float logoRotation, ref float logoScale, ref Color drawColor)
+        {
+            drawColor = Color.White;
+            return true;
+        }
         public class EbonMenuBG : ModSurfaceBackgroundStyle
         {
             public override void ModifyFarFades(float[] fades, float transitionSpeed)

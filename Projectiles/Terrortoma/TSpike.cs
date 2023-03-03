@@ -17,7 +17,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             Projectile.width = 10;
             Projectile.height = 14;
             Projectile.aiStyle = 0;
-            Projectile.tileCollide = false;
+            Projectile.tileCollide = true;
             Projectile.friendly = false;
             Projectile.hostile = true;
 

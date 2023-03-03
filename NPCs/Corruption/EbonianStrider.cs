@@ -16,13 +16,13 @@ namespace EbonianMod.NPCs.Corruption
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Regurgitator");
-            Main.npcFrameCount[NPC.type] = 16;
+            //Main.npcFrameCount[NPC.type] = 16;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("Type: Infected Organism"),
+                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
                 new FlavorTextBestiaryInfoElement("A barrel shaped monster with confusing anatomy. Most of the creature is actually hollow, raising questions about how it manifests cursed flame at all."),
             });
         }
@@ -41,7 +41,7 @@ namespace EbonianMod.NPCs.Corruption
         public override void SetDefaults()
         {
             NPC.width = 64;
-            NPC.height = 64;
+            NPC.height = 74;
             NPC.damage = 15;
             NPC.defense = 8;
             NPC.lifeMax = 70;
@@ -147,7 +147,7 @@ namespace EbonianMod.NPCs.Corruption
                 rotation += 180;
                 NPC.aiStyle = -1;
                 Vector2 velocity = new Vector2(4, 0).RotatedBy(MathHelper.ToRadians(rotation));
-                Vector2 cen = new Vector2(NPC.Center.X, NPC.Center.Y);
+                Vector2 cen = new Vector2(NPC.Center.X, NPC.Center.Y - 5);
                 if (velocity.Length() < 3) velocity = Vector2.Normalize(velocity) * 3f;
                 {
                     int damage = ((Main.expertMode) ? 5 : 6);
@@ -161,98 +161,6 @@ namespace EbonianMod.NPCs.Corruption
                     AIState = Walk;
                     AITimer = 0;
                     NPC.frameCounter = 0;
-                }
-            }
-        }
-        public override void FindFrame(int frameHeight)
-        {
-            if (NPC.velocity.Y < 0)
-                NPC.frame.Y = 0;
-            else if (AIState == Walk || NPC.IsABestiaryIconDummy)
-            {
-                NPC.frameCounter++;
-                if (NPC.frameCounter < 5)
-                {
-                    NPC.frame.Y = 0 * frameHeight;
-                }
-                else if (NPC.frameCounter < 10)
-                {
-                    NPC.frame.Y = 1 * frameHeight;
-                }
-                else if (NPC.frameCounter < 15)
-                {
-                    NPC.frame.Y = 2 * frameHeight;
-                }
-                else if (NPC.frameCounter < 20)
-                {
-                    NPC.frame.Y = 3 * frameHeight;
-                }
-                else if (NPC.frameCounter < 25)
-                {
-                    NPC.frame.Y = 4 * frameHeight;
-                }
-                else if (NPC.frameCounter < 30)
-                {
-                    NPC.frame.Y = 5 * frameHeight;
-                }
-                else if (NPC.frameCounter < 35)
-                {
-                    NPC.frame.Y = 6 * frameHeight;
-                }
-                else if (NPC.frameCounter < 40)
-                {
-                    NPC.frame.Y = 7 * frameHeight;
-                }
-                else if (NPC.frameCounter < 45)
-                {
-                    NPC.frame.Y = 8 * frameHeight;
-                }
-                else
-                {
-                    NPC.frameCounter = 0;
-                }
-            }
-            else if (AIState == Attack)
-            {
-                if (AITimer < 120)
-                    NPC.frameCounter++;
-                else
-                    NPC.frameCounter--;
-                if (NPC.frameCounter < 10)
-                {
-                    NPC.frame.Y = 8 * frameHeight;
-                }
-                else if (NPC.frameCounter < 15)
-                {
-                    NPC.frame.Y = 9 * frameHeight;
-                }
-                else if (NPC.frameCounter < 20)
-                {
-                    NPC.frame.Y = 10 * frameHeight;
-                }
-                else if (NPC.frameCounter < 25)
-                {
-                    NPC.frame.Y = 11 * frameHeight;
-                }
-                else if (NPC.frameCounter < 30)
-                {
-                    NPC.frame.Y = 12 * frameHeight;
-                }
-                else if (NPC.frameCounter < 35)
-                {
-                    NPC.frame.Y = 13 * frameHeight;
-                }
-                else if (NPC.frameCounter < 40)
-                {
-                    NPC.frame.Y = 14 * frameHeight;
-                }
-                else if (NPC.frameCounter < 45)
-                {
-                    NPC.frame.Y = 15 * frameHeight;
-                }
-                else
-                {
-                    NPC.frameCounter = 15;
                 }
             }
         }

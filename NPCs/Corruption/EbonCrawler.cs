@@ -22,7 +22,7 @@ namespace EbonianMod.NPCs.Corruption
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("Type: Infected Insect"),
+                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
                 new FlavorTextBestiaryInfoElement("The Waster is a product of the Corruption’s failures. It is an evolutionary mishap, that’s only purpose now is to be fed upon and recycled into microbes."),
             });
         }
@@ -116,43 +116,69 @@ namespace EbonianMod.NPCs.Corruption
         public override void FindFrame(int frameHeight)
         {
             NPC.frameCounter++;
-            if (AIState == walk)
+            if (NPC.IsABestiaryIconDummy)
             {
-                if (NPC.collideY)
+                if (NPC.frameCounter < 5)
+                {
+                    NPC.frame.Y = 0 * frameHeight;
+                }
+                else if (NPC.frameCounter < 10)
+                {
+                    NPC.frame.Y = 1 * frameHeight;
+                }
+                else if (NPC.frameCounter < 15)
+                {
+                    NPC.frame.Y = 2 * frameHeight;
+                }
+                else if (NPC.frameCounter < 20)
+                {
+                    NPC.frame.Y = 3 * frameHeight;
+                }
+                else
+                {
+                    NPC.frameCounter = 0;
+                }
+            }
+            else
+            {
+                if (AIState == walk)
+                {
+                    if (NPC.collideY)
+                        if (NPC.frameCounter < 5)
+                        {
+                            NPC.frame.Y = 0 * frameHeight;
+                        }
+                        else if (NPC.frameCounter < 10)
+                        {
+                            NPC.frame.Y = 1 * frameHeight;
+                        }
+                        else if (NPC.frameCounter < 15)
+                        {
+                            NPC.frame.Y = 2 * frameHeight;
+                        }
+                        else if (NPC.frameCounter < 20)
+                        {
+                            NPC.frame.Y = 3 * frameHeight;
+                        }
+                        else
+                        {
+                            NPC.frameCounter = 0;
+                        }
+                }
+                else
+                {
                     if (NPC.frameCounter < 5)
                     {
-                        NPC.frame.Y = 0 * frameHeight;
+                        NPC.frame.Y = 4 * frameHeight;
                     }
                     else if (NPC.frameCounter < 10)
                     {
-                        NPC.frame.Y = 1 * frameHeight;
-                    }
-                    else if (NPC.frameCounter < 15)
-                    {
-                        NPC.frame.Y = 2 * frameHeight;
-                    }
-                    else if (NPC.frameCounter < 20)
-                    {
-                        NPC.frame.Y = 3 * frameHeight;
+                        NPC.frame.Y = 5 * frameHeight;
                     }
                     else
                     {
                         NPC.frameCounter = 0;
                     }
-            }
-            else
-            {
-                if (NPC.frameCounter < 5)
-                {
-                    NPC.frame.Y = 4 * frameHeight;
-                }
-                else if (NPC.frameCounter < 10)
-                {
-                    NPC.frame.Y = 5 * frameHeight;
-                }
-                else
-                {
-                    NPC.frameCounter = 0;
                 }
             }
         }

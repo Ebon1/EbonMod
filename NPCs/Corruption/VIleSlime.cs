@@ -8,28 +8,30 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
+using EbonianMod.Projectiles.Terrortoma;
+
 namespace EbonianMod.NPCs.Corruption
 {
-    public class VileSlime : ModNPC
+    public class VileSlime : ModNPC //this is literally exampleslime but i honestly cant be assed to redo it.
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vile Slime");
-            Main.npcFrameCount[NPC.type] = 20;
+            Main.npcFrameCount[NPC.type] = 13;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("Type: Infected Organism"),
+                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
                 new FlavorTextBestiaryInfoElement("Resembling a slime, it uses its unassuming appearance to get close to any potential prey, and lashes out with a fast moving tentacle. It is worth noting that it isn’t actually a slime at all."),
             });
         }
 
         public override void SetDefaults()
         {
-            NPC.width = 96;
-            NPC.height = 64;
+            NPC.width = 51;
+            NPC.height = 32;
             NPC.aiStyle = 0;
             NPC.damage = 7;
             NPC.defense = 5;
@@ -91,6 +93,7 @@ namespace EbonianMod.NPCs.Corruption
             Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/VileSlimeGore").Type, NPC.scale);
             Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/VileSlimeGore2").Type, NPC.scale);
             Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/VileSlimeGore3").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/VileSlimeGore4").Type, NPC.scale);
             return true;
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -269,8 +272,8 @@ namespace EbonianMod.NPCs.Corruption
                     if (velocity.Length() < 3) velocity = Vector2.Normalize(velocity) * 3f;
                     {
                         int damage = ((Main.expertMode) ? 5 : 7);
-                        int projInt = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, 95, damage, 0, 0, 1);
-                        Main.projectile[projInt].tileCollide = false;
+                        int projInt = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, ModContent.ProjectileType<TFlameThrower2>(), damage, 0, 0, 1);
+                        Main.projectile[projInt].tileCollide = true;
                         Main.projectile[projInt].friendly = false;
                         Main.projectile[projInt].hostile = true;
                         Main.projectile[projInt].timeLeft = 203;
@@ -354,6 +357,10 @@ namespace EbonianMod.NPCs.Corruption
             else if (AIState == Attack)
             {
                 NPC.frameCounter++;
+                if (NPC.frameCounter < 5)
+                {
+                    NPC.frame.Y = 3 * frameHeight;
+                }
                 if (NPC.frameCounter < 10)
                 {
                     NPC.frame.Y = 4 * frameHeight;
@@ -390,37 +397,14 @@ namespace EbonianMod.NPCs.Corruption
                 {
                     NPC.frame.Y = 12 * frameHeight;
                 }
-                else if (NPC.frameCounter < 55)
-                {
-                    NPC.frame.Y = 13 * frameHeight;
-                }
-                else if (NPC.frameCounter < 60)
-                {
-                    NPC.frame.Y = 14 * frameHeight;
-                }
-                else if (NPC.frameCounter < 65)
-                {
-                    NPC.frame.Y = 15 * frameHeight;
-                }
-                else if (NPC.frameCounter < 70)
-                {
-                    NPC.frame.Y = 16 * frameHeight;
-                }
-                else if (NPC.frameCounter < 75)
-                {
-                    NPC.frame.Y = 17 * frameHeight;
-                }
-                else if (NPC.frameCounter < 80)
-                {
-                    NPC.frame.Y = 18 * frameHeight;
-                }
                 /*else if (NPC.frameCounter < 85)
                 {
                     NPC.frame.Y = 19 * frameHeight;
                 }*/
                 else
                 {
-                    NPC.frameCounter = 20;
+                    AIState = Jump;
+                    AITimer = 0;
                 }
             }
             else if (AIState == Fall)

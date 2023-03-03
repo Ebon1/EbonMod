@@ -9,6 +9,7 @@ using Terraria.ID;
 using System;
 using static Terraria.ModLoader.PlayerDrawLayer;
 using EbonianMod.Items.Accessories;
+using Terraria.Graphics.Effects;
 
 namespace EbonianMod
 {
@@ -51,7 +52,7 @@ namespace EbonianMod
             //Player.ManageSpecialBiomeVisuals("EbonianMod:CorruptTint", Player.ZoneCorrupt && !Player.ZoneUnderworldHeight);
             //Player.ManageSpecialBiomeVisuals("EbonianMod:CrimsonTint", Player.ZoneCrimson && !Player.ZoneUnderworldHeight);
             #region "hell stuff"
-            /*Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight);
+            Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight);
             if (Player.ZoneUnderworldHeight && Main.BackgroundEnabled)
             {
                 if (Main.rand.NextBool(13))
@@ -87,7 +88,7 @@ namespace EbonianMod
                         part.position = new Vector2(Main.screenPosition.X + Main.rand.NextFloat(Main.screenWidth), Main.screenPosition.Y + Main.screenHeight + 100);
                     });
                 }
-            }*/ // saved for the hell update
+            } // saved for the hell update
             #endregion 
             //dont delete hell stuff...
         }
@@ -95,8 +96,30 @@ namespace EbonianMod
         {
             Instance = Player.GetModPlayer<EbonianPlayer>();
         }
+        public int flashTime;
+        public int flashMaxTime;
+        public Vector2 flashPosition;
+        public void FlashScreen(Vector2 pos, int time)
+        {
+            flashMaxTime = time;
+            flashTime = time;
+            flashPosition = pos;
+        }
         public override void PostUpdate()
         {
+            if (flashTime > 0)
+            {
+                flashTime--;
+                if (!Filters.Scene["EbonianMod:ScreenFlash"].IsActive())
+                    Filters.Scene.Activate("EbonianMod:ScreenFlash", flashPosition);
+                Filters.Scene["EbonianMod:ScreenFlash"].GetShader().UseProgress((float)Math.Sin((float)flashTime / flashMaxTime * Math.PI) * 2f);
+                Filters.Scene["EbonianMod:ScreenFlash"].GetShader().UseTargetPosition(flashPosition); // already added it to luminary but gotta test alr a
+            }
+            else
+            {
+                if (Filters.Scene["EbonianMod:ScreenFlash"].IsActive())
+                    Filters.Scene["EbonianMod:ScreenFlash"].Deactivate();
+            }
             if (bossTextProgress > 0)
                 bossTextProgress--;
             if (bossTextProgress == 0)
