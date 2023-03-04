@@ -73,7 +73,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             float progress = Ease(Utils.GetLerpValue(0f, 15, Projectile.timeLeft));
             if (Projectile.timeLeft == 14)
             {
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Helper.FromAToB(Projectile.Center, Main.MouseWorld) * 20, ModContent.ProjectileType<EbonianGatlingP>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity * 20, ModContent.ProjectileType<EbonianGatlingP>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             if (Projectile.timeLeft > 10)
             {

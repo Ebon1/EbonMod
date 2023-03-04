@@ -61,7 +61,7 @@ namespace EbonianMod.NPCs.Garbage
             spriteBatch.Draw(drawTexture, drawPos, NPC.frame, lightColor, NPC.rotation, origin, NPC.scale, effects, 0);
             spriteBatch.Draw(glow, drawPos, NPC.frame, Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
             if (AIState != Intro && AIState != Idle)
-                spriteBatch.Draw(fire, drawPos + new Vector2(NPC.width * -NPC.direction + (NPC.direction == 1 ? 9 : 0), 2).RotatedBy(NPC.rotation), new Rectangle(0, NPC.frame.Y - 58 * 3, 70, 58), Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
+                spriteBatch.Draw(fire, drawPos + new Vector2(NPC.width * -NPC.direction + (NPC.direction == 1 ? 9 : 0), 2).RotatedBy(NPC.rotation) * NPC.scale, new Rectangle(0, NPC.frame.Y - 58 * 3, 70, 58), Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
             return false;
         }
         public override void FindFrame(int f)
@@ -169,7 +169,7 @@ namespace EbonianMod.NPCs.Garbage
                     }
                 }
             }
-            else if (AIState == WarningForDash || AIState == SlamPreperation)
+            else if (AIState == WarningForDash || AIState == SlamPreperation || AIState == WarningForBigDash)
             {
                 if (NPC.frameCounter % 5 == 0)
                 {
@@ -183,7 +183,7 @@ namespace EbonianMod.NPCs.Garbage
                     }
                 }
             }
-            else if (AIState == SlamSlamSlam || AIState == Dash)
+            else if (AIState == SlamSlamSlam || AIState == Dash || AIState == BigDash)
             {
                 if (NPC.frameCounter % 5 == 0)
                 {
@@ -219,7 +219,7 @@ namespace EbonianMod.NPCs.Garbage
             get => NPC.ai[3];
             set => NPC.ai[3] = value;
         }
-        const int Death = -1, Intro = 0, Idle = 1, WarningForDash = 2, Dash = 3, SlamPreperation = 4, SlamSlamSlam = 5;
+        const int Death = -1, Intro = 0, Idle = 1, WarningForDash = 2, Dash = 3, SlamPreperation = 4, SlamSlamSlam = 5, WarningForBigDash = 6, BigDash = 7;
         int NextAttack = 2;
         public override void AI()
         {
@@ -243,6 +243,10 @@ namespace EbonianMod.NPCs.Garbage
                     return;
                 }
             }
+            if (NPC.Center.Y <= player.Center.Y - 100)
+                NPC.noTileCollide = true;
+            else
+                NPC.noTileCollide = false;
             if (AIState == Intro)
             {
                 if (!NPC.collideY)
@@ -267,6 +271,7 @@ namespace EbonianMod.NPCs.Garbage
             {
                 AITimer++;
                 NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.35f);
+                NPC.scale = MathHelper.Lerp(NPC.scale, 1, 0.35f);
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
                 Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
                 if (NPC.collideY && NPC.collideX)
@@ -354,6 +359,7 @@ namespace EbonianMod.NPCs.Garbage
             else if (AIState == SlamSlamSlam)
             {
                 AITimer++;
+                NPC.damage = 30;
                 if (AITimer < 50)
                     NPC.velocity.Y--;
                 if (AITimer >= 50 && AITimer < 200)
@@ -361,7 +367,7 @@ namespace EbonianMod.NPCs.Garbage
                     NPC.direction = NPC.spriteDirection = 1;
                     NPC.rotation = MathHelper.Lerp(NPC.rotation, MathHelper.ToRadians(90), 0.15f);
                     if (AITimer % 5 == 0)
-                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 500)) * 5;
+                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 500)) * 10;
                 }
                 if (AITimer == 200)
                 {
@@ -373,18 +379,62 @@ namespace EbonianMod.NPCs.Garbage
                     }
                     NPC.velocity = new Vector2(0, 65);
                 }
-                if (NPC.collideY && AITimer2 == 0 && AITimer >= 200 && NPC.Center.Y => player.Center.Y)
+                if (NPC.collideY && AITimer2 == 0 && AITimer >= 200 && NPC.Center.Y >= player.Center.Y - 100)
                 {
                     Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<GenericExplosion>(), 0, 0);
                     AITimer2 = 1;
                 }
                 if (AITimer2 >= 1)
                     AITimer2++;
-                if (AITimer2 >= 100)
+                if (AITimer2 >= 50)
                 {
                     NPC.velocity = Vector2.Zero;
                     AITimer = 0;
+                    NPC.damage = 0;
+                    NextAttack = WarningForBigDash;
+                    AIState = Idle;
+                }
+            }
+            else if (AIState == WarningForBigDash)
+            {
+                AITimer++;
+                NPC.velocity.X = Helper.FromAToB(NPC.Center, player.Center).X * -2;
+                if (AITimer == 10)
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CircleTelegraph>(), 0, 0);
+                NPC.rotation += MathHelper.ToRadians(-0.2f * 4 * NPC.direction);
+                NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
+                if (AITimer >= 25)
+                {
+                    NPC.velocity.X = 0;
+                    AITimer = 0;
+                    AITimer2 = 0;
+                    AIState = BigDash;
+                    NPC.velocity = Vector2.Zero;
+                }
+            }
+            else if (AIState == BigDash)
+            {
+                AITimer++;
+                NPC.damage = 30;
+                NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.35f);
+                if (AITimer == 1)
+                {
+                    NPC.velocity = new Vector2(Helper.FromAToB(NPC.Center, player.Center).X * 22, -15);
+                }
+                if (AITimer % 7 == 0)
+                {
+                    for (int i = -2; i < 2; i++)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(2, 4) * i, NPC.height / 2 - 2), new Vector2(-NPC.direction, -2), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+                    }
+                }
+                if (AITimer >= 100)
+                {
+                    NPC.velocity = Vector2.Zero;
+                    AITimer = -350;
+                    NPC.damage = 0;
                     NextAttack = WarningForDash;
+                    NPC.velocity = Vector2.Zero;
                     AIState = Idle;
                 }
             }
@@ -412,7 +462,7 @@ namespace EbonianMod.NPCs.Garbage
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
-            if (Projectile.Center.Y => Main.LocalPlayer.Center.Y)
+            if (Projectile.Center.Y >= Main.LocalPlayer.Center.Y - 100)
                 fallThrough = false;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
