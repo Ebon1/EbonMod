@@ -170,6 +170,7 @@ namespace EbonianMod.NPCs
         /// </summary>
         public virtual int MaxDistanceForUsingTileCollision => 1000;
 
+        public virtual bool useNormalMovement => true;
         /// <summary>
         /// Whether the NPC uses 
         /// </summary>
@@ -226,7 +227,8 @@ namespace EbonianMod.NPCs
 
             HeadAI_CheckTargetDistance(ref collision);
 
-            HeadAI_Movement(collision);
+            if (useNormalMovement)
+                HeadAI_Movement(collision);
         }
 
         private void HeadAI_SpawnSegments()

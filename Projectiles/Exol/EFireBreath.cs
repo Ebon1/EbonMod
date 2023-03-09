@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics.PackedVector;
 using Steamworks;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,13 +34,21 @@ namespace EbonianMod.Projectiles.Exol
             {
                 num23 = 0f;
             }
-            Vector2 lineStart = Projectile.Center + Projectile.rotation.ToRotationVector2() * 400f * num23;
-            Vector2 lineEnd = Projectile.Center + Projectile.rotation.ToRotationVector2() * 400f * num22;
+            Vector2 lineStart = Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.localAI[0] * num23;
+            Vector2 lineEnd = Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.localAI[0] * num22;
             if (Collision.CheckAABBvLineCollision(targetRect.TopLeft(), targetRect.Size(), lineStart, lineEnd, 40f * Projectile.scale, ref collisionPoint17))
             {
                 return true;
             }
             return false;
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Projectile.localAI[0]);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Projectile.localAI[0] = reader.ReadSingle();
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -59,7 +68,7 @@ namespace EbonianMod.Projectiles.Exol
             {
                 float num219 = Utils.RandomFloat(ref seed) * 0.25f - 0.125f;
                 Vector2 vector49 = (proj.rotation + (Projectile.scale < 1 ? 0 : num219)).ToRotationVector2();
-                Vector2 value41 = center2 + vector49 * 400f;
+                Vector2 value41 = center2 + vector49 * Projectile.localAI[0];
                 float num220 = num217 + num218 * (1f / 15f);
                 int num221 = (int)(num220 / (1f / 15f));
                 num220 %= 1f;
@@ -91,6 +100,8 @@ namespace EbonianMod.Projectiles.Exol
         }
         public override void OnSpawn(IEntitySource source)
         {
+            if (Projectile.localAI[0] == 0)
+                Projectile.localAI[0] = 400f;
             if (Projectile.ai[1] == 0)
                 Projectile.ai[1] = 1;
         }
@@ -113,9 +124,9 @@ namespace EbonianMod.Projectiles.Exol
             {
                 num3 = 0f;
             }
-            Utils.PlotTileLine(Projectile.Center + Projectile.rotation.ToRotationVector2() * 400f * num3, Projectile.Center + Projectile.rotation.ToRotationVector2() * 400f * num2, 16f, DelegateMethods.CastLight);
-            Utils.PlotTileLine(Projectile.Center + Projectile.rotation.ToRotationVector2().RotatedBy(0.19634954631328583) * 400f * num3, Projectile.Center + Projectile.rotation.ToRotationVector2().RotatedBy(0.19634954631328583) * 400f * num2, 16f, DelegateMethods.CastLight);
-            Utils.PlotTileLine(Projectile.Center + Projectile.rotation.ToRotationVector2().RotatedBy(-0.19634954631328583) * 400f * num3, Projectile.Center + Projectile.rotation.ToRotationVector2().RotatedBy(-0.19634954631328583) * 400f * num2, 16f, DelegateMethods.CastLight);
+            Utils.PlotTileLine(Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.localAI[0] * num3, Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.localAI[0] * num2, 16f, DelegateMethods.CastLight);
+            Utils.PlotTileLine(Projectile.Center + Projectile.rotation.ToRotationVector2().RotatedBy(0.19634954631328583) * Projectile.localAI[0] * num3, Projectile.Center + Projectile.rotation.ToRotationVector2().RotatedBy(0.19634954631328583) * Projectile.localAI[0] * num2, 16f, DelegateMethods.CastLight);
+            Utils.PlotTileLine(Projectile.Center + Projectile.rotation.ToRotationVector2().RotatedBy(-0.19634954631328583) * Projectile.localAI[0] * num3, Projectile.Center + Projectile.rotation.ToRotationVector2().RotatedBy(-0.19634954631328583) * Projectile.localAI[0] * num2, 16f, DelegateMethods.CastLight);
             if (num3 == 0f && num2 > 0.1f)
             {
                 for (int i = 0; i < 3; i++)
@@ -145,7 +156,7 @@ namespace EbonianMod.Projectiles.Exol
                 dust2.noLight = true;
                 dust2.noGravity = true;
                 float num4 = Main.rand.NextFloat();
-                dust2.position = Vector2.Lerp(Projectile.Center + Projectile.rotation.ToRotationVector2() * 400f * num3, Projectile.Center + Projectile.rotation.ToRotationVector2() * 400f * num2, num4);
+                dust2.position = Vector2.Lerp(Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.localAI[0] * num3, Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.localAI[0] * num2, num4);
                 dust2.position += Projectile.rotation.ToRotationVector2().RotatedBy(1.5707963705062866) * (20f + 100f * (num4 - 0.5f));
             }*/
             Projectile.frameCounter++;

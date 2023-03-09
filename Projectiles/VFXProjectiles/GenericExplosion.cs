@@ -78,7 +78,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Texture2D tex = Helper.GetExtraTexture("explosion");
             Main.spriteBatch.Reload(BlendState.Additive);
             float scale = MathHelper.Lerp(1, 0, Projectile.ai[0]);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[0], Projectile.rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
+            for (int i = 0; i < 2; i++)
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Maroon * Projectile.ai[0] * 0.75f, Projectile.rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

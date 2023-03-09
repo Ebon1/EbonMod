@@ -108,12 +108,12 @@ namespace EbonianMod.Projectiles
             float swingProgress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
             Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
             Vector2 orig = texture.Size() / 2;
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), lightColor, Projectile.rotation, orig, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), lightColor, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), orig, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
             if (glowAlpha > 0 && glowBlend != null)
             {
                 Texture2D glow = Helper.GetTexture(GlowTexture);
                 Main.spriteBatch.Reload(glowBlend);
-                Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.White * glowAlpha, Projectile.rotation, orig, Projectile.scale, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.White * glowAlpha, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), orig, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
                 Main.spriteBatch.Reload(BlendState.AlphaBlend);
             }
             return false;

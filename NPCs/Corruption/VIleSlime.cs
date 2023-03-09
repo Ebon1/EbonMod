@@ -153,7 +153,8 @@ namespace EbonianMod.NPCs.Corruption
             }
             else if (AIState == Jump)
             {
-                AITimer++; bool aggro = Aggro();
+                if (Main.player[NPC.target].Distance(NPC.Center) < 250f)
+                    AITimer++; bool aggro = Aggro();
                 if (int2 > 1f)
                     int2 -= 1f;
                 if (NPC.wet)
@@ -254,7 +255,7 @@ namespace EbonianMod.NPCs.Corruption
                         NPC.velocity.X *= 0.93f;
                     }
                 }
-                if (AITimer > 400)
+                if (AITimer > 100)
                 {
                     AIState = Attack;
                     AITimer = 0;

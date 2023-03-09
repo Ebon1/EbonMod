@@ -26,6 +26,7 @@ namespace EbonianMod.NPCs.Exol
         {
             NPCID.Sets.TrailCacheLength[NPC.type] = 10;
             NPCID.Sets.TrailingMode[NPC.type] = 0;
+            //Main.npcFrameCount[Type] = 8;
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 CustomTexturePath = "EbonianMod/NPCs/Exol/Exol_bestiary",
@@ -199,6 +200,7 @@ namespace EbonianMod.NPCs.Exol
                 }
                 if (AITimer == 200)
                 {
+                    Main.NewText("uh");
                     Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<ScreenFlash>(), 0, 0);
                     a.ai[0] = 1;
                 }

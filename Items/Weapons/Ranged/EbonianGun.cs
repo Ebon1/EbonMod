@@ -7,6 +7,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using EbonianMod.Items.Weapons.Melee;
 using Terraria.GameContent;
+using Terraria.Audio;
 
 namespace EbonianMod.Items.Weapons.Ranged
 {
@@ -61,7 +62,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.timeLeft = 15;
-            holdOffset = 19;
+            holdOffset = 22;
         }
         public override void AI()
         {
@@ -73,6 +74,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             float progress = Ease(Utils.GetLerpValue(0f, 15, Projectile.timeLeft));
             if (Projectile.timeLeft == 14)
             {
+                SoundEngine.PlaySound(SoundID.Item11);
                 Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity * 20, ModContent.ProjectileType<EbonianGatlingP>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             if (Projectile.timeLeft > 10)

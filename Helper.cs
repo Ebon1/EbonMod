@@ -49,7 +49,7 @@ namespace EbonianMod
                 return true;
             if ((!Collision.CanHitLine(new Vector2(NPC.Center.X, NPC.Center.Y + NPC.height / 2), 1, 1, new Vector2(NPC.Center.X, NPC.Center.Y + (NPC.height * offset) / 2), 1, 1) || Collision.FindCollisionDirection(out int dir, NPC.Center, 1, NPC.height / 2)))
                 return true;
-            for (int i = 0; i < NPC.width * offsetX; i++) //full sprite check
+            for (int i = 0; i < NPC.width * offsetX; i += (int)(1 / (offsetX == 0 ? 1 : offsetX))) //full sprite check
             {
 
                 bool a = TRay.CastLength(NPC.BottomLeft + Vector2.UnitX * i, Vector2.UnitY, 1000) < NPC.height * offset;
@@ -88,25 +88,9 @@ namespace EbonianMod
             return true;
         }
 
-        public static void QuickDustLine(Vector2 start, Vector2 end, float splits, Color color)
-        {
-            Dust.QuickDust(start, color).scale = 1f;
-            Dust.QuickDust(end, color).scale = 1f;
-            float num = 1f / splits;
-            for (float amount = 0.0f; (double)amount < 1.0; amount += num)
-                Dust.QuickDustSmall(Vector2.Lerp(start, end, amount), color).scale = 1f;
-        }
-        public static void QuickDustLine(this Dust dust, Vector2 start, Vector2 end, float splits, Color color1, Color color2)
-        {
-            Dust.QuickDust(start, color1).scale = 1f;
-            Dust.QuickDust(end, color2).scale = 1f;
-            float num = 1f / splits;
-            for (float amount = 0.0f; (double)amount < 1.0; amount += num)
-            {
-                Color color = Color.Lerp(color1, color2, amount);
-                Dust.QuickDustSmall(Vector2.Lerp(start, end, amount), color).scale = 1f;
-            }
-        }
+        /// <summary>
+        /// used for uuhhhhh evenly distrubuted velocity or sum shit i forgor
+        /// </summary>
         public static float CircleDividedEqually(float i, float max)
         {
             return 2f * (float)Math.PI / max * i;
@@ -300,18 +284,6 @@ namespace EbonianMod
         {
             return ModContent.Request<Texture2D>("EbonianMod/" + path).Value;
         }
-        public static Texture2D GetThisTexture(Item obj)
-        {
-            return TextureAssets.Item[obj.type].Value;
-        }
-        public static Texture2D GetThisTexture(NPC obj)
-        {
-            return TextureAssets.Npc[obj.type].Value;
-        }
-        public static Texture2D GetThisTexture(Projectile obj)
-        {
-            return TextureAssets.Projectile[obj.type].Value;
-        }
         public static Texture2D GetTextureAlt(string path)
         {
             return EbonianMod.Instance.Assets.Request<Texture2D>(path).Value;
@@ -457,7 +429,7 @@ namespace EbonianMod
                 Vector2 velocity = Vector2.UnitY.RotatedBy(num614 * ((float)Math.PI * 2f) + Main.rand.NextFloat() * 0.5f) * (4f + Main.rand.NextFloat() * 4f);
                 if (increment == 1 || type == 2)
                     velocity = _vel;
-                Dust dust = Dust.NewDustPerfect(pos, dustType, velocity, 150, color, Main.rand.NextFloat(1, 1.75f) * scaleFactor);
+                Dust dust = Dust.NewDustPerfect(pos, dustType, velocity, 150, color, scaleFactor);
                 dust.noGravity = true;
                 dust.color = color;
 
@@ -478,36 +450,6 @@ namespace EbonianMod
                     Main.dust[num900].position = pos + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * size.X / 2f;
                 }
         }
-        /*public static void DrawBiomeTitle()
-        {
-            var player = Main.LocalPlayer.GetModPlayer<RegrePlayer>();
-            if (player.biomeTextProgress > 0)
-            {
-                float progress = Utils.GetLerpValue(0, player.biomeMaxProgress, player.biomeTextProgress);
-                float alpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI), 0, 1);
-                Vector2 namePos = new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(player.biomeName).X / 2, Main.screenHeight * 0.25f);
-                Vector2 extrapos1 = new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(player.biomeName).X / 1.65f, Main.screenHeight * 0.275f);
-                Vector2 extrapos2 = new Vector2(Main.screenWidth / 2 + FontAssets.DeathText.Value.MeasureString(player.biomeName).X / 1.65f, Main.screenHeight * 0.275f);
-                Vector2 titlePos = new Vector2(Main.screenWidth / 2 - FontAssets.MouseText.Value.MeasureString(player.biomeTitle).X / 2, Main.screenHeight * 0.225f);
-                Vector2 scale = Vector2.One;
-                if (player.biomeMaxProgress == 150)
-                {
-                    namePos = new Vector2(0, Main.screenHeight - 40);
-                    titlePos = new Vector2(0, Main.screenHeight - 55);
-                    scale = Vector2.One / 1.5f;
-                }
-                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.DeathText.Value, player.biomeName, namePos, player.biomeColor * alpha, 0, new Vector2(0.5f, 0.5f), scale);
-                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, player.biomeTitle, titlePos, player.biomeColor * alpha, 0, new Vector2(0.5f, 0.5f), scale);
-                if (player.biomeMaxProgress != 150)
-                {
-                    float rot = MathHelper.ToRadians(90);
-                    Reload(Main.spriteBatch, BlendState.Additive);
-                    Main.spriteBatch.Draw(GetExtraTexture("Extras2/slash_02"), extrapos1, null, player.biomeColor * alpha, rot, GetExtraTexture("Extras2/slash_02").Size() / 2, .5f, SpriteEffects.None, 0);
-                    Main.spriteBatch.Draw(GetExtraTexture("Extras2/slash_02"), extrapos2, null, player.biomeColor * alpha, MathHelper.ToRadians(-90), GetExtraTexture("Extras2/slash_02").Size() / 2, .5f, SpriteEffects.None, 0);
-                    Reload(Main.spriteBatch, BlendState.AlphaBlend);
-                }
-            }
-        }*/
         public static void Log(this Projectile obj)
         {
             Main.NewText("Friendly?" + obj.friendly);
@@ -546,18 +488,6 @@ namespace EbonianMod
             _ = vector - player.position;
             TPNoDust(vector, player);
             NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, player.whoAmI, vector.X, vector.Y, 0);
-        }
-        public static void SpawnTelegraphLine(Vector2 position, IEntitySource source, int timeleft = 30, float rot = 0)
-        {
-            Projectile a = Projectile.NewProjectileDirect(source, position, -Vector2.UnitY.RotatedBy(rot), ModContent.ProjectileType<TelegraphLine>(), 0, 0);
-            Projectile b = Projectile.NewProjectileDirect(source, position, Vector2.UnitY.RotatedBy(rot), ModContent.ProjectileType<TelegraphLine>(), 0, 0);
-            a.timeLeft = b.timeLeft = timeleft;
-        }
-        public static void SpawnTelegraphLine(Vector2 position, Vector2 velocity, int timeleft = 30, IEntitySource source = default)
-        {
-            velocity.Normalize();
-            Projectile a = Projectile.NewProjectileDirect(source, position, velocity, ModContent.ProjectileType<TelegraphLine>(), 0, 0);
-            a.timeLeft = timeleft;
         }
         public static void TPNoDust(Vector2 newPos, Player player)
         {
@@ -659,6 +589,25 @@ namespace EbonianMod
                 Main.spriteBatch.Reload(Main.DefaultSamplerState);
             }
         }
+        public static void QuickDustLine(Vector2 start, Vector2 end, float splits, Color color)
+        {
+            Dust.QuickDust(start, color).scale = 1f;
+            Dust.QuickDust(end, color).scale = 1f;
+            float num = 1f / splits;
+            for (float amount = 0.0f; (double)amount < 1.0; amount += num)
+                Dust.QuickDustSmall(Vector2.Lerp(start, end, amount), color).scale = 1f;
+        }
+        public static void QuickDustLine(this Dust dust, Vector2 start, Vector2 end, float splits, Color color1, Color color2)
+        {
+            Dust.QuickDust(start, color1).scale = 1f;
+            Dust.QuickDust(end, color2).scale = 1f;
+            float num = 1f / splits;
+            for (float amount = 0.0f; (double)amount < 1.0; amount += num)
+            {
+                Color color = Color.Lerp(color1, color2, amount);
+                Dust.QuickDustSmall(Vector2.Lerp(start, end, amount), color).scale = 1f;
+            }
+        }
         public static void DrawBossTitle()
         {
             var player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
@@ -737,6 +686,35 @@ namespace EbonianMod
             data.Draw(Main.spriteBatch);
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.Transform);
+        }
+        public static void DrawShinyText(DrawableTooltipLine line)
+        {
+            var font = FontAssets.MouseText.Value;
+
+            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, font, line.Text, new Vector2(line.X, line.Y), line.Color * 0.5f);
+            MiscDrawingMethods.LocalDrawShinyText(line, 0.5f);
+        }
+        public static void LocalDrawShinyText(DrawableTooltipLine line, float opacity = 1)
+        {
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, EbonianMod.CrystalShine, Main.UIScaleMatrix);
+            var font = FontAssets.MouseText.Value;
+            EbonianMod.CrystalShine.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
+            EbonianMod.CrystalShine.Parameters["uOpacity"].SetValue(opacity);
+            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, font, line.Text, new Vector2(line.X, line.Y), Color.White);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
+        }
+        public static void LocalDrawShinyText(string text, Vector2 pos, float opacity = 1)
+        {
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, EbonianMod.CrystalShine, Main.UIScaleMatrix);
+            var font = FontAssets.MouseText.Value;
+            EbonianMod.CrystalShine.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
+            EbonianMod.CrystalShine.Parameters["uOpacity"].SetValue(opacity);
+            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, font, text, pos, Color.White);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
         }
     }
 }

@@ -39,12 +39,12 @@ namespace EbonianMod.NPCs.Terrortoma
             Main.npcFrameCount[NPC.type] = 14;
             NPCID.Sets.TrailCacheLength[NPC.type] = 4;
             NPCID.Sets.TrailingMode[NPC.type] = 0;
-            NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            /*NPCID.Sets.NPCBestiaryDrawModifiers drawModifiers = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 //CustomTexturePath = "EbonianMod/NPCs/Terrortoma/Terrortoma_Bosschecklist",
                 PortraitScale = 0.6f,
                 PortraitPositionYOverride = 0f,
-            };
+            };*/
         }
         public override void SetDefaults()
         {
@@ -266,28 +266,28 @@ namespace EbonianMod.NPCs.Terrortoma
             {
                 /*if (!HasSummonedClingers)
                 {
-                    NPC fune = Main.npc[NPC.NewNPC(NPC.InheritSource(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TerrorClingerMelee>())];
-                    NPC fune2 = Main.npc[NPC.NewNPC(NPC.InheritSource(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TerrorClingerSummoner>())];
-                    NPC fune3 = Main.npc[NPC.NewNPC(NPC.InheritSource(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TerrorClingerRanged>())];
-                    fune.ai[0] = NPC.whoAmI;
-                    fune2.ai[0] = NPC.whoAmI;
-                    fune3.ai[0] = NPC.whoAmI;
+                    NPC clinger = Main.npc[NPC.NewNPC(NPC.InheritSource(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TerrorClingerMelee>())];
+                    NPC clinger2 = Main.npc[NPC.NewNPC(NPC.InheritSource(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TerrorClingerSummoner>())];
+                    NPC clinger3 = Main.npc[NPC.NewNPC(NPC.InheritSource(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TerrorClingerRanged>())];
+                    clinger.ai[0] = NPC.whoAmI;
+                    clinger2.ai[0] = NPC.whoAmI;
+                    clinger3.ai[0] = NPC.whoAmI;
                     HasSummonedClingers = true;
                 }*/
                 if (!NPC.AnyNPCs(ModContent.NPCType<TerrorClingerMelee>()))
                 {
-                    NPC fune = Main.npc[NPC.NewNPC(NPC.InheritSource(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TerrorClingerMelee>())];
-                    fune.ai[0] = NPC.whoAmI;
+                    NPC clinger = Main.npc[NPC.NewNPC(NPC.InheritSource(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TerrorClingerMelee>())];
+                    clinger.ai[0] = NPC.whoAmI;
                 }
                 if (!NPC.AnyNPCs(ModContent.NPCType<TerrorClingerSummoner>()))
                 {
-                    NPC fune2 = Main.npc[NPC.NewNPC(NPC.InheritSource(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TerrorClingerSummoner>())];
-                    fune2.ai[0] = NPC.whoAmI;
+                    NPC clinger2 = Main.npc[NPC.NewNPC(NPC.InheritSource(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TerrorClingerSummoner>())];
+                    clinger2.ai[0] = NPC.whoAmI;
                 }
                 if (!NPC.AnyNPCs(ModContent.NPCType<TerrorClingerRanged>()))
                 {
-                    NPC fune3 = Main.npc[NPC.NewNPC(NPC.InheritSource(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TerrorClingerRanged>())];
-                    fune3.ai[0] = NPC.whoAmI;
+                    NPC clinger3 = Main.npc[NPC.NewNPC(NPC.InheritSource(NPC), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<TerrorClingerRanged>())];
+                    clinger3.ai[0] = NPC.whoAmI;
                 }
             }
             if (AIState == -12124)

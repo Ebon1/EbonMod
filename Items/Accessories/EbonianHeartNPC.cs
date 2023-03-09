@@ -9,6 +9,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 using EbonianMod.Projectiles.Terrortoma;
+using EbonianMod.Misc;
 
 namespace EbonianMod.Items.Accessories
 {
@@ -61,7 +62,7 @@ namespace EbonianMod.Items.Accessories
             if (++NPC.ai[0] % 30 == 0 && NPC.ai[0] > 0)
                 foreach (NPC npc in Main.npc)
                 {
-                    if (npc.active && !npc.friendly && !npc.dontTakeDamage && npc.Center.Distance(NPC.Center) < 1000)
+                    if (npc.active && !npc.friendly && !npc.dontTakeDamage && npc.Center.Distance(NPC.Center) < 1000 && npc.type != NPCID.TargetDummy)
                     {
                         NPC.ai[1]++;
                         if (NPC.ai[1] > 6)
@@ -104,7 +105,11 @@ namespace EbonianMod.Items.Accessories
                 NPC.frameCounter = 0;
             }
         }
-
+        Verlet verlet;
+        public override void OnSpawn(IEntitySource source)
+        {
+            verlet = new(NPC.Center, 10, 10, 1, true, true, 10);
+        }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
             if (NPC.ai[0] != -1)
@@ -116,7 +121,7 @@ namespace EbonianMod.Items.Accessories
                 Vector2 distToProj = neckOrigin - NPC.Center;
                 float projRotation = distToProj.ToRotation() - 1.57f;
                 float distance = distToProj.Length();
-                while (distance > 6 && !float.IsNaN(distance))
+                /*while (distance > 6 && !float.IsNaN(distance))
                 {
                     distToProj.Normalize();
                     distToProj *= 6;
@@ -128,6 +133,11 @@ namespace EbonianMod.Items.Accessories
                     spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Accessories/HeartChain").Value, center - pos,
                         null, Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
                         new Vector2(12 * 0.5f, 6 * 0.5f), 1f, SpriteEffects.None, 0);
+                }*/
+                if (verlet != null)
+                {
+                    verlet.Update(NPC.Center, player.Center);
+                    verlet.Draw(spriteBatch, "Items/Accessories/HeartChain");
                 }
             }
             return false;

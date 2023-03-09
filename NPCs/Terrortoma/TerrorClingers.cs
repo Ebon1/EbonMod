@@ -11,6 +11,7 @@ using Terraria.GameContent.Bestiary;
 using EbonianMod.NPCs.Corruption;
 using EbonianMod.Projectiles.Terrortoma;
 using System.Text.Encodings.Web;
+using EbonianMod.Projectiles;
 
 namespace EbonianMod.NPCs.Terrortoma
 {
@@ -423,7 +424,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     {
                         float angle = Helper.CircleDividedEqually(i, 3) + Main.rand.NextFloat(MathHelper.Pi * 2);
                         Vector2 vel = Vector2.UnitX.RotatedBy(angle) * 1;
-                        Helper.SpawnTelegraphLine(NPC.Center, vel);
+                        Projectile.NewProjectile(NPC.InheritSource(center), NPC.Center, vel, ModContent.ProjectileType<TelegraphLine>(), 0, 0);
                         Projectile.NewProjectile(NPC.InheritSource(center), NPC.Center, vel, ModContent.ProjectileType<TSpike>(), 15, 0);
                     }
                     NPC funny = Main.npc[NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<EbonFly>())];

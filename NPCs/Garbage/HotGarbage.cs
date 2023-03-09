@@ -7,9 +7,14 @@ using Terraria.ID;
 using Terraria.GameContent.Bestiary;
 using Terraria.DataStructures;
 using EbonianMod.Projectiles.VFXProjectiles;
+using ReLogic.Graphics;
+using Terraria.GameContent;
+using EbonianMod.Projectiles;
+using EbonianMod.Projectiles.Exol;
 
 namespace EbonianMod.NPCs.Garbage
 {
+    [AutoloadBossHead]
     public class HotGarbage : ModNPC
     {
         public override void SetStaticDefaults()
@@ -21,10 +26,10 @@ namespace EbonianMod.NPCs.Garbage
         public override void SetDefaults()
         {
             NPC.width = 80;
-            NPC.height = 56;
+            NPC.height = 74;
             NPC.damage = 0;
-            NPC.defense = 10;
-            NPC.lifeMax = 3500;
+            NPC.defense = 5;
+            NPC.lifeMax = 2000;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.knockBackResist = 0f;
             NPC.DeathSound = new Terraria.Audio.SoundStyle("EbonianMod/Sounds/NPCHit/GarbageDeath");
@@ -42,7 +47,7 @@ namespace EbonianMod.NPCs.Garbage
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
                 new FlavorTextBestiaryInfoElement("Type: Dumpster"),
-                new FlavorTextBestiaryInfoElement("Literal flaming garbage. Why do you need a book to tell you that? Maybe you should jump in."),
+                new FlavorTextBestiaryInfoElement("Hot garbage is the magnum opus of Dr Dumbarton Gumtree, Renowned Garbagolist and homeless man. Using his ingenious skills acquired from the Stupidoodoo University of California, he created a machine purely out of scraps and shady government funding. After only a fortnight of hard work, the machine, nicknamed \"Hot Garbage\", was born. It killed Dr. Gumtree 30 seconds afterwards. May he rest in piece(s)."),
             });
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color lightColor)
@@ -50,30 +55,32 @@ namespace EbonianMod.NPCs.Garbage
             Texture2D drawTexture = Helper.GetTexture("NPCs/Garbage/HotGarbage");
             Texture2D glow = Helper.GetTexture("NPCs/Garbage/HotGarbage_Glow");
             Texture2D fire = Helper.GetTexture("NPCs/Garbage/HotGarbage_Fire");
-            Vector2 origin = new Vector2((drawTexture.Width / 2) * 0.5F, (drawTexture.Height / Main.npcFrameCount[NPC.type]) * 0.5F);
+            Vector2 origin = new Vector2((drawTexture.Width / 3) * 0.5F, (drawTexture.Height / Main.npcFrameCount[NPC.type]) * 0.5F);
 
             Vector2 drawPos = new Vector2(
-                NPC.position.X - pos.X + (NPC.width / 2) - (Helper.GetTexture("NPCs/Garbage/HotGarbage").Width / 2) * NPC.scale / 2f + origin.X * NPC.scale,
+                NPC.position.X - pos.X + (NPC.width / 3) - (Helper.GetTexture("NPCs/Garbage/HotGarbage").Width / 3) * NPC.scale / 3f + origin.X * NPC.scale,
                 NPC.position.Y - pos.Y + NPC.height - Helper.GetTexture("NPCs/Garbage/HotGarbage").Height * NPC.scale / Main.npcFrameCount[NPC.type] + 4f + origin.Y * NPC.scale + NPC.gfxOffY);
-
+            if (AIState != Intro)
+                drawPos.Y -= 2;
             SpriteEffects effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
             spriteBatch.Draw(drawTexture, drawPos, NPC.frame, lightColor, NPC.rotation, origin, NPC.scale, effects, 0);
             spriteBatch.Draw(glow, drawPos, NPC.frame, Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
-            if (AIState != Intro && AIState != Idle)
-                spriteBatch.Draw(fire, drawPos + new Vector2(NPC.width * -NPC.direction + (NPC.direction == 1 ? 9 : 0), 2).RotatedBy(NPC.rotation) * NPC.scale, new Rectangle(0, NPC.frame.Y - 58 * 3, 70, 58), Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
+            if (AIState != Intro && AIState != Idle && AIState != OpenLid && AIState != SpewFire && AIState != CloseLid && AIState != Death && AIState != ActualDeath && AIState != FallOver && AIState != SpewFire2 && AIState != trash)
+                spriteBatch.Draw(fire, drawPos + new Vector2(NPC.width * -NPC.direction + (NPC.direction == 1 ? 9 : 0), 2).RotatedBy(NPC.rotation) * NPC.scale, new Rectangle(0, NPC.frame.Y - 76 * 3, 70, 76), Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
             return false;
         }
         public override void FindFrame(int f)
         {
-            int frameHeight = 58;
+            int frameHeight = 76;
             NPC.frame.Width = 80;
-            NPC.frame.Height = 58;
-            NPC.frame.X = AIState == Intro && !NPC.IsABestiaryIconDummy ? 0 : 80;
+            NPC.frame.Height = 76;
+            //NPC.frame.X = AIState == Intro && !NPC.IsABestiaryIconDummy ? 0 : 80;
             NPC.frameCounter++;
 
             if (NPC.IsABestiaryIconDummy)
             {
+                NPC.frame.X = 80;
                 if (NPC.frameCounter % 5 == 0)
                 {
                     if (NPC.frame.Y < 2 * frameHeight)
@@ -89,6 +96,7 @@ namespace EbonianMod.NPCs.Garbage
 
             if (AIState == Intro && !NPC.IsABestiaryIconDummy)
             {
+                NPC.frame.X = 0;
                 if (NPC.frameCounter < 5)
                 {
                     NPC.frame.Y = 0 * frameHeight;
@@ -157,6 +165,7 @@ namespace EbonianMod.NPCs.Garbage
             }
             else if (AIState == Idle)
             {
+                NPC.frame.X = 80;
                 if (NPC.frameCounter % 5 == 0)
                 {
                     if (NPC.frame.Y < 2 * frameHeight)
@@ -171,6 +180,7 @@ namespace EbonianMod.NPCs.Garbage
             }
             else if (AIState == WarningForDash || AIState == SlamPreperation || AIState == WarningForBigDash)
             {
+                NPC.frame.X = 80;
                 if (NPC.frameCounter % 5 == 0)
                 {
                     if (NPC.frame.Y < 5 * frameHeight)
@@ -185,6 +195,7 @@ namespace EbonianMod.NPCs.Garbage
             }
             else if (AIState == SlamSlamSlam || AIState == Dash || AIState == BigDash)
             {
+                NPC.frame.X = 80;
                 if (NPC.frameCounter % 5 == 0)
                 {
                     if (NPC.frame.Y < 9 * frameHeight)
@@ -194,6 +205,37 @@ namespace EbonianMod.NPCs.Garbage
                     else if (NPC.frame.Y >= 9 * frameHeight || NPC.frame.Y < 6 * frameHeight)
                     {
                         NPC.frame.Y = 6 * frameHeight;
+                    }
+                }
+            }
+            else if (AIState == OpenLid)
+            {
+                NPC.frame.X = 160;
+                if (NPC.frameCounter % 5 == 0)
+                {
+                    if (NPC.frame.Y < 3 * frameHeight)
+                    {
+                        NPC.frame.Y += frameHeight;
+                    }
+                    else
+                    {
+                        AITimer = 0;
+                        AIState = NextAttack2;
+                    }
+                }
+            }
+            else if (AIState == CloseLid)
+            {
+                NPC.frame.X = 160;
+                if (NPC.frameCounter % 5 == 0)
+                {
+                    if (NPC.frame.Y > 0)
+                    {
+                        NPC.frame.Y -= frameHeight;
+                    }
+                    else
+                    {
+                        AIState = Idle;
                     }
                 }
             }
@@ -219,8 +261,36 @@ namespace EbonianMod.NPCs.Garbage
             get => NPC.ai[3];
             set => NPC.ai[3] = value;
         }
-        const int Death = -1, Intro = 0, Idle = 1, WarningForDash = 2, Dash = 3, SlamPreperation = 4, SlamSlamSlam = 5, WarningForBigDash = 6, BigDash = 7;
+        const int ActualDeath = -2, Death = -1, Intro = 0, Idle = 1, WarningForDash = 2, Dash = 3, SlamPreperation = 4, SlamSlamSlam = 5, WarningForBigDash = 6, BigDash = 7, OpenLid = 8, SpewFire = 9, CloseLid = 10, FallOver = 11, SpewFire2 = 12, trash = 13;
         int NextAttack = 2;
+        int NextAttack2 = 9;
+        bool ded;
+        public override bool CheckDead()
+        {
+            if (NPC.life <= 0 && !ded)
+            {
+                NPC.life = 1;
+                AIState = Death;
+                NPC.frameCounter = 0;
+                NPC.immortal = true;
+                NPC.dontTakeDamage = true;
+                //EbonianSystem.ChangeCameraPos(NPC.Center, 250, );
+                EbonianSystem.ScreenShakeAmount = 20;
+                ded = true;
+                AITimer = AITimer2 = 0;
+                NPC.velocity = Vector2.Zero;
+                NPC.frame.X = 160;
+                NPC.frame.Y = 0;
+                NPC.life = 1;
+                return false;
+            }
+            return true;
+        }
+        public override bool? CanFallThroughPlatforms()
+        {
+            Player player = Main.player[NPC.target];
+            return (NPC.Center.Y <= player.Center.Y - 100);
+        }
         public override void AI()
         {
             Player player = Main.player[NPC.target];
@@ -239,15 +309,54 @@ namespace EbonianMod.NPCs.Garbage
                     {
                         NPC.timeLeft = 10;
                     }
-                    NPC.timeLeft = 1;
+                    NPC.active = false;
                     return;
                 }
             }
-            if (NPC.Center.Y <= player.Center.Y - 100)
-                NPC.noTileCollide = true;
+            NPC.timeLeft = 2;
+
+
+            /*if (AIState != Death && AIState != BigDash)
+            {
+                if (NPC.Center.Y <= player.Center.Y - 100)
+                    NPC.noTileCollide = true;
+                else
+                    NPC.noTileCollide = false;
+            }
             else
-                NPC.noTileCollide = false;
-            if (AIState == Intro)
+                NPC.noTileCollide = false;*/
+            if (AIState == Death)
+            {
+                NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
+                AITimer++;
+                if (AITimer % 5 == 0 && AITimer <= 21)
+                {
+                    if (NPC.frame.Y < 3 * 76)
+                    {
+                        NPC.frame.Y += 76;
+                    }
+                }
+                if (AITimer == 20)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<HotGarbageNuke>(), 0, 0);
+                }
+                if (AITimer >= 625 && player.Distance(NPC.Center) > 4500 / 2)
+                {
+                    NPC.life = 0;
+                    NPC.immortal = false;
+                    NPC.checkDead();
+                }
+                if (AITimer % 120 == 0 && AITimer > 20)
+                {
+                    for (int i = -6; i < 6; i++)
+                    {
+                        Projectile fire = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - Vector2.UnitY * 1000, new Vector2(3 * i * Main.rand.NextFloat(1, 2), 10), ModContent.ProjectileType<GarbageFlame>(), 15, 0, ai0: 1);
+                        fire.timeLeft = 200;
+                        fire.tileCollide = false;
+                    }
+                }
+            }
+            else if (AIState == Intro)
             {
                 if (!NPC.collideY)
                 {
@@ -274,7 +383,7 @@ namespace EbonianMod.NPCs.Garbage
                 NPC.scale = MathHelper.Lerp(NPC.scale, 1, 0.35f);
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
                 Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
-                if (NPC.collideY && NPC.collideX)
+                if (NPC.Grounded(offsetX: 0.5f) && (NPC.collideX || Helper.TRay.CastLength(NPC.Center, Vector2.UnitX, 1000) < NPC.width || Helper.TRay.CastLength(NPC.Center, -Vector2.UnitX, 1000) < NPC.width))
                     NPC.velocity.Y = -10;
                 NPC.velocity.X = Helper.FromAToB(NPC.Center, player.Center).X * 3;
                 if (AITimer >= 100) //change this back to 300 once testing is over.
@@ -282,6 +391,8 @@ namespace EbonianMod.NPCs.Garbage
                     NPC.velocity.X = 0;
                     AITimer = 0;
                     AIState = NextAttack;
+                    if (NextAttack == OpenLid)
+                        NPC.frame.Y = 0;
                 }
             }
             else if (AIState == WarningForDash)
@@ -335,7 +446,8 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer >= 65 * 3)
                 {
                     NPC.velocity = Vector2.Zero;
-                    NextAttack = SlamPreperation;
+                    NextAttack = OpenLid;
+                    NextAttack2 = SpewFire;
                     AIState = Idle;
                     AITimer = 0;
                     AITimer2 = 0;
@@ -359,6 +471,7 @@ namespace EbonianMod.NPCs.Garbage
             else if (AIState == SlamSlamSlam)
             {
                 AITimer++;
+                NPC.noGravity = true;
                 NPC.damage = 30;
                 if (AITimer < 50)
                     NPC.velocity.Y--;
@@ -369,25 +482,35 @@ namespace EbonianMod.NPCs.Garbage
                     if (AITimer % 5 == 0)
                         NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 500)) * 10;
                 }
+                if (AITimer == 175)
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CircleTelegraph>(), 0, 0);
                 if (AITimer == 200)
                 {
 
                     for (int i = -3; i < 3; i++)
                     {
-                        for (int j = 0; j < 2; j++)
-                            Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(3 * i, 10), ModContent.ProjectileType<GarbageFlame>(), 15, 0, ai0: 1);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(3 * i, 10), ModContent.ProjectileType<GarbageFlame>(), 15, 0, ai0: 1);
                     }
-                    NPC.velocity = new Vector2(0, 65);
+                    NPC.velocity = new Vector2(0, 35);
                 }
-                if (NPC.collideY && AITimer2 == 0 && AITimer >= 200 && NPC.Center.Y >= player.Center.Y - 100)
+                if (AITimer > 200 && !NPC.collideY)
                 {
+                    NPC.Center += Vector2.UnitX * Main.rand.NextFloat(-1, 1);
+                    NPC.velocity.Y += 0.015f;
+                }
+                if ((NPC.collideY || NPC.Grounded(offsetX: 0.25f)) && AITimer2 == 0 && AITimer >= 200 && NPC.Center.Y >= player.Center.Y - 100)
+                {
+                    NPC.velocity = Vector2.Zero;
                     Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<GenericExplosion>(), 0, 0);
                     AITimer2 = 1;
                 }
                 if (AITimer2 >= 1)
+                {
                     AITimer2++;
+                }
                 if (AITimer2 >= 50)
                 {
+                    NPC.noGravity = false;
                     NPC.velocity = Vector2.Zero;
                     AITimer = 0;
                     NPC.damage = 0;
@@ -423,31 +546,192 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer % 7 == 0)
                 {
-                    for (int i = -2; i < 2; i++)
-                    {
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(2, 4) * i, NPC.height / 2 - 2), new Vector2(-NPC.direction, -2), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
-                    }
+
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(-NPC.direction, -2), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+
                 }
                 if (AITimer >= 100)
                 {
                     NPC.velocity = Vector2.Zero;
                     AITimer = -350;
                     NPC.damage = 0;
-                    NextAttack = WarningForDash;
+                    NextAttack = OpenLid;
+                    NextAttack2 = FallOver;
                     NPC.velocity = Vector2.Zero;
                     AIState = Idle;
                 }
             }
+            else if (AIState == OpenLid)
+            {
+                AITimer++;
+                if (NextAttack2 == FallOver)
+                    NPC.rotation -= MathHelper.ToRadians(-0.9f * 5 * NPC.direction);
+                if (AITimer == 1)
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<GreenShockwave>(), 0, 0);
+
+            }
+            else if (AIState == SpewFire)
+            {
+                AITimer++;
+                if (AITimer % 3 == 0)
+                {
+                    for (int i = -2; i < 2; i++)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(NPC.direction * Main.rand.NextFloat(5, 7), -4 - Main.rand.NextFloat(2, 4)), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+                    }
+                }
+                if (AITimer >= 100)
+                {
+                    AITimer = 0;
+                    NPC.damage = 0;
+                    NextAttack = SlamPreperation;
+                    NPC.velocity = Vector2.Zero;
+                    AIState = CloseLid;
+                }
+            }
+            else if (AIState == FallOver)
+            {
+                AITimer++;
+                if (AITimer == 1)
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(NPC.direction, 0), ModContent.ProjectileType<TelegraphLine>(), 0, 0);
+                if (AITimer == 50)
+                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, new Vector2(NPC.direction, 0), ModContent.ProjectileType<EFireBreath>(), 15, 0).localAI[0] = 650;
+                if (AITimer >= 100)
+                {
+                    AITimer = 0;
+                    NPC.damage = 0;
+                    NextAttack2 = SpewFire2;
+                    NPC.velocity = Vector2.Zero;
+                    AIState = CloseLid;
+                }
+            }
+            else if (AIState == SpewFire2)
+            {
+                AITimer++;
+                if (AITimer % 10 == 0)
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(NPC.direction * Main.rand.NextFloat(-10, 10), -6 - Main.rand.NextFloat(2, 4)), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+                    }
+                }
+                if (AITimer >= 50)
+                {
+                    AITimer = 0;
+                    NPC.damage = 0;
+                    AIState = CloseLid;
+                    NextAttack2 = trash;
+                    NPC.velocity = Vector2.Zero;
+                    //AIState = CloseLid;
+                }
+            }
+            else if (AIState == trash)
+            {
+                AITimer++;
+                NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
+                if (AITimer % 150 == 0)
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(Main.rand.NextFloat(-4, 4), -7), ModContent.ProjectileType<Soder>(), 15, 0, player.whoAmI);
+                if (AITimer % 50 == 0)
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(Helper.FromAToB(NPC.Center, player.Center).X * 4, -3), ModContent.ProjectileType<MetalCircle>(), 15, 0, player.whoAmI);
+
+                if (AITimer >= 450)
+                {
+                    AITimer = 0;
+                    NPC.damage = 0;
+                    NextAttack = WarningForDash;
+                    NPC.velocity = Vector2.Zero;
+                    AIState = CloseLid;
+                }
+            }
+        }
+    }
+    public class Soder : ModProjectile
+    {
+        //public override string Texture => "Terraria/Images/Item_" + ItemID.CreamSoda;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("SODA!");
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 5;
+            Projectile.height = 5;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = false;
+            Projectile.tileCollide = true;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 350;
+        }
+        public override void AI()
+        {
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            if (Projectile.timeLeft > 300)
+                Projectile.velocity *= 0.99f;
+            else
+            {
+                Projectile.velocity *= 1.025f;
+                Helper.DustExplosion(Projectile.Center, Vector2.One, 2, Color.Gray * 0.1f, false, false, 0.1f, 0.125f, -Projectile.velocity);
+            }
+            if (Projectile.timeLeft == 300)
+                Projectile.velocity = Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center) * 5;
+        }
+    }
+    public class MetalCircle : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Oildrum");
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 48;
+            Projectile.height = 48;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = false;
+            Projectile.tileCollide = true;
+            Projectile.aiStyle = 14;
+            AIType = ProjectileID.BouncyGlowstick;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 400;
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            Projectile.velocity.Y = -5;
+            return false;
+        }
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+        {
+            if (Projectile.Center.Y >= Main.LocalPlayer.Center.Y - 100)
+                fallThrough = false;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
+        }
+        int dir;
+        public override void OnSpawn(IEntitySource source)
+        {
+            dir = Projectile.velocity.X > 0 ? 1 : -1;
+        }
+        public override void AI()
+        {
+            Projectile.direction = dir;
+            Projectile.velocity.X = Projectile.direction * 5;
+
+            Projectile.rotation += MathHelper.ToRadians(3);
         }
     }
     public class GarbageFlame : ModProjectile
     {
-        public override string Texture => Helper.Empty;
+        public override string Texture => "EbonianMod/Extras/explosion";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flame");
         }
-
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Main.spriteBatch.Reload(BlendState.Additive);
+            Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center - Main.screenPosition, null, Color.Orange, 0, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f, SpriteEffects.None, 0);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return false;
+        }
         public override void SetDefaults()
         {
             Projectile.width = 5;
@@ -457,8 +741,7 @@ namespace EbonianMod.NPCs.Garbage
             Projectile.friendly = false;
             Projectile.tileCollide = true;
             Projectile.hostile = true;
-            Projectile.alpha = 255;
-            Projectile.timeLeft = 650;
+            Projectile.timeLeft = 350;
         }
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
@@ -472,7 +755,7 @@ namespace EbonianMod.NPCs.Garbage
             {
                 Projectile.velocity *= 0.87f;
             }
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.Next(2) == 0)
             {
                 for (int dustNumber = 0; dustNumber < 5; dustNumber++)
                 {
@@ -483,6 +766,103 @@ namespace EbonianMod.NPCs.Garbage
                     dust.noGravity = true;
                     dust.scale = Main.rand.NextFloat(0.65f, 1.25f);
                 }
+            }
+        }
+    }
+    public class HotGarbageNuke : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Nuke");
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 80;
+            Projectile.height = 35;
+            Projectile.friendly = false;
+            Projectile.tileCollide = false;
+            Projectile.hostile = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 500;
+        }
+        Vector2 targetPos;
+        float waveTimer;
+        public override void PostDraw(Color lightColor)
+        {
+            Texture2D pulse = Helper.GetExtraTexture("PulseCircle2");
+            Main.spriteBatch.Reload(BlendState.Additive);
+            float alpha = MathHelper.SmoothStep(1, 0, waveTimer);
+            if (targetPos != Vector2.Zero)
+            {
+                Main.spriteBatch.Draw(pulse, targetPos - Main.screenPosition, null, Color.Maroon, 0, pulse.Size() / 2, 4.5f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(pulse, targetPos - Main.screenPosition, null, Color.Maroon * alpha, 0, pulse.Size() / 2, waveTimer * 4.5f, SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            string strin = "" + (int)(Projectile.ai[1] / 60);
+            if (Projectile.ai[1] < 181)
+                strin = "";
+            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, extraString + strin, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString((extraString + strin).ToString()).X / 2, Main.screenHeight * 0.05f), Color.Maroon);
+        }
+        string extraString = "NUKE ACTIVATING IN: ";
+        public override void OnSpawn(IEntitySource source)
+        {
+            Projectile.ai[1] = 600;
+            targetPos = Projectile.Center;
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
+        }
+        public override void Kill(int timeLeft)
+        {
+            foreach (Player player in Main.player)
+            {
+                if (player.active && player.Center.Distance(targetPos) < 4500 / 2)
+                    player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " advocated for the legalization of nuclear bombs."), 999999, 0);
+            }
+            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScreenFlash>(), 0, 0);
+        }
+        public override void AI()
+        {
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            Helper.DustExplosion(Projectile.Center, Vector2.One, 2, Color.Gray * 0.75f, false);
+            if (Projectile.ai[1] > 0 && Projectile.ai[0] > 50)
+                Projectile.ai[1]--;
+            if (Projectile.ai[1] <= 0 && Projectile.ai[0] > 50)
+            {
+                Projectile.Kill();
+            }
+            foreach (Player player in Main.player)
+            {
+                if (player.active && player.Center.Distance(targetPos) < 4500 / 2)
+                {
+                    if (Projectile.ai[1] < 121)
+                    {
+                        extraString = "cry about it";
+                    }
+                    else if (Projectile.ai[1] < 181)
+                        extraString = "lol";
+                }
+                if (player.active && player.Center.Distance(targetPos) > 4500 / 2)
+                    extraString = "NUKE ACTIVATING IN: ";
+            }
+            Projectile.timeLeft = 2;
+            waveTimer += 0.025f;
+            if (waveTimer > 1)
+                waveTimer = 0;
+
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] < 50)
+                Projectile.velocity.Y -= 0.5f;
+            else if (Projectile.ai[0] > 50 && Projectile.ai[0] < 450)
+            {
+                Projectile.velocity *= 0.9f;
+            }
+            else if (Projectile.ai[0] > 450)
+            {
+                Projectile.velocity.Y += 0.1f;
             }
         }
     }

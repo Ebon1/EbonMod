@@ -13,6 +13,8 @@ using EbonianMod.Skies;
 using System.Collections.Generic;
 using EbonianMod.Projectiles.Terrortoma;
 using EbonianMod.Projectiles.VFXProjectiles;
+using ReLogic.Graphics;
+using EbonianMod.Misc;
 
 namespace EbonianMod
 {
@@ -21,6 +23,7 @@ namespace EbonianMod
         public static EbonianMod Instance;
         public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, TrailShader, RTAlpha, Crack;
         public RenderTarget2D render;
+        public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
         public override void Load()
         {
@@ -54,7 +57,6 @@ namespace EbonianMod
             Main.OnResolutionChanged += Main_OnResolutionChanged;
             On.Terraria.Main.DrawBG += DrawBehindTilesAndWalls;
             On.Terraria.Main.DrawNPC += DrawNPC;
-            VerletSystem.Load();
             CreateRender();
         }
         void DrawNPC(On.Terraria.Main.orig_DrawNPC orig, global::Terraria.Main self, int iNPCIndex, bool behindTiles)
@@ -66,6 +68,14 @@ namespace EbonianMod
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             orig(self, iNPCIndex, behindTiles);
+            foreach (Projectile projectile in Main.projectile)
+            {
+                if (projectile.active && (projectile.type == ModContent.ProjectileType<TExplosion>() || projectile.type == ModContent.ProjectileType<ScreenFlash>()))
+                {
+                    Color color = Color.White;
+                    projectile.ModProjectile.PreDraw(ref color);
+                }
+            }
         }
 
         public void DrawBehindTilesAndWalls(On.Terraria.Main.orig_DrawBG orig, global::Terraria.Main self)
@@ -177,6 +187,7 @@ namespace EbonianMod
         public override Asset<Texture2D> Logo => ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/Logo");
         public override bool PreDrawLogo(SpriteBatch spriteBatch, ref Vector2 logoDrawCenter, ref float logoRotation, ref float logoScale, ref Color drawColor)
         {
+            //spriteBatch.Draw(Helper.GetExtraTexture("menutest"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
             drawColor = Color.White;
             return true;
         }
