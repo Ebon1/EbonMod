@@ -59,6 +59,13 @@ namespace EbonianMod
             }
             return false; //give up
         }
+        public static string RgbToHex(Color color)
+        {
+            int r = color.R;
+            int g = color.G;
+            int b = color.B;
+            return string.Format("{0:X2}{1:X2}{2:X2}", r, g, b);
+        }
         public static VertexPositionColorTexture AsVertex(Vector2 position, Color color, Vector2 texCoord)
         {
             return new VertexPositionColorTexture(new Vector3(position, 50), color, texCoord);

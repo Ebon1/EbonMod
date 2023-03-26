@@ -17,6 +17,8 @@ using IL.Terraria.GameContent.UI.Elements;
 using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Dusts;
 using EbonianMod.Projectiles.Exol;
+using System.Net.Http.Headers;
+using EbonianMod.NPCs.Corruption;
 
 namespace EbonianMod.NPCs.Exol
 {
@@ -151,10 +153,13 @@ namespace EbonianMod.NPCs.Exol
             get => NPC.ai[3];
             set => NPC.ai[3] = value;
         }
-        const int Death = -1, Spawn = 0, Idle = 1, FlameThrower = 2, Rocks = 3;
+        const int Death = -1, Spawn = 0, Idle = 1, FlameThrower = 2, RocksAtPlayer = 3, RockFall = 4, RandomLasers = 5, SpinDash = 6, RepeatedBanging = 7;
         Vector2 lastPos;
         SoundStyle summon = new("EbonianMod/Sounds/ExolSummon");
-        SoundStyle roar = new("EbonianMod/Sounds/ExolRoar");
+        SoundStyle roar = new("EbonianMod/Sounds/ExolRoar")
+        {
+            PitchVariance = 0.25f,
+        };
         public override void AI()
         {
             Player player = Main.player[NPC.target];
@@ -200,9 +205,10 @@ namespace EbonianMod.NPCs.Exol
                 }
                 if (AITimer == 200)
                 {
-                    Main.NewText("uh");
-                    Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<ScreenFlash>(), 0, 0);
-                    a.ai[0] = 1;
+
+                    EbonianMod.FlashAlpha = 1;
+                    //Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<ScreenFlash>(), 0, 0);
+                    //a.ai[0] = 1;
                 }
                 if (AITimer > 212)
                 {
@@ -296,7 +302,70 @@ namespace EbonianMod.NPCs.Exol
                     AITimer = 0;
                     AITimer2 = 0;
                     AITimer3 = 0;
-                    AIState = Rocks;
+                    AIState = RocksAtPlayer;
+                }
+            }
+            else if (AIState == RocksAtPlayer)
+            {
+                AITimer++;
+                if (AITimer == 1)
+                    SoundEngine.PlaySound(roar);
+                Vector2 pos = new Vector2(player.position.X, player.position.Y - 335);
+                Vector2 target = pos;
+                Vector2 moveTo = target - NPC.Center;
+                NPC.velocity = (moveTo) * 0.18f;
+                if (AITimer < 100 && AITimer % 20 == 0)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(Main.screenPosition.X + Main.screenWidth * Main.rand.NextFloat(), Main.screenPosition.Y + Main.screenHeight), -Vector2.UnitY * (10 + Main.rand.NextFloat(4, 25)), ModContent.ProjectileType<EBoulder>(), 30, 0);
+                }
+                if (AITimer >= 100)
+                {
+                    NPC.rotation = 0;
+                    NPC.velocity.X = 0;
+                    NPC.velocity.Y = 0;
+                    AITimer = 0;
+                    AITimer2 = 0;
+                    AITimer3 = 0;
+                    AIState = RockFall;
+                }
+            }
+            else if (AIState == RockFall)
+            {
+                AITimer++;
+                if (AITimer == 1)
+                    SoundEngine.PlaySound(roar);
+                if (AITimer == 30)
+                {
+                    NPC.noTileCollide = false;
+                    NPC.velocity = -Vector2.UnitY * 30;
+                }
+                if (NPC.collideY || NPC.collideX)
+                {
+                    EbonianSystem.ScreenShakeAmount = 10;
+                    NPC.velocity = Vector2.UnitY * 5;
+                }
+                if (AITimer > 60)
+                    NPC.velocity *= 0.9f;
+                if (NPC.Center.Y < Main.UnderworldLayer)
+                {
+                    NPC.velocity = Vector2.Zero;
+                }
+                if (AITimer % 10 == 0 && AITimer > 60)
+                {
+                    Vector2 pos = new Vector2(Main.screenPosition.X + Main.screenWidth * Main.rand.NextFloat(), Main.screenPosition.Y - 300);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.UnitY * 10, ModContent.ProjectileType<EBoulder2>(), 30, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.UnitY * 10, ModContent.ProjectileType<TelegraphLine>(), 0, 0);
+                }
+                if (AITimer >= 500)
+                {
+                    NPC.noTileCollide = true;
+                    NPC.rotation = 0;
+                    NPC.velocity.X = 0;
+                    NPC.velocity.Y = 0;
+                    AITimer = 0;
+                    AITimer2 = 0;
+                    AITimer3 = 0;
+                    AIState = RandomLasers;
                 }
             }
         }

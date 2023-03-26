@@ -108,7 +108,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2 + Projectile.ai[0]);
 
             Projectile.rotation = (pos - player.Center).ToRotation() + Projectile.ai[0] * Projectile.spriteDirection;
-            Projectile.Center = pos;
+            Projectile.Center = pos - Vector2.UnitY * 2;
             player.itemTime = 2;
             player.heldProj = Projectile.whoAmI;
             player.itemAnimation = 2;

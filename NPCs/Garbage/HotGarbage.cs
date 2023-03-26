@@ -11,6 +11,7 @@ using ReLogic.Graphics;
 using Terraria.GameContent;
 using EbonianMod.Projectiles;
 using EbonianMod.Projectiles.Exol;
+using Terraria.Audio;
 
 namespace EbonianMod.NPCs.Garbage
 {
@@ -29,7 +30,7 @@ namespace EbonianMod.NPCs.Garbage
             NPC.height = 74;
             NPC.damage = 0;
             NPC.defense = 5;
-            NPC.lifeMax = 2000;
+            NPC.lifeMax = 3000;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.knockBackResist = 0f;
             NPC.DeathSound = new Terraria.Audio.SoundStyle("EbonianMod/Sounds/NPCHit/GarbageDeath");
@@ -66,7 +67,7 @@ namespace EbonianMod.NPCs.Garbage
 
             spriteBatch.Draw(drawTexture, drawPos, NPC.frame, lightColor, NPC.rotation, origin, NPC.scale, effects, 0);
             spriteBatch.Draw(glow, drawPos, NPC.frame, Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
-            if (AIState != Intro && AIState != Idle && AIState != OpenLid && AIState != SpewFire && AIState != CloseLid && AIState != Death && AIState != ActualDeath && AIState != FallOver && AIState != SpewFire2 && AIState != trash)
+            if (AIState != Intro && AIState != Idle && AIState != OpenLid && AIState != SpewFire && AIState != CloseLid && AIState != Death && AIState != ActualDeath && AIState != FallOver && AIState != SpewFire2 && AIState != trash && NPC.frame.X == 80)
                 spriteBatch.Draw(fire, drawPos + new Vector2(NPC.width * -NPC.direction + (NPC.direction == 1 ? 9 : 0), 2).RotatedBy(NPC.rotation) * NPC.scale, new Rectangle(0, NPC.frame.Y - 76 * 3, 70, 76), Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
             return false;
         }
@@ -159,6 +160,7 @@ namespace EbonianMod.NPCs.Garbage
                         NPC.frame.Y = 0;
                         AIState = Idle;
                         AITimer = 0;
+                        AITimer2 = 0;
                         NextAttack = 2;
                     }
                 }
@@ -261,7 +263,7 @@ namespace EbonianMod.NPCs.Garbage
             get => NPC.ai[3];
             set => NPC.ai[3] = value;
         }
-        const int ActualDeath = -2, Death = -1, Intro = 0, Idle = 1, WarningForDash = 2, Dash = 3, SlamPreperation = 4, SlamSlamSlam = 5, WarningForBigDash = 6, BigDash = 7, OpenLid = 8, SpewFire = 9, CloseLid = 10, FallOver = 11, SpewFire2 = 12, trash = 13;
+        const int ActualDeath = -2, Death = -1, Intro = 0, Idle = 1, WarningForDash = 2, Dash = 3, SlamPreperation = 4, SlamSlamSlam = 5, WarningForBigDash = 6, BigDash = 7, OpenLid = 8, SpewFire = 9, CloseLid = 10, FallOver = 11, SpewFire2 = 12, trash = 13, trash2 = 14;
         int NextAttack = 2;
         int NextAttack2 = 9;
         bool ded;
@@ -315,6 +317,11 @@ namespace EbonianMod.NPCs.Garbage
             }
             NPC.timeLeft = 2;
 
+            if (Main.rand.NextBool(300))
+            {
+                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(Main.rand.NextFloat(-500, 500), 300), Vector2.Zero, ModContent.ProjectileType<Mailbox>(), 15, 0, player.whoAmI);
+            }
+
 
             /*if (AIState != Death && AIState != BigDash)
             {
@@ -327,6 +334,7 @@ namespace EbonianMod.NPCs.Garbage
                 NPC.noTileCollide = false;*/
             if (AIState == Death)
             {
+                NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
                 AITimer++;
                 if (AITimer % 5 == 0 && AITimer <= 21)
@@ -338,13 +346,16 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer == 20)
                 {
+                    Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/GarbageSiren");
                     Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<HotGarbageNuke>(), 0, 0);
                 }
                 if (AITimer >= 625 && player.Distance(NPC.Center) > 4500 / 2)
                 {
                     NPC.life = 0;
                     NPC.immortal = false;
+                    NPC.dontTakeDamage = false;
                     NPC.checkDead();
+                    Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Garbage");
                 }
                 if (AITimer % 120 == 0 && AITimer > 20)
                 {
@@ -360,9 +371,10 @@ namespace EbonianMod.NPCs.Garbage
             {
                 if (!NPC.collideY)
                 {
+                    AITimer2++;
                     NPC.frameCounter = 0;
                 }
-                else
+                else if (NPC.collideY || (NPC.velocity.Y < 1 && AITimer2 > 100))
                 {
                     AITimer++;
                     if (AITimer == 1)
@@ -406,6 +418,7 @@ namespace EbonianMod.NPCs.Garbage
                     AITimer2 = 0;
                     AIState = Dash;
                 }
+
             }
             else if (AIState == Dash)
             {
@@ -600,7 +613,7 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     AITimer = 0;
                     NPC.damage = 0;
-                    NextAttack2 = SpewFire2;
+                    NextAttack2 = trash2;
                     NPC.velocity = Vector2.Zero;
                     AIState = CloseLid;
                 }
@@ -620,6 +633,7 @@ namespace EbonianMod.NPCs.Garbage
                     AITimer = 0;
                     NPC.damage = 0;
                     AIState = CloseLid;
+                    NextAttack = OpenLid;
                     NextAttack2 = trash;
                     NPC.velocity = Vector2.Zero;
                     //AIState = CloseLid;
@@ -629,16 +643,35 @@ namespace EbonianMod.NPCs.Garbage
             {
                 AITimer++;
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
-                if (AITimer % 150 == 0)
+                if (AITimer % 100 == 0)
                     Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(Main.rand.NextFloat(-4, 4), -7), ModContent.ProjectileType<Soder>(), 15, 0, player.whoAmI);
                 if (AITimer % 50 == 0)
                     Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(Helper.FromAToB(NPC.Center, player.Center).X * 4, -3), ModContent.ProjectileType<MetalCircle>(), 15, 0, player.whoAmI);
+
+                if (AITimer >= 250)
+                {
+                    AITimer = 0;
+                    NPC.damage = 0;
+                    NextAttack = WarningForDash;
+                    NPC.velocity = Vector2.Zero;
+                    AIState = Idle;
+                }
+            }
+            else if (AIState == trash2)
+            {
+                AITimer++;
+                NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
+                if (AITimer <= 60 && AITimer % 5 == 0)
+                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, new Vector2(Main.rand.NextFloat(-0.25f, 0.25f), -5), ModContent.ProjectileType<Garbage>(), 15, 0, player.whoAmI).timeLeft = 200;
+                if (AITimer % 10 == 0 && AITimer > 100)
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(Main.screenPosition.X + Main.screenWidth * Main.rand.NextFloat(), Main.screenPosition.Y), new Vector2(Main.rand.NextFloat(-1, 1), 2), ModContent.ProjectileType<Garbage>(), 15, 0, player.whoAmI);
 
                 if (AITimer >= 450)
                 {
                     AITimer = 0;
                     NPC.damage = 0;
-                    NextAttack = WarningForDash;
+                    NextAttack = OpenLid;
+                    NextAttack2 = SpewFire2;
                     NPC.velocity = Vector2.Zero;
                     AIState = CloseLid;
                 }
@@ -709,6 +742,8 @@ namespace EbonianMod.NPCs.Garbage
         public override void OnSpawn(IEntitySource source)
         {
             dir = Projectile.velocity.X > 0 ? 1 : -1;
+            if (Projectile.Center.Y >= Main.LocalPlayer.Center.Y + 100)
+                Projectile.velocity.Y -= (Projectile.Center.Y - Main.LocalPlayer.Center.Y) * 0.035f;
         }
         public override void AI()
         {
@@ -769,6 +804,127 @@ namespace EbonianMod.NPCs.Garbage
             }
         }
     }
+    public class Mailbox : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Type] = 2;
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 30;
+            Projectile.height = 44;
+            Projectile.friendly = false;
+            Projectile.tileCollide = false;
+            Projectile.hostile = true;
+            Projectile.aiStyle = -1;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 200;
+            Projectile.scale = 0;
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = TextureAssets.Projectile[Type].Value;
+            float scale = Math.Clamp(MathHelper.Lerp(0, 1, Projectile.scale * 2), 0, 1);
+            Rectangle frame = new Rectangle(0, Projectile.frame * 46, 30, 46);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, new Vector2(tex.Width / 2, Projectile.height), new Vector2(Projectile.scale, 1), SpriteEffects.None, 0);
+            return false;
+        }
+        public override void AI()
+        {
+            if (Projectile.ai[0] == 0)
+            {
+                Projectile.Center = Helper.TRay.Cast(Projectile.Center, Vector2.UnitY, 1000) - new Vector2(0, 44);
+                Projectile.ai[0] = 1;
+            }
+            if (Projectile.timeLeft == 150)
+                Projectile.NewProjectileDirect(NPC.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CircleTelegraph>(), 0, 0);
+            if (Projectile.timeLeft == 100)
+            {
+                Projectile.frame = 1;
+                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center) * 10, ModContent.ProjectileType<Pipebomb>(), Projectile.damage, 0, Projectile.owner);
+            }
+
+            float progress = Utils.GetLerpValue(0, 200, Projectile.timeLeft);
+            Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
+        }
+    }
+    public class Garbage : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Type] = 2;
+        }
+        public override void SetDefaults()
+        {
+            Projectile.aiStyle = -1;
+            Projectile.width = 22;
+            Projectile.timeLeft = 500;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.height = 24;
+        }
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+        {
+            if (Projectile.Center.Y >= Main.LocalPlayer.Center.Y - 100)
+                fallThrough = false;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (Projectile.frame == 0 && Projectile.timeLeft > 100)
+                Projectile.timeLeft = 100;
+            Projectile.velocity = Vector2.Zero;
+            Projectile.frame = 1;
+            return false;
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
+        }
+        public override void AI()
+        {
+            Projectile.velocity *= 1.025f;
+            if (Projectile.frame == 0)
+                Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            else
+                Projectile.rotation = 0;
+
+        }
+    }
+    public class Pipebomb : ModProjectile
+    {
+        public override void SetDefaults()
+        {
+            Projectile.aiStyle = 14;
+            AIType = ProjectileID.StickyGlowstick;
+            Projectile.width = 18;
+            Projectile.timeLeft = 100;
+            Projectile.height = 36;
+        }
+        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
+        {
+            if (Projectile.Center.Y >= Main.LocalPlayer.Center.Y - 100)
+                fallThrough = false;
+            return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White;
+        }
+        public override void AI()
+        {
+            if (Projectile.timeLeft == 30)
+            {
+                Projectile.NewProjectileDirect(NPC.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CircleTelegraph>(), 0, 0);
+                Projectile.velocity = Vector2.Zero;
+            }
+        }
+        public override void Kill(int timeLeft)
+        {
+            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GenericExplosion>(), Projectile.damage, 0, Projectile.owner);
+        }
+    }
     public class HotGarbageNuke : ModProjectile
     {
         public override void SetStaticDefaults()
@@ -801,8 +957,8 @@ namespace EbonianMod.NPCs.Garbage
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             string strin = "" + (int)(Projectile.ai[1] / 60);
-            if (Projectile.ai[1] < 181)
-                strin = "";
+            if (extraString != "")
+                strin = "NUKE ACTIVATING IN: ";
             DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, extraString + strin, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString((extraString + strin).ToString()).X / 2, Main.screenHeight * 0.05f), Color.Maroon);
         }
         string extraString = "NUKE ACTIVATING IN: ";
@@ -817,12 +973,14 @@ namespace EbonianMod.NPCs.Garbage
         }
         public override void Kill(int timeLeft)
         {
+            SoundEngine.PlaySound(new Terraria.Audio.SoundStyle("EbonianMod/Sounds/Nuke"));
             foreach (Player player in Main.player)
             {
                 if (player.active && player.Center.Distance(targetPos) < 4500 / 2)
                     player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " advocated for the legalization of nuclear bombs."), 999999, 0);
             }
-            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScreenFlash>(), 0, 0);
+            EbonianMod.FlashAlpha = 1;
+            //Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScreenFlash>(), 0, 0);
         }
         public override void AI()
         {

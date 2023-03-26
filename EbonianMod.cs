@@ -15,6 +15,7 @@ using EbonianMod.Projectiles.Terrortoma;
 using EbonianMod.Projectiles.VFXProjectiles;
 using ReLogic.Graphics;
 using EbonianMod.Misc;
+using EbonianMod.Projectiles.Exol;
 
 namespace EbonianMod
 {
@@ -70,17 +71,29 @@ namespace EbonianMod
             orig(self, iNPCIndex, behindTiles);
             foreach (Projectile projectile in Main.projectile)
             {
-                if (projectile.active && (projectile.type == ModContent.ProjectileType<TExplosion>() || projectile.type == ModContent.ProjectileType<ScreenFlash>()))
+                if (projectile.active && (projectile.type == ModContent.ProjectileType<TExplosion>()/* || projectile.type == ModContent.ProjectileType<ScreenFlash>()*/))
                 {
                     Color color = Color.White;
                     projectile.ModProjectile.PreDraw(ref color);
                 }
+            }
+            if (FlashAlpha > 0)
+            {
+                Main.spriteBatch.Draw(Helper.GetExtraTexture("Line"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * FlashAlpha * 2);
             }
         }
 
         public void DrawBehindTilesAndWalls(On.Terraria.Main.orig_DrawBG orig, global::Terraria.Main self)
         {
             orig(self);
+            foreach (Projectile projectile in Main.projectile)
+            {
+                if (projectile.active && (projectile.type == ModContent.ProjectileType<EBoulder>() || projectile.type == ModContent.ProjectileType<EBoulder2>()))
+                {
+                    Color color = Color.White;
+                    projectile.ModProjectile.PreDraw(ref color);
+                }
+            }
             sys.DrawParticles();
         }
         public override void Unload()
@@ -119,6 +132,7 @@ namespace EbonianMod
         }
 
         public static int ExolID = ModContent.NPCType<Exol>();
+        public static float FlashAlpha;
         private void FilterManager_EndCapture(On.Terraria.Graphics.Effects.FilterManager.orig_EndCapture orig, Terraria.Graphics.Effects.FilterManager self, RenderTarget2D finalTexture, RenderTarget2D screenTarget1, RenderTarget2D screenTarget2, Color clearColor)
         {
             GraphicsDevice gd = Main.instance.GraphicsDevice;
@@ -131,9 +145,13 @@ namespace EbonianMod
             GenericAdditiveDust.DrawAll(sb);
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            if (FlashAlpha > 0)
+            {
+                Main.spriteBatch.Draw(Helper.GetExtraTexture("Line"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * FlashAlpha * 2);
+            }
             foreach (Projectile projectile in Main.projectile)
             {
-                if (projectile.active && (projectile.type == ModContent.ProjectileType<TExplosion>() || projectile.type == ModContent.ProjectileType<ScreenFlash>()))
+                if (projectile.active && (projectile.type == ModContent.ProjectileType<TExplosion>()))// || projectile.type == ModContent.ProjectileType<ScreenFlash>()))
                 {
                     Color color = Color.White;
                     projectile.ModProjectile.PreDraw(ref color);

@@ -58,6 +58,8 @@ namespace EbonianMod
         public override void ModifyScreenPosition()
         {
             Player player = Main.LocalPlayer;
+            if (EbonianMod.FlashAlpha > 0)
+                EbonianMod.FlashAlpha -= 0.01f;
             if (!isChangingCameraPos)
             {
                 zoomBefore = Main.GameZoomTarget;
