@@ -20,6 +20,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Projectile.width = 300;
             Projectile.hostile = true;
             Projectile.friendly = false;
+            Projectile.tileCollide = false;
             Projectile.penetrate = -1;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

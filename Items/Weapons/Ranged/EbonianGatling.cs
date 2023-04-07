@@ -19,6 +19,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.shootSpeed = 8f;
             Item.rare = 2;
             Item.useStyle = 5;
+            Item.UseSound = SoundID.Item11;
             Item.useAmmo = AmmoID.Bullet;
             Item.autoReuse = true;
         }

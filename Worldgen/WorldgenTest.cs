@@ -40,7 +40,7 @@ namespace EbonianMod.Worldgen
                 int y = 0;
                 for (int it = 0; it < 13; it++)
                 {
-                    while (!Main.tile[x + it, y].HasTile)
+                    while (!Main.tile[x + it, y].HasTile || Main.tile[x + it, y].TileType == TileID.Cloud || Main.tile[x + it, y].TileType == TileID.Sunplate)
                         y++;
                 }
                 Point16 pos = new(x, y - 8);
@@ -48,7 +48,7 @@ namespace EbonianMod.Worldgen
                 StructureHelper.Generator.GenerateStructure("Worldgen/Structures/CorruptionMeteorNoNulls", pos, EbonianMod.Instance);
                 for (int ite = x; ite < x + 13; ite++)
                 {
-                    for (int iter = 0; iter < 25; iter++)
+                    for (int iter = 0; iter < 12; iter++)
                     {
                         if (Main.tile[ite, y - iter].TileType != ModContent.TileType<EbonHiveBlock>() && Main.tile[ite, y - iter].TileType != ModContent.TileType<EbonHiveBlockSpecial>() && Main.tile[ite, y - iter].TileType != ModContent.TileType<EbonHiveRock>() && Main.tile[ite, y - iter].TileType != ModContent.TileType<EbonHiveRock2>())
                             Main.tile[ite, y - iter].ClearTile();

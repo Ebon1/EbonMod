@@ -20,6 +20,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Projectile.hostile = true;
             Projectile.friendly = false;
             Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -36,7 +37,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Texture2D tex = Helper.GetExtraTexture("explosion");
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Green * alpha, Projectile.rotation, tex.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
+            for (int i = 0; i < 2; i++)
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Green * alpha, Projectile.rotation, tex.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
