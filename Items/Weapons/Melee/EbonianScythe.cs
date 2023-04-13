@@ -46,6 +46,10 @@ namespace EbonianMod.Items.Weapons.Melee
             }
             return false;
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.DemoniteBar, 20).AddTile(TileID.Anvils).Register();
+        }
     }
     public class EbonianScytheP : ModProjectile
     {

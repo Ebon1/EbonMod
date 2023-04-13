@@ -13,7 +13,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             Item.DamageType = DamageClass.Ranged;
-            Item.damage = 5;
+            Item.damage = 2;
             Item.useTime = Item.useAnimation = 5;
             Item.shoot = ModContent.ProjectileType<EbonianGatlingP>();
             Item.shootSpeed = 8f;
@@ -22,6 +22,10 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.UseSound = SoundID.Item11;
             Item.useAmmo = AmmoID.Bullet;
             Item.autoReuse = true;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.DemoniteBar, 20).AddTile(TileID.Anvils).Register();
         }
         public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextBool(2);
         public override Vector2? HoldoutOffset() => new(-10, 0);

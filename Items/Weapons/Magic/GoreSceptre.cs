@@ -33,5 +33,9 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<Projectiles.Friendly.Crimson.HeadGoreSceptre>();
             Item.shootSpeed = 14;
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.CrimtaneBar, 35).AddTile(TileID.Anvils).Register();
+        }
     }
 }

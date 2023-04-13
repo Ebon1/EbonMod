@@ -34,6 +34,17 @@ namespace EbonianMod.NPCs.Corruption
             Main.EntitySpriteDraw(tex, NPC.Center - screenPos, null, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, effects, 0);
             return false;
         }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            if (spawnInfo.Player.ZoneCorrupt)
+            {
+                return .5f;
+            }
+            else
+            {
+                return 0;
+            }
+        }
 
         public override void SetDefaults()
         {

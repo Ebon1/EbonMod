@@ -13,6 +13,8 @@ using Terraria.GameContent.Bestiary;
 using EbonianMod.Projectiles.Terrortoma;
 using EbonianMod.Projectiles;
 using System.Reflection.Metadata;
+using EbonianMod.Items.Weapons.Magic;
+using EbonianMod.Items.Weapons.Melee;
 
 namespace EbonianMod.NPCs.Terrortoma
 {
@@ -30,6 +32,11 @@ namespace EbonianMod.NPCs.Terrortoma
                 new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
                 new FlavorTextBestiaryInfoElement("The Corruption is not capable of thought and only acts based on stimulus, it created the Terrortoma from the corpses of infected creatures specifically as a defense from the creatures released from the demise of the Wall of Flesh."),
             });
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<TerrorStaff>()));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<TerrorFlail>()));
         }
         public override void SetStaticDefaults()
         {
@@ -341,6 +348,8 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else if (AIState == Intro)
             {
+                if (NPC.life < NPC.lifeMax)
+                    AITimer++;
                 isLaughing = true;
                 rotation = 0;
                 if (AITimer == 1)
@@ -353,7 +362,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 {
                     NPC.alpha -= 5;
                 }
-                if (++AITimer >= 150)
+                if (AITimer >= 150)
                 {
                     AIState = Vilethorn;
                     AITimer = 0;
@@ -825,9 +834,9 @@ namespace EbonianMod.NPCs.Terrortoma
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             Player player = Main.LocalPlayer;
-            if (player.ZoneCorrupt && NPC.downedGolemBoss && !NPC.AnyNPCs(ModContent.NPCType<Terrortoma>()))
+            if (player.ZoneCorrupt && !NPC.AnyNPCs(ModContent.NPCType<Terrortoma>()))
             {
-                return .015f;
+                return .15f;
             }
             else
             {

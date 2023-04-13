@@ -15,6 +15,10 @@ namespace EbonianMod.Items.Pets
 {
     public class Panopticon : ModItem
     {
+        public override void AddRecipes()
+        {
+            CreateRecipe().Register();
+        }
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;

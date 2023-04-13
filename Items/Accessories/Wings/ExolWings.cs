@@ -28,6 +28,10 @@ namespace EbonianMod.Items.Accessories.Wings
             Item.accessory = true;
             Item.expert = true;
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.HellstoneBar, 20).AddTile(TileID.MythrilAnvil).Register();
+        }
         public override void UpdateVanity(Player player)
         {
             Lighting.AddLight(player.Center, TorchID.Torch);

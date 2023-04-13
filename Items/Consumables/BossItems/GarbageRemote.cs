@@ -34,6 +34,10 @@ namespace EbonianMod.Items.Consumables.BossItems
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe().Register();
+        }
 
         public override bool CanUseItem(Player player)
         {

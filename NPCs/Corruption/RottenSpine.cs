@@ -29,6 +29,17 @@ namespace EbonianMod.NPCs.Corruption
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
         }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            if (spawnInfo.Player.ZoneCorrupt && Main.hardMode)
+            {
+                return .15f;
+            }
+            else
+            {
+                return 0;
+            }
+        }
 
         public override void OnKill()
         {

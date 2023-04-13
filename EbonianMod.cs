@@ -125,10 +125,11 @@ namespace EbonianMod
         }
         public void CreateRender()
         {
-            Main.QueueMainThreadAction(() =>
-            {
-                render = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-            });
+            if (Main.netMode != NetmodeID.Server)
+                Main.QueueMainThreadAction(() =>
+                {
+                    render = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                });
         }
 
         public static int ExolID = ModContent.NPCType<Exol>();
@@ -167,33 +168,35 @@ namespace EbonianMod
             }*/
             sb.End();
             #region "ripple"
-            gd.SetRenderTarget(render);
-            gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
-            sb.End();
-            gd.SetRenderTarget(Main.screenTargetSwap);
-            gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-            foreach (Projectile projectile in Main.projectile)
+            if (Main.netMode != NetmodeID.Server)
             {
-                if (projectile.active && projectile.type == ModContent.ProjectileType<Projectiles.Ripple>())
+                gd.SetRenderTarget(render);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
+                sb.End();
+                gd.SetRenderTarget(Main.screenTargetSwap);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                foreach (Projectile projectile in Main.projectile)
                 {
-                    Texture2D a = TextureAssets.Projectile[projectile.type].Value;
-                    Main.spriteBatch.Draw(a, projectile.Center - Main.screenPosition, null, Color.White, 0, a.Size() / 2, projectile.ai[0], SpriteEffects.None, 0f);
+                    if (projectile.active && projectile.type == ModContent.ProjectileType<Projectiles.Ripple>())
+                    {
+                        Texture2D a = TextureAssets.Projectile[projectile.type].Value;
+                        Main.spriteBatch.Draw(a, projectile.Center - Main.screenPosition, null, Color.White, 0, a.Size() / 2, projectile.ai[0], SpriteEffects.None, 0f);
+                    }
                 }
+                sb.End();
+                gd.SetRenderTarget(Main.screenTarget);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                Test2.CurrentTechnique.Passes[0].Apply();
+                Test2.Parameters["tex0"].SetValue(Main.screenTargetSwap);
+                Test2.Parameters["i"].SetValue(0.02f);
+                sb.Draw(render, Vector2.Zero, Color.White);
+                sb.End();
+
             }
-            sb.End();
-            gd.SetRenderTarget(Main.screenTarget);
-            gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            Test2.CurrentTechnique.Passes[0].Apply();
-            Test2.Parameters["tex0"].SetValue(Main.screenTargetSwap);
-            Test2.Parameters["i"].SetValue(0.02f);
-            sb.Draw(render, Vector2.Zero, Color.White);
-            sb.End();
-
-
             #endregion
             orig(self, finalTexture, screenTarget1, screenTarget2, clearColor);
         }

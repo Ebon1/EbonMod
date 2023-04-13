@@ -34,6 +34,10 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<EbonianGunP>();
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.DemoniteBar, 20).AddTile(TileID.Anvils).Register();
+        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Demonite Blaster");

@@ -34,6 +34,10 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.shootSpeed = 14;
             Item.useAmmo = AmmoID.Rocket;
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.DemoniteBar, 20).AddTile(TileID.MythrilAnvil).Register();
+        }
         public override Vector2? HoldoutOffset() => new Vector2(-6, 0);
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

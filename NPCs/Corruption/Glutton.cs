@@ -40,8 +40,8 @@ namespace EbonianMod.NPCs.Corruption
             NPC.width = 150;
             NPC.height = 150;
             NPC.damage = 0;
-            NPC.defense = 15;
-            NPC.lifeMax = 1000;
+            NPC.defense = 5;
+            NPC.lifeMax = 400;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath2;
             NPC.value = 60f;
@@ -79,6 +79,17 @@ namespace EbonianMod.NPCs.Corruption
                             NPC.frame.Y = 0;
                     }
                 }
+            }
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            if (spawnInfo.Player.ZoneCorrupt)
+            {
+                return .05f;
+            }
+            else
+            {
+                return 0;
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color lightColor)

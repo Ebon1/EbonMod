@@ -15,11 +15,21 @@ using System;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 using EbonianMod.NPCs.Garbage;
+using EbonianMod.Items.Weapons.Magic;
 
 namespace EbonianMod.NPCs
 {
     public class ModGlobalNPC : GlobalNPC
     {
+        public override void SetupShop(int type, Chest shop, ref int nextSlot)
+        {
+            if (type == NPCID.Merchant)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<PepperSpray>());
+                nextSlot++;
+
+            }
+        }
         public override bool InstancePerEntity => true;
         public bool stunned;
         public override void ResetEffects(NPC npc)

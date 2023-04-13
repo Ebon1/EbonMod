@@ -25,6 +25,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.useTime = 5;
             Item.useAnimation = 10;
             Item.useStyle = 5;
+            Item.value = Item.buyPrice(0, 1);
             Item.noMelee = true;
             Item.knockBack = 4;
             Item.value = 0;
