@@ -72,7 +72,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override string Texture => Helper.Empty;
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 50;
+            ProjectileID.Sets.TrailCacheLength[Type] = 10;
             ProjectileID.Sets.TrailingMode[Type] = 0;
         }
         public override bool PreDraw(ref Color lightColor)
@@ -127,14 +127,11 @@ namespace EbonianMod.Items.Weapons.Ranged
             {
                 if (alpha > 0)
                     alpha -= 0.025f;
-                Projectile.velocity *= 0.5f;
-                Projectile.aiStyle = -1;
+                //Projectile.velocity *= 0.5f;
+                //Projectile.aiStyle = -1;
             }
-            else
-            {
-                if (initCenter != Vector2.Zero)
-                    Projectile.SineMovement(initCenter, initVel, 0.15f, 60);
-            }
+            if (initCenter != Vector2.Zero)
+                Projectile.SineMovement(initCenter, initVel, 0.15f, 60);
 
         }
     }

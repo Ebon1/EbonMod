@@ -46,7 +46,6 @@ namespace EbonianMod.Projectiles.Friendly
     }
     public class BloodBullet : ModProjectile
     {
-        public override string Texture => "EbonianMod/Extras/EbonianGatlingBullet";
         public override void SetDefaults()
         {
             Projectile.friendly = true;
@@ -56,7 +55,7 @@ namespace EbonianMod.Projectiles.Friendly
             Projectile.timeLeft = 500;
             Projectile.Size = new(30, 10);
         }
-        public override bool PreDraw(ref Color lightColor)
+        /*public override bool PreDraw(ref Color lightColor)
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
             spriteBatch.Reload(BlendState.Additive);
@@ -64,8 +63,9 @@ namespace EbonianMod.Projectiles.Friendly
             for (int i = 0; i < 3; i++)
                 spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.DarkRed, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
             spriteBatch.Reload(BlendState.AlphaBlend);
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Black, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
             return false;
-        }
+        }*/
         public override void AI()
         {
             if (Projectile.timeLeft % 5 == 0)
@@ -84,7 +84,7 @@ namespace EbonianMod.Projectiles.Friendly
             Projectile.tileCollide = true;
             Projectile.aiStyle = 0;
             Projectile.timeLeft = 500;
-            Projectile.tileCollide = false;
+            Projectile.tileCollide = true;
             Projectile.penetrate = -1;
             Projectile.Size = new(48, 48);
         }
@@ -95,6 +95,11 @@ namespace EbonianMod.Projectiles.Friendly
             Texture2D tex = Helper.GetExtraTexture("explosion");
             spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Gold, Projectile.rotation, tex.Size() / 2, Projectile.scale * 0.1f, SpriteEffects.None, 0);
             spriteBatch.Reload(BlendState.AlphaBlend);
+            return false;
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            Projectile.velocity = new Vector2(Projectile.velocity.X, -oldVelocity.Y);
             return false;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

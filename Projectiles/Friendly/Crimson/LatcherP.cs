@@ -62,6 +62,8 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             if (Projectile.ai[1] == 1)
             {
                 player.velocity = Helper.FromAToB(player.Center, Projectile.Center) * 10;
+                if (player.Center.Distance(Projectile.Center) < 50)
+                    Projectile.Kill();
             }
             else if (Projectile.ai[1] == 2)
             {
@@ -80,7 +82,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             else
             {
                 if (Projectile.timeLeft < 100)
-                    Projectile.Center = Vector2.Lerp(Projectile.Center, player.Center, 0.05f);
+                    Projectile.Center = Vector2.Lerp(Projectile.Center, player.Center, 0.1f);
             }
         }
         public override bool PreDraw(ref Color lightColor)
