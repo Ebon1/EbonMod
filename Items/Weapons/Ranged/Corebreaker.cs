@@ -8,6 +8,7 @@ using EbonianMod.Projectiles.Friendly.Corruption;
 using Terraria.DataStructures;
 using EbonianMod.Projectiles.Exol;
 using EbonianMod.Projectiles.VFXProjectiles;
+using Terraria.Audio;
 
 namespace EbonianMod.Items.Weapons.Ranged
 {
@@ -81,6 +82,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         }
         public override void Kill(int timeLeft)
         {
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GenericExplosion>(), Projectile.damage * 2, 0);
             a.friendly = true;
             a.hostile = false;

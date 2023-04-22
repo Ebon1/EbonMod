@@ -102,6 +102,8 @@ namespace EbonianMod.Items.Weapons.Magic
                     Vector2 newMove = Main.npc[k].Center - Projectile.Center;
                     float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
                     if (distanceTo < 400)
+                        Projectile.ai[1] = 5;
+                    else if (distanceTo < 800)
                         Projectile.ai[1] = 10;
                     else
                         Projectile.ai[1] = 20;
@@ -115,7 +117,7 @@ namespace EbonianMod.Items.Weapons.Magic
             }
             if (Projectile.timeLeft < 50)
             {
-                if (target)
+                if (target && Projectile.ai[0] == 0)
                 {
                     Projectile.timeLeft = 2;
                     AdjustMagnitude(ref move);
@@ -123,7 +125,11 @@ namespace EbonianMod.Items.Weapons.Magic
                     AdjustMagnitude(ref Projectile.velocity);
                 }
                 else
+                {
+                    Projectile.ai[0] = 1;
+                    alpha2 -= 0.02f;
                     Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(3));
+                }
             }
             if (Projectile.timeLeft > 50)
                 Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(3));

@@ -12,6 +12,7 @@ using EbonianMod.Projectiles.Terrortoma;
 using Terraria.GameContent;
 using EbonianMod.NPCs.Garbage;
 using EbonianMod.Projectiles.Exol;
+using IL.Terraria.Graphics;
 
 namespace EbonianMod.Items.Weapons.Melee
 {
@@ -49,9 +50,9 @@ namespace EbonianMod.Items.Weapons.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[Projectile.owner];
-            if (Projectile.ai[1] <= 0)
+            /*//if (Projectile.ai[1] <= 0)
             {
-                Projectile.ai[1] = 100;
+                //Projectile.ai[1] = 100;
                 target.AddBuff(BuffID.OnFire, 100);
                 Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), player.Center, Vector2.UnitX * Projectile.direction * 0.25f, ModContent.ProjectileType<EFireBreath2>(), damage, knockback, Projectile.owner);
                 a.friendly = true;
@@ -59,6 +60,13 @@ namespace EbonianMod.Items.Weapons.Melee
                 a.localAI[0] = 200;
                 a.localAI[1] = 3;
                 a.scale = 0.25f;
+            }*/
+            if (Projectile.ai[0] > 0)
+                target.StrikeNPC((int)(damage + damage * 2 * (Projectile.ai[0] / 5)), knockback, 0);
+            if (Projectile.ai[0] < 4 && Projectile.ai[1] <= 0)
+            {
+                Projectile.ai[1] = 100;
+                Projectile.ai[0]++;
             }
         }
         public override void SetStaticDefaults()
@@ -79,20 +87,32 @@ namespace EbonianMod.Items.Weapons.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = TextureAssets.Projectile[Type].Value;
+            Texture2D tex2 = Helper.GetTexture("Items/Weapons/Melee/IgnosP_Glow");
+            Texture2D tex3 = Helper.GetExtraTexture("explosion");
             SpriteEffects effects = SpriteEffects.None;
             if (Projectile.timeLeft < 15)
+            {
                 Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 128, Projectile.width, 128), Color.White, Projectile.rotation, Projectile.Size / 2, Projectile.scale, effects, 0);
+                //Main.spriteBatch.Reload(EbonianMod.HorizBlur);
+                //Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 128, Projectile.width, 128), Color.OrangeRed * (Projectile.ai[0] / 5), Projectile.rotation, Projectile.Size / 2, Projectile.scale, effects, 0);
+                //Main.spriteBatch.Reload(effect: null);
+                Main.spriteBatch.Reload(BlendState.Additive);
+                //Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * (Projectile.ai[0] / 5) * 0.5f, Projectile.rotation, tex3.Size() / 2, Projectile.scale * 0.25f, effects, 0);
+                Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 128, Projectile.width, 128), Color.OrangeRed * (Projectile.ai[0] / 5), Projectile.rotation, Projectile.Size / 2, Projectile.scale, effects, 0);
+                Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            }
             return false;
-        }
-        public override void OnSpawn(IEntitySource source)
-        {
-            Projectile.ai[0] = 1;
         }
         public override void AI()
         {
             Projectile.ai[1]--;
+            if (Projectile.ai[1] < -100 && Projectile.ai[0] > 0)
+            {
+                Projectile.ai[1] = 0;
+                Projectile.ai[0]--;
+            }
             Lighting.AddLight(Projectile.Center, TorchID.Orange);
-            if (++Projectile.frameCounter >= 3)
+            if (++Projectile.frameCounter >= 4 - Projectile.ai[0])
             {
                 Projectile.frameCounter = 0;
                 if (++Projectile.frame >= 15)
