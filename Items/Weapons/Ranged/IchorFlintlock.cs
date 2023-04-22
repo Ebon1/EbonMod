@@ -82,6 +82,8 @@ namespace EbonianMod.Items.Weapons.Ranged
                 if (Projectile.ai[1] == 5)
                 {
                     Projectile.ai[1] = 0;
+                    for (int i = 0; i < 15; i++)
+                        Dust.NewDustPerfect(Projectile.Center, DustID.IchorTorch, Projectile.velocity * Main.rand.NextFloat(1, 5f) + new Vector2(0, Main.rand.NextFloat(-5, -5f)).RotatedBy(Projectile.velocity.ToRotation()));
                     SoundEngine.PlaySound(SoundID.Item92);
                     Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity * 10, ModContent.ProjectileType<IchorBlast>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
                 }

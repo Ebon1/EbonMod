@@ -25,6 +25,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<LatcherP>();
             Item.DamageType = DamageClass.Magic;
             Item.mana = 25;
+            Item.shootSpeed = 20;
         }
         public override bool CanUseItem(Player player)
         {

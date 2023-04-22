@@ -69,8 +69,8 @@ namespace EbonianMod.Items.Weapons.Melee
             Texture2D slash = Helper.GetExtraTexture("Extras2/slash_02");
             float mult = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
             float alpha = (float)Math.Sin(mult * Math.PI);
-            Vector2 pos = player.Center + Projectile.velocity * (35f - mult * 35f);
-            Main.spriteBatch.Draw(slash, pos - Main.screenPosition, null, new Color(152, 187, 63) * alpha * 0.5f, Projectile.velocity.ToRotation() - MathHelper.PiOver2, slash.Size() / 2, Projectile.scale / 2.8f, SpriteEffects.None, 0f);
+            Vector2 pos = player.Center + Projectile.velocity * 25f;
+            Main.spriteBatch.Draw(slash, pos - Main.screenPosition, null, new Color(152, 187, 63) * alpha * 0.5f, Projectile.velocity.ToRotation() - MathHelper.PiOver2, slash.Size() / 2, Projectile.scale / 3f, SpriteEffects.None, 0f);
         }
     }
 }

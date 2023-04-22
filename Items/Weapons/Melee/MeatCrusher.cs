@@ -23,8 +23,8 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.width = Item.height = 80;
             Item.crit = 30;
             Item.damage = 50;
-            Item.useAnimation = 30;
-            Item.useTime = 30;
+            Item.useAnimation = 40;
+            Item.useTime = 40;
             Item.noUseGraphic = false;
             Item.autoReuse = false;
             Item.DamageType = DamageClass.Melee;
@@ -34,6 +34,8 @@ namespace EbonianMod.Items.Weapons.Melee
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
+            player.itemAnimation -= 5;
+            player.itemTime -= 5;
             EbonianSystem.ScreenShakeAmount = 2;
             for (int i = 0; i < 3; i++)
             {

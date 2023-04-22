@@ -45,7 +45,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             if (player.itemAnimation < 15)
                 for (int i = 0; i < 3; i++)
                 {
-                    Projectile.NewProjectile(source, position, velocity + new Vector2(0, Main.rand.NextFloat(-5, 5)).RotatedBy(velocity.ToRotation()), ProjectileID.ToxicBubble, damage, knockback, player.whoAmI);
+                    Projectile.NewProjectile(source, position, velocity * 0.5f + new Vector2(0, Main.rand.NextFloat(-5, 5)).RotatedBy(velocity.ToRotation()), ProjectileID.ToxicBubble, damage, knockback, player.whoAmI);
                 }
             else
                 Projectile.NewProjectile(source, position, velocity * 2, ModContent.ProjectileType<WeakCursedBullet>(), damage, knockback, player.whoAmI);

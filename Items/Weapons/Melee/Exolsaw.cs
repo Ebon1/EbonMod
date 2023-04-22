@@ -41,17 +41,38 @@ namespace EbonianMod.Items.Weapons.Melee
         {
             Projectile.width = 42;
             Projectile.height = 42;
-            Projectile.aiStyle = 3;
+            Projectile.aiStyle = -1;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
+
+        }
+        public override void AI()
+        {
+            Projectile.rotation += MathHelper.ToRadians(15);
+
+            //Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(3));
+            Player player = Main.player[Projectile.owner];
+            if (player.active)
+            {
+                Projectile.timeLeft = 2;
+                Projectile.ai[0]++;
+                if (Projectile.ai[0] < 30)
+                    Projectile.velocity *= 1.02f;
+                if (Projectile.ai[0] > 30 && Projectile.ai[0] < 50)
+                    Projectile.velocity *= 0.86f;
+                if (Projectile.ai[0] > 50)
+                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, player.Center) * 30f, 0.1f);
+                if (Projectile.ai[0] > 50 && Projectile.Center.Distance(player.Center) < 50)
+                    Projectile.Kill();
+            }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (crit)
             {
-                Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GenericExplosion>(), 20, 0);
+                Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileID.DaybreakExplosion, 20, 0);
                 a.hostile = true;
                 a.friendly = false;
             }

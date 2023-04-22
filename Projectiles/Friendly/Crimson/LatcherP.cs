@@ -61,7 +61,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                 Projectile.Kill();
             if (Projectile.ai[1] == 1)
             {
-                player.velocity = Helper.FromAToB(player.Center, Projectile.Center) * 10;
+                player.velocity = Helper.FromAToB(player.Center, Projectile.Center) * 20;
                 if (player.Center.Distance(Projectile.Center) < 50)
                     Projectile.Kill();
             }
@@ -74,7 +74,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                     if (npc.knockBackResist == 0f)
                         player.velocity = Helper.FromAToB(player.Center, Projectile.Center) * 10;
                     else
-                        npc.velocity = Helper.FromAToB(npc.Center, player.Center) * 10;
+                        npc.velocity = Helper.FromAToB(npc.Center, player.Center) * 20;
                 }
                 else
                     Projectile.Kill();
