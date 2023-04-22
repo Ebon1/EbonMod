@@ -28,6 +28,7 @@ namespace EbonianMod
         public static BGParticleSys sys;
         public override void Load()
         {
+
             sys = new();
             Instance = this;
             Test1 = ModContent.Request<Effect>("EbonianMod/Effects/Test1", (AssetRequestMode)1).Value;

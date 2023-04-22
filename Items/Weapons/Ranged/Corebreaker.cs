@@ -9,6 +9,7 @@ using Terraria.DataStructures;
 using EbonianMod.Projectiles.Exol;
 using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.Audio;
+using EbonianMod.Projectiles.Friendly.Underworld;
 
 namespace EbonianMod.Items.Weapons.Ranged
 {
@@ -58,37 +59,13 @@ namespace EbonianMod.Items.Weapons.Ranged
                 a.scale = 1;
 
             }*/
-            Projectile a = Projectile.NewProjectileDirect(Item.InheritSource(Item), position, velocity, ModContent.ProjectileType<EFireBreath2>(), damage, knockback, player.whoAmI);
+            Projectile a = Projectile.NewProjectileDirect(Terraria.Entity.InheritSource(Item), position, velocity, ModContent.ProjectileType<EFireBreath2>(), damage, knockback, player.whoAmI);
             a.friendly = true;
             a.hostile = false;
             a.localAI[0] = 400;
             a.localAI[1] = 2;
             a.scale = 1;
             return false;
-        }
-    }
-    public class CorebreakerP : ModProjectile
-    {
-        public override void SetDefaults()
-        {
-            Projectile.Size = new Vector2(30);
-            Projectile.friendly = true;
-            Projectile.hostile = false;
-            Projectile.aiStyle = 2;
-        }
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return Color.White;
-        }
-        public override void Kill(int timeLeft)
-        {
-            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-            Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GenericExplosion>(), Projectile.damage * 2, 0);
-            a.friendly = true;
-            a.hostile = false;
-        }
-        public override void AI()
-        {
         }
     }
 }

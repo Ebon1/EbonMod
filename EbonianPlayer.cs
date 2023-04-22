@@ -31,6 +31,7 @@ namespace EbonianMod
             heartAcc = false;
             ToxicGland = false;
         }
+
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource, ref int cooldownCounter)
         {
             if (NPC.AnyNPCs(ModContent.NPCType<TinyBrain>()))

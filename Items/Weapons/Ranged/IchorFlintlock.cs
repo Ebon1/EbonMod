@@ -12,7 +12,7 @@ using EbonianMod.Projectiles.Friendly;
 
 namespace EbonianMod.Items.Weapons.Ranged
 {
-    public class EbonianGun : ModItem
+    public class IchorFlintlock : ModItem
     {
         public override void SetDefaults()
         {
@@ -20,7 +20,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.width = 48;
             Item.height = 66;
             Item.crit = 45;
-            Item.damage = 5;
+            Item.damage = 10;
             Item.useAnimation = 32;
             Item.useTime = 32;
             Item.noUseGraphic = true;
@@ -33,7 +33,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<EbonianGunP>();
+            Item.shoot = ModContent.ProjectileType<IchorFlintlockP>();
         }
         public override void AddRecipes()
         {
@@ -41,13 +41,13 @@ namespace EbonianMod.Items.Weapons.Ranged
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Demonite Blaster");
-            //Tooltip.SetDefault("");
+            DisplayName.SetDefault("FLINTLOCK BUT IT HAS ICHOR!");
+            Tooltip.SetDefault("If you keep attacking, the 5th bullet will be turned into a piercing ichor orb that decreases enemies' defense for a short while.");
         }
     }
-    public class EbonianGunP : ModProjectile
+    public class IchorFlintlockP : ModProjectile
     {
-        public override string Texture => "EbonianMod/Items/Weapons/Ranged/EbonianGun";
+        public override string Texture => "EbonianMod/Items/Weapons/Ranged/IchorFlintlock";
         public virtual float Ease(float f)
         {
             return 1 - (float)Math.Pow(2, 10 * f - 10);
@@ -66,7 +66,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.timeLeft = 15;
+            Projectile.timeLeft = 20;
             holdOffset = 22;
         }
         public override void AI()
@@ -77,12 +77,21 @@ namespace EbonianMod.Items.Weapons.Ranged
                 return;
             }
             float progress = Ease(Utils.GetLerpValue(0f, 15, Projectile.timeLeft));
-            if (Projectile.timeLeft == 14)
+            if (Projectile.timeLeft == 19)
             {
-                SoundEngine.PlaySound(SoundID.Item11);
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity * 20, ModContent.ProjectileType<WeakCursedBullet>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                if (Projectile.ai[1] == 5)
+                {
+                    Projectile.ai[1] = 0;
+                    SoundEngine.PlaySound(SoundID.Item92);
+                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity * 10, ModContent.ProjectileType<IchorBlast>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
+                }
+                else
+                {
+                    SoundEngine.PlaySound(SoundID.Item11);
+                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity * 20, ModContent.ProjectileType<BloodBullet>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                }
             }
-            if (Projectile.timeLeft > 10)
+            if (Projectile.timeLeft > 15)
             {
                 holdOffset--;
                 if (Projectile.direction == -1)
@@ -133,7 +142,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                 if (player.whoAmI == Main.myPlayer)
                 {
                     Vector2 dir = Vector2.Normalize(Main.MouseWorld - player.Center);
-                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, 0);
+                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, 0, Projectile.ai[1] + 1);
                     proj.rotation = Projectile.rotation;
                     proj.Center = Projectile.Center;
                 }
