@@ -19,6 +19,7 @@ using EbonianMod.Dusts;
 using EbonianMod.Projectiles.Exol;
 using System.Net.Http.Headers;
 using EbonianMod.NPCs.Corruption;
+using System.IO;
 
 namespace EbonianMod.NPCs.Exol
 {
@@ -86,18 +87,23 @@ namespace EbonianMod.NPCs.Exol
                 spriteBatch.Reload(BlendState.AlphaBlend);
                 Vector2 ogEyePos = NPC.Center + new Vector2(4, 5);
                 Vector2 eyePos = ogEyePos;
-                Vector2 fromTo = Helper.FromAToB(ogEyePos, player.Center);
-                float dist = MathHelper.Clamp(Helper.FromAToB(ogEyePos, player.Center, false).Length() * 0.1f, 0, 11);
-                float distY = MathHelper.Clamp(Helper.FromAToB(ogEyePos, player.Center, false).Length() * 0.1f, 0, 2);
+                Vector2 fromTo = Helper.FromAToB(ogEyePos, pointOfInterest);
+
+                //forced point of interest, remove later once ai is finished.
                 if (AIState != Death)
+                    pointOfInterest = player.Center;
+
+                float dist = MathHelper.Clamp(Helper.FromAToB(ogEyePos, pointOfInterest, false).Length() * 0.1f, 0, 11);
+                float distY = MathHelper.Clamp(Helper.FromAToB(ogEyePos, pointOfInterest, false).Length() * 0.1f, 0, 2);
+                //if (AIState != Death)
                 {
                     eyePos.X += dist * fromTo.X;
                     eyePos.Y += distY * fromTo.Y;
                 }
-                else
+                /*else
                 {
                     eyePos += new Vector2(Main.rand.NextFloat(-11, 11), Main.rand.NextFloat(-2, 2));
-                }
+                }*/
                 Main.EntitySpriteDraw(d, eyePos - Main.screenPosition, null, Color.White, NPC.rotation, d.Size() / 2, 1, SpriteEffects.None, 0);
             }
             if (AIState == Death)
@@ -114,6 +120,15 @@ namespace EbonianMod.NPCs.Exol
         }
         float deathAlpha;
         bool ded;
+        Vector2 pointOfInterest;
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.WriteVector2(pointOfInterest);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            pointOfInterest = reader.ReadVector2();
+        }
         public override bool CheckDead()
         {
             if (NPC.life <= 0 && !ded)
@@ -210,6 +225,19 @@ namespace EbonianMod.NPCs.Exol
                     //Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<ScreenFlash>(), 0, 0);
                     //a.ai[0] = 1;
                 }
+                if (AITimer < 40)
+                {
+                    pointOfInterest = NPC.Center;
+                }
+                else if (AITimer < 150 & AITimer > 40)
+                {
+                    pointOfInterest = NPC.Center + Main.rand.NextVector2CircularEdge(250, 250);
+                }
+                else
+                {
+
+                    pointOfInterest = NPC.Center + Vector2.UnitY * 100;
+                }
                 if (AITimer > 212)
                 {
                     NPC.hide = true;
@@ -227,7 +255,8 @@ namespace EbonianMod.NPCs.Exol
                         deathAlpha += 0.005f;
                     if (Main.rand.NextBool(deathAlpha < 0.5 ? 5 : 2) && !NPC.hide)
                     {
-                        Dust a = Dust.NewDustPerfect(NPC.Center + new Vector2(Main.rand.NextFloat(-NPC.width / 3, NPC.width / 3), 0), ModContent.DustType<GenericAdditiveDust>(), new Vector2(Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(25, 30)), newColor: Color.Gold * deathAlpha, Scale: 0.1f);
+                        Vector2 pos = NPC.Center + 300 * Main.rand.NextVector2Unit();
+                        Dust a = Dust.NewDustPerfect(pos, ModContent.DustType<GenericAdditiveDust>(), Helper.FromAToB(pos, NPC.Center) * Main.rand.NextFloat(10, 20), newColor: Color.Gold * deathAlpha, Scale: Main.rand.NextFloat(0.15f, 0.35f));
                         a.noGravity = false;
                         a.customData = 1;
                     }

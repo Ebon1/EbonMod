@@ -22,6 +22,7 @@ using EbonianMod.Projectiles;
 using XPT.Core.Audio.MP3Sharp.Decoding.Decoders.LayerIII;
 using Terraria.Graphics.Shaders;
 using System.ComponentModel;
+using static tModPorter.ProgressUpdate;
 
 namespace EbonianMod
 {
@@ -620,11 +621,18 @@ namespace EbonianMod
             var player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
             if (player.bossTextProgress > 0)
             {
+                float progress = Utils.GetLerpValue(0, player.bossMaxProgress, player.bossTextProgress);
+                float alpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
                 switch (player.bossStyle)
                 {
+                    case -2:
+                        string something = GetBossText();
+                        Main.spriteBatch.Draw(GetExtraTexture("textGlow"), new Vector2(Main.screenWidth / 2, Main.screenHeight * 0.2f), null, Color.Black * alpha, 0, GetExtraTexture("textGlow").Size() / 2, 10f, SpriteEffects.None, 0);
+                        if (player.bossTitle != null)
+                            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, something, new Vector2(Main.screenWidth / 2 - FontAssets.MouseText.Value.MeasureString(something).X / 2, Main.screenHeight * 0.2f), player.bossColor * alpha);
+                        DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.MouseText.Value, player.bossName, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(player.bossName).X / 2, Main.screenHeight * 0.175f), player.bossColor * alpha);
+                        break;
                     case -1:
-                        float progress = Utils.GetLerpValue(0, player.bossMaxProgress, player.bossTextProgress);
-                        float alpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
                         ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.DeathText.Value, player.bossName, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(player.bossName).X / 2, Main.screenHeight * 0.25f), player.bossColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f));
                         if (player.bossTitle != null)
                         {

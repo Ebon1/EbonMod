@@ -71,7 +71,8 @@ namespace EbonianMod
                     },
                     new[]
                     {
-                        Helper.GetExtraTexture("cinder")
+                        Helper.GetExtraTexture("cinder_old"),
+
                     }, (part, spriteBatch, position) =>
                     {
                         spriteBatch.End();
