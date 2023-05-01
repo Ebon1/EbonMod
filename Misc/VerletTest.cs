@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
+using XPT.Core.Audio.MP3Sharp.Decoding.Decoders.LayerIII;
 using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace EbonianMod.Misc
@@ -71,6 +72,7 @@ namespace EbonianMod.Misc
             foreach (VerletPoint point in points)
             {
                 point.Update();
+                point.gravity = gravity;
             }
             for (int i = 0; i < stiffness; i++)
                 foreach (VerletSegment segment in segments)
@@ -85,21 +87,31 @@ namespace EbonianMod.Misc
 
             return verticeslist.ToArray();
         }
-        public void Draw(SpriteBatch sb, string texPath, string baseTex = null, string endTex = null, Color lineColor = default)
+        public void Draw(SpriteBatch sb, string texPath, string baseTex = null, string endTex = null, bool useColor = false, Color color = default, float scale = 1)
         {
             foreach (VerletSegment segment in segments)
             {
-                if (baseTex != null && segment == segments.First())
+                if ((baseTex != null || endTex != null) ? (segment != segments.First() && segment != segments.Last()) : true)
                 {
-                    segment.Draw(sb, baseTex);
+                    if (useColor)
+                        segment.DrawSegments(sb, texPath, color, true, scale: scale);
+                    else
+                        segment.DrawSegments(sb, texPath, scale: scale);
                 }
                 else if (endTex != null && segment == segments.Last())
                 {
-                    segment.Draw(sb, endTex);
+                    if (useColor)
+                        segment.Draw(sb, endTex, color, true, scale: scale);
+                    else
+                        segment.Draw(sb, endTex, scale: scale);
                 }
-                else
+                else if (baseTex != null && segment == segments.First())
                 {
-                    segment.DrawSegments(sb, texPath);
+                    if (useColor)
+                        segment.Draw(sb, baseTex, color, true, scale: scale);
+                    else
+                        segment.Draw(sb, baseTex, scale: scale);
+
                 }
             }
         }
@@ -151,12 +163,12 @@ namespace EbonianMod.Misc
             if (!pointB.locked)
                 pointB.position += vel;
         }
-        public void Draw(SpriteBatch sb, string texPath)
+        public void Draw(SpriteBatch sb, string texPath, Color color = default, bool useColor = false, float scale = 1)
         {
             Texture2D tex = Helper.GetTexture(texPath);
-            sb.Draw(tex, pointB.position - Main.screenPosition, null, Lighting.GetColor((int)pointB.position.X / 16, (int)(pointB.position.Y / 16.0)), Rotation(), tex.Size() / 2, 1, SpriteEffects.None, 0);
+            sb.Draw(tex, pointB.position - Main.screenPosition, null, useColor ? color : Lighting.GetColor((int)pointB.position.X / 16, (int)(pointB.position.Y / 16.0)), Rotation(), tex.Size() / 2, scale, SpriteEffects.None, 0);
         }
-        public void DrawSegments(SpriteBatch sb, string texPath)
+        public void DrawSegments(SpriteBatch sb, string texPath, Color color = default, bool useColor = false, float scale = 1)
         {
             Texture2D tex = Helper.GetTexture(texPath);
             Vector2 center = pointB.position;
@@ -170,9 +182,9 @@ namespace EbonianMod.Misc
                 center += distVector;
                 distVector = pointA.position - center;
                 distance = distVector.Length();
-                sb.Draw(tex, center - Main.screenPosition, null, Lighting.GetColor((int)pointB.position.X / 16, (int)(pointB.position.Y / 16.0)), Rotation(), tex.Size() / 2, 1, SpriteEffects.None, 0);
+                sb.Draw(tex, center - Main.screenPosition, null, useColor ? color : Lighting.GetColor((int)pointB.position.X / 16, (int)(pointB.position.Y / 16.0)), Rotation(), tex.Size() / 2, scale, SpriteEffects.None, 0);
             }
-            Draw(sb, texPath);
+            Draw(sb, texPath, color, useColor, scale);
         }
     }
 }

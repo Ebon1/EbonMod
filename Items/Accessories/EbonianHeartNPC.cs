@@ -34,6 +34,7 @@ namespace EbonianMod.Items.Accessories
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.knockBackResist = 0;
+            NPC.npcSlots = 0;
             NPC.aiStyle = 0;
             NPC.noGravity = true;
             NPC.noTileCollide = true;

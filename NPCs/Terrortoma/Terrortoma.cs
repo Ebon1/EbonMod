@@ -168,13 +168,13 @@ namespace EbonianMod.NPCs.Terrortoma
             set => NPC.ai[AISlot] = value;
         }
 
-        private float angle = 0;
         public float AITimer
         {
             get => NPC.ai[TimerSlot];
             set => NPC.ai[TimerSlot] = value;
         }
         private float AITimer2 = 0;
+        private float angle = 0;
         private bool hasDonePhase2ApeShitMode = false;
 
         public const int ApeShitMode = 999;
@@ -269,7 +269,7 @@ namespace EbonianMod.NPCs.Terrortoma
             {
                 NPC.Center = new Vector2(player.Center.X, player.Center.Y - 230);
             }
-            if (NPC.alpha <= 0 && AIState != Death)
+            if (NPC.alpha <= 0 && AIState != Death && NPC.life < NPC.lifeMax)
             {
                 /*if (!HasSummonedClingers)
                 {
@@ -334,18 +334,6 @@ namespace EbonianMod.NPCs.Terrortoma
                     }
                 }
             }
-            else if (AIState == ApeShitMode)
-            {
-                NPC.velocity = Vector2.Zero;
-                isLaughing = false;
-                Vector2 toPlayer = player.Center - NPC.Center;
-                rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-                if (++AITimer >= 60)
-                {
-                    AIState = ClingerSpecial;
-                    AITimer = 0;
-                }
-            }
             else if (AIState == Intro)
             {
                 if (NPC.life < NPC.lifeMax)
@@ -354,6 +342,8 @@ namespace EbonianMod.NPCs.Terrortoma
                 rotation = 0;
                 if (AITimer == 1)
                 {
+                    NPC.boss = true;
+                    Music = MusicID.Boss5;
                     Helper.SetBossTitle(120, "Terrortoma", Color.LawnGreen, "The Conglomerate", 0);
                     EbonianSystem.ChangeCameraPos(NPC.Center, 120);
                     //add sound later
@@ -367,6 +357,18 @@ namespace EbonianMod.NPCs.Terrortoma
                     AIState = Vilethorn;
                     AITimer = 0;
                     isLaughing = false;
+                }
+            }
+            else if (AIState == ApeShitMode)
+            {
+                NPC.velocity = Vector2.Zero;
+                isLaughing = false;
+                Vector2 toPlayer = player.Center - NPC.Center;
+                rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
+                if (++AITimer >= 60)
+                {
+                    AIState = ClingerSpecial;
+                    AITimer = 0;
                 }
             }
             else if (AIState == Spew)
