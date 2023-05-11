@@ -16,6 +16,9 @@ using EbonianMod.Projectiles.VFXProjectiles;
 using ReLogic.Graphics;
 using EbonianMod.Misc;
 using EbonianMod.Projectiles.Exol;
+using EbonianMod.Worldgen.Subworlds;
+using SubworldLibrary;
+using Terraria.GameContent.Drawing;
 
 namespace EbonianMod
 {
@@ -55,6 +58,8 @@ namespace EbonianMod
             SkyManager.Instance["EbonianMod:CrimsonTint"] = new BasicTint();
             Filters.Scene["EbonianMod:HellTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.2f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:HellTint"] = new BasicTint();
+            Filters.Scene["EbonianMod:HellTint2"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.425f), EffectPriority.Medium);
+            SkyManager.Instance["EbonianMod:HellTint2"] = new BasicTint();
             Filters.Scene["EbonianMod:ScreenFlash"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("EbonianMod/Effects/ScreenFlash", (AssetRequestMode)1).Value), "Flash"), EffectPriority.VeryHigh);
             On.Terraria.Graphics.Effects.FilterManager.EndCapture += FilterManager_EndCapture;
             Main.OnResolutionChanged += Main_OnResolutionChanged;
@@ -97,6 +102,7 @@ namespace EbonianMod
                 }
             }
             sys.DrawParticles();
+
         }
         public override void Unload()
         {

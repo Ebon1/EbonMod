@@ -343,7 +343,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 if (AITimer == 1)
                 {
                     NPC.boss = true;
-                    Music = MusicID.Boss5;
+                    Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/EvilMiniboss");
                     Helper.SetBossTitle(120, "Terrortoma", Color.LawnGreen, "The Conglomerate", 0);
                     EbonianSystem.ChangeCameraPos(NPC.Center, 120);
                     //add sound later

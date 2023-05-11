@@ -23,6 +23,8 @@ using XPT.Core.Audio.MP3Sharp.Decoding.Decoders.LayerIII;
 using Terraria.Graphics.Shaders;
 using System.ComponentModel;
 using static tModPorter.ProgressUpdate;
+using System.Linq;
+using System.Runtime;
 
 namespace EbonianMod
 {
@@ -41,9 +43,64 @@ namespace EbonianMod
 
     public static class Helper
     {
+        public static float ClosestTo(this IEnumerable<float> collection, float target)
+        {
+            // NB Method will return int.MaxValue for a sequence containing no elements.
+            // Apply any defensive coding here as necessary.
+            var closest = float.MaxValue;
+            var minDifference = float.MaxValue;
+            foreach (var element in collection)
+            {
+                var difference = Math.Abs(element - target);
+                if (minDifference > difference)
+                {
+                    minDifference = difference;
+                    closest = element;
+                }
+            }
+
+            return closest;
+        }
+        public static int IndexOfClosestTo(this IEnumerable<float> collection, float target)
+        {
+            // NB Method will return int.MaxValue for a sequence containing no elements.
+            // Apply any defensive coding here as necessary.
+            int closest = 0;
+            var minDifference = float.MaxValue;
+            foreach (float element in collection)
+            {
+                var difference = Math.Abs(element - target);
+                if (minDifference > difference)
+                {
+                    minDifference = difference;
+                    closest = Array.IndexOf(collection.ToArray(), element);
+                }
+            }
+
+            return closest;
+        }
+        public static float Closer(float a, float b, float compareValue)
+        {
+
+            float calcA = Math.Abs(a - compareValue);
+            float calcB = Math.Abs(b - compareValue);
+
+            if (calcA == calcB)
+            {
+                return 0;
+            }
+
+            if (calcA < calcB)
+            {
+                return a;
+            }
+
+            return b;
+        }
         /// <summary>
         /// Extremely laggy grounded check, only use this for stuff like death animations where you absolutely dont want the npc to not be able to detect the ground
         /// </summary>
+        /// 
         public static bool Grounded(this NPC NPC, float offset = .5f, float offsetX = 1f)
         {
             if (NPC.collideY)

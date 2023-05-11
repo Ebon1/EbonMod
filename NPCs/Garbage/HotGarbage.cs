@@ -390,10 +390,10 @@ namespace EbonianMod.NPCs.Garbage
             {
                 if (!NPC.collideY)
                 {
-                    AITimer2++;
                     NPC.frameCounter = 0;
                 }
-                else if (NPC.collideY || (NPC.velocity.Y < 1 && AITimer2 > 100))
+                AITimer2++;
+                if (NPC.collideY || AITimer2 > 150)
                 {
                     AITimer++;
                     if (AITimer == 1)

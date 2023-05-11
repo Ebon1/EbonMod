@@ -16,6 +16,7 @@ namespace EbonianMod.NPCs.Corruption
 {
     public class RottenSpineHead : WormHead
     {
+        public override bool byHeight => false;
         //public override bool HasCustomBodySegments => true;
         public override void SetStaticDefaults()
         {
@@ -97,6 +98,7 @@ namespace EbonianMod.NPCs.Corruption
     }
     public class RottenSpineBody : WormBody
     {
+        public override bool byHeight => false;
         public override void HitEffect(int hitDirection, double damage)
         {
             if (damage > NPC.life)
@@ -138,6 +140,7 @@ namespace EbonianMod.NPCs.Corruption
     }
     public class RottenSpineTail : WormTail
     {
+        public override bool byHeight => false;
         public override void HitEffect(int hitDirection, double damage)
         {
             if (damage > NPC.life)

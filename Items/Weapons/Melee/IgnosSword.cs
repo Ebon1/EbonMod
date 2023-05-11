@@ -16,8 +16,13 @@ using IL.Terraria.Graphics;
 
 namespace EbonianMod.Items.Weapons.Melee
 {
-    public class Ignos : ModItem
+    public class IgnosSword : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Exol");
+            Tooltip.SetDefault("");
+        }
         public override void SetDefaults()
         {
             Item.knockBack = 10f;

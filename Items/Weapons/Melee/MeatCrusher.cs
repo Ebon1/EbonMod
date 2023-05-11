@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework.Graphics;
 using EbonianMod.Projectiles;
 using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Projectiles.Friendly.Corruption;
+using EbonianMod.Worldgen.Subworlds;
+using SubworldLibrary;
 
 namespace EbonianMod.Items.Weapons.Melee
 {

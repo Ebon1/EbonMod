@@ -19,6 +19,7 @@ namespace EbonianMod.NPCs.Crimson
     public class CrimeraHead : WormHead
     {
         //public override bool HasCustomBodySegments => true;
+        public override bool byHeight => false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scorn");
@@ -126,6 +127,7 @@ namespace EbonianMod.NPCs.Crimson
     }
     public class CrimeraBody : WormBody
     {
+        public override bool byHeight => false;
         public override void HitEffect(int hitDirection, double damage)
         {
             //if (damage > NPC.life)
@@ -165,6 +167,7 @@ namespace EbonianMod.NPCs.Crimson
     }
     public class CrimeraTail : WormTail
     {
+        public override bool byHeight => false;
         public override void HitEffect(int hitDirection, double damage)
         {
             //if (damage > NPC.life)

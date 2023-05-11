@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EbonianMod.NPCs.Crimson;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -34,6 +35,7 @@ namespace EbonianMod.NPCs
     /// </summary>
     public abstract class Worm : ModNPC
     {
+        public virtual bool byHeight => true;
         /*  ai[] usage:
 		 *  
 		 *  ai[0] = "follower" segment, the segment that's following this segment
@@ -137,6 +139,8 @@ namespace EbonianMod.NPCs
     {
         public sealed override WormSegmentType SegmentType => WormSegmentType.Head;
 
+        public virtual bool extraAiAsIndex { get; set; }
+
         /// <summary>
         /// The NPCID or ModContent.NPCType for the body segment NPCs.<br/>
         /// This property is only used if <see cref="HasCustomBodySegments"/> returns <see langword="false"/>.
@@ -200,7 +204,7 @@ namespace EbonianMod.NPCs
         /// <param name="type">The ID of the segment NPC to spawn</param>
         /// <param name="latestNPC">The whoAmI of the most-recently spawned segment NPC in the worm, including the head</param>
         /// <returns></returns>
-        protected int SpawnSegment(IEntitySource source, int type, int latestNPC, float extraAI = 0)
+        protected int SpawnSegment(IEntitySource source, int type, int latestNPC, float ai3 = 0, float ai2 = 0) // ai2 is second because i added ai3 checks first lol
         {
             // We spawn a new NPC, setting latestNPC to the newer NPC, whilst also using that same variable
             // to set the parent of this new NPC. The parent of the new NPC (may it be a tail or body part)
@@ -214,7 +218,8 @@ namespace EbonianMod.NPCs
             NPC latest = Main.npc[latestNPC];
             // NPC.realLife is the whoAmI of the NPC that the spawned NPC will share its health with
             latest.realLife = NPC.whoAmI;
-            latest.ai[3] = extraAI;
+            latest.ai[3] = ai3;
+            latest.ai[2] = ai2;
 
             return latestNPC;
         }
@@ -263,9 +268,14 @@ namespace EbonianMod.NPCs
                     else
                     {
                         // Spawn the body segments like usual
+                        int index = 0;
                         while (distance > 0)
                         {
-                            latestNPC = SpawnSegment(source, BodyType, latestNPC);
+                            if (NPC.type != ModContent.NPCType<CrimsonWormHead>())
+                                latestNPC = SpawnSegment(source, BodyType, latestNPC, extraAiAsIndex ? index : 0);
+                            else
+                                latestNPC = SpawnSegment(source, BodyType, latestNPC, NPC.whoAmI, index);
+                            index++;
                             distance--;
                         }
                     }
@@ -630,7 +640,7 @@ namespace EbonianMod.NPCs
                 // We also get the length of the direction vector.
                 float length = (float)Math.Sqrt(dirX * dirX + dirY * dirY);
                 // We calculate a new, correct distance.
-                float dist = (length - worm.NPC.width) / length;
+                float dist = (length - (worm.byHeight ? worm.NPC.height : worm.NPC.width)) / length;
                 float posX = dirX * dist;
                 float posY = dirY * dist;
 
