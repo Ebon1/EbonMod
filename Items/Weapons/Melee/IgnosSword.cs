@@ -12,7 +12,6 @@ using EbonianMod.Projectiles.Terrortoma;
 using Terraria.GameContent;
 using EbonianMod.NPCs.Garbage;
 using EbonianMod.Projectiles.Exol;
-using IL.Terraria.Graphics;
 
 namespace EbonianMod.Items.Weapons.Melee
 {
@@ -52,7 +51,7 @@ namespace EbonianMod.Items.Weapons.Melee
     }
     public class IgnosP : ModProjectile
     {
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             Player player = Main.player[Projectile.owner];
             /*//if (Projectile.ai[1] <= 0)
@@ -67,7 +66,7 @@ namespace EbonianMod.Items.Weapons.Melee
                 a.scale = 0.25f;
             }*/
             if (Projectile.ai[0] > 0)
-                target.StrikeNPC((int)(damage + damage * 2 * (Projectile.ai[0] / 5)), knockback, 0);
+                target.StrikeNPC(hitinfo);
             if (Projectile.ai[0] < 4 && Projectile.ai[1] <= 0)
             {
                 Projectile.ai[1] = 100;

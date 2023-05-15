@@ -57,11 +57,11 @@ namespace EbonianMod.Projectiles.Dev
             }
             return true;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             if (Projectile.ai[0] == 1)
             {
-                target.StrikeNPC(damage * 3, knockback, 0, crit);
+                target.StrikeNPC(hitinfo);
                 Player player = Main.player[Projectile.owner];
                 Helper.DustExplosion(Projectile.Center, Projectile.Size * 2f, 0, Color.Gold, false);
                 SoundEngine.PlaySound(SoundID.Item62);

@@ -128,7 +128,7 @@ namespace EbonianMod.NPCs.Crimson
     public class CrimeraBody : WormBody
     {
         public override bool byHeight => false;
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hitinfo)
         {
             //if (damage > NPC.life)
             //if (FollowingNPC.type == ModContent.NPCType<CrimeraBody>() && FollowerNPC.type == ModContent.NPCType<CrimeraBody>())
@@ -168,7 +168,7 @@ namespace EbonianMod.NPCs.Crimson
     public class CrimeraTail : WormTail
     {
         public override bool byHeight => false;
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hitinfo)
         {
             //if (damage > NPC.life)
             //Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimeraGore1").Type, NPC.scale);

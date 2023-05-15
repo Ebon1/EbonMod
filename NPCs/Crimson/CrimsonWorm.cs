@@ -179,9 +179,9 @@ namespace EbonianMod.NPCs.Crimson
             MoveSpeed = 5.5f;
             Acceleration = 0.15f;
         }
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hitinfo)
         {
-            if (damage > NPC.life)
+            if (hitinfo.Damage > NPC.life)
             {
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimsonWormSkull").Type, NPC.scale);
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimsonWormJaw").Type, NPC.scale);
@@ -190,9 +190,9 @@ namespace EbonianMod.NPCs.Crimson
     }
     public class CrimsonWormBody : WormBody
     {
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hitinfo)
         {
-            if (damage > NPC.life && !isDed)
+            if (hitinfo.Damage > NPC.life && !isDed)
             {
                 if (NPC.ai[2] <= 6 && NPC.ai[2] > 3)
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk" + Main.rand.Next(4, 7)).Type, NPC.scale);
@@ -209,7 +209,7 @@ namespace EbonianMod.NPCs.Crimson
                     Dust.NewDustDirect(NPC.Center, NPC.width, NPC.height, DustID.Blood, Main.rand.NextVector2Unit().X, Main.rand.NextVector2Unit().Y, Scale: Main.rand.NextFloat(1, 2f));
                 }
             }
-            if (damage > NPC.life && isDed)
+            if (hitinfo.Damage > NPC.life && isDed)
             {
                 for (int i = 1; i < 4; i++)
                 {
@@ -371,9 +371,9 @@ namespace EbonianMod.NPCs.Crimson
 
     public class CrimsonWormTail : WormTail
     {
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hitinfo)
         {
-            if (damage > NPC.life)
+            if (hitinfo.Damage > NPC.life)
             {
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk7").Type, NPC.scale);
             }

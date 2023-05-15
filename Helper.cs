@@ -552,7 +552,7 @@ namespace EbonianMod
             }
             _ = vector - player.position;
             TPNoDust(vector, player);
-            NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, player.whoAmI, vector.X, vector.Y, 0);
+            NetMessage.SendData(MessageID.TeleportEntity, -1, -1, null, 0, player.whoAmI, vector.X, vector.Y, 0);
         }
         public static void TPNoDust(Vector2 newPos, Player player)
         {
@@ -611,6 +611,13 @@ namespace EbonianMod
             player.bossColor = color;
             player.bossStyle = style;
         }
+        /*public static void SetTimeSlow(int progress, int skips)
+        {
+            EbonianPlayer player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
+            player.timeSlowMax = progress;
+            player.timeSlowProgress = progress;
+            EbonianMod.timeSkips = skips;
+        }*/
         public static string GetBossText()
         {
             var player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
@@ -680,10 +687,16 @@ namespace EbonianMod
             {
                 float progress = Utils.GetLerpValue(0, player.bossMaxProgress, player.bossTextProgress);
                 float alpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
+                string something = GetBossText();
                 switch (player.bossStyle)
                 {
+                    case -69:
+                        Main.spriteBatch.Draw(GetExtraTexture("textGlow"), new Vector2(Main.screenWidth / 2, Main.screenHeight * 0.2f), null, Color.Black * alpha, 0, GetExtraTexture("textGlow").Size() / 2, 10f, SpriteEffects.None, 0);
+                        if (player.bossTitle != null)
+                            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, something, new Vector2(Main.screenWidth / 2 - FontAssets.MouseText.Value.MeasureString(something).X / 2, Main.screenHeight * 0.2f), player.bossColor * alpha);
+                        DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.MouseText.Value, player.bossName, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(player.bossName).X / 2, Main.screenHeight * 0.175f), Color.Gold * alpha);
+                        break;
                     case -2:
-                        string something = GetBossText();
                         Main.spriteBatch.Draw(GetExtraTexture("textGlow"), new Vector2(Main.screenWidth / 2, Main.screenHeight * 0.2f), null, Color.Black * alpha, 0, GetExtraTexture("textGlow").Size() / 2, 10f, SpriteEffects.None, 0);
                         if (player.bossTitle != null)
                             DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, something, new Vector2(Main.screenWidth / 2 - FontAssets.MouseText.Value.MeasureString(something).X / 2, Main.screenHeight * 0.2f), player.bossColor * alpha);

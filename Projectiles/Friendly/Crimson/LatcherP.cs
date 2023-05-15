@@ -38,7 +38,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             }
             return false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             Projectile.velocity = Vector2.Zero;
             if (Projectile.ai[0] == 0)

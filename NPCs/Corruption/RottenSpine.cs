@@ -99,9 +99,9 @@ namespace EbonianMod.NPCs.Corruption
     public class RottenSpineBody : WormBody
     {
         public override bool byHeight => false;
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hitinfo)
         {
-            if (damage > NPC.life)
+            if (hitinfo.Damage > NPC.life)
                 if (FollowingNPC.type == ModContent.NPCType<RottenSpineBody>() && FollowerNPC.type == ModContent.NPCType<RottenSpineBody>())
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/RottenSpineGore3").Type, NPC.scale);
                 else
@@ -141,9 +141,9 @@ namespace EbonianMod.NPCs.Corruption
     public class RottenSpineTail : WormTail
     {
         public override bool byHeight => false;
-        public override void HitEffect(int hitDirection, double damage)
+        public override void HitEffect(NPC.HitInfo hitinfo)
         {
-            if (damage > NPC.life)
+            if (hitinfo.Damage > NPC.life)
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/RottenSpineGore1").Type, NPC.scale);
         }
         public override void SetStaticDefaults()

@@ -17,13 +17,13 @@ namespace EbonianMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ebonian Heart");
-            Tooltip.SetDefault("Summons a corrupted heart that follows you and shoots cursed flames at nearby enemies.\n\"This one doesnt seem to be pumping blood.\"");
+            Tooltip.SetDefault("Reduces defense by 5\nSummons a corrupted heart that follows you and shoots cursed flames at nearby enemies.\n\"This one doesnt seem to be pumping blood.\"");
         }
         public override void SetDefaults()
         {
             Item.accessory = true;
             Item.rare = 4;
-            Item.defense = 5;
+            Item.defense = -5;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

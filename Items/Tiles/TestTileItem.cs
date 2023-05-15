@@ -80,4 +80,28 @@ namespace EbonianMod.Items.Tiles
             Item.createTile = ModContent.TileType<EbonHiveBlockSpecial>();
         }
     }
+    public class TestTileItem4 : ModItem
+    {
+        public override string Texture => Helper.BuffPlaceholder;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Test4");
+        }
+        public override void SetDefaults()
+        {
+            Item.width = 16;
+            Item.height = 16;
+            Item.maxStack = 999;
+            Item.rare = 0;
+            Item.useTurn = true;
+            Item.rare = 0;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.rare = 2;
+            Item.useTime = 10;
+            Item.useStyle = 1;
+            Item.consumable = true;
+            Item.createTile = ModContent.TileType<CrimsonBrainBlockSpecial>();
+        }
+    }
 }

@@ -13,7 +13,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EbonianMod.Tiles
+namespace EbonianMod.Tiles.Paintings
 {
     public class EbonPainting : ModTile
     {

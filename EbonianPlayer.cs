@@ -10,14 +10,14 @@ using System;
 using static Terraria.ModLoader.PlayerDrawLayer;
 using EbonianMod.Items.Accessories;
 using Terraria.Graphics.Effects;
-using EbonianMod.Worldgen.Subworlds;
-using SubworldLibrary;
+//using EbonianMod.Worldgen.Subworlds;
+//using SubworldLibrary;
 
 namespace EbonianMod
 {
     public class EbonianPlayer : ModPlayer
     {
-        public int bossTextProgress, bossMaxProgress, dialogueMax, dialogueProg;
+        public int bossTextProgress, bossMaxProgress, dialogueMax, dialogueProg, timeSlowProgress, timeSlowMax;
         public string bossName;
         public string bossTitle;
         public string dialogue;
@@ -33,8 +33,7 @@ namespace EbonianMod
             heartAcc = false;
             ToxicGland = false;
         }
-
-        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource, ref int cooldownCounter)
+        public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
             if (NPC.AnyNPCs(ModContent.NPCType<TinyBrain>()))
             {
@@ -47,7 +46,6 @@ namespace EbonianMod
                     }
                 }
             }
-            return true;
         }
         public override void PostUpdateMiscEffects()
         {
@@ -55,11 +53,11 @@ namespace EbonianMod
             //Player.ManageSpecialBiomeVisuals("EbonianMod:CorruptTint", Player.ZoneCorrupt && !Player.ZoneUnderworldHeight);
             //Player.ManageSpecialBiomeVisuals("EbonianMod:CrimsonTint", Player.ZoneCrimson && !Player.ZoneUnderworldHeight);
             #region "hell stuff"
-            Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight && !SubworldSystem.IsActive<Ignos>());
-            Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint2", SubworldSystem.IsActive<Ignos>());
+            Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight);// && !SubworldSystem.IsActive<Ignos>());
+            //Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint2", SubworldSystem.IsActive<Ignos>());
             if (Player.ZoneUnderworldHeight && Main.BackgroundEnabled)
             {
-                if (Main.rand.NextBool(SubworldSystem.IsActive<Ignos>() ? 4 : 13))
+                if (Main.rand.NextBool(/*SubworldSystem.IsActive<Ignos>() ? 4 : */13))
                 {
                     EbonianMod.sys.CreateParticle((part) =>
                     {
@@ -94,10 +92,10 @@ namespace EbonianMod
                     });
                 }
             } // saved for the hell update
-            #endregion 
+            #endregion
             //dont delete hell stuff...
         }
-        public override void OnEnterWorld(Player player)
+        public override void OnEnterWorld()
         {
             Instance = Player.GetModPlayer<EbonianPlayer>();
         }
@@ -135,6 +133,15 @@ namespace EbonianMod
                 bossMaxProgress = 0;
                 bossColor = Color.White;
             }
+            /*if (timeSlowProgress > 0)
+                timeSlowProgress -= EbonianMod.timeSkips + 1;
+            if (timeSlowProgress <= 0)
+            {
+                timeSlowProgress = 0;
+                EbonianMod.timeSkips = 0;
+            }
+            if (timeSlowProgress < EbonianMod.timeSkips && EbonianMod.timeSkips > 0)
+                EbonianMod.timeSkips--;*/
             if (dialogueProg > 0)
                 dialogueProg--;
             if (dialogueProg == 0)

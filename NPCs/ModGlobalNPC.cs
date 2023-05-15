@@ -21,12 +21,12 @@ namespace EbonianMod.NPCs
 {
     public class ModGlobalNPC : GlobalNPC
     {
-        public override void SetupShop(int type, Chest shop, ref int nextSlot)
+        public override void ModifyShop(NPCShop shop)
         {
-            if (type == NPCID.Merchant)
+            if (shop.NpcType == NPCID.Merchant)
             {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<PepperSpray>());
-                nextSlot++;
+                shop.Add<PepperSpray>();
+
 
             }
         }

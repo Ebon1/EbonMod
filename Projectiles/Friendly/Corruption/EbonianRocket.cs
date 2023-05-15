@@ -51,7 +51,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                 Helper.DustExplosion(Projectile.Center, Vector2.One, 0, Color.Green * 0.75f, true, true);
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             if (Projectile.ai[1] != 2)
                 Projectile.ai[1] = 1;

@@ -138,6 +138,7 @@ namespace EbonianMod.Misc
     }
     public class VerletSegment
     {
+        public bool cut = false;
         public float len;
         public float Rotation()
         {
@@ -147,12 +148,15 @@ namespace EbonianMod.Misc
         public VerletSegment(float len, VerletPoint pointA, VerletPoint pointB)
         {
             this.len = len;
+            this.cut = false;
             this.pointA = pointA;
             this.pointB = pointB;
         }
 
         public void Constrain()
         {
+            if (cut)
+                return;
             Vector2 vel = pointB.position - pointA.position;
             float distance = vel.Length();
             float fraction = ((len - distance) / Math.Max(distance, 1)) / 2;
@@ -165,11 +169,15 @@ namespace EbonianMod.Misc
         }
         public void Draw(SpriteBatch sb, string texPath, Color color = default, bool useColor = false, float scale = 1)
         {
+            if (cut)
+                return;
             Texture2D tex = Helper.GetTexture(texPath);
             sb.Draw(tex, pointB.position - Main.screenPosition, null, useColor ? color : Lighting.GetColor((int)pointB.position.X / 16, (int)(pointB.position.Y / 16.0)), Rotation(), tex.Size() / 2, scale, SpriteEffects.None, 0);
         }
         public void DrawSegments(SpriteBatch sb, string texPath, Color color = default, bool useColor = false, float scale = 1)
         {
+            if (cut)
+                return;
             Texture2D tex = Helper.GetTexture(texPath);
             Vector2 center = pointB.position;
             Vector2 distVector = pointA.position - pointB.position;

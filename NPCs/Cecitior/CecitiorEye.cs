@@ -13,6 +13,7 @@ using System.IO;
 using Terraria.GameContent.Bestiary;
 using EbonianMod.Misc;
 using System.Linq;
+using EbonianMod.Projectiles.Cecitior;
 
 namespace EbonianMod.NPCs.Cecitior
 {
@@ -114,7 +115,7 @@ namespace EbonianMod.NPCs.Cecitior
             if (timer < 0)
             {
                 NPC center = Main.npc[(int)NPC.ai[0]];
-                if (center.ai[3] == 1) //frantically looking
+                if (center.ai[3] == 1 || frantic) //frantically looking
                 {
                     ++NPC.frameCounter;
                     if (NPC.frameCounter % 5 == 0 && NPC.frameCounter < 550)
@@ -163,10 +164,14 @@ namespace EbonianMod.NPCs.Cecitior
             get => NPC.ai[3];
             set => NPC.ai[3] = value;
         }
+        bool frantic;
+        Vector2 focalPoint;
         int[] leftSiders = new int[] { 0, 5, 4 };
         public override void AI()
         {
             timer--;
+            float angle = Helper.CircleDividedEqually(NPC.ai[1], 6) + MathHelper.ToRadians(15);
+            bool leftie = leftSiders.Contains((int)NPC.ai[1]);
             NPC center = Main.npc[(int)NPC.ai[0]];
             Player player = Main.player[center.target];
             if (!center.active || center.type != ModContent.NPCType<Cecitior>())
@@ -174,25 +179,106 @@ namespace EbonianMod.NPCs.Cecitior
                 NPC.life = 0;
                 return;
             }
-            if (center.ai[3] == 1)
+            if (center.ai[3] == 1 || frantic)
             {
                 NPC.rotation = randRot;
-                if (leftSiders.Contains((int)NPC.ai[1]))
-                {
-                    float angle = Helper.CircleDividedEqually(NPC.ai[1], 6) + MathHelper.ToRadians(15);
-                    NPC.velocity = Helper.FromAToB(NPC.Center, new Vector2(center.localAI[0], center.localAI[1]) + new Vector2(100).RotatedBy(angle), false) / 10f;
-                }
             }
             else
             {
-                NPC.velocity = Vector2.Zero; // REMOVE LATER    
-                NPC.rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.Pi;
+                //NPC.velocity = Vector2.Zero; // REMOVE LATER    
+                NPC.rotation = Helper.FromAToB(NPC.Center, focalPoint).ToRotation() + MathHelper.Pi;
             }
             switch (center.ai[0])
             {
+                case 0:
+                    if (center.ai[1] < 60)
+                        focalPoint = center.Center;
+                    else
+                        focalPoint = Vector2.Lerp(focalPoint, player.Center, 0.45f);
+                    break;
                 case 1:
-                    float angle = Helper.CircleDividedEqually(NPC.ai[1], 6) + MathHelper.ToRadians(15);
                     NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 10f;
+                    focalPoint = player.Center;
+                    AITimer = 0;
+                    break;
+                case 2:
+                    AITimer++;
+                    if (AITimer < 61 && AITimer > 1)
+                    {
+                        NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(75).RotatedBy(angle + MathHelper.ToRadians(timer)), false) / 10f;
+                        frantic = true;
+                        timer++;
+                        if (AITimer % 30 == 0)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextVector2Unit() * 3, ProjectileID.BloodShot, 15, 0);
+                        }
+                    }
+                    else if (AITimer > 100 && AITimer < 200)
+                    {
+                        frantic = false;
+                        focalPoint = NPC.Center + Vector2.UnitY * 100;
+                        NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2((NPC.ai[1] - 3) * 200, -100), false) / 10f;
+                        if (AITimer % 30 == 0)
+                        {
+                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.UnitY * 5, ProjectileID.BloodArrow, 15, 0);
+                            a.hostile = true;
+                            a.friendly = false;
+                        }
+                    }
+                    else if (AITimer > 200)
+                    {
+                        if (AITimer < 280)
+                        {
+                            focalPoint = player.Center;
+                            Vector2 pos = NPC.Center + Main.rand.NextVector2CircularEdge(30, 30);
+                            Dust.NewDustPerfect(pos, DustID.Blood, Helper.FromAToB(pos, NPC.Center));
+                            NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(0, 100).RotatedBy(Helper.FromAToB(center.Center, player.Center).ToRotation()) + new Vector2(0, 25).RotatedBy(NPC.ai[1]), false) / 10f;
+                        }
+                        else
+                            NPC.velocity = Vector2.Zero;
+                        if (AITimer > 300 && AITimer < 330 && AITimer % 5 == 0)
+                        {
+                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 15, ProjectileID.BloodArrow, 15, 0);
+                            a.hostile = true;
+                            a.friendly = false;
+                        }
+                    }
+                    break;
+                case 3:
+                    focalPoint = player.Center;
+                    if (center.ai[1] > 115)
+                        NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 5f;
+                    else
+                    {
+                        if (leftie)
+                            NPC.velocity = Helper.FromAToB(NPC.Center, new Vector2(center.localAI[0], center.localAI[1]) + new Vector2(100).RotatedBy(angle), false) / 10f;
+                        else
+                            NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 10f;
+
+                    }
+
+                    break;
+                case 4:
+                    NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 10f;
+                    focalPoint = player.Center;
+                    break;
+                case 5:
+                    NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + new Vector2(120).RotatedBy(angle + MathHelper.ToRadians(timer)), false) / 3;
+                    focalPoint = player.Center;
+                    if (center.ai[1] % 50 == 0 && center.ai[1] > 1)
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 0.5f, ModContent.ProjectileType<BloodLaser>(), 15, 0);
+                    break;
+                case 6:
+                    NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 10f;
+                    focalPoint = player.Center;
+                    break;
+                case 7:
+                    NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 10f;
+                    focalPoint = player.Center;
+                    break;
+                case 8:
+                    NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 10f;
+                    focalPoint = player.Center;
                     break;
             }
         }

@@ -13,9 +13,9 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EbonianMod.Tiles
+namespace EbonianMod.Tiles.Paintings
 {
-    public class DapperCecitior : ModTile
+    public class EstonianMod : ModTile
     {
         public override void SetStaticDefaults()
         {
@@ -27,17 +27,17 @@ namespace EbonianMod.Tiles
             Main.tileSolid[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3Wall);
             TileObjectData.newTile.Height = 6;
-            TileObjectData.newTile.Width = 4;
+            TileObjectData.newTile.Width = 8;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16, };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.addTile(Type);
 
-            AddMapEntry(new Color(0, 0, 0), Language.GetText("Dapper Fellow"));
+            AddMapEntry(new Color(0, 0, 0), Language.GetText("Estonian Mod"));
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<DapperCecitiorI>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<EstonianModI>());
         }
     }
 }

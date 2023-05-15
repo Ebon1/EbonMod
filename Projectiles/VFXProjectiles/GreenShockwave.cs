@@ -22,7 +22,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             Projectile.ai[1] = 1;
         }

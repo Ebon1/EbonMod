@@ -13,7 +13,6 @@ using Terraria.DataStructures;
 using System.Collections.Generic;
 using Terraria.Graphics.Shaders;
 using static Terraria.ModLoader.PlayerDrawLayer;
-using IL.Terraria.GameContent.UI.Elements;
 using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Dusts;
 using EbonianMod.Projectiles.Exol;

@@ -39,7 +39,7 @@ namespace EbonianMod.Items.Accessories
         {
             writer.Write(NPC.localAI[0]);
         }
-        public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
+        public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hitinfo, int damage)
         {
             if (projectile.timeLeft > 2 && projectile.velocity != Vector2.Zero)
                 projectile.Kill();

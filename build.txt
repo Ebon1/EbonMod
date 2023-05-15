@@ -1,5 +1,4 @@
 displayName = Ebonian Mod (BETA)
 author = Ebon
 version = 0.1
-dllReferences = StructureHelper
-modReferences = SubworldLibrary
+modReferences = StructureHelper

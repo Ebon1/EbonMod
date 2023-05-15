@@ -12,8 +12,8 @@ using Microsoft.Xna.Framework.Graphics;
 using EbonianMod.Projectiles;
 using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Projectiles.Friendly.Corruption;
-using EbonianMod.Worldgen.Subworlds;
-using SubworldLibrary;
+//using EbonianMod.Worldgen.Subworlds;
+//using SubworldLibrary;
 
 namespace EbonianMod.Items.Weapons.Melee
 {
@@ -34,7 +34,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = 5;
         }
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        public override void OnHitNPC(Player player, NPC target, NPC.HitInfo hitinfo, int damage)
         {
             player.itemAnimation -= 5;
             player.itemTime -= 5;

@@ -1,4 +1,4 @@
-﻿using EbonianMod.Tiles;
+﻿using EbonianMod.Tiles.Paintings;
 using System;
 using System.Collections.Generic;
 using System.Linq;

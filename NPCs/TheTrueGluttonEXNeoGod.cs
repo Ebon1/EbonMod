@@ -229,7 +229,11 @@ namespace EbonianMod.NPCs.Corruption
                     else if (AITimer == 501)
                     {
                         NPC.dontTakeDamage = false;
-                        NPC.StrikeNPC(999999999, 0, 0);
+                        NPC.HitInfo hit = new NPC.HitInfo()
+                        {
+                            Damage = 9999999
+                        };
+                        NPC.StrikeNPC(hit);
                     }
                 }
             }

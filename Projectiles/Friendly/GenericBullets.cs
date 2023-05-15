@@ -32,7 +32,7 @@ namespace EbonianMod.Projectiles.Friendly
             spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             target.AddBuff(BuffID.CursedInferno, 20);
         }
@@ -102,7 +102,7 @@ namespace EbonianMod.Projectiles.Friendly
             Projectile.velocity = new Vector2(Projectile.velocity.X, -oldVelocity.Y);
             return false;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             target.AddBuff(BuffID.Ichor, 50);
             foreach (NPC npc in Main.npc)

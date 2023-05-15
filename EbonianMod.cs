@@ -16,8 +16,8 @@ using EbonianMod.Projectiles.VFXProjectiles;
 using ReLogic.Graphics;
 using EbonianMod.Misc;
 using EbonianMod.Projectiles.Exol;
-using EbonianMod.Worldgen.Subworlds;
-using SubworldLibrary;
+////using EbonianMod.Worldgen.Subworlds;
+////using SubworldLibrary;
 using Terraria.GameContent.Drawing;
 
 namespace EbonianMod
@@ -61,13 +61,43 @@ namespace EbonianMod
             Filters.Scene["EbonianMod:HellTint2"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.425f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:HellTint2"] = new BasicTint();
             Filters.Scene["EbonianMod:ScreenFlash"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("EbonianMod/Effects/ScreenFlash", (AssetRequestMode)1).Value), "Flash"), EffectPriority.VeryHigh);
-            On.Terraria.Graphics.Effects.FilterManager.EndCapture += FilterManager_EndCapture;
+            Terraria.Graphics.Effects.On_FilterManager.EndCapture += FilterManager_EndCapture;
             Main.OnResolutionChanged += Main_OnResolutionChanged;
-            On.Terraria.Main.DrawBG += DrawBehindTilesAndWalls;
-            On.Terraria.Main.DrawNPC += DrawNPC;
+            Terraria.On_Main.DrawBG += DrawBehindTilesAndWalls;
+            Terraria.On_Main.DrawNPC += DrawNPC;
+            //On.Terraria.Main.DoUpdate += testSlowDown;
+            //On.Terraria.Audio.SoundEngine.Update += testSlowDownAudio;
             CreateRender();
         }
-        void DrawNPC(On.Terraria.Main.orig_DrawNPC orig, global::Terraria.Main self, int iNPCIndex, bool behindTiles)
+        /*public static int timeSkips;
+        public static int _timeSkips;
+        private void testSlowDown(On.Terraria.Main.orig_DoUpdate orig, Main self, ref GameTime gameTime)
+        {
+            if (Main.gameMenu || Main.gamePaused || Main.LocalPlayer.dead)
+                timeSkips = 0;
+            if (timeSkips > 0 && !Main.gameMenu)
+            {
+                _timeSkips++;
+                if (_timeSkips > timeSkips)
+                    _timeSkips = 0;
+                if (_timeSkips < timeSkips)
+                    return;
+            }
+            orig(self, ref gameTime);
+        }
+
+
+        private void testSlowDownAudio(On.Terraria.Audio.SoundEngine.orig_Update orig)
+        {
+            if (timeSkips > 0 && !Main.gameMenu)
+            {
+                if (_timeSkips < timeSkips)
+                    return;
+            }
+            orig();
+        }
+        */
+        void DrawNPC(Terraria.On_Main.orig_DrawNPC orig, global::Terraria.Main self, int iNPCIndex, bool behindTiles)
         {
             SpriteBatch sb = Main.spriteBatch;
             sb.End();
@@ -90,7 +120,7 @@ namespace EbonianMod
             }
         }
 
-        public void DrawBehindTilesAndWalls(On.Terraria.Main.orig_DrawBG orig, global::Terraria.Main self)
+        public void DrawBehindTilesAndWalls(Terraria.On_Main.orig_DrawBG orig, global::Terraria.Main self)
         {
             orig(self);
             foreach (Projectile projectile in Main.projectile)
@@ -123,9 +153,9 @@ namespace EbonianMod
             ScreenDistort = null;
             TentacleBlack = null;
             TrailShader = null;
-            On.Terraria.Graphics.Effects.FilterManager.EndCapture -= FilterManager_EndCapture;
+            Terraria.Graphics.Effects.On_FilterManager.EndCapture -= FilterManager_EndCapture;
             Main.OnResolutionChanged -= Main_OnResolutionChanged;
-            On.Terraria.Main.DrawBG -= DrawBehindTilesAndWalls;
+            Terraria.On_Main.DrawBG -= DrawBehindTilesAndWalls;
         }
         private void Main_OnResolutionChanged(Vector2 obj)
         {
@@ -142,7 +172,7 @@ namespace EbonianMod
 
         public static int ExolID = ModContent.NPCType<Exol>();
         public static float FlashAlpha;
-        private void FilterManager_EndCapture(On.Terraria.Graphics.Effects.FilterManager.orig_EndCapture orig, Terraria.Graphics.Effects.FilterManager self, RenderTarget2D finalTexture, RenderTarget2D screenTarget1, RenderTarget2D screenTarget2, Color clearColor)
+        private void FilterManager_EndCapture(Terraria.Graphics.Effects.On_FilterManager.orig_EndCapture orig, Terraria.Graphics.Effects.FilterManager self, RenderTarget2D finalTexture, RenderTarget2D screenTarget1, RenderTarget2D screenTarget2, Color clearColor)
         {
             GraphicsDevice gd = Main.instance.GraphicsDevice;
             SpriteBatch sb = Main.spriteBatch;

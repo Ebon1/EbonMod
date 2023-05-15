@@ -23,7 +23,7 @@ namespace EbonianMod.Tiles
             Main.tileMerge[ModContent.TileType<EbonHiveRock>()][Type] = true;
             Main.tileMerge[ModContent.TileType<EbonHiveRock2>()][Type] = true;
             DustType = DustID.GreenBlood;
-            ItemDrop = ModContent.ItemType<Items.Tiles.EbonHiveI>();
+            RegisterItemDrop(ModContent.ItemType<Items.Tiles.EbonHiveI>());
 
             AddMapEntry(Color.LawnGreen);
         }
@@ -43,7 +43,7 @@ namespace EbonianMod.Tiles
             Main.tileMerge[ModContent.TileType<EbonHiveBlock>()][Type] = true;
             TileID.Sets.BlockMergesWithMergeAllBlock[Type] = true;
             DustType = DustID.GreenBlood;
-            ItemDrop = ModContent.ItemType<Items.Accessories.EbonianHeart>();
+            RegisterItemDrop(ModContent.ItemType<Items.Accessories.EbonianHeart>());
 
             AddMapEntry(Color.LawnGreen);
         }

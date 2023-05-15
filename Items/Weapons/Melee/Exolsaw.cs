@@ -68,13 +68,13 @@ namespace EbonianMod.Items.Weapons.Melee
                     Projectile.Kill();
             }
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {
-            if (crit)
+            if (hitinfo.Crit)
             {
                 Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileID.DaybreakExplosion, 20, 0);
-                a.hostile = true;
-                a.friendly = false;
+                a.hostile = false;
+                a.friendly = true;
             }
             target.AddBuff(BuffID.OnFire, 150);
         }

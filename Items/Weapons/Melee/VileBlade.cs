@@ -16,6 +16,7 @@ namespace EbonianMod.Items.Weapons.Melee
 {
     public class VileBlade : ModItem
     {
+
         public override void SetDefaults()
         {
             Item.knockBack = 10f;
@@ -55,9 +56,9 @@ namespace EbonianMod.Items.Weapons.Melee
             swingTime = 15;
             holdOffset = 15;
         }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {
-            if (crit)
+            if (hitinfo.Crit)
             {
                 Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GreenShockwave>(), 0, 0);
                 target.AddBuff(BuffID.CursedInferno, 60);

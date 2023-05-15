@@ -62,7 +62,7 @@ namespace EbonianMod.NPCs.Town
                 new FlavorTextBestiaryInfoElement("Someone once decided to put an Agal on a cat, and from that point on it all went downhill")
             });
         }
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
+        public override bool CanTownNPCSpawn(int numTownNPCs)
         {
             return Main.BestiaryTracker.Kills.GetKillCount(ModContent.NPCType<Exol.Exol>().ToString()) > 0;
         }
@@ -203,15 +203,15 @@ namespace EbonianMod.NPCs.Town
             button2 = "Cycle Options";
             Main.LocalPlayer.currentShoppingSettings.HappinessReport = "";
         }
-        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        public override void OnChatButtonClicked(bool firstButton, ref string shop)
         {
             if (firstButton)
             {
-                shop = false;
+                shop = "";
                 switch (Option)
                 {
                     case 0:
-                        shop = true;
+                        shop = "Shop";
                         break;
                     case 1:
                         Main.npcChatText = "Mashallah, ana la afhamu kalamak.";
