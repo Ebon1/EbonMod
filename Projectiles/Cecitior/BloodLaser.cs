@@ -38,14 +38,14 @@ namespace EbonianMod.Projectiles.Cecitior
             {
                 spriteBatch.Draw(tex, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.Black * (1f - fadeMult * i), Projectile.rotation, tex.Size() / 2, Projectile.scale * (1f - fadeMult * i), SpriteEffects.None, 0);
             }
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Black, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Black, Projectile.rotation, Projectile.Size / 2, Projectile.scale * 1.1f, SpriteEffects.None, 0);
 
             spriteBatch.Reload(BlendState.Additive);
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 spriteBatch.Draw(tex, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.Red * 0.5f * (1f - fadeMult * i), Projectile.rotation, tex.Size() / 2, Projectile.scale * Math.Clamp((1f - fadeMult * i) * 2, 0, 1), SpriteEffects.None, 0);
             }
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Red * 0.5f, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Red * 0.3f, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
 
 
             spriteBatch.Reload(BlendState.AlphaBlend);
@@ -53,9 +53,11 @@ namespace EbonianMod.Projectiles.Cecitior
         }
         public override void AI()
         {
-            if (Projectile.velocity.Length() < 20)
-                Projectile.velocity *= 1.025f;
             Projectile.rotation = Projectile.velocity.ToRotation();
+            if (Projectile.timeLeft > 490 && Projectile.velocity.Length() > 0.05f)
+                Projectile.velocity *= 0.9f;
+            if (Projectile.timeLeft < 450 && Projectile.velocity.Length() < 25)
+                Projectile.velocity *= 1.15f;
         }
     }
 }

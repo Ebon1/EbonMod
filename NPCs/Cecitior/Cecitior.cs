@@ -18,6 +18,9 @@ using static System.Formats.Asn1.AsnWriter;
 using EbonianMod.Items.Weapons.Melee;
 //using EbonianMod.Worldgen.Subworlds;
 using EbonianMod.Projectiles.Cecitior;
+using EbonianMod.Projectiles.Friendly.Crimson;
+using System.Reflection.Metadata;
+using EbonianMod.Projectiles;
 
 namespace EbonianMod.NPCs.Cecitior
 {
@@ -58,12 +61,13 @@ namespace EbonianMod.NPCs.Cecitior
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.boss = false;
-            SoundStyle hit = new("EbonianMod/Sounds/NPCHit/TerrorHit");
-            SoundStyle death = new("EbonianMod/Sounds/NPCHit/TerrorDeath");
+            SoundStyle hit = new("EbonianMod/Sounds/NPCHit/fleshHit");
+            SoundStyle death = new("EbonianMod/Sounds/NPCHit/cecitiordie");
             NPC.HitSound = hit;
             NPC.DeathSound = death;
             NPC.buffImmune[24] = true;
             NPC.netAlways = true;
+            NPC.BossBar = Main.BigBossProgressBar.NeverValid;
             //NPC.alpha = 255;
         }
         Verlet[] verlet = new Verlet[5];
@@ -123,6 +127,8 @@ namespace EbonianMod.NPCs.Cecitior
                             break;
                     }
                     verlet[i].Update(NPC.Center + offset2, NPC.Center + openOffset + new Vector2(30, 4) + offset);
+                    if (verlet[i].segments[10].cut)
+                        verlet[i].Draw(spriteBatch, "Extras/Line", useColor: true, color: Color.Maroon * 0.25f * VerletAlpha, scale: scale);
                 }
             }
             if (NPC.frame.Y == 6 * 102)//(openOffset.Length() > 0.25f || openOffset.Length() < -0.25f || openRotation != 0)
@@ -163,7 +169,8 @@ namespace EbonianMod.NPCs.Cecitior
                                 break;
                         }
                         //verlet[i].Update(NPC.Center + offset2, NPC.Center + openOffset + new Vector2(30, 4) + offset);
-                        verlet[i].Draw(spriteBatch, "Extras/Line", useColor: true, color: Color.Maroon * 0.25f * VerletAlpha, scale: scale);
+                        if (!verlet[i].segments[10].cut)
+                            verlet[i].Draw(spriteBatch, "Extras/Line", useColor: true, color: Color.Maroon * 0.25f * VerletAlpha, scale: scale);
                     }
                 }
                 Texture2D part = Helper.GetTexture("NPCs/Cecitior/Cecitior_Part");
@@ -196,6 +203,7 @@ namespace EbonianMod.NPCs.Cecitior
             writer.Write(NPC.localAI[1]);
             writer.Write(openRotation);
             writer.Write(rotation);
+            writer.Write(lastAi);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
@@ -205,6 +213,7 @@ namespace EbonianMod.NPCs.Cecitior
             NPC.localAI[1] = reader.ReadSingle();
             openRotation = reader.ReadSingle();
             rotation = reader.ReadSingle();
+            lastAi = reader.Read();
         }
         public float AIState
         {
@@ -219,7 +228,10 @@ namespace EbonianMod.NPCs.Cecitior
         }
         float VerletAlpha = 1;
         private float AITimer2 = 0;
-        const int Death = -2, PreDeath = -1, Intro = 0, Idle = 1, EyeBehaviour = 2, Chomp = 3, Teeth = 4, EyeBehaviour3 = 5, LaserRain = 6, ThrowUpBlood = 7, EyeBehaviour2 = 8;
+        int lastAi;
+        int elapsed;
+        Projectile tongue = null;
+        const int Death = -2, PreDeath = -1, Intro = 0, Idle = 1, EyeBehaviour = 2, Chomp = 3, Teeth = 4, EyeBehaviour2 = 5, LaserRain = 6, ThrowUpBlood = 7, Tongue = 8;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
@@ -230,10 +242,25 @@ namespace EbonianMod.NPCs.Cecitior
                 open = false;
                 rotation = 0;
                 openOffset = Vector2.Zero;
+                if (tongue != null)
+                    tongue.Kill();
                 AIState = PreDeath;
                 AITimer = 0;
                 AITimer2 = 0;
             }
+            elapsed--;
+            if (Main.rand.NextBool(30) && elapsed <= 0)
+            {
+                elapsed = 350;
+                SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/flesh" + Main.rand.Next(3)), NPC.Center);
+            }
+            int eyeCount = 0;
+            foreach (NPC npc in Main.npc)
+            {
+                if (npc.active && npc.type == eyeType)
+                    eyeCount++;
+            }
+            bool p2 = eyeCount <= 3;
             if (!player.active || player.dead)// || !player.ZoneCorrupt)
             {
                 NPC.TargetClosest(false);
@@ -264,11 +291,16 @@ namespace EbonianMod.NPCs.Cecitior
             else
             {
                 NPC.ai[3] = 0;
-                openOffset = Vector2.Lerp(openOffset, Vector2.Zero, 0.5f);
+                if (!(AIState == Chomp && AITimer2 == 1) && !(AIState == PreDeath && (AITimer2 == 1 || AITimer2 == 3)))
+                    openOffset = Vector2.Lerp(openOffset, Vector2.Zero, 0.5f);
                 //NPC.damage = 40;
                 if ((openOffset.Length() < 2.5f && openOffset.Length() > 1f) || (openOffset.Length() > -2.5f && openOffset.Length() < -1f))
+                {
+                    SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/chomp" + Main.rand.Next(2)), NPC.Center);
+                    SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/NPCHit/fleshHit"), NPC.Center);
                     EbonianSystem.ScreenShakeAmount = 5;
-                if (openOffset != Vector2.Zero && AIState != ThrowUpBlood && AIState != LaserRain)
+                }
+                if (openOffset != Vector2.Zero && AIState != ThrowUpBlood && AIState != LaserRain && NPC.frame.Y == 6 * 102)
                     if (player.Center.Distance(NPC.Center) < 75 || player.Center.Distance(NPC.Center + openOffset) < 75)
                         player.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), 20, 0);
             }
@@ -277,101 +309,92 @@ namespace EbonianMod.NPCs.Cecitior
             NPC.rotation = MathHelper.Lerp(NPC.rotation, rotation, 0.35f);
             if (AIState == Death)
             {
-                AITimer++;
-                if (AITimer == 1)
-                {
-                    EbonianSystem.ChangeCameraPos(player.Center, 200);
-                    open = true;
-                }
-                if (AITimer < 45)
-                {
-                    NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(200, 0), false) / 5f;
-                    NPC.Center -= Vector2.UnitX * 5f;
-                    openOffset.X += 5f;
-                }
-                if (AITimer == 45)
-                    NPC.velocity = Vector2.Zero;
-                //    Helper.SetTimeSlow(50, 1);
-                if (AITimer == 50)
-                {
-                    EbonianSystem.ScreenShakeAmount = 5;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + openOffset / 2, Vector2.Zero, ModContent.ProjectileType<BloodShockwave>(), 0, 0);
-                    if (verlet[0] != null)
-                    {
-                        for (int i = 0; i < 5; i++)
-                        {
-                            verlet[i].segments[10].cut = true;
-                            verlet[i].stiffness = 1;
-                        }
-                    }
-                }
-                if (AITimer > 50)
-                    if (verlet[0] != null)
-                    {
-                        for (int i = 0; i < 5; i++)
-                        {
-                            for (int j = 0; j < verlet[i].points.Count; j++)
-                                verlet[i].points[j].gravity++;
-                        }
-                    }
-                /*if (AITimer > 55 && AITimer <= 85)
-                {
-                    if (Main.rand.NextBool(2))
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(2, 3), Main.rand.NextFloat(-0.2f, -1)), ProjectileID.BloodArrow, 15, 0);
-                    if (Main.rand.NextBool(2))
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center + openOffset, new Vector2(Main.rand.NextFloat(-2, -3), Main.rand.NextFloat(-0.2f, -1)), ProjectileID.BloodArrow, 15, 0);
-                }*/
-                if (AITimer > 85)
-                    VerletAlpha -= 0.1f;
-                if (AITimer == 100)
-                {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position + openOffset, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/Cecitior1").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/Cecitior2").Type, NPC.scale);
-                }
-                if (AITimer > 100)
-                {
-                    NPC.dontTakeDamage = false;
-                    NPC.life = 0;
-                    NPC.checkDead();
-                }
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position + openOffset, -Vector2.UnitX * 5, ModContent.Find<ModGore>("EbonianMod/Cecitior1").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, Vector2.UnitX * 5, ModContent.Find<ModGore>("EbonianMod/Cecitior2").Type, NPC.scale);
+
+                NPC.dontTakeDamage = false;
+                NPC.life = 0;
+                NPC.checkDead();
             }
             else if (AIState == PreDeath)
             {
                 AITimer++;
-                if (AITimer < 15)
+                if (open)
+                {
+                    if (AITimer2 == 0 || AITimer2 == 2)
+                        openOffset += Vector2.UnitX * (4 + (AITimer2 * 0.1f));
+                    else
+                        openOffset += Vector2.UnitY * (4 + (AITimer2 * 0.1f));
+                }
+                if (AITimer < 30)
                 {
                     open = true;
-                    NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 300), false) / 20f;
-                    openOffset.X++;
-                    openRotation += MathHelper.ToRadians(2);
-                    rotation -= MathHelper.ToRadians(2);
+                    if (AITimer2 == 1 || AITimer2 == 3)
+                    {
+                        openRotation = MathHelper.Lerp(openRotation, MathHelper.ToRadians(90), 0.5f);
+                        rotation = MathHelper.Lerp(rotation, MathHelper.ToRadians(90), 0.5f);
+                    }
+                    if (AITimer2 == 0)
+                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 100), false) / 10f;
                 }
-                if (AITimer > 30 && AITimer < 60 && AITimer % 3 == 0)
+                if (AITimer >= 30 && AITimer < 70)
                 {
+                    if (AITimer2 == 0 || AITimer2 == 2)
+                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(200, 0), false) / 5f;
+                    else
+                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200), false) / 5f;
+                }
+                if (AITimer == 70)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<BloodShockwave>(), 0, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + openOffset, Vector2.Zero, ModContent.ProjectileType<BloodShockwave>(), 0, 0);
+                    //SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center + openOffset);
                     NPC.velocity = Vector2.Zero;
-                    Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-5, 5), -5), ProjectileID.BloodArrow, 15, 0);
-                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-5, 5), 1), ProjectileID.GoldenShowerHostile, 15, 0);
-                    a.friendly = false;
-                    a.hostile = true;
                 }
-                if (AITimer >= 60 && AITimer < 75)
+                if (AITimer == 80)
                 {
-                    openOffset.X--;
-                    openRotation -= MathHelper.ToRadians(2);
-                    rotation += MathHelper.ToRadians(2);
+                    open = false;
                 }
-                if (AITimer >= 70 && AITimer < 75)
+                if (AITimer2 == 1 || AITimer2 == 3)
+                {
+                    if (openOffset.Y < 50 && AITimer > 30)
+                    {
+                        openRotation = 0;
+                        //rotation = 0;
+                        open = false;
+                        SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/chomp" + Main.rand.Next(2)), NPC.Center);
+                        NPC.frame.Y = 0;
+                        openOffset = Vector2.Zero;
+                    }
+                }
+                if (AITimer > 80)
+                {
+                    openOffset.Y = MathHelper.Lerp(openOffset.Y, 0, 0.5f);
+                    NPC.Center = Vector2.Lerp(NPC.Center, NPC.Center + openOffset, 0.5f + (AITimer2 * 0.1f));
+                }
+                if (AITimer >= 90 - (AITimer == 3 ? 5 : 0))
                 {
                     openRotation = 0;
-                    openOffset = Vector2.Zero;
-                    open = false;
-                    NPC.damage = 30;
-                }
-                if (AITimer >= 120)
-                {
-                    AIState = Death;
-                    NPC.velocity = Vector2.Zero;
-                    AITimer = 0;
+                    rotation = 0;
+                    if (AITimer2 < 3)
+                    {
+                        if (verlet[0] != null)
+                        {
+                            verlet[(int)AITimer2].segments[10].cut = true;
+                            verlet[(int)AITimer2].stiffness = 1;
+
+                        }
+                        AITimer2++;
+                        AITimer = 0;
+                        NPC.velocity = Vector2.Zero;
+                    }
+                    else
+                    {
+                        AITimer2 = 0;
+                        AIState = Death;
+                        NPC.velocity = Vector2.Zero;
+                        AITimer = 0;
+                    }
                 }
             }
             else if (AIState == Intro)
@@ -398,22 +421,38 @@ namespace EbonianMod.NPCs.Cecitior
             else if (AIState == Idle)
             {
                 AITimer++;
-                NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 100), false) / 20f;
-                if (AITimer >= 230)
+                if (AITimer == 1 && AITimer2 == 0 && Main.rand.NextBool(3))
+                {
+                    AITimer = -250;
+                    AITimer2 = 1;
+                }
+                NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 100), false) / 45f;
+                if (AITimer >= 50)
                 {
                     if (NPC.ai[2] == 1)
-                        AIState = Main.rand.Next(2, 8);
+                    {
+                        int rand = Main.rand.Next(2, 9);
+                        int attempts = 0;
+                        while (rand == lastAi && attempts < 75)
+                        {
+                            rand = Main.rand.Next(2, 9);
+                            attempts++;
+                        }
+                        AIState = rand;
+                    }
                     else
                         AIState = EyeBehaviour;
                     NPC.velocity = Vector2.Zero;
                     AITimer = 0;
+                    AITimer2 = 0;
                 }
             }
             else if (AIState == EyeBehaviour)
             {
+                lastAi = (int)AIState;
                 AITimer++;
                 NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 350), false) / 20f;
-                if (AITimer >= 350)
+                if (AITimer >= 220 - (p2 ? 121 : 0))
                 {
                     if (NPC.ai[2] == 1)
                         AIState = Idle;
@@ -425,17 +464,31 @@ namespace EbonianMod.NPCs.Cecitior
             }
             else if (AIState == Chomp)
             {
+                lastAi = (int)AIState;
                 AITimer++;
                 if (open)
-                    openOffset += Vector2.UnitX * 4;
+                {
+                    if (AITimer2 == 1)
+                        openOffset += Vector2.UnitY * 4;
+                    else
+                        openOffset += Vector2.UnitX * 4;
+                }
                 if (AITimer < 50)
                 {
                     open = true;
+                    if (AITimer2 == 1)
+                    {
+                        openRotation = MathHelper.Lerp(openRotation, MathHelper.ToRadians(90), 0.5f);
+                        rotation = MathHelper.Lerp(rotation, MathHelper.ToRadians(90), 0.5f);
+                    }
                     NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 100), false) / 10f;
                 }
                 if (AITimer >= 50 && AITimer < 100)
                 {
-                    NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(200, 0), false) / 5f;
+                    if (AITimer2 == 1)
+                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200), false) / 5f;
+                    else
+                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(200, 0), false) / 5f;
                 }
                 if (AITimer == 100)
                 {
@@ -449,22 +502,49 @@ namespace EbonianMod.NPCs.Cecitior
                     open = false;
                 }
                 if (AITimer > 115)
-                    NPC.Center = Vector2.Lerp(NPC.Center, NPC.Center + openOffset, 0.5f);
+                {
+                    openOffset.Y = MathHelper.Lerp(openOffset.Y, 0, 0.5f);
+                    NPC.Center = Vector2.Lerp(NPC.Center, NPC.Center + openOffset, 0.6f);
+                }
+                if (AITimer2 == 1)
+                {
+                    if (openOffset.Y < 50 && AITimer > 50)
+                    {
+                        openRotation = 0;
+                        //rotation = 0;
+                        open = false;
+                        NPC.frame.Y = 0;
+                        openOffset = Vector2.Zero;
+                    }
+                }
                 if (AITimer >= 135)
                 {
-                    if (NPC.ai[2] == 1)
-                        AIState = Idle;
+                    openRotation = 0;
+                    rotation = 0;
+                    if (AITimer2 == 0 && p2)
+                    {
+                        AITimer2++;
+                        AITimer = 30;
+                        NPC.velocity = Vector2.Zero;
+                    }
                     else
-                        AIState = Teeth;
-                    NPC.velocity = Vector2.Zero;
-                    AITimer = 0;
+                    {
+                        AITimer2 = 0;
+                        if (NPC.ai[2] == 1)
+                            AIState = Idle;
+                        else
+                            AIState = Teeth;
+                        NPC.velocity = Vector2.Zero;
+                        AITimer = 0;
+                    }
                 }
             }
             else if (AIState == Teeth)
             {
+                lastAi = (int)AIState;
                 AITimer++;
                 if (AITimer < 20)
-                    NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200), false) / 5f;
+                    NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200), false) / 10f;
                 if (AITimer == 20)
                 {
                     NPC.velocity = Vector2.Zero;
@@ -474,32 +554,92 @@ namespace EbonianMod.NPCs.Cecitior
                         Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(5).RotatedBy(angle), ModContent.ProjectileType<CecitiorTeeth>(), 15, 0);
                     }
                 }
-                if (AITimer >= 100)
+                if (AITimer == 30 && p2)
+                {
+                    NPC.velocity = Vector2.Zero;
+                    for (int i = 0; i < 16; i++)
+                    {
+                        float angle = Helper.CircleDividedEqually(i, 16);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(5).RotatedBy(angle), ModContent.ProjectileType<CecitiorTeeth>(), 15, 0);
+                    }
+                }
+                if (AITimer >= 50)
                 {
                     if (NPC.ai[2] == 1)
                         AIState = Idle;
                     else
-                        AIState = EyeBehaviour2;
+                        AIState = Tongue;
                     NPC.velocity = Vector2.Zero;
                     AITimer = 0;
+                }
+            }
+            else if (AIState == Tongue)
+            {
+                lastAi = (int)AIState;
+                AITimer++;
+                open = true;
+                if (AITimer < 15)
+                {
+                    AITimer2 = 10;
+                    openOffset.X++;
+                    openRotation -= MathHelper.ToRadians(2);
+                    rotation += MathHelper.ToRadians(2);
+                }
+                if (AITimer == 70)
+                {
+                    tongue = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * 1.5f, ModContent.ProjectileType<LatcherPCecitior>(), 15, 0, -1, NPC.whoAmI);
+                }
+                if (AITimer < 20)
+                    NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200), false) / 10f;
+                if (AITimer == 20)
+                {
+                    NPC.velocity = Vector2.Zero;
+                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, new Vector2(0, 0), ModContent.ProjectileType<BloodShockwave>(), 0, 0, -1, NPC.whoAmI);
+                }
+                if (tongue != null)
+                {
+                    if (tongue.ai[1] == 1 && tongue.active)
+                    {
+                        NPC.damage = 15;
+                        AITimer -= 0.5f;
+                    }
+                    else if (!tongue.active)
+                    {
+                        rotation = 0;
+                        openRotation = 0;
+
+                        NPC.damage = 0;
+                        openOffset = Vector2.Zero;
+                        open = false;
+                        NPC.velocity *= 0.985f;
+                        AITimer += 2;
+                    }
+                }
+                if (AITimer >= 185)
+                {
+                    openOffset = Vector2.Zero;
+                    open = false;
+                }
+                if (AITimer >= 200)
+                {
+                    NPC.damage = 0;
+                    rotation = 0;
+                    openRotation = 0;
+                    tongue = null;
+                    NPC.velocity = Vector2.Zero;
+                    AITimer = 0;
+                    if (NPC.ai[2] == 1)
+                        AIState = Idle;
+                    else
+                        AIState = EyeBehaviour2;
                 }
             }
             else if (AIState == EyeBehaviour2)
             {
+                lastAi = (int)AIState;
                 AITimer++;
-                AIState = EyeBehaviour3; // attack doesnt exist yet lol
-                NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200), false) / 5f;
-                if (AITimer >= 200)
-                {
-                    NPC.velocity = Vector2.Zero;
-                    AITimer = 0;
-                }
-            }
-            else if (AIState == EyeBehaviour3)
-            {
-                AITimer++;
-                NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200), false) / 5f;
-                if (AITimer >= 200)
+                NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200), false) / 10f;
+                if (AITimer >= 200 - (p2 ? 95 : 0))
                 {
                     if (NPC.ai[2] == 1)
                         AIState = Idle;
@@ -511,22 +651,28 @@ namespace EbonianMod.NPCs.Cecitior
             }
             else if (AIState == LaserRain)
             {
+                lastAi = (int)AIState;
                 AITimer++;
+                if (p2)
+                    AITimer++;
                 open = true;
                 if (AITimer < 15)
                 {
-                    AITimer2 = 20;
+                    if (p2)
+                        AITimer2 = 5;
+                    else
+                        AITimer2 = 10;
                     openOffset.X++;
                     openRotation -= MathHelper.ToRadians(2);
                     rotation += MathHelper.ToRadians(2);
                 }
                 if (AITimer < 55)
                     NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200), false) / 2;
-                if (AITimer == 55)
+                if (AITimer > 55)
                     NPC.velocity = Vector2.Zero;
-                if (AITimer > 70 && AITimer < 100)
+                if (AITimer > 70 && AITimer < 85)
                 {
-                    AITimer2 -= 0.6f;
+                    AITimer2 -= 0.55f;
                     NPC.velocity = Vector2.Zero;
                     for (int i = -1; i < 2; i++)
                     {
@@ -535,36 +681,48 @@ namespace EbonianMod.NPCs.Cecitior
                         Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(i * AITimer2, 5), ModContent.ProjectileType<BloodLaser>(), 15, 0);
                     }
                 }
-                if (AITimer >= 100)
+                if (AITimer >= 85)
                 {
                     openOffset = Vector2.Zero;
                     open = false;
                 }
 
-                if (AITimer >= 105)
+                if (AITimer >= 90)
                 {
                     rotation = 0;
                     openRotation = 0;
-                    AIState = ThrowUpBlood;
+                    if (NPC.ai[2] == 1)
+                        AIState = Idle;
+                    else
+                        AIState = ThrowUpBlood;
                     NPC.velocity = Vector2.Zero;
                     AITimer = 0;
+                    AITimer2 = 0;
                 }
             }
-            else if (AIState == ThrowUpBlood) // THROW UP BLOOD ALWAYS COMES AFTER LASER RAIN, BOTH ATTACKS ARE UNINTERESTING ON THEIR OWN
+            else if (AIState == ThrowUpBlood)
             {
+                lastAi = (int)AIState;
                 AITimer++;
                 open = true;
                 if (AITimer < 15)
                 {
+                    AITimer2 = 10;
                     NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200), false) / 20f;
                     openOffset.X++;
                     openRotation += MathHelper.ToRadians(2);
                     rotation -= MathHelper.ToRadians(2);
                 }
-                if (AITimer > 30 && AITimer < 60 && AITimer % 2 == 0)
+                if (AITimer >= 30 && AITimer <= 60 && AITimer % 10 == 0)
                 {
+                    AITimer2 -= 4;
                     NPC.velocity = Vector2.Zero;
-                    Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-4, 4), -5), ProjectileID.BloodArrow, 15, 0);
+                    if (p2)
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 0.5f, -2), ProjectileID.GoldenShowerHostile, 15, 0);
+                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 2, -5), ModContent.ProjectileType<HeadGoreSceptreEVILSOBBINGRN>(), 15, 0);
+                    a.friendly = false;
+                    a.hostile = true;
+
                 }
                 if (AITimer >= 60)
                 {
@@ -586,6 +744,7 @@ namespace EbonianMod.NPCs.Cecitior
                     NPC.ai[2] = 1;
                     NPC.velocity = Vector2.Zero;
                     AITimer = 0;
+                    AITimer2 = 0;
                 }
             }
         }

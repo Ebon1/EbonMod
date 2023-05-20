@@ -15,6 +15,7 @@ using EbonianMod.Projectiles;
 using System.Reflection.Metadata;
 using EbonianMod.Items.Weapons.Magic;
 using EbonianMod.Items.Weapons.Melee;
+using EbonianMod.Bossbars;
 
 namespace EbonianMod.NPCs.Terrortoma
 {
@@ -68,6 +69,7 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.boss = false;
+            NPC.BossBar = ModContent.GetInstance<TerrortomaBar>();
             SoundStyle hit = new("EbonianMod/Sounds/NPCHit/TerrorHit");
             SoundStyle death = new("EbonianMod/Sounds/NPCHit/TerrorDeath");
             NPC.HitSound = hit;

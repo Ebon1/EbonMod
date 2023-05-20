@@ -8,6 +8,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 using EbonianMod.NPCs.Corruption;
 using EbonianMod.NPCs.Terrortoma;
+using EbonianMod.NPCs.Cecitior;
 
 namespace EbonianMod.Items.Consumables.BossItems
 {
@@ -79,6 +80,44 @@ namespace EbonianMod.Items.Consumables.BossItems
         public override bool? UseItem(Player player)
         {
             NPC.NewNPCDirect(player.GetSource_FromThis(), player.Center + new Microsoft.Xna.Framework.Vector2(300, -200), ModContent.NPCType<Terrortoma>());
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, player.position);
+            return true;
+        }
+    }
+    public class CecitiorSummon : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("cecitior!");
+            Tooltip.SetDefault("holy fuck peter!");
+            ItemID.Sets.SortingPriorityBossSpawns[Item.type] = 12;
+        }
+        public override string Texture => Helper.Placeholder;
+        public override void SetDefaults()
+        {
+            Item.width = 20;
+            Item.height = 20;
+            Item.maxStack = 20;
+            Item.value = 1000000;
+            Item.rare = ItemRarityID.Red;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = true;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return !NPC.AnyNPCs(ModContent.NPCType<Cecitior>());
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.CrimtaneBar, 20).AddTile(TileID.Anvils).Register();
+        }
+
+        public override bool? UseItem(Player player)
+        {
+            NPC.NewNPCDirect(player.GetSource_FromThis(), player.Center + new Microsoft.Xna.Framework.Vector2(300, -200), ModContent.NPCType<Cecitior>());
             Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, player.position);
             return true;
         }

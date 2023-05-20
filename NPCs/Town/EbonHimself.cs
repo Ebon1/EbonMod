@@ -207,12 +207,8 @@ namespace EbonianMod.NPCs.Town
         {
             if (firstButton)
             {
-                shop = "";
                 switch (Option)
                 {
-                    case 0:
-                        shop = "Shop";
-                        break;
                     case 1:
                         Main.npcChatText = "Mashallah, ana la afhamu kalamak.";
                         break;
@@ -316,6 +312,9 @@ namespace EbonianMod.NPCs.Town
                         Main.npcChatText = "No.";
                         break;
                 }
+                if (Option != 0)
+                    return;
+                shop = "Shop";
             }
             else
             {
