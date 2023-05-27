@@ -19,6 +19,7 @@ using EbonianMod.Projectiles.Exol;
 ////using EbonianMod.Worldgen.Subworlds;
 ////using SubworldLibrary;
 using Terraria.GameContent.Drawing;
+using Terraria.Audio;
 
 namespace EbonianMod
 {
@@ -29,8 +30,13 @@ namespace EbonianMod
         public RenderTarget2D render;
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
+        public static SoundStyle flesh0, flesh1, flesh2;
         public override void Load()
         {
+
+            flesh0 = new SoundStyle("EbonianMod/Sounds/flesh0");
+            flesh1 = new SoundStyle("EbonianMod/Sounds/flesh1");
+            flesh2 = new SoundStyle("EbonianMod/Sounds/flesh2");
 
             sys = new();
             Instance = this;

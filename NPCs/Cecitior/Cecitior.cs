@@ -21,6 +21,7 @@ using EbonianMod.Projectiles.Cecitior;
 using EbonianMod.Projectiles.Friendly.Crimson;
 using System.Reflection.Metadata;
 using EbonianMod.Projectiles;
+using ReLogic.Utilities;
 
 namespace EbonianMod.NPCs.Cecitior
 {
@@ -229,9 +230,9 @@ namespace EbonianMod.NPCs.Cecitior
         float VerletAlpha = 1;
         private float AITimer2 = 0;
         int lastAi;
-        int elapsed;
         Projectile tongue = null;
         const int Death = -2, PreDeath = -1, Intro = 0, Idle = 1, EyeBehaviour = 2, Chomp = 3, Teeth = 4, EyeBehaviour2 = 5, LaserRain = 6, ThrowUpBlood = 7, Tongue = 8;
+        SlotId cachedSound;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
@@ -248,11 +249,19 @@ namespace EbonianMod.NPCs.Cecitior
                 AITimer = 0;
                 AITimer2 = 0;
             }
-            elapsed--;
-            if (Main.rand.NextBool(30) && elapsed <= 0)
+            SoundStyle selected = EbonianMod.flesh0;
+            switch (Main.rand.Next(3))
             {
-                elapsed = 350;
-                SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/flesh" + Main.rand.Next(3)), NPC.Center);
+                case 0:
+                    selected = EbonianMod.flesh1;
+                    break;
+                case 1:
+                    selected = EbonianMod.flesh2;
+                    break;
+            }
+            if (!cachedSound.IsValid || !SoundEngine.TryGetActiveSound(cachedSound, out var activeSound) || !activeSound.IsPlaying)
+            {
+                cachedSound = SoundEngine.PlaySound(selected, NPC.Center);
             }
             int eyeCount = 0;
             foreach (NPC npc in Main.npc)
