@@ -128,7 +128,8 @@ namespace EbonMod.Items.Weapons.Magic
             }
 
             Player player = Main.player[Projectile.owner];
-            player.GetModPlayer<Screenshake>().SmallScreenshake = true;
+          //Screenshake system
+	//  player.GetModPlayer<Screenshake>().SmallScreenshake = true;
             for (int i = 0; i < 3; i++)
             {
                 float speedX = Projectile.velocity.X * Main.rand.NextFloat(.46f, .8f) + Main.rand.NextFloat(-7f, 8f);
