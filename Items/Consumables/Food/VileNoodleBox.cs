@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using RealmOne.Common.Systems;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
@@ -8,7 +7,7 @@ using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace RealmOne.Items.Food
+namespace EbonMod.Items.Consumables.Food
 {
 	public class VileNoodleBox : ModItem
 	{
