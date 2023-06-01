@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using RealmOne.Items.Misc;
-using RealmOne.Projectiles.Magic;
-using RealmOne.RealmPlayer;
 using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
@@ -10,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace RealmOne.Items.Weapons.Magic
+namespace EbonMod.Items.Weapons.Magic
 {
 	public class IchorGlobScepter : ModItem
 	{
@@ -18,7 +15,8 @@ namespace RealmOne.Items.Weapons.Magic
 		{
 			DisplayName.SetDefault("Haemocele Glob Scepter");
 			Tooltip.SetDefault("Shoots out an icky glob of ichor that splits into 3 exploding chunks of ichor");
-            ItemGlowy.AddItemGlowMask(Item.type, "RealmOne/Items/Weapons/Magic/IchorGlobScepter_Glow");
+            // If you dont have an glowmask system
+	    //ItemGlowy.AddItemGlowMask(Item.type, "RealmOne/Items/Weapons/Magic/IchorGlobScepter_Glow");
 
         }
 
@@ -45,7 +43,7 @@ namespace RealmOne.Items.Weapons.Magic
 		}
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Texture2D texture = Request<Texture2D>("RealmOne/Items/Weapons/Magic/IchorGlobScepter_Glow", AssetRequestMode.ImmediateLoad).Value;
+            Texture2D texture = Request<Texture2D>("EbonMod/Items/Weapons/Magic/IchorGlobScepter_Glow", AssetRequestMode.ImmediateLoad).Value;
             spriteBatch.Draw
             (
                 texture,
