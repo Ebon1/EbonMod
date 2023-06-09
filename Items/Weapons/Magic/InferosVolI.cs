@@ -30,7 +30,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.knockBack = 10;
             Item.value = Item.sellPrice(gold: (int)2.5);
             Item.rare = 6;
-            Item.UseSound = SoundID.Item9;
+            Item.UseSound = SoundID.AbigailUpgrade;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<InferosP>();
             Item.shootSpeed = 10f;
@@ -62,16 +62,17 @@ namespace EbonianMod.Items.Weapons.Magic
         {
             Texture2D a = ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/ExolPortal").Value;
             //Texture2D a = Helper.GetExtraTexture("explosion");
-            //Main.spriteBatch.Reload(BlendState.Additive);
+            Main.spriteBatch.Reload(BlendState.Additive);
             var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                Main.spriteBatch.Draw(a, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.OrangeRed * (1f - fadeMult * i) * alpha, 0, a.Size() / 2, 1f * (1f - fadeMult * i), SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(a, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.White * (1f - fadeMult * i) * alpha, 0, a.Size() / 2, 0.9f * (1f - fadeMult * i), SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(a, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.OrangeRed * 0.5f * (1f - fadeMult * i) * alpha, 0, a.Size() / 2, 1f * (1f - fadeMult * i), SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(a, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.White * 0.5f * (1f - fadeMult * i) * alpha, 0, a.Size() / 2, 0.9f * (1f - fadeMult * i), SpriteEffects.None, 0);
             }
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
             Main.spriteBatch.Draw(a, Projectile.Center - Main.screenPosition, null, Color.Orange * alpha, 0, a.Size() / 2, 1f, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(a, Projectile.Center - Main.screenPosition, null, Color.White * alpha, 0, a.Size() / 2, 0.9f, SpriteEffects.None, 0);
-            //Main.spriteBatch.Reload(BlendState.AlphaBlend);
+
             return false;
         }
         public override void SetDefaults()
@@ -104,10 +105,8 @@ namespace EbonianMod.Items.Weapons.Magic
                     float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
                     if (distanceTo < 400)
                         Projectile.ai[1] = 5;
-                    else if (distanceTo < 800)
-                        Projectile.ai[1] = 10;
                     else
-                        Projectile.ai[1] = 20;
+                        Projectile.ai[1] = 12;
                     if (distanceTo < distance)
                     {
                         move = newMove;

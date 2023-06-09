@@ -34,7 +34,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.staff[Item.type] = true;
             Item.shoot = ModContent.ProjectileType<IchorGlob>();
             Item.UseSound = SoundID.Item8;
-            Item.shootSpeed = 19f;
+            Item.shootSpeed = 3f;
             Item.autoReuse = true;
             Item.DamageType = DamageClass.Magic;
 
@@ -58,6 +58,10 @@ namespace EbonianMod.Items.Weapons.Magic
                 SpriteEffects.None,
                 0f
             );
+        }
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            position = Main.MouseWorld;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -96,7 +100,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Projectile.width = 30;
             Projectile.height = 30;
             Projectile.aiStyle = 0;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.friendly = true;
             Projectile.hostile = false;
             Projectile.DamageType = DamageClass.Magic;
@@ -108,6 +112,10 @@ namespace EbonianMod.Items.Weapons.Magic
         public override Color? GetAlpha(Color lightColor)
         {
             return Color.NavajoWhite;
+        }
+        public override bool? CanDamage()
+        {
+            return false;
         }
         public override void Kill(int timeLeft)
         {
@@ -158,7 +166,7 @@ namespace EbonianMod.Items.Weapons.Magic
         public override void AI()
         {
             Projectile.rotation += 0.1f;
-            Projectile.velocity *= 0.95f;
+            Projectile.velocity *= 0.8f;
             Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Blood, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, Scale: 1f);
 
         }

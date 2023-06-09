@@ -24,10 +24,10 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             Item.DamageType = DamageClass.Ranged;
-            Item.damage = 2;
-            Item.useTime = 15;
+            Item.damage = 3;
+            Item.useTime = 2;
             Item.useAnimation = 30;
-            Item.shoot = ProjectileID.ToxicBubble;
+            Item.shoot = ModContent.ProjectileType<TinyFish>();
             Item.shootSpeed = 8f;
             Item.rare = 2;
             Item.useStyle = 5;
@@ -41,13 +41,8 @@ namespace EbonianMod.Items.Weapons.Ranged
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.itemAnimation < 15)
-                for (int i = 0; i < 3; i++)
-                {
-                    Projectile.NewProjectile(source, position, velocity * 0.5f + new Vector2(0, Main.rand.NextFloat(-5, 5)).RotatedBy(velocity.ToRotation()), ProjectileID.ToxicBubble, damage, knockback, player.whoAmI);
-                }
-            else
-                Projectile.NewProjectile(source, position, velocity * 2, ModContent.ProjectileType<WeakCursedBullet>(), damage, knockback, player.whoAmI);
+            if (player.itemAnimation > 21)
+                Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(10)), ModContent.ProjectileType<TinyFish>(), damage, knockback, player.whoAmI);
             return false;
         }
     }

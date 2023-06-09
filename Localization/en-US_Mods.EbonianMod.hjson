@@ -68,6 +68,7 @@ Projectiles: {
 	PepperSprayProjectile.DisplayName: Pepper Spray
 	IchorGlobSmall.DisplayName: Ichor Glob
 	IchorGlob.DisplayName: Ichor Glob
+	TinyFish.DisplayName: Tiny Fish
 }
 
 NPCs: {
@@ -100,9 +101,9 @@ NPCs: {
 	TerrorClingerRanged.DisplayName: Clinger
 	TerrorClingerMelee.DisplayName: Clinger
 	CrimsonWormTail.DisplayName: Terrorformer
-	CrimsonWormHead.DisplayName: Terrorformer 
+	CrimsonWormHead.DisplayName: Crimson Worm Head
 	CrimsonWormBody.DisplayName: Terrorformer
-	CrimeraTail.DisplayName: Scorn
+	CrimeraTail.DisplayName: Crimera Tail
 	CrimeraHead.DisplayName: Scorn
 	CrimeraBody.DisplayName: Scorn
 	VileSlime.DisplayName: Vile Slime
@@ -117,15 +118,13 @@ NPCs: {
 	CecitiorEye.DisplayName: Gazer
 	TinyBrain.DisplayName: Brain
 	EbonianHeartNPC.DisplayName: Heart
-	CrimeraTail.DisplayName: Crimera Tail
-	CrimsonWormHead.DisplayName: Crimson Worm Head
 }
 
 Items: {
 	ToxicarpMKII: {
 		Tooltip:
 			'''
-			Shoots barrages of tiny fish.
+			Shoots barrages of tiny fish, these fishes immediately realize they are not underwater and die.
 			Gnarwhal blast!
 			'''
 		DisplayName: Gnarwhal
@@ -216,26 +215,26 @@ Items: {
 
 	GoreSceptre: {
 		DisplayName: Gore Sceptre
-		Tooltip: "Conjures a bloated heart."
+		Tooltip: Conjures a bloated heart.
 	}
 
 	TestTileItem4: {
-		Tooltip: "Shadow the"
+		Tooltip: Shadow the
 		DisplayName: Test Tile Item4
 	}
 
 	TestTileItem3: {
-		Tooltip: "An announcement."
+		Tooltip: An announcement.
 		DisplayName: Test Tile Item3
 	}
 
 	TestTileItem2: {
-		Tooltip: "To make"
+		Tooltip: To make
 		DisplayName: Test Tile Item2
 	}
 
 	TestTileItem: {
-		Tooltip: "I've come"
+		Tooltip: I've come
 		DisplayName: Test Tile Item
 	}
 
@@ -246,12 +245,16 @@ Items: {
 
 	Panopticon: {
 		DisplayName: Panopticon
-		Tooltip: "Summons the Flesh Panopticon\nLIVE PANOPTICON REACTION"
+		Tooltip:
+			'''
+			Summons the Flesh Panopticon
+			LIVE PANOPTICON REACTION
+			'''
 	}
 
 	CursedCone: {
 		DisplayName: Cursed Cone
-		Tooltip: "Summons the High Tinytoma"
+		Tooltip: Summons the High Tinytoma
 	}
 
 	DoomsdayRemote: {
@@ -284,7 +287,7 @@ Items: {
 	}
 
 	PepperSpray: {
-		Tooltip: "Used for self defense, right?"
+		Tooltip: Used for self defense, right?
 		DisplayName: Pepper Spray
 	}
 
@@ -299,7 +302,7 @@ Items: {
 	}
 
 	HotMusic: {
-		Tooltip: "Players Trash Compactor by Yuri O"
+		Tooltip: Players Trash Compactor by Yuri O
 		DisplayName: Music Box (Hot Garbage)
 	}
 
@@ -309,27 +312,27 @@ Items: {
 	}
 
 	ExolMusicI: {
-		Tooltip: "Plays Rage by Yuri O"
+		Tooltip: Plays Rage by Yuri O
 		DisplayName: Music Box (Exol)
 	}
 
 	EvilMusicI: {
-		Tooltip: "Plays Forces of Evil by Yuri O"
+		Tooltip: Plays Forces of Evil by Yuri O
 		DisplayName: Music Box (Terrortoma & Cecitor)
 	}
 
 	EbonPaintingI: {
-		Tooltip: "By E. 1"
-		DisplayName: Habibí Cat
+		Tooltip: By E. 1
+		DisplayName: Habibï¿½ Cat
 	}
 
 	DappertomaI: {
-		Tooltip: "By Sr. Terror"
+		Tooltip: By Sr. Terror
 		DisplayName: Elegantoma
 	}
 
 	DapperCecitiorI: {
-		Tooltip: "By Sr. Unsighted"
+		Tooltip: By Sr. Unsighted
 		DisplayName: Sightly Fella
 	}
 
@@ -339,12 +342,16 @@ Items: {
 	}
 
 	TerrortomaSummon: {
-		Tooltip: "placeholder"
+		Tooltip: placeholder
 		DisplayName: Terrortomarrrr
 	}
 
 	RedditGluttonSummon: {
-		Tooltip: "Summons THE Glutton\n\"Years of evolution lead to this.\""
+		Tooltip:
+			'''
+			Summons THE Glutton
+			"Years of evolution lead to this."
+			'''
 		DisplayName: Glutton's Bulb
 	}
 
@@ -354,7 +361,7 @@ Items: {
 	}
 
 	CecitiorSummon: {
-		Tooltip: "placeholder"
+		Tooltip: placeholder
 		DisplayName: Cecitiorrrr
 	}
 
