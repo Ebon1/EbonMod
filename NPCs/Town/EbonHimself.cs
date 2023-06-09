@@ -31,7 +31,6 @@ namespace EbonianMod.NPCs.Town
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Developer");
             Main.npcFrameCount[Type] = 10;
             NPC.Happiness.SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Love);
             NPC.Happiness.SetNPCAffection(NPCID.Wizard, AffectionLevel.Like);

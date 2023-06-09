@@ -22,7 +22,6 @@ namespace EbonianMod.Items.Pets
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
-            Tooltip.SetDefault("Summons the Flesh Panopticon\nLIVE PANOPTICON REACTION");
         }
         public override void SetDefaults()
         {
@@ -68,8 +67,6 @@ namespace EbonianMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Panopticon");
-            Description.SetDefault("This prison, to orbit around... ME!?");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

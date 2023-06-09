@@ -15,8 +15,6 @@ namespace EbonianMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Molten Wings");
-            Tooltip.SetDefault("Allows flight and slow fall");
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(145, 9f, 1.5f);
         }
         public override void SetDefaults()

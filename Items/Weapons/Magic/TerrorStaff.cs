@@ -16,7 +16,6 @@ namespace EbonianMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("");
             Item.staff[Item.type] = true;
         }
 

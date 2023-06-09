@@ -16,7 +16,6 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Heart");
         }
         public override void Kill(int timeLeft)
         {
@@ -67,7 +66,6 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
         public override string Texture => "EbonianMod/Projectiles/Friendly/Crimson/HeadGoreSceptre";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Heart");
         }
         public override void Kill(int timeLeft)
         {

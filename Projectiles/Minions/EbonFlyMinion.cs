@@ -15,7 +15,6 @@ namespace EbonianMod.Projectiles.Minions
         public override string Texture => "EbonianMod/NPCs/Corruption/EbonFly";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ebon Fly");
             Main.projFrames[Projectile.type] = 2;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 

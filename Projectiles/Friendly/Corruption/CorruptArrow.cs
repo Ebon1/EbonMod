@@ -52,7 +52,6 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
         public override string Texture => "Terraria/Images/Projectile_7";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vilethorn");
         }
 
         public override void SetDefaults()

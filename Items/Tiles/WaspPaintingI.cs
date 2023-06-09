@@ -13,8 +13,6 @@ namespace EbonianMod.Items.Tiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ebon Wasp");
-            Tooltip.SetDefault("By E. Fly");
         }
         public override void SetDefaults()
         {

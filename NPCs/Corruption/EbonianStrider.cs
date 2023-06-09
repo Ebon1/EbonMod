@@ -15,7 +15,6 @@ namespace EbonianMod.NPCs.Corruption
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Regurgitator");
             //Main.npcFrameCount[NPC.type] = 16;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)

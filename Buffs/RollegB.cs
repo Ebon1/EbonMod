@@ -13,8 +13,6 @@ namespace EbonianMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Neko Shroomie");
-            Description.SetDefault("Ooaoaaoa mmm))");
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
         }

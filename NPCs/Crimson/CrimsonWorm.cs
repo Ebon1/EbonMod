@@ -30,7 +30,7 @@ namespace EbonianMod.NPCs.Crimson
         public override bool useNormalMovement => !(NPC.ai[3] < 402 && NPC.ai[3] > 198) && !(NPC.ai[3] > 800);
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Alaskan Bullworm or sum shit idfk");
+
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Hide = true // Hides this NPC from the Bestiary, useful for multi-part NPCs whom you only want one entry.
@@ -224,7 +224,7 @@ namespace EbonianMod.NPCs.Crimson
         public override bool byHeight => true;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Alaskan Bullworm or sum shit idfk");
+
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Hide = true // Hides this NPC from the Bestiary, useful for multi-part NPCs whom you only want one entry.
@@ -381,7 +381,7 @@ namespace EbonianMod.NPCs.Crimson
         public override bool byHeight => true;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Alaskan Bullworm or sum shit idfk");
+
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Hide = true // Hides this NPC from the Bestiary, useful for multi-part NPCs whom you only want one entry.

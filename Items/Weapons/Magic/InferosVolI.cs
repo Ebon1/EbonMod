@@ -60,17 +60,18 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D a = Helper.GetExtraTexture("explosion");
-            Main.spriteBatch.Reload(BlendState.Additive);
+            Texture2D a = ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/ExolPortal").Value;
+            //Texture2D a = Helper.GetExtraTexture("explosion");
+            //Main.spriteBatch.Reload(BlendState.Additive);
             var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                Main.spriteBatch.Draw(a, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.OrangeRed * (1f - fadeMult * i) * alpha, 0, a.Size() / 2, 0.1f * (1f - fadeMult * i), SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(a, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.White * (1f - fadeMult * i) * alpha, 0, a.Size() / 2, 0.09f * (1f - fadeMult * i), SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(a, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.OrangeRed * (1f - fadeMult * i) * alpha, 0, a.Size() / 2, 1f * (1f - fadeMult * i), SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(a, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.White * (1f - fadeMult * i) * alpha, 0, a.Size() / 2, 0.9f * (1f - fadeMult * i), SpriteEffects.None, 0);
             }
-            Main.spriteBatch.Draw(a, Projectile.Center - Main.screenPosition, null, Color.Orange * alpha, 0, a.Size() / 2, 0.1f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(a, Projectile.Center - Main.screenPosition, null, Color.White * alpha, 0, a.Size() / 2, 0.09f, SpriteEffects.None, 0);
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            Main.spriteBatch.Draw(a, Projectile.Center - Main.screenPosition, null, Color.Orange * alpha, 0, a.Size() / 2, 1f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(a, Projectile.Center - Main.screenPosition, null, Color.White * alpha, 0, a.Size() / 2, 0.9f, SpriteEffects.None, 0);
+            //Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
         public override void SetDefaults()
@@ -93,7 +94,7 @@ namespace EbonianMod.Items.Weapons.Magic
         {
             alpha = MathHelper.Lerp(alpha, alpha2, 0.1f);
             Vector2 move = Vector2.Zero;
-            float distance = 2050f;
+            float distance = 1200;
             bool target = false;
             for (int k = 0; k < Main.maxNPCs; k++)
             {

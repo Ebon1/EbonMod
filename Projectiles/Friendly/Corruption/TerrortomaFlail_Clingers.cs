@@ -19,7 +19,6 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Clinger");
             Main.projFrames[Projectile.type] = 3;
         }
         public override void SetDefaults()

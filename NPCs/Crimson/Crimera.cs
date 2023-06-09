@@ -22,7 +22,7 @@ namespace EbonianMod.NPCs.Crimson
         public override bool byHeight => false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scorn");
+
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 CustomTexturePath = "EbonianMod/NPCs/Crimson/Crimera",
@@ -138,7 +138,7 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scorn");
+
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Hide = true // Hides this NPC from the Bestiary, useful for multi-part NPCs whom you only want one entry.
@@ -175,7 +175,7 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scorn");
+
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Hide = true // Hides this NPC from the Bestiary, useful for multi-part NPCs whom you only want one entry.

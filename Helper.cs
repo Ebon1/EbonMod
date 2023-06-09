@@ -316,13 +316,14 @@ namespace EbonianMod
         public static string Placeholder = "EbonianMod/Extras/Placeholder";
         public static class TRay
         {
-            public static Vector2 Cast(Vector2 start, Vector2 direction, float length)
+            public static Vector2 Cast(Vector2 start, Vector2 direction, float length, bool platformCheck = false)
             {
                 direction = direction.SafeNormalize(Vector2.UnitY);
                 Vector2 output = start;
+
                 for (int i = 0; i < length; i++)
                 {
-                    if (Collision.CanHitLine(output, 0, 0, output + direction, 0, 0))
+                    if (Collision.CanHitLine(output, 0, 0, output + direction, 0, 0) && (platformCheck ? !Collision.SolidTiles(output, 1, 1, platformCheck) : true))
                     {
                         output += direction;
                     }
@@ -331,11 +332,12 @@ namespace EbonianMod
                         break;
                     }
                 }
+
                 return output;
             }
-            public static float CastLength(Vector2 start, Vector2 direction, float length)
+            public static float CastLength(Vector2 start, Vector2 direction, float length, bool platformCheck = false)
             {
-                Vector2 end = Cast(start, direction, length);
+                Vector2 end = Cast(start, direction, length, platformCheck);
                 return (end - start).Length();
             }
         }

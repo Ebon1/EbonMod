@@ -13,8 +13,6 @@ namespace EbonianMod.Items.Tiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sightly Fella");
-            Tooltip.SetDefault("By Sr. Unsighted");
         }
         public override void SetDefaults()
         {

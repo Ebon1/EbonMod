@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Reflection;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -28,4 +28,4 @@ namespace EbonianMod
 #endif
         }
     }
-}
+}*/

@@ -714,7 +714,7 @@ namespace EbonianMod.NPCs.Garbage
         //public override string Texture => "Terraria/Images/Item_" + ItemID.CreamSoda;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("SODA!");
+
         }
         public override void SetDefaults()
         {
@@ -744,7 +744,7 @@ namespace EbonianMod.NPCs.Garbage
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Oildrum");
+
         }
         public override void SetDefaults()
         {
@@ -789,7 +789,7 @@ namespace EbonianMod.NPCs.Garbage
         public override string Texture => "EbonianMod/Extras/explosion";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flame");
+
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -961,7 +961,7 @@ namespace EbonianMod.NPCs.Garbage
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nuke");
+
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 

@@ -16,7 +16,6 @@ namespace EbonianMod.NPCs.Corruption
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vile Slime");
             Main.npcFrameCount[NPC.type] = 13;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)

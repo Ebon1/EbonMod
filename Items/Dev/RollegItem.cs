@@ -16,8 +16,6 @@ namespace EbonianMod.Items.Dev
         public override string Texture => Helper.Placeholder;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cordnyaceps shroom");
-            Tooltip.SetDefault("Hallucinations cant make you feel better. It is just a way to hide yourself from reality. Its a way for weak ones that choose the simple and easy way.");
         }
         public override void SetDefaults()
         {

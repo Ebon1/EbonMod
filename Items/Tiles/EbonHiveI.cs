@@ -12,7 +12,6 @@ namespace EbonianMod.Items.Tiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ebonian Cluster");
         }
         public override void SetDefaults()
         {

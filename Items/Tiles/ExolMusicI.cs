@@ -19,8 +19,6 @@ namespace EbonianMod.Items.Tiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Music Box (Exol)");
-            Tooltip.SetDefault("Plays Rage by Yuri O");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             MusicLoader.AddMusicBox(Mod, MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Exol"), ModContent.ItemType<ExolMusicI>(), ModContent.TileType<ExolMusic>());
         }

@@ -10,8 +10,6 @@ namespace EbonianMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Judgemental Brain");
-            Tooltip.SetDefault("While the brains are active, they slowly heal you.\nEach individual brain can be destroyed by enemies but if the player gets hit, all the brains die.\n\"For the first time ever! Experience being meat jail from the hit game megamurder!\"");
         }
         public override void SetDefaults()
         {

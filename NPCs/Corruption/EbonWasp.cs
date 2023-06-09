@@ -18,7 +18,6 @@ namespace EbonianMod.NPCs.Corruption
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Winged Worm");
             Main.npcFrameCount[NPC.type] = 4;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)

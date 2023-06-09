@@ -18,7 +18,6 @@ namespace EbonianMod.Items.Pets.Hightoma
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
-            Tooltip.SetDefault("Summons the Hightoma");
         }
         public override void AddRecipes()
         {
@@ -93,8 +92,6 @@ namespace EbonianMod.Items.Pets.Hightoma
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Hightoma");
-            Description.SetDefault("Full of: Grass");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

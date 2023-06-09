@@ -21,7 +21,6 @@ namespace EbonianMod.NPCs.Corruption
         public override string Texture => "EbonianMod/NPCs/Corruption/Glutton";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Enraged Glutton");
             Main.npcFrameCount[Type] = 9;
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {

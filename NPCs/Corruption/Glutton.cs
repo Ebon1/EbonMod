@@ -172,7 +172,6 @@ namespace EbonianMod.NPCs.Corruption
         public override string Texture => Helper.Empty;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shockwave");
         }
 
         public override void SetDefaults()

@@ -10,8 +10,6 @@ namespace EbonianMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Doomsday Drone");
-            Description.SetDefault("The Doomsday Drone will fight for you");
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
         }

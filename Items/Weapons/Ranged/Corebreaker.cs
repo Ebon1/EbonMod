@@ -17,7 +17,6 @@ namespace EbonianMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Shoots a cannonball.");
         }
         public override void SetDefaults()
         {

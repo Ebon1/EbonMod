@@ -14,7 +14,6 @@ namespace EbonianMod.Projectiles.Terrortoma
         public override string Texture => "Terraria/Images/Projectile_7";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vilethorn");
         }
 
         public override void SetDefaults()
@@ -81,7 +80,6 @@ namespace EbonianMod.Projectiles.Terrortoma
         public override string Texture => "Terraria/Images/Projectile_8";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vilethorn");
         }
         public override Color? GetAlpha(Color lightColor)
         {

@@ -15,7 +15,6 @@ namespace EbonianMod.Projectiles.Cecitior
         //public override string Texture => "EbonianMod/Projectiles/Friendly/Crimson/Fangs";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cecitior Fang");
             //  Main.projFrames[Projectile.type] = 4;
         }
 

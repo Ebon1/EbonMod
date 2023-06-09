@@ -19,8 +19,6 @@ namespace EbonianMod.Items.Tiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Music Box (Hot Garbage)");
-            Tooltip.SetDefault("Plays Trash Compactor by Yuri O");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             MusicLoader.AddMusicBox(Mod, MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Garbage"), ModContent.ItemType<HotMusic>(), ModContent.TileType<ThisShitSomeHotGarbage>());
         }

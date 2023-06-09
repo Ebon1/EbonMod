@@ -11,7 +11,7 @@ namespace EbonianMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Shoots a bloody heart");
+
             Item.staff[Item.type] = true;
         }
 

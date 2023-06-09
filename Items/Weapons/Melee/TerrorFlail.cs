@@ -12,7 +12,6 @@ namespace EbonianMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("You ARE the Terrortoma.");
         }
         public override void SetDefaults()
         {

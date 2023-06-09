@@ -14,7 +14,6 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("fang");
             Main.projFrames[Projectile.type] = 4;
         }
 

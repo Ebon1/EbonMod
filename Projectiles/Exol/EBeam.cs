@@ -30,7 +30,6 @@ namespace EbonianMod.Projectiles.Exol
         public override string Texture => "EbonianMod/Extras/Empty";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Beam");
         }
         int damage;
         public override bool ShouldUpdatePosition()

@@ -14,8 +14,6 @@ namespace EbonianMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fang Slinger");
-            Tooltip.SetDefault("Shoots fangs, who would've thought.");
         }
 
         public override void SetDefaults()

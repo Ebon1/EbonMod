@@ -16,8 +16,6 @@ namespace EbonianMod.Items.Consumables.BossItems
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Glutton's Bulb");
-            Tooltip.SetDefault("Summons an enraged version of the Glutton\n\"Years of evolution lead to this.\"");
             ItemID.Sets.SortingPriorityBossSpawns[Item.type] = 12;
         }
 
@@ -50,8 +48,6 @@ namespace EbonianMod.Items.Consumables.BossItems
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("teror!");
-            Tooltip.SetDefault("holy fuck lois!");
             ItemID.Sets.SortingPriorityBossSpawns[Item.type] = 12;
         }
         public override string Texture => Helper.BuffPlaceholder;
@@ -88,8 +84,6 @@ namespace EbonianMod.Items.Consumables.BossItems
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("cecitior!");
-            Tooltip.SetDefault("holy fuck peter!");
             ItemID.Sets.SortingPriorityBossSpawns[Item.type] = 12;
         }
         public override string Texture => Helper.Placeholder;

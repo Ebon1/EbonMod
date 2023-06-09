@@ -13,7 +13,6 @@ namespace EbonianMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Turns rockets into homing corrupted missiles.");
         }
         public override void SetDefaults()
         {

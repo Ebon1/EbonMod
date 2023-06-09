@@ -19,8 +19,6 @@ namespace EbonianMod.Items.Tiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Music Box (Terrortoma & Cecitior)");
-            Tooltip.SetDefault("Plays Forces of Evil by Yuri O");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             MusicLoader.AddMusicBox(Mod, MusicLoader.GetMusicSlot(Mod, "Sounds/Music/EvilMiniboss"), ModContent.ItemType<EvilMusicI>(), ModContent.TileType<EvilMusic>());
         }

@@ -14,7 +14,6 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("chunk");
             Main.projFrames[Projectile.type] = 2;
         }
 

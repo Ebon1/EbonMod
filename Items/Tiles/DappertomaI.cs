@@ -13,8 +13,6 @@ namespace EbonianMod.Items.Tiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Elegantoma");
-            Tooltip.SetDefault("By Sr. Terror");
         }
         public override void SetDefaults()
         {

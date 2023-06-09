@@ -12,7 +12,7 @@ namespace EbonianMod.Buffs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("stunned");
+
             Main.buffNoTimeDisplay[Type] = false;
         }
         public override void Update(NPC npc, ref int buffIndex)

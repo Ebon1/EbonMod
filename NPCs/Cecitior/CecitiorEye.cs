@@ -31,7 +31,6 @@ namespace EbonianMod.NPCs.Cecitior
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gazer");
             Main.npcFrameCount[NPC.type] = 19;
         }
         public override void SetDefaults()

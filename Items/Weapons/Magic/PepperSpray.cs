@@ -11,8 +11,6 @@ namespace EbonianMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pepper Spray");
-            Tooltip.SetDefault("Used for self defense, right?");
         }
 
         public override void SetDefaults()
@@ -49,7 +47,6 @@ namespace EbonianMod.Items.Weapons.Magic
         public override string Texture => Helper.Empty;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pepper Spray");
         }
         public override void SetDefaults()
         {

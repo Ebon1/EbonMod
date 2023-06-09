@@ -13,7 +13,7 @@ namespace EbonianMod.Items.Tiles
         public override string Texture => Helper.BuffPlaceholder;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Test");
+
         }
         public override void SetDefaults()
         {
@@ -37,7 +37,7 @@ namespace EbonianMod.Items.Tiles
         public override string Texture => Helper.BuffPlaceholder;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Test2");
+
         }
         public override void SetDefaults()
         {
@@ -61,7 +61,7 @@ namespace EbonianMod.Items.Tiles
         public override string Texture => Helper.BuffPlaceholder;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Test3");
+
         }
         public override void SetDefaults()
         {
@@ -85,7 +85,6 @@ namespace EbonianMod.Items.Tiles
         public override string Texture => Helper.BuffPlaceholder;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Test4");
         }
         public override void SetDefaults()
         {

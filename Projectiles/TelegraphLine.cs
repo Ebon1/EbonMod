@@ -13,7 +13,6 @@ namespace EbonianMod.Projectiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Telegraph line");
         }
         public override string Texture => "EbonianMod/Extras/Empty";
 

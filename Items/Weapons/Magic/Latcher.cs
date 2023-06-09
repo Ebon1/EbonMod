@@ -17,7 +17,6 @@ namespace EbonianMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Reels you into tiles and heavy enemies, reels light enemies towards you\nRight click to cancel.");
         }
         public override void SetDefaults()
         {

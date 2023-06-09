@@ -13,7 +13,6 @@ namespace EbonianMod.NPCs.Corruption
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ebonfly");
             Main.npcFrameCount[NPC.type] = 2;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)

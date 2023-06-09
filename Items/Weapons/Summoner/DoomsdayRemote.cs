@@ -13,8 +13,6 @@ namespace EbonianMod.Items.Weapons.Summoner
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Red Button");
-            Tooltip.SetDefault("Summons a drone to fight for you.");
             ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true;
             ItemID.Sets.LockOnIgnoresCollision[Item.type] = true;
         }

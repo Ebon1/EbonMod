@@ -17,8 +17,6 @@ namespace EbonianMod.Items.Consumables.BossItems
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dusty Quantum Computer");
-            Tooltip.SetDefault("Allows communication with the only AI to ever reach singularity.");
             ItemID.Sets.SortingPriorityBossSpawns[Item.type] = 12;
         }
 

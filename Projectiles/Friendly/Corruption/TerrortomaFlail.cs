@@ -16,7 +16,6 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tiny Terrortoma");
         }
 
         public override void SetDefaults()

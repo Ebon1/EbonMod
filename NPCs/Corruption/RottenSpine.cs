@@ -20,7 +20,7 @@ namespace EbonianMod.NPCs.Corruption
         //public override bool HasCustomBodySegments => true;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rotten Spine");
+
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 CustomTexturePath = "EbonianMod/NPCs/Corruption/RottenSpine",
@@ -109,7 +109,7 @@ namespace EbonianMod.NPCs.Corruption
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rotten Spine");
+
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Hide = true // Hides this NPC from the Bestiary, useful for multi-part NPCs whom you only want one entry.
@@ -148,7 +148,7 @@ namespace EbonianMod.NPCs.Corruption
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rotten Spine Tail");
+
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Hide = true // Hides this NPC from the Bestiary, useful for multi-part NPCs whom you only want one entry.

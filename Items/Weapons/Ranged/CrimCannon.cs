@@ -15,8 +15,6 @@ namespace EbonianMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crimson Maw");
-            Tooltip.SetDefault("Sprays blood on enemies\nEvery 10th attack also shoots out a blood helix that deals 4x damage.");
         }
 
         public override void SetDefaults()

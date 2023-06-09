@@ -20,7 +20,6 @@ namespace EbonianMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("fish gun");
         }
         public override void SetDefaults()
         {

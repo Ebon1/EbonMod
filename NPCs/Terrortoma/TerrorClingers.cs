@@ -28,7 +28,6 @@ namespace EbonianMod.NPCs.Terrortoma
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Clinger");
         }
         public override void SetDefaults()
         {
@@ -278,7 +277,6 @@ namespace EbonianMod.NPCs.Terrortoma
         private float angle = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Clinger");
         }
         public override void SetDefaults()
         {
@@ -486,7 +484,6 @@ namespace EbonianMod.NPCs.Terrortoma
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Clinger");
             NPCID.Sets.TrailCacheLength[NPC.type] = 4;
             NPCID.Sets.TrailingMode[NPC.type] = 0;
         }

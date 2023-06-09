@@ -19,8 +19,6 @@ namespace EbonianMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exol");
-            Tooltip.SetDefault("");
         }
         public override void SetDefaults()
         {

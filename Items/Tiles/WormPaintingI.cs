@@ -13,8 +13,6 @@ namespace EbonianMod.Items.Tiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Worm painting name here");
-            Tooltip.SetDefault("By O. Digger");
         }
         public override void SetDefaults()
         {

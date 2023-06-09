@@ -1,0 +1,421 @@
+Projectiles: {
+	GreenShockwave.DisplayName: Shockwave
+	GenericExplosion.DisplayName: Explosion
+	EyeVFX.DisplayName: Eye
+	CircleTelegraph.DisplayName: Shockwave
+	BloodShockwave.DisplayName: Shockwave
+	TSpike.DisplayName: Spike
+	TFlameThrower3.DisplayName: Cursed Flame
+	TFlameThrower2.DisplayName: Cursed Flame
+	TFlameThrower.DisplayName: Cursed Flame
+	TFang.DisplayName: Fang
+	TExplosion.DisplayName: Explosion
+	Ripple.DisplayName: Ripple
+	DoomsdayDrone.DisplayName: Doomsday Drone
+	WeakCursedBullet.DisplayName: Cursed Bullet
+	CorebreakerP.DisplayName: Corebreaker Cannonball
+	IchorBlast.DisplayName: Ichor Blast
+	LatcherPCecitior.DisplayName: Latcher
+	LatcherP.DisplayName: Latcher
+	IchorGrenade.DisplayName: Gutling Grenade
+	TerrorStaffP.DisplayName: Vile Egg
+	EbonianRocket.DisplayName: Abhorrent Missile
+	CorruptArrow.DisplayName: Corrupt Arrow
+	BloodBullet.DisplayName: Blood Bullet
+	EFireBreath2.DisplayName: Fire
+	EFireBreath.DisplayName: Fire
+	EFire.DisplayName: Fire
+	Rolleg.DisplayName: Rolleg
+	CecitiorEyeP.DisplayName: False Gazer
+	BloodLaser.DisplayName: Blood Blast
+	Pipebomb.DisplayName: Pipebomb
+	Mailbox.DisplayName: Mailbox
+	Garbage.DisplayName: Garbage
+	IchorFlintlockP.DisplayName: Bloodcolt
+	EbonianGunP.DisplayName: Demonite Blaster
+	BloodOrb.DisplayName: Blood Orb
+	VileBladeP.DisplayName: Vile Blade
+	SanguineSlasherP.DisplayName: Sanguine Slasher
+	IgnosP.DisplayName: Exol
+	ExolsawP.DisplayName: idk
+	EbonianScytheP.DisplayName: Ebonian Scythe
+	InferosP.DisplayName: Inferos
+	PanopticonP.DisplayName: Panopticon
+	Hightoma.DisplayName: Hightoma
+	GarbageRemoteP.DisplayName: Dusty Quantum Computer
+	TerrorVilethorn2.DisplayName: Vilethorn
+	TerrorVilethorn1.DisplayName: Vilethorn
+	TBeam.DisplayName: Beam
+	TelegraphLine.DisplayName: Telegraph Line
+	EbonFlyMinion.DisplayName: Ebonfly
+	DroneBeam.DisplayName: Drone Beam
+	HeadGoreSceptreEVILSOBBINGRN.DisplayName: Heart
+	HeadGoreSceptre.DisplayName: Heart
+	Fangs.DisplayName: Fang
+	VileMeatChunk.DisplayName: Vile Meat Chunk
+	TerrortomaFlail_Clingers.DisplayName: Terrorflail
+	TerrortomaFlail.DisplayName: Terrorflail
+	CorruptThorn.DisplayName: Corrupt Thorn
+	EBoulder2.DisplayName: Boulder
+	EBoulder.DisplayName: Boulder
+	EBeam.DisplayName: Beam
+	CecitiorTeeth.DisplayName: Teeth
+	Soder.DisplayName: Soda
+	MetalCircle.DisplayName: Oildrum
+	HotGarbageNuke.DisplayName: Nuke
+	GarbageFlame.DisplayName: Flame
+	FatSmash.DisplayName: Shockwave
+	PepperSprayProjectile.DisplayName: Pepper Spray
+	IchorGlobSmall.DisplayName: Ichor Glob
+	IchorGlob.DisplayName: Ichor Glob
+}
+
+NPCs: {
+	EbonHimself: {
+		DisplayName: Developer
+
+		TownNPCMood: {
+			Content: I am content.
+			NoHome: I hate not having a home.
+			FarFromHome: I am too far from home.
+			LoveSpace: I love having so much space.
+			DislikeCrowded: I dislike how crowded I am.
+			HateCrowded: I hate how crowded I am.
+			LoveBiome: I love {BiomeName}.
+			LoveNPC: I love {NPCName}.
+			LikeNPC: I like {NPCName}.
+			DislikeNPC: I dislike {NPCName}.
+			HateNPC: I hate {NPCName}.
+			LikeNPC_Princess: I like {NPCName}.
+			Princess_LovesNPC: I like {NPCName}.
+		}
+	}
+
+	HotGarbage.DisplayName: Hot Garbage
+	Exol.DisplayName: Exol
+	Glutton.DisplayName: Glutton
+	Cecitior.DisplayName: Cecitior
+	Terrortoma.DisplayName: Terrortoma
+	TerrorClingerSummoner.DisplayName: Clinger
+	TerrorClingerRanged.DisplayName: Clinger
+	TerrorClingerMelee.DisplayName: Clinger
+	CrimsonWormTail.DisplayName: Terrorformer
+	CrimsonWormHead.DisplayName: Terrorformer 
+	CrimsonWormBody.DisplayName: Terrorformer
+	CrimeraTail.DisplayName: Scorn
+	CrimeraHead.DisplayName: Scorn
+	CrimeraBody.DisplayName: Scorn
+	VileSlime.DisplayName: Vile Slime
+	TheTrueGluttonEXNeoGod.DisplayName: THE Glutton
+	RottenSpineTail.DisplayName: Rotten Spine
+	RottenSpineHead.DisplayName: Rotten Spine
+	RottenSpineBody.DisplayName: Rotten Spine
+	EbonWasp.DisplayName: Winged Worm
+	EbonianStrider.DisplayName: Regurgitator
+	EbonFly.DisplayName: Ebonfly
+	EbonCrawler.DisplayName: Waster
+	CecitiorEye.DisplayName: Gazer
+	TinyBrain.DisplayName: Brain
+	EbonianHeartNPC.DisplayName: Heart
+	CrimeraTail.DisplayName: Crimera Tail
+	CrimsonWormHead.DisplayName: Crimson Worm Head
+}
+
+Items: {
+	ToxicarpMKII: {
+		Tooltip:
+			'''
+			Shoots barrages of tiny fish.
+			Gnarwhal blast!
+			'''
+		DisplayName: Gnarwhal
+	}
+
+	ThornBow: {
+		Tooltip: Shoots Vilethorn arrows that 'bloom' on hit.
+		DisplayName: Thorny Bow
+	}
+
+	GutlingGun: {
+		Tooltip: Shoots ichor micro-grenades that detonate on contact with anything.
+		DisplayName: Gutling
+	}
+
+	EbonianRocketLauncher: {
+		DisplayName: Abhorrent Cannon
+		Tooltip: Turns rockets into homing corrupt missiles.
+	}
+
+	EbonianGun: {
+		Tooltip:
+			'''
+			Shoots weak cursed bullets.
+			The firearm is sadly not actually cursed.
+			'''
+		DisplayName: Cursed Firearm
+	}
+
+	EbonianGatling: {
+		Tooltip: ""
+		DisplayName: Corrupt Gatling
+	}
+
+	Corebreaker: {
+		DisplayName: Corebreaker
+		Tooltip: Half flamethrower, Half cannon, Complete madness.
+	}
+
+	VileBlade: {
+		Tooltip: Critical hits inflict Cursed Inferno.
+		DisplayName: Vile Blade
+	}
+
+	TerrorFlail: {
+		DisplayName: Terrorflail
+		Tooltip: Pocket Terrortoma at your disposal.
+	}
+
+	SanguineSlasher: {
+		Tooltip: ""
+		DisplayName: Sanguine Slasher
+	}
+
+	MeatCrusher: {
+		Tooltip: Just as advertised!
+		DisplayName: Meat Crusher
+	}
+
+	Exolsaw: {
+		Tooltip: ""
+		DisplayName: Exaw
+	}
+
+	EbonianScythe: {
+		Tooltip: ""
+		DisplayName: Ebonian Scythe
+	}
+
+	TerrorStaff: {
+		DisplayName: Terror Staff
+		Tooltip: ""
+	}
+
+	Latcher: {
+		DisplayName: Latcher
+		Tooltip:
+			'''
+			Reels you into tiles and heavy enemies, reels light enemies towards you
+			Right click to cancel.
+			'''
+	}
+
+	InferosVolI: {
+		Tooltip: ""
+		DisplayName: Acheron Codex
+	}
+
+	GoreSceptre: {
+		DisplayName: Gore Sceptre
+		Tooltip: "Conjures a bloated heart."
+	}
+
+	TestTileItem4: {
+		Tooltip: "Shadow the"
+		DisplayName: Test Tile Item4
+	}
+
+	TestTileItem3: {
+		Tooltip: "An announcement."
+		DisplayName: Test Tile Item3
+	}
+
+	TestTileItem2: {
+		Tooltip: "To make"
+		DisplayName: Test Tile Item2
+	}
+
+	TestTileItem: {
+		Tooltip: "I've come"
+		DisplayName: Test Tile Item
+	}
+
+	EbonHiveI: {
+		Tooltip: ""
+		DisplayName: Corrupt Cluster
+	}
+
+	Panopticon: {
+		DisplayName: Panopticon
+		Tooltip: "Summons the Flesh Panopticon\nLIVE PANOPTICON REACTION"
+	}
+
+	CursedCone: {
+		DisplayName: Cursed Cone
+		Tooltip: "Summons the High Tinytoma"
+	}
+
+	DoomsdayRemote: {
+		Tooltip: Surely pressing it is a good idea.
+		DisplayName: The Red Button
+	}
+
+	IchorFlintlock: {
+		Tooltip: If you keep attacking, the 5th bullet will be turned into a piercing ichor orb that decreases enemies' defense for a short while.
+		DisplayName: Bloodcolt
+	}
+
+	FangSlinger: {
+		Tooltip: Shoots fangs, who would've thought.
+		DisplayName: Fang Slinger
+	}
+
+	CrimCannon: {
+		Tooltip:
+			'''
+			Sprays blood on enemies
+			Every 10th attack also shoots out a blood helix that deals 4x damage.
+			'''
+		DisplayName: Crimson Maw
+	}
+
+	IgnosSword: {
+		Tooltip: ""
+		DisplayName: Exol
+	}
+
+	PepperSpray: {
+		Tooltip: "Used for self defense, right?"
+		DisplayName: Pepper Spray
+	}
+
+	WormPaintingI: {
+		Tooltip: By O. Digger
+		DisplayName: 
+	}
+
+	WaspPaintingI: {
+		Tooltip: By E. Fly
+		DisplayName: The Digger
+	}
+
+	HotMusic: {
+		Tooltip: "Players Trash Compactor by Yuri O"
+		DisplayName: Music Box (Hot Garbage)
+	}
+
+	HorriblePainting: {
+		Tooltip: By S. White
+		DisplayName: Horrible Painting
+	}
+
+	ExolMusicI: {
+		Tooltip: "Plays Rage by Yuri O"
+		DisplayName: Music Box (Exol)
+	}
+
+	EvilMusicI: {
+		Tooltip: "Plays Forces of Evil by Yuri O"
+		DisplayName: Music Box (Terrortoma & Cecitor)
+	}
+
+	EbonPaintingI: {
+		Tooltip: "By E. 1"
+		DisplayName: Habibí Cat
+	}
+
+	DappertomaI: {
+		Tooltip: "By Sr. Terror"
+		DisplayName: Elegantoma
+	}
+
+	DapperCecitiorI: {
+		Tooltip: "By Sr. Unsighted"
+		DisplayName: Sightly Fella
+	}
+
+	RollegItem: {
+		Tooltip: Hallucinations cant make you feel better. It is just a way to hide yourself from reality. Its a way for weak ones that choose the simple and easy way.
+		DisplayName: Cordnyaceps shroom
+	}
+
+	TerrortomaSummon: {
+		Tooltip: "placeholder"
+		DisplayName: Terrortomarrrr
+	}
+
+	RedditGluttonSummon: {
+		Tooltip: "Summons THE Glutton\n\"Years of evolution lead to this.\""
+		DisplayName: Glutton's Bulb
+	}
+
+	GarbageRemote: {
+		Tooltip: Allows communication with the only AI to ever reach singularity.
+		DisplayName: Dusty Quantum Computer
+	}
+
+	CecitiorSummon: {
+		Tooltip: "placeholder"
+		DisplayName: Cecitiorrrr
+	}
+
+	ExolWings: {
+		Tooltip: ""
+		DisplayName: Infernal Wings
+	}
+
+	EbonianHeart: {
+		Tooltip:
+			'''
+			Reduces defense by 5
+			Summons a corrupted heart that follows you and shoots cursed flames at nearby enemies.
+			'''
+		DisplayName: Rotten Heart
+	}
+
+	BrainAcc: {
+		Tooltip:
+			'''
+			While the brains are active, they slowly heal you.
+			Each individual brain can be destroyed by enemies but if the player gets hit, all the brains die.
+			"For the first time ever! Experience being meat jail from the hit game megamurder!"
+			'''
+		DisplayName: Judgemental Brain
+	}
+
+	IchorGlobScepter: {
+		Tooltip: Shoots out an icky glob of ichor that splits into 3 exploding chunks of ichor
+		DisplayName: Ichor Glob Sceptre
+	}
+
+	VileNoodleBox: {
+		Tooltip: Provides you 100% guaranteed literal heartburn
+		DisplayName: Vile Noodle Box
+	}
+}
+
+Buffs: {
+	ExolStun: {
+		Description: Mods.EbonianMod.Buffs.ExolStun.Description
+		DisplayName: Exol Stun
+	}
+
+	PanopticonB: {
+		Description: This prison... To orbit around... ME!?
+		DisplayName: Panopticon
+	}
+
+	HightomaB: {
+		Description: hnnmhmggg
+		DisplayName: High Tinytoma
+	}
+
+	RollegB: {
+		Description: Neko Shroomie
+		DisplayName: Ooaoaaoa mmm))
+	}
+
+	DoomsdayBuff: {
+		Description: The Doomsday Drone will fight for you.
+		DisplayName: Doomsday Drone
+	}
+}

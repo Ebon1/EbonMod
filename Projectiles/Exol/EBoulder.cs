@@ -16,7 +16,6 @@ namespace EbonianMod.Projectiles.Exol
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("boulder");
         }
         public override void SetDefaults()
         {
@@ -75,7 +74,6 @@ namespace EbonianMod.Projectiles.Exol
         public override string Texture => "EbonianMod/Projectiles/Exol/EBoulder";
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("boulder");
         }
         public override void SetDefaults()
         {
@@ -109,7 +107,6 @@ namespace EbonianMod.Projectiles.Exol
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flame");
             Main.projFrames[Projectile.type] = 4;
         }
 

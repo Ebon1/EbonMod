@@ -15,7 +15,6 @@ namespace EbonianMod.NPCs.Corruption
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Waster");
             Main.npcFrameCount[NPC.type] = 6;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)

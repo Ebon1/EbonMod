@@ -41,8 +41,6 @@ namespace EbonianMod.Items.Weapons.Ranged
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("FLINTLOCK BUT IT HAS ICHOR!");
-            Tooltip.SetDefault("If you keep attacking, the 5th bullet will be turned into a piercing ichor orb that decreases enemies' defense for a short while.");
         }
     }
     public class IchorFlintlockP : ModProjectile

@@ -41,7 +41,6 @@ namespace EbonianMod.NPCs.Terrortoma
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terrortoma");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.ShouldBeCountedAsBoss[Type] = true;
             Main.npcFrameCount[NPC.type] = 14;
