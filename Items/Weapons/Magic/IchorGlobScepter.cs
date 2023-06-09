@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using EbonianMod.Items.Misc;
-using EbonianMod.Projectiles.Magic;
-using EbonianMod.RealmPlayer;
 using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
@@ -17,9 +14,6 @@ namespace EbonianMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Haemocele Glob Scepter");
-            Tooltip.SetDefault("Shoots out an icky glob of ichor that splits into 3 exploding chunks of ichor");
-            ItemGlowy.AddItemGlowMask(Item.type, "EbonianMod/Items/Weapons/Magic/IchorGlobScepter_Glow");
             //ItemGlowy.AddItemGlowMask(Item.type, "EbonianMod/Items/Weapons/Magic/IchorGlobScepter_Glow");
 
         }
@@ -47,7 +41,7 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Texture2D texture = Request<Texture2D>("EbonMod/Items/Weapons/Magic/IchorGlobScepter_Glow", AssetRequestMode.ImmediateLoad).Value;
+            Texture2D texture = Request<Texture2D>("EbonianMod/Items/Weapons/Magic/IchorGlobScepter_Glow", AssetRequestMode.ImmediateLoad).Value;
             spriteBatch.Draw
             (
                 texture,
@@ -92,7 +86,7 @@ namespace EbonianMod.Items.Weapons.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ichor Glob");
+
 
 
         }
@@ -174,7 +168,7 @@ namespace EbonianMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ichor Glob Small");
+
         }
 
         public override void SetDefaults()
