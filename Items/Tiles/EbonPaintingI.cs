@@ -14,6 +14,10 @@ namespace EbonianMod.Items.Tiles
         public override void SetStaticDefaults()
         {
         }
+        public override bool IsLoadingEnabled(Mod mod)
+        {
+            return false;
+        }
         public override void SetDefaults()
         {
             Item.width = 16;

@@ -20,7 +20,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.damage = 39;
             Item.width = 40;
             Item.height = 40;
-            Item.mana = 6;
+            Item.mana = 25;
             Item.useTime = 20;
             Item.DamageType = DamageClass.Magic;
             Item.useAnimation = 20;

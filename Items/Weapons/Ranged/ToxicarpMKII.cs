@@ -39,8 +39,13 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             return new Vector2(-10, 0);
         }
+        public override bool CanConsumeAmmo(Item ammo, Player player)
+        {
+            return (player.itemAnimation > 21);
+        }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            position += new Vector2(16, -5).RotatedBy(velocity.ToRotation()) * player.direction;
             if (player.itemAnimation > 21)
                 Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(10)), ModContent.ProjectileType<TinyFish>(), damage, knockback, player.whoAmI);
             return false;

@@ -37,7 +37,7 @@ Projectiles: {
 	VileBladeP.DisplayName: Vile Blade
 	SanguineSlasherP.DisplayName: Sanguine Slasher
 	IgnosP.DisplayName: Exol
-	ExolsawP.DisplayName: idk
+	ExolsawP.DisplayName: Exawblade
 	EbonianScytheP.DisplayName: Ebonian Scythe
 	InferosP.DisplayName: Inferos
 	PanopticonP.DisplayName: Panopticon
@@ -69,6 +69,8 @@ Projectiles: {
 	IchorGlobSmall.DisplayName: Ichor Glob
 	IchorGlob.DisplayName: Ichor Glob
 	TinyFish.DisplayName: Tiny Fish
+	RingOfFireP.DisplayName: Ring Of Fire P
+	RingOfFireP2.DisplayName: Ring Of Fire P2
 }
 
 NPCs: {
@@ -101,7 +103,7 @@ NPCs: {
 	TerrorClingerRanged.DisplayName: Clinger
 	TerrorClingerMelee.DisplayName: Clinger
 	CrimsonWormTail.DisplayName: Terrorformer
-	CrimsonWormHead.DisplayName: Crimson Worm Head
+	CrimsonWormHead.DisplayName: Terrorformer
 	CrimsonWormBody.DisplayName: Terrorformer
 	CrimeraTail.DisplayName: Crimera Tail
 	CrimeraHead.DisplayName: Scorn
@@ -118,9 +120,20 @@ NPCs: {
 	CecitiorEye.DisplayName: Gazer
 	TinyBrain.DisplayName: Brain
 	EbonianHeartNPC.DisplayName: Heart
+	BabyCecity.DisplayName: Crimorrhage
+	Fleshformator.DisplayName: Fleshformator
 }
 
 Items: {
+	RingOfFire: {
+		Tooltip:
+			'''
+			Ignores defense and never deals critical damage.
+			Can't pop purple balloons.
+			'''
+		DisplayName: Ring of Fire
+	}
+
 	ToxicarpMKII: {
 		Tooltip:
 			'''
@@ -209,7 +222,7 @@ Items: {
 	}
 
 	InferosVolI: {
-		Tooltip: ""
+		Tooltip: Releases infernal discs that seek enemies.
 		DisplayName: Acheron Codex
 	}
 
@@ -298,7 +311,7 @@ Items: {
 
 	WaspPaintingI: {
 		Tooltip: By E. Fly
-		DisplayName: The Digger
+		DisplayName: The Wasp
 	}
 
 	HotMusic: {
@@ -319,11 +332,6 @@ Items: {
 	EvilMusicI: {
 		Tooltip: Plays Forces of Evil by Yuri O
 		DisplayName: Music Box (Terrortoma & Cecitor)
-	}
-
-	EbonPaintingI: {
-		Tooltip: By E. 1
-		DisplayName: Habib� Cat
 	}
 
 	DappertomaI: {
@@ -395,7 +403,11 @@ Items: {
 	}
 
 	VileNoodleBox: {
-		Tooltip: Provides you 100% guaranteed literal heartburn
+		Tooltip:
+			'''
+			Provides you 100% guaranteed literal heartburn
+			The noodles may be worms.
+			'''
 		DisplayName: Vile Noodle Box
 	}
 }

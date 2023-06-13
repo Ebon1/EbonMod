@@ -18,11 +18,11 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 
-namespace EbonianMod.NPCs.Crimson
+namespace EbonianMod.NPCs.Crimson.CrimsonWorm
 {
     public class CrimsonWormHead : WormHead
     {
-        //public override string Texture => "EbonianMod/NPCs/Crimson/CrimsonWormBody";
+        //public override string Texture => "EbonianMod/NPCs/Crimson/CrimsonWorm/CrimsonWormBody";
         public override bool extraAiAsIndex => true;
         public override int TailType => ModContent.NPCType<CrimsonWormTail>();
         public override int BodyType => ModContent.NPCType<CrimsonWormBody>();
@@ -40,7 +40,7 @@ namespace EbonianMod.NPCs.Crimson
         }
         /*public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D tex = Helper.GetTexture("NPCs/Crimson/CrimsonWormHead");
+            Texture2D tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormHead");
             spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, new Vector2(NPC.Size.X / 2, NPC.height / 1.4f), NPC.scale, SpriteEffects.None, 0);
             return false;
         }*/
@@ -116,7 +116,7 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void FindFrame(int frameHeight)
         {
-            if (((NPC.ai[3] < 462 && NPC.ai[3] > 198) || (NPC.ai[3] > 800) || NPC.ai[3] < -900) || NPC.IsABestiaryIconDummy)
+            if (NPC.ai[3] < 462 && NPC.ai[3] > 198 || NPC.ai[3] > 800 || NPC.ai[3] < -900 || NPC.IsABestiaryIconDummy)
             {
                 if (NPC.frameCounter++ % 5 == 0)
                 {
@@ -238,14 +238,14 @@ namespace EbonianMod.NPCs.Crimson
             {
                 Texture2D tex = TextureAssets.Npc[Type].Value;
                 if (NPC.ai[2] <= 6 && NPC.ai[2] > 3)
-                    tex = Helper.GetTexture("NPCs/Crimson/CrimsonWormBody2");
+                    tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody2");
                 if (NPC.ai[2] > 6)
-                    tex = Helper.GetTexture("NPCs/Crimson/CrimsonWormBody3");
+                    tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody3");
                 spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
             }
             else
             {
-                Texture2D tex = Helper.GetTexture("NPCs/Crimson/CrimsonWormBody_Destroyed");
+                Texture2D tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody_Destroyed");
                 spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
             }
             return false;
@@ -293,7 +293,7 @@ namespace EbonianMod.NPCs.Crimson
         public override void FindFrame(int frameHeight)
         {
             NPC head = Main.npc[(int)NPC.ai[3]];
-            bool headIdle = !((head.ai[3] < 462 && head.ai[3] > 198) || (head.ai[3] > 800) || head.ai[3] < -900);
+            bool headIdle = !(head.ai[3] < 462 && head.ai[3] > 198 || head.ai[3] > 800 || head.ai[3] < -900);
             if (isDed && !headIdle)
             {
                 if (NPC.frameCounter++ % 5 == 0)
@@ -306,7 +306,7 @@ namespace EbonianMod.NPCs.Crimson
             }
             else if (isDed && headIdle)
             {
-                NPC.frame.Y = (head.frame.Y / 72) * frameHeight;
+                NPC.frame.Y = head.frame.Y / 72 * frameHeight;
             }
             else if (!isDed && !headIdle)
             {
@@ -336,34 +336,34 @@ namespace EbonianMod.NPCs.Crimson
             else switch (NPC.ai[2])
                 {
                     case 4:
-                        NPC.frame.Y = (int)(0 * 34);
+                        NPC.frame.Y = 0 * 34;
                         break;
                     case 5:
-                        NPC.frame.Y = (int)(1 * 34);
+                        NPC.frame.Y = 1 * 34;
                         break;
                     case 6:
-                        NPC.frame.Y = (int)(2 * 34);
+                        NPC.frame.Y = 2 * 34;
                         break;
                     case 7:
-                        NPC.frame.Y = (int)(3 * 34);
+                        NPC.frame.Y = 3 * 34;
                         break;
                     case 8:
-                        NPC.frame.Y = (int)(0 * 34);
+                        NPC.frame.Y = 0 * 34;
                         break;
                     case 9:
-                        NPC.frame.Y = (int)(1 * 34);
+                        NPC.frame.Y = 1 * 34;
                         break;
                     case 10:
-                        NPC.frame.Y = (int)(2 * 34);
+                        NPC.frame.Y = 2 * 34;
                         break;
                     case 11:
-                        NPC.frame.Y = (int)(3 * 34);
+                        NPC.frame.Y = 3 * 34;
                         break;
                     case 12:
-                        NPC.frame.Y = (int)(0 * 34);
+                        NPC.frame.Y = 0 * 34;
                         break;
                     case 13:
-                        NPC.frame.Y = (int)(1 * 34);
+                        NPC.frame.Y = 1 * 34;
                         break;
                 }
         }

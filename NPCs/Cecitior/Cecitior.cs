@@ -35,7 +35,7 @@ namespace EbonianMod.NPCs.Cecitior
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
                 new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
                 new FlavorTextBestiaryInfoElement("A construct of flesh made from the remnants of the Brain of Cthulhu, Wall of Flesh, and many other crimson creatures. It appears to be an attempt to respond to the threat you pose to the crimson, with less than successful results."),
             });
@@ -503,7 +503,7 @@ namespace EbonianMod.NPCs.Cecitior
                 {
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<BloodShockwave>(), 0, 0);
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + openOffset, Vector2.Zero, ModContent.ProjectileType<BloodShockwave>(), 0, 0);
-                    SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center + openOffset);
+                    //SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center + openOffset);
                     NPC.velocity = Vector2.Zero;
                 }
                 if (AITimer == 115)

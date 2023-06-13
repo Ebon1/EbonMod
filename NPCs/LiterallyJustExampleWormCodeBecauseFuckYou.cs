@@ -1,4 +1,4 @@
-﻿using EbonianMod.NPCs.Crimson;
+﻿using EbonianMod.NPCs.Crimson.CrimsonWorm;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

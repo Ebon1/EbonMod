@@ -20,7 +20,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
             Projectile.hostile = false;
             Projectile.tileCollide = true;
             Projectile.aiStyle = 0;
-            Projectile.timeLeft = 500;
+            Projectile.timeLeft = 300;
             Projectile.Size = new(30, 10);
             Projectile.penetrate = -1;
         }
@@ -32,7 +32,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation();
-            if (Projectile.timeLeft < 470)
+            if (Projectile.timeLeft < 270)
             {
                 Projectile.aiStyle = 2;
             }

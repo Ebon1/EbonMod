@@ -40,19 +40,6 @@ namespace EbonianMod.Items.Consumables.Food
 
         }
 
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-            var line = new TooltipLine(Mod, "", "");
-
-            line = new TooltipLine(Mod, "VileNoodleBox", "'These are either worms or noodles....'")
-            {
-                OverrideColor = new Color(80, 210, 73)
-
-            };
-            tooltips.Add(line);
-
-
-        }
         public override void OnConsumeItem(Player player)
         {
             player.AddBuff(BuffID.CursedInferno, 320);
