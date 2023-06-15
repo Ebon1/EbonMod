@@ -23,7 +23,7 @@ namespace EbonianMod.NPCs.Corruption
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("Resembling a slime, it uses its unassuming appearance to get close to any potential prey, and lashes out with a fast moving tentacle. It is worth noting that it isn’t actually a slime at all."),
+                new FlavorTextBestiaryInfoElement("Resembling a slime, it uses its unassuming appearance to get close to any potential prey, and lashes out with a fast moving tentacle. It is worth noting that it isn't actually a slime at all."),
             });
         }
 

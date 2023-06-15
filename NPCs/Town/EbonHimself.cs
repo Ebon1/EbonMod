@@ -58,7 +58,7 @@ namespace EbonianMod.NPCs.Town
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
                 new FlavorTextBestiaryInfoElement("Type: Ebon"),
-                new FlavorTextBestiaryInfoElement("Someone once decided to put an Agal on a cat, and from that point on it all went downhill")
+                new FlavorTextBestiaryInfoElement("Someone once decided to put an Agal on a cat, and it all went downhill from that point on")
             });
         }
         public override bool CanTownNPCSpawn(int numTownNPCs)
@@ -221,10 +221,10 @@ namespace EbonianMod.NPCs.Town
                         Main.npcChatText = "";
                         break;
                     case 5:
-                        Main.npcChatText = "He’s a ball thief.\n\nCheck your pants.";
+                        Main.npcChatText = "He's a ball thief.\n\nCheck your pants.";
                         break;
                     case 6:
-                        Main.npcChatText = "He’s a fat lazy dog who just sits in the corner all day and occasionally burps out an idea and passes out, I think you should beat him up";
+                        Main.npcChatText = "He's a fat lazy dog who just sits in the corner all day and occasionally burps out an idea and passes out, I think you should beat him up";
                         break;
                     case 7:
                         Main.npcChatText = "";

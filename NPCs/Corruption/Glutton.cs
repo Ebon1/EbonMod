@@ -27,12 +27,12 @@ namespace EbonianMod.NPCs.Corruption
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
         }
-        public override void SetBestiary(BestiaryDatabase dataProjectile, BestiaryEntry bestiaryEntry)
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("A strange monster. It appears to be Projectiled off of a human, with other more corruption-like features. It’s size suggests a heavy diet. And for some strange reason, unlike other corrupted creatures, it is able to show emotions, mostly anger."),
+                new FlavorTextBestiaryInfoElement("A strange monster. It appears to be based off of a human, with other more corruption-like features. It's size suggests a heavy diet. And for some strange reason, unlike other corrupted creatures, it is able to show emotions, mostly anger."),
             });
         }
         public override void SetDefaults()
