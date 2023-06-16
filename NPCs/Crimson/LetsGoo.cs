@@ -78,6 +78,7 @@ namespace EbonianMod.NPCs.Crimson
         {
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
+            NPC.rotation = NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0);
             NPC.spriteDirection = NPC.direction = NPC.velocity.X < 0 ? -1 : 1;
             switch (AIState)
             {
