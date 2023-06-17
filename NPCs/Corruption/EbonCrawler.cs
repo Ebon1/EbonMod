@@ -22,7 +22,7 @@ namespace EbonianMod.NPCs.Corruption
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("The Waster is a product of the Corruption's failures. It is an evolutionary mishap, that's only purpose now is to be fed upon and recycled into microbes."),
+                new FlavorTextBestiaryInfoElement("The Waster is a product of the Corruption's failures. It is an evolutionary mishap, that's only purpose now is to unwillingly be a nest for the Ebonflies."),
             });
         }
         public override void SetDefaults()
@@ -54,6 +54,10 @@ namespace EbonianMod.NPCs.Corruption
         }
         public override bool CheckDead()
         {
+            for (int i = 0; i < Main.rand.Next(3, 5); i++)
+            {
+                NPC.NewNPCDirect(NPC.GetSource_Death(), NPC.Center, ModContent.NPCType<EbonFly>(), ai3: 1).scale = 0.7f;
+            }
             Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonCrawlerGore1").Type, NPC.scale);
             Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonCrawlerGore2").Type, NPC.scale);
             Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonCrawlerGore3").Type, NPC.scale);
@@ -87,7 +91,7 @@ namespace EbonianMod.NPCs.Corruption
                 {
                     AITimer++;
                     NPC.velocity.X *= 0.8f;
-                    if (AITimer >= 30)
+                    if (AITimer >= 10)
                     {
                         AIState = attack;
                         NPC.velocity = Vector2.Zero;
@@ -102,7 +106,7 @@ namespace EbonianMod.NPCs.Corruption
                 NPC.aiStyle = -1;
                 AIType = -1;
                 AITimer++;
-                if (AITimer == 120)
+                if (AITimer == 40)
                 {
                     NPC.velocity = new Vector2(Helper.FromAToB(NPC.Center, player.Center).X * 10, -3);
                     NPC.aiStyle = 3;

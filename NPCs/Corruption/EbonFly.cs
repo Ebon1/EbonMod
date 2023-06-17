@@ -51,6 +51,7 @@ namespace EbonianMod.NPCs.Corruption
             AIType = 205;
             NPC.width = 28;
             NPC.height = 24;
+            NPC.npcSlots = 0.1f;
             NPC.lifeMax = 30;
             NPC.damage = 12;
             NPC.lavaImmune = true;
@@ -79,8 +80,11 @@ namespace EbonianMod.NPCs.Corruption
         }
         public override void OnSpawn(IEntitySource source)
         {
-            NPC.scale = Main.rand.NextFloat(0.8f, 1.2f);
-            NPC.velocity = Main.rand.NextVector2Unit() * 5;
+            if (NPC.ai[3] == 0)
+            {
+                NPC.scale = Main.rand.NextFloat(0.8f, 1.2f);
+                NPC.velocity = Main.rand.NextVector2Unit() * 5;
+            }
         }
         public override void PostAI()
         {

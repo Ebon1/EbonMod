@@ -10,6 +10,7 @@ using System;
 using static Terraria.ModLoader.PlayerDrawLayer;
 using EbonianMod.Items.Accessories;
 using Terraria.Graphics.Effects;
+using EbonianMod.NPCs.Crimson;
 //using EbonianMod.Worldgen.Subworlds;
 //using SubworldLibrary;
 
@@ -17,7 +18,7 @@ namespace EbonianMod
 {
     public class EbonianPlayer : ModPlayer
     {
-        public int bossTextProgress, bossMaxProgress, dialogueMax, dialogueProg, timeSlowProgress, timeSlowMax;
+        public int bossTextProgress, bossMaxProgress, dialogueMax, dialogueProg, timeSlowProgress, timeSlowMax, fleshformators;
         public string bossName;
         public string bossTitle;
         public string dialogue;
@@ -31,6 +32,8 @@ namespace EbonianMod
             doomMinion = false;
             brainAcc = false;
             heartAcc = false;
+            if (!NPC.AnyNPCs(ModContent.NPCType<Fleshformator>()))
+                fleshformators = 0;
             ToxicGland = false;
         }
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)

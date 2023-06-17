@@ -85,7 +85,7 @@ namespace EbonianMod.NPCs.Crimson
                 case 0:
                     AITimer++;
                     if (AITimer < 300)
-                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center) * 5, 0.05f);
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center) * 3.5f, 0.01f);
                     if (AITimer > 300)
                         NPC.velocity *= 0.9f;
                     if (AITimer >= 330)

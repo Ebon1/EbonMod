@@ -69,12 +69,14 @@ namespace EbonianMod.NPCs.Crimson
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (!NPC.IsABestiaryIconDummy && verlet[0] != null)
+            {
                 for (int i = 0; i < 3; i++)
                 {
                     if (!Main.gamePaused)
                         verlet[i].Update(startPos[i], endPos[i]);
                     verlet[i].Draw(spriteBatch, "NPCs/Crimson/Fleshformator_Hook0", endTex: "NPCs/Crimson/Fleshformator_Hook1");
                 }
+            }
             return true;
         }
         public override void OnSpawn(IEntitySource source)
@@ -152,6 +154,40 @@ namespace EbonianMod.NPCs.Crimson
             get => NPC.ai[2];
             set => NPC.ai[2] = value;
         }
+        bool currentControl;
+        float alpha;
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            Player player = Main.player[NPC.target];
+            Vector2 offset = Vector2.Zero;
+            Texture2D tex = Helper.GetExtraTexture("arrow");
+            if (player.whoAmI == Main.myPlayer)
+            {
+                if (currentControl) offset += Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 5);
+                if (AITimer2 > 50)
+                {
+                    if (NPC.rotation == MathHelper.ToRadians(90))
+                    {
+                        spriteBatch.Draw(tex, player.Center + new Vector2(-80, 0) - screenPos + offset, null, Color.White * alpha, -MathHelper.PiOver2, tex.Size() / 2, 1, SpriteEffects.None, 0);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(tex, player.Center + new Vector2(80, 0) - screenPos + offset, null, Color.White * alpha, MathHelper.PiOver2, tex.Size() / 2, 1, SpriteEffects.None, 0);
+                    }
+                }
+                else if (AITimer2 < 50 && AITimer2 > 0)
+                {
+                    if (NPC.rotation == MathHelper.ToRadians(90))
+                    {
+                        spriteBatch.Draw(tex, player.Center + new Vector2(80, 0) - screenPos + offset, null, Color.White * alpha, MathHelper.PiOver2, tex.Size() / 2, 1, SpriteEffects.None, 0);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(tex, player.Center + new Vector2(-80, 0) - screenPos + offset, null, Color.White * alpha, -MathHelper.PiOver2, tex.Size() / 2, 1, SpriteEffects.None, 0);
+                    }
+                }
+            }
+        }
         public override void AI()
         {
             Player player = Main.player[NPC.target];
@@ -162,7 +198,9 @@ namespace EbonianMod.NPCs.Crimson
                     if (verlet[i].lastP.position.Distance(player.Center) < 20 && AITimer2 <= -50)
                     {
                         AITimer = i;
-                        AITimer2 = 150;
+                        alpha = 1;
+                        player.GetModPlayer<EbonianPlayer>().fleshformators++;
+                        AITimer2 = 100;
                     }
 
                     if (endPos[i].Distance(startPos[i]) < 139 && player.Center.Distance(startPos[i]) < 150 && AITimer2 <= 0)
@@ -170,7 +208,10 @@ namespace EbonianMod.NPCs.Crimson
                     else
                     {
                         if (AITimer2 > 0 && AITimer == i)
-                            endPos[i] += Helper.FromAToB(endPos[i], NPC.Center - new Vector2(0, 31).RotatedBy(NPC.rotation), false).RotatedByRandom(0.5f) / 30;
+                        {
+                            if (player.GetModPlayer<EbonianPlayer>().fleshformators == 1)
+                                endPos[i] += Helper.FromAToB(endPos[i], NPC.Center - new Vector2(0, 31).RotatedBy(NPC.rotation), false).RotatedByRandom(0.5f) / 30;
+                        }
                         else
                             endPos[i] += Helper.FromAToB(endPos[i], ogEndPos[i], false).RotatedByRandom(0.5f) / 30;
 
@@ -182,11 +223,62 @@ namespace EbonianMod.NPCs.Crimson
                             endPos[i] += Helper.FromAToB(endPos[i], ogEndPos[i], true);
                     }
                 }
-            AITimer2--;
+            if (AITimer2 > 50)
+            {
+                if (NPC.rotation == MathHelper.ToRadians(90))
+                    currentControl = player.controlLeft;
+                else
+                    currentControl = player.controlRight;
+            }
+            if (AITimer2 == 50)
+                alpha = 1;
+            if (AITimer2 < 50)
+            {
+                if (NPC.rotation == MathHelper.ToRadians(90))
+                    currentControl = player.controlRight;
+                else
+                    currentControl = player.controlLeft;
+            }
+            if (currentControl)
+            {
+                AITimer2--;
+                alpha -= 0.02f;
+            }
+            if (AITimer2 == 1)
+            {
+                if (NPC.rotation == MathHelper.ToRadians(90))
+                    player.velocity = Vector2.UnitX * 15;
+                else
+                    player.velocity = -Vector2.UnitX * 15;
+                player.GetModPlayer<EbonianPlayer>().fleshformators--;
+                AITimer2--;
+            }
             if (AITimer2 > 0)
             {
-                player.Center = verlet[(int)AITimer].lastP.position;
+                player.controlUseItem = false;
+                player.controlUseTile = false;
+                player.controlThrow = false;
+                player.gravDir = 1f;
+                if (AITimer2 > 1)
+                {
+                    player.velocity.Y = -1;
+                    player.velocity.X = 0;
+                    player.Center += Helper.FromAToB(player.Center, verlet[(int)AITimer].lastP.position, false) / 2f;
+                }
+                if (player.GetModPlayer<EbonianPlayer>().fleshformators > 1)
+                {
+                    if (player.Center.Distance(endPos[(int)AITimer]) < 10)
+                        endPos[(int)AITimer] += Helper.FromAToB(endPos[(int)AITimer], NPC.Center - new Vector2(0, 31).RotatedBy(NPC.rotation)) * 1.75f * player.GetModPlayer<EbonianPlayer>().fleshformators * Main.rand.NextFloat(0.7f, 3f);
+                    endPos[(int)AITimer] += Helper.FromAToB(endPos[(int)AITimer], player.Center) * 0.75f * player.GetModPlayer<EbonianPlayer>().fleshformators;
+                }
+
                 player.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), 15, 0);
+            }
+            else
+            {
+                alpha = 1;
+                AITimer2--;
+                alpha = 0;
             }
         }
     }
