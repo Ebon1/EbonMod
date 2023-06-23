@@ -71,6 +71,8 @@ Projectiles: {
 	TinyFish.DisplayName: Tiny Fish
 	RingOfFireP.DisplayName: Ring Of Fire P
 	RingOfFireP2.DisplayName: Ring Of Fire P2
+	VilethornF2.DisplayName: Vilethorn F2
+	VilethornF1.DisplayName: Vilethorn F1
 }
 
 NPCs: {
@@ -410,6 +412,11 @@ Items: {
 			The noodles may be worms.
 			'''
 		DisplayName: Vile Noodle Box
+	}
+
+	CorruptionStaff: {
+		Tooltip: ""
+		DisplayName: Corruption Staff
 	}
 }
 

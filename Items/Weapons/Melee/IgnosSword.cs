@@ -12,6 +12,7 @@ using EbonianMod.Projectiles.Terrortoma;
 using Terraria.GameContent;
 using EbonianMod.NPCs.Garbage;
 using EbonianMod.Projectiles.Exol;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EbonianMod.Items.Weapons.Melee
 {
@@ -52,22 +53,11 @@ namespace EbonianMod.Items.Weapons.Melee
         public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             Player player = Main.player[Projectile.owner];
-            /*//if (Projectile.ai[1] <= 0)
-            {
-                //Projectile.ai[1] = 100;
-                target.AddBuff(BuffID.OnFire, 100);
-                Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), player.Center, Vector2.UnitX * Projectile.direction * 0.25f, ModContent.ProjectileType<EFireBreath2>(), damage, knockback, Projectile.owner);
-                a.friendly = true;
-                a.hostile = false;
-                a.localAI[0] = 200;
-                a.localAI[1] = 3;
-                a.scale = 0.25f;
-            }*/
             if (Projectile.ai[0] > 0)
                 target.StrikeNPC(hitinfo);
-            if (Projectile.ai[0] < 4 && Projectile.ai[1] <= 0)
+            if (Projectile.ai[0] < 3 && Projectile.ai[1] <= 0)
             {
-                Projectile.ai[1] = 100;
+                Projectile.ai[1] = 200;
                 Projectile.ai[0]++;
             }
         }
@@ -86,22 +76,233 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.timeLeft = 15;
         }
+        Rectangle rectangle = new Rectangle();
+        public void HandleHitboxRight(ref Rectangle hitbox)
+        {
+            switch (Projectile.frame)
+            {
+                case 0:
+                    hitbox.Width = 68;
+                    hitbox.Height = 48;
+                    hitbox.X = (int)Projectile.Center.X - (hitbox.Width);
+                    hitbox.Y = (int)Projectile.Center.Y - 24;
+                    break;
+                case 1:
+                    hitbox.Width = 63;
+                    hitbox.Height = 54;
+                    hitbox.X = (int)Projectile.Center.X - hitbox.Width;
+                    hitbox.Y = (int)Projectile.Center.Y - 34;
+                    break;
+                case 2:
+                    hitbox.Width = 108;
+                    hitbox.Height = 104;
+                    hitbox.X = (int)Projectile.Center.X - 20;
+                    hitbox.Y = (int)Projectile.Top.Y - 5;
+                    break;
+                case 3:
+                    hitbox.Width = 84;
+                    hitbox.Height = 62;
+                    hitbox.X = (int)Projectile.Center.X;
+                    hitbox.Y = (int)Projectile.Center.Y;
+                    break;
+                case 4:
+                    hitbox.Width = 31;
+                    hitbox.Height = 50;
+                    hitbox.X = (int)Projectile.Center.X - 10;
+                    hitbox.Y = (int)Projectile.Center.Y + 15;
+                    break;
+                case 5:
+                    hitbox.Width = 58;
+                    hitbox.Height = 34;
+                    hitbox.X = (int)Projectile.Center.X - hitbox.Width;
+                    hitbox.Y = (int)Projectile.Center.Y + 15;
+                    break;
+                case 6:
+                    hitbox.Width = Projectile.width / 2;
+                    hitbox.Height = 14;
+                    hitbox.X = (int)Projectile.Center.X - hitbox.Width;
+                    hitbox.Y = (int)Projectile.Center.Y + 15;
+                    break;
+                case 7:
+                    hitbox.Width = Projectile.width / 2;
+                    hitbox.Height = 14;
+                    hitbox.X = (int)Projectile.Center.X - hitbox.Width;
+                    hitbox.Y = (int)Projectile.Center.Y + 13;
+                    break;
+                case 8:
+                    hitbox.Width = Projectile.width / 2;
+                    hitbox.Height = 14;
+                    hitbox.X = (int)Projectile.Center.X - hitbox.Width;
+                    hitbox.Y = (int)Projectile.Center.Y + 10;
+                    break;
+                case 9:
+                    hitbox.Width = Projectile.width;
+                    hitbox.Height = 50;
+                    hitbox.X = (int)Projectile.Center.X - hitbox.Width / 2;
+                    hitbox.Y = (int)Projectile.Center.Y;
+                    break;
+                case 10:
+                    hitbox.Width = Projectile.width / 2;
+                    hitbox.Height = 50;
+                    hitbox.X = (int)Projectile.Center.X;
+                    hitbox.Y = (int)Projectile.Center.Y - 20;
+                    break;
+                case 11:
+                    hitbox.Width = 15;
+                    hitbox.Height = 40;
+                    hitbox.X = (int)Projectile.Center.X;
+                    hitbox.Y = (int)Projectile.Center.Y - 20;
+                    break;
+                case 12:
+                    hitbox.Width = 15;
+                    hitbox.Height = 40;
+                    hitbox.X = (int)Projectile.Center.X - 3;
+                    hitbox.Y = (int)Projectile.Center.Y - 20;
+                    break;
+                case 13:
+                    hitbox.Width = 15;
+                    hitbox.Height = 40;
+                    hitbox.X = (int)Projectile.Center.X - 6;
+                    hitbox.Y = (int)Projectile.Center.Y - 20;
+                    break;
+                case 14:
+                    hitbox.Width = Projectile.width;
+                    hitbox.Height = 55;
+                    hitbox.X = (int)Projectile.Center.X - hitbox.Width / 2;
+                    hitbox.Y = (int)Projectile.Center.Y;
+                    break;
+                case 15:
+                    hitbox.Width = Projectile.width / 2;
+                    hitbox.Height = 50;
+                    hitbox.X = (int)Projectile.Center.X - hitbox.Width;
+                    hitbox.Y = (int)Projectile.Center.Y - 20;
+                    break;
+            }
+        }
+        public void HandleHitboxLeft(ref Rectangle hitbox)
+        {
+            switch (Projectile.frame)
+            {
+                case 0:
+                    hitbox.Width = 68;
+                    hitbox.Height = 48;
+                    hitbox.X = (int)Projectile.Center.X;
+                    hitbox.Y = (int)Projectile.Center.Y - 28 - 24;
+                    break;
+                case 1:
+                    hitbox.Width = 63;
+                    hitbox.Height = 54;
+                    hitbox.X = (int)Projectile.Center.X;
+                    hitbox.Y = (int)Projectile.Center.Y - 28 - 34;
+                    break;
+                case 2:
+                    hitbox.Width = 108;
+                    hitbox.Height = 104;
+                    hitbox.X = (int)Projectile.Center.X - hitbox.Width / 2 - 20;
+                    hitbox.Y = (int)Projectile.Top.Y - 28 - 5;
+                    break;
+                case 3:
+                    hitbox.Width = 84;
+                    hitbox.Height = 62;
+                    hitbox.X = (int)Projectile.Center.X - hitbox.Width;
+                    hitbox.Y = (int)Projectile.Center.Y - 28;
+                    break;
+                case 4:
+                    hitbox.Width = 31;
+                    hitbox.Height = 50;
+                    hitbox.X = (int)Projectile.Center.X - 10;
+                    hitbox.Y = (int)Projectile.Center.Y - 28 + 15;
+                    break;
+                case 5:
+                    hitbox.Width = 58;
+                    hitbox.Height = 34;
+                    hitbox.X = (int)Projectile.Center.X;
+                    hitbox.Y = (int)Projectile.Center.Y - 28 + 15;
+                    break;
+                case 6:
+                    hitbox.Width = Projectile.width / 2;
+                    hitbox.Height = 14;
+                    hitbox.X = (int)Projectile.Center.X;
+                    hitbox.Y = (int)Projectile.Center.Y - 28 + 15;
+                    break;
+                case 7:
+                    hitbox.Width = Projectile.width / 2;
+                    hitbox.Height = 14;
+                    hitbox.X = (int)Projectile.Center.X;
+                    hitbox.Y = (int)Projectile.Center.Y - 28 + 13;
+                    break;
+                case 8:
+                    hitbox.Width = Projectile.width / 2;
+                    hitbox.Height = 14;
+                    hitbox.X = (int)Projectile.Center.X;
+                    hitbox.Y = (int)Projectile.Center.Y - 28 + 10;
+                    break;
+                case 9:
+                    hitbox.Width = Projectile.width;
+                    hitbox.Height = 50;
+                    hitbox.X = (int)Projectile.Center.X - hitbox.Width / 2;
+                    hitbox.Y = (int)Projectile.Center.Y - 28;
+                    break;
+                case 10:
+                    hitbox.Width = Projectile.width / 2;
+                    hitbox.Height = 50;
+                    hitbox.X = (int)Projectile.Center.X - hitbox.Width;
+                    hitbox.Y = (int)Projectile.Center.Y - 28 - 20;
+                    break;
+                case 11:
+                    hitbox.Width = 15;
+                    hitbox.Height = 40;
+                    hitbox.X = (int)Projectile.Center.X - 4;
+                    hitbox.Y = (int)Projectile.Center.Y - 28 - 20;
+                    break;
+                case 12:
+                    hitbox.Width = 15;
+                    hitbox.Height = 40;
+                    hitbox.X = (int)Projectile.Center.X - 5;
+                    hitbox.Y = (int)Projectile.Center.Y - 28 - 20;
+                    break;
+                case 13:
+                    hitbox.Width = 15;
+                    hitbox.Height = 40;
+                    hitbox.X = (int)Projectile.Center.X - 6;
+                    hitbox.Y = (int)Projectile.Center.Y - 28 - 20;
+                    break;
+                case 14:
+                    hitbox.Width = Projectile.width;
+                    hitbox.Height = 55;
+                    hitbox.X = (int)Projectile.Center.X - hitbox.Width / 2;
+                    hitbox.Y = (int)Projectile.Center.Y - 28;
+                    break;
+                case 15:
+                    hitbox.Width = Projectile.width / 2;
+                    hitbox.Height = 50;
+                    hitbox.X = (int)Projectile.Center.X;
+                    hitbox.Y = (int)Projectile.Center.Y - 28 - 20;
+                    break;
+            }
+        }
+        public override void ModifyDamageHitbox(ref Rectangle hitbox)
+        {
+            if (Projectile.direction == 1) HandleHitboxRight(ref hitbox);
+            else HandleHitboxLeft(ref hitbox);
+            rectangle = hitbox;
+        }
+        public override void PostDraw(Color lightColor)
+        {
+            Texture2D tex2 = Helper.GetTexture("Items/Weapons/Melee/IgnosP_Glow");
+            SpriteEffects effects = Projectile.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically;
+            Main.spriteBatch.Reload(BlendState.Additive);
+            if (Projectile.timeLeft < 14)
+                Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition - new Vector2(0, Projectile.direction == -1 ? 28 : 0), new Rectangle(0, Projectile.frame * 128, Projectile.width, 128), Color.OrangeRed * (Projectile.ai[0] / 5), Projectile.rotation, Projectile.Size / 2, Projectile.scale, effects, 0);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+        }
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = TextureAssets.Projectile[Type].Value;
-            Texture2D tex2 = Helper.GetTexture("Items/Weapons/Melee/IgnosP_Glow");
-            Texture2D tex3 = Helper.GetExtraTexture("explosion");
-            SpriteEffects effects = SpriteEffects.None;
-            if (Projectile.timeLeft < 15)
+            SpriteEffects effects = Projectile.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically;
+            if (Projectile.timeLeft < 14)
             {
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 128, Projectile.width, 128), Color.White, Projectile.rotation, Projectile.Size / 2, Projectile.scale, effects, 0);
-                //Main.spriteBatch.Reload(EbonianMod.HorizBlur);
-                //Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 128, Projectile.width, 128), Color.OrangeRed * (Projectile.ai[0] / 5), Projectile.rotation, Projectile.Size / 2, Projectile.scale, effects, 0);
-                //Main.spriteBatch.Reload(effect: null);
-                Main.spriteBatch.Reload(BlendState.Additive);
-                //Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * (Projectile.ai[0] / 5) * 0.5f, Projectile.rotation, tex3.Size() / 2, Projectile.scale * 0.25f, effects, 0);
-                Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 128, Projectile.width, 128), Color.OrangeRed * (Projectile.ai[0] / 5), Projectile.rotation, Projectile.Size / 2, Projectile.scale, effects, 0);
-                Main.spriteBatch.Reload(BlendState.AlphaBlend);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition - new Vector2(0, Projectile.direction == -1 ? 28 : 0), new Rectangle(0, Projectile.frame * 128, Projectile.width, 128), Color.White, Projectile.rotation, Projectile.Size / 2, Projectile.scale, effects, 0);
             }
             return false;
         }
@@ -117,11 +318,12 @@ namespace EbonianMod.Items.Weapons.Melee
             if (++Projectile.frameCounter >= 4 - Projectile.ai[0])
             {
                 Projectile.frameCounter = 0;
-                if (++Projectile.frame >= 15)
+                if (++Projectile.frame > 15)
                 {
                     Projectile.frame = 0;
                 }
             }
+
             Player player = Main.player[Projectile.owner];
             if (!player.active || player.dead || player.CCed || player.noItems || !player.channel)
             {
@@ -142,8 +344,9 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.rotation = rot;
             Projectile.Center = pos;
             player.itemTime = 2;
-            Projectile.timeLeft = 2;
-            player.heldProj = Projectile.whoAmI;
+            if (Projectile.timeLeft < 14)
+                Projectile.timeLeft = 2;
+            //player.heldProj = Projectile.whoAmI;
             player.itemAnimation = 2;
         }
     }

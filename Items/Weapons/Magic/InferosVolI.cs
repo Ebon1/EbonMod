@@ -21,10 +21,9 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.width = 40;
             Item.height = 40;
             Item.mana = 25;
-            Item.useTime = 20;
+            Item.useTime = 120;
             Item.DamageType = DamageClass.Magic;
-            Item.useAnimation = 20;
-            Item.reuseDelay = 100;
+            Item.useAnimation = 120;
             Item.useStyle = 5;
             Item.useTurn = true;
             Item.knockBack = 10;

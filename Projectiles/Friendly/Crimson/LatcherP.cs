@@ -29,7 +29,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             Projectile.DamageType = DamageClass.Magic;
             Projectile.hostile = false;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 200;
+            Projectile.timeLeft = 160;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -51,52 +51,85 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                 Projectile.ai[1] = 2;
             }
         }
-        Verlet verlet;
+        /*Verlet verlet;
         public override void OnSpawn(IEntitySource source)
         {
             verlet = new(Projectile.Center, 20, 10, 1, true, true, 10);
-        }
+        }*/
         public override void AI()
         {
-            Projectile.rotation = Projectile.velocity.ToRotation();
             Player player = Main.player[Projectile.owner];
             if (Main.myPlayer == Projectile.owner && Main.mouseRight)
                 Projectile.Kill();
             if (Projectile.ai[1] == 1)
             {
-                player.velocity = Helper.FromAToB(player.Center, Projectile.Center) * 20;
+                Projectile.rotation = Helper.FromAToB(player.Center, Projectile.Center).ToRotation();
+                player.velocity = Helper.FromAToB(player.Center, Projectile.Center, false) / 20;
                 if (player.Center.Distance(Projectile.Center) < 50)
                     Projectile.Kill();
             }
             else if (Projectile.ai[1] == 2)
             {
+                Projectile.rotation = Projectile.velocity.ToRotation();
                 NPC npc = Main.npc[(int)Projectile.ai[0]];
                 if (npc.active && npc.life > 0 && player.Center.Distance(npc.Center) > npc.width)
                 {
                     Projectile.Center = npc.Center;
                     if (npc.knockBackResist == 0f)
-                        player.velocity = Helper.FromAToB(player.Center, Projectile.Center) * 10;
+                        player.velocity = Helper.FromAToB(player.Center, Projectile.Center, false) / 30;
                     else
-                        npc.velocity = Helper.FromAToB(npc.Center, player.Center) * 20;
+                        npc.velocity = Helper.FromAToB(npc.Center, player.Center, false) / 20;
                 }
                 else
                     Projectile.Kill();
             }
             else
             {
-                if (Projectile.timeLeft < 100)
-                    Projectile.Center = Vector2.Lerp(Projectile.Center, player.Center, 0.1f);
+                Projectile.rotation = Projectile.velocity.ToRotation();
+                if (Projectile.timeLeft < 90)
+                {
+                    Projectile.Center = Vector2.Lerp(Projectile.Center, player.Center, 0.2f);
+                    if (Projectile.Center.Distance(player.Center) < 100)
+                    {
+                        Projectile.Kill();
+                    }
+                }
             }
         }
         public override bool PreDraw(ref Color lightColor)
         {
+            Player player = Main.player[Projectile.owner];
+            Vector2 neckOrigin = player.Center;
+            Vector2 center = Projectile.Center;
+            Vector2 distToProj = neckOrigin - Projectile.Center;
+            float projRotation = distToProj.ToRotation() - 1.57f;
+            float distance = distToProj.Length();
+            while (distance > 20 && !float.IsNaN(distance))
+            {
+                distToProj.Normalize();
+                distToProj *= 20;
+                center += distToProj;
+                distToProj = neckOrigin - center;
+                distance = distToProj.Length();
 
-            if (verlet != null)
+                //Draw chain
+                Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Projectiles/Friendly/Crimson/LatcherP_Chain").Value, center - Main.screenPosition,
+                    null, Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
+                    Mod.Assets.Request<Texture2D>("Projectiles/Friendly/Crimson/LatcherP_Chain").Value.Size() / 2, 1f, SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Projectiles/Friendly/Crimson/LatcherP_Chain").Value, Projectile.Center - Main.screenPosition,
+                null, Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
+                Mod.Assets.Request<Texture2D>("Projectiles/Friendly/Crimson/LatcherP_Chain").Value.Size() / 2, 1f, SpriteEffects.None, 0);
+
+            Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Projectiles/Friendly/Crimson/LatcherP").Value, Projectile.Center + ((Projectile.height - 5) * Projectile.rotation.ToRotationVector2()) - Main.screenPosition,
+                null, Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), Projectile.rotation,
+                Mod.Assets.Request<Texture2D>("Projectiles/Friendly/Crimson/LatcherP").Value.Size() / 2, 1f, SpriteEffects.None, 0);
+            /*if (verlet != null)
             {
                 verlet.Update(Projectile.Center, Main.player[Projectile.owner].Center);
                 verlet.Draw(Main.spriteBatch, "Projectiles/Friendly/Crimson/LatcherP_Chain");
-            }
-            return true;
+            }*/
+            return false;
         }
     }
     public class LatcherPCecitior : ModProjectile
