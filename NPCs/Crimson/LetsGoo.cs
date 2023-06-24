@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.GameContent.UI.Elements;
+using Terraria.GameContent.Bestiary;
 
 namespace EbonianMod.NPCs.Crimson
 {
@@ -26,7 +27,16 @@ namespace EbonianMod.NPCs.Crimson
             NPC.value = 60f;
             NPC.knockBackResist = 0.5f;
             NPC.noGravity = true;
+            NPC.buffImmune[BuffID.Ichor] = true;
             NPC.noTileCollide = true;
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
+                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
+                new FlavorTextBestiaryInfoElement("The Gnasher is nothing but muscle, jaws, and the instinctual desire to devour prey of any kind."),
+            });
         }
         public override void SetStaticDefaults()
         {

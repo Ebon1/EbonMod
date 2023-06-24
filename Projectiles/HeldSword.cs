@@ -13,6 +13,10 @@ namespace EbonianMod.Projectiles
     {
         public int swingTime = 20;
         public float holdOffset = 50f;
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.DontCancelChannelOnKill[Type] = true;
+        }
         public override void SetDefaults()
         {
             Projectile.friendly = true;
@@ -37,6 +41,9 @@ namespace EbonianMod.Projectiles
         {
 
         }
+        /// <summary>
+        /// AI0 is unused, AI1 is the direction of the sword, if AI2 is anything but 0, the default AI() and Kill() methods won't run.
+        /// </summary>
         public virtual void ExtraAI()
         {
 
@@ -47,6 +54,16 @@ namespace EbonianMod.Projectiles
             Player player = Main.player[Projectile.owner];
             if (!player.active || player.dead || player.CCed || player.noItems)
             {
+                return;
+            }
+            if (player.itemTime < 2)
+            {
+                player.itemTime = 2;
+                player.itemAnimation = 2;
+            }
+            if (Projectile.ai[2] != 0)
+            {
+                ExtraAI();
                 return;
             }
             if (Projectile.ai[1] != 0)
@@ -79,17 +96,12 @@ namespace EbonianMod.Projectiles
                 player.itemTime = 2;
                 player.itemAnimation = 2;
             }
-            if (player.itemTime < 2)
-            {
-                player.itemTime = 2;
-                player.itemAnimation = 2;
-            }
             ExtraAI();
         }
         public override void Kill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
-            if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems)
+            if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems && Projectile.ai[2] == 0)
             {
                 if (player.whoAmI == Main.myPlayer)
                 {

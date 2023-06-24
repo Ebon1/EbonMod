@@ -68,6 +68,10 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.timeLeft = 15;
             holdOffset = 22;
         }
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.DontCancelChannelOnKill[Type] = true;
+        }
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];

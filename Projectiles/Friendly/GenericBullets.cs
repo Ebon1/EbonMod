@@ -107,7 +107,7 @@ namespace EbonianMod.Projectiles.Friendly
             target.AddBuff(BuffID.Ichor, 50);
             foreach (NPC npc in Main.npc)
             {
-                if (npc.active && npc.Center.Distance(target.Center) < 600 && npc != target && !npc.friendly)
+                if (npc.active && npc.Center.Distance(target.Center) < 600 && npc != target && !npc.friendly && !npc.buffImmune[BuffID.Ichor] && npc.realLife == -1)
                 {
                     Helper.QuickDustLine(Projectile.Center, npc.Center, 100f, Color.Gold);
                     npc.AddBuff(BuffID.Ichor, 90);

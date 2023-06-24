@@ -53,6 +53,17 @@ namespace EbonianMod.Items.Weapons.Melee
             swingTime = 30;
             holdOffset = 35;
         }
+        public override void ExtraAI()
+        {
+            Player player = Main.player[Projectile.owner];
+            int direction = (int)Projectile.ai[1];
+            float swingProgress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
+            float defRot = Projectile.velocity.ToRotation();
+            float start = defRot - (MathHelper.PiOver2 + MathHelper.PiOver4);
+            float end = defRot + (MathHelper.PiOver2 + MathHelper.PiOver4);
+            float rotation = direction == 1 ? start + MathHelper.Pi * 3 / 2 * swingProgress : end - MathHelper.Pi * 3 / 2 * swingProgress;
+            player.SetCompositeArmBack(true, stretch, rotation - MathHelper.PiOver2);
+        }
         public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             for (int i = 0; i < 2; i++)

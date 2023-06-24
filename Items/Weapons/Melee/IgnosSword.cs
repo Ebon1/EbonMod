@@ -64,6 +64,9 @@ namespace EbonianMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             Main.projFrames[Type] = 16;
+
+            ProjectileID.Sets.DontCancelChannelOnKill[Type] = true;
+
         }
         public override void SetDefaults()
         {

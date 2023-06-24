@@ -11,6 +11,7 @@ using static Terraria.ModLoader.PlayerDrawLayer;
 using EbonianMod.Items.Accessories;
 using Terraria.Graphics.Effects;
 using EbonianMod.NPCs.Crimson;
+using EbonianMod.Items.Weapons.Melee;
 //using EbonianMod.Worldgen.Subworlds;
 //using SubworldLibrary;
 
@@ -48,6 +49,14 @@ namespace EbonianMod
                         npc.checkDead();
                     }
                 }
+            }
+        }
+        public override void PostUpdateRunSpeeds()
+        {
+            if (Player.HeldItem.type == ModContent.ItemType<EbonianScythe>() && !Player.ItemTimeIsZero)
+            {
+                Player.maxRunSpeed += 2;
+                Player.accRunSpeed += 2;
             }
         }
         public override void PostUpdateMiscEffects()
@@ -98,6 +107,7 @@ namespace EbonianMod
             #endregion
             //dont delete hell stuff...
         }
+
         public override void OnEnterWorld()
         {
             Instance = Player.GetModPlayer<EbonianPlayer>();

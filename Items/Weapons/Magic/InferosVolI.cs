@@ -44,7 +44,7 @@ namespace EbonianMod.Items.Weapons.Magic
             {
                 float angle = Helper.CircleDividedEqually(i, 5);
                 Vector2 pos = player.Center + new Vector2(0f, -54).RotatedBy(angle /* +Main.GameUpdateCount * -0.0514f */);
-                Projectile.NewProjectile(source, pos, velocity.RotatedBy(angle), type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, pos, angle.ToRotationVector2() * velocity.Length(), type, damage, knockback, player.whoAmI);
             }
             return false;
         }
@@ -98,7 +98,7 @@ namespace EbonianMod.Items.Weapons.Magic
             bool target = false;
             for (int k = 0; k < Main.maxNPCs; k++)
             {
-                if (Main.npc[k].active && !Main.npc[k].friendly && !Main.npc[k].dontTakeDamage)
+                if (Main.npc[k].active && !Main.npc[k].friendly && !Main.npc[k].dontTakeDamage && Main.npc[k].type != NPCID.TargetDummy)
                 {
                     Vector2 newMove = Main.npc[k].Center - Projectile.Center;
                     float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
@@ -126,7 +126,7 @@ namespace EbonianMod.Items.Weapons.Magic
                 else
                 {
                     Projectile.ai[0] = 1;
-                    alpha2 -= 0.02f;
+                    alpha2 -= 0.025f;
                     Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(3));
                 }
             }

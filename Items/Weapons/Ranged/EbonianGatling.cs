@@ -11,18 +11,28 @@ namespace EbonianMod.Items.Weapons.Ranged
 {
     public class EbonianGatling : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+
+        }
         public override void SetDefaults()
         {
             Item.DamageType = DamageClass.Ranged;
             Item.damage = 2;
-            Item.useTime = Item.useAnimation = 5;
+            Item.useTime = 5;
+            Item.useAnimation = 5;
             Item.shoot = ModContent.ProjectileType<WeakCursedBullet>();
             Item.shootSpeed = 8f;
             Item.rare = 2;
-            Item.useStyle = 5;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item11;
             Item.useAmmo = AmmoID.Bullet;
-            Item.autoReuse = true;
+            Item.useTurn = false;
+            //Item.autoReuse = true;
+        }
+        public override bool? CanAutoReuseItem(Player player)
+        {
+            return true;
         }
         public override void AddRecipes()
         {

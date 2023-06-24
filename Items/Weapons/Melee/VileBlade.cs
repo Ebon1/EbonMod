@@ -39,6 +39,10 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.shoot = ModContent.ProjectileType<VileBladeP>();
         }
         int dir = 1;
+        public override bool? CanAutoReuseItem(Player player)
+        {
+            return false;
+        }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             dir = -dir;

@@ -23,7 +23,10 @@ namespace EbonianMod.Projectiles.Minions
 
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
-
+        public override bool? CanDamage()
+        {
+            return false;
+        }
         public override void SetDefaults()
         {
             Projectile.netImportant = true;

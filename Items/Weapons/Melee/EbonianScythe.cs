@@ -15,8 +15,6 @@ namespace EbonianMod.Items.Weapons.Melee
 {
     public class EbonianScythe : ModItem
     {
-
-
         public override void SetDefaults()
         {
             Item.knockBack = 10f;
@@ -25,7 +23,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.crit = 45;
             Item.damage = 20;
             Item.useAnimation = 10;
-            Item.useTime = 20;
+            Item.useTime = 10;
             Item.noUseGraphic = true;
             Item.autoReuse = true;
             Item.noMelee = true;
@@ -34,16 +32,14 @@ namespace EbonianMod.Items.Weapons.Melee
             //Item.UseSound = SoundID.Item1;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.LightRed;
-            Item.shootSpeed = 2.5f;
+            Item.shootSpeed = 1;
             Item.shoot = ModContent.ProjectileType<EbonianScytheP>();
         }
+        int uses, dir = 1;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            for (int i = -1; i < 2; i++)
-            {
-                if (i == 0) continue;
-                Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0, i);
-            }
+            dir = -dir;
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0, dir);
             return false;
         }
         public override void AddRecipes()
@@ -51,28 +47,16 @@ namespace EbonianMod.Items.Weapons.Melee
             CreateRecipe().AddIngredient(ItemID.DemoniteBar, 20).AddTile(TileID.Anvils).Register();
         }
     }
-    public class EbonianScytheP : ModProjectile
+    public class EbonianScytheP : HeldSword
     {
-
         public override string Texture => "EbonianMod/Items/Weapons/Melee/EbonianScythe";
-        public override void SetDefaults()
-        {
-            Projectile.CloneDefaults(ProjectileID.WoodenBoomerang);
-            Projectile.aiStyle = 0;
-            Projectile.Size = new Vector2(36, 44);
 
-        }
-        public override void AI()
+        public override void SetExtraDefaults()
         {
-            Projectile.rotation += MathHelper.ToRadians(10);
-            if (Projectile.ai[0] < 100)
-                Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(3) * Projectile.ai[1]);
-            Projectile.ai[0]++;
-            if (Projectile.ai[0] > 100)
-            {
-                Projectile.velocity.X = 0;
-                Projectile.velocity.Y++;
-            }
+            Projectile.width = 32;
+            Projectile.height = 32;
+            swingTime = 10;
+            holdOffset = 15;
         }
     }
 }

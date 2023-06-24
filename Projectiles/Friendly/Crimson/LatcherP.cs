@@ -70,7 +70,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             }
             else if (Projectile.ai[1] == 2)
             {
-                Projectile.rotation = Projectile.velocity.ToRotation();
+                Projectile.rotation = Helper.FromAToB(player.Center, Projectile.Center).ToRotation();
                 NPC npc = Main.npc[(int)Projectile.ai[0]];
                 if (npc.active && npc.life > 0 && player.Center.Distance(npc.Center) > npc.width)
                 {

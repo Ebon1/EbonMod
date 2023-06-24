@@ -16,6 +16,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
 
         public override void SetStaticDefaults()
         {
+            ProjectileID.Sets.DontCancelChannelOnKill[Type] = true;
         }
 
         public override void SetDefaults()

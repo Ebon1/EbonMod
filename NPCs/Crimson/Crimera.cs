@@ -91,6 +91,8 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void SetDefaults()
         {
+
+            NPC.buffImmune[BuffID.Ichor] = true;
             // Head is 10 defence, body 20, tail 30.
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.Size = new Vector2(66, 68);
@@ -153,6 +155,8 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void SetDefaults()
         {
+
+            NPC.buffImmune[BuffID.Ichor] = true;
             // Head is 10 defence, body 20, tail 30.
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.Size = new Vector2(30, 16);
@@ -184,6 +188,8 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void SetDefaults()
         {
+
+            NPC.buffImmune[BuffID.Ichor] = true;
             // Head is 10 defence, body 20, tail 30.
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.Size = new Vector2(66 / 1.5f, 68 / 1.5f);

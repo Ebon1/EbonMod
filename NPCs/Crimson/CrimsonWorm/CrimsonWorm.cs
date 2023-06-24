@@ -51,6 +51,8 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
 
         public override void SetDefaults()
         {
+
+            NPC.buffImmune[BuffID.Ichor] = true;
             // Head is 10 defence, body 20, tail 30.
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.lifeMax = 11;
@@ -284,6 +286,8 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         }
         public override void SetDefaults()
         {
+
+            NPC.buffImmune[BuffID.Ichor] = true;
             // Head is 10 defence, body 20, tail 30.
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.Size = new Vector2(72, 32);
@@ -391,6 +395,8 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         }
         public override void SetDefaults()
         {
+
+            NPC.buffImmune[BuffID.Ichor] = true;
             // Head is 10 defence, body 20, tail 30.
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.dontTakeDamage = true;

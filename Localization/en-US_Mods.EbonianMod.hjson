@@ -39,7 +39,7 @@ Projectiles: {
 	IgnosP.DisplayName: Exol
 	ExolsawP.DisplayName: Exawblade
 	EbonianScytheP.DisplayName: Ebonian Scythe
-	InferosP.DisplayName: Inferos
+	InferosP.DisplayName: Acheron Codex
 	PanopticonP.DisplayName: Panopticon
 	Hightoma.DisplayName: Hightoma
 	GarbageRemoteP.DisplayName: Dusty Quantum Computer
@@ -73,6 +73,7 @@ Projectiles: {
 	RingOfFireP2.DisplayName: Ring Of Fire P2
 	VilethornF2.DisplayName: Vilethorn F2
 	VilethornF1.DisplayName: Vilethorn F1
+	MeatCrusherP.DisplayName: Meat Crusher P
 }
 
 NPCs: {
@@ -206,7 +207,7 @@ Items: {
 	}
 
 	EbonianScythe: {
-		Tooltip: ""
+		Tooltip: Increases maximum movement speed while used.
 		DisplayName: Ebonian Scythe
 	}
 

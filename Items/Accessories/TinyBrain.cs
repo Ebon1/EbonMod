@@ -30,7 +30,7 @@ namespace EbonianMod.Items.Accessories
             NPC.aiStyle = 0;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.lifeMax = 50;
+            NPC.lifeMax = 150;
             NPC.friendly = true;
             NPC.dontTakeDamage = false;
         }
@@ -61,6 +61,10 @@ namespace EbonianMod.Items.Accessories
             Player player = Main.player[NPC.target];
             NPC.timeLeft = 2;
             NPC.ai[0] += 1;
+            if (NPC.ai[1] >= 100 * (NPC.localAI[0] + 1) && NPC.ai[1] % 30 == 0)
+            {
+                player.Heal((int)(player.statLifeMax * 0.01f));
+            }
             if (++NPC.ai[1] >= 200 * (NPC.localAI[0] + 1))
             {
                 player.Heal((int)(player.statLifeMax * 0.05f));
@@ -128,7 +132,6 @@ namespace EbonianMod.Items.Accessories
                 NPC.frameCounter = 0;
             }
         }
-
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
             if (NPC.ai[0] != -1)
@@ -152,6 +155,11 @@ namespace EbonianMod.Items.Accessories
                     spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Accessories/BrainAcc_Chain").Value, center - pos,
                         new Rectangle(0, 0, 8, 4), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
                         new Vector2(8 * 0.5f, 4 * 0.5f), 1f, SpriteEffects.None, 0);
+                    if (NPC.ai[1] >= 100 * (NPC.localAI[0] + 1))
+                        spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Extras/Line").Value, center - pos,
+                        new Rectangle(0, 0, 8, 4), Color.Green * 0.25f, projRotation,
+                        new Vector2(8 * 0.5f, 4 * 0.5f), 1f, SpriteEffects.None, 0);
+
                 }
             }
             return true;

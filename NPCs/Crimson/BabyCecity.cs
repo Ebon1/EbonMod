@@ -35,6 +35,7 @@ namespace EbonianMod.NPCs.Crimson
             NPC.aiStyle = -1;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
+            NPC.buffImmune[BuffID.Ichor] = true;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {

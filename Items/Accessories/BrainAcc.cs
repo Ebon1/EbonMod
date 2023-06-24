@@ -32,7 +32,7 @@ namespace EbonianMod.Items.Accessories
             if (brains.Count <= 0)
             {
                 timering++;
-                if (timering >= 500)
+                if (timering >= 200)
                 {
                     for (int k = 0; k < 8; k++)
                     {
