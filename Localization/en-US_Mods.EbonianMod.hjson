@@ -165,7 +165,7 @@ Items: {
 	EbonianGun: {
 		Tooltip:
 			'''
-			Shoots weak cursed bullets.
+			Wield two guns that shoot weak cursed bullets.
 			The firearm is sadly not actually cursed.
 			'''
 		DisplayName: Cursed Firearm

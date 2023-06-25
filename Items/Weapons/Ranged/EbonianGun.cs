@@ -21,8 +21,8 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.height = 66;
             Item.crit = 45;
             Item.damage = 5;
-            Item.useAnimation = 32;
-            Item.useTime = 32;
+            Item.useAnimation = 10;
+            Item.useTime = 20;
             Item.noUseGraphic = true;
             Item.autoReuse = false;
             Item.noMelee = true;
@@ -30,7 +30,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             //Item.reuseDelay = 45;
             Item.DamageType = DamageClass.Ranged;
             //Item.UseSound = SoundID.Item1;
-            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<EbonianGunP>();
@@ -38,6 +38,13 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().AddIngredient(ItemID.DemoniteBar, 20).AddTile(TileID.Anvils).Register();
+        }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, ai2: 1);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback);
+
+            return false;
         }
         public override void SetStaticDefaults()
         {
@@ -65,12 +72,14 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.timeLeft = 15;
+            Projectile.timeLeft = 25;
             holdOffset = 22;
         }
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.DontCancelChannelOnKill[Type] = true;
+            ProjectileID.Sets.TrailingMode[Type] = 0;
+            ProjectileID.Sets.TrailCacheLength[Type] = 4;
         }
         public override void AI()
         {
@@ -80,12 +89,26 @@ namespace EbonianMod.Items.Weapons.Ranged
                 return;
             }
             float progress = Ease(Utils.GetLerpValue(0f, 15, Projectile.timeLeft));
-            if (Projectile.timeLeft == 14)
+            if (Projectile.timeLeft == 8 && player.ownedProjectileCounts[Type] < 2)
+            {
+                if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems)
+                {
+                    if (player.whoAmI == Main.myPlayer)
+                    {
+                        Vector2 dir = Vector2.Normalize(Main.MouseWorld - player.Center).RotatedByRandom(0.5f);
+                        Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, 0, ai2: 1);
+                        proj.rotation = dir.ToRotation();
+                        proj.Center = Projectile.oldPos[3] + Projectile.Size;
+                        proj.timeLeft = 45;
+                    }
+                }
+            }
+            if (Projectile.timeLeft == 15)
             {
                 SoundEngine.PlaySound(SoundID.Item11);
                 Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity * 20, ModContent.ProjectileType<WeakCursedBullet>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
-            if (Projectile.timeLeft > 10)
+            if (Projectile.timeLeft > 10 && Projectile.timeLeft < 15)
             {
                 holdOffset--;
                 if (Projectile.direction == -1)
@@ -97,7 +120,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                     Projectile.ai[0] -= MathHelper.ToRadians(4.5f / 2);
                 }
             }
-            else
+            else if (Projectile.timeLeft < 10)
             {
                 if (Projectile.direction == -1)
                 {
@@ -113,13 +136,19 @@ namespace EbonianMod.Items.Weapons.Ranged
             player.ChangeDir(Projectile.velocity.X < 0 ? -1 : 1);
             player.itemRotation = (Projectile.velocity.ToRotation() + Projectile.ai[0]) * player.direction;
             pos += (Projectile.velocity.ToRotation() + Projectile.ai[0]).ToRotationVector2() * holdOffset;
-            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2 + Projectile.ai[0]);
-
+            if (Projectile.ai[2] == 0)
+                player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2 + Projectile.ai[0]);
+            else
+                player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2 + Projectile.ai[0]);
             Projectile.rotation = (pos - player.Center).ToRotation() + Projectile.ai[0] * Projectile.spriteDirection;
             Projectile.Center = pos - Vector2.UnitY * 2;
-            player.itemTime = 2;
-            player.heldProj = Projectile.whoAmI;
-            player.itemAnimation = 2;
+            if (player.itemTime <= 2)
+            {
+                player.itemTime = 2;
+                player.itemAnimation = 2;
+            }
+            if (Projectile.ai[2] == 0)
+                player.heldProj = Projectile.whoAmI;
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -136,7 +165,12 @@ namespace EbonianMod.Items.Weapons.Ranged
                 if (player.whoAmI == Main.myPlayer)
                 {
                     Vector2 dir = Vector2.Normalize(Main.MouseWorld - player.Center);
-                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, 0);
+                    if (Projectile.ai[2] == 1)
+                    {
+                        dir = Vector2.Lerp(Projectile.velocity, Vector2.Normalize(Main.MouseWorld - player.Center), 0.75f);
+                        dir.Normalize();
+                    }
+                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, 0, ai2: Projectile.ai[2]);
                     proj.rotation = Projectile.rotation;
                     proj.Center = Projectile.Center;
                 }

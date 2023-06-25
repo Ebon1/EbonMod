@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 using EbonianMod.Projectiles;
 using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Projectiles.Friendly.Corruption;
+using Terraria.Audio;
 //using EbonianMod.Worldgen.Subworlds;
 //using SubworldLibrary;
 
@@ -53,10 +54,11 @@ namespace EbonianMod.Items.Weapons.Melee
         public override string Texture => "EbonianMod/Items/Weapons/Melee/MeatCrusher";
         public override void SetExtraDefaults()
         {
-            Projectile.width = 80;
-            Projectile.height = 80;
+            Projectile.width = 60;
+            Projectile.height = 60;
             swingTime = 60;
             holdOffset = 50;
+            Projectile.tileCollide = false;
         }
         public override float Ease(float x)
         {
@@ -65,10 +67,26 @@ namespace EbonianMod.Items.Weapons.Melee
         float lerpProg = 1, swingProgress, rotation;
         public override void ExtraAI()
         {
-            if (lerpProg < 0)
-                Projectile.timeLeft++;
-            if (lerpProg < 1)
-                lerpProg += 0.1f;
+            //          if (lerpProg < 0)
+            //                Projectile.timeLeft++;
+            //if (lerpProg < 0.2f)
+            //lerpProg += 0.025f;
+            //if (lerpProg < 1)
+            //  lerpProg -= 0.2f;
+            if (swingProgress > 0.35f && swingProgress < 0.75f)
+                if (Projectile.ai[0] == 0 && Helper.TRay.CastLength(Projectile.Center, Vector2.UnitY, 100) < 15)
+                {
+                    Projectile.ai[0] = 1;
+                    EbonianSystem.ScreenShakeAmount = 2;
+                    Projectile.timeLeft = 15;
+                    SoundEngine.PlaySound(SoundID.Item70, Projectile.Center);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, new Vector2(Main.rand.NextFloat(-4.5f, 4.5f), Main.rand.NextFloat(-2, -3)), ModContent.ProjectileType<VileMeatChunk>(), Projectile.damage, 0, Projectile.owner);
+                    }
+
+                    lerpProg = -1;
+                }
             Player player = Main.player[Projectile.owner];
             int direction = (int)Projectile.ai[1];
             if (lerpProg >= 0)
@@ -88,18 +106,7 @@ namespace EbonianMod.Items.Weapons.Melee
         }
         public override bool? CanDamage()
         {
-            return Projectile.ai[0] < 3;
-        }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
-        {
-            lerpProg = -1;
-            swingTime += 5;
-            Projectile.ai[0]++;
-            EbonianSystem.ScreenShakeAmount = 2;
-            for (int i = 0; i < 3; i++)
-            {
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), target.Center, new Vector2(Main.rand.NextFloat(-0.5f, 0.5f) * i, Main.rand.NextFloat(-2, -3)), ModContent.ProjectileType<VileMeatChunk>(), Projectile.damage, 0, Projectile.owner);
-            }
+            return Projectile.ai[0] < 1 && swingProgress > 0.35f && swingProgress < 0.65f;
         }
     }
 }

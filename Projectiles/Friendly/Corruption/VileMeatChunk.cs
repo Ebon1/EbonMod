@@ -23,7 +23,8 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
             Projectile.height = 24;
             Projectile.aiStyle = 2;
             Projectile.friendly = true;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 200;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
 
