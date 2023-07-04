@@ -43,6 +43,14 @@ namespace EbonianMod
 
     public static class Helper
     {
+        /// <summary>
+        /// avoids division (or multiplication if youre trying to do something with that) by zero 
+        /// </summary>
+        /// 
+        public static float Safe(this float f, float x = 1)
+        {
+            return f + (f == 0 ? x : 0);
+        }
         public static Rectangle ToRectangle(this System.Drawing.RectangleF rect)
         {
             return new Rectangle((int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height);
@@ -463,7 +471,7 @@ namespace EbonianMod
             projectile.Center = initialCenter + (projectile.velocity * projectile.ai[1]);
             projectile.Center = projectile.Center + offset;
         }
-        public static Vector2 FromAToB(Vector2 a, Vector2 b, bool normalize = true, bool reverse = false)
+        public static Vector2 FromAToB(this Vector2 a, Vector2 b, bool normalize = true, bool reverse = false)
         {
             Vector2 baseVel = b - a;
             if (normalize)

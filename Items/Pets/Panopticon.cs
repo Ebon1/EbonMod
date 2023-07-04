@@ -22,6 +22,7 @@ namespace EbonianMod.Items.Pets
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+
         }
         public override void SetDefaults()
         {
@@ -38,6 +39,7 @@ namespace EbonianMod.Items.Pets
         public override void SetStaticDefaults()
         {
             Main.projPet[Projectile.type] = true;
+            ProjectileID.Sets.LightPet[Projectile.type] = true;
             Main.projFrames[Type] = 32;
         }
         public override void SetDefaults()
@@ -45,6 +47,27 @@ namespace EbonianMod.Items.Pets
             Projectile.CloneDefaults(ProjectileID.EyeOfCthulhuPet);
             Projectile.aiStyle = -1;
             Projectile.Size = new Vector2(34);
+        }
+        public override void PostDraw(Color lightColor)
+        {
+            Texture2D cone = Helper.GetExtraTexture("cone4");
+            Texture2D eye = ModContent.Request<Texture2D>(Texture + "_Eye").Value;
+            for (int i = 0; i < 4; i++)
+            {
+                float angle = Helper.CircleDividedEqually(i, 4) - Main.GlobalTimeWrappedHourly;
+                Vector2 pos = Projectile.Center + Vector2.UnitX.RotatedBy(angle) * 40;
+                Main.spriteBatch.Draw(eye, pos - Main.screenPosition, null, lightColor, pos.FromAToB(Main.MouseWorld).ToRotation(), eye.Size() / 2, 1, SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.Reload(BlendState.Additive);
+            for (int i = 0; i < 4; i++)
+            {
+                float angle = Helper.CircleDividedEqually(i, 4) - Main.GlobalTimeWrappedHourly;
+                Vector2 pos = Projectile.Center + Vector2.UnitX.RotatedBy(angle) * 40;
+                DelegateMethods.v3_1 = new Color(242, 239, 20).ToVector3();
+                Terraria.Utils.PlotTileLine(pos, pos + pos.FromAToB(Main.MouseWorld) * cone.Width * 0.2f, cone.Height * 0.025f, new Terraria.Utils.TileActionAttempt(DelegateMethods.CastLight));
+                Main.spriteBatch.Draw(cone, pos - Main.screenPosition, null, new Color(242, 239, 20) * 0.75f, pos.FromAToB(Main.MouseWorld).ToRotation(), new Vector2(0, cone.Height / 2), 0.2f, SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
         }
         public override void AI()
         {
@@ -68,7 +91,7 @@ namespace EbonianMod.Items.Pets
         public override void SetStaticDefaults()
         {
             Main.buffNoTimeDisplay[Type] = true;
-            Main.vanityPet[Type] = true;
+            Main.lightPet[Type] = true;
         }
         public override void Update(Player player, ref int buffIndex)
         {

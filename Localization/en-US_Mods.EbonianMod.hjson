@@ -35,9 +35,9 @@ Projectiles: {
 	EbonianGunP.DisplayName: Demonite Blaster
 	BloodOrb.DisplayName: Blood Orb
 	VileBladeP.DisplayName: Vile Blade
-	SanguineSlasherP.DisplayName: Sanguine Slasher
+	SanguineSlasherP.DisplayName: Sawnguine
 	IgnosP.DisplayName: Exol
-	ExolsawP.DisplayName: Exawblade
+	ExolsawP.DisplayName: Infernal Discblade
 	EbonianScytheP.DisplayName: Ebonian Scythe
 	InferosP.DisplayName: Acheron Codex
 	PanopticonP.DisplayName: Panopticon
@@ -194,7 +194,7 @@ Items: {
 
 	SanguineSlasher: {
 		Tooltip: ""
-		DisplayName: Sanguine Slasher
+		DisplayName: Saw-nguine
 	}
 
 	MeatCrusher: {
@@ -204,7 +204,7 @@ Items: {
 
 	Exolsaw: {
 		Tooltip: ""
-		DisplayName: Exaw
+		DisplayName: Infernal Disc
 	}
 
 	EbonianScythe: {
@@ -418,11 +418,11 @@ Items: {
 
 	CorruptionStaff: {
 		Tooltip: ""
-		DisplayName: Corruption Staff
+		DisplayName: Thorn-A-Part
 	}
 
 	CrimsonSpear: {
-		DisplayName: Crimson Spear
+		DisplayName: Vitriolic Voulge
 		Tooltip: ""
 	}
 }
