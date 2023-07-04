@@ -50,7 +50,7 @@ namespace EbonianMod.Items.Consumables.BossItems
         {
             ItemID.Sets.SortingPriorityBossSpawns[Item.type] = 12;
         }
-        public override string Texture => Helper.BuffPlaceholder;
+        public override string Texture => Helper.Placeholder;
         public override void SetDefaults()
         {
             Item.width = 20;

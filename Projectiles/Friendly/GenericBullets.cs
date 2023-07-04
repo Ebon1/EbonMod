@@ -87,6 +87,7 @@ namespace EbonianMod.Projectiles.Friendly
             Projectile.tileCollide = true;
             Projectile.penetrate = -1;
             Projectile.Size = new(48, 48);
+            Projectile.scale = 0.5f;
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -110,16 +111,16 @@ namespace EbonianMod.Projectiles.Friendly
                 if (npc.active && npc.Center.Distance(target.Center) < 600 && npc != target && !npc.friendly && !npc.buffImmune[BuffID.Ichor] && npc.realLife == -1)
                 {
                     Helper.QuickDustLine(Projectile.Center, npc.Center, 100f, Color.Gold);
-                    npc.AddBuff(BuffID.Ichor, 90);
+                    npc.AddBuff(BuffID.Ichor, 50);
                 }
             }
         }
         public override void AI()
         {
             if (Projectile.timeLeft % 5 == 0)
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 3; i++)
                 {
-                    Vector2 offset = Main.rand.NextVector2CircularEdge(30, 30);
+                    Vector2 offset = Main.rand.NextVector2CircularEdge(15, 15);
                     Dust.NewDustPerfect(Projectile.Center + offset, DustID.IchorTorch, Helper.FromAToB(Projectile.Center + offset, Projectile.Center));
                 }
             Projectile.rotation = Projectile.velocity.ToRotation();

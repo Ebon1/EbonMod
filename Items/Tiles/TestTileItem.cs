@@ -10,7 +10,7 @@ namespace EbonianMod.Items.Tiles
 {
     public class TestTileItem : ModItem
     {
-        public override string Texture => Helper.BuffPlaceholder;
+        public override string Texture => Helper.Placeholder;
         public override void SetStaticDefaults()
         {
 
@@ -34,7 +34,7 @@ namespace EbonianMod.Items.Tiles
     }
     public class TestTileItem2 : ModItem
     {
-        public override string Texture => Helper.BuffPlaceholder;
+        public override string Texture => Helper.Placeholder;
         public override void SetStaticDefaults()
         {
 
@@ -58,7 +58,7 @@ namespace EbonianMod.Items.Tiles
     }
     public class TestTileItem3 : ModItem
     {
-        public override string Texture => Helper.BuffPlaceholder;
+        public override string Texture => Helper.Placeholder;
         public override void SetStaticDefaults()
         {
 
@@ -82,7 +82,7 @@ namespace EbonianMod.Items.Tiles
     }
     public class TestTileItem4 : ModItem
     {
-        public override string Texture => Helper.BuffPlaceholder;
+        public override string Texture => Helper.Placeholder;
         public override void SetStaticDefaults()
         {
         }

@@ -43,6 +43,10 @@ namespace EbonianMod
 
     public static class Helper
     {
+        public static Rectangle ToRectangle(this System.Drawing.RectangleF rect)
+        {
+            return new Rectangle((int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height);
+        }
         public static float ClosestTo(this IEnumerable<float> collection, float target)
         {
             // NB Method will return int.MaxValue for a sequence containing no elements.

@@ -24,7 +24,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
             Projectile.aiStyle = 2;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 200;
+            Projectile.timeLeft = 100;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
 

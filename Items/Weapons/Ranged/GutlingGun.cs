@@ -25,6 +25,10 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.useAmmo = AmmoID.Bullet;
             Item.autoReuse = true;
         }
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-10, 0);
+        }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             type = ModContent.ProjectileType<IchorGrenade>();

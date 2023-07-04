@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent;
 using EbonianMod;
+using System.IO;
 
 namespace EbonianMod.Projectiles
 {
@@ -13,6 +14,7 @@ namespace EbonianMod.Projectiles
     {
         public int swingTime = 20;
         public float holdOffset = 50f;
+        public float baseHoldOffset = 50f;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.DontCancelChannelOnKill[Type] = true;
@@ -28,6 +30,7 @@ namespace EbonianMod.Projectiles
             SetExtraDefaults();
             Projectile.localNPCHitCooldown = swingTime;
             Projectile.timeLeft = swingTime;
+            baseHoldOffset = holdOffset;
         }
         public virtual float Ease(float f)
         {
@@ -48,7 +51,18 @@ namespace EbonianMod.Projectiles
         {
 
         }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Projectile.localAI[0]);
+            writer.Write(Projectile.localAI[1]);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Projectile.localAI[0] = reader.ReadSingle();
+            Projectile.localAI[1] = reader.ReadSingle();
+        }
         public Player.CompositeArmStretchAmount stretch = Player.CompositeArmStretchAmount.Full;
+        public bool useHeld = true;
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
@@ -66,6 +80,8 @@ namespace EbonianMod.Projectiles
                 ExtraAI();
                 return;
             }
+            if (useHeld)
+                player.heldProj = Projectile.whoAmI;
             if (Projectile.ai[1] != 0)
             {
                 int direction = (int)Projectile.ai[1];
@@ -79,13 +95,12 @@ namespace EbonianMod.Projectiles
                 Projectile.Center = position;
                 Projectile.rotation = (position - player.Center).ToRotation() + MathHelper.PiOver4;
                 player.ChangeDir(Projectile.velocity.X < 0 ? -1 : 1);
-                player.heldProj = Projectile.whoAmI;
                 player.SetCompositeArmFront(true, stretch, rotation - MathHelper.PiOver2);
             }
             else
             {
                 float progress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
-                holdOffset = 35 * (progress + 0.25f);
+                holdOffset = baseHoldOffset * (progress + 0.25f);
                 Vector2 pos = player.RotatedRelativePoint(player.MountedCenter);
                 player.ChangeDir(Projectile.velocity.X < 0 ? -1 : 1);
                 player.itemRotation = Projectile.velocity.ToRotation() * player.direction;

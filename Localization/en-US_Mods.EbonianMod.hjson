@@ -74,6 +74,7 @@ Projectiles: {
 	VilethornF2.DisplayName: Vilethorn F2
 	VilethornF1.DisplayName: Vilethorn F1
 	MeatCrusherP.DisplayName: Meat Crusher P
+	CrimsonSpearP.DisplayName: Crimson Spear P
 }
 
 NPCs: {
@@ -418,6 +419,11 @@ Items: {
 	CorruptionStaff: {
 		Tooltip: ""
 		DisplayName: Corruption Staff
+	}
+
+	CrimsonSpear: {
+		DisplayName: Crimson Spear
+		Tooltip: ""
 	}
 }
 

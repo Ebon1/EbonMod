@@ -57,7 +57,7 @@ namespace EbonianMod.Items.Weapons.Melee
                 target.StrikeNPC(hitinfo);
             if (Projectile.ai[0] < 3 && Projectile.ai[1] <= 0)
             {
-                Projectile.ai[1] = 200;
+                Projectile.ai[1] = 300;
                 Projectile.ai[0]++;
             }
         }
@@ -318,7 +318,7 @@ namespace EbonianMod.Items.Weapons.Melee
                 Projectile.ai[0]--;
             }
             Lighting.AddLight(Projectile.Center, TorchID.Orange);
-            if (++Projectile.frameCounter >= 4 - Projectile.ai[0])
+            if (++Projectile.frameCounter >= 3 - Projectile.ai[0])
             {
                 Projectile.frameCounter = 0;
                 if (++Projectile.frame > 15)
