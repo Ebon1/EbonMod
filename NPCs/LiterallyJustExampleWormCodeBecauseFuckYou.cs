@@ -607,6 +607,15 @@ namespace EbonianMod.NPCs
             CommonAI_BodyTail(this);
         }
 
+        public override void SetStaticDefaults()
+        {
+
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Hide = true // Hides this NPC from the Bestiary, useful for multi-part NPCs whom you only want one entry.
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
+        }
         internal static void CommonAI_BodyTail(Worm worm)
         {
             if (!worm.NPC.HasValidTarget)
@@ -656,6 +665,15 @@ namespace EbonianMod.NPCs
     // Since the body and tail segments share the same AI
     public abstract class WormTail : Worm
     {
+        public override void SetStaticDefaults()
+        {
+
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Hide = true // Hides this NPC from the Bestiary, useful for multi-part NPCs whom you only want one entry.
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
+        }
         public sealed override WormSegmentType SegmentType => WormSegmentType.Tail;
 
         internal override void BodyTailAI()

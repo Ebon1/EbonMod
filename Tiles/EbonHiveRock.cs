@@ -22,9 +22,14 @@ namespace EbonianMod.Tiles
             Main.tileMerge[ModContent.TileType<EbonHiveBlock>()][Type] = true;
 
             DustType = DustID.GreenBlood;
+
             RegisterItemDrop(ModContent.ItemType<Items.Tiles.EbonHiveI>());
 
             AddMapEntry(Color.LawnGreen);
+        }
+        public override IEnumerable<Item> GetItemDrops(int i, int j)
+        {
+            yield return new Item(ModContent.ItemType<Items.Tiles.EbonHiveI>());
         }
     }
     internal class EbonHiveRock2 : ModTile
@@ -39,9 +44,14 @@ namespace EbonianMod.Tiles
 
             Main.tileMerge[ModContent.TileType<EbonHiveBlock>()][Type] = true;
             DustType = DustID.GreenBlood;
+
             RegisterItemDrop(ModContent.ItemType<Items.Tiles.EbonHiveI>());
 
             AddMapEntry(Color.LawnGreen);
+        }
+        public override IEnumerable<Item> GetItemDrops(int i, int j)
+        {
+            yield return new Item(ModContent.ItemType<Items.Tiles.EbonHiveI>());
         }
     }
 }

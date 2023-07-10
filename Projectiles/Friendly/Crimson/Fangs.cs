@@ -21,7 +21,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
         {
             Projectile.width = 10;
             Projectile.height = 10;
-            Projectile.aiStyle = 1;
+            Projectile.aiStyle = 2;
             Projectile.friendly = true;
             Projectile.tileCollide = true;
             Projectile.DamageType = DamageClass.Ranged;

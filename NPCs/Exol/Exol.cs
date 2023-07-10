@@ -268,7 +268,7 @@ namespace EbonianMod.NPCs.Exol
                 AITimer++;
                 if (AITimer == 1)
                 {
-                    Helper.SetBossTitle(180, "Exol", Color.OrangeRed);
+                    //Helper.SetBossTitle(180, "Exol", Color.OrangeRed);
                     EbonianSystem.ChangeCameraPos(NPC.Center, 180);
                     SoundEngine.PlaySound(summon);
                     EbonianSystem.ScreenShakeAmount = 15f;
@@ -367,17 +367,13 @@ namespace EbonianMod.NPCs.Exol
                     NPC.noTileCollide = false;
                     NPC.velocity = -Vector2.UnitY * 30;
                 }
-                if (NPC.collideY || NPC.collideX)
+                if (NPC.collideY || NPC.collideX || NPC.Center.Y < Main.UnderworldLayer * 16)
                 {
                     EbonianSystem.ScreenShakeAmount = 10;
                     NPC.velocity = Vector2.UnitY * 5;
                 }
                 if (AITimer > 60)
                     NPC.velocity *= 0.9f;
-                if (NPC.Center.Y < Main.UnderworldLayer)
-                {
-                    NPC.velocity = Vector2.Zero;
-                }
                 if (AITimer % 10 == 0 && AITimer > 60)
                 {
                     Vector2 pos = new Vector2(Main.screenPosition.X + Main.screenWidth * Main.rand.NextFloat(), Main.screenPosition.Y - 300);

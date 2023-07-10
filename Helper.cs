@@ -635,6 +635,8 @@ namespace EbonianMod
         public static string GetBossText()
         {
             var player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
+            if (player.bossTitle == null || player.bossTitle == "")
+                return "";
             float progress = Utils.GetLerpValue(0, player.bossMaxProgress, player.bossTextProgress);
             float realProg = ((MathHelper.Clamp((1f - progress) * 3, 0, 1)));
             string text = player.bossTitle;

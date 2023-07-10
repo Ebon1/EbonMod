@@ -75,6 +75,7 @@ Projectiles: {
 	VilethornF1.DisplayName: Vilethorn F1
 	MeatCrusherP.DisplayName: Meat Crusher P
 	CrimsonSpearP.DisplayName: Crimson Spear P
+	GoreBeam.DisplayName: Gore Beam
 }
 
 NPCs: {
@@ -99,7 +100,7 @@ NPCs: {
 	}
 
 	HotGarbage.DisplayName: Hot Garbage
-	Exol.DisplayName: Exol
+	Exol.DisplayName: Inferos
 	Glutton.DisplayName: Glutton
 	Cecitior.DisplayName: Cecitior
 	Terrortoma.DisplayName: Terrortoma
@@ -127,6 +128,12 @@ NPCs: {
 	BabyCecity.DisplayName: Crimorrhage
 	Fleshformator.DisplayName: Fleshformator
 	LetsGoo.DisplayName: Gnasher
+	RotlingBody.DisplayName: Rotling
+	RotlingHead.DisplayName: Rotling
+	RotlingTail.DisplayName: Rotling
+	DankDiggerBody.DisplayName: Dank Digger
+	DankDiggerHead.DisplayName: Dank Digger
+	DankDiggerTail.DisplayName: Dank Digger
 }
 
 Items: {
@@ -232,8 +239,8 @@ Items: {
 	}
 
 	GoreSceptre: {
-		DisplayName: Gore Sceptre
-		Tooltip: Conjures a bloated heart.
+		DisplayName: Heartbeat
+		Tooltip: Gets stronger the longer you use it.
 	}
 
 	TestTileItem4: {
@@ -331,7 +338,7 @@ Items: {
 
 	ExolMusicI: {
 		Tooltip: Plays Rage by Yuri O
-		DisplayName: Music Box (Exol)
+		DisplayName: Music Box (Inferos)
 	}
 
 	EvilMusicI: {
@@ -423,7 +430,7 @@ Items: {
 
 	CrimsonSpear: {
 		DisplayName: Vitriolic Voulge
-		Tooltip: ""
+		Tooltip: The longer you use it, the faster it becomes.
 	}
 }
 

@@ -4,6 +4,7 @@ using Terraria;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
+using Terraria.ID;
 
 namespace EbonianMod.Items.Weapons.Magic
 {
@@ -37,6 +38,8 @@ namespace EbonianMod.Items.Weapons.Magic
             position.Y = position.Y - 12;
             position.X = position.X + 2;
             Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(30));
+            if (Main.rand.NextBool(3))
+                Dust.NewDustPerfect(position, DustID.YellowStarDust, perturbedSpeed.RotatedByRandom(0.2f));
             Projectile.NewProjectile(source, position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI);
 
             return false;
@@ -53,7 +56,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Projectile.width = 10;
             Projectile.height = 10;
             Projectile.aiStyle = 0;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.friendly = true;
             Projectile.hostile = false;
             Projectile.DamageType = DamageClass.Magic;
@@ -61,11 +64,13 @@ namespace EbonianMod.Items.Weapons.Magic
             Projectile.timeLeft = 55;
             Projectile.scale = 1f;
         }
+        public override void OnSpawn(IEntitySource source)
+        {
+            Helper.DustExplosion(Projectile.Center, new Vector2(1), 2, new Color(210, 183, 82), false, false, 0, 1, Projectile.velocity);
+        }
         public override void AI()
         {
             Projectile.velocity *= 0.95f;
-            if (Main.rand.NextBool(2))
-                Helper.DustExplosion(Projectile.Center, new Vector2(1), 2, Color.SaddleBrown * 0.45f, false, false, 0, 1);
         }
     }
 }

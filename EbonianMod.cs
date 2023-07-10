@@ -20,14 +20,15 @@ using EbonianMod.Projectiles.Exol;
 ////using SubworldLibrary;
 using Terraria.GameContent.Drawing;
 using Terraria.Audio;
+using EbonianMod.NPCs.Garbage;
 
 namespace EbonianMod
 {
     public class EbonianMod : Mod
     {
         public static EbonianMod Instance;
-        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack;
-        public RenderTarget2D render;
+        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur;
+        public RenderTarget2D render, blurrender;
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
         public static SoundStyle flesh0, flesh1, flesh2;
@@ -42,6 +43,7 @@ namespace EbonianMod
             Instance = this;
             Test1 = ModContent.Request<Effect>("EbonianMod/Effects/Test1", (AssetRequestMode)1).Value;
             HorizBlur = ModContent.Request<Effect>("EbonianMod/Effects/horizBlur", (AssetRequestMode)1).Value;
+            Blur = ModContent.Request<Effect>("EbonianMod/Effects/Blur", (AssetRequestMode)1).Value;
             Crack = ModContent.Request<Effect>("EbonianMod/Effects/crackTest", (AssetRequestMode)1).Value;
             RTAlpha = ModContent.Request<Effect>("EbonianMod/Effects/RTAlpha", (AssetRequestMode)1).Value;
             CrystalShine = ModContent.Request<Effect>("EbonianMod/Effects/CrystalShine", (AssetRequestMode)1).Value;
@@ -108,7 +110,8 @@ namespace EbonianMod
             SpriteBatch sb = Main.spriteBatch;
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            SmokeDustAkaFireDustButNoGlow.DrawAll(Main.spriteBatch);
+            if (NPC.AnyNPCs(ModContent.NPCType<Exol>()))
+                SmokeDustAkaFireDustButNoGlow.DrawAll(Main.spriteBatch);
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             orig(self, iNPCIndex, behindTiles);
@@ -173,6 +176,7 @@ namespace EbonianMod
                 Main.QueueMainThreadAction(() =>
                 {
                     render = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                    blurrender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                 });
         }
 
@@ -188,6 +192,8 @@ namespace EbonianMod
             FireDust.DrawAll(sb);
             ColoredFireDust.DrawAll(sb);
             GenericAdditiveDust.DrawAll(sb);
+            if (!NPC.AnyNPCs(ModContent.NPCType<Exol>()))
+                SmokeDustAkaFireDustButNoGlow.DrawAll(Main.spriteBatch);
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             if (FlashAlpha > 0)
@@ -211,7 +217,7 @@ namespace EbonianMod
                 }
             }*/
             sb.End();
-            #region "ripple"
+            #region "rt2d"
             if (Main.netMode != NetmodeID.Server)
             {
                 gd.SetRenderTarget(render);

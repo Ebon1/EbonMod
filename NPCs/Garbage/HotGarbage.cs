@@ -13,6 +13,8 @@ using EbonianMod.Projectiles;
 using EbonianMod.Projectiles.Exol;
 using Terraria.Audio;
 using EbonianMod.NPCs.Corruption;
+using static tModPorter.ProgressUpdate;
+using System.Collections.Generic;
 
 namespace EbonianMod.NPCs.Garbage
 {
@@ -34,7 +36,7 @@ namespace EbonianMod.NPCs.Garbage
             NPC.lifeMax = 4500;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.knockBackResist = 0f;
-            //NPC.DeathSound = new Terraria.Audio.SoundStyle("EbonianMod/Sounds/NPCHit/GarbageDeath");
+            NPC.DeathSound = new Terraria.Audio.SoundStyle("EbonianMod/Sounds/NPCHit/GarbageDeath");
             NPC.aiStyle = -1;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
@@ -280,11 +282,12 @@ namespace EbonianMod.NPCs.Garbage
                 //EbonianSystem.ChangeCameraPos(NPC.Center, 250, );
                 EbonianSystem.ScreenShakeAmount = 20;
                 ded = true;
-                AITimer = AITimer2 = 0;
+                AITimer = AITimer2 = -100;
                 NPC.velocity = Vector2.Zero;
                 NPC.frame.X = 160;
                 NPC.frame.Y = 0;
                 NPC.life = 1;
+                Music = -1;
                 return false;
             }
             return true;
@@ -338,8 +341,13 @@ namespace EbonianMod.NPCs.Garbage
             {
                 NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
-                AITimer++;
-                if (AITimer % 5 == 0 && AITimer <= 21)
+                if (NPC.Grounded())
+                {
+                    AITimer++;
+                    if (AITimer == -99)
+                        EbonianSystem.ChangeCameraPos(NPC.Center, 200, 1.2f);
+                }
+                if (AITimer % 5 == 0 && AITimer <= 21 && AITimer >= 0)
                 {
                     if (NPC.frame.Y < 3 * 76)
                     {
@@ -974,26 +982,73 @@ namespace EbonianMod.NPCs.Garbage
             Projectile.hostile = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 500;
+            Projectile.hide = true;
         }
         Vector2 targetPos;
         float waveTimer;
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            behindNPCs.Add(index);
+            behindProjectiles.Add(index);
+        }
         public override void PostDraw(Color lightColor)
         {
             Texture2D pulse = Helper.GetExtraTexture("PulseCircle2");
-            Main.spriteBatch.Reload(BlendState.Additive);
-            float alpha = MathHelper.SmoothStep(1, 0, waveTimer);
+            Texture2D chevron = Helper.GetExtraTexture("chevron");
+            Texture2D hazard = Helper.GetExtraTexture("hazardUnblurred");
+            Texture2D textGlow = Helper.GetExtraTexture("textGlow");
+            Texture2D circle = Helper.GetExtraTexture("explosion2");
+            float alpha = Utils.GetLerpValue(0, 2, waveTimer);
+            float alpha2 = MathHelper.Clamp((float)Math.Sin(alpha * Math.PI) * 1, 0, 1f);
             if (targetPos != Vector2.Zero)
             {
-                Main.spriteBatch.Draw(pulse, targetPos - Main.screenPosition, null, Color.Maroon, 0, pulse.Size() / 2, 4.5f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(pulse, targetPos - Main.screenPosition, null, Color.Maroon * alpha, 0, pulse.Size() / 2, waveTimer * 4.5f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(circle, targetPos - Main.screenPosition, null, Color.Black * Projectile.ai[2] * 0.5f, 0, circle.Size() / 2, 4.8f, SpriteEffects.None, 0);
+                Main.spriteBatch.Reload(BlendState.Additive);
+                Main.spriteBatch.Draw(pulse, targetPos - Main.screenPosition, null, Color.DarkRed * Projectile.ai[2], 0, pulse.Size() / 2, 4.5f, SpriteEffects.None, 0);
+                //Main.spriteBatch.Draw(pulse, targetPos - Main.screenPosition, null, Color.Maroon * alpha2, 0, pulse.Size() / 2, waveTimer * 2, SpriteEffects.None, 0);
+                for (int i = 0; i < 16; i++)
+                {
+                    float angle = Helper.CircleDividedEqually(i, 16);
+                    Vector2 offset = Vector2.Lerp(Vector2.Zero, (pulse.Height / 2) * Vector2.One, waveTimer);
+                    Main.spriteBatch.Draw(chevron, targetPos + offset.RotatedBy(angle) - Main.screenPosition, null, Color.DarkRed * alpha2, angle + MathHelper.PiOver4, chevron.Size() / 2, 0.5f, SpriteEffects.None, 0);
+                }
+                for (int i = 0; i < 16; i++)
+                {
+                    float angle = Helper.CircleDividedEqually(i, 16);
+                    Vector2 offset = Vector2.Lerp(Vector2.Zero, (pulse.Height / 2) * Vector2.One, waveTimer) + 100 * Vector2.One;
+                    Main.spriteBatch.Draw(chevron, targetPos + offset.RotatedBy(angle) - Main.screenPosition, null, Color.DarkRed * alpha2 * 0.75f, angle + MathHelper.PiOver4, chevron.Size() / 2, 0.5f, SpriteEffects.None, 0);
+                }
+                for (int i = 0; i < 16; i++)
+                {
+                    float angle = Helper.CircleDividedEqually(i, 16);
+                    Vector2 offset = Vector2.Lerp(Vector2.Zero, (pulse.Height / 2) * Vector2.One, waveTimer) + 200 * Vector2.One;
+                    Main.spriteBatch.Draw(chevron, targetPos + offset.RotatedBy(angle) - Main.screenPosition, null, Color.DarkRed * alpha2 * 0.5f, angle + MathHelper.PiOver4, chevron.Size() / 2, 0.5f, SpriteEffects.None, 0);
+                }
+                for (int i = 0; i < 16; i++)
+                {
+                    float angle = Helper.CircleDividedEqually(i, 16);
+                    Vector2 offset = Vector2.Lerp(Vector2.Zero, (pulse.Height / 2) * Vector2.One, waveTimer) + 300 * Vector2.One;
+                    Main.spriteBatch.Draw(chevron, targetPos + offset.RotatedBy(angle) - Main.screenPosition, null, Color.DarkRed * alpha2 * 0.25f, angle + MathHelper.PiOver4, chevron.Size() / 2, 0.5f, SpriteEffects.None, 0);
+                }
             }
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
             string strin = "" + (int)(Projectile.ai[1] / 60);
-            if (extraString != "NUKE ACTIVATING IN: ")
+            if (extraString != "NUKE DETONATION IN: ")
                 strin = "";
-            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, extraString + strin, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString((extraString + strin).ToString()).X / 2, Main.screenHeight * 0.05f), Color.Maroon);
+
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            Main.spriteBatch.Draw(textGlow, new Vector2(Main.screenWidth / 2, Main.screenHeight * 0.05f), null, Color.Black, 0, new Vector2(textGlow.Width / 2, textGlow.Height / 2), 10, SpriteEffects.None, 0);
+
+            for (int i = -(int)(Main.screenWidth / hazard.Width); i < (int)(Main.screenWidth / hazard.Width); i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    Main.spriteBatch.Draw(hazard, new Vector2(Main.screenWidth / 2 + (i * hazard.Width) - waveTimer * hazard.Width, Main.screenHeight * 0.0325f), null, Color.Red, 0, new Vector2(hazard.Width / 2, hazard.Height / 2), 1, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(hazard, new Vector2(Main.screenWidth / 2 + (i * hazard.Width) + waveTimer * hazard.Width, Main.screenHeight * 0.122f), null, Color.Red, 0, new Vector2(hazard.Width / 2, hazard.Height / 2), 1, SpriteEffects.None, 0);
+                }
+            }
+            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, extraString + strin, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString((extraString + strin).ToString()).X / 2, Main.screenHeight * 0.05f), Color.Red);
         }
-        string extraString = "NUKE ACTIVATING IN: ";
+        string extraString = "NUKE DETONATION IN: ";
         public override void OnSpawn(IEntitySource source)
         {
             Projectile.ai[1] = 600;
@@ -1024,8 +1079,11 @@ namespace EbonianMod.NPCs.Garbage
         }
         public override void AI()
         {
+            if (Projectile.ai[2] < 1f)
+                Projectile.ai[2] += 0.05f;
             Projectile.rotation = Projectile.velocity.ToRotation();
-            Helper.DustExplosion(Projectile.Center, Vector2.One, 2, Color.Gray * 0.75f, false);
+            if (Projectile.ai[2] > 0)
+                Helper.DustExplosion(Projectile.Center - new Vector2(Projectile.width / 2, 0).RotatedBy(Projectile.rotation), Vector2.One, 2, Color.Transparent, false);
             if (Projectile.ai[1] > 0 && Projectile.ai[0] > 50)
                 Projectile.ai[1]--;
             if (Projectile.ai[1] <= 0 && Projectile.ai[0] > 50)
@@ -1044,11 +1102,13 @@ namespace EbonianMod.NPCs.Garbage
                         extraString = "lol";
                 }
                 if (player.active && player.Center.Distance(targetPos) > 4500 / 2)
-                    extraString = "NUKE ACTIVATING IN: ";
+                    extraString = "NUKE DETONATION IN: ";
             }
             Projectile.timeLeft = 2;
-            waveTimer += 0.025f;
-            if (waveTimer > 1)
+            float alpha = Utils.GetLerpValue(0, 2, waveTimer);
+            float alpha2 = MathHelper.Clamp((float)Math.Sin(alpha * Math.PI) * 3, 0, 1f);
+            waveTimer += 0.025f * (waveTimer.Safe() + (alpha2.Safe() * 0.5f));
+            if (waveTimer > 2)
                 waveTimer = 0;
 
             Projectile.ai[0]++;

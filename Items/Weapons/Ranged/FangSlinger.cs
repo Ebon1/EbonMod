@@ -30,7 +30,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.knockBack = 4;
             Item.value = 0;
             Item.rare = 2;
-            Item.shootSpeed = 7f;
+            Item.shootSpeed = 20f;
             Item.useAmmo = AmmoID.Arrow;
             Item.shoot = ModContent.ProjectileType<Projectiles.Friendly.Crimson.Fangs>();
             Item.autoReuse = true;
@@ -44,7 +44,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                 amount = 1;
             for (int i = 0; i < amount; i++)
             {
-                Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(-30, 30) * (amount == 1 ? 0 : 1))), type, damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity.RotatedBy(MathHelper.ToRadians(Main.rand.NextFloat(-15, 15) * (amount == 1 ? 0 : 1))), type, damage, knockback, player.whoAmI);
             }
             return false;
         }

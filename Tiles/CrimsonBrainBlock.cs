@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EbonianMod.Items.Accessories;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,10 @@ namespace EbonianMod.Tiles
             RegisterItemDrop(ModContent.ItemType<Items.Accessories.BrainAcc>());
 
             AddMapEntry(Color.Maroon);
+        }
+        public override IEnumerable<Item> GetItemDrops(int i, int j)
+        {
+            yield return new Item(ModContent.ItemType<BrainAcc>());
         }
         public Rectangle frame;
         public int frameCounter;
