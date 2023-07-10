@@ -260,8 +260,10 @@ namespace EbonianMod.Items.Weapons.Magic
             //for (int i = 0; i < 5; i++)
             //   Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.Maroon, 0, new Vector2(texture.Width, texture.Height) / 2, scale * 0.2f, SpriteEffects.None, 0f);
             //for (int i = 0; i < 5; i++)
-            texture = Helper.GetTexture("Projectiles/Friendly/Crimson/HeadGoreSceptre");
+            texture = Helper.GetTexture("Projectiles/Friendly/Crimson/HeadGoreSceptre_Glow");
+            Main.spriteBatch.Draw(texture, end - Main.screenPosition, null, Color.Maroon * Projectile.ai[1] * 2, 0, new Vector2(texture.Width, texture.Height) / 2, 1 + Projectile.ai[1], SpriteEffects.None, 0f);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            texture = Helper.GetTexture("Projectiles/Friendly/Crimson/HeadGoreSceptre");
             Main.spriteBatch.Draw(texture, end - Main.screenPosition, null, Color.White, 0, new Vector2(texture.Width, texture.Height) / 2, 1 + Projectile.ai[1], SpriteEffects.None, 0f);
             return false;
         }

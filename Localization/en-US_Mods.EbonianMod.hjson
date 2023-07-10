@@ -239,7 +239,7 @@ Items: {
 	}
 
 	GoreSceptre: {
-		DisplayName: Heartbeat
+		DisplayName: Defibrillator
 		Tooltip: Gets stronger the longer you use it.
 	}
 
