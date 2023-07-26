@@ -12,8 +12,8 @@ using EbonianMod.Items.Accessories;
 using Terraria.Graphics.Effects;
 using EbonianMod.NPCs.Crimson;
 using EbonianMod.Items.Weapons.Melee;
-//using EbonianMod.Worldgen.Subworlds;
-//using SubworldLibrary;
+using EbonianMod.Worldgen.Subworlds;
+using SubworldLibrary;
 
 namespace EbonianMod
 {
@@ -65,11 +65,11 @@ namespace EbonianMod
             //Player.ManageSpecialBiomeVisuals("EbonianMod:CorruptTint", Player.ZoneCorrupt && !Player.ZoneUnderworldHeight);
             //Player.ManageSpecialBiomeVisuals("EbonianMod:CrimsonTint", Player.ZoneCrimson && !Player.ZoneUnderworldHeight);
             #region "hell stuff"
-            Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight);// && !SubworldSystem.IsActive<Ignos>());
-            //Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint2", SubworldSystem.IsActive<Ignos>());
+            Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight && !SubworldSystem.IsActive<Ignos>());
+            Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint2", SubworldSystem.IsActive<Ignos>());
             if (Player.ZoneUnderworldHeight && Main.BackgroundEnabled)
             {
-                if (Main.rand.NextBool(/*SubworldSystem.IsActive<Ignos>() ? 4 : */13))
+                if (Main.rand.NextBool(SubworldSystem.IsActive<Ignos>() ? 3 : 13))
                 {
                     EbonianMod.sys.CreateParticle((part) =>
                     {
@@ -100,7 +100,7 @@ namespace EbonianMod
                         part.scale = Main.rand.NextFloat(0.05f, 0.15f);
                         part.ai[1] = Main.rand.NextFloat(0.1f, 0.2f);
                         part.rotation = Main.rand.NextFloat(-1, 1);
-                        part.position = new Vector2(Main.screenPosition.X + Main.rand.NextFloat(Main.screenWidth), Main.screenPosition.Y + Main.screenHeight + 100);
+                        part.position = new Vector2(Main.screenPosition.X - Main.screenWidth + Main.rand.NextFloat(Main.screenWidth * 2), Main.screenPosition.Y - Main.screenHeight + Main.screenHeight * 2 + 100);
                     });
                 }
             } // saved for the hell update

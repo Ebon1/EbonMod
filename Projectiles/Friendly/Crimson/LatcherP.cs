@@ -64,7 +64,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             if (Projectile.ai[1] == 1)
             {
                 Projectile.rotation = Helper.FromAToB(player.Center, Projectile.Center).ToRotation();
-                player.velocity = Helper.FromAToB(player.Center, Projectile.Center, false) / 20;
+                player.velocity = Helper.FromAToB(player.Center, Projectile.Center, false) / 10;
                 if (player.Center.Distance(Projectile.Center) < 50)
                     Projectile.Kill();
             }
@@ -76,7 +76,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                 {
                     Projectile.Center = npc.Center;
                     if (npc.knockBackResist == 0f)
-                        player.velocity = Helper.FromAToB(player.Center, Projectile.Center, false) / 30;
+                        player.velocity = Helper.FromAToB(player.Center, Projectile.Center, false) / 10;
                     else
                         npc.velocity = Helper.FromAToB(npc.Center, player.Center, false) / 20;
                 }
@@ -118,11 +118,11 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                     Mod.Assets.Request<Texture2D>("Projectiles/Friendly/Crimson/LatcherP_Chain").Value.Size() / 2, 1f, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Projectiles/Friendly/Crimson/LatcherP_Chain").Value, Projectile.Center - Main.screenPosition,
-                null, Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
+                null, lightColor, projRotation,
                 Mod.Assets.Request<Texture2D>("Projectiles/Friendly/Crimson/LatcherP_Chain").Value.Size() / 2, 1f, SpriteEffects.None, 0);
 
             Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Projectiles/Friendly/Crimson/LatcherP").Value, Projectile.Center + ((Projectile.height - 5) * Projectile.rotation.ToRotationVector2()) - Main.screenPosition,
-                null, Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), Projectile.rotation,
+                null, lightColor, Projectile.rotation,
                 Mod.Assets.Request<Texture2D>("Projectiles/Friendly/Crimson/LatcherP").Value.Size() / 2, 1f, SpriteEffects.None, 0);
             /*if (verlet != null)
             {

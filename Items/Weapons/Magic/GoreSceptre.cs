@@ -70,6 +70,7 @@ namespace EbonianMod.Items.Weapons.Magic
     }
     public class GoreBeam : ModProjectile
     {
+        public override string Texture => "EbonianMod/Extras/Empty";
         int MAX_TIME = 40;
         public override void SetDefaults()
         {
@@ -82,7 +83,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Projectile.timeLeft = MAX_TIME;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = 15;
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers hit)
         {
@@ -100,7 +101,6 @@ namespace EbonianMod.Items.Weapons.Magic
 
             }
         }
-        public override string Texture => "EbonianMod/Extras/Empty";
         public override void SetStaticDefaults()
         {
         }
@@ -125,28 +125,29 @@ namespace EbonianMod.Items.Weapons.Magic
         Vector2 end;
         public override void AI()
         {
+            if (Projectile.ai[1] > 0)
+                Projectile.ai[1] -= 0.1f;
             Player player = Main.player[Projectile.owner];
-            if (!player.active || player.dead || player.CCed || player.noItems || !player.channel)
+            if (!player.active || player.dead || player.CCed || player.noItems || !player.channel || !player.CheckMana(Projectile.ai[2] >= 20 ? 1 : (int)(20 - (Projectile.ai[2] / 2))))
             {
                 Projectile.Kill();
                 return;
             }
-            if (Projectile.ai[1] > 0)
-                Projectile.ai[1] -= 0.1f;
+            Projectile.direction = end.X > Projectile.Center.X ? 1 : -1;
+            player.ChangeDir(Projectile.direction);
+            Projectile.timeLeft = 2;
+            player.itemTime = 2;
+            player.itemAnimation = 2;
+            player.itemRotation = Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() + (player.direction == -1 ? MathHelper.Pi : 0);
+            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() - MathHelper.PiOver2);
+            Projectile.rotation = Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation();
+
             int n = 25;
             if (player.Distance(end) < 300)
                 n = 10;
             else if (player.Distance(end) < 500)
                 n = 20;
-            player.CheckMana(1, true);
-            Projectile.timeLeft = 2;
-            player.itemTime = 2;
-            player.itemAnimation = 2;
-            player.itemRotation = Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() + (player.direction == -1 ? MathHelper.Pi : 0);
-            Projectile.direction = end.X > Projectile.Center.X ? 1 : -1;
-            player.ChangeDir(Projectile.direction);
-            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() - MathHelper.PiOver2);
-            Projectile.rotation = Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation();
+
             if (!RunOnce)
             {
                 Projectile.velocity.Normalize();
@@ -166,14 +167,24 @@ namespace EbonianMod.Items.Weapons.Magic
                 SoundEngine.PlaySound(SoundID.Item72, Projectile.Center);
                 RunOnce = true;
             }
+
             Projectile.ai[0]++;
-            if (Projectile.ai[0] % 90 == 0 && Projectile.ai[2] < 20)
+
+            if (Projectile.ai[2] >= 20)
+            {
+                player.CheckMana(1, true);
+            }
+
+            if (Projectile.ai[0] > 90 - Projectile.ai[2] * 3 && Projectile.ai[2] < 20)
             {
                 Projectile.ai[1] = 1f;
+
+                player.CheckMana((int)(20 - (Projectile.ai[2] / 2)), true);
                 SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/heartbeat"), Projectile.Center);
-                Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), end, Vector2.Zero, ModContent.ProjectileType<BloodShockwave>(), 0, 0, Projectile.owner);
+                Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), end, Vector2.Zero, ModContent.ProjectileType<BloodShockwave2>(), 0, 0, Projectile.owner);
                 Projectile.damage++;
                 Projectile.ai[2]++;
+                Projectile.ai[0] = 0;
             }
             if (Projectile.ai[0] % 3 == 0)
             {
@@ -197,13 +208,18 @@ namespace EbonianMod.Items.Weapons.Magic
                     x -= i / (float)n;
                 }
             }
+
             points[0] = Projectile.Center + Helper.FromAToB(player.Center, Main.MouseWorld) * 40;
-            if (Main.MouseWorld.Distance(Projectile.Center) < 1920)
-                end = Vector2.SmoothStep(end, Main.MouseWorld, 0.3f);
+            float range = (Projectile.ai[2] + 2) * 96;
+            Vector2 offset = Helper.FromAToB(Projectile.Center, Main.MouseWorld, false);
+            if (offset.Length() > range)
+            {
+                offset.Normalize();
+                offset *= range;
+            }
+            end = Vector2.SmoothStep(end, Projectile.Center + offset, 0.2f);
             points[points.Count - 1] = end;
             Projectile.Center = Main.player[Projectile.owner].Center;
-            float progress = Utils.GetLerpValue(0, MAX_TIME, Projectile.timeLeft);
-            //Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -260,8 +276,8 @@ namespace EbonianMod.Items.Weapons.Magic
             //for (int i = 0; i < 5; i++)
             //   Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.Maroon, 0, new Vector2(texture.Width, texture.Height) / 2, scale * 0.2f, SpriteEffects.None, 0f);
             //for (int i = 0; i < 5; i++)
-            texture = Helper.GetTexture("Projectiles/Friendly/Crimson/HeadGoreSceptre_Glow");
-            Main.spriteBatch.Draw(texture, end - Main.screenPosition, null, Color.Maroon * Projectile.ai[1] * 2, 0, new Vector2(texture.Width, texture.Height) / 2, 1 + Projectile.ai[1], SpriteEffects.None, 0f);
+            texture = Helper.GetTexture("Projectiles/Friendly/Crimson/HeadGoreSceptre_Extra");
+            Main.spriteBatch.Draw(texture, end - Main.screenPosition, null, Color.Maroon * (Projectile.ai[2] < 20 ? Projectile.ai[1] * 2 : 1), 0, new Vector2(texture.Width, texture.Height) / 2, 1 + Projectile.ai[1], SpriteEffects.None, 0f);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             texture = Helper.GetTexture("Projectiles/Friendly/Crimson/HeadGoreSceptre");
             Main.spriteBatch.Draw(texture, end - Main.screenPosition, null, Color.White, 0, new Vector2(texture.Width, texture.Height) / 2, 1 + Projectile.ai[1], SpriteEffects.None, 0f);

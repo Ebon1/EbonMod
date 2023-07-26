@@ -1,6 +1,6 @@
-﻿/*using EbonianMod.Tiles;
+﻿using EbonianMod.Tiles;
 using Microsoft.Xna.Framework;
-//using SubworldLibrary;
+using SubworldLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -113,4 +113,3 @@ namespace EbonianMod.Worldgen.Subworlds
     }
 }
 
-*/

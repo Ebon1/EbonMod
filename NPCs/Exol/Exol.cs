@@ -89,8 +89,8 @@ namespace EbonianMod.NPCs.Exol
                 Vector2 fromTo = Helper.FromAToB(ogEyePos, pointOfInterest);
 
                 //forced point of interest, remove later once ai is finished.
-                if (AIState != Death)
-                    pointOfInterest = player.Center;
+                //if (AIState != Death)
+
 
                 float dist = MathHelper.Clamp(Helper.FromAToB(ogEyePos, pointOfInterest, false).Length() * 0.1f, 0, 11);
                 float distY = MathHelper.Clamp(Helper.FromAToB(ogEyePos, pointOfInterest, false).Length() * 0.1f, 0, 2);
@@ -266,6 +266,7 @@ namespace EbonianMod.NPCs.Exol
             else if (AIState == Spawn)
             {
                 AITimer++;
+                pointOfInterest = NPC.Center;
                 if (AITimer == 1)
                 {
                     //Helper.SetBossTitle(180, "Exol", Color.OrangeRed);
@@ -283,6 +284,7 @@ namespace EbonianMod.NPCs.Exol
             {
                 NPC.damage = 0;
                 AITimer++;
+                pointOfInterest = Vector2.SmoothStep(pointOfInterest, player.Center, 0.25f);
                 if (AITimer == 1)
                 {
                     EbonianSystem.ScreenShakeAmount = 5f;
@@ -336,6 +338,7 @@ namespace EbonianMod.NPCs.Exol
             else if (AIState == RocksAtPlayer)
             {
                 AITimer++;
+                pointOfInterest = Vector2.SmoothStep(pointOfInterest, player.Center, 0.25f);
                 if (AITimer == 1)
                     SoundEngine.PlaySound(roar);
                 Vector2 pos = new Vector2(player.position.X, player.position.Y - 335);
@@ -362,6 +365,10 @@ namespace EbonianMod.NPCs.Exol
                 AITimer++;
                 if (AITimer == 1)
                     SoundEngine.PlaySound(roar);
+                if (AITimer < 50)
+                {
+                    pointOfInterest = Vector2.SmoothStep(pointOfInterest, NPC.Center - Vector2.UnitY * 500, 0.2f);
+                }
                 if (AITimer == 30)
                 {
                     NPC.noTileCollide = false;
@@ -373,14 +380,17 @@ namespace EbonianMod.NPCs.Exol
                     NPC.velocity = Vector2.UnitY * 5;
                 }
                 if (AITimer > 60)
+                {
+                    pointOfInterest = Vector2.SmoothStep(pointOfInterest, player.Center, 0.2f);
                     NPC.velocity *= 0.9f;
-                if (AITimer % 10 == 0 && AITimer > 60)
+                }
+                if (AITimer % 4 == 0 && AITimer > 60)
                 {
                     Vector2 pos = new Vector2(Main.screenPosition.X + Main.screenWidth * Main.rand.NextFloat(), Main.screenPosition.Y - 300);
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.UnitY * 10, ModContent.ProjectileType<EBoulder2>(), 30, 0);
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.UnitY * 10, ModContent.ProjectileType<TelegraphLine>(), 0, 0);
                 }
-                if (AITimer >= 500)
+                if (AITimer >= 260)
                 {
                     NPC.noTileCollide = true;
                     NPC.rotation = 0;

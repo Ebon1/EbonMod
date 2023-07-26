@@ -71,9 +71,9 @@ namespace EbonianMod.NPCs.Cecitior
             if (verlet != null)
             {
                 if (leftSiders.Contains((int)NPC.ai[1]))
-                    verlet.Update(NPC.Center, new Vector2(center.localAI[0], center.localAI[1]));
+                    verlet.Update(NPC.Center, center.Center + new Vector2(center.localAI[0], center.localAI[1]));
                 else
-                    verlet.Update(NPC.Center, center.Center);
+                    verlet.Update(NPC.Center, center.Center - new Vector2(center.localAI[0], center.localAI[1]));
                 verlet.gravity = (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.25f;
                 verlet.Draw(spriteBatch, "NPCs/Cecitior/CecitiorChain");
             }
@@ -218,9 +218,9 @@ namespace EbonianMod.NPCs.Cecitior
                     if (AITimer < 61 && AITimer > 1)
                     {
                         if (leftie)
-                            NPC.velocity = Helper.FromAToB(NPC.Center, new Vector2(center.localAI[0], center.localAI[1]) + new Vector2(100).RotatedBy(angle), false) / 10f;
+                            NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(center.localAI[0], center.localAI[1]) + new Vector2(100).RotatedBy(angle), false) / 10f;
                         else
-                            NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 10f;
+                            NPC.velocity = Helper.FromAToB(NPC.Center, center.Center - new Vector2(center.localAI[0], center.localAI[1]) + new Vector2(100).RotatedBy(angle), false) / 10f;
                         frantic = false;
                         focalPoint = NPC.Center + Helper.FromAToB(center.Center, NPC.Center) * 400;
                         timer++;
@@ -277,9 +277,9 @@ namespace EbonianMod.NPCs.Cecitior
                     else
                     {
                         if (leftie)
-                            NPC.velocity = Helper.FromAToB(NPC.Center, new Vector2(center.localAI[0], center.localAI[1]) + new Vector2(100).RotatedBy(angle), false) / 10f;
+                            NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(center.localAI[0], center.localAI[1]) + new Vector2(100).RotatedBy(angle), false) / 10f;
                         else
-                            NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 10f;
+                            NPC.velocity = Helper.FromAToB(NPC.Center, center.Center - new Vector2(center.localAI[0], center.localAI[1]) + new Vector2(100).RotatedBy(angle), false) / 10f;
 
                     }
 

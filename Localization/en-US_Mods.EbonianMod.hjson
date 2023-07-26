@@ -76,6 +76,8 @@ Projectiles: {
 	MeatCrusherP.DisplayName: Meat Crusher P
 	CrimsonSpearP.DisplayName: Crimson Spear P
 	GoreBeam.DisplayName: Gore Beam
+	RedSpark.DisplayName: Red Spark
+	BloodShockwave2.DisplayName: Blood Shockwave2
 }
 
 NPCs: {
@@ -240,7 +242,11 @@ Items: {
 
 	GoreSceptre: {
 		DisplayName: Defibrillator
-		Tooltip: Gets stronger the longer you use it.
+		Tooltip:
+			'''
+			Gets stronger with each beat.
+			CLEAR!
+			'''
 	}
 
 	TestTileItem4: {
@@ -431,6 +437,11 @@ Items: {
 	CrimsonSpear: {
 		DisplayName: Vitriolic Voulge
 		Tooltip: The longer you use it, the faster it becomes.
+	}
+
+	IgnosSummon: {
+		DisplayName: Ignos Summon
+		Tooltip: ""
 	}
 }
 

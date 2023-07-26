@@ -280,14 +280,14 @@ namespace EbonianMod.NPCs.Garbage
                 NPC.immortal = true;
                 NPC.dontTakeDamage = true;
                 //EbonianSystem.ChangeCameraPos(NPC.Center, 250, );
-                EbonianSystem.ScreenShakeAmount = 20;
+                EbonianSystem.ScreenShakeAmount = 5;
                 ded = true;
                 AITimer = AITimer2 = -100;
                 NPC.velocity = Vector2.Zero;
                 NPC.frame.X = 160;
                 NPC.frame.Y = 0;
                 NPC.life = 1;
-                Music = -1;
+                Music = 0;
                 return false;
             }
             return true;
@@ -345,7 +345,13 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     AITimer++;
                     if (AITimer == -99)
-                        EbonianSystem.ChangeCameraPos(NPC.Center, 200, 1.2f);
+                        EbonianSystem.ChangeCameraPos(NPC.Center, 200, 1.7f);
+                }
+                if (AITimer == 0)
+                {
+                    EbonianSystem.ScreenShakeAmount = 20;
+
+                    Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/GarbageSiren");
                 }
                 if (AITimer % 5 == 0 && AITimer <= 21 && AITimer >= 0)
                 {
@@ -356,7 +362,6 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer == 20)
                 {
-                    Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/GarbageSiren");
                     Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<HotGarbageNuke>(), 0, 0);
                 }
                 if (AITimer >= 650)
@@ -1036,6 +1041,9 @@ namespace EbonianMod.NPCs.Garbage
                 strin = "";
 
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            Main.spriteBatch.SaveCurrent();
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, Main.Rasterizer, null, Main.UIScaleMatrix);
             Main.spriteBatch.Draw(textGlow, new Vector2(Main.screenWidth / 2, Main.screenHeight * 0.05f), null, Color.Black, 0, new Vector2(textGlow.Width / 2, textGlow.Height / 2), 10, SpriteEffects.None, 0);
 
             for (int i = -(int)(Main.screenWidth / hazard.Width); i < (int)(Main.screenWidth / hazard.Width); i++)
@@ -1047,6 +1055,8 @@ namespace EbonianMod.NPCs.Garbage
                 }
             }
             DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, extraString + strin, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString((extraString + strin).ToString()).X / 2, Main.screenHeight * 0.05f), Color.Red);
+
+            Main.spriteBatch.ApplySaved();
         }
         string extraString = "NUKE DETONATION IN: ";
         public override void OnSpawn(IEntitySource source)
