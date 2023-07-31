@@ -27,7 +27,7 @@ namespace EbonianMod
     public class EbonianMod : Mod
     {
         public static EbonianMod Instance;
-        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur;
+        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline;
         public RenderTarget2D render, blurrender;
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
@@ -46,6 +46,7 @@ namespace EbonianMod
             Blur = ModContent.Request<Effect>("EbonianMod/Effects/Blur", (AssetRequestMode)1).Value;
             Crack = ModContent.Request<Effect>("EbonianMod/Effects/crackTest", (AssetRequestMode)1).Value;
             RTAlpha = ModContent.Request<Effect>("EbonianMod/Effects/RTAlpha", (AssetRequestMode)1).Value;
+            RTOutline = ModContent.Request<Effect>("EbonianMod/Effects/RTOutline", (AssetRequestMode)1).Value;
             CrystalShine = ModContent.Request<Effect>("EbonianMod/Effects/CrystalShine", (AssetRequestMode)1).Value;
             TextGradient = ModContent.Request<Effect>("EbonianMod/Effects/TextGradient", (AssetRequestMode)1).Value;
             TextGradient2 = ModContent.Request<Effect>("EbonianMod/Effects/TextGradient2", (AssetRequestMode)1).Value;
@@ -187,7 +188,47 @@ namespace EbonianMod
             GraphicsDevice gd = Main.instance.GraphicsDevice;
             SpriteBatch sb = Main.spriteBatch;
             #region "rt2d"
+            if (!Main.gameMenu)
+            {
+                gd.SetRenderTarget(Main.screenTargetSwap);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
+                sb.End();
+
+                gd.SetRenderTarget(render);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                /*foreach (Projectile proj in Main.projectile)
+                {
+                    if (proj.active && proj.timeLeft > 1 && proj.type == ModContent.ProjectileType<>())
+                    {
+                        Color color = Color.White;
+                        proj.ModProjectile.PreDraw(ref color);
+                    }
+                }*/
+
+                BlackWhiteDust.DrawAll(sb);
+
+                sb.End();
+
+                gd.SetRenderTarget(Main.screenTarget);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
+                sb.End();
+                sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/black", (AssetRequestMode)1).Value;
+                RTOutline.CurrentTechnique.Passes[0].Apply();
+                RTOutline.Parameters["m"].SetValue(0.22f); // for more percise textures use 0.62f
+                RTOutline.Parameters["n"].SetValue(0.1f); // and 0.01f here.
+                sb.Draw(render, Vector2.Zero, Color.White);
+                sb.End();
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                sb.End();
+            }
             #endregion
+
             sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             FireDust.DrawAll(sb);
             ColoredFireDust.DrawAll(sb);
@@ -202,20 +243,12 @@ namespace EbonianMod
             }
             foreach (Projectile projectile in Main.projectile)
             {
-                if (projectile.active && (projectile.type == ModContent.ProjectileType<TExplosion>()))// || projectile.type == ModContent.ProjectileType<ScreenFlash>()))
+                if (projectile.active && (projectile.type == ModContent.ProjectileType<TExplosion>()))
                 {
                     Color color = Color.White;
                     projectile.ModProjectile.PreDraw(ref color);
                 }
             }
-            /*foreach (NPC npc in Main.npc)
-            {
-                if (npc.active && npc.type == ModContent.NPCType<Exol>())
-                {
-                    Color color = Color.White;
-                    npc.ModNPC.PreDraw(sb, Main.screenPosition, color);
-                }
-            }*/
             sb.End();
             #region "rt2d"
             if (Main.netMode != NetmodeID.Server)

@@ -23,8 +23,8 @@ namespace EbonianMod.Dusts
             dust.alpha = 255;
             dust.noLight = true;
             dust.noGravity = true;
-            if (dust.scale > 0.25f)
-                dust.scale = 0.25f;
+            //if (dust.scale <= 1f && dust.scale >= 0.8f)
+            //  dust.scale = 0.25f;
             base.OnSpawn(dust);
 
         }

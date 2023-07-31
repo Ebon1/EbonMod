@@ -8,6 +8,12 @@
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Effects\FX\RTOutline.fx" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Include="Effects\FX\RTOutline.fx" />
+	</ItemGroup>
+	<ItemGroup>
 		<PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
 	</ItemGroup>
 	<ItemGroup>

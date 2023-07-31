@@ -306,7 +306,7 @@ namespace EbonianMod.NPCs.Cecitior
                 //NPC.damage = 40;
                 if ((openOffset.Length() < 2.5f && openOffset.Length() > 1f) || (openOffset.Length() > -2.5f && openOffset.Length() < -1f))
                 {
-                    SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/chomp" + Main.rand.Next(2)), NPC.Center);
+                    SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/chomp" + 2), NPC.Center);
                     SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/NPCHit/fleshHit"), NPC.Center);
                     EbonianSystem.ScreenShakeAmount = 5;
                 }

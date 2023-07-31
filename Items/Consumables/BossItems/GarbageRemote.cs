@@ -10,6 +10,8 @@ using EbonianMod.NPCs.Garbage;
 using Microsoft.Xna.Framework;
 using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EbonianMod.Items.Consumables.BossItems
 {
@@ -31,6 +33,11 @@ namespace EbonianMod.Items.Consumables.BossItems
             Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            int index = tooltips.IndexOf(tooltips.FirstOrDefault(x => x.Text == "Be warned."));
+            tooltips[index].OverrideColor = Color.Red;
         }
         public override void AddRecipes()
         {

@@ -39,7 +39,7 @@ Projectiles: {
 	IgnosP.DisplayName: Exol
 	ExolsawP.DisplayName: Infernal Discblade
 	EbonianScytheP.DisplayName: Ebonian Scythe
-	InferosP.DisplayName: Acheron Codex
+	InferosP.DisplayName: Infernomicon
 	PanopticonP.DisplayName: Panopticon
 	Hightoma.DisplayName: Hightoma
 	GarbageRemoteP.DisplayName: Dusty Quantum Computer
@@ -78,6 +78,14 @@ Projectiles: {
 	GoreBeam.DisplayName: Gore Beam
 	RedSpark.DisplayName: Red Spark
 	BloodShockwave2.DisplayName: Blood Shockwave2
+	SunOfGreatKnowledgeP.DisplayName: Sun Of Great Knowledge P
+	SunOfGreatKnowledgeP2.DisplayName: Sun Of Great Knowledge P2
+	InferosShockwave.DisplayName: Inferos Shockwave
+	ExolFireSpiral.DisplayName: Exol Fire Spiral
+	EGeyser.DisplayName: E Geyser
+	InferosShockwave2.DisplayName: Inferos Shockwave2
+	ESun.DisplayName: E Sun
+	EFire2.DisplayName: E Fire2
 }
 
 NPCs: {
@@ -136,6 +144,7 @@ NPCs: {
 	DankDiggerBody.DisplayName: Dank Digger
 	DankDiggerHead.DisplayName: Dank Digger
 	DankDiggerTail.DisplayName: Dank Digger
+	EbonButKill.DisplayName: Ebon But Kill
 }
 
 Items: {
@@ -237,7 +246,7 @@ Items: {
 
 	InferosVolI: {
 		Tooltip: Releases infernal discs that seek enemies.
-		DisplayName: Acheron Codex
+		DisplayName: Infernomicon
 	}
 
 	GoreSceptre: {
@@ -314,7 +323,7 @@ Items: {
 
 	IgnosSword: {
 		Tooltip: ""
-		DisplayName: Exol
+		DisplayName: Blade of Exol
 	}
 
 	PepperSpray: {
@@ -333,7 +342,7 @@ Items: {
 	}
 
 	HotMusic: {
-		Tooltip: Players Trash Compactor by Yuri O
+		Tooltip: Plays Trash Compactor by Yuri O
 		DisplayName: Music Box (Hot Garbage)
 	}
 
@@ -376,13 +385,17 @@ Items: {
 		Tooltip:
 			'''
 			Summons THE Glutton
-			"Years of evolution lead to this."
+			Years of evolution lead to this.
 			'''
 		DisplayName: Glutton's Bulb
 	}
 
 	GarbageRemote: {
-		Tooltip: Allows communication with the only AI to ever reach singularity.
+		Tooltip:
+			'''
+			Allows communication with the only AI to ever reach singularity. 
+			Be warned.
+			'''
 		DisplayName: Dusty Quantum Computer
 	}
 
@@ -430,7 +443,7 @@ Items: {
 	}
 
 	CorruptionStaff: {
-		Tooltip: ""
+		Tooltip: Conjures seeking vilethorns.
 		DisplayName: Thorn-A-Part
 	}
 
@@ -441,6 +454,20 @@ Items: {
 
 	IgnosSummon: {
 		DisplayName: Ignos Summon
+		Tooltip: ""
+	}
+
+	SunOfGreatKnowledge: {
+		DisplayName: Sun Of Great Knowledge
+		Tooltip:
+			'''
+			When the primary bolt strikes an enemy, it divides into five bolts instead of three.
+			Everyone who has attempted to read this has inevitably succumbed to madness.
+			'''
+	}
+
+	ExolSummon: {
+		DisplayName: Exol Summon
 		Tooltip: ""
 	}
 }

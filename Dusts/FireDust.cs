@@ -94,6 +94,7 @@ namespace EbonianMod.Dusts
             dust.noLight = true;
             dust.noGravity = true;
             //if (dust.scale > 0.35f)
+            dust.rotation = Main.rand.NextFloat(MathHelper.Pi * 2);
             dust.scale = 0;
             dust.customData = Main.rand.Next(1, 3);
             base.OnSpawn(dust);
@@ -116,7 +117,7 @@ namespace EbonianMod.Dusts
                 {
                     float alpha = MathHelper.Lerp(1, 0, d.scale * 2.857142857142857f);
                     Texture2D tex = ModContent.Request<Texture2D>("EbonianMod/Extras/Extras2/fire_0" + d.customData).Value;
-                    sb.Draw(tex, d.position - Main.screenPosition, null, d.color * alpha, 0, tex.Size() / 2, d.scale, SpriteEffects.None, 0);
+                    sb.Draw(tex, d.position - Main.screenPosition, null, d.color * alpha, d.rotation, tex.Size() / 2, d.scale, SpriteEffects.None, 0);
                 }
             }
         }

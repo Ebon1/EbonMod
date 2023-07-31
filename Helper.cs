@@ -485,6 +485,10 @@ namespace EbonianMod
             }
             return baseVel;
         }
+        public static bool CloseTo(this float f, float target, float range = 1f)
+        {
+            return f > target - range || f < target + range;
+        }
         public static void DustExplosion(Vector2 pos, Vector2 size = default, int type = 0, Color color = default, bool sound = true, bool smoke = true, float scaleFactor = 1, float increment = 0.125f, Vector2 _vel = default)
         {
 

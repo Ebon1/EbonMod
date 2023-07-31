@@ -13,6 +13,7 @@ namespace EbonianMod.Tiles
 {
     public class InfernalTile : ModTile
     {
+        public override string Texture => "Terraria/Images/Tiles_" + TileID.Ash;
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -20,10 +21,10 @@ namespace EbonianMod.Tiles
             Main.tileBlockLight[Type] = true;
 
             TileID.Sets.BlockMergesWithMergeAllBlock[Type] = false;
-            DustType = DustID.InfernoFork;
+            DustType = DustID.Ash;
             //ItemDrop = ModContent.ItemType<Items.Tiles.EbonHiveI>();
 
-            AddMapEntry(Color.OrangeRed);
+            AddMapEntry(Color.Gray);
         }
         public override bool CanExplode(int i, int j)
         {

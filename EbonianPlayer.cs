@@ -65,8 +65,8 @@ namespace EbonianMod
             //Player.ManageSpecialBiomeVisuals("EbonianMod:CorruptTint", Player.ZoneCorrupt && !Player.ZoneUnderworldHeight);
             //Player.ManageSpecialBiomeVisuals("EbonianMod:CrimsonTint", Player.ZoneCrimson && !Player.ZoneUnderworldHeight);
             #region "hell stuff"
-            Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight && !SubworldSystem.IsActive<Ignos>());
-            Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint2", SubworldSystem.IsActive<Ignos>());
+            Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight || SubworldSystem.IsActive<Ignos>());
+            //Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint2", SubworldSystem.IsActive<Ignos>());
             if (Player.ZoneUnderworldHeight && Main.BackgroundEnabled)
             {
                 if (Main.rand.NextBool(SubworldSystem.IsActive<Ignos>() ? 3 : 13))

@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent.Bestiary;
+using Terraria.Audio;
 
 namespace EbonianMod.NPCs.Crimson
 {
@@ -88,11 +89,11 @@ namespace EbonianMod.NPCs.Crimson
         {
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
-            NPC.rotation = NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0);
             NPC.spriteDirection = NPC.direction = NPC.velocity.X < 0 ? -1 : 1;
             switch (AIState)
             {
                 case 0:
+                    NPC.rotation = NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0);
                     AITimer++;
                     if (AITimer < 300)
                         NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center) * 3.5f, 0.01f);
@@ -106,10 +107,15 @@ namespace EbonianMod.NPCs.Crimson
                     break;
                 case 1:
                     AITimer++;
+                    if (AITimer < 10)
+                        NPC.rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0);
+                    else
+                        NPC.rotation = NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0);
                     if (AITimer == 10)
                         NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 15;
                     if (AITimer > 30)
                     {
+                        SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/chomp" + 2), NPC.Center);
                         AITimer = 0;
                         AIState++;
                     }

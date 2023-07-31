@@ -42,7 +42,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.noMelee = true;
             Item.autoReuse = false;
             Item.useTurn = false;
-            Item.shoot = ModContent.ProjectileType<Projectiles.Friendly.Crimson.HeadGoreSceptre>();
+            Item.shoot = ModContent.ProjectileType<GoreBeam>();
             Item.shootSpeed = 14;
         }
         //int uses = -2;
@@ -143,15 +143,19 @@ namespace EbonianMod.Items.Weapons.Magic
             Projectile.rotation = Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation();
 
             int n = 25;
-            if (player.Distance(end) < 300)
+            if (player.Distance(end) < 200)
+                n = 7;
+            else if (player.Distance(end) < 300)
                 n = 10;
-            else if (player.Distance(end) < 500)
+            else if (player.Distance(end) < 450)
+                n = 15;
+            else if (player.Distance(end) < 700)
                 n = 20;
 
+            Vector2 start = Projectile.Center + Helper.FromAToB(player.Center, Main.MouseWorld) * 40;
             if (!RunOnce)
             {
                 Projectile.velocity.Normalize();
-                Vector2 start = Projectile.Center + Helper.FromAToB(player.Center, Main.MouseWorld) * 40;
                 end = Projectile.Center + Projectile.velocity;
                 Vector2 dir = (end - start).RotatedBy(MathHelper.PiOver2);
                 dir.Normalize();
@@ -167,7 +171,12 @@ namespace EbonianMod.Items.Weapons.Magic
                 SoundEngine.PlaySound(SoundID.Item72, Projectile.Center);
                 RunOnce = true;
             }
-
+            Vector2 dirr = (end - start).RotatedBy(MathHelper.PiOver2);
+            dirr.Normalize();
+            for (int i = 0; i < points.Count; i++)
+            {
+                points[i] = Vector2.SmoothStep(points[i], Vector2.SmoothStep(start, end, i / (float)n), 0.35f);
+            }
             Projectile.ai[0]++;
 
             if (Projectile.ai[2] >= 20)
@@ -192,7 +201,7 @@ namespace EbonianMod.Items.Weapons.Magic
                 s.Volume = 0.5f;
                 SoundEngine.PlaySound(s, Projectile.Center);
                 points.Clear();
-                Vector2 start = Projectile.Center + Helper.FromAToB(player.Center, Main.MouseWorld) * 40;
+                //Vector2 start = Projectile.Center + Helper.FromAToB(player.Center, Main.MouseWorld) * 40;
                 Vector2 dir = (end - start).RotatedBy(MathHelper.PiOver2);
                 dir.Normalize();
                 float x = Main.rand.NextFloat(30, 40) - Projectile.damage;
@@ -209,7 +218,7 @@ namespace EbonianMod.Items.Weapons.Magic
                 }
             }
 
-            points[0] = Projectile.Center + Helper.FromAToB(player.Center, Main.MouseWorld) * 40;
+            points[0] = Projectile.Center + Helper.FromAToB(player.Center, Main.MouseWorld) * 40 - new Vector2(0, 3).RotatedBy(dirr.ToRotation() + MathHelper.Pi / 2);
             float range = (Projectile.ai[2] + 2) * 96;
             Vector2 offset = Helper.FromAToB(Projectile.Center, Main.MouseWorld, false);
             if (offset.Length() > range)

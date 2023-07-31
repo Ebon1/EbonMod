@@ -11,6 +11,7 @@ using EbonianMod.NPCs.Terrortoma;
 using EbonianMod.NPCs.Cecitior;
 using EbonianMod.Worldgen.Subworlds;
 using SubworldLibrary;
+using EbonianMod.NPCs.Exol;
 
 namespace EbonianMod.Items.Consumables.BossItems
 {
@@ -114,6 +115,42 @@ namespace EbonianMod.Items.Consumables.BossItems
         public override bool? UseItem(Player player)
         {
             NPC.NewNPCDirect(player.GetSource_FromThis(), player.Center + new Microsoft.Xna.Framework.Vector2(300, -200), ModContent.NPCType<Cecitior>());
+            Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, player.position);
+            return true;
+        }
+    }
+    public class ExolSummon : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.SortingPriorityBossSpawns[Item.type] = 12;
+        }
+        public override string Texture => Helper.Placeholder;
+        public override void SetDefaults()
+        {
+            Item.width = 20;
+            Item.height = 20;
+            Item.maxStack = 1;
+            Item.value = 1000000;
+            Item.rare = ItemRarityID.Red;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return !NPC.AnyNPCs(ModContent.NPCType<Exol>());
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().Register();
+        }
+
+        public override bool? UseItem(Player player)
+        {
+            NPC.NewNPCDirect(player.GetSource_FromThis(), player.Center + new Microsoft.Xna.Framework.Vector2(300, -200), ModContent.NPCType<Exol>());
             Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, player.position);
             return true;
         }

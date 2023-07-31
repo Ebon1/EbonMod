@@ -19,8 +19,8 @@ namespace EbonianMod.Worldgen.Subworlds
 {
     public class Ignos : Subworld
     {
-        public override int Width => 500;
-        public override int Height => 200;
+        public override int Width => 300;
+        public override int Height => 150;
         public override bool ShouldSave => false;
         //public override bool NoPlayerSaving => true;
 
@@ -77,7 +77,7 @@ namespace EbonianMod.Worldgen.Subworlds
 
                     progress.Set((j + i * Main.maxTilesY) / (float)(Main.maxTilesX * Main.maxTilesY)); // Controls the progress bar, should only be set between 0f and 1f
                     Tile tile = Main.tile[i, j];
-                    if (j > Main.maxTilesY - 55 + (int)(Math.Sin(i * 0.1f) * height) || j < 75 - (int)(Math.Sin(i * 0.1f) * height))
+                    if (j > Main.maxTilesY - 52 + (int)(Math.Sin(i * 0.1f) * height) || j < 45 - (int)(Math.Sin(i * 0.1f) * height))
                         tile.HasTile = true;
                     tile.TileType = (ushort)ModContent.TileType<InfernalTile>();
                 }
