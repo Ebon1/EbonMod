@@ -50,7 +50,7 @@ namespace EbonianMod.NPCs.Exol
             NPC.height = 148;
             NPC.damage = 0;
             NPC.defense = 20;
-            NPC.lifeMax = 30000;
+            NPC.lifeMax = 25000;
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
             NPC.noGravity = true;
@@ -61,13 +61,24 @@ namespace EbonianMod.NPCs.Exol
                 Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Exol");
             }
         }
-        float sunAlpha = 0, sunScale = 1;
+        float sunAlpha = 0, sunScale = 1, flameAlpha = 0, flameScale = 1;
+        int flameY;
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D sun = Helper.GetExtraTexture("Sun");
+            Texture2D flame = Helper.GetExtraTexture("flameEyeSheet");
             spriteBatch.Reload(BlendState.Additive);
             if (sunAlpha > 0)
-                spriteBatch.Draw(sun, NPC.Center - screenPos, null, Color.White * sunAlpha, Main.GameUpdateCount * 0.03f, sun.Size() / 2, 0.5f * sunScale, SpriteEffects.None, 0);
+                spriteBatch.Draw(sun, NPC.Center + new Vector2(4, 5) - screenPos, null, Color.White * sunAlpha, Main.GameUpdateCount * 0.03f, sun.Size() / 2, 0.5f * sunScale, SpriteEffects.None, 0);
+
+            if (flameAlpha > 0)
+            {
+                if (AITimer % 2 == 0 && !Main.gameInactive)
+                    flameY++;
+                if (flameY > 14)
+                    flameY = 0;
+                spriteBatch.Draw(flame, NPC.Center + new Vector2(4, 5) - screenPos, new Rectangle(0, 512 * flameY, 512, 512), Color.White * flameAlpha, -Main.GameUpdateCount * 0.01f, new Vector2(512, 512) / 2, 0.65f * flameScale, SpriteEffects.None, 0);
+            }
             spriteBatch.Reload(BlendState.AlphaBlend);
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -131,12 +142,16 @@ namespace EbonianMod.NPCs.Exol
             writer.WriteVector2(pointOfInterest);
             writer.Write(sunAlpha);
             writer.Write(sunScale);
+            writer.Write(flameAlpha);
+            writer.Write(flameScale);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             pointOfInterest = reader.ReadVector2();
             sunAlpha = reader.ReadSingle();
             sunScale = reader.ReadSingle();
+            flameAlpha = reader.ReadSingle();
+            flameScale = reader.ReadSingle();
         }
         public override bool CheckDead()
         {
@@ -177,7 +192,7 @@ namespace EbonianMod.NPCs.Exol
             get => NPC.ai[3];
             set => NPC.ai[3] = value;
         }
-        const int Death = -1, Spawn = 0, Idle = 1, FlameThrower = 2, Geyser = 3, RockFall = 4, DashFireSpiral = 5, ThePowerOfTheSun = 6, EyeSpin = 7, RepeatedBanging = 8, OffScreenMeteorDash = 9;
+        const int Death = -1, Spawn = 0, Geyser = 1, RockFall = 2, DashFireSpiral = 3, ThePowerOfTheSun = 4, EyeSpin = 5, OffScreenMeteorDash = 6, HomingSkulls = 7;
         Vector2 lastPos;
         SoundStyle summon = new("EbonianMod/Sounds/ExolSummon");
         SoundStyle roar = new("EbonianMod/Sounds/ExolRoar")
@@ -264,12 +279,7 @@ namespace EbonianMod.NPCs.Exol
                         }
                         if (AITimer >= 150)
                         {
-                            NPC.rotation = 0;
-                            NPC.velocity.X = 0;
-                            NPC.velocity.Y = 0;
-                            AITimer = 0;
-                            AITimer2 = 0;
-                            AITimer3 = 0;
+                            Reset();
                             AIState = Geyser;
                         }
                     }
@@ -288,18 +298,15 @@ namespace EbonianMod.NPCs.Exol
                             NPC.velocity = -Vector2.UnitY * 3.5f;
                             Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<EGeyser>(), 30, 0);
                         }
-                        if (AITimer2 == 1)
+                        if (AITimer2 == 1 && AITimer < 100)
                             NPC.velocity *= 0.9f;
                         LookAtPlayer();
                         if (AITimer == 1)
                             SoundEngine.PlaySound(roar);
-                        Vector2 pos = new Vector2(player.position.X, player.position.Y - 135);
-                        Vector2 target = pos;
-                        Vector2 moveTo = target - NPC.Center;
                         if (AITimer < 20 || AITimer > 100)
                         {
                             NPC.noTileCollide = true;
-                            NPC.velocity = (moveTo) * 0.2f;
+                            IdleMovement();
                         }
                         /*if (AITimer % 20 == 0 && AITimer > 40 && AITimer2 == 1)
                         {
@@ -307,12 +314,7 @@ namespace EbonianMod.NPCs.Exol
                         }*/
                         if (AITimer >= 159)
                         {
-                            NPC.rotation = 0;
-                            NPC.velocity.X = 0;
-                            NPC.velocity.Y = 0;
-                            AITimer = 0;
-                            AITimer2 = 0;
-                            AITimer3 = 0;
+                            Reset();
                             AIState = DashFireSpiral;
                         }
                     }
@@ -357,19 +359,15 @@ namespace EbonianMod.NPCs.Exol
                         }
                         if (AITimer >= 200)
                         {
-                            NPC.noTileCollide = true;
-                            NPC.rotation = 0;
-                            NPC.velocity.X = 0;
-                            NPC.velocity.Y = 0;
-                            AITimer = 0;
-                            AITimer2 = 0;
-                            AITimer3 = 0;
+                            Reset();
                             AIState = ThePowerOfTheSun;
                         }
                     }
                     break;
                 case DashFireSpiral:
                     {
+                        if (AITimer < 50)
+                            flameAlpha = MathHelper.SmoothStep(flameAlpha, 1, 0.3f);
                         NPC.noTileCollide = false;
                         if (AITimer > 40)
                             AITimer2++;
@@ -380,6 +378,7 @@ namespace EbonianMod.NPCs.Exol
                                 NPC.velocity = Vector2.Zero;
                             if (AITimer2 == 40)
                             {
+                                NPC.damage = 50;
                                 Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<InferosShockwave>(), 0, 0);
                                 lastPos = player.Center;
                             }
@@ -393,8 +392,9 @@ namespace EbonianMod.NPCs.Exol
                                     float angle = Helper.CircleDividedEqually(i, 6 + AITimer3);
                                     Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(7, 0).RotatedBy(angle), ModContent.ProjectileType<ExolFireSpiral>(), 25, 0);
                                 }
-                                NPC.velocity = Helper.FromAToB(NPC.Center, lastPos) * 20;
                             }
+                            if (AITimer2 > 55 && AITimer2 < 75)
+                                NPC.velocity += Helper.FromAToB(NPC.Center, lastPos) * 1.9f;
                             if (AITimer2 >= 80)
                             {
                                 AITimer2 = 0;
@@ -409,15 +409,11 @@ namespace EbonianMod.NPCs.Exol
                             LookAtPlayer();
                             NPC.velocity *= 0.95f;
                         }
+                        if (AITimer3 > 5)
+                            flameAlpha = MathHelper.SmoothStep(flameAlpha, 0, 0.1f);
                         if (AITimer3 >= 80)
                         {
-                            NPC.noTileCollide = true;
-                            NPC.rotation = 0;
-                            NPC.velocity.X = 0;
-                            NPC.velocity.Y = 0;
-                            AITimer = 0;
-                            AITimer2 = 0;
-                            AITimer3 = 0;
+                            Reset();
                             AIState = EyeSpin;
                         }
                     }
@@ -428,8 +424,8 @@ namespace EbonianMod.NPCs.Exol
                             pointOfInterest = NPC.Center;
                         else
                             LookAtPlayer();
-                        if (AITimer < 20 && AITimer % 3 == 0)
-                            NPC.velocity = Vector2.SmoothStep(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center) * 3, 0.2f);
+                        if (AITimer < 20)
+                            IdleMovement();
                         if (AITimer == 30)
                         {
                             NPC.velocity = Vector2.Zero;
@@ -437,13 +433,7 @@ namespace EbonianMod.NPCs.Exol
                         }
                         if (AITimer > 400)
                         {
-                            NPC.noTileCollide = true;
-                            NPC.rotation = 0;
-                            NPC.velocity.X = 0;
-                            NPC.velocity.Y = 0;
-                            AITimer = 0;
-                            AITimer2 = 0;
-                            AITimer3 = 0;
+                            Reset();
                             AIState = OffScreenMeteorDash;
                         }
                     }
@@ -467,23 +457,129 @@ namespace EbonianMod.NPCs.Exol
 
                         if (AITimer > 130)
                         {
-                            NPC.noTileCollide = true;
-                            NPC.rotation = 0;
-                            NPC.velocity.X = 0;
-                            NPC.velocity.Y = 0;
-                            AITimer = 0;
-                            AITimer2 = 0;
-                            AITimer3 = 0;
+                            Reset();
                             AIState = RockFall;
                         }
                     }
                     break;
                 case OffScreenMeteorDash:
                     {
+                        if (AITimer3 == 2)
+                            AITimer++;
+                        if (AITimer == 1)
+                        {
+                            if (player.Center.X < (Main.maxTilesX * 16) / 2)
+                                AITimer2 = 1;
+                            else
+                                AITimer2 = -1;
+                        }
 
+                        if (AITimer > 50 && AITimer < 100)
+                            flameAlpha = MathHelper.SmoothStep(flameAlpha, 1, 0.3f);
+                        if (AITimer < 50)
+                        {
+                            LookAtPlayer();
+                            if (AITimer3 == 0)
+                                NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + new Vector2(1200 * AITimer2, 0)) * 25;
+                            else
+                            {
+                                NPC.velocity *= 0.9f;
+                            }
+                        }
+                        if (AITimer == 60)
+                        {
+                            NPC.damage = 50;
+                            NPC.velocity = Vector2.Zero;
+                            lastPos = player.Center;
+                        }
+                        if (AITimer > 70)
+                        {
+                            pointOfInterest = NPC.Center + NPC.velocity * 10;
+                            if (AITimer % 5 == 0 && AITimer3 < 30)
+                            {
+                                Vector2 pos = NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2);
+                                if (Main.rand.NextBool(2))
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Helper.FromAToB(NPC.Center, pos) * 5, ModContent.ProjectileType<ExolFireExplode>(), 30, 0);
+                                else
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.Zero, ModContent.ProjectileType<ExolFireExplode>(), 30, 0);
+                            }
+                            if (AITimer < 135)
+                            {
+                                if (NPC.velocity.Length() < 35)
+                                    NPC.velocity += Helper.FromAToB(NPC.Center, lastPos + (AITimer3 == 0 ? new Vector2(1000 * -AITimer2, 0) : Vector2.Zero)) * (AITimer3 == 2 ? 2 : 1);
+                            }
+                            else
+                            {
+                                AITimer3++;
+                                if (AITimer3 < 3)
+                                    AITimer = -1;
+                                flameAlpha = MathHelper.SmoothStep(flameAlpha, 0, 0.1f);
+                            }
+                        }
+                        if (AITimer3 >= 3)
+                        {
+                            NPC.velocity *= 0.9f;
+                            AITimer3++;
+                        }
+                        if (AITimer > 200 && AITimer3 > 60 && flameAlpha < 0.05f)
+                        {
+                            IdleMovement();
+                            LookAtPlayer();
+                        }
+                        if (AITimer > 230)
+                        {
+                            Reset();
+                            AIState = HomingSkulls;
+                        }
+                    }
+                    break;
+                case HomingSkulls:
+                    {
+                        if (AITimer < 30)
+                        {
+                            Vector2 pos = NPC.Center + 300 * Main.rand.NextVector2Unit();
+                            Dust a = Dust.NewDustPerfect(pos, ModContent.DustType<GenericAdditiveDust>(), Helper.FromAToB(pos, NPC.Center) * Main.rand.NextFloat(10, 20), newColor: Color.OrangeRed, Scale: Main.rand.NextFloat(0.05f, 0.15f));
+                            a.noGravity = false;
+                            a.customData = 1;
+                        }
+                        if (AITimer > 60)
+                            IdleMovement();
+                        if (AITimer == 40)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<InferosShockwave>(), 0, 0);
+                            for (int i = 0; i < 8; i++)
+                            {
+                                Vector2 vel = Main.rand.NextVector2Unit() * 5;
+                                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, vel, ModContent.ProjectileType<ESkullEmoji>(), 30, 0);
+                            }
+                        }
+                        if (AITimer > 240)
+                        {
+                            //Reset();
+                            //AIState = HomingSkulls;
+                        }
                     }
                     break;
             }
+        }
+        void Reset()
+        {
+            NPC.noTileCollide = true;
+            NPC.rotation = 0;
+            NPC.velocity.X = 0;
+            NPC.velocity.Y = 0;
+            AITimer = 0;
+            AITimer2 = 0;
+            AITimer3 = 0;
+            sunAlpha = 0f;
+            flameAlpha = 0f;
+            NPC.damage = 0;
+        }
+        void IdleMovement()
+        {
+            Player player = Main.player[NPC.target];
+            NPC.velocity *= 0.975f;
+            NPC.velocity += Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200).RotatedBy(MathHelper.Lerp(-MathHelper.PiOver2, MathHelper.PiOver2, (float)(Math.Sin(AITimer / 25) / 2) + 0.5f)));
         }
         void PlayerDetectionAndSteamVFX()
         {

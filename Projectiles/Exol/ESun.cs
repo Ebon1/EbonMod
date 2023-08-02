@@ -9,12 +9,19 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EbonianMod.Dusts;
+using Terraria.ID;
+using EbonianMod.Effects.Prims;
 
 namespace EbonianMod.Projectiles.Exol
 {
     public class ESun : ModProjectile
     {
         public override string Texture => "EbonianMod/Extras/Sun";
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 20;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+        }
         public override void SetDefaults()
         {
             Projectile.width = 512 / 2;
@@ -31,15 +38,16 @@ namespace EbonianMod.Projectiles.Exol
         {
             if (Projectile.ai[1] <= 0)
             {
+                Projectile.velocity = Vector2.Zero;
                 Projectile.ai[1] += 0.05f;
 
 
                 for (float i = 0.25f; i < 1.75f; i += 0.25f)
                 {
-                    for (int j = 0; j < 10; j++)
+                    for (int j = 0; j < 8; j++)
                     {
-                        float angle = Helper.CircleDividedEqually(j, 10) + i;
-                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * (5 * i), ModContent.ProjectileType<EFire>(), Projectile.damage, Projectile.knockBack);
+                        float angle = Helper.CircleDividedEqually(j, 8) + i;
+                        Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * (5 * i), ModContent.ProjectileType<EFire3>(), Projectile.damage, Projectile.knockBack);
                     }
                 }
             }
@@ -57,9 +65,12 @@ namespace EbonianMod.Projectiles.Exol
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D a = TextureAssets.Projectile[Type].Value;
+            if (ShouldUpdatePosition())
+                (default(MassiveFireTrail)).Draw(Projectile);
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[1]);
-            Main.spriteBatch.Draw(a, Projectile.Center - Main.screenPosition, null, Color.White * alpha * (Projectile.scale * 2), Projectile.rotation, a.Size() / 2, Projectile.scale + Projectile.ai[1], SpriteEffects.None, 0);
+            for (int i = 0; i < 2; i++)
+                Main.spriteBatch.Draw(a, Projectile.Center - Main.screenPosition, null, Color.White * alpha * (Projectile.scale * 2), Main.GameUpdateCount * 0.03f, a.Size() / 2, Projectile.scale + Projectile.ai[1], SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
@@ -67,10 +78,13 @@ namespace EbonianMod.Projectiles.Exol
         {
             return Projectile.scale >= 0.45f;
         }
+        Vector2 lastPos;
         public override void AI()
         {
+            Projectile.rotation = Projectile.velocity.ToRotation();
             if (Projectile.scale < 0.35f)
             {
+                lastPos = Main.player[Projectile.owner].Center;
                 Vector2 pos = Projectile.Center + 300 * Main.rand.NextVector2Unit();
                 Dust a = Dust.NewDustPerfect(pos, ModContent.DustType<GenericAdditiveDust>(), Helper.FromAToB(pos, Projectile.Center) * Main.rand.NextFloat(10, 20), newColor: Color.OrangeRed, Scale: Main.rand.NextFloat(0.05f, 0.15f));
                 a.noGravity = false;
@@ -83,14 +97,15 @@ namespace EbonianMod.Projectiles.Exol
             }
             if (ShouldUpdatePosition())
             {
-                Projectile.velocity *= 0.99f;
+                if (++Projectile.ai[2] > 60)
+                    Projectile.velocity *= 0.95f;
                 if (Projectile.velocity.Length() < 2)
                 {
                     Death();
                 }
             }
             else
-                Projectile.velocity = Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center) * 20f;
+                Projectile.velocity = Helper.FromAToB(Projectile.Center, lastPos) * 30f;
             if (Projectile.ai[1] > 0)
             {
                 Projectile.ai[1] += 0.05f;
@@ -99,7 +114,6 @@ namespace EbonianMod.Projectiles.Exol
                 else
                     Projectile.timeLeft++;
             }
-            Projectile.rotation += MathHelper.ToRadians(1);
             Projectile.scale = MathHelper.SmoothStep(Projectile.scale, 0.5f, 0.075f);
         }
     }

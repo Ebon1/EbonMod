@@ -172,6 +172,7 @@ namespace EbonianMod.Projectiles.Exol
         {
             return Color.White * ((255 - Projectile.alpha) / 255f);
         }
+        public override bool? CanDamage() => ShouldUpdatePosition();
         public override bool ShouldUpdatePosition() => (Projectile.timeLeft <= 200);
         public override void AI()
         {
@@ -181,6 +182,45 @@ namespace EbonianMod.Projectiles.Exol
                     Projectile.velocity *= 1.15f;
             }
             else Projectile.velocity = Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center) * Projectile.velocity.Length();
+
+            if (++Projectile.frameCounter >= 5)
+            {
+                Projectile.frameCounter = 0;
+                if (++Projectile.frame >= 4)
+                {
+                    Projectile.frame = 0;
+                }
+            }
+
+        }
+    }
+    public class EFire3 : ModProjectile
+    {
+        public override string Texture => "EbonianMod/Projectiles/Exol/EFire";
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Projectile.type] = 4;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.aiStyle = 0;
+            Projectile.tileCollide = false;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+
+            Projectile.timeLeft = 190;
+        }
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return Color.White * ((255 - Projectile.alpha) / 255f);
+        }
+        public override void AI()
+        {
+            if (Projectile.velocity.Length() < 10)
+                Projectile.velocity *= 1.15f;
 
             if (++Projectile.frameCounter >= 5)
             {

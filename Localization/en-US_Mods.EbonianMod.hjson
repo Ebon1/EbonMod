@@ -86,6 +86,11 @@ Projectiles: {
 	InferosShockwave2.DisplayName: Inferos Shockwave2
 	ESun.DisplayName: E Sun
 	EFire2.DisplayName: E Fire2
+	ExolFireExplode.DisplayName: Exol Fire Explode
+	InferosShockwave3.DisplayName: Inferos Shockwave3
+	FlameExplosion.DisplayName: Flame Explosion
+	EFire3.DisplayName: E Fire3
+	ESkullEmoji.DisplayName: E Skull Emoji
 }
 
 NPCs: {
