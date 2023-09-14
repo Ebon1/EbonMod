@@ -182,7 +182,7 @@ namespace EbonianMod
         }
 
         public static int ExolID = ModContent.NPCType<Exol>();
-        public static float FlashAlpha;
+        public static float FlashAlpha, FlashAlphaDecrement;
         private void FilterManager_EndCapture(Terraria.Graphics.Effects.On_FilterManager.orig_EndCapture orig, Terraria.Graphics.Effects.FilterManager self, RenderTarget2D finalTexture, RenderTarget2D screenTarget1, RenderTarget2D screenTarget2, Color clearColor)
         {
             GraphicsDevice gd = Main.instance.GraphicsDevice;
@@ -263,7 +263,12 @@ namespace EbonianMod
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
                 foreach (Projectile projectile in Main.projectile)
                 {
-                    if (projectile.active && projectile.type == ModContent.ProjectileType<Projectiles.Ripple>())
+                    if (projectile.active && projectile.type == ModContent.ProjectileType<Noise>())
+                    {
+                        Color color = Color.Transparent;
+                        projectile.ModProjectile.PreDraw(ref color);
+                    }
+                    if (projectile.active && (projectile.type == ModContent.ProjectileType<Projectiles.Ripple>()))
                     {
                         Texture2D a = TextureAssets.Projectile[projectile.type].Value;
                         Main.spriteBatch.Draw(a, projectile.Center - Main.screenPosition, null, Color.White, 0, a.Size() / 2, projectile.ai[0], SpriteEffects.None, 0f);

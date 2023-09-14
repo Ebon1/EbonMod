@@ -19,6 +19,7 @@ using EbonianMod.Projectiles.Exol;
 using System.Net.Http.Headers;
 using EbonianMod.NPCs.Corruption;
 using System.IO;
+using static Humanizer.In;
 
 namespace EbonianMod.NPCs.Exol
 {
@@ -192,7 +193,7 @@ namespace EbonianMod.NPCs.Exol
             get => NPC.ai[3];
             set => NPC.ai[3] = value;
         }
-        const int Death = -1, Spawn = 0, Geyser = 1, RockFall = 2, DashFireSpiral = 3, ThePowerOfTheSun = 4, EyeSpin = 5, OffScreenMeteorDash = 6, HomingSkulls = 7;
+        const int Death = -1, Spawn = 0, Geyser = 1, RockFall = 2, DashFireSpiral = 3, ThePowerOfTheSun = 4, EyeSpin = 5, OffScreenMeteorDash = 6, HomingSkulls = 7, LaserWalls = 8, Pentagram = 9, SeethingChaos = 10, SolarRays = 11, PredictiveFireballs = 12;
         Vector2 lastPos;
         SoundStyle summon = new("EbonianMod/Sounds/ExolSummon");
         SoundStyle roar = new("EbonianMod/Sounds/ExolRoar")
@@ -213,7 +214,6 @@ namespace EbonianMod.NPCs.Exol
             {
                 case Death:
                     {
-
                         if (AITimer == 180)
                         {
 
@@ -268,7 +268,6 @@ namespace EbonianMod.NPCs.Exol
                     break;
                 case Spawn:
                     {
-
                         pointOfInterest = NPC.Center;
                         if (AITimer == 1)
                         {
@@ -280,7 +279,7 @@ namespace EbonianMod.NPCs.Exol
                         if (AITimer >= 150)
                         {
                             Reset();
-                            AIState = Geyser;
+                            AIState = SolarRays;
                         }
                     }
                     break;
@@ -306,7 +305,7 @@ namespace EbonianMod.NPCs.Exol
                         if (AITimer < 20 || AITimer > 100)
                         {
                             NPC.noTileCollide = true;
-                            IdleMovement();
+                            IdleMovement(true);
                         }
                         /*if (AITimer % 20 == 0 && AITimer > 40 && AITimer2 == 1)
                         {
@@ -367,7 +366,10 @@ namespace EbonianMod.NPCs.Exol
                 case DashFireSpiral:
                     {
                         if (AITimer < 50)
+                        {
+                            IdleMovement(true);
                             flameAlpha = MathHelper.SmoothStep(flameAlpha, 1, 0.3f);
+                        }
                         NPC.noTileCollide = false;
                         if (AITimer > 40)
                             AITimer2++;
@@ -431,7 +433,7 @@ namespace EbonianMod.NPCs.Exol
                             NPC.velocity = Vector2.Zero;
                             Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * 15, ModContent.ProjectileType<ESun>(), 30, 0, player.whoAmI);
                         }
-                        if (AITimer > 400)
+                        if (AITimer > 300)
                         {
                             Reset();
                             AIState = OffScreenMeteorDash;
@@ -480,7 +482,7 @@ namespace EbonianMod.NPCs.Exol
                         {
                             LookAtPlayer();
                             if (AITimer3 == 0)
-                                NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + new Vector2(1200 * AITimer2, 0)) * 25;
+                                NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + new Vector2(1200 * AITimer2, 0), false) * 0.04f;
                             else
                             {
                                 NPC.velocity *= 0.9f;
@@ -541,9 +543,13 @@ namespace EbonianMod.NPCs.Exol
                             Dust a = Dust.NewDustPerfect(pos, ModContent.DustType<GenericAdditiveDust>(), Helper.FromAToB(pos, NPC.Center) * Main.rand.NextFloat(10, 20), newColor: Color.OrangeRed, Scale: Main.rand.NextFloat(0.05f, 0.15f));
                             a.noGravity = false;
                             a.customData = 1;
+                            pointOfInterest = NPC.Center;
                         }
                         if (AITimer > 60)
+                        {
+                            LookAtPlayer();
                             IdleMovement();
+                        }
                         if (AITimer == 40)
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<InferosShockwave>(), 0, 0);
@@ -555,8 +561,162 @@ namespace EbonianMod.NPCs.Exol
                         }
                         if (AITimer > 240)
                         {
-                            //Reset();
-                            //AIState = HomingSkulls;
+                            Reset();
+                            AIState = LaserWalls;
+                        }
+                    }
+                    break;
+                case LaserWalls:
+                    {
+                        LookAtPlayer();
+                        AITimer2 *= 0.85f;
+                        if (AITimer == 1 || AITimer == 100)
+                            lastPos = player.Center;
+                        if (AITimer < 100 && AITimer > 1)
+                            NPC.velocity = Helper.FromAToB(NPC.Center, lastPos + new Vector2(-1200 + (AITimer * 20), 150 + AITimer2), false) * 0.2f;
+                        else if (AITimer > 100 && AITimer < 200)
+                            NPC.velocity = Helper.FromAToB(NPC.Center, lastPos + new Vector2(1200 - ((AITimer - 100) * 20), -150 - AITimer2), false) * 0.2f;
+                        else
+                            NPC.velocity *= 0.95f;
+                        if (AITimer > 25 && AITimer <= 200 && AITimer % 5 == 0)
+                        {
+                            if (AITimer % 15 == 0)
+                                AITimer2 = 50;
+                            if (AITimer > 25 && AITimer <= 100)
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<EFire>(), 30, 0);
+                            if (AITimer > 125 && AITimer <= 200)
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(60, 0), Vector2.UnitY, ModContent.ProjectileType<EFire>(), 30, 0);
+                        }
+                        if (AITimer > 200)
+                            IdleMovement();
+                        if (AITimer > 240)
+                        {
+                            Reset();
+                            AIState = Pentagram;
+                        }
+                    }
+                    break;
+                case Pentagram:
+                    {
+                        LookAtPlayer();
+                        if (AITimer > 40)
+                            flameAlpha = MathHelper.SmoothStep(flameAlpha, 1, 0.3f);
+                        if (flameAlpha > 0.5f)
+                            NPC.damage = 40;
+                        if (AITimer < 50 || (AITimer < 100 && AITimer > 70))
+                            NPC.velocity += Helper.FromAToB(NPC.Center, new Vector2(player.Center.X, (Main.maxTilesY * 16) / 2));
+                        if (AITimer > 100)
+                            NPC.velocity = Helper.FromAToB(NPC.Center, new Vector2(player.Center.X, (Main.maxTilesY * 16) / 2), false) * 0.02f;
+                        if (AITimer == 50)
+                        {
+                            NPC.velocity = Vector2.Zero;
+                            Vector2 pos = NPC.Center;
+                            bool hasReflected = false;
+                            bool outside = false;
+                            int times = 0;
+                            int times2 = 0;
+                            Vector2 vel = Vector2.UnitY * 30;
+                            while (times < 6)
+                            {
+                                if (Vector2.Distance(NPC.Center, pos) > 650)
+                                {
+                                    if (!outside)
+                                    {
+                                        times++;
+                                        outside = true;
+                                        if (!hasReflected)
+                                        {
+                                            vel = -vel.RotatedBy((MathHelper.ToRadians(18)));
+                                            hasReflected = true;
+                                        }
+                                        else
+                                        {
+                                            vel = -vel.RotatedBy((MathHelper.ToRadians(36)));
+                                        }
+                                    }
+                                }
+                                else
+                                    outside = false;
+                                Vector2 blorg = Helper.FromAToB(NPC.Center, pos, false);
+                                if (hasReflected)
+                                    Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), pos, Vector2.Zero, ModContent.ProjectileType<EPentagramAsh>(), 30, 0, -1, times2, blorg.X, blorg.Y).localAI[0] = NPC.whoAmI;
+                                times2++;
+                                pos += vel;
+                            }
+                        }
+                        if (AITimer > 330)
+                        {
+                            Reset();
+                            AIState = SeethingChaos;
+                        }
+                    }
+                    break;
+                case (SeethingChaos):
+                    {
+
+                    }
+                    break;
+                case (SolarRays):
+                    {
+                        if (AITimer == 1)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<ETelegraph>(), 0, 0);
+                        }
+                        if (AITimer == 40)
+                            for (int i = 0; i < 4; i++)
+                            {
+                                float angle = Helper.CircleDividedEqually(i, 4);
+                                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(256).RotatedBy(angle), Vector2.Zero, ModContent.ProjectileType<ETelegraph>(), 0, 0);
+                            }
+                        if (AITimer == 80)
+                        {
+                            for (int i = 0; i < 8; i++)
+                            {
+                                float angle = Helper.CircleDividedEqually(i, 8);
+                                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(512).RotatedBy(angle), Vector2.Zero, ModContent.ProjectileType<ETelegraph>(), 0, 0);
+                            }
+                            Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.UnitY, ModContent.ProjectileType<EBeam>(), 30, 0);
+                        }
+                        if (AITimer == 90)
+                        {
+                            EbonianMod.FlashAlpha = 0.05f;
+                            EbonianMod.FlashAlphaDecrement = 0.0025f;
+                            EbonianPlayer.Instance.FlashScreen(NPC.Center, 20, 0.05f);
+                        }
+                        if (AITimer == 120)
+                        {
+                            for (int i = 0; i < 4; i++)
+                            {
+                                float angle = Helper.CircleDividedEqually(i, 4);
+                                Vector2 pos = NPC.Center + new Vector2(256).RotatedBy(angle);
+                                Projectile.NewProjectile(NPC.GetSource_FromThis(), pos, Helper.FromAToB(pos, NPC.Center), ModContent.ProjectileType<EBeam>(), 30, 0);
+                            }
+                        }
+                        if (AITimer == 130)
+                        {
+                            EbonianMod.FlashAlpha = 0.05f;
+                            EbonianMod.FlashAlphaDecrement = 0.0025f;
+                            EbonianPlayer.Instance.FlashScreen(NPC.Center, 20, 0.1f);
+                        }
+                        if (AITimer == 160)
+                        {
+                            for (int i = 0; i < 8; i++)
+                            {
+                                float angle = Helper.CircleDividedEqually(i, 8);
+                                Vector2 pos = NPC.Center + new Vector2(512).RotatedBy(angle);
+                                Projectile.NewProjectile(NPC.GetSource_FromThis(), pos, Helper.FromAToB(pos, NPC.Center), ModContent.ProjectileType<EBeam>(), 30, 0);
+                            }
+                        }
+                        if (AITimer == 170)
+                        {
+                            EbonianMod.FlashAlpha = 0.075f;
+                            EbonianMod.FlashAlphaDecrement = 0.0025f;
+                            EbonianPlayer.Instance.FlashScreen(NPC.Center, 20, 0.15f);
+                        }
+                        if (AITimer > 180)
+                        {
+                            Reset();
+                            AIState = SeethingChaos;
                         }
                     }
                     break;
@@ -575,11 +735,14 @@ namespace EbonianMod.NPCs.Exol
             flameAlpha = 0f;
             NPC.damage = 0;
         }
-        void IdleMovement()
+        void IdleMovement(bool over = false)
         {
             Player player = Main.player[NPC.target];
             NPC.velocity *= 0.975f;
-            NPC.velocity += Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200).RotatedBy(MathHelper.Lerp(-MathHelper.PiOver2, MathHelper.PiOver2, (float)(Math.Sin(AITimer / 25) / 2) + 0.5f)));
+            if (!over)
+                NPC.velocity += Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200).RotatedBy(MathHelper.ToRadians(AITimer * 4)));
+            else
+                NPC.velocity += Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200).RotatedBy(MathHelper.Lerp(-MathHelper.PiOver4, MathHelper.PiOver4, (float)(Math.Sin(AITimer / 25) / 2) + 0.5f)));
         }
         void PlayerDetectionAndSteamVFX()
         {

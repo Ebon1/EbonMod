@@ -16,7 +16,7 @@ namespace EbonianMod.Projectiles.Terrortoma
         public override void SetDefaults()
         {
             Projectile.width = 25;
-            Projectile.height = Main.screenWidth;
+            Projectile.height = 25;
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.ignoreWater = true;
@@ -39,7 +39,7 @@ namespace EbonianMod.Projectiles.Terrortoma
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.height, Projectile.width, ref a);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * 1920, Projectile.width, ref a);
         }
         bool RunOnce;
 

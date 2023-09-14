@@ -41,7 +41,7 @@ Projectiles: {
 	EbonianScytheP.DisplayName: Ebonian Scythe
 	InferosP.DisplayName: Infernomicon
 	PanopticonP.DisplayName: Panopticon
-	Hightoma.DisplayName: Hightoma
+	Hightoma.DisplayName: Tinytoma
 	GarbageRemoteP.DisplayName: Dusty Quantum Computer
 	TerrorVilethorn2.DisplayName: Vilethorn
 	TerrorVilethorn1.DisplayName: Vilethorn
@@ -58,7 +58,7 @@ Projectiles: {
 	CorruptThorn.DisplayName: Corrupt Thorn
 	EBoulder2.DisplayName: Boulder
 	EBoulder.DisplayName: Boulder
-	EBeam.DisplayName: Beam
+	EBeam.DisplayName: Solar Rays
 	CecitiorTeeth.DisplayName: Teeth
 	Soder.DisplayName: Soda
 	MetalCircle.DisplayName: Oildrum
@@ -91,6 +91,13 @@ Projectiles: {
 	FlameExplosion.DisplayName: Flame Explosion
 	EFire3.DisplayName: E Fire3
 	ESkullEmoji.DisplayName: E Skull Emoji
+	EPentagramAsh.DisplayName: E Pentagram Ash
+	FlameExplosion2.DisplayName: Flame Explosion2
+	ETelegraph.DisplayName: E Telegraph
+	Noise.DisplayName: Noise
+	NoiseOverlay.DisplayName: Noise Overlay
+	EMine.DisplayName: E Mine
+	QuickFlare.DisplayName: Quick Flare
 }
 
 NPCs: {
@@ -299,7 +306,7 @@ Items: {
 
 	CursedCone: {
 		DisplayName: Cursed Cone
-		Tooltip: Summons the High Tinytoma
+		Tooltip: Summons the Tinytoma
 	}
 
 	DoomsdayRemote: {
@@ -490,7 +497,7 @@ Buffs: {
 
 	HightomaB: {
 		Description: hnnmhmggg
-		DisplayName: High Tinytoma
+		DisplayName: Tinytoma
 	}
 
 	RollegB: {

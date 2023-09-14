@@ -38,8 +38,8 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.noTileCollide = true;
             NPC.defense = 10;
             NPC.knockBackResist = 0;
-            NPC.width = 44;
-            NPC.height = 40;
+            NPC.width = 54;
+            NPC.height = 58;
             NPC.npcSlots = 1f;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
@@ -55,9 +55,11 @@ namespace EbonianMod.NPCs.Terrortoma
             set => NPC.ai[TimerSlot] = value;
         }
         private Vector2 terrortomaCenter;
+float bloomAlpha;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
+            bloomAlpha = 1f;
             NPC center = Main.npc[(int)NPC.ai[0]];
             if (!center.active || center.type != ModContent.NPCType<Terrortoma>())
             {
@@ -127,7 +129,23 @@ namespace EbonianMod.NPCs.Terrortoma
                     }
                 }
             }
-            else if (center.ai[0] != 2 && center.ai[0] != -12124 && center.ai[0] != 1 && center.ai[0] != 11 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 10 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
+            if (center.ai[2] != 0 && center.ai[2] <= 2) 
+            {
+                NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
+                    Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
+                    Vector2 target = pos;
+                    Vector2 moveTo = target - NPC.Center;
+                    NPC.velocity = (moveTo) * 0.05f;
+                NPC.ai[3] = 0;
+                return;
+            }
+            if (center.ai[2] == 0 && NPC.ai[3] == 0)
+            {
+                bloomAlpha = 1f;
+                NPC.ai[3] = 1;
+            }
+            if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
+            if (center.ai[0] != -1 && center.ai[0] != 2 && center.ai[0] != -12124 && center.ai[0] != 1 && center.ai[0] != 11 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 10 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
             {
                 Vector2 toPlayer = player.Center - NPC.Center;
                 NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
@@ -215,30 +233,11 @@ namespace EbonianMod.NPCs.Terrortoma
                 Vector2 moveTo = target - NPC.Center;
                 NPC.velocity = (moveTo) * 0.09f;
             }
-            /*else if (center.ai[0] == 9) {
-		Vector2 toPlayer = new Vector2(0, -10);
-		NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-             Vector2 pos = new Vector2(player.Center.X, center.Center.Y - 100);
-            Vector2 target = pos;
-            Vector2 moveTo = target - NPC.Center;
-            NPC.velocity = (moveTo) * 0.09f;
-        AITimer++;
-        if (AITimer >= 40) {
-			for (int i = 0; i <= Main.rand.Next(4, 8); i++)
-			{
-			Projectile projectile = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, 6.5f * Utils.RotatedBy(NPC.DirectionTo(new Vector2(0, -10)), (double)(MathHelper.ToRadians(Main.rand.NextFloat(15f, 34f)) * (float)i), default(Vector2)), 95, 40, 1f, Main.myPlayer)];
-            projectile.tileCollide = false;
-            projectile.hostile = true;
-            projectile.friendly = false;
-            projectile.timeLeft = 230;
-			}
-            AITimer = 0;    
-            }
-            }*/
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
             Player player = Main.player[NPC.target];
+            bloomAlpha = 1f;
             if (NPC.IsABestiaryIconDummy)
                 return true;
             Vector2 neckOrigin = terrortomaCenter;
@@ -259,6 +258,10 @@ namespace EbonianMod.NPCs.Terrortoma
                     new Rectangle(0, 0, 26, 20), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
                     new Vector2(26 * 0.5f, 20 * 0.5f), 1f, SpriteEffects.None, 0);
             }
+            Texture2D tex = ModContent.Request<Texture2D>(Texture + "_Bloom").Value;
+            spriteBatch.Reload(BlendState.Additive);
+            spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.LawnGreen * bloomAlpha, NPC.rotation, tex.Size() / 2 - new Vector2(0, 2).RotatedBy(NPC.rotation), NPC.scale * 1.05f, SpriteEffects.None, 0);
+            spriteBatch.Reload(BlendState.AlphaBlend);
             return true;
 
         }
@@ -303,9 +306,11 @@ namespace EbonianMod.NPCs.Terrortoma
             set => NPC.ai[TimerSlot] = value;
         }
         private Vector2 terrortomaCenter;
+float bloomAlpha;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
+            bloomAlpha = 1f;
             NPC center = Main.npc[(int)NPC.ai[0]];
             if (!center.active || center.type != ModContent.NPCType<Terrortoma>())
             {
@@ -372,7 +377,22 @@ namespace EbonianMod.NPCs.Terrortoma
                     }
                 }
             }
-            else if (center.ai[0] != 2 && center.ai[0] != -12124 && center.ai[0] != 1 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
+            if (center.ai[2] != 1 && center.ai[2] <= 2)
+            {
+                Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
+                Vector2 target = pos;
+                Vector2 moveTo = target - NPC.Center;
+                NPC.velocity = (moveTo) * 0.05f;
+                NPC.ai[3] = 0;
+                return;
+            }
+            if (center.ai[2] == 1 && NPC.ai[3] == 0)
+            {
+                bloomAlpha = 1f;
+                NPC.ai[3] = 1;
+            }
+            if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
+            if (center.ai[0] != -1 && center.ai[0] != 2 && center.ai[0] != -12124 && center.ai[0] != 1 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
             {
                 angle = 0;
                 Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
@@ -422,7 +442,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     {
                         float angle = Helper.CircleDividedEqually(i, 3) + Main.rand.NextFloat(MathHelper.Pi * 2);
                         Vector2 vel = Vector2.UnitX.RotatedBy(angle) * 1;
-                        Projectile.NewProjectile(NPC.InheritSource(center), NPC.Center, vel, ModContent.ProjectileType<TelegraphLine>(), 0, 0);
+                        //Projectile.NewProjectile(NPC.InheritSource(center), NPC.Center, vel, ModContent.ProjectileType<TelegraphLine>(), 0, 0);
                         Projectile.NewProjectile(NPC.InheritSource(center), NPC.Center, vel, ModContent.ProjectileType<TSpike>(), 15, 0);
                     }
                     NPC funny = Main.npc[NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<EbonFly>())];
@@ -435,7 +455,6 @@ namespace EbonianMod.NPCs.Terrortoma
             else
             {
                 Vector2 toPlayer = player.Center - NPC.Center;
-                NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
                 AITimer = 0;
                 Vector2 pos = center.Center + new Vector2(-30, 80).RotatedBy(center.rotation);
                 Vector2 target = pos;
@@ -446,6 +465,7 @@ namespace EbonianMod.NPCs.Terrortoma
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
             Player player = Main.player[NPC.target];
+            bloomAlpha = 1f;
 
             if (NPC.IsABestiaryIconDummy)
                 return true;
@@ -467,6 +487,10 @@ namespace EbonianMod.NPCs.Terrortoma
                     new Rectangle(0, 0, 26, 20), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
                     new Vector2(26 * 0.5f, 20 * 0.5f), 1f, SpriteEffects.None, 0);
             }
+            Texture2D tex = ModContent.Request<Texture2D>(Texture + "_Bloom").Value;
+            spriteBatch.Reload(BlendState.Additive);
+            spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.LawnGreen * bloomAlpha, NPC.rotation, tex.Size() / 2 + new Vector2(0, 2).RotatedBy(NPC.rotation), NPC.scale * 1.05f, SpriteEffects.None, 0);
+            spriteBatch.Reload(BlendState.AlphaBlend);
             return true;
 
         }
@@ -521,9 +545,11 @@ namespace EbonianMod.NPCs.Terrortoma
             }
         }
         float alpha;
+        float bloomAlpha;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
+            bloomAlpha = 1f;
             NPC center = Main.npc[(int)NPC.ai[0]];
             terrortomaCenter = center.Center;
             if (!player.active || player.dead)
@@ -597,7 +623,23 @@ namespace EbonianMod.NPCs.Terrortoma
                     }
                 }
             }
-            else if (center.ai[0] != 0 && center.ai[0] != 2 && center.ai[0] != -12124 && center.ai[0] != 1 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
+            if (center.ai[2] != 2 && center.ai[2] <= 2)
+            {
+                NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
+                Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
+                Vector2 target = pos;
+                Vector2 moveTo = target - NPC.Center;
+                NPC.velocity = (moveTo) * 0.05f;
+                NPC.ai[3] = 0;
+                return;
+            }
+            if (center.ai[2] == 2 && NPC.ai[3] == 0)
+            {
+                bloomAlpha = 1f;
+                NPC.ai[3] = 1;
+            }
+            if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
+            if (center.ai[0] != -1 && center.ai[0] != 0 && center.ai[0] != 2 && center.ai[0] != -12124 && center.ai[0] != 1 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
             {
 
                 if (!IsDashing)
@@ -690,6 +732,7 @@ namespace EbonianMod.NPCs.Terrortoma
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
             Player player = Main.player[NPC.target];
+            bloomAlpha = 1f;
             if (NPC.IsABestiaryIconDummy)
                 return true;
             Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrorClingerMelee").Value.Width * 0.5f, NPC.height * 0.5f);
@@ -721,6 +764,10 @@ namespace EbonianMod.NPCs.Terrortoma
                     new Rectangle(0, 0, 26, 20), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
                     new Vector2(26 * 0.5f, 20 * 0.5f), 1f, SpriteEffects.None, 0);
             }
+            Texture2D tex = ModContent.Request<Texture2D>(Texture + "_Bloom").Value;
+            spriteBatch.Reload(BlendState.Additive);
+            spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.LawnGreen * bloomAlpha, NPC.rotation, tex.Size() / 2 - new Vector2(0, 2).RotatedBy(NPC.rotation), NPC.scale * 1.05f, SpriteEffects.None, 0);
+            spriteBatch.Reload(BlendState.AlphaBlend);
             return true;
 
         }

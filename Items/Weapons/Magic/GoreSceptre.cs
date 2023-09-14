@@ -43,25 +43,15 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.autoReuse = false;
             Item.useTurn = false;
             Item.shoot = ModContent.ProjectileType<GoreBeam>();
-            Item.shootSpeed = 14;
+            Item.shootSpeed = 1;
         }
         //int uses = -2;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            /*uses++;
-            if (uses == 2)
             {
-                for (int i = 0; i < 3; i++)
-                    Projectile.NewProjectile(source, position, velocity.RotatedByRandom(0.2f), type, damage, knockback, player.whoAmI);
-                return false;
-            }*/
-            //if (uses > 2)
-            {
-                Projectile.NewProjectile(source, position + velocity, velocity.SafeNormalize(Vector2.UnitX), ModContent.ProjectileType<GoreBeam>(), damage, knockback, player.whoAmI);
-                //    uses = -2;
+                Projectile.NewProjectile(source, position + velocity * 14, velocity, ModContent.ProjectileType<GoreBeam>(), damage, knockback, player.whoAmI);
                 return false;
             }
-            //return true;
         }
         public override void AddRecipes()
         {
@@ -75,7 +65,7 @@ namespace EbonianMod.Items.Weapons.Magic
         public override void SetDefaults()
         {
             Projectile.width = 25;
-            Projectile.height = Main.screenWidth;
+            Projectile.height = 25;
             Projectile.friendly = true;
             Projectile.hostile = false;
             Projectile.ignoreWater = true;
@@ -101,8 +91,9 @@ namespace EbonianMod.Items.Weapons.Magic
 
             }
         }
-        public override void SetStaticDefaults()
+        public override void OnSpawn(IEntitySource source)
         {
+            end = Main.player[Projectile.owner].Center;
         }
         public override bool ShouldUpdatePosition()
         {
@@ -110,6 +101,7 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
+            if (!RunOnce || points.Count < 2) return false;
             float a = 0f;
             bool ye = false;
             for (int i = 1; i < points.Count; i++)
@@ -121,7 +113,6 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         bool RunOnce;
         List<Vector2> points = new List<Vector2>();
-        List<NPC> npcs = new List<NPC>();
         Vector2 end;
         public override void AI()
         {
@@ -133,30 +124,13 @@ namespace EbonianMod.Items.Weapons.Magic
                 Projectile.Kill();
                 return;
             }
-            Projectile.direction = end.X > Projectile.Center.X ? 1 : -1;
-            player.ChangeDir(Projectile.direction);
-            Projectile.timeLeft = 2;
-            player.itemTime = 2;
-            player.itemAnimation = 2;
-            player.itemRotation = Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() + (player.direction == -1 ? MathHelper.Pi : 0);
-            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() - MathHelper.PiOver2);
-            Projectile.rotation = Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation();
-
             int n = 25;
-            if (player.Distance(end) < 200)
-                n = 7;
-            else if (player.Distance(end) < 300)
-                n = 10;
-            else if (player.Distance(end) < 450)
-                n = 15;
-            else if (player.Distance(end) < 700)
-                n = 20;
 
-            Vector2 start = Projectile.Center + Helper.FromAToB(player.Center, Main.MouseWorld) * 40;
+            Vector2 start = player.Center + Helper.FromAToB(player.Center, Main.MouseWorld) * 40;
             if (!RunOnce)
             {
-                Projectile.velocity.Normalize();
-                end = Projectile.Center + Projectile.velocity;
+                n = 5;
+                end = player.Center;
                 Vector2 dir = (end - start).RotatedBy(MathHelper.PiOver2);
                 dir.Normalize();
                 float x = Main.rand.NextFloat(30, 40);
@@ -168,70 +142,98 @@ namespace EbonianMod.Items.Weapons.Magic
                     points.Add(point);
                     x -= i / (float)n;
                 }
-                SoundEngine.PlaySound(SoundID.Item72, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item72, player.Center);
+
                 RunOnce = true;
             }
-            Vector2 dirr = (end - start).RotatedBy(MathHelper.PiOver2);
-            dirr.Normalize();
-            for (int i = 0; i < points.Count; i++)
+            else if (points.Count > 2)
             {
-                points[i] = Vector2.SmoothStep(points[i], Vector2.SmoothStep(start, end, i / (float)n), 0.35f);
-            }
-            Projectile.ai[0]++;
+                Projectile.direction = end.X > Projectile.Center.X ? 1 : -1;
+                player.ChangeDir(Projectile.direction);
+                Projectile.timeLeft = 2;
+                player.itemTime = 2;
+                player.itemAnimation = 2;
+                player.itemRotation = Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() + (player.direction == -1 ? MathHelper.Pi : 0);
+                player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() - MathHelper.PiOver2);
+                Projectile.velocity = Helper.FromAToB(player.Center, Main.MouseWorld);
+                Projectile.rotation = Projectile.velocity.ToRotation();
 
-            if (Projectile.ai[2] >= 20)
-            {
-                player.CheckMana(1, true);
-            }
+                if (player.Distance(end) < 200)
+                    n = 7;
+                else if (player.Distance(end) < 300)
+                    n = 10;
+                else if (player.Distance(end) < 450)
+                    n = 15;
+                else if (player.Distance(end) < 700)
+                    n = 20;
 
-            if (Projectile.ai[0] > 90 - Projectile.ai[2] * 3 && Projectile.ai[2] < 20)
-            {
-                Projectile.ai[1] = 1f;
-
-                player.CheckMana((int)(20 - (Projectile.ai[2] / 2)), true);
-                SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/heartbeat"), Projectile.Center);
-                Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), end, Vector2.Zero, ModContent.ProjectileType<BloodShockwave2>(), 0, 0, Projectile.owner);
-                Projectile.damage++;
-                Projectile.ai[2]++;
-                Projectile.ai[0] = 0;
-            }
-            if (Projectile.ai[0] % 3 == 0)
-            {
-                SoundStyle s = SoundID.DD2_LightningAuraZap;
-                s.Volume = 0.5f;
-                SoundEngine.PlaySound(s, Projectile.Center);
-                points.Clear();
-                //Vector2 start = Projectile.Center + Helper.FromAToB(player.Center, Main.MouseWorld) * 40;
-                Vector2 dir = (end - start).RotatedBy(MathHelper.PiOver2);
-                dir.Normalize();
-                float x = Main.rand.NextFloat(30, 40) - Projectile.damage;
-                for (int i = 0; i < n; i++)
+                Vector2 dirr = (end - start).RotatedBy(MathHelper.PiOver2);
+                dirr.Normalize();
+                for (int i = 0; i < points.Count; i++)
                 {
-                    if (i == n - 1)
-                        x = 0;
-                    float a = Main.rand.NextFloat(-x, x).Safe();
-                    if (i < 3)
-                        a = 0;
-                    Vector2 point = Vector2.SmoothStep(start, end, i / (float)n) + dir * a; //x being maximum magnitude
-                    points.Add(point);
-                    x -= i / (float)n;
+                    points[i] = Vector2.SmoothStep(points[i], Vector2.SmoothStep(start, end, i / (float)n), 0.35f);
                 }
-            }
+                Projectile.ai[0]++;
 
-            points[0] = Projectile.Center + Helper.FromAToB(player.Center, Main.MouseWorld) * 40 - new Vector2(0, 3).RotatedBy(dirr.ToRotation() + MathHelper.Pi / 2);
-            float range = (Projectile.ai[2] + 2) * 96;
-            Vector2 offset = Helper.FromAToB(Projectile.Center, Main.MouseWorld, false);
-            if (offset.Length() > range)
-            {
-                offset.Normalize();
-                offset *= range;
+
+                if (Projectile.ai[2] >= 20)
+                {
+                    player.CheckMana(1, true);
+                }
+
+                if (Projectile.ai[0] > 90 - Projectile.ai[2] * 3 && Projectile.ai[2] < 20)
+                {
+                    Projectile.ai[1] = 1f;
+
+                    player.CheckMana((int)(20 - (Projectile.ai[2] / 2)), true);
+                    SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/heartbeat"), end);
+                    Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), end, Vector2.Zero, ModContent.ProjectileType<BloodShockwave2>(), 0, 0, Projectile.owner);
+                    Projectile.damage++;
+                    Projectile.ai[2]++;
+                    Projectile.ai[0] = 0;
+                }
+
+                if (Projectile.ai[0] % 3 == 0)
+                {
+                    SoundStyle s = SoundID.DD2_LightningAuraZap;
+                    s.Volume = 0.5f;
+                    SoundEngine.PlaySound(s, player.Center);
+                    points.Clear();
+                    //Vector2 start = Projectile.Center + Helper.FromAToB(player.Center, Main.MouseWorld) * 40;
+                    Vector2 dir = (end - start).RotatedBy(MathHelper.PiOver2);
+                    dir.Normalize();
+                    float x = Main.rand.NextFloat(30, 40) - Projectile.damage;
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (i == n - 1)
+                            x = 0;
+                        float a = Main.rand.NextFloat(-x, x).Safe();
+                        if (i < 3)
+                            a = 0;
+                        Vector2 point = Vector2.SmoothStep(start, end, i / (float)n) + dir * a; //x being maximum magnitude
+                        points.Add(point);
+                        x -= i / (float)n;
+                    }
+                }
+
+
+                points[0] = player.Center + Helper.FromAToB(player.Center, Main.MouseWorld) * 40 - new Vector2(0, 3).RotatedBy(dirr.ToRotation() + MathHelper.Pi / 2);
+                float range = (Projectile.ai[2] + 2) * 96;
+                Vector2 offset = Helper.FromAToB(player.Center, Main.MouseWorld, false);
+                if (offset.Length() > range)
+                {
+                    offset.Normalize();
+                    offset *= range;
+                }
+                end = Vector2.Lerp(end, player.Center + offset, 0.2f);
+                points[points.Count - 1] = end;
+                Projectile.Center = player.Center;
+
             }
-            end = Vector2.SmoothStep(end, Projectile.Center + offset, 0.2f);
-            points[points.Count - 1] = end;
-            Projectile.Center = Main.player[Projectile.owner].Center;
         }
         public override bool PreDraw(ref Color lightColor)
         {
+            if (!RunOnce || points.Count < 2) return false;
             Main.spriteBatch.Reload(SpriteSortMode.Immediate);
 
             float mult = 0.55f + (float)Math.Sin(Main.GlobalTimeWrappedHourly/* * 2*/) * 0.1f;
@@ -273,11 +275,6 @@ namespace EbonianMod.Items.Weapons.Magic
                     vertices[i * 6 + 4] = Helper.AsVertex(v2, color, new Vector2(p1, 1));
                     vertices[i * 6 + 5] = Helper.AsVertex(v1, color, new Vector2(p1, 0));
 
-                    /*for (int j = 0; j < Vector2.Distance(points[i], points[i - 1]); j++)
-                    {
-                        vector2 = (start + j * vector);
-                        Main.spriteBatch.Draw(bolt, vector2 - Main.screenPosition, null, Color.Maroon * s, rotation, bolt.Size() / 2, new Vector2(1, Projectile.scale * s), SpriteEffects.None, 0f);
-                    }*/
                     s -= i / (float)points.Count * 0.03f;
                 }
                 Helper.DrawTexturedPrimitives(vertices, PrimitiveType.TriangleList, bolt);

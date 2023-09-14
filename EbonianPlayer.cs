@@ -114,9 +114,11 @@ namespace EbonianMod
         }
         public int flashTime;
         public int flashMaxTime;
+        public float flashStr;
         public Vector2 flashPosition;
-        public void FlashScreen(Vector2 pos, int time)
+        public void FlashScreen(Vector2 pos, int time, float str = 2f)
         {
+            flashStr = str;
             flashMaxTime = time;
             flashTime = time;
             flashPosition = pos;
@@ -128,8 +130,8 @@ namespace EbonianMod
                 flashTime--;
                 if (!Filters.Scene["EbonianMod:ScreenFlash"].IsActive())
                     Filters.Scene.Activate("EbonianMod:ScreenFlash", flashPosition);
-                Filters.Scene["EbonianMod:ScreenFlash"].GetShader().UseProgress((float)Math.Sin((float)flashTime / flashMaxTime * Math.PI) * 2f);
-                Filters.Scene["EbonianMod:ScreenFlash"].GetShader().UseTargetPosition(flashPosition); // already added it to luminary but gotta test alr a
+                Filters.Scene["EbonianMod:ScreenFlash"].GetShader().UseProgress((float)Math.Sin((float)flashTime / flashMaxTime * Math.PI) * flashStr);
+                Filters.Scene["EbonianMod:ScreenFlash"].GetShader().UseTargetPosition(flashPosition);
             }
             else
             {

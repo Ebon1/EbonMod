@@ -12,15 +12,14 @@ namespace EbonianMod.Projectiles.Exol
 {
     public class ESkullEmoji : ModProjectile
     {
-        public override string Texture => "EbonianMod/Projectiles/Exol/EFireBig";
         public override void SetStaticDefaults()
         {
-            Main.projFrames[Projectile.type] = 8;
+            //Main.projFrames[Projectile.type] = 8;
         }
         public override void SetDefaults()
         {
-            Projectile.width = 64;
-            Projectile.height = 64;
+            Projectile.width = 44;
+            Projectile.height = 40;
             Projectile.aiStyle = -1;
             Projectile.friendly = false;
             Projectile.hostile = true;
@@ -36,6 +35,7 @@ namespace EbonianMod.Projectiles.Exol
         }
         public override void AI()
         {
+            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch);
             if (Projectile.timeLeft < 350)
                 foreach (Projectile projectile in Main.projectile)
                 {
@@ -53,14 +53,15 @@ namespace EbonianMod.Projectiles.Exol
                 }
             else
                 Projectile.velocity *= 0.99f;
-            if (++Projectile.frameCounter >= 5)
+            /*if (++Projectile.frameCounter >= 5)
             {
                 Projectile.frameCounter = 0;
                 if (++Projectile.frame >= 8)
                 {
                     Projectile.frame = 0;
                 }
-            }
+            }*/
+            Projectile.rotation = MathHelper.Lerp(Projectile.rotation, Projectile.velocity.ToRotation(), 0.4f);
             Vector2 move = Vector2.Zero;
             float distance = 5050f;
             bool target = false;

@@ -12,10 +12,10 @@ namespace EbonianMod.Projectiles.Terrortoma
     public class TerrorVilethorn1 : ModProjectile
     {
         public override string Texture => "Terraria/Images/Projectile_7";
-        public override void SetStaticDefaults()
+        public override bool? CanDamage()
         {
+            return Projectile.alpha < 50;
         }
-
         public override void SetDefaults()
         {
             Projectile.width = 28;
@@ -55,7 +55,7 @@ namespace EbonianMod.Projectiles.Terrortoma
                 {
                     num62 = ModContent.ProjectileType<TerrorVilethorn2>();
                 }
-                int num63 = Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.position.X + Projectile.velocity.X + (float)(Projectile.width / 2), Projectile.position.Y + Projectile.velocity.Y + (float)(Projectile.height / 2), Projectile.velocity.X, Projectile.velocity.Y, num62, Projectile.damage, 1, Projectile.owner);
+                int num63 = Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.position + Projectile.velocity + (Projectile.Size/ 2), Vector2.SmoothStep(Projectile.velocity, Helper.FromAToB(Projectile.Center, Main.LocalPlayer.Center), Projectile.ai[1] / 65).SafeNormalize(Vector2.UnitY) * MathHelper.Lerp(Projectile.velocity.Length(), 28, Projectile.ai[1] /45), num62, Projectile.damage, 1, Projectile.owner);
                 Main.projectile[num63].damage = Projectile.damage;
                 Main.projectile[num63].ai[1] = Projectile.ai[1] + 1f;
                 NetMessage.SendData(27, -1, -1, null, num63);
@@ -78,8 +78,9 @@ namespace EbonianMod.Projectiles.Terrortoma
     public class TerrorVilethorn2 : ModProjectile
     {
         public override string Texture => "Terraria/Images/Projectile_8";
-        public override void SetStaticDefaults()
+        public override bool? CanDamage()
         {
+            return Projectile.alpha < 50;
         }
         public override Color? GetAlpha(Color lightColor)
         {

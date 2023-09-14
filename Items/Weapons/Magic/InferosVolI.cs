@@ -81,9 +81,10 @@ namespace EbonianMod.Items.Weapons.Magic
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
             Projectile.hostile = false;
-            Projectile.penetrate = 3;
             Projectile.timeLeft = 120;
             Projectile.tileCollide = false;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 2;
         }
         float alpha = 1, alpha2 = 1;
         public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
@@ -103,9 +104,9 @@ namespace EbonianMod.Items.Weapons.Magic
                     Vector2 newMove = Main.npc[k].Center - Projectile.Center;
                     float distanceTo = (float)Math.Sqrt(newMove.X * newMove.X + newMove.Y * newMove.Y);
                     if (distanceTo < 400)
-                        Projectile.ai[1] = 5;
+                        Projectile.ai[1] = 10;
                     else
-                        Projectile.ai[1] = 12;
+                        Projectile.ai[1] = 17;
                     if (distanceTo < distance)
                     {
                         move = newMove;

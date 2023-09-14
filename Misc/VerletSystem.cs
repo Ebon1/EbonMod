@@ -12,10 +12,10 @@ using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace EbonianMod.Misc
 {
-    //code somewhat (pretty much) taken from spirit mod
-    public class Verlet //especially this part
+    
+    public class Verlet 
     {
-        //i tried to modify it to not be the exact same but theres not much i (a complete dumbass) can do
+        
         public int stiffness { get; set; }
         public List<VerletSegment> segments { get; set; }
         public List<VerletPoint> points { get; set; }
@@ -30,7 +30,7 @@ namespace EbonianMod.Misc
 
         public Verlet(Vector2 start, float length, int count, /*float drag = 0.9f,*/ float gravity = 0.2f, bool firstPointLocked = true, bool lastPointLocked = true, int stiffness = 6)
         {
-            //this.drag = drag;
+            
             this.gravity = gravity;
             this.stiffness = stiffness;
 
@@ -61,14 +61,12 @@ namespace EbonianMod.Misc
             lastP = points.Last();
             lastP.locked = lastPointLocked;
         }
-        public void Update(Vector2 start, Vector2 end)
+        public void Update(Vector2 start, Vector2 end, float lerpT = 1f)
         {
             if (firstP.locked)
-                firstP.position = start;
+                firstP.position = Vector2.Lerp(firstP.position, start, lerpT);
             if (lastP.locked)
-                lastP.position = end;
-            /*points[0] = firstP;
-            points[points.Count - 1] = lastP;*/
+                lastP.position = Vector2.Lerp(lastP.position, end, lerpT);
             foreach (VerletPoint point in points)
             {
                 point.Update();
@@ -87,30 +85,30 @@ namespace EbonianMod.Misc
 
             return verticeslist.ToArray();
         }
-        public void Draw(SpriteBatch sb, string texPath, string baseTex = null, string endTex = null, bool useColor = false, Color color = default, float scale = 1)
+        public void Draw(SpriteBatch sb, string texPath, string baseTex = null, string endTex = null, bool useColor = false, Color color = default, float scale = 1, float rot = 0, bool useRot = false, bool useRotEnd = false, bool useRotFirst = false, float endRot = 0, float firstRot = 0)
         {
             foreach (VerletSegment segment in segments)
             {
                 if ((baseTex != null || endTex != null) ? (segment != segments.First() && segment != segments.Last()) : true)
                 {
                     if (useColor)
-                        segment.DrawSegments(sb, texPath, color, true, scale: scale);
+                        segment.DrawSegments(sb, texPath, color, true, scale: scale, rot, useRot);
                     else
-                        segment.DrawSegments(sb, texPath, scale: scale);
+                        segment.DrawSegments(sb, texPath, scale: scale, rot: rot, useRot: useRot);
                 }
                 else if (endTex != null && segment == segments.Last())
                 {
                     if (useColor)
-                        segment.Draw(sb, endTex, color, true, scale: scale);
+                        segment.Draw(sb, endTex, color, true, scale: scale, endRot, useRotEnd);
                     else
-                        segment.Draw(sb, endTex, scale: scale);
+                        segment.Draw(sb, endTex, scale: scale, rot: endRot, useRot: useRotEnd);
                 }
                 else if (baseTex != null && segment == segments.First())
                 {
                     if (useColor)
-                        segment.Draw(sb, baseTex, color, true, scale: scale);
+                        segment.Draw(sb, baseTex, color, true, scale: scale, firstRot, useRotFirst);
                     else
-                        segment.Draw(sb, baseTex, scale: scale);
+                        segment.Draw(sb, baseTex, scale: scale, rot: firstRot, useRot: useRotFirst);
 
                 }
             }
@@ -125,14 +123,14 @@ namespace EbonianMod.Misc
         {
             this.position = position;
             this.gravity = gravity;
-            //this.drag = drag;
+            
         }
 
         public void Update()
         {
-            //Vector2 vel = (position - lastPos) * drag;
+            
             lastPos = position;
-            //position += vel;
+            
             position += new Vector2(0, gravity);
         }
     }
@@ -167,14 +165,14 @@ namespace EbonianMod.Misc
             if (!pointB.locked)
                 pointB.position += vel;
         }
-        public void Draw(SpriteBatch sb, string texPath, Color color = default, bool useColor = false, float scale = 1)
+        public void Draw(SpriteBatch sb, string texPath, Color color = default, bool useColor = false, float scale = 1, float rot = 0, bool useRot = false)
         {
             if (cut)
                 return;
             Texture2D tex = Helper.GetTexture(texPath);
-            sb.Draw(tex, pointB.position - Main.screenPosition, null, useColor ? color : Lighting.GetColor((int)pointB.position.X / 16, (int)(pointB.position.Y / 16.0)), Rotation(), tex.Size() / 2, scale, SpriteEffects.None, 0);
+            sb.Draw(tex, pointB.position - Main.screenPosition, null, useColor ? color : Lighting.GetColor((int)pointB.position.X / 16, (int)(pointB.position.Y / 16.0)), useRot ? rot : Rotation(), tex.Size() / 2, scale, SpriteEffects.None, 0);
         }
-        public void DrawSegments(SpriteBatch sb, string texPath, Color color = default, bool useColor = false, float scale = 1)
+        public void DrawSegments(SpriteBatch sb, string texPath, Color color = default, bool useColor = false, float scale = 1, float rot = 0, bool useRot = false)
         {
             if (cut)
                 return;
@@ -190,7 +188,7 @@ namespace EbonianMod.Misc
                 center += distVector;
                 distVector = pointA.position - center;
                 distance = distVector.Length();
-                sb.Draw(tex, center - Main.screenPosition, null, useColor ? color : Lighting.GetColor((int)pointB.position.X / 16, (int)(pointB.position.Y / 16.0)), Rotation(), tex.Size() / 2, scale, SpriteEffects.None, 0);
+                sb.Draw(tex, center - Main.screenPosition, null, useColor ? color : Lighting.GetColor((int)pointB.position.X / 16, (int)(pointB.position.Y / 16.0)), useRot ? rot : Rotation(), tex.Size() / 2, scale, SpriteEffects.None, 0);
             }
             Draw(sb, texPath, color, useColor, scale);
         }

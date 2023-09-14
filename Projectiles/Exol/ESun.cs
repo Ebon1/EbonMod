@@ -65,9 +65,9 @@ namespace EbonianMod.Projectiles.Exol
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D a = TextureAssets.Projectile[Type].Value;
+            Main.spriteBatch.Reload(BlendState.Additive);
             if (ShouldUpdatePosition())
                 (default(MassiveFireTrail)).Draw(Projectile);
-            Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[1]);
             for (int i = 0; i < 2; i++)
                 Main.spriteBatch.Draw(a, Projectile.Center - Main.screenPosition, null, Color.White * alpha * (Projectile.scale * 2), Main.GameUpdateCount * 0.03f, a.Size() / 2, Projectile.scale + Projectile.ai[1], SpriteEffects.None, 0);

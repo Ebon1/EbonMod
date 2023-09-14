@@ -59,7 +59,9 @@ namespace EbonianMod
         {
             Player player = Main.LocalPlayer;
             if (EbonianMod.FlashAlpha > 0)
-                EbonianMod.FlashAlpha -= 0.01f;
+                EbonianMod.FlashAlpha -= EbonianMod.FlashAlphaDecrement;
+            else
+                EbonianMod.FlashAlphaDecrement = 0.01f;
             if (!isChangingCameraPos)
             {
                 zoomBefore = Main.GameZoomTarget;

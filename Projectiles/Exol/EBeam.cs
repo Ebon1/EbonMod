@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
+using Microsoft.Xna.Framework.Content;
 
 namespace EbonianMod.Projectiles.Exol
 {
@@ -15,14 +16,15 @@ namespace EbonianMod.Projectiles.Exol
         int MAX_TIME = 60;
         public override void SetDefaults()
         {
-            Projectile.width = 25;
-            Projectile.height = Main.screenWidth;
+            Projectile.width = 1;
+            Projectile.height = 1;
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
             Projectile.timeLeft = MAX_TIME;
             Projectile.penetrate = -1;
+            Projectile.scale = 0;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
         }
@@ -36,43 +38,41 @@ namespace EbonianMod.Projectiles.Exol
         {
             return false;
         }
-        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        bool collide(Rectangle targetHitbox, float offset)
         {
             float a = 0f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.height, Projectile.width, ref a);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity.RotatedBy(offset) * MathHelper.SmoothStep(0, 300, Projectile.scale), Projectile.width, ref a);
+        }
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                if (collide(targetHitbox, i * MathHelper.PiOver4))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         bool RunOnce;
 
         public override void AI()
         {
-            if (RunOnce)
+            if (!RunOnce)
             {
                 Projectile.velocity.Normalize();
-                damage = Projectile.damage;
+                Projectile.damage = 100;
                 MAX_TIME = Projectile.timeLeft;
-                RunOnce = false;
+                RunOnce = true;
             }
-            if (Projectile.localAI[1] != 0)
-            {
-                Projectile.damage = 0;
-                Projectile.timeLeft = MAX_TIME;
-                Projectile.localAI[1]--;
-            }
-            else
-            {
-                Projectile.damage = damage;
-            }
-
-            Vector2 end = Projectile.Center + Projectile.velocity * /*Helper.TRay.CastLength(Projectile.Center, Projectile.velocity, */Main.screenWidth/*)*/;
 
             //Projectile.velocity = -Vector2.UnitY.RotatedBy(MathHelper.ToRadians(Projectile.ai[1]));
 
             float progress = Utils.GetLerpValue(0, MAX_TIME, Projectile.timeLeft);
-            Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * (MAX_TIME <= 25 ? 1 : 2 * (Projectile.ai[0] + 1)), 0, 1);
+            Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * MathHelper.SmoothStep(0.25f, 1.5f, Projectile.scale), 0, 1);
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Projectile.rotation += 0.3f;
 
             Main.spriteBatch.Reload(BlendState.Additive);
             Main.spriteBatch.Reload(SpriteSortMode.Immediate);
@@ -81,30 +81,43 @@ namespace EbonianMod.Projectiles.Exol
             Texture2D TrailTexture3 = Mod.Assets.Request<Texture2D>("Extras/laser").Value;
 
             float mult = 0.55f + (float)Math.Sin(Main.GlobalTimeWrappedHourly/* * 2*/) * 0.1f;
-            float scale = Projectile.scale * 4 * mult;
+            float scale = Projectile.scale * 0.5f;
             Texture2D texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Line").Value;
             Texture2D bolt = Helper.GetExtraTexture("laser4");
             Vector2 start = Projectile.Center;
-            Vector2 end = Projectile.Center + Projectile.velocity * /*Helper.TRay.CastLength(Projectile.Center, Projectile.velocity,*/ Main.screenWidth;//);
+            Vector2 end = Projectile.Center + Projectile.velocity * MathHelper.SmoothStep(0, 350, Projectile.scale);
             float num = Vector2.Distance(start, end);
             Vector2 vector = (end - start) / num;
             Vector2 vector2 = start;
             float rotation = vector.ToRotation();
-            for (int i = 0; i < num; i++)
-            {
-                Main.spriteBatch.Draw(bolt, vector2 - Main.screenPosition, null, Color.OrangeRed, rotation, bolt.Size() / 2, new Vector2(1, Projectile.scale), SpriteEffects.None, 0f);
-                Main.spriteBatch.Draw(bolt, vector2 - Main.screenPosition, null, Color.White, rotation, bolt.Size() / 2, new Vector2(1, Projectile.scale), SpriteEffects.None, 0f);
-                vector2 = start + i * vector;
-            }
+            for (int j = 0; j < 8; j++)
+                for (int i = 0; i < num; i++)
+                {
+                    if (i == 0 && j != 0)
+                    {
+                        vector2 = start + i * vector.RotatedBy(MathHelper.PiOver4 * j);
+                        continue;
+                    }
+                    Main.spriteBatch.Draw(bolt, vector2 - Main.screenPosition, null, Color.Lerp(Color.OrangeRed, Color.White * 0f, (float)i / num), rotation + MathHelper.PiOver4 * j, bolt.Size() / 2, new Vector2(1, Projectile.scale), SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(bolt, vector2 - Main.screenPosition, null, Color.Lerp(Color.White, Color.OrangeRed * 0f, (float)i / num), rotation + MathHelper.PiOver4 * j, bolt.Size() / 2, new Vector2(1, Projectile.scale), SpriteEffects.None, 0f);
+                    vector2 = start + i * vector.RotatedBy(MathHelper.PiOver4 * j);
+                }
+            texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Extras2/light_01").Value;
+
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.OrangeRed, Main.GameUpdateCount * 0.05f, new Vector2(texture.Width, texture.Height) / 2, scale, SpriteEffects.None, 0f);
+
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.White, Main.GameUpdateCount * -0.05f, new Vector2(texture.Width, texture.Height) / 2, scale, SpriteEffects.None, 0f);
+
+
+            texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Extras2/star_09").Value;
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation(), new Vector2(texture.Width, texture.Height) / 2, scale, SpriteEffects.None, 0f);
+
+            texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Extras2/star_08").Value;
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation(), new Vector2(texture.Width, texture.Height) / 2, scale, SpriteEffects.None, 0f);
+
             texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Spotlight").Value;
 
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.OrangeRed, 0, new Vector2(texture.Width, texture.Height) / 2, scale, SpriteEffects.None, 0f);
-
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.White, 0, new Vector2(texture.Width, texture.Height) / 2, scale, SpriteEffects.None, 0f);
-
-            texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Spotlight").Value;
-            for (int i = 0; i < 5; i++)
-                Main.spriteBatch.Draw(texture, end - Main.screenPosition, null, Color.OrangeRed, Projectile.rotation, new Vector2(texture.Width, texture.Height) / 2, scale * 0.15f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.White, Main.GameUpdateCount * 0.003f, new Vector2(texture.Width, texture.Height) / 2, scale * 2, SpriteEffects.None, 0f);
 
 
 
