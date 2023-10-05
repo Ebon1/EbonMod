@@ -209,7 +209,7 @@ namespace EbonianMod.NPCs.Cecitior
                         focalPoint = Vector2.Lerp(focalPoint, player.Center, 0.45f);
                     break;
                 case 1:
-                    NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle + (center.ai[1] < 0 ? MathHelper.ToRadians(timer) : 0)), false) / 10f;
+                    NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle + (center.ai[1] < 0 ? MathHelper.ToRadians(timer) : MathHelper.ToRadians(Main.GameUpdateCount))), false) / 10f;
                     focalPoint = player.Center;
                     AITimer = 0;
                     break;

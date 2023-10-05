@@ -6,38 +6,43 @@ using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
+using EbonianMod.Projectiles.VFXProjectiles;
 
 namespace EbonianMod.NPCs.Corruption
 {
-    public class EbonFly : ModNPC
+    public class BloatedEbonfly : ModNPC
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[NPC.type] = 2;
+            Main.npcFrameCount[NPC.type] = 6;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("An insect that prefers to fly in groups. They feed by eating dead flesh off of other surfaces. Some say that one day they will grow too big for their wings and become the worms their homeland is known for. Whether this is true or not is debatable."),
+                new FlavorTextBestiaryInfoElement("A strange mutation of the Ebonfly. Eating something that has been lit ablaze by the cursed inferno, it has extended its natural lifespan, but also become far more volatile."),
             });
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
 
-            Texture2D tex = Helper.GetTexture("NPCs/Corruption/EbonFly_Glow");
-            Texture2D tex2 = Helper.GetTexture("NPCs/Corruption/EbonFly");
+            Texture2D tex = Helper.GetTexture("NPCs/Corruption/BloatedEbonfly_Glow");
+            Texture2D tex2 = Helper.GetTexture("NPCs/Corruption/BloatedEbonfly");
+            Texture2D tex3 = Helper.GetTexture("NPCs/Corruption/BloatedEbonfly_Glow2");
             SpriteEffects effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             Main.EntitySpriteDraw(tex2, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, effects, 0);
-            Main.EntitySpriteDraw(tex, NPC.Center - screenPos, null, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, effects, 0);
+            Main.EntitySpriteDraw(tex, NPC.Center - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, effects, 0);
+            Main.spriteBatch.Reload(BlendState.Additive);
+            Main.EntitySpriteDraw(tex3, NPC.Center - screenPos, NPC.frame, Color.LawnGreen * glowAlpha, NPC.rotation, NPC.Size / 2, NPC.scale, effects, 0);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.Player.ZoneCorrupt)
             {
-                return .5f;
+                return .1f;
             }
             else
             {
@@ -49,10 +54,10 @@ namespace EbonianMod.NPCs.Corruption
         {
             NPC.aiStyle = 5;
             AIType = 205;
-            NPC.width = 28;
-            NPC.height = 24;
+            NPC.width = 40;
+            NPC.height = 38;
             NPC.npcSlots = 0.1f;
-            NPC.lifeMax = 30;
+            NPC.lifeMax = 200;
             NPC.damage = 12;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
@@ -65,27 +70,21 @@ namespace EbonianMod.NPCs.Corruption
         public override void FindFrame(int frameHeight)
         {
             NPC.frameCounter++;
-            if (NPC.frameCounter < 5)
+            if (NPC.frameCounter % 5 == 0)
             {
-                NPC.frame.Y = 0 * frameHeight;
-            }
-            else if (NPC.frameCounter < 10)
-            {
-                NPC.frame.Y = 1 * frameHeight;
-            }
-            else
-            {
-                NPC.frameCounter = 0;
+                if (NPC.frame.Y < frameHeight * 5)
+                    NPC.frame.Y += frameHeight;
+                else
+                    NPC.frame.Y = 0;
             }
         }
         public override void OnSpawn(IEntitySource source)
         {
-            if (NPC.ai[3] == 0)
-            {
-                NPC.scale = Main.rand.NextFloat(0.8f, 1.2f);
-                NPC.velocity = Main.rand.NextVector2Unit();
-            }
+            NPC.scale = Main.rand.NextFloat(0.8f, 1.2f);
+            NPC.velocity = Main.rand.NextVector2Unit();
         }
+        float glowAlpha = 0;
+        Vector2 lastPos;
         public override void PostAI()
         {
             foreach (NPC npc in Main.npc)
@@ -102,9 +101,23 @@ namespace EbonianMod.NPCs.Corruption
                     }
                 }
             }
-            if (NPC.lifeMax == 450 || NPC.lifeMax == 200)
-                NPC.life--;
-            NPC.checkDead();
+            if (Main.LocalPlayer.Center.Distance(NPC.Center) < 900)
+                if (++NPC.ai[3] > 200)
+                {
+                    NPC.aiStyle = -1;
+                    AIType = 0;
+                    NPC.velocity *= 0.99f;
+                    if (NPC.ai[3] >= 220)
+                        NPC.Center = lastPos + Main.rand.NextVector2Circular(4 * glowAlpha, 4 * glowAlpha);
+                    else
+                        lastPos = NPC.Center;
+                    glowAlpha += 0.03f;
+                    if (NPC.ai[3] > 250)
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CursedFlameExplosion>(), 50, 0);
+                        NPC.StrikeInstantKill();
+                    }
+                }
         }
         public override bool CheckDead()
         {

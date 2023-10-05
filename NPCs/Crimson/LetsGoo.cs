@@ -85,6 +85,12 @@ namespace EbonianMod.NPCs.Crimson
             get => NPC.ai[2];
             set => NPC.ai[2] = value;
         }
+        public override bool CheckDead()
+        {
+            for (int i = 0; i < 6; i++)
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/Gnasher" + i).Type, NPC.scale);
+            return true;
+        }
         public override void AI()
         {
             Player player = Main.player[NPC.target];

@@ -188,7 +188,7 @@ namespace EbonianMod
             GraphicsDevice gd = Main.instance.GraphicsDevice;
             SpriteBatch sb = Main.spriteBatch;
             #region "rt2d"
-            if (!Main.gameMenu)
+            if (!Main.gameMenu && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro))
             {
                 gd.SetRenderTarget(Main.screenTargetSwap);
                 gd.Clear(Color.Transparent);
@@ -236,6 +236,9 @@ namespace EbonianMod
             if (!NPC.AnyNPCs(ModContent.NPCType<Exol>()))
                 SmokeDustAkaFireDustButNoGlow.DrawAll(Main.spriteBatch);
             sb.End();
+
+
+
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             if (FlashAlpha > 0)
             {
@@ -251,7 +254,7 @@ namespace EbonianMod
             }
             sb.End();
             #region "rt2d"
-            if (Main.netMode != NetmodeID.Server)
+            if (Main.netMode != NetmodeID.Server && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro))
             {
                 gd.SetRenderTarget(render);
                 gd.Clear(Color.Transparent);

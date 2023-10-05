@@ -12,6 +12,9 @@ using EbonianMod.NPCs.Corruption;
 using EbonianMod.Projectiles.Terrortoma;
 using System.Text.Encodings.Web;
 using EbonianMod.Projectiles;
+using System.Net.Http.Headers;
+using Terraria.Audio;
+using EbonianMod.Dusts;
 
 namespace EbonianMod.NPCs.Terrortoma
 {
@@ -25,9 +28,6 @@ namespace EbonianMod.NPCs.Terrortoma
                 new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
                 new FlavorTextBestiaryInfoElement("These creatures were the heads of infected corpses, they connect to the Terrortoma with part of the Eater of World's spine. The glow tricks living things into thinking it's an eye, but it is a tiny spark of flame deep in its maw."),
             });
-        }
-        public override void SetStaticDefaults()
-        {
         }
         public override void SetDefaults()
         {
@@ -54,17 +54,24 @@ namespace EbonianMod.NPCs.Terrortoma
             get => NPC.ai[TimerSlot];
             set => NPC.ai[TimerSlot] = value;
         }
+        public float AITimer2
+        {
+            get => NPC.ai[2];
+            set => NPC.ai[2] = value;
+        }
         private Vector2 terrortomaCenter;
-float bloomAlpha;
+        float bloomAlpha;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
-            bloomAlpha = 1f;
+
             NPC center = Main.npc[(int)NPC.ai[0]];
             if (!center.active || center.type != ModContent.NPCType<Terrortoma>())
             {
                 NPC.life = 0;
             }
+            float AIState = center.ai[0];
+            float CenterAITimer = center.ai[1];
             terrortomaCenter = center.Center;
             if (!player.active || player.dead)
             {
@@ -129,115 +136,140 @@ float bloomAlpha;
                     }
                 }
             }
-            if (center.ai[2] != 0 && center.ai[2] <= 2) 
-            {
-                NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
-                    Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
-                    Vector2 target = pos;
-                    Vector2 moveTo = target - NPC.Center;
-                    NPC.velocity = (moveTo) * 0.05f;
-                NPC.ai[3] = 0;
-                return;
-            }
-            if (center.ai[2] == 0 && NPC.ai[3] == 0)
+            if (center.ai[2] == 0 && NPC.ai[3] == 0 && AIState != 0)
             {
                 bloomAlpha = 1f;
                 NPC.ai[3] = 1;
             }
             if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
-            if (center.ai[0] != -1 && center.ai[0] != 2 && center.ai[0] != -12124 && center.ai[0] != 1 && center.ai[0] != 11 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 10 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
+            if ((center.ai[2] != 0 && center.ai[2] <= 2) || center.ai[2] == 4)
             {
-                Vector2 toPlayer = player.Center - NPC.Center;
-                NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
+                NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
                 Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
                 Vector2 target = pos;
                 Vector2 moveTo = target - NPC.Center;
                 NPC.velocity = (moveTo) * 0.05f;
-                AITimer++;
-                if (AITimer >= 180)
-                {
-                    float rotation = (float)Math.Atan2(NPC.Center.Y - (player.position.Y + (player.height * 0.5f)), NPC.Center.X - (player.position.X + (player.width * 0.5f)));
-                    Projectile projectilee = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * 12f) * -1), (float)((Math.Sin(rotation) * 12f) * -1), ModContent.ProjectileType<TFlameThrower3>(), 35, 1f, Main.myPlayer)];
-                }
-                if (AITimer >= 183)
-                {
-                    AITimer = 0;
-                }
-            }
-            else if (center.ai[0] == 5 || center.ai[0] == 1 || center.ai[0] == 8)
-            {
-                Vector2 toPlayer = player.Center - NPC.Center;
-                NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-                AITimer = 0;
-                Vector2 pos = center.Center + new Vector2(80, 80).RotatedBy(center.rotation);
-                Vector2 target = pos;
-                Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.09f;
-            }
-            else if (center.ai[0] == 2)
-            {
-                AITimer = 0;
-                Vector2 pos = center.Center + new Vector2(5, 5).RotatedBy(center.rotation);
-                Vector2 target = pos;
-                Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.09f;
-            }
-            else if (center.ai[0] == 10)
-            {
-                Vector2 toPlayer = player.Center - NPC.Center;
-                NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-                Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
-                Vector2 target = pos;
-                Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.05f;
-                AITimer++;
-                if (AITimer >= 90)
-                {
-                    float rotation = (float)Math.Atan2(NPC.Center.Y - (player.position.Y + (player.height * 0.5f)), NPC.Center.X - (player.position.X + (player.width * 0.5f)));
-                    Projectile projectilee = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)((Math.Cos(rotation) * 12f) * -1), (float)((Math.Sin(rotation) * 12f) * -1), ModContent.ProjectileType<TFlameThrower3>(), 20, 1f, Main.myPlayer)];
-                }
-                if (AITimer >= 95)
-                {
-                    AITimer = 0;
-                }
-            }
-            else if (center.ai[0] == 3)
-            {
-                Vector2 toPlayer = new Vector2(0, -10);
-                NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-                Vector2 pos = new Vector2(player.Center.X, center.Center.Y - 100);
-                Vector2 target = pos;
-                Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.09f;
-                AITimer++;
-                if (AITimer >= 80)
-                {
-                    Projectile projectilee = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -5), ModContent.ProjectileType<TFlameThrower2>(), 20, 1f, Main.myPlayer)];
-                    projectilee.tileCollide = false;
-                    projectilee.timeLeft = 310;
-                    projectilee.friendly = false;
-                    projectilee.hostile = true;
-                }
-                if (AITimer >= 90)
-                {
-                    AITimer = 0;
-                }
+                NPC.ai[3] = 0;
             }
             else
             {
-                Vector2 toPlayer = player.Center - NPC.Center;
-                NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-                AITimer = 0;
-                Vector2 pos = center.Center + new Vector2(30, 80).RotatedBy(center.rotation);
-                Vector2 target = pos;
-                Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.09f;
+                if (AIState == 0 || AIState == 1 || AIState == 4 || AIState == 6)
+                {
+                    AITimer = 0;
+                    NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
+                    Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
+                    Vector2 target = pos;
+                    Vector2 moveTo = target - NPC.Center;
+                    NPC.velocity = (moveTo) * 0.05f;
+                }
+                if (center.ai[2] != 4)
+                {
+                    switch (AIState)
+                    {
+                        case 2:
+                            if (CenterAITimer <= 300)
+                            {
+                                Vector2 pos = player.Center - new Vector2(0, 500).RotatedBy(MathHelper.ToRadians(AITimer * 3.6f));
+                                Vector2 target = pos;
+                                Vector2 moveTo = target - NPC.Center;
+                                NPC.velocity = (moveTo) * 0.05f;
+
+                                NPC.rotation = MathHelper.Lerp(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2, 0.2f);
+                                AITimer++;
+                                if (AITimer >= 30 && AITimer <= 90 && AITimer % 10 == 0)
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4 / 3) * Main.rand.NextFloat(5, 10), ModContent.ProjectileType<TFlameThrower3>(), 15, 0);
+                                }
+                                if (AITimer == 100)
+                                {
+                                    center.ai[2] = 1;
+                                    AITimer = 0;
+                                }
+                            }
+                            break;
+                        case 3:
+                            if (AITimer2 == 0 || (AITimer2 > 30 && AITimer2 < 40))
+                            {
+                                NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, center.Center + new Vector2(85, -125).RotatedBy(center.rotation + MathHelper.ToRadians(AITimer * (5 + AITimer2 * 0.1f))), false) * 0.1f, 0.05f + AITimer * 0.03f);
+                                AITimer++;
+                                for (int i = 0; i < Main.maxNPCs; i++)
+                                {
+                                    NPC npc = Main.npc[i];
+                                    if (npc.active && npc.type == ModContent.NPCType<TerrorClingerMelee>())
+                                    {
+                                        if (npc.Center.Distance(NPC.Center) < npc.width)
+                                        {
+                                            for (int j = 0; j < 30; j++)
+                                            {
+                                                Dust.NewDustPerfect(NPC.Center + Helper.FromAToB(NPC.Center, npc.Center) * npc.width / 2, DustID.CursedTorch, (Main.rand.NextBool(5) ? Main.rand.NextVector2Unit() : Helper.FromAToB(NPC.Center, npc.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(1, 5)), Scale: Main.rand.NextFloat(2));
+                                            }
+                                            if (AITimer2 > 30)
+                                            {
+                                                Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY * 1, ModContent.ProjectileType<TBeam>(), 10, 0);
+                                            }
+                                            else
+                                            {
+                                                for (int j = -3; j < 4; j++)
+                                                {
+                                                    if (j == 0) continue;
+                                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY.RotatedBy(j * 0.5f) * 10, ModContent.ProjectileType<TFlameThrower3>(), 10, 0);
+                                                }
+                                            }
+                                            SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/NPCHit/fleshHit"), npc.Center);
+                                            NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(85, 85).RotatedBy(center.rotation)) * 20;
+                                            AITimer2 = AITimer2 > 30 ? 41 : 1;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
+                                Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
+                                Vector2 target = pos;
+                                Vector2 moveTo = target - NPC.Center;
+                                NPC.velocity = Vector2.Lerp(NPC.velocity, (moveTo) * 0.05f, 0.1f);
+
+                                AITimer2++;
+                                if (AITimer2 > 30)
+                                {
+                                    AITimer = 0;
+                                }
+                            }
+                            break;
+                        case 5:
+                            {
+                                Vector2 pos = player.Center - new Vector2((float)Math.Sin(Main.GameUpdateCount * 0.05f) * 120, 250);
+                                Vector2 target = pos;
+                                Vector2 moveTo = target - NPC.Center;
+                                NPC.velocity = (moveTo) * 0.05f;
+
+                                NPC.rotation = MathHelper.Lerp(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2, 0.2f);
+                                AITimer++;
+                                if (AITimer > 100) AITimer = 0;
+                                if (AITimer >= 25)
+                                {
+                                    if (((float)(Math.Sin(Main.GameUpdateCount * 0.05f)) < -0.95f || (float)(Math.Sin(Main.GameUpdateCount * 0.05f)) > 0.95f))
+                                    {
+                                        if (AITimer2 == 0)
+                                        {
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4 / 3) * 5, ModContent.ProjectileType<TFlameThrower3>(), 15, 0);
+                                            AITimer2 = 1;
+                                        }
+                                    }
+                                    else AITimer2 = 0;
+                                }
+                            }
+                            break;
+                    }
+                }
             }
+
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
             Player player = Main.player[NPC.target];
-            bloomAlpha = 1f;
+
             if (NPC.IsABestiaryIconDummy)
                 return true;
             Vector2 neckOrigin = terrortomaCenter;
@@ -305,17 +337,24 @@ float bloomAlpha;
             get => NPC.ai[TimerSlot];
             set => NPC.ai[TimerSlot] = value;
         }
+        public float AITimer2
+        {
+            get => NPC.ai[2];
+            set => NPC.ai[2] = value;
+        }
         private Vector2 terrortomaCenter;
-float bloomAlpha;
+        float bloomAlpha;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
-            bloomAlpha = 1f;
+
             NPC center = Main.npc[(int)NPC.ai[0]];
             if (!center.active || center.type != ModContent.NPCType<Terrortoma>())
             {
                 NPC.life = 0;
             }
+            float AIState = center.ai[0];
+            float CenterAITimer = center.ai[1];
             terrortomaCenter = center.Center;
             if (!player.active || player.dead)
             {
@@ -377,95 +416,116 @@ float bloomAlpha;
                     }
                 }
             }
-            if (center.ai[2] != 1 && center.ai[2] <= 2)
-            {
-                Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
-                Vector2 target = pos;
-                Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.05f;
-                NPC.ai[3] = 0;
-                return;
-            }
             if (center.ai[2] == 1 && NPC.ai[3] == 0)
             {
                 bloomAlpha = 1f;
                 NPC.ai[3] = 1;
             }
             if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
-            if (center.ai[0] != -1 && center.ai[0] != 2 && center.ai[0] != -12124 && center.ai[0] != 1 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
+            if ((center.ai[2] != 1 && center.ai[2] <= 2) || center.ai[2] == 4)
             {
-                angle = 0;
                 Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
                 Vector2 target = pos;
                 Vector2 moveTo = target - NPC.Center;
                 NPC.velocity = (moveTo) * 0.05f;
-                AITimer++;
-                if (AITimer >= 240)
-                {
-                    NPC funny = Main.npc[NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<NPCs.Corruption.EbonFly>())];
-                    funny.lifeMax = 450;
-                    funny.life = 450;
-                    funny.damage = 45;
-                    AITimer = 0;
-                }
-            }
-
-            else if (center.ai[0] == 5 || center.ai[0] == 1 || center.ai[0] == 8)
-            {
-                angle = 0;
-                AITimer = 0;
-                Vector2 pos = center.Center + new Vector2(-80, 80).RotatedBy(center.rotation);
-                Vector2 target = pos;
-                Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.09f;
-            }
-            else if (center.ai[0] == 2)
-            {
-                angle = 0;
-                AITimer = 0;
-                Vector2 pos = center.Center + new Vector2(-5, 5).RotatedBy(center.rotation);
-                Vector2 target = pos;
-                Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.09f;
-            }
-            else if (center.ai[0] == 3 /*|| center.ai[0] == 9*/)
-            {
-                angle += 0.05f;
-                Vector2 pos = center.Center + Vector2.One.RotatedBy(angle) * 100;
-                Vector2 target = pos;
-                Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.09f;
-                AITimer++;
-                if (AITimer >= 45)
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        float angle = Helper.CircleDividedEqually(i, 3) + Main.rand.NextFloat(MathHelper.Pi * 2);
-                        Vector2 vel = Vector2.UnitX.RotatedBy(angle) * 1;
-                        //Projectile.NewProjectile(NPC.InheritSource(center), NPC.Center, vel, ModContent.ProjectileType<TelegraphLine>(), 0, 0);
-                        Projectile.NewProjectile(NPC.InheritSource(center), NPC.Center, vel, ModContent.ProjectileType<TSpike>(), 15, 0);
-                    }
-                    NPC funny = Main.npc[NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<EbonFly>())];
-                    funny.lifeMax = 200;
-                    funny.life = 200;
-                    funny.damage = 45;
-                    AITimer = 0;
-                }
+                NPC.ai[3] = 0;
             }
             else
             {
-                Vector2 toPlayer = player.Center - NPC.Center;
-                AITimer = 0;
-                Vector2 pos = center.Center + new Vector2(-30, 80).RotatedBy(center.rotation);
-                Vector2 target = pos;
-                Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.09f;
+                if (AIState == 0 || AIState == 1 || AIState == 4 || AIState == 6)
+                {
+                    Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
+                    Vector2 target = pos;
+                    Vector2 moveTo = target - NPC.Center;
+                    NPC.velocity = (moveTo) * 0.05f;
+                }
+                if (center.ai[2] != 4)
+                {
+                    switch (AIState)
+                    {
+                        case 2:
+                            if (CenterAITimer <= 300)
+                            {
+                                Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(MathHelper.ToRadians(Main.GameUpdateCount * 2));
+                                Vector2 target = pos;
+                                Vector2 moveTo = target - NPC.Center;
+                                NPC.velocity = (moveTo) * 0.05f;
+
+                                AITimer++;
+                                if (AITimer == 50)
+                                {
+                                    float off = Main.rand.NextFloat(MathHelper.Pi);
+                                    for (int i = 0; i < 3; i++)
+                                    {
+                                        NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), ModContent.NPCType<EbonFly>());
+                                        //float angle = Helper.CircleDividedEqually(i, 6) + off;
+                                        //Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.One.RotatedBy(angle), ModContent.ProjectileType<TSpike>(), 15, 0);
+                                    }
+                                }
+                                if (AITimer == 80)
+                                {
+                                    float off = Main.rand.NextFloat(MathHelper.Pi);
+                                    for (int i = 0; i < 3; i++)
+                                    {
+                                        NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), ModContent.NPCType<BloatedEbonfly>());
+                                        //float angle = Helper.CircleDividedEqually(i, 8) + off;
+                                        //Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.One.RotatedBy(angle), ModContent.ProjectileType<TSpike>(), 15, 0);
+                                    }
+                                }
+                                if (AITimer >= 100)
+                                {
+                                    center.ai[2] = 2;
+                                    AITimer = 0;
+                                    AITimer2 = 0;
+                                }
+                            }
+                            break;
+
+                        case 3:
+                            if (AITimer2 == 0 || (AITimer2 > 30 && AITimer2 < 40))
+                            {
+                                NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, center.Center + new Vector2(-85, -125).RotatedBy(center.rotation + MathHelper.ToRadians(-AITimer * (5 + AITimer2 * 0.1f))), false) * 0.1f, 0.05f + AITimer * 0.03f);
+                                AITimer++;
+                                for (int i = 0; i < Main.maxNPCs; i++)
+                                {
+                                    NPC npc = Main.npc[i];
+                                    if (npc.active && npc.type == ModContent.NPCType<TerrorClingerMelee>())
+                                    {
+                                        if (npc.Center.Distance(NPC.Center) < npc.width)
+                                        {
+                                            for (int j = 0; j < 30; j++)
+                                            {
+                                                Dust.NewDustPerfect(NPC.Center + Helper.FromAToB(NPC.Center, npc.Center) * npc.width / 2, DustID.CursedTorch, (Main.rand.NextBool(5) ? Main.rand.NextVector2Unit() : Helper.FromAToB(NPC.Center, npc.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(1, 5)), Scale: Main.rand.NextFloat(2));
+                                            }
+                                            NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(-85, 85).RotatedBy(center.rotation)) * 20;
+                                            AITimer2 = AITimer2 > 30 ? 41 : 1;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
+                                Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
+                                Vector2 target = pos;
+                                Vector2 moveTo = target - NPC.Center;
+                                NPC.velocity = Vector2.Lerp(NPC.velocity, (moveTo) * 0.05f, 0.1f);
+
+                                AITimer2++;
+                                if (AITimer2 > 30)
+                                {
+                                    AITimer = 0;
+                                }
+                            }
+                            break;
+                    }
+                }
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
             Player player = Main.player[NPC.target];
-            bloomAlpha = 1f;
+
 
             if (NPC.IsABestiaryIconDummy)
                 return true;
@@ -535,21 +595,26 @@ float bloomAlpha;
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             NPC center = Main.npc[(int)NPC.ai[0]];
-            if (center.ai[3] > 20)
+            if (alpha > 0)
             {
                 Texture2D tex = Helper.GetExtraTexture("Extras2/magic_03");
                 spriteBatch.Reload(BlendState.Additive);
                 alpha = MathHelper.Clamp(alpha, 0, 1f);
-                spriteBatch.Draw(tex, lastPos - screenPos, null, Color.LawnGreen * 0.65f, Main.GameUpdateCount * 0.02f, tex.Size() / 2, 0.3f * alpha, SpriteEffects.None, 0);
+                spriteBatch.Draw(tex, lastPos - screenPos, null, Color.LawnGreen * 0.65f * alpha, Main.GameUpdateCount * 0.02f, tex.Size() / 2, 0.3f * alpha, SpriteEffects.None, 0);
                 spriteBatch.Reload(BlendState.AlphaBlend);
             }
         }
         float alpha;
         float bloomAlpha;
+        public float AITimer
+        {
+            get => NPC.ai[1];
+            set => NPC.ai[1] = value;
+        }
         public override void AI()
         {
             Player player = Main.player[NPC.target];
-            bloomAlpha = 1f;
+
             NPC center = Main.npc[(int)NPC.ai[0]];
             terrortomaCenter = center.Center;
             if (!player.active || player.dead)
@@ -571,6 +636,8 @@ float bloomAlpha;
             {
                 NPC.life = 0;
             }
+            float AIState = center.ai[0];
+            float CenterAITimer = center.ai[1];
             if (center.ai[0] == -1)
             {
                 center.ai[3] = 0;
@@ -623,7 +690,14 @@ float bloomAlpha;
                     }
                 }
             }
-            if (center.ai[2] != 2 && center.ai[2] <= 2)
+            if (center.ai[2] == 2 && NPC.ai[3] == 0)
+            {
+                bloomAlpha = 1f;
+                NPC.ai[3] = 1;
+            }
+            if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
+            if (alpha > 0f) alpha -= 0.01f;
+            if ((center.ai[2] != 2 && center.ai[2] <= 2) || center.ai[2] == 4)
             {
                 NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
                 Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
@@ -631,108 +705,83 @@ float bloomAlpha;
                 Vector2 moveTo = target - NPC.Center;
                 NPC.velocity = (moveTo) * 0.05f;
                 NPC.ai[3] = 0;
-                return;
             }
-            if (center.ai[2] == 2 && NPC.ai[3] == 0)
+            else
             {
-                bloomAlpha = 1f;
-                NPC.ai[3] = 1;
-            }
-            if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
-            if (center.ai[0] != -1 && center.ai[0] != 0 && center.ai[0] != 2 && center.ai[0] != -12124 && center.ai[0] != 1 && center.ai[0] != 8 && center.ai[0] != 5 && center.ai[0] != 3 && center.ai[0] != 14 && center.ai[0] != 13 && center.ai[0] != 7 && center.ai[0] != 12)
-            {
-
-                if (!IsDashing)
+                if (AIState == 0 || AIState == 1 || AIState == 4 || AIState == 6)
                 {
+                    NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
                     Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
                     NPC.velocity = (moveTo) * 0.05f;
                 }
-                center.ai[3]++;
-                if (NPC.Center.Distance(player.Center) > 750)
-                    center.ai[3] = -400;
-                if (center.ai[3] > 20 && center.ai[3] < 40)
-                    alpha += 0.1f;
-                else if (center.ai[3] > 40)
-                    alpha -= 0.1f;
-                if (center.ai[3] == 20)
+                if (center.ai[2] != 4)
                 {
-                    lastPos = player.Center;
+                    switch (AIState)
+                    {
+                        case 2:
+                            if (CenterAITimer <= 300)
+                            {
+                                NPC.damage = 40;
+                                AITimer++;
+                                if (AITimer == 50)
+                                {
+                                    NPC.velocity = Vector2.Zero;
+                                    alpha = 1f;
+                                    lastPos = player.Center;
+                                }
+                                if (AITimer == 75)
+                                {
+                                    NPC.velocity = Helper.FromAToB(NPC.Center, lastPos) * 30;
+                                }
+                                if (AITimer > 95 || AITimer < 50)
+                                {
+                                    NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
+                                    Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
+                                    Vector2 target = pos;
+                                    Vector2 moveTo = target - NPC.Center;
+                                    NPC.velocity = (moveTo) * 0.05f;
+                                }
+                                else NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.ToRotation() - MathHelper.PiOver2, 0.1f);
+                                if (AITimer >= 100)
+                                {
+                                    center.ai[2] = 4;
+                                    AITimer = 0;
+                                }
+                            }
+                            break;
+                        case 3:
+                            {
+                                NPC.damage = 40;
+                                NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
+                                Vector2 pos = center.Center + new Vector2(0, 125).RotatedBy(center.rotation);
+                                Vector2 target = pos;
+                                Vector2 moveTo = target - NPC.Center;
+                                NPC.velocity = (moveTo) * 0.1f;
+                            }
+                            break;
+                        case 5:
+                            {
+                                if (CenterAITimer < 40)
+                                    NPC.damage = 0;
+                                else NPC.damage = 40;
+                                if (CenterAITimer == 41)
+                                    bloomAlpha = 1f;
+                                NPC.Center = Vector2.Lerp(NPC.Center, center.Center + new Vector2(0, Helper.TRay.CastLength(center.Center, Vector2.UnitY, 360)).RotatedBy((float)Math.Sin((float)Main.GlobalTimeWrappedHourly * 2)), 0.1f);
+                                NPC.rotation = Helper.FromAToB(NPC.Center, center.Center + new Vector2(0, 340).RotatedBy((float)Math.Sin((float)Main.GlobalTimeWrappedHourly * 2))).ToRotation();
+                                if (CenterAITimer > 369 + (center.life < center.lifeMax / 2 ? 50 : 0))
+                                    NPC.damage = 0;
+                            }
+                            break;
+                    }
                 }
-                if (center.ai[3] == 40)
-                {
-                    IsDashing = true;
-                    NPC.velocity.X *= 0.98f;
-                    NPC.velocity.Y *= 0.98f;
-                    float rotation2 = (float)Math.Atan2((NPC.Center.Y) - (lastPos.Y), (NPC.Center.X) - (lastPos.X));
-                    NPC.velocity.X = (float)(Math.Cos(rotation2) * 20) * -1;
-                    NPC.velocity.Y = (float)(Math.Sin(rotation2) * 20) * -1;
-                }
-                if (IsDashing)
-                {
-                    NPC.rotation = NPC.velocity.ToRotation() - MathHelper.PiOver2;
-                }
-                else
-                {
-                    Vector2 toPlayer = player.Center - NPC.Center;
-                    NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-                }
-                if (center.ai[3] >= 60)
-                {
-                    alpha = 0;
-                    IsDashing = false;
-                    NPC.velocity = Vector2.Zero;
-                    center.ai[3] = 0;
-                }
-            }
-            else if (center.ai[0] == 5 || center.ai[0] == 1 || center.ai[0] == 8 || center.ai[0] == 3)
-            {
-                center.ai[3] = 0;
-                IsDashing = false;
-                Vector2 toPlayer = player.Center - NPC.Center;
-                NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-                Vector2 pos = center.Center + new Vector2(0, 80).RotatedBy(center.rotation);
-                Vector2 target = pos;
-                Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.09f;
-            }
-            else if (center.ai[0] == 14 || center.ai[0] == 12)
-            {
-                center.ai[3] = 0;
-                IsDashing = false;
-                Vector2 toPlayer = player.Center - NPC.Center;
-                NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-                Vector2 pos = center.Center + new Vector2(0, 80).RotatedBy(center.rotation);
-                Vector2 target = pos;
-                Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.09f;
-            }
-            else if (center.ai[0] == 2)
-            {
-                center.ai[3] = 0;
-                IsDashing = false;
-                Vector2 pos = center.Center + new Vector2(0, 5).RotatedBy(center.rotation);
-                Vector2 target = pos;
-                Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.09f;
-            }
-            else
-            {
-                center.ai[3] = 0;
-                IsDashing = false;
-                Vector2 toPlayer = player.Center - NPC.Center;
-                NPC.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-                Vector2 pos = center.Center + new Vector2(0, 80).RotatedBy(center.rotation);
-                Vector2 target = pos;
-                Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.09f;
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
             Player player = Main.player[NPC.target];
-            bloomAlpha = 1f;
+
             if (NPC.IsABestiaryIconDummy)
                 return true;
             Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrorClingerMelee").Value.Width * 0.5f, NPC.height * 0.5f);

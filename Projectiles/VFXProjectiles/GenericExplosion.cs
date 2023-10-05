@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 
 namespace EbonianMod.Projectiles.VFXProjectiles
 {
@@ -64,15 +65,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Projectile.friendly = false;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-        }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
-        {
-            Projectile.ai[1] = 1;
-        }
-        public override void PostAI()
-        {
-            if (Projectile.ai[1] == 1)
-                Projectile.damage = 0;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 100;
         }
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
@@ -89,12 +83,9 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
-        public override void OnSpawn(IEntitySource source)
-        {
-            //Helper.DustExplosion(Projectile.Center, Vector2.One, 0, sound: false);
-        }
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, TorchID.Desert);
             Projectile.ai[0] += 0.05f;
             if (Projectile.ai[0] > 1)
                 Projectile.Kill();

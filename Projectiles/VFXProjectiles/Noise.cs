@@ -31,22 +31,26 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Texture2D tex = Helper.GetExtraTexture("seamlessNoise2");
             Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.ai[2] > 0)
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[0] * Projectile.ai[2] * 0.5f, Main.GameUpdateCount * 0.1f * Projectile.ai[0], tex.Size() / 2, Projectile.ai[2] * 0.5f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[0] * Projectile.ai[2] * 0.6f, Main.GameUpdateCount * 0.1f * Projectile.ai[0], tex.Size() / 2, Projectile.ai[2] * 0.5f, SpriteEffects.None, 0);
             //Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[0], -Main.GameUpdateCount * 0.1f * Projectile.ai[0], tex.Size() / 2, 1.65f, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
         public override void AI()
         {
-            
-            if (Projectile.ai[2] < 1 && Projectile.timeLeft > 100)
-                Projectile.ai[2] += 0.01f;
-            if (Projectile.timeLeft < 50 && Projectile.ai[2] > 0)
-                Projectile.ai[2] -= 0.1f;
-            if (Projectile.timeLeft < 50 && Projectile.ai[2] < 0.1f)
-                Projectile.ai[2] = 0;
-            float progress = Utils.GetLerpValue(0, 300, Projectile.timeLeft);
-            Projectile.ai[0] = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
+            if (Projectile.ai[1] == 0)
+                Projectile.ai[1] = Projectile.timeLeft;
+            else
+            {
+                if (Projectile.ai[2] < 1 && Projectile.timeLeft > Projectile.ai[1] / 3)
+                    Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 1, 0.045f);
+                if (Projectile.timeLeft < Projectile.ai[1] / 6 && Projectile.ai[2] > 0)
+                    Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 0, 0.2f);
+                if (Projectile.timeLeft < Projectile.ai[1] / 6 && Projectile.ai[2] < 0.1f)
+                    Projectile.ai[2] = 0;
+                float progress = Utils.GetLerpValue(0, Projectile.ai[1], Projectile.timeLeft);
+                Projectile.ai[0] = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
+            }
         }
     }
     public class NoiseOverlay : ModProjectile
@@ -69,25 +73,30 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Texture2D tex = Helper.GetExtraTexture("Extras2/light_03");
             Texture2D OrigTex = Helper.GetExtraTexture("seamlessNoise2");
             Main.spriteBatch.Reload(BlendState.Additive);
-            if (Projectile.ai[2] > 0) { 
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed  * 0.5f* Projectile.ai[2] * Projectile.ai[0], Main.GameUpdateCount * 0.1f, OrigTex.Size() / 2, Projectile.ai[2] * 1.3f * 0.5f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * 0.5f* Projectile.ai[2] * Projectile.ai[0], Main.GameUpdateCount * -0.1f, OrigTex.Size() / 2, Projectile.ai[2] * 1.3f * 0.5f, SpriteEffects.None, 0);
-            //Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[0], -Main.GameUpdateCount * 0.1f * Projectile.ai[0], tex.Size() / 2, 1.65f, SpriteEffects.None, 0);
+            if (Projectile.ai[2] > 0)
+            {
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * Projectile.ai[2] * Projectile.ai[0], Main.GameUpdateCount * 0.1f, OrigTex.Size() / 2, Projectile.ai[2] * 1.3f * 0.5f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * Projectile.ai[2] * Projectile.ai[0], Main.GameUpdateCount * -0.1f, OrigTex.Size() / 2, Projectile.ai[2] * 1.3f * 0.5f, SpriteEffects.None, 0);
+                //Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[0], -Main.GameUpdateCount * 0.1f * Projectile.ai[0], tex.Size() / 2, 1.65f, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
         public override void AI()
         {
-            
-            if (Projectile.ai[2] < 1 && Projectile.timeLeft > 100)
-                Projectile.ai[2] += 0.01f;
-            if (Projectile.timeLeft < 50 && Projectile.ai[2] > 0)
-                Projectile.ai[2] -= 0.1f;
-            if (Projectile.timeLeft < 50 && Projectile.ai[2] < 0.1f)
-                Projectile.ai[2] = 0;
-            float progress = Utils.GetLerpValue(0, 300, Projectile.timeLeft);
-            Projectile.ai[0] = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
+            if (Projectile.ai[1] == 0)
+                Projectile.ai[1] = Projectile.timeLeft;
+            else
+            {
+                if (Projectile.ai[2] < 1 && Projectile.timeLeft > Projectile.ai[1] / 3)
+                    Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 1, 0.045f);
+                if (Projectile.timeLeft < Projectile.ai[1] / 6 && Projectile.ai[2] > 0)
+                    Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 0, 0.2f);
+                if (Projectile.timeLeft < Projectile.ai[1] / 6 && Projectile.ai[2] < 0.1f)
+                    Projectile.ai[2] = 0;
+                float progress = Utils.GetLerpValue(0, Projectile.ai[1], Projectile.timeLeft);
+                Projectile.ai[0] = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
+            }
         }
     }
 }

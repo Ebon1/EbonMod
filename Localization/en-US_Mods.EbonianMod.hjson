@@ -98,6 +98,8 @@ Projectiles: {
 	NoiseOverlay.DisplayName: Noise Overlay
 	EMine.DisplayName: E Mine
 	QuickFlare.DisplayName: Quick Flare
+	FireGrenadeP.DisplayName: Fire Grenade P
+	CursedFlameExplosion.DisplayName: Cursed Flame Explosion
 }
 
 NPCs: {
@@ -157,6 +159,7 @@ NPCs: {
 	DankDiggerHead.DisplayName: Dank Digger
 	DankDiggerTail.DisplayName: Dank Digger
 	EbonButKill.DisplayName: Ebon But Kill
+	BloatedEbonfly.DisplayName: Bloated Ebonfly
 }
 
 Items: {
@@ -480,6 +483,11 @@ Items: {
 
 	ExolSummon: {
 		DisplayName: Exol Summon
+		Tooltip: ""
+	}
+
+	FireGrenade: {
+		DisplayName: Fire Grenade
 		Tooltip: ""
 	}
 }

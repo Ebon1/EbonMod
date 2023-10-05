@@ -58,13 +58,13 @@ namespace EbonianMod.Items.Consumables.BossItems
         {
             Item.width = 20;
             Item.height = 20;
-            Item.maxStack = 20;
+            Item.maxStack = 2;
             Item.value = 1000000;
             Item.rare = ItemRarityID.Red;
             Item.useAnimation = 30;
             Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.HoldUp;
-            Item.consumable = true;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)

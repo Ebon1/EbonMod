@@ -29,7 +29,12 @@ namespace EbonianMod.Projectiles.Terrortoma
         }
         public override void AI()
         {
-            Projectile.velocity *= 1.025f;
+            if (Projectile.timeLeft > 175)
+                Projectile.velocity *= 1.025f;
+            if (Projectile.timeLeft <= 175 && Projectile.timeLeft > 160)
+                Projectile.velocity *= 0.85f;
+            if (Projectile.timeLeft <= 160 && Projectile.velocity.Length() < 10)
+                Projectile.velocity *= 1.1f;
             Projectile.rotation = Projectile.velocity.ToRotation();
         }
     }

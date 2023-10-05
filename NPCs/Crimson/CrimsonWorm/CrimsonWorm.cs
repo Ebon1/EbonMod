@@ -292,6 +292,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.Size = new Vector2(72, 32);
             NPC.aiStyle = -1;
+            NPC.lifeMax = 75;
 
         }
         public override void FindFrame(int frameHeight)
