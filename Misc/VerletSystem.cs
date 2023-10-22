@@ -12,10 +12,10 @@ using static Terraria.ModLoader.PlayerDrawLayer;
 
 namespace EbonianMod.Misc
 {
-    
-    public class Verlet 
+
+    public class Verlet
     {
-        
+
         public int stiffness { get; set; }
         public List<VerletSegment> segments { get; set; }
         public List<VerletPoint> points { get; set; }
@@ -30,7 +30,7 @@ namespace EbonianMod.Misc
 
         public Verlet(Vector2 start, float length, int count, /*float drag = 0.9f,*/ float gravity = 0.2f, bool firstPointLocked = true, bool lastPointLocked = true, int stiffness = 6)
         {
-            
+
             this.gravity = gravity;
             this.stiffness = stiffness;
 
@@ -123,14 +123,14 @@ namespace EbonianMod.Misc
         {
             this.position = position;
             this.gravity = gravity;
-            
+
         }
 
         public void Update()
         {
-            
+
             lastPos = position;
-            
+
             position += new Vector2(0, gravity);
         }
     }
@@ -181,10 +181,10 @@ namespace EbonianMod.Misc
             Vector2 distVector = pointA.position - pointB.position;
             float distance = distVector.Length();
             int attempts = 0;
-            while (distance > tex.Height / 2 && !float.IsNaN(distance) && ++attempts < 100)
+            while (distance > tex.Height && !float.IsNaN(distance) && ++attempts < 100)
             {
                 distVector.Normalize();
-                distVector *= tex.Height / 2;
+                distVector *= tex.Height;
                 center += distVector;
                 distVector = pointA.position - center;
                 distance = distVector.Length();

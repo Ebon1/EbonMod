@@ -9,22 +9,20 @@ using EbonianMod.Projectiles;
 using Terraria.ModLoader;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
+using EbonianMod.Projectiles.Friendly.Crimson;
+
 namespace EbonianMod.Items.Weapons.Ranged
 {
     public class CrimCannon : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 10;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 40;
             Item.height = 20;
-            Item.useTime = 15;
-            Item.useAnimation = 15;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
             Item.useStyle = 5;
             Item.noMelee = true;
             Item.knockBack = 4;
@@ -32,33 +30,8 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.rare = 2;
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
-            Item.shoot = ProjectileID.BloodArrow;
-            Item.shootSpeed = 8f;
-        }
-        int uses = -1;
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockBack)
-        {
-            uses++;
-            if (uses >= 10)
-            {
-                for (int i = -1; i < 2; i++)
-                {
-                    if (i == 0)
-                        continue;
-                    Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<BloodOrb>(), damage * 4, knockBack, player.whoAmI, i);
-                }
-                uses = 0;
-            }
-            int numberProjectiles = 2;
-            for (int i = 0; i < numberProjectiles; i++)
-            {
-                Vector2 perturbedSpeed = velocity.RotatedByRandom(MathHelper.ToRadians(35));
-                Projectile a = Projectile.NewProjectileDirect(source, position, perturbedSpeed, type, damage, knockBack, player.whoAmI);
-                a.friendly = true;
-                a.hostile = false;
-                a.penetrate = 1;
-            }
-            return false;
+            Item.shoot = ModContent.ProjectileType<CrimCannonP>();
+            Item.shootSpeed = 20;
         }
         public override Vector2? HoldoutOffset()
         {

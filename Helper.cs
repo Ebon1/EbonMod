@@ -714,7 +714,7 @@ namespace EbonianMod
                         Main.spriteBatch.Draw(GetExtraTexture("textGlow"), new Vector2(Main.screenWidth / 2, Main.screenHeight * 0.2f), null, Color.Black * alpha, 0, GetExtraTexture("textGlow").Size() / 2, 10f, SpriteEffects.None, 0);
                         if (player.bossTitle != null)
                             DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, something, new Vector2(Main.screenWidth / 2 - FontAssets.MouseText.Value.MeasureString(something).X / 2, Main.screenHeight * 0.2f), player.bossColor * alpha);
-                        DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.MouseText.Value, player.bossName, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(player.bossName).X / 2, Main.screenHeight * 0.175f), Color.Gold * alpha);
+                        DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.MouseText.Value, player.bossName, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(player.bossName).X / 2, Main.screenHeight * 0.175f), Color.SaddleBrown * alpha);
                         break;
                     case -2:
                         Main.spriteBatch.Draw(GetExtraTexture("textGlow"), new Vector2(Main.screenWidth / 2, Main.screenHeight * 0.2f), null, Color.Black * alpha, 0, GetExtraTexture("textGlow").Size() / 2, 10f, SpriteEffects.None, 0);

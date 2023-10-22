@@ -165,7 +165,7 @@ namespace EbonianMod.Projectiles.Exol
             Projectile.tileCollide = false;
             Projectile.friendly = false;
             Projectile.hostile = true;
-
+            Projectile.alpha = 255;
             Projectile.timeLeft = 290;
         }
         public override Color? GetAlpha(Color lightColor)
@@ -176,6 +176,8 @@ namespace EbonianMod.Projectiles.Exol
         public override bool ShouldUpdatePosition() => (Projectile.timeLeft <= 200);
         public override void AI()
         {
+            if (Projectile.alpha > 0)
+                Projectile.alpha -= 5;
             if (Projectile.timeLeft <= 200)
             {
                 if (Projectile.velocity.Length() < 20)

@@ -31,7 +31,7 @@ namespace EbonianMod.NPCs.Exol
             NPCID.Sets.TrailCacheLength[NPC.type] = 4;
             NPCID.Sets.TrailingMode[NPC.type] = 0;
             //Main.npcFrameCount[Type] = 8;
-            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 CustomTexturePath = "EbonianMod/NPCs/Exol/Exol_bestiary",
             };
@@ -51,7 +51,7 @@ namespace EbonianMod.NPCs.Exol
             NPC.height = 148;
             NPC.damage = 0;
             NPC.defense = 20;
-            NPC.lifeMax = 25000;
+            NPC.lifeMax = 12000;
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
             NPC.noGravity = true;
@@ -193,7 +193,8 @@ namespace EbonianMod.NPCs.Exol
             get => NPC.ai[3];
             set => NPC.ai[3] = value;
         }
-        const int Death = -1, Spawn = 0, Geyser = 1, RockFall = 2, DashFireSpiral = 3, ThePowerOfTheSun = 4, EyeSpin = 5, OffScreenMeteorDash = 6, HomingSkulls = 7, LaserWalls = 8, Pentagram = 9, SeethingChaos = 10, SolarRays = 11, PredictiveFireballs = 12;
+        public float AITimer4;
+        const int Death = -1, Spawn = 0, Geyser = 1, RockFall = 2, DashFireSpiral = 3, ThePowerOfTheSun = 4, EyeSpin = 5, OffScreenMeteorDash = 6, HomingSkulls = 7, LaserWalls = 8, Pentagram = 9, SeethingChaos = 10, SolarRays = 11, UnsafeGroundAndRockPlatforms = 12;
         Vector2 lastPos;
         SoundStyle summon = new("EbonianMod/Sounds/ExolSummon");
         SoundStyle roar = new("EbonianMod/Sounds/ExolRoar")
@@ -279,7 +280,7 @@ namespace EbonianMod.NPCs.Exol
                         if (AITimer >= 150)
                         {
                             Reset();
-                            AIState = SolarRays;
+                            AIState = Geyser;
                         }
                     }
                     break;
@@ -297,12 +298,12 @@ namespace EbonianMod.NPCs.Exol
                             NPC.velocity = -Vector2.UnitY * 3.5f;
                             Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<EGeyser>(), 30, 0);
                         }
-                        if (AITimer2 == 1 && AITimer < 100)
+                        if (AITimer2 == 1 && AITimer < 50)
                             NPC.velocity *= 0.9f;
                         LookAtPlayer();
                         if (AITimer == 1)
                             SoundEngine.PlaySound(roar);
-                        if (AITimer < 20 || AITimer > 100)
+                        if (AITimer < 20 || AITimer > 50 && AITimer2 == 1)
                         {
                             NPC.noTileCollide = true;
                             IdleMovement(true);
@@ -311,7 +312,7 @@ namespace EbonianMod.NPCs.Exol
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(Main.screenPosition.X + Main.screenWidth * Main.rand.NextFloat(), Main.screenPosition.Y + Main.screenHeight), -Vector2.UnitY * Main.rand.NextFloat(4, 8), ModContent.ProjectileType<EBoulder>(), 30, 0);
                         }*/
-                        if (AITimer >= 159)
+                        if (AITimer >= 100)
                         {
                             Reset();
                             AIState = DashFireSpiral;
@@ -331,7 +332,7 @@ namespace EbonianMod.NPCs.Exol
                             NPC.noTileCollide = false;
                             NPC.velocity = new Vector2(Helper.FromAToB(NPC.Center, player.Center).X * 5, -30);
                         }
-                        if ((NPC.collideY || NPC.collideX || NPC.Center.Y < Main.UnderworldLayer * 16 || Helper.TRay.CastLength(NPC.Center, -Vector2.UnitY, NPC.height * 2) < NPC.height) && AITimer2 == 0)
+                        if (NPC.Center.Y < Main.maxTilesY * 8 && (NPC.collideY || NPC.collideX || NPC.Center.Y < Main.UnderworldLayer * 16 || Helper.TRay.CastLength(NPC.Center, -Vector2.UnitY, NPC.height * 2) < NPC.height) && AITimer2 == 0)
                         {
                             AITimer2 = 1;
                             EbonianSystem.ScreenShakeAmount = 10;
@@ -370,7 +371,7 @@ namespace EbonianMod.NPCs.Exol
                             IdleMovement(true);
                             flameAlpha = MathHelper.SmoothStep(flameAlpha, 1, 0.3f);
                         }
-                        NPC.noTileCollide = false;
+                        NPC.noTileCollide = true;
                         if (AITimer > 40)
                             AITimer2++;
                         if (AITimer3 < 3)
@@ -382,7 +383,7 @@ namespace EbonianMod.NPCs.Exol
                             {
                                 NPC.damage = 50;
                                 Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<InferosShockwave>(), 0, 0);
-                                lastPos = player.Center;
+                                lastPos = Helper.FromAToB(NPC.Center, player.Center);
                             }
                             if ((AITimer2 > 50 && AITimer2 < 55) && AITimer2 <= 40)
                                 NPC.velocity *= 0.95f;
@@ -396,14 +397,25 @@ namespace EbonianMod.NPCs.Exol
                                 }
                             }
                             if (AITimer2 > 55 && AITimer2 < 75)
-                                NPC.velocity += Helper.FromAToB(NPC.Center, lastPos) * 1.9f;
+                                NPC.velocity += lastPos * 1.9f;
                             if (AITimer2 >= 80)
                             {
+                                AITimer4 = 0;
                                 AITimer2 = 0;
                                 AITimer3++;
                             }
-                            if (NPC.Center.Y > (Main.maxTilesY - 45) * 16 || NPC.Center.Y < 45 * 16 && AITimer2 > 70 || NPC.collideX || NPC.collideY)
-                                NPC.velocity = -NPC.velocity * 0.2f;
+                            if (AITimer2 > 70 && AITimer4 == 1)
+                                NPC.velocity *= 0.99f;
+                            bool collision = false;
+                            if (NPC.velocity.Y > 0)
+                                collision = NPC.Center.Y > (Main.maxTilesY - 45) * 16;
+                            else
+                                collision = NPC.Center.Y < 45 * 16;
+                            if (collision && AITimer4 == 0)
+                            {
+                                NPC.velocity = -NPC.velocity.ToRotation().ToRotationVector2() * 10;
+                                AITimer4 = 1;
+                            }
                         }
                         else
                         {
@@ -433,7 +445,7 @@ namespace EbonianMod.NPCs.Exol
                             NPC.velocity = Vector2.Zero;
                             Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * 15, ModContent.ProjectileType<ESun>(), 30, 0, player.whoAmI);
                         }
-                        if (AITimer > 300)
+                        if (AITimer > 350)
                         {
                             Reset();
                             AIState = OffScreenMeteorDash;
@@ -454,10 +466,10 @@ namespace EbonianMod.NPCs.Exol
                             LookAtPlayer();
                         }
 
-                        if (AITimer % 10 == 0 && AITimer < 100)
+                        if (AITimer % 10 == 0 && AITimer < 130)
                             Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(0, 100).RotatedBy(AITimer3), Helper.FromAToB(NPC.Center, player.Center) * 3, ModContent.ProjectileType<EFire2>(), 30, 0, player.whoAmI).timeLeft = 290 + (int)AITimer;
 
-                        if (AITimer > 130)
+                        if (AITimer > 170)
                         {
                             Reset();
                             AIState = RockFall;
@@ -531,6 +543,29 @@ namespace EbonianMod.NPCs.Exol
                         if (AITimer > 230)
                         {
                             Reset();
+                            AIState = SeethingChaos;
+                        }
+                    }
+                    break;
+                case (SeethingChaos):
+                    {
+                        AITimer2 = Main.rand.NextFloat(-60, 60);
+                        if (AITimer < 20)
+                        {
+                            NPC.Center = Vector2.Lerp(NPC.Center, new Vector2(NPC.Center.X, (Main.maxTilesY * 16) / 2), 0.2f);
+                        }
+                        if (AITimer == 1)
+                        {
+                            Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<QuickFlare>(), 0, 0);
+                        }
+                        LookAtPlayer();
+                        if (AITimer % 5 == 0 && (AITimer >= 20 && AITimer <= 80))
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, AITimer % 10 == 0 ? -1 : 1).RotatedBy(MathHelper.ToRadians(AITimer2)) * 0.5f, ModContent.ProjectileType<EMine>(), 15, 0);
+                        }
+                        if (AITimer > 110)
+                        {
+                            Reset();
                             AIState = HomingSkulls;
                         }
                     }
@@ -559,7 +594,7 @@ namespace EbonianMod.NPCs.Exol
                                 Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, vel, ModContent.ProjectileType<ESkullEmoji>(), 30, 0);
                             }
                         }
-                        if (AITimer > 240)
+                        if (AITimer > 290)
                         {
                             Reset();
                             AIState = LaserWalls;
@@ -647,13 +682,8 @@ namespace EbonianMod.NPCs.Exol
                         if (AITimer > 330)
                         {
                             Reset();
-                            AIState = SeethingChaos;
+                            AIState = SolarRays;
                         }
-                    }
-                    break;
-                case (SeethingChaos):
-                    {
-
                     }
                     break;
                 case (SolarRays):
@@ -716,7 +746,7 @@ namespace EbonianMod.NPCs.Exol
                         if (AITimer > 180)
                         {
                             Reset();
-                            AIState = SeethingChaos;
+                            AIState = Geyser;
                         }
                     }
                     break;
@@ -731,6 +761,7 @@ namespace EbonianMod.NPCs.Exol
             AITimer = 0;
             AITimer2 = 0;
             AITimer3 = 0;
+            AITimer4 = 0;
             sunAlpha = 0f;
             flameAlpha = 0f;
             NPC.damage = 0;

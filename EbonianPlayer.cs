@@ -27,6 +27,7 @@ namespace EbonianMod
         public Color bossColor, dialogueColor;
         public static EbonianPlayer Instance;
         public bool rolleg, brainAcc, heartAcc, ToxicGland, doomMinion;
+        public Vector2 stabDirection;
         public override void ResetEffects()
         {
             rolleg = false;
@@ -36,6 +37,18 @@ namespace EbonianMod
             if (!NPC.AnyNPCs(ModContent.NPCType<Fleshformator>()))
                 fleshformators = 0;
             ToxicGland = false;
+        }
+
+        public int platformWhoAmI = -1;
+        public int platformTimer = 0;
+        public int platformDropTimer = 0;
+
+        public Projectile Platform => Main.projectile[platformWhoAmI];
+
+        public override void PreUpdateMovement()
+        {
+            if (platformWhoAmI != -1)
+                Player.position.X += Platform.velocity.X;
         }
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {

@@ -100,6 +100,13 @@ Projectiles: {
 	QuickFlare.DisplayName: Quick Flare
 	FireGrenadeP.DisplayName: Fire Grenade P
 	CursedFlameExplosion.DisplayName: Cursed Flame Explosion
+	CrimCannonP.DisplayName: Crim Cannon P
+	Gibs.DisplayName: Gibs
+	SpinaxP.DisplayName: Spinax P
+	SelfStabP.DisplayName: Sacrificial Dagger
+	BloodVignette.DisplayName: Blood Vignette
+	EPlatform.DisplayName: E Platform
+	EGroundHazard.DisplayName: E Ground Hazard
 }
 
 NPCs: {
@@ -328,12 +335,8 @@ Items: {
 	}
 
 	CrimCannon: {
-		Tooltip:
-			'''
-			Sprays blood on enemies
-			Every 10th attack also shoots out a blood helix that deals 4x damage.
-			'''
-		DisplayName: Crimson Maw
+		Tooltip: Shoots out a gory set of teeth.
+		DisplayName: Bloodsoaked Dentures
 	}
 
 	IgnosSword: {
@@ -490,6 +493,16 @@ Items: {
 		DisplayName: Fire Grenade
 		Tooltip: ""
 	}
+
+	Spinax: {
+		DisplayName: Spinax
+		Tooltip: An ancient dinosaur spine imbued with the power of the crimson.
+	}
+
+	SelfStab: {
+		DisplayName: Sacrificial Dagger
+		Tooltip: ""
+	}
 }
 
 Buffs: {
@@ -516,5 +529,10 @@ Buffs: {
 	DoomsdayBuff: {
 		Description: The Doomsday Drone will fight for you.
 		DisplayName: Doomsday Drone
+	}
+
+	SelfStabB: {
+		DisplayName: Self Stab B
+		Description: Mods.EbonianMod.Buffs.SelfStabB.Description
 	}
 }

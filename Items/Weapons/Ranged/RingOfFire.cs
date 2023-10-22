@@ -249,7 +249,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             Projectile.CritChance = 0;
             if (proj != null)
-                if (proj.active)
+                if (proj.active && proj.type == ModContent.ProjectileType<RingOfFireP>() && proj.whoAmI == Projectile.ai[2])
                     Projectile.Center = Main.projectile[(int)Projectile.ai[2]].Center;
             if (Projectile.ai[1] != 0)
                 Projectile.scale = Projectile.ai[1];

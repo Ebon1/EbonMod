@@ -21,6 +21,8 @@ using EbonianMod.Projectiles.Exol;
 using Terraria.GameContent.Drawing;
 using Terraria.Audio;
 using EbonianMod.NPCs.Garbage;
+using Humanizer;
+using System;
 
 namespace EbonianMod
 {
@@ -74,38 +76,68 @@ namespace EbonianMod
             Main.OnResolutionChanged += Main_OnResolutionChanged;
             Terraria.On_Main.DrawBG += DrawBehindTilesAndWalls;
             Terraria.On_Main.DrawNPC += DrawNPC;
+            Terraria.On_Player.Update_NPCCollision += SolidTopCollision;
             //On.Terraria.Main.DoUpdate += testSlowDown;
             //On.Terraria.Audio.SoundEngine.Update += testSlowDownAudio;
             CreateRender();
         }
-        /*public static int timeSkips;
-        public static int _timeSkips;
-        private void testSlowDown(On.Terraria.Main.orig_DoUpdate orig, Main self, ref GameTime gameTime)
+        internal static void SolidTopCollision(Terraria.On_Player.orig_Update_NPCCollision orig, Player self) //https://discord.com/channels/103110554649894912/711551818194485259/998428409455714397
         {
-            if (Main.gameMenu || Main.gamePaused || Main.LocalPlayer.dead)
-                timeSkips = 0;
-            if (timeSkips > 0 && !Main.gameMenu)
+            var modSelf = self.GetModPlayer<EbonianPlayer>();
+
+            if (self.grappling[0] < 0)
             {
-                _timeSkips++;
-                if (_timeSkips > timeSkips)
-                    _timeSkips = 0;
-                if (_timeSkips < timeSkips)
-                    return;
+                modSelf.platformDropTimer--;
+
+                if (self.controlDown && modSelf.platformTimer >= 6)
+                    modSelf.platformDropTimer = 8;
+
+                bool success = false;
+
+                for (int i = 0; i < Main.maxProjectiles; ++i)
+                {
+                    Projectile proj = Main.projectile[i];
+
+                    if (!proj.active || proj.ModProjectile == null || proj.type != ModContent.ProjectileType<EPlatform>() || (proj.whoAmI == modSelf.platformWhoAmI && modSelf.platformDropTimer > 0))
+                        continue;
+
+                    var playerBox = new Rectangle((int)self.position.X, (int)self.position.Y + self.height, self.width, 1);
+                    var floorBox = new Rectangle((int)proj.position.X, (int)proj.position.Y - (int)proj.velocity.Y, proj.width, 16 + (int)Math.Max(self.velocity.Y, 0));
+
+                    if (playerBox.Intersects(floorBox) && self.velocity.Y > 0 && !Collision.SolidCollision(self.Bottom, self.width, (int)Math.Max(1 + proj.velocity.Y, 0)))
+                    {
+                        proj.ai[0]++;
+                        self.gfxOffY = proj.gfxOffY;
+                        self.position.Y = proj.position.Y - self.height + 4;
+                        self.velocity.Y = 0;
+                        self.fallStart = (int)(self.position.Y / 16f);
+
+                        if (self == Main.LocalPlayer)
+                            NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Main.LocalPlayer.whoAmI);
+
+                        if (modSelf.platformTimer < 0)
+                            modSelf.platformTimer = -1;
+
+                        modSelf.platformTimer++;
+                        modSelf.platformWhoAmI = proj.whoAmI;
+
+                        orig(self);
+
+                        success = true;
+                        break;
+                    }
+                }
+
+                if (!success && modSelf.platformDropTimer <= 0)
+                {
+                    modSelf.platformTimer--;
+                    modSelf.platformWhoAmI = -1;
+                }
             }
-            orig(self, ref gameTime);
+
+            orig(self);
         }
 
-
-        private void testSlowDownAudio(On.Terraria.Audio.SoundEngine.orig_Update orig)
-        {
-            if (timeSkips > 0 && !Main.gameMenu)
-            {
-                if (_timeSkips < timeSkips)
-                    return;
-            }
-            orig();
-        }
-        */
         void DrawNPC(Terraria.On_Main.orig_DrawNPC orig, global::Terraria.Main self, int iNPCIndex, bool behindTiles)
         {
             SpriteBatch sb = Main.spriteBatch;

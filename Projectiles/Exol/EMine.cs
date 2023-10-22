@@ -28,6 +28,11 @@ namespace EbonianMod.Projectiles.Exol
             Projectile.tileCollide = true;
             Projectile.hostile = true;
             Projectile.timeLeft = 450;
+            Projectile.hide = true;
+        }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            behindNPCsAndTiles.Add(index);
         }
         public override bool? CanDamage() => Projectile.ai[0] == 0;
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -48,7 +53,7 @@ namespace EbonianMod.Projectiles.Exol
         {
             Texture2D tex = Helper.GetTexture("Projectiles/Exol/EBoulder_Bloom");
             Main.spriteBatch.Reload(BlendState.Additive);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * Projectile.ai[2], Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * (Projectile.ai[2] + 0.1f), Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
         }
         public Vector2 pos;
@@ -71,7 +76,7 @@ namespace EbonianMod.Projectiles.Exol
                     Projectile.velocity *= 1.05f;
             }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
             if (Projectile.ai[0] != 0)
             {
@@ -80,7 +85,7 @@ namespace EbonianMod.Projectiles.Exol
                     Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(), Main.rand.Next(new int[] { GoreID.Smoke1, GoreID.Smoke2, GoreID.Smoke3 }), Main.rand.NextFloat(0.25f, 1f));
                 }
                 Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.OrangeRed);
-                SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/genericexplosion"), Projectile.Center);
+                //SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/genericexplosion"), Projectile.Center);
                 Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosion>(), Projectile.damage * 2, 0);
                 Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileID.DaybreakExplosion, Projectile.damage * 2, 0);
                 a.hostile = true;

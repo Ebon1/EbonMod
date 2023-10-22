@@ -36,7 +36,7 @@ namespace EbonianMod.Tiles
             Tile tile = Main.tile[i, j];
             if (tile.TileFrameX >= 36)
             {
-                Helper.SetBossTitle(250, "Now Playing", Color.LawnGreen, "Forces of Evil by Yuri O", -69);
+                Helper.SetBossTitle(250, "Now Playing", Color.Red, "Forces of Evil by Yuri O", -69);
                 return true;
             }
             return false;
