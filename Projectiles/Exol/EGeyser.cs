@@ -52,15 +52,22 @@ namespace EbonianMod.Projectiles.Exol
         }*/
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, TorchID.White);
             if (Projectile.ai[0] == 0)
             {
                 Projectile.Center = Helper.TRay.Cast(Projectile.Center, Vector2.UnitY, 1000) - new Vector2(0, 44);
                 Projectile.ai[0] = 1;
             }
             if (Projectile.timeLeft == 280)
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Bottom, Vector2.Zero, ModContent.ProjectileType<InferosShockwave2>(), 0, 0);
+                Projectile.NewProjectileDirect(NPC.InheritSource(Projectile), Projectile.Bottom, Vector2.Zero, ModContent.ProjectileType<QuickFlare>(), 0, 0);
             if (Projectile.timeLeft < 250)
             {
+                if (Projectile.timeLeft % 5 == 0)
+                {
+                    Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, new Vector2(Main.rand.NextFloat(-2, 2), -Main.rand.NextFloat(3, 15)), ModContent.ProjectileType<Gibs>(), Projectile.damage, Projectile.knockBack, ai2: 1);
+                    a.friendly = false;
+                    a.hostile = true;
+                }
                 if (++Projectile.ai[1] % 40 == 0)
                 {
                     Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, -Vector2.UnitY, ProjectileID.GeyserTrap, Projectile.damage, Projectile.knockBack).friendly = false;

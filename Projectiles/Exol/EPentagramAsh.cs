@@ -52,7 +52,7 @@ namespace EbonianMod.Projectiles.Exol
         }
         public override bool? CanDamage()
         {
-            return Projectile.timeLeft < 250 - Projectile.ai[0] && Projectile.scale > 0.75f;
+            return Projectile.timeLeft < 250 - Projectile.ai[0] && Projectile.timeLeft > 40 && Projectile.scale > 0.75f;
         }
         int side = 1;
         public override void OnSpawn(IEntitySource source)

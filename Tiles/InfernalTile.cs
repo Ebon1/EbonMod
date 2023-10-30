@@ -18,7 +18,7 @@ namespace EbonianMod.Tiles
         {
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
-            Main.tileBlockLight[Type] = true;
+            Main.tileLighted[Type] = true;
 
             TileID.Sets.BlockMergesWithMergeAllBlock[Type] = false;
             DustType = DustID.Ash;

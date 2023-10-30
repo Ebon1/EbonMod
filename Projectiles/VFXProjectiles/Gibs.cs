@@ -30,20 +30,20 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool PreDraw(ref Color lightColor)
         {
             var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.ai[2] == 0)
+                Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                for (int i = 0; i < Projectile.oldPos.Length; i++)
-                {
-                    float mult = (1f - fadeMult * i);
-                    if (i > 0)
-                        for (float j = 0; j < 5; j++)
-                        {
-                            Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 5));
-                            Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.Black * 0.25f, 0, TextureAssets.Projectile[Type].Value.Size() / 2, 0.025f * mult, SpriteEffects.None, 0);
-                        }
-                }
-                Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center - Main.screenPosition, null, Color.Black, 0, TextureAssets.Projectile[Type].Value.Size() / 2, 0.025f, SpriteEffects.None, 0);
+                float mult = (1f - fadeMult * i);
+                if (i > 0)
+                    for (float j = 0; j < 5; j++)
+                    {
+                        Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 5));
+                        Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.Black * 0.25f, 0, TextureAssets.Projectile[Type].Value.Size() / 2, 0.025f * mult, SpriteEffects.None, 0);
+                    }
             }
+            Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center - Main.screenPosition, null, Color.Black, 0, TextureAssets.Projectile[Type].Value.Size() / 2, 0.025f, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.Additive);
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
@@ -52,7 +52,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                     for (float j = 0; j < 10; j++)
                     {
                         Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 10));
-                        Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Projectile.ai[2] == 0 ? Color.Maroon : Color.OrangeRed * 0.25f, 0, TextureAssets.Projectile[Type].Value.Size() / 2, 0.025f * mult, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, (Projectile.ai[2] == 0 ? Color.Maroon : Color.OrangeRed) * 0.25f, 0, TextureAssets.Projectile[Type].Value.Size() / 2, 0.025f * mult, SpriteEffects.None, 0);
                     }
             }
             Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center - Main.screenPosition, null, Projectile.ai[2] == 0 ? Color.Maroon : Color.OrangeRed, 0, TextureAssets.Projectile[Type].Value.Size() / 2, 0.025f, SpriteEffects.None, 0);

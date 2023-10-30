@@ -205,7 +205,10 @@ namespace EbonianMod.NPCs.Terrortoma
                                             }
                                             if (AITimer2 > 30)
                                             {
-                                                Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY * 1, ModContent.ProjectileType<TBeam>(), 10, 0);
+                                                for (int j = -5; j < 5; j++)
+                                                {
+                                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY.RotatedBy(MathHelper.ToRadians(MathHelper.Lerp(-100, 100, (float)(j + 5) / 10))) * 10, ModContent.ProjectileType<TFlameThrower3>(), 10, 0);
+                                                }
                                             }
                                             else
                                             {

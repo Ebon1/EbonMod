@@ -107,6 +107,7 @@ Projectiles: {
 	BloodVignette.DisplayName: Blood Vignette
 	EPlatform.DisplayName: E Platform
 	EGroundHazard.DisplayName: E Ground Hazard
+	RykardSkull.DisplayName: Rykard Skull
 }
 
 NPCs: {
@@ -471,7 +472,7 @@ Items: {
 	}
 
 	IgnosSummon: {
-		DisplayName: Ignos Summon
+		DisplayName: Exol Subworld
 		Tooltip: ""
 	}
 

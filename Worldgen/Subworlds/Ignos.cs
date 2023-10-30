@@ -32,11 +32,11 @@ namespace EbonianMod.Worldgen.Subworlds
         {
             SubworldSystem.hideUnderworld = false;
         }
-        public override bool GetLight(Tile tile, int x, int y, ref FastRandom rand, ref Vector3 color)
+        /*public override bool GetLight(Tile tile, int x, int y, ref FastRandom rand, ref Vector3 color)
         {
-            color = Color.Orange.ToVector3();
+            color = Color.White.ToVector3();
             return true;
-        }
+        }*/
         public override void OnLoad()
         {
             Main.dayTime = false;
@@ -82,6 +82,18 @@ namespace EbonianMod.Worldgen.Subworlds
                     tile.TileType = (ushort)ModContent.TileType<InfernalTile>();
                 }
             }
+        }
+    }
+    public class IgnosGlobalNPC : GlobalNPC
+    {
+        public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
+        {
+            if (SubworldSystem.IsActive<Ignos>())
+            {
+                spawnRate = int.MaxValue;
+                maxSpawns = 0;
+            }
+            base.EditSpawnRate(player, ref spawnRate, ref maxSpawns);
         }
     }
     public class UpdateSubworldSystem : ModSystem

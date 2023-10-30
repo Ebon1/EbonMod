@@ -345,13 +345,15 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     AITimer++;
                     if (AITimer == -99)
+                    {
+                        Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/GarbageSiren");
                         EbonianSystem.ChangeCameraPos(NPC.Center, 200, 1.7f);
+                    }
                 }
                 if (AITimer == 0)
                 {
                     EbonianSystem.ScreenShakeAmount = 20;
 
-                    Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/GarbageSiren");
                 }
                 if (AITimer % 5 == 0 && AITimer <= 21 && AITimer >= 0)
                 {
@@ -364,7 +366,7 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<HotGarbageNuke>(), 0, 0);
                 }
-                if (AITimer >= 650)
+                if (AITimer == 664)
                     Music = 0;
                 if (AITimer >= 665 && player.Distance(NPC.Center) > 4500 / 2)
                 {
@@ -1089,6 +1091,15 @@ namespace EbonianMod.NPCs.Garbage
         }
         public override void AI()
         {
+            foreach (Player player in Main.player)
+            {
+                if (player.active)
+                    if ((player.HeldItem.type == ItemID.MagicMirror || player.HeldItem.type == ItemID.RecallPotion) && player.itemAnimation > 2)
+                    {
+                        player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " thought they were smart."), 12345, 0);
+                        Projectile.active = false;
+                    }
+            }
             if (Projectile.ai[2] < 1f)
                 Projectile.ai[2] += 0.05f;
             Projectile.rotation = Projectile.velocity.ToRotation();
@@ -1100,20 +1111,7 @@ namespace EbonianMod.NPCs.Garbage
             {
                 Projectile.Kill();
             }
-            foreach (Player player in Main.player)
-            {
-                if (player.active && player.Center.Distance(targetPos) < 4500 / 2)
-                {
-                    if (Projectile.ai[1] < 121)
-                    {
-                        extraString = "cry about it";
-                    }
-                    else if (Projectile.ai[1] < 181)
-                        extraString = "lol";
-                }
-                if (player.active && player.Center.Distance(targetPos) > 4500 / 2)
-                    extraString = "NUKE DETONATION IN: ";
-            }
+            extraString = "NUKE DETONATION IN: ";
             Projectile.timeLeft = 2;
             float alpha = Utils.GetLerpValue(0, 2, waveTimer);
             float alpha2 = MathHelper.Clamp((float)Math.Sin(alpha * Math.PI) * 3, 0, 1f);

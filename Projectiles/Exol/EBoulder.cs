@@ -180,7 +180,7 @@ namespace EbonianMod.Projectiles.Exol
                 Projectile.alpha -= 5;
             if (Projectile.timeLeft <= 200)
             {
-                if (Projectile.velocity.Length() < 20)
+                if (Projectile.velocity.Length() < 10)
                     Projectile.velocity *= 1.15f;
             }
             else Projectile.velocity = Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center) * Projectile.velocity.Length();

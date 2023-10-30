@@ -98,9 +98,9 @@ namespace EbonianMod.NPCs.Exol
                     //Color color = Color.Lerp(Color.OrangeRed, Color.White, 1f - fadeMult * i);
                     Main.spriteBatch.Draw(b, NPC.oldPos[i] - Main.screenPosition + new Vector2(NPC.width / 2f, NPC.height / 2f), null, drawColor * ((1f - fadeMult * i) * 0.75f), NPC.rotation, b.Size() / 2, NPC.scale, SpriteEffects.None, 0f);
                 }
-                Main.EntitySpriteDraw(b, NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, b.Size() / 2, 1, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(b, NPC.Center - Main.screenPosition, null, Color.White, NPC.rotation, b.Size() / 2, 1, SpriteEffects.None, 0);
                 spriteBatch.Reload(BlendState.Additive);
-                Main.EntitySpriteDraw(c, NPC.Center - Main.screenPosition, null, Color.White * 0.75f, NPC.rotation, c.Size() / 2, 1, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(c, NPC.Center - Main.screenPosition, null, Color.White * 0.25f, NPC.rotation, c.Size() / 2, 1, SpriteEffects.None, 0);
                 spriteBatch.Reload(BlendState.AlphaBlend);
                 Vector2 ogEyePos = NPC.Center + new Vector2(4, 5);
                 Vector2 eyePos = ogEyePos;
@@ -194,18 +194,232 @@ namespace EbonianMod.NPCs.Exol
             set => NPC.ai[3] = value;
         }
         public float AITimer4;
-        const int Death = -1, Spawn = 0, Geyser = 1, RockFall = 2, DashFireSpiral = 3, ThePowerOfTheSun = 4, EyeSpin = 5, OffScreenMeteorDash = 6, HomingSkulls = 7, LaserWalls = 8, Pentagram = 9, SeethingChaos = 10, SolarRays = 11, UnsafeGroundAndRockPlatforms = 12;
-        Vector2 lastPos;
-        SoundStyle summon = new("EbonianMod/Sounds/ExolSummon");
-        SoundStyle roar = new("EbonianMod/Sounds/ExolRoar")
-        {
-            PitchVariance = 0.25f,
-        };
         SoundStyle dash = new("EbonianMod/Sounds/ExolDash")
         {
             PitchVariance = 0.25f,
         };
+        const int Death = -1, Spawn = 0, Geyser = 1, RockFall = 2, DashFireSpiral = 3, ThePowerOfTheSun = 4, EyeSpin = 5, OffScreenMeteorDash = 6, HomingSkulls = 7, LaserWalls = 8, Pentagram = 9, SeethingChaos = 10, SolarRays = 11;
+        Vector2 lastPos;
         void LookAtPlayer() => pointOfInterest = Vector2.SmoothStep(pointOfInterest, Main.player[NPC.target].Center, 0.5f);
+        /// <summary>
+        /// Default0: Geyser, Spirals, Eye Spin, Rocks, Sun, Dash, Seethe, Skulls, Lasers, Pentagram, Solar Rays.
+        /// Variant1: Spirals, Pentagram, Rocks, Geyser, Eye Spin, Skulls, Dash, Seethe, Sun, Solar Rays, Lasers.  
+        /// Variant2: Dash, Skulls, Pentagram, Geyser, Solar Rays, Eye Spin, Sun, Spirals, Seethe, Lasers, Rocks.
+        /// Variant3: Eye Spin, Dash, Pentagram, Skulls, Solar Rays, Rocks, Geyser, Sun, Seethe, Spirals, Lasers. 
+        /// </summary>
+        public int AttackPattern;
+        void StartNewPattern(int pattern)
+        {
+            AttackPattern = pattern;
+            switch (pattern)
+            {
+                case 0:
+                    AIState = Geyser;
+                    break;
+                case 1:
+                    AIState = DashFireSpiral;
+                    break;
+                case 2:
+                    AIState = OffScreenMeteorDash;
+                    break;
+                case 3:
+                    AIState = EyeSpin;
+                    break;
+            }
+        }
+        void NextAttack()
+        {
+            switch (AIState)
+            {
+                case 1:
+                    switch (AttackPattern)
+                    {
+                        case 0:
+                            AIState = DashFireSpiral;
+                            break;
+                        case 1:
+                            AIState = EyeSpin;
+                            break;
+                        case 2:
+                            AIState = SolarRays;
+                            break;
+                        case 3:
+                            AIState = ThePowerOfTheSun;
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (AttackPattern)
+                    {
+                        case 0:
+                            AIState = ThePowerOfTheSun;
+                            break;
+                        case 1:
+                            AIState = Geyser;
+                            break;
+                        case 2:
+                            StartNewPattern(3);
+                            break;
+                        case 3:
+                            AIState = Geyser;
+                            break;
+                    }
+                    break;
+                case 3:
+                    switch (AttackPattern)
+                    {
+                        case 0:
+                            AIState = EyeSpin;
+                            break;
+                        case 1:
+                            AIState = Pentagram;
+                            break;
+                        case 2:
+                            AIState = SeethingChaos;
+                            break;
+                        case 3:
+                            AIState = LaserWalls;
+                            break;
+                    }
+                    break;
+                case 4:
+                    switch (AttackPattern)
+                    {
+                        case 0:
+                            AIState = OffScreenMeteorDash;
+                            break;
+                        case 1:
+                            AIState = SolarRays;
+                            break;
+                        case 2:
+                            AIState = DashFireSpiral;
+                            break;
+                        case 3:
+                            AIState = SeethingChaos;
+                            break;
+                    }
+                    break;
+                case 5:
+                    switch (AttackPattern)
+                    {
+                        case 0:
+                            AIState = RockFall;
+                            break;
+                        case 1:
+                            AIState = HomingSkulls;
+                            break;
+                        case 2:
+                            AIState = ThePowerOfTheSun;
+                            break;
+                        case 3:
+                            AIState = OffScreenMeteorDash;
+                            break;
+                    }
+                    break;
+                case 6:
+                    switch (AttackPattern)
+                    {
+                        case 0:
+                            AIState = SeethingChaos;
+                            break;
+                        case 1:
+                            AIState = SeethingChaos;
+                            break;
+                        case 2:
+                            AIState = HomingSkulls;
+                            break;
+                        case 3:
+                            AIState = Pentagram;
+                            break;
+                    }
+                    break;
+                case 7:
+                    switch (AttackPattern)
+                    {
+                        case 0:
+                            AIState = LaserWalls;
+                            break;
+                        case 1:
+                            AIState = OffScreenMeteorDash;
+                            break;
+                        case 2:
+                            AIState = Pentagram;
+                            break;
+                        case 3:
+                            AIState = SolarRays;
+                            break;
+                    }
+                    break;
+                case 8:
+                    switch (AttackPattern)
+                    {
+                        case 0:
+                            AIState = Pentagram;
+                            break;
+                        case 1:
+                            StartNewPattern(2);
+                            break;
+                        case 2:
+                            AIState = RockFall;
+                            break;
+                        case 3:
+                            StartNewPattern(0);
+                            break;
+                    }
+                    break;
+                case 9:
+                    switch (AttackPattern)
+                    {
+                        case 0:
+                            AIState = SolarRays;
+                            break;
+                        case 1:
+                            AIState = RockFall;
+                            break;
+                        case 2:
+                            AIState = Geyser;
+                            break;
+                        case 3:
+                            AIState = HomingSkulls;
+                            break;
+                    }
+                    break;
+                case 10:
+                    switch (AttackPattern)
+                    {
+                        case 0:
+                            AIState = HomingSkulls;
+                            break;
+                        case 1:
+                            AIState = ThePowerOfTheSun;
+                            break;
+                        case 2:
+                            AIState = LaserWalls;
+                            break;
+                        case 3:
+                            AIState = DashFireSpiral;
+                            break;
+                    }
+                    break;
+                case 11:
+                    switch (AttackPattern)
+                    {
+                        case 0:
+                            StartNewPattern(1);
+                            break;
+                        case 1:
+                            AIState = LaserWalls;
+                            break;
+                        case 2:
+                            AIState = EyeSpin;
+                            break;
+                        case 3:
+                            AIState = RockFall;
+                            break;
+                    }
+                    break;
+            }
+        }
         public override void AI()
         {
             Player player = Main.player[NPC.target];
@@ -274,7 +488,6 @@ namespace EbonianMod.NPCs.Exol
                         {
                             //Helper.SetBossTitle(180, "Exol", Color.OrangeRed);
                             EbonianSystem.ChangeCameraPos(NPC.Center, 100);
-                            SoundEngine.PlaySound(summon);
                             EbonianSystem.ScreenShakeAmount = 15f;
                         }
                         if (AITimer >= 150)
@@ -301,8 +514,6 @@ namespace EbonianMod.NPCs.Exol
                         if (AITimer2 == 1 && AITimer < 50)
                             NPC.velocity *= 0.9f;
                         LookAtPlayer();
-                        if (AITimer == 1)
-                            SoundEngine.PlaySound(roar);
                         if (AITimer < 20 || AITimer > 50 && AITimer2 == 1)
                         {
                             NPC.noTileCollide = true;
@@ -310,19 +521,18 @@ namespace EbonianMod.NPCs.Exol
                         }
                         /*if (AITimer % 20 == 0 && AITimer > 40 && AITimer2 == 1)
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(Main.screenPosition.X + Main.screenWidth * Main.rand.NextFloat(), Main.screenPosition.Y + Main.screenHeight), -Vector2.UnitY * Main.rand.NextFloat(4, 8), ModContent.ProjectileType<EBoulder>(), 30, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(Main.screenPosition.X + 1920 * Main.rand.NextFloat(), Main.screenPosition.Y + Main.screenHeight), -Vector2.UnitY * Main.rand.NextFloat(4, 8), ModContent.ProjectileType<EBoulder>(), 30, 0);
                         }*/
-                        if (AITimer >= 100)
+                        if (AITimer >= 80)
                         {
                             Reset();
-                            AIState = DashFireSpiral;
+                            //AIState = DashFireSpiral;
+                            NextAttack();
                         }
                     }
                     break;
                 case RockFall:
                     {
-                        if (AITimer == 1)
-                            SoundEngine.PlaySound(roar);
                         if (AITimer < 50)
                         {
                             pointOfInterest = Vector2.SmoothStep(pointOfInterest, NPC.Center - Vector2.UnitY * 500, 0.5f);
@@ -343,24 +553,25 @@ namespace EbonianMod.NPCs.Exol
                             LookAtPlayer();
                             NPC.velocity *= 0.9f;
                         }
-                        if (AITimer % 6 == 0 && AITimer > 60 && AITimer < 180 && AITimer2 == 1)
+                        if (AITimer % 7 == 0 && AITimer > 60 && AITimer < 200 && AITimer2 == 1)
                         {
-                            Vector2 pos = new Vector2(Main.screenPosition.X + Main.screenWidth * Main.rand.NextFloat(), Main.screenPosition.Y - 300);
+                            Vector2 pos = new Vector2(Main.screenPosition.X + 1920 * Main.rand.NextFloat(), Main.screenPosition.Y - 300);
                             if (Main.rand.NextBool(8))
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(player.Center.X, pos.Y), Vector2.UnitY * 5f, ModContent.ProjectileType<EBoulder2>(), 30, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(player.Center.X, pos.Y), Vector2.UnitY * 3, ModContent.ProjectileType<EBoulder2>(), 30, 0);
                                 //Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(player.Center.X, pos.Y), Vector2.UnitY * 1, ModContent.ProjectileType<TelegraphLine>(), 0, 0);
                             }
                             else
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.UnitY * 2f, ModContent.ProjectileType<EBoulder2>(), 30, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(1, 3)), ModContent.ProjectileType<EBoulder2>(), 30, 0);
                                 //Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.UnitY * 1, ModContent.ProjectileType<TelegraphLine>(), 0, 0);
                             }
                         }
-                        if (AITimer >= 200)
+                        if (AITimer >= 250)
                         {
                             Reset();
-                            AIState = ThePowerOfTheSun;
+                            //AIState = ThePowerOfTheSun;
+                            NextAttack();
                         }
                     }
                     break;
@@ -374,7 +585,7 @@ namespace EbonianMod.NPCs.Exol
                         NPC.noTileCollide = true;
                         if (AITimer > 40)
                             AITimer2++;
-                        if (AITimer3 < 3)
+                        if (AITimer3 < 4)
                         {
                             pointOfInterest = NPC.Center + NPC.velocity * 10;
                             if (AITimer2 == 39)
@@ -425,15 +636,20 @@ namespace EbonianMod.NPCs.Exol
                         }
                         if (AITimer3 > 5)
                             flameAlpha = MathHelper.SmoothStep(flameAlpha, 0, 0.1f);
-                        if (AITimer3 >= 80)
+                        if (AITimer3 >= 40)
                         {
                             Reset();
-                            AIState = EyeSpin;
+                            //AIState = EyeSpin;
+                            NextAttack();
                         }
                     }
                     break;
                 case ThePowerOfTheSun:
                     {
+                        if (AITimer < 20)
+                        {
+                            NPC.Center = Vector2.Lerp(NPC.Center, new Vector2(NPC.Center.X, (Main.maxTilesY * 16) / 2), 0.2f);
+                        }
                         if (AITimer < 60)
                             pointOfInterest = NPC.Center;
                         else
@@ -445,34 +661,48 @@ namespace EbonianMod.NPCs.Exol
                             NPC.velocity = Vector2.Zero;
                             Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * 15, ModContent.ProjectileType<ESun>(), 30, 0, player.whoAmI);
                         }
-                        if (AITimer > 350)
+                        if (AITimer > (AttackPattern == 0 ? 300 : 270))
                         {
                             Reset();
-                            AIState = OffScreenMeteorDash;
+                            //AIState = OffScreenMeteorDash;
+                            NextAttack();
                         }
                     }
                     break;
                 case EyeSpin:
                     {
-                        AITimer3 += MathHelper.ToRadians(5);
-                        if (AITimer < 100)
+                        AITimer3 += MathHelper.ToRadians(5 + (AITimer * 0.1f));
+                        if (AITimer < 60)
                         {
-                            NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 6;
+                            flameAlpha = MathHelper.SmoothStep(flameAlpha, 1, 0.3f);
+                            if (flameAlpha > 0.75f)
+                                NPC.damage = 50;
+                            if (AITimer < 20)
+                                NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 3;
+                            else
+                                NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * -6;
                             pointOfInterest = NPC.Center + new Vector2(0, 100).RotatedBy(AITimer3);
                         }
                         else
                         {
+                            flameAlpha = MathHelper.SmoothStep(flameAlpha, 0, 0.3f);
                             NPC.velocity *= 0.97f;
                             LookAtPlayer();
                         }
 
-                        if (AITimer % 10 == 0 && AITimer < 130)
-                            Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(0, 100).RotatedBy(AITimer3), Helper.FromAToB(NPC.Center, player.Center) * 3, ModContent.ProjectileType<EFire2>(), 30, 0, player.whoAmI).timeLeft = 290 + (int)AITimer;
+                        if (AITimer % 2 == 0 && AITimer < 60 && AITimer > 30)
+                        {
+                            if (AITimer % 10 == 0)
+                                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(0, 100).RotatedBy(AITimer3), Helper.FromAToB(NPC.Center, player.Center) * 3, ModContent.ProjectileType<EFire2>(), 30, 0, player.whoAmI).timeLeft = 290 + (int)AITimer;
 
-                        if (AITimer > 170)
+                            Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(0, 50).RotatedBy(AITimer3), new Vector2(0, 1).RotatedBy(AITimer3) * 4, ModContent.ProjectileType<EFire>(), 30, 0, player.whoAmI).timeLeft = 290 + (int)AITimer;
+                        }
+
+                        if (AITimer > 80)
                         {
                             Reset();
-                            AIState = RockFall;
+                            //AIState = RockFall;
+                            NextAttack();
                         }
                     }
                     break;
@@ -543,7 +773,8 @@ namespace EbonianMod.NPCs.Exol
                         if (AITimer > 230)
                         {
                             Reset();
-                            AIState = SeethingChaos;
+                            //AIState = SeethingChaos;
+                            NextAttack();
                         }
                     }
                     break;
@@ -561,12 +792,16 @@ namespace EbonianMod.NPCs.Exol
                         LookAtPlayer();
                         if (AITimer % 5 == 0 && (AITimer >= 20 && AITimer <= 80))
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, AITimer % 10 == 0 ? -1 : 1).RotatedBy(MathHelper.ToRadians(AITimer2)) * 0.5f, ModContent.ProjectileType<EMine>(), 15, 0);
+                            Vector2 vel = new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), AITimer % 10 == 0 ? -1 : 1).RotatedBy(MathHelper.ToRadians(AITimer2));
+                            NPC.velocity = -vel * 8;
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vel * 0.5f, ModContent.ProjectileType<EMine>(), 15, 0);
                         }
+                        NPC.velocity *= 0.9f;
                         if (AITimer > 110)
                         {
                             Reset();
-                            AIState = HomingSkulls;
+                            //AIState = HomingSkulls;
+                            NextAttack();
                         }
                     }
                     break;
@@ -597,7 +832,8 @@ namespace EbonianMod.NPCs.Exol
                         if (AITimer > 290)
                         {
                             Reset();
-                            AIState = LaserWalls;
+                            //AIState = LaserWalls;
+                            NextAttack();
                         }
                     }
                     break;
@@ -627,7 +863,8 @@ namespace EbonianMod.NPCs.Exol
                         if (AITimer > 240)
                         {
                             Reset();
-                            AIState = Pentagram;
+                            //AIState = Pentagram;
+                            NextAttack();
                         }
                     }
                     break;
@@ -638,11 +875,25 @@ namespace EbonianMod.NPCs.Exol
                             flameAlpha = MathHelper.SmoothStep(flameAlpha, 1, 0.3f);
                         if (flameAlpha > 0.5f)
                             NPC.damage = 40;
-                        if (AITimer < 50 || (AITimer < 100 && AITimer > 70))
-                            NPC.velocity += Helper.FromAToB(NPC.Center, new Vector2(player.Center.X, (Main.maxTilesY * 16) / 2));
+                        if (AITimer < 100)
+                            NPC.velocity += Helper.FromAToB(NPC.Center, new Vector2(player.Center.X, (Main.maxTilesY * 16) / 2)) / 2;
                         if (AITimer > 100)
-                            NPC.velocity = Helper.FromAToB(NPC.Center, new Vector2(player.Center.X, (Main.maxTilesY * 16) / 2), false) * 0.02f;
-                        if (AITimer == 50)
+                        {
+                            NPC.velocity = Vector2.Clamp(Helper.FromAToB(NPC.Center, new Vector2(player.Center.X, (Main.maxTilesY * 16) / 2), false) * 0.02f, -Vector2.One * 4, Vector2.One * 4);
+                        }
+                        if (AITimer > 50 && AITimer < 270 && AITimer % 25 == 0)
+                        {
+                            Vector2 pos = new Vector2(Main.screenPosition.X + 1920 * Main.rand.NextFloat(), Main.screenPosition.Y - 300);
+
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(2, 4)), ModContent.ProjectileType<RykardSkull>(), 30, 0);
+                            if (AITimer % 100 == 0)
+                            {
+                                Vector2 vel = player.velocity;
+                                vel.SafeNormalize(Vector2.UnitX);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(player.Center.X, pos.Y), new Vector2(vel.X * 0.1f, Main.rand.NextFloat(2, 4)), ModContent.ProjectileType<RykardSkull>(), 30, 0);
+                            }
+                        }
+                        if (AITimer == 100)
                         {
                             NPC.velocity = Vector2.Zero;
                             Vector2 pos = NPC.Center;
@@ -679,10 +930,11 @@ namespace EbonianMod.NPCs.Exol
                                 pos += vel;
                             }
                         }
-                        if (AITimer > 330)
+                        if (AITimer > 360)
                         {
                             Reset();
-                            AIState = SolarRays;
+                            //AIState = SolarRays;
+                            NextAttack();
                         }
                     }
                     break;
@@ -746,7 +998,8 @@ namespace EbonianMod.NPCs.Exol
                         if (AITimer > 180)
                         {
                             Reset();
-                            AIState = Geyser;
+                            //AIState = Geyser;
+                            NextAttack();
                         }
                     }
                     break;

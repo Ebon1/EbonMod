@@ -488,6 +488,11 @@ namespace EbonianMod.NPCs.Terrortoma
                             projectile.friendly = false;
                             projectile.timeLeft = 230;
                         }
+                        Projectile projectileb = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -10), ModContent.ProjectileType<TFlameThrower2>(), 20, 1f, Main.myPlayer)];
+                        projectileb.tileCollide = false;
+                        projectileb.hostile = true;
+                        projectileb.friendly = false;
+                        projectileb.timeLeft = 230;
                     }
                 }
                 if (AITimer >= 150)

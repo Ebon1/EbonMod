@@ -326,6 +326,7 @@ namespace EbonianMod
     }
     public class EbonMenu : ModMenu
     {
+        public override int Music => MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Exol");
         public override string DisplayName => "Ebonian Mod";
         public override ModSurfaceBackgroundStyle MenuBackgroundStyle => ModContent.GetInstance<EbonMenuBG>();
         public override Asset<Texture2D> Logo => ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/Logo");

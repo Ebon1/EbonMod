@@ -47,7 +47,7 @@ namespace EbonianMod.Projectiles.Exol
                     for (int j = 0; j < 8; j++)
                     {
                         float angle = Helper.CircleDividedEqually(j, 8) + i;
-                        Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * (5 * i), ModContent.ProjectileType<EFire3>(), Projectile.damage, Projectile.knockBack);
+                        Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * (i), ModContent.ProjectileType<EFire3>(), Projectile.damage, Projectile.knockBack);
                     }
                 }
             }

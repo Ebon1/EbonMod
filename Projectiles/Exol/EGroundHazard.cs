@@ -49,7 +49,11 @@ namespace EbonianMod.Projectiles.Exol
         public override void AI()
         {
             if (Main.rand.NextBool(2))
-                Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center + new Vector2(Main.maxTilesX * 16 * Main.rand.NextFloat(), -20), new Vector2(Main.rand.NextFloat(-1, 1), -Main.rand.NextFloat(3, 10)), ModContent.ProjectileType<Gibs>(), Projectile.damage, Projectile.knockBack, ai2: 1).friendly = false;
+            {
+                Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center + new Vector2(Main.maxTilesX * 16 * Main.rand.NextFloat(), -20), new Vector2(Main.rand.NextFloat(-1, 1), -Main.rand.NextFloat(3, 10)), ModContent.ProjectileType<Gibs>(), Projectile.damage, Projectile.knockBack, ai2: 1);
+                a.friendly = false;
+                a.hostile = true;
+            }
             if (Projectile.ai[0] == 0)
             {
                 Projectile.Center = Helper.TRay.Cast(new Vector2(10, Main.maxTilesY * 8), Vector2.UnitY, 1000);
