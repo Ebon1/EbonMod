@@ -79,6 +79,11 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         }
         public override void AI()
         {
+            if (Projectile.ai[1] == 1)
+            {
+                AIType = -1;
+                Projectile.aiStyle = 0;
+            }
             if (Projectile.timeLeft < 50)
                 Projectile.velocity.X *= 0.975f;
             if (Projectile.timeLeft % 2 == 0)

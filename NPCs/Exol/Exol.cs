@@ -50,8 +50,8 @@ namespace EbonianMod.NPCs.Exol
             NPC.width = 134;
             NPC.height = 148;
             NPC.damage = 0;
-            NPC.defense = 20;
-            NPC.lifeMax = 12000;
+            NPC.defense = 30;
+            NPC.lifeMax = 35000;
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
             NPC.noGravity = true;
@@ -420,10 +420,15 @@ namespace EbonianMod.NPCs.Exol
                     break;
             }
         }
+        public override void OnSpawn(IEntitySource source)
+        {
+            CombatText.NewText(Main.LocalPlayer.getRect(), Color.OrangeRed, "Infinite Flight!", true);
+        }
         public override void AI()
         {
             Player player = Main.player[NPC.target];
             PlayerDetectionAndSteamVFX();
+            player.wingTime = player.wingTimeMax;
             AITimer++;
             switch (AIState)
             {
@@ -551,19 +556,19 @@ namespace EbonianMod.NPCs.Exol
                         if (AITimer > 60)
                         {
                             LookAtPlayer();
-                            NPC.velocity *= 0.9f;
+                            IdleMovement();
                         }
                         if (AITimer % 7 == 0 && AITimer > 60 && AITimer < 200 && AITimer2 == 1)
                         {
                             Vector2 pos = new Vector2(Main.screenPosition.X + 1920 * Main.rand.NextFloat(), Main.screenPosition.Y - 300);
                             if (Main.rand.NextBool(8))
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(player.Center.X, pos.Y), Vector2.UnitY * 3, ModContent.ProjectileType<EBoulder2>(), 30, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(player.Center.X, pos.Y), Vector2.UnitY * 2, ModContent.ProjectileType<EBoulder2>(), 15, 0);
                                 //Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(player.Center.X, pos.Y), Vector2.UnitY * 1, ModContent.ProjectileType<TelegraphLine>(), 0, 0);
                             }
                             else
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(1, 3)), ModContent.ProjectileType<EBoulder2>(), 30, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(1, 2)), ModContent.ProjectileType<EBoulder2>(), 15, 0);
                                 //Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.UnitY * 1, ModContent.ProjectileType<TelegraphLine>(), 0, 0);
                             }
                         }
@@ -693,9 +698,9 @@ namespace EbonianMod.NPCs.Exol
                         if (AITimer % 2 == 0 && AITimer < 60 && AITimer > 30)
                         {
                             if (AITimer % 10 == 0)
-                                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(0, 100).RotatedBy(AITimer3), Helper.FromAToB(NPC.Center, player.Center) * 3, ModContent.ProjectileType<EFire2>(), 30, 0, player.whoAmI).timeLeft = 290 + (int)AITimer;
+                                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(0, 100).RotatedBy(AITimer3), Helper.FromAToB(NPC.Center, player.Center) * 3, ModContent.ProjectileType<EFire2>(), 15, 0, player.whoAmI).timeLeft = 290 + (int)AITimer;
 
-                            Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(0, 50).RotatedBy(AITimer3), new Vector2(0, 1).RotatedBy(AITimer3) * 4, ModContent.ProjectileType<EFire>(), 30, 0, player.whoAmI).timeLeft = 290 + (int)AITimer;
+                            Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(0, 50).RotatedBy(AITimer3), new Vector2(0, 1).RotatedBy(AITimer3) * 4, ModContent.ProjectileType<EFire>(), 15, 0, player.whoAmI).timeLeft = 290 + (int)AITimer;
                         }
 
                         if (AITimer > 80)
@@ -743,17 +748,20 @@ namespace EbonianMod.NPCs.Exol
                             {
                                 Vector2 pos = NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2);
                                 if (Main.rand.NextBool(2))
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Helper.FromAToB(NPC.Center, pos) * 5, ModContent.ProjectileType<ExolFireExplode>(), 30, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Helper.FromAToB(NPC.Center, pos) * 5, ModContent.ProjectileType<ExolFireExplode>(), 0, 0);
                                 else
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.Zero, ModContent.ProjectileType<ExolFireExplode>(), 30, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), pos, Vector2.Zero, ModContent.ProjectileType<ExolFireExplode>(), 0, 0);
                             }
                             if (AITimer < 135)
                             {
+                                if (AITimer == 80)
+                                    SoundEngine.PlaySound(dash, NPC.Center);
                                 if (NPC.velocity.Length() < 35)
                                     NPC.velocity += Helper.FromAToB(NPC.Center, lastPos + (AITimer3 == 0 ? new Vector2(1000 * -AITimer2, 0) : Vector2.Zero)) * (AITimer3 == 2 ? 2 : 1);
                             }
                             else
                             {
+                                lastPos = player.Center;
                                 AITimer3++;
                                 if (AITimer3 < 3)
                                     AITimer = -1;
@@ -794,7 +802,7 @@ namespace EbonianMod.NPCs.Exol
                         {
                             Vector2 vel = new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), AITimer % 10 == 0 ? -1 : 1).RotatedBy(MathHelper.ToRadians(AITimer2));
                             NPC.velocity = -vel * 8;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vel * 0.5f, ModContent.ProjectileType<EMine>(), 15, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vel * 0.5f, ModContent.ProjectileType<EMine>(), 0, 0);
                         }
                         NPC.velocity *= 0.9f;
                         if (AITimer > 110)
@@ -826,7 +834,7 @@ namespace EbonianMod.NPCs.Exol
                             for (int i = 0; i < 8; i++)
                             {
                                 Vector2 vel = Main.rand.NextVector2Unit() * 5;
-                                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, vel, ModContent.ProjectileType<ESkullEmoji>(), 30, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, vel, ModContent.ProjectileType<ESkullEmoji>(), 15, 0);
                             }
                         }
                         if (AITimer > 290)
@@ -854,9 +862,9 @@ namespace EbonianMod.NPCs.Exol
                             if (AITimer % 15 == 0)
                                 AITimer2 = 50;
                             if (AITimer > 25 && AITimer <= 100)
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<EFire>(), 30, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<EFire>(), 20, 0);
                             if (AITimer > 125 && AITimer <= 200)
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(60, 0), Vector2.UnitY, ModContent.ProjectileType<EFire>(), 30, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(60, 0), Vector2.UnitY, ModContent.ProjectileType<EFire>(), 20, 0);
                         }
                         if (AITimer > 200)
                             IdleMovement();
@@ -904,7 +912,7 @@ namespace EbonianMod.NPCs.Exol
                             Vector2 vel = Vector2.UnitY * 30;
                             while (times < 6)
                             {
-                                if (Vector2.Distance(NPC.Center, pos) > 650)
+                                if (Vector2.Distance(NPC.Center, pos) > 550)
                                 {
                                     if (!outside)
                                     {

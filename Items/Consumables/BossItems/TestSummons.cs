@@ -151,7 +151,6 @@ namespace EbonianMod.Items.Consumables.BossItems
         public override bool? UseItem(Player player)
         {
             NPC.NewNPCDirect(player.GetSource_FromThis(), player.Center + new Microsoft.Xna.Framework.Vector2(300, -200), ModContent.NPCType<Exol>());
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, player.position);
             return true;
         }
     }

@@ -85,8 +85,13 @@ namespace EbonianMod.Items.Weapons.Magic
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 2;
+            Projectile.penetrate = -1;
         }
         float alpha = 1, alpha2 = 1;
+        public override bool? CanDamage()
+        {
+            return Projectile.penetrate == -1;
+        }
         public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             alpha2 -= 0.33333f;

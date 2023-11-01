@@ -134,6 +134,19 @@ namespace EbonianMod.Projectiles.Exol
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return true;
         }
+        /*public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            if (Projectile.timeLeft > 20)
+            {
+                foreach (Vector2 pos in Projectile.oldPos)
+                {
+                    if (new Rectangle((int)pos.X, (int)pos.Y, projHitbox.Width, projHitbox.Height).Intersects(targetHitbox))
+                        return true;
+                }
+                return false;
+            }
+            return false;
+        }*/
         public override void AI()
         {
             Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch);

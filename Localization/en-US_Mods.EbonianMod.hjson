@@ -108,6 +108,8 @@ Projectiles: {
 	EPlatform.DisplayName: E Platform
 	EGroundHazard.DisplayName: E Ground Hazard
 	RykardSkull.DisplayName: Rykard Skull
+	MagmaBowP.DisplayName: Magma Bow P
+	MagmaArrow.DisplayName: Magma Arrow
 }
 
 NPCs: {
@@ -142,7 +144,7 @@ NPCs: {
 	CrimsonWormTail.DisplayName: Terrorformer
 	CrimsonWormHead.DisplayName: Terrorformer
 	CrimsonWormBody.DisplayName: Terrorformer
-	CrimeraTail.DisplayName: Crimera Tail
+	CrimeraTail.DisplayName: Scorn
 	CrimeraHead.DisplayName: Scorn
 	CrimeraBody.DisplayName: Scorn
 	VileSlime.DisplayName: Vile Slime
@@ -207,14 +209,14 @@ Items: {
 	EbonianGun: {
 		Tooltip:
 			'''
-			Wield two guns that shoot weak cursed bullets.
+			Wield two guns that shoot weak Cursed-Fire bullets.
 			The firearm is sadly not actually cursed.
 			'''
 		DisplayName: Cursed Firearm
 	}
 
 	EbonianGatling: {
-		Tooltip: ""
+		Tooltip: Rapidly fires cursed bullets.
 		DisplayName: Corrupt Gatling
 	}
 
@@ -224,7 +226,11 @@ Items: {
 	}
 
 	VileBlade: {
-		Tooltip: Critical hits inflict Cursed Inferno.
+		Tooltip:
+			'''
+			Critical hits inflict Cursed Inferno.
+			Remnants of a basic iron sword, withered by the Corruption.
+			'''
 		DisplayName: Vile Blade
 	}
 
@@ -234,7 +240,7 @@ Items: {
 	}
 
 	SanguineSlasher: {
-		Tooltip: ""
+		Tooltip: Saw-shaped creature that doesn't mind losing its teeth, it seems to have an infinite supply anyways.
 		DisplayName: Saw-nguine
 	}
 
@@ -491,8 +497,12 @@ Items: {
 	}
 
 	FireGrenade: {
-		DisplayName: Fire Grenade
-		Tooltip: ""
+		DisplayName: Incinerator
+		Tooltip:
+			'''
+			Explodes on direct contact with enemies.
+			Slowly melts nearby enemies, before exploding, on contact with tiles.
+			'''
 	}
 
 	Spinax: {
@@ -503,6 +513,11 @@ Items: {
 	SelfStab: {
 		DisplayName: Sacrificial Dagger
 		Tooltip: ""
+	}
+
+	MagmaBow: {
+		DisplayName: Pentabow
+		Tooltip: Shoots 5 explosive arrows.
 	}
 }
 
