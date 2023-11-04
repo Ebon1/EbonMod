@@ -15,7 +15,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
         }
-
+        public override bool IsLoadingEnabled(Mod mod) => false;
         public override void SetDefaults()
         {
             Item.damage = 6;
