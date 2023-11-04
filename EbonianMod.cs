@@ -34,53 +34,6 @@ namespace EbonianMod
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
         public static SoundStyle flesh0, flesh1, flesh2;
-        public override void Load()
-        {
-
-            flesh0 = new SoundStyle("EbonianMod/Sounds/flesh0");
-            flesh1 = new SoundStyle("EbonianMod/Sounds/flesh1");
-            flesh2 = new SoundStyle("EbonianMod/Sounds/flesh2");
-
-            sys = new();
-            Instance = this;
-            Test1 = ModContent.Request<Effect>("EbonianMod/Effects/Test1", (AssetRequestMode)1).Value;
-            HorizBlur = ModContent.Request<Effect>("EbonianMod/Effects/horizBlur", (AssetRequestMode)1).Value;
-            Blur = ModContent.Request<Effect>("EbonianMod/Effects/Blur", (AssetRequestMode)1).Value;
-            Crack = ModContent.Request<Effect>("EbonianMod/Effects/crackTest", (AssetRequestMode)1).Value;
-            RTAlpha = ModContent.Request<Effect>("EbonianMod/Effects/RTAlpha", (AssetRequestMode)1).Value;
-            RTOutline = ModContent.Request<Effect>("EbonianMod/Effects/RTOutline", (AssetRequestMode)1).Value;
-            CrystalShine = ModContent.Request<Effect>("EbonianMod/Effects/CrystalShine", (AssetRequestMode)1).Value;
-            TextGradient = ModContent.Request<Effect>("EbonianMod/Effects/TextGradient", (AssetRequestMode)1).Value;
-            TextGradient2 = ModContent.Request<Effect>("EbonianMod/Effects/TextGradient2", (AssetRequestMode)1).Value;
-            TextGradientY = ModContent.Request<Effect>("EbonianMod/Effects/TextGradientY", (AssetRequestMode)1).Value;
-            Test2 = ModContent.Request<Effect>("EbonianMod/Effects/Test2", (AssetRequestMode)1).Value;
-            Galaxy = ModContent.Request<Effect>("EbonianMod/Effects/Galaxy", (AssetRequestMode)1).Value;
-            LavaRT = ModContent.Request<Effect>("EbonianMod/Effects/LavaRT", (AssetRequestMode)1).Value;
-            BeamShader = ModContent.Request<Effect>("EbonianMod/Effects/Beam", (AssetRequestMode)1).Value;
-            Lens = ModContent.Request<Effect>("EbonianMod/Effects/Lens", (AssetRequestMode)1).Value;
-            Tentacle = ModContent.Request<Effect>("EbonianMod/Effects/Tentacle", (AssetRequestMode)1).Value;
-            TentacleRT = ModContent.Request<Effect>("EbonianMod/Effects/TentacleRT", (AssetRequestMode)1).Value;
-            ScreenDistort = ModContent.Request<Effect>("EbonianMod/Effects/DistortMove", (AssetRequestMode)1).Value;
-            TentacleBlack = ModContent.Request<Effect>("EbonianMod/Effects/TentacleBlack", (AssetRequestMode)1).Value;
-            TrailShader = ModContent.Request<Effect>("EbonianMod/Effects/TrailShader", (AssetRequestMode)1).Value;
-            Filters.Scene["EbonianMod:CorruptTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.68f, .56f, .73f).UseOpacity(0.35f), EffectPriority.Medium);
-            SkyManager.Instance["EbonianMod:CorruptTint"] = new BasicTint();
-            Filters.Scene["EbonianMod:CrimsonTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.75f, 0f, 0f).UseOpacity(0.45f), EffectPriority.Medium);
-            SkyManager.Instance["EbonianMod:CrimsonTint"] = new BasicTint();
-            Filters.Scene["EbonianMod:HellTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.2f), EffectPriority.Medium);
-            SkyManager.Instance["EbonianMod:HellTint"] = new BasicTint();
-            Filters.Scene["EbonianMod:HellTint2"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.425f), EffectPriority.Medium);
-            SkyManager.Instance["EbonianMod:HellTint2"] = new BasicTint();
-            Filters.Scene["EbonianMod:ScreenFlash"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("EbonianMod/Effects/ScreenFlash", (AssetRequestMode)1).Value), "Flash"), EffectPriority.VeryHigh);
-            Terraria.Graphics.Effects.On_FilterManager.EndCapture += FilterManager_EndCapture;
-            Main.OnResolutionChanged += Main_OnResolutionChanged;
-            Terraria.On_Main.DrawBG += DrawBehindTilesAndWalls;
-            Terraria.On_Main.DrawNPC += DrawNPC;
-            Terraria.On_Player.Update_NPCCollision += SolidTopCollision;
-            //On.Terraria.Main.DoUpdate += testSlowDown;
-            //On.Terraria.Audio.SoundEngine.Update += testSlowDownAudio;
-            CreateRender();
-        }
         internal static void SolidTopCollision(Terraria.On_Player.orig_Update_NPCCollision orig, Player self) //https://discord.com/channels/103110554649894912/711551818194485259/998428409455714397
         {
             var modSelf = self.GetModPlayer<EbonianPlayer>();
@@ -198,6 +151,99 @@ namespace EbonianMod
             Terraria.Graphics.Effects.On_FilterManager.EndCapture -= FilterManager_EndCapture;
             Main.OnResolutionChanged -= Main_OnResolutionChanged;
             Terraria.On_Main.DrawBG -= DrawBehindTilesAndWalls;
+            On_Main.DrawPlayers_AfterProjectiles -= PreDraw;
+        }
+        public override void Load()
+        {
+
+            flesh0 = new SoundStyle("EbonianMod/Sounds/flesh0");
+            flesh1 = new SoundStyle("EbonianMod/Sounds/flesh1");
+            flesh2 = new SoundStyle("EbonianMod/Sounds/flesh2");
+
+            sys = new();
+            Instance = this;
+            Test1 = ModContent.Request<Effect>("EbonianMod/Effects/Test1", (AssetRequestMode)1).Value;
+            HorizBlur = ModContent.Request<Effect>("EbonianMod/Effects/horizBlur", (AssetRequestMode)1).Value;
+            Blur = ModContent.Request<Effect>("EbonianMod/Effects/Blur", (AssetRequestMode)1).Value;
+            Crack = ModContent.Request<Effect>("EbonianMod/Effects/crackTest", (AssetRequestMode)1).Value;
+            RTAlpha = ModContent.Request<Effect>("EbonianMod/Effects/RTAlpha", (AssetRequestMode)1).Value;
+            RTOutline = ModContent.Request<Effect>("EbonianMod/Effects/RTOutline", (AssetRequestMode)1).Value;
+            CrystalShine = ModContent.Request<Effect>("EbonianMod/Effects/CrystalShine", (AssetRequestMode)1).Value;
+            TextGradient = ModContent.Request<Effect>("EbonianMod/Effects/TextGradient", (AssetRequestMode)1).Value;
+            TextGradient2 = ModContent.Request<Effect>("EbonianMod/Effects/TextGradient2", (AssetRequestMode)1).Value;
+            TextGradientY = ModContent.Request<Effect>("EbonianMod/Effects/TextGradientY", (AssetRequestMode)1).Value;
+            Test2 = ModContent.Request<Effect>("EbonianMod/Effects/Test2", (AssetRequestMode)1).Value;
+            Galaxy = ModContent.Request<Effect>("EbonianMod/Effects/Galaxy", (AssetRequestMode)1).Value;
+            LavaRT = ModContent.Request<Effect>("EbonianMod/Effects/LavaRT", (AssetRequestMode)1).Value;
+            BeamShader = ModContent.Request<Effect>("EbonianMod/Effects/Beam", (AssetRequestMode)1).Value;
+            Lens = ModContent.Request<Effect>("EbonianMod/Effects/Lens", (AssetRequestMode)1).Value;
+            Tentacle = ModContent.Request<Effect>("EbonianMod/Effects/Tentacle", (AssetRequestMode)1).Value;
+            TentacleRT = ModContent.Request<Effect>("EbonianMod/Effects/TentacleRT", (AssetRequestMode)1).Value;
+            ScreenDistort = ModContent.Request<Effect>("EbonianMod/Effects/DistortMove", (AssetRequestMode)1).Value;
+            TentacleBlack = ModContent.Request<Effect>("EbonianMod/Effects/TentacleBlack", (AssetRequestMode)1).Value;
+            TrailShader = ModContent.Request<Effect>("EbonianMod/Effects/TrailShader", (AssetRequestMode)1).Value;
+            Filters.Scene["EbonianMod:CorruptTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.68f, .56f, .73f).UseOpacity(0.35f), EffectPriority.Medium);
+            SkyManager.Instance["EbonianMod:CorruptTint"] = new BasicTint();
+            Filters.Scene["EbonianMod:CrimsonTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.75f, 0f, 0f).UseOpacity(0.45f), EffectPriority.Medium);
+            SkyManager.Instance["EbonianMod:CrimsonTint"] = new BasicTint();
+            Filters.Scene["EbonianMod:HellTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.2f), EffectPriority.Medium);
+            SkyManager.Instance["EbonianMod:HellTint"] = new BasicTint();
+            Filters.Scene["EbonianMod:HellTint2"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.425f), EffectPriority.Medium);
+            SkyManager.Instance["EbonianMod:HellTint2"] = new BasicTint();
+            Filters.Scene["EbonianMod:ScreenFlash"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("EbonianMod/Effects/ScreenFlash", (AssetRequestMode)1).Value), "Flash"), EffectPriority.VeryHigh);
+            Terraria.Graphics.Effects.On_FilterManager.EndCapture += FilterManager_EndCapture;
+            Main.OnResolutionChanged += Main_OnResolutionChanged;
+            Terraria.On_Main.DrawBG += DrawBehindTilesAndWalls;
+            Terraria.On_Main.DrawNPC += DrawNPC;
+            Terraria.On_Player.Update_NPCCollision += SolidTopCollision;
+            On_Main.DrawPlayers_AfterProjectiles += PreDraw;
+            //On.Terraria.Main.DoUpdate += testSlowDown;
+            //On.Terraria.Audio.SoundEngine.Update += testSlowDownAudio;
+            CreateRender();
+        }
+        void PreDraw(On_Main.orig_DrawPlayers_AfterProjectiles orig, Main self)
+        {
+            GraphicsDevice gd = Main.instance.GraphicsDevice;
+            SpriteBatch sb = Main.spriteBatch;
+
+            if (!Main.gameMenu && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro))
+            {
+                gd.SetRenderTarget(Main.screenTargetSwap);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
+                sb.End();
+
+                gd.SetRenderTarget(render);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                foreach (Projectile proj in Main.projectile)
+                {
+                    if (proj.active && proj.timeLeft > 1 && proj.type == ModContent.ProjectileType<ReiCapeP>())
+                    {
+                        Color color = Color.White;
+                        proj.ModProjectile.PostDraw(color);
+                    }
+                }
+
+                sb.End();
+
+                gd.SetRenderTarget(Main.screenTarget);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
+                sb.End();
+                sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/space", (AssetRequestMode)1).Value;
+                RTOutline.CurrentTechnique.Passes[0].Apply();
+                RTOutline.Parameters["m"].SetValue(0.62f); // for more percise textures use 0.62f
+                RTOutline.Parameters["n"].SetValue(0.01f); // and 0.01f here.
+                RTOutline.Parameters["offset"].SetValue(new Vector2(Main.GlobalTimeWrappedHourly * 0.005f, 0));
+                sb.Draw(render, Vector2.Zero, Color.White);
+                sb.End();
+            }
+
+            orig(self);
         }
         private void Main_OnResolutionChanged(Vector2 obj)
         {
@@ -258,6 +304,8 @@ namespace EbonianMod
                 sb.End();
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
                 sb.End();
+
+
             }
             #endregion
 

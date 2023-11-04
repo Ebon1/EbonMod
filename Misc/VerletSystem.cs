@@ -28,15 +28,15 @@ namespace EbonianMod.Misc
         public Vector2 startPos => segments[0].pointA.position;
         public Vector2 endPos => segments[segments.Count - 1].pointB.position;
 
-        public Verlet(Vector2 start, float length, int count, /*float drag = 0.9f,*/ float gravity = 0.2f, bool firstPointLocked = true, bool lastPointLocked = true, int stiffness = 6)
+        public Verlet(Vector2 start, float length, int count, /*float drag = 0.9f,*/ float gravity = 0.2f, bool firstPointLocked = true, bool lastPointLocked = true, int stiffness = 6, bool collide = false, float colLength = 1)
         {
 
             this.gravity = gravity;
             this.stiffness = stiffness;
 
-            Load(start, length, count, firstPointLocked, lastPointLocked);
+            Load(start, length, count, firstPointLocked, lastPointLocked, collide: collide, colLength: colLength);
         }
-        private void Load(Vector2 startPosition, float length, int count, bool firstPointLocked = true, bool lastPointLocked = true, Vector2 offset = default)
+        private void Load(Vector2 startPosition, float length, int count, bool firstPointLocked = true, bool lastPointLocked = true, Vector2 offset = default, bool collide = false, float colLength = 1)
         {
             segments = new List<VerletSegment>();
             points = new List<VerletPoint>();
@@ -44,7 +44,7 @@ namespace EbonianMod.Misc
 
             for (int i = 0; i < count; i++)
             {
-                points.Add(new VerletPoint(startPosition + (offset == default ? Vector2.Zero : offset * i), gravity/*, drag*/));
+                points.Add(new VerletPoint(startPosition + (offset == default ? Vector2.Zero : offset * i), gravity/*, drag*/, collide, colLength));
             }
 
 
@@ -119,19 +119,40 @@ namespace EbonianMod.Misc
         public Vector2 position, lastPos;
         public bool locked;
         public float gravity;
-        public VerletPoint(Vector2 position, float gravity/*, float drag*/)
+        public bool collide;
+        public float colLength;
+        public VerletPoint(Vector2 position, float gravity/*, float drag*/, bool collide = false, float colLength = 1)
         {
             this.position = position;
             this.gravity = gravity;
-
+            this.collide = collide;
+            this.colLength = colLength;
         }
 
         public void Update()
         {
-
-            lastPos = position;
-
-            position += new Vector2(0, gravity);
+            {
+                /*if (!isLast)
+                {
+                    lastPos = position;
+                    position += new Vector2(0, gravity);
+                }
+                if (isLast)
+                {*/
+                if (collide)
+                {
+                    if (Helper.TRay.CastLength(position, Vector2.UnitY, colLength) >= colLength || !Collision.SolidCollision(position, (int)colLength, (int)colLength))
+                    {
+                        lastPos = position;
+                        position += new Vector2(0, gravity);
+                    }
+                }
+                else
+                {
+                    lastPos = position;
+                    position += new Vector2(0, gravity);
+                }
+            }
         }
     }
     public class VerletSegment
