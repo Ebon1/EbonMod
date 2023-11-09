@@ -111,6 +111,7 @@ Projectiles: {
 	MagmaBowP.DisplayName: Magma Bow P
 	MagmaArrow.DisplayName: Magma Arrow
 	ReiCapeP.DisplayName: Rei Cape P
+	ReiCapeTrail.DisplayName: Rei Cape Trail
 }
 
 NPCs: {
@@ -519,6 +520,11 @@ Items: {
 	MagmaBow: {
 		DisplayName: Pentabow
 		Tooltip: Shoots 5 explosive arrows.
+	}
+
+	ReiMask: {
+		DisplayName: Rei Mask
+		Tooltip: ""
 	}
 }
 

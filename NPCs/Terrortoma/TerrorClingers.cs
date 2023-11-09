@@ -197,7 +197,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                     NPC npc = Main.npc[i];
                                     if (npc.active && npc.type == ModContent.NPCType<TerrorClingerMelee>())
                                     {
-                                        if (npc.Center.Distance(NPC.Center) < npc.width)
+                                        if (npc.Center.Distance(NPC.Center) < npc.width * 1.5f)
                                         {
                                             for (int j = 0; j < 30; j++)
                                             {

@@ -206,7 +206,10 @@ namespace EbonianMod
             GraphicsDevice gd = Main.instance.GraphicsDevice;
             SpriteBatch sb = Main.spriteBatch;
 
-            if (!Main.gameMenu && !Main.gameInactive && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro))
+            sb.Begin(SpriteSortMode.Deferred, MiscDrawingMethods.Subtractive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            ReiSmoke.DrawAll(sb);
+            sb.End();
+            if (!Main.gameMenu && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro))
             {
                 gd.SetRenderTarget(Main.screenTargetSwap);
                 gd.Clear(Color.Transparent);

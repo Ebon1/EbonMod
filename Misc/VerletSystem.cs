@@ -85,16 +85,16 @@ namespace EbonianMod.Misc
 
             return verticeslist.ToArray();
         }
-        public void Draw(SpriteBatch sb, string texPath, string baseTex = null, string endTex = null, bool useColor = false, Color color = default, float scale = 1, float rot = 0, bool useRot = false, bool useRotEnd = false, bool useRotFirst = false, float endRot = 0, float firstRot = 0)
+        public void Draw(SpriteBatch sb, string texPath, string baseTex = null, string endTex = null, bool useColor = false, Color color = default, float scale = 1, float rot = 0, bool useRot = false, bool useRotEnd = false, bool useRotFirst = false, float endRot = 0, float firstRot = 0, bool scaleCalcForDist = false, bool clampScaleCalculationForDistCalculation = true)
         {
             foreach (VerletSegment segment in segments)
             {
                 if ((baseTex != null || endTex != null) ? (segment != segments.First() && segment != segments.Last()) : true)
                 {
                     if (useColor)
-                        segment.DrawSegments(sb, texPath, color, true, scale: scale, rot, useRot);
+                        segment.DrawSegments(sb, texPath, color, true, scale: scale, rot, useRot, scaleCalcForDist, clampScaleCalculationForDistCalculation);
                     else
-                        segment.DrawSegments(sb, texPath, scale: scale, rot: rot, useRot: useRot);
+                        segment.DrawSegments(sb, texPath, scale: scale, rot: rot, useRot: useRot, scaleCalcForDist: scaleCalcForDist, clampScaleCalculationForDistCalculation: clampScaleCalculationForDistCalculation);
                 }
                 else if (endTex != null && segment == segments.Last())
                 {
@@ -193,7 +193,7 @@ namespace EbonianMod.Misc
             Texture2D tex = Helper.GetTexture(texPath);
             sb.Draw(tex, pointB.position - Main.screenPosition, null, useColor ? color : Lighting.GetColor((int)pointB.position.X / 16, (int)(pointB.position.Y / 16.0)), useRot ? rot : Rotation(), tex.Size() / 2, scale, SpriteEffects.None, 0);
         }
-        public void DrawSegments(SpriteBatch sb, string texPath, Color color = default, bool useColor = false, float scale = 1, float rot = 0, bool useRot = false)
+        public void DrawSegments(SpriteBatch sb, string texPath, Color color = default, bool useColor = false, float scale = 1, float rot = 0, bool useRot = false, bool scaleCalcForDist = false, bool clampScaleCalculationForDistCalculation = true)
         {
             if (cut)
                 return;
@@ -202,10 +202,10 @@ namespace EbonianMod.Misc
             Vector2 distVector = pointA.position - pointB.position;
             float distance = distVector.Length();
             int attempts = 0;
-            while (distance > tex.Height && !float.IsNaN(distance) && ++attempts < 100)
+            while (distance > tex.Height * (scaleCalcForDist ? (clampScaleCalculationForDistCalculation ? MathHelper.Clamp(scale, 0, 1f) : scale) : 1f) && !float.IsNaN(distance) && ++attempts < 100)
             {
                 distVector.Normalize();
-                distVector *= tex.Height;
+                distVector *= tex.Height * (scaleCalcForDist ? (clampScaleCalculationForDistCalculation ? MathHelper.Clamp(scale, 0, 1f) : scale) : 1f);
                 center += distVector;
                 distVector = pointA.position - center;
                 distance = distVector.Length();
