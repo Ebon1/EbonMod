@@ -112,6 +112,7 @@ Projectiles: {
 	MagmaArrow.DisplayName: Magma Arrow
 	ReiCapeP.DisplayName: Rei Cape P
 	ReiCapeTrail.DisplayName: Rei Cape Trail
+	Djungelskog.DisplayName: Djungelskog
 }
 
 NPCs: {
@@ -526,6 +527,11 @@ Items: {
 		DisplayName: Rei Mask
 		Tooltip: ""
 	}
+
+	DjungelskogI: {
+		DisplayName: Djungelskog I
+		Tooltip: ""
+	}
 }
 
 Buffs: {
@@ -557,5 +563,10 @@ Buffs: {
 	SelfStabB: {
 		DisplayName: Self Stab B
 		Description: Mods.EbonianMod.Buffs.SelfStabB.Description
+	}
+
+	DjungelskogB: {
+		DisplayName: Djungelskog B
+		Description: Mods.EbonianMod.Buffs.DjungelskogB.Description
 	}
 }

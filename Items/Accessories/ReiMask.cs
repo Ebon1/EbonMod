@@ -27,6 +27,8 @@ namespace EbonianMod.Items.Accessories
         }
         public override void UpdateVanity(Player player)
         {
+            EbonianPlayer modPlayer = player.GetModPlayer<EbonianPlayer>();
+            modPlayer.reiV = true;
             if (player.ownedProjectileCounts[ModContent.ProjectileType<ReiCapeP>()] < 1)
             {
                 Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ReiCapeP>(), 0, 0, player.whoAmI);

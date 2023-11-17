@@ -17,6 +17,7 @@ namespace EbonianMod.Dusts
 {
     public class ReiSmoke : ModDust
     {
+        //OBSOLETE: ReiCape.cs uses its own particle system now.
         public override string Texture => "EbonianMod/Extras/Empty";
         public override void OnSpawn(Dust dust)
         {

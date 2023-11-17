@@ -29,8 +29,8 @@ namespace EbonianMod
     public class EbonianMod : Mod
     {
         public static EbonianMod Instance;
-        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline;
-        public RenderTarget2D render, blurrender;
+        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline, RTOutline2;
+        public RenderTarget2D render, render2, blurrender;
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
         public static SoundStyle flesh0, flesh1, flesh2;
@@ -168,6 +168,7 @@ namespace EbonianMod
             Crack = ModContent.Request<Effect>("EbonianMod/Effects/crackTest", (AssetRequestMode)1).Value;
             RTAlpha = ModContent.Request<Effect>("EbonianMod/Effects/RTAlpha", (AssetRequestMode)1).Value;
             RTOutline = ModContent.Request<Effect>("EbonianMod/Effects/RTOutline", (AssetRequestMode)1).Value;
+            RTOutline2 = ModContent.Request<Effect>("EbonianMod/Effects/RTOutline", (AssetRequestMode)1).Value;
             CrystalShine = ModContent.Request<Effect>("EbonianMod/Effects/CrystalShine", (AssetRequestMode)1).Value;
             TextGradient = ModContent.Request<Effect>("EbonianMod/Effects/TextGradient", (AssetRequestMode)1).Value;
             TextGradient2 = ModContent.Request<Effect>("EbonianMod/Effects/TextGradient2", (AssetRequestMode)1).Value;
@@ -217,15 +218,15 @@ namespace EbonianMod
                 sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
                 sb.End();
 
-                gd.SetRenderTarget(render);
+                gd.SetRenderTarget(render2);
                 gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 foreach (Projectile proj in Main.projectile)
                 {
-                    if (proj.active && proj.timeLeft > 1 && proj.type == ModContent.ProjectileType<ReiCapeP>())
+                    if (proj.active && proj.timeLeft > 0 && proj.type == ModContent.ProjectileType<ReiCapeP>())
                     {
-                        Color color = Color.Transparent;
-                        proj.ModProjectile.PostDraw(color);
+                        Color color = Color.White;
+                        proj.ModProjectile.PreDraw(ref color);
                     }
                 }
 
@@ -242,10 +243,20 @@ namespace EbonianMod
                 RTOutline.Parameters["m"].SetValue(0.62f); // for more percise textures use 0.62f
                 RTOutline.Parameters["n"].SetValue(0.01f); // and 0.01f here.
                 RTOutline.Parameters["offset"].SetValue(new Vector2(Main.GlobalTimeWrappedHourly * 0.005f, 0));
-                sb.Draw(render, Vector2.Zero, Color.White);
+                sb.Draw(render2, Vector2.Zero, Color.White);
                 sb.End();
             }
 
+            sb.Begin(SpriteSortMode.Deferred, MiscDrawingMethods.Subtractive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            foreach (Projectile proj in Main.projectile)
+            {
+                if (proj.active && proj.timeLeft > 1 && proj.type == ModContent.ProjectileType<ReiCapeP>())
+                {
+                    Color color = new Color(69, 420, 0, 1);
+                    proj.ModProjectile.PostDraw(color);
+                }
+            }
+            sb.End();
             orig(self);
         }
         private void Main_OnResolutionChanged(Vector2 obj)
@@ -258,6 +269,7 @@ namespace EbonianMod
                 Main.QueueMainThreadAction(() =>
                 {
                     render = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                    render2 = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                     blurrender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                 });
         }
@@ -300,9 +312,9 @@ namespace EbonianMod
                 sb.End();
                 sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                 gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/black", (AssetRequestMode)1).Value;
-                RTOutline.CurrentTechnique.Passes[0].Apply();
-                RTOutline.Parameters["m"].SetValue(0.22f); // for more percise textures use 0.62f
-                RTOutline.Parameters["n"].SetValue(0.1f); // and 0.01f here.
+                RTOutline2.CurrentTechnique.Passes[0].Apply();
+                RTOutline2.Parameters["m"].SetValue(0.22f); // for more percise textures use 0.62f
+                RTOutline2.Parameters["n"].SetValue(0.1f); // and 0.01f here.
                 sb.Draw(render, Vector2.Zero, Color.White);
                 sb.End();
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);

@@ -26,11 +26,12 @@ namespace EbonianMod
         public int bossStyle;
         public Color bossColor, dialogueColor;
         public static EbonianPlayer Instance;
-        public bool rolleg, brainAcc, heartAcc, ToxicGland, doomMinion, rei;
+        public bool rolleg, brainAcc, heartAcc, ToxicGland, doomMinion, rei, reiV;
         public Vector2 stabDirection;
         public override void ResetEffects()
         {
             rei = false;
+            reiV = false;
             rolleg = false;
             doomMinion = false;
             brainAcc = false;
