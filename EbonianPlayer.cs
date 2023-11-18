@@ -26,10 +26,18 @@ namespace EbonianMod
         public int bossStyle;
         public Color bossColor, dialogueColor;
         public static EbonianPlayer Instance;
-        public bool rolleg, brainAcc, heartAcc, ToxicGland, doomMinion, rei, reiV;
         public Vector2 stabDirection;
+        public int reiBoostCool, reiBoostT;
+        public bool rolleg, brainAcc, heartAcc, ToxicGland, doomMinion, rei, reiV;
         public override void ResetEffects()
         {
+            reiBoostCool--;
+            if (reiBoostCool > 0)
+                reiBoostT--;
+            /*if (--reiBoostT <= 0)
+                reiBoost = false;
+            else
+                reiBoost = true;*/
             rei = false;
             reiV = false;
             rolleg = false;
@@ -78,6 +86,11 @@ namespace EbonianMod
                 Player.maxRunSpeed += 2.5f;
                 Player.accRunSpeed += 2.5f;
             }
+            /*if (reiBoost)
+            {
+                Player.maxRunSpeed += 10f;
+                Player.runAcceleration += 2f;
+            }*/
         }
         public override void PostUpdateMiscEffects()
         {

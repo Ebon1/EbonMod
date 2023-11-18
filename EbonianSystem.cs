@@ -75,9 +75,32 @@ namespace EbonianMod
                 EbonianMod.FlashAlpha -= EbonianMod.FlashAlphaDecrement;
             else
                 EbonianMod.FlashAlphaDecrement = 0.01f;
-            if (!isChangingCameraPos)
+            if (!isChangingCameraPos && !isChangingZoom)
             {
                 zoomBefore = Main.GameZoomTarget;
+            }
+            if (isChangingZoom)
+            {
+                if (--zoomChangeLength > 0)
+                {
+                    if (zoomAmount != 1 && zoomAmount > zoomBefore)
+                    {
+                        Main.GameZoomTarget = Utils.Clamp(Main.GameZoomTarget + 0.05f, 1f, zoomAmount);
+                    }
+                    if (zoomChangeTransition <= 1f)
+                    {
+                        zoomChangeTransition += 0.025f;
+                    }
+                }
+                else if (zoomChangeTransition >= 0)
+                {
+                    if (Main.GameZoomTarget > zoomBefore)
+                    {
+                        Main.GameZoomTarget -= 0.05f;
+                    }
+                    zoomChangeTransition -= 0.025f;
+                }
+                else isChangingZoom = false;
             }
             if (isChangingCameraPos)
             {
@@ -99,7 +122,7 @@ namespace EbonianMod
                 }
                 else if (CameraChangeTransition >= 0)
                 {
-                    if (Main.GameZoomTarget != zoomBefore)
+                    if (Main.GameZoomTarget > zoomBefore)
                     {
                         Main.GameZoomTarget -= 0.05f;
                     }
@@ -133,9 +156,16 @@ namespace EbonianMod
         public static float zoomAmount;
         public static Vector2 cameraChangeStartPoint;
         public static Vector2 CameraChangePos;
-        public static float CameraChangeTransition;
-        public static int CameraChangeLength;
-        public static bool isChangingCameraPos;
+        public static float CameraChangeTransition, zoomChangeTransition;
+        public static int CameraChangeLength, zoomChangeLength;
+        public static bool isChangingCameraPos, isChangingZoom;
+        public static void ChangeZoom(float zoom, int len)
+        {
+            zoomAmount = zoom;
+            zoomChangeLength = len;
+            isChangingZoom = true;
+            zoomChangeTransition = 0;
+        }
         public static void ChangeCameraPos(Vector2 pos, int length, float zoom = 1.65f)
         {
             cameraChangeStartPoint = Main.screenPosition;

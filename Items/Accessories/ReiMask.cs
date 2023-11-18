@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.DataStructures;
 using EbonianMod.Dusts;
+using Terraria.Audio;
 
 namespace EbonianMod.Items.Accessories
 {
@@ -33,9 +34,13 @@ namespace EbonianMod.Items.Accessories
             {
                 Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ReiCapeP>(), 0, 0, player.whoAmI);
             }
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<ReiCapeTrail>()] < 1)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<ReiCapeTrail>()] < 2)
             {
-                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ReiCapeTrail>(), 0, 0, player.whoAmI);
+                for (int i = -1; i < 2; i++)
+                {
+                    if (i == 0) continue;
+                    Projectile.NewProjectileDirect(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ReiCapeTrail>(), 0, 0, player.whoAmI, i).ai[0] = i;
+                }
             }
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -46,10 +51,57 @@ namespace EbonianMod.Items.Accessories
             {
                 Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ReiCapeP>(), 0, 0, player.whoAmI);
             }
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<ReiCapeTrail>()] < 1)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<ReiCapeTrail>()] < 2)
             {
-                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ReiCapeTrail>(), 0, 0, player.whoAmI);
+                for (int i = -1; i < 2; i++)
+                {
+                    if (i == 0) continue;
+                    Projectile.NewProjectileDirect(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ReiCapeTrail>(), 0, 0, player.whoAmI, i).ai[0] = i;
+                }
             }
+            if (EbonianKeybinds.ReiDash.JustReleased && modPlayer.reiBoostCool <= 0)
+            {
+                foreach (NPC npc in Main.npc)
+                {
+                    if (npc.active && !npc.friendly)
+                    {
+                        if (npc.Center.Distance(Main.MouseWorld) < npc.width + 50)
+                        {
+                            Vector2 pos = player.Center;
+                            for (int i = 0; i < 50; i++)
+                            {
+                                for (int j = 0; j < 2; j++)
+                                    Dust.NewDustPerfect(pos, DustID.Electric, Main.rand.NextVector2Circular(5, 5)).noGravity = true;
+                                pos += Helper.FromAToB(pos, Main.MouseWorld, false) * 0.05f;
+                            }
+                            Helper.TPNoDust(Main.MouseWorld - new Vector2(0, 40), player);
+                            Projectile.NewProjectile(null, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ReiExplosion>(), 50, 0, player.whoAmI);
+                            EbonianSystem.ScreenShakeAmount = 5;
+                            SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/reiTP") { PitchVariance = 0.1f }, Main.MouseWorld);
+                            modPlayer.reiBoostCool = 60;
+                            break;
+                        }
+                    }
+                }
+                /*if (modPlayer.reiBoostCool <= 0)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Dust.NewDustPerfect(player.Center, DustID.Electric, Main.rand.NextVector2Circular(5, 5));
+                    }
+                    SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap, player.Center);
+                    //SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/reiFail2"), player.Center);
+                }*/
+            }
+            /*if (EbonianKeybinds.ReiDash.JustPressed && modPlayer.reiBoostCool > 0)
+            {
+                SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap, player.Center);
+                //SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/reiFail2"), player.Center);
+                for (int i = 0; i < 5; i++)
+                {
+                    Dust.NewDustPerfect(player.Center, DustID.Electric, Main.rand.NextVector2Circular(5, 5));
+                }
+            }*/
         }
     }
 }

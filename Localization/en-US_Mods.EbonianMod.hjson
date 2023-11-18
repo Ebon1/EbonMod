@@ -113,6 +113,7 @@ Projectiles: {
 	ReiCapeP.DisplayName: Rei Cape P
 	ReiCapeTrail.DisplayName: Rei Cape Trail
 	Djungelskog.DisplayName: Djungelskog
+	ReiExplosion.DisplayName: Rei Explosion
 }
 
 NPCs: {
@@ -569,4 +570,10 @@ Buffs: {
 		DisplayName: Djungelskog B
 		Description: Mods.EbonianMod.Buffs.DjungelskogB.Description
 	}
+}
+
+Keybinds: {
+	RandomBuff.DisplayName: Random Buff
+	"Rei Dash.DisplayName": Rei  Dash
+	"Time Slip.DisplayName": Time  Slip
 }

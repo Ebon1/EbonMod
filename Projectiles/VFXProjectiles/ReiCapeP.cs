@@ -90,8 +90,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             if (Main.player[Projectile.owner].GetModPlayer<EbonianPlayer>().rei || Main.player[Projectile.owner].GetModPlayer<EbonianPlayer>().reiV)
                 Projectile.timeLeft = 10;
             UpdateSmoke();
-            for (int i = 0; i < 2; i++)
-                Dust.NewDustPerfect(player.RotatedRelativePoint(player.MountedCenter) - new Vector2(0, player.height / 2 - 10), ModContent.DustType<ReiSmoke>(), new Vector2(-player.velocity.X * Main.rand.NextFloat(-0.1f, 0.1f) + Main.rand.NextFloat(-0.5f, 2f) * -player.direction, Main.rand.NextFloat(-2f, -0.25f))).scale = Main.rand.NextFloat(0.01f, 0.05f);
+            //for (int i = 0; i < 2; i++)
+            //    Dust.NewDustPerfect(player.RotatedRelativePoint(player.MountedCenter) - new Vector2(0, player.height / 2 - 10), ModContent.DustType<ReiSmoke>(), new Vector2(-player.velocity.X * Main.rand.NextFloat(-0.1f, 0.1f) + Main.rand.NextFloat(-0.5f, 2f) * -player.direction, Main.rand.NextFloat(-2f, -0.25f))).scale = Main.rand.NextFloat(0.01f, 0.05f);
             Projectile.Center = player.RotatedRelativePoint(player.MountedCenter) + new Vector2(-5, 19);
             Projectile.rotation = player.velocity.ToRotation();
             if (verlet[0] != null)
@@ -147,11 +147,6 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         {
             Player player = Main.player[Projectile.owner];
             Lighting.AddLight(player.Center, TorchID.Purple);
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            (default(ReiTrail)).Draw(Projectile);
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             //if (Main.gamePaused || Main.gameInactive)
             //  return true;
@@ -193,8 +188,11 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Player player = Main.player[Projectile.owner];
             if (Main.player[Projectile.owner].GetModPlayer<EbonianPlayer>().rei)
                 Projectile.timeLeft = 10;
-            Projectile.Center = player.RotatedRelativePoint(player.MountedCenter) + new Vector2(5, 19);
+            Projectile.Center = player.RotatedRelativePoint(player.MountedCenter) + new Vector2(5 * Projectile.ai[0], 19);
             Projectile.rotation = player.velocity.ToRotation();
+            if (player.GetModPlayer<EbonianPlayer>().reiBoostCool == 59)
+                for (int i = 0; i < Projectile.oldPos.Length; i++)
+                    Projectile.oldPos[i] = Projectile.Center;
         }
         public override void PostDraw(Color lightColor)
         {
@@ -203,6 +201,43 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             (default(ReiTrail)).Draw(Projectile);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+        }
+    }
+    public class ReiExplosion : ModProjectile
+    {
+        public override string Texture => Helper.Empty;
+        public override void SetDefaults()
+        {
+            Projectile.height = 200;
+            Projectile.width = 200;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 100;
+        }
+        public override bool ShouldUpdatePosition() => false;
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = Helper.GetExtraTexture("explosion");
+            Texture2D tex2 = Helper.GetExtraTexture("flameEye2");
+            Main.spriteBatch.Reload(BlendState.Additive);
+            float alpha = MathHelper.Lerp(2, 0, Projectile.ai[0]);
+            for (int i = 0; i < 2; i++)
+            {
+                Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.Cyan * alpha, Projectile.rotation, tex2.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * alpha, Projectile.rotation, tex2.Size() / 2, Projectile.ai[0] * 0.3f, SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return false;
+        }
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.Center, TorchID.Mushroom);
+            Projectile.ai[0] += 0.05f;
+            if (Projectile.ai[0] > 1)
+                Projectile.Kill();
         }
     }
 }
