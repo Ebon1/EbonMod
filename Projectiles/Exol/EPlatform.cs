@@ -27,27 +27,7 @@ namespace EbonianMod.Projectiles.Exol
         public override bool? CanDamage() => false;
         public override void AI()
         {
-            if (Projectile.ai[0] == 0)
-            {
-                Projectile.ai[1] = Projectile.Center.X;
-                Projectile.ai[2] = Projectile.Center.Y;
-            }
-            else
-            {
-                float value = MathHelper.Lerp(0, 1, Projectile.ai[0] / 120);
-                if (Projectile.velocity == Vector2.Zero)
-                    Projectile.Center = new Vector2(Projectile.ai[1], Projectile.ai[2]) + Main.rand.NextVector2Circular(3 * value, 3 * value);
-            }
-            if (Projectile.ai[0] < 120)
-                Projectile.timeLeft = 2;
-        }
-        public override void OnKill(int timeLeft)
-        {
-            if (Projectile.ai[0] > 0)
-                Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosion>(), Projectile.damage * 2, 0);
-            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileID.DaybreakExplosion, Projectile.damage * 2, 0);
-            a.hostile = true;
-            a.friendly = false;
+            Projectile.timeLeft = 2;
         }
     }
 }

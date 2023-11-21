@@ -17,7 +17,7 @@ using Terraria.WorldBuilding;
 
 namespace EbonianMod.Worldgen.Subworlds
 {
-    public class Ignos : Subworld
+    public class IgnosSubworld : Subworld
     {
         public override int Width => 300;
         public override int Height => 150;
@@ -88,7 +88,7 @@ namespace EbonianMod.Worldgen.Subworlds
     {
         public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
         {
-            if (SubworldSystem.IsActive<Ignos>())
+            if (SubworldSystem.IsActive<IgnosSubworld>())
             {
                 spawnRate = int.MaxValue;
                 maxSpawns = 0;
@@ -100,7 +100,7 @@ namespace EbonianMod.Worldgen.Subworlds
     {
         public override void PreUpdateWorld()
         {
-            if (SubworldSystem.IsActive<Ignos>())
+            if (SubworldSystem.IsActive<IgnosSubworld>())
             {
 
                 // Update mechanisms

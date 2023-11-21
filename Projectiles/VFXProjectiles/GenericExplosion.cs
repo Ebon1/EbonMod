@@ -17,8 +17,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override string Texture => Helper.Empty;
         public override void SetDefaults()
         {
-            Projectile.height = 300;
-            Projectile.width = 300;
+            Projectile.height = 200;
+            Projectile.width = 200;
             Projectile.hostile = true;
             Projectile.friendly = false;
             Projectile.tileCollide = false;

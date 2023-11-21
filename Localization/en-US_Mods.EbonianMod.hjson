@@ -114,6 +114,13 @@ Projectiles: {
 	ReiCapeTrail.DisplayName: Rei Cape Trail
 	Djungelskog.DisplayName: Djungelskog
 	ReiExplosion.DisplayName: Rei Explosion
+	IgnosSlash.DisplayName: Ignos Slash
+	IgnosSlashTelegraph.DisplayName: Ignos Slash Telegraph
+	GarbageSignals.DisplayName: Garbage Signals
+	GreenShockwave2.DisplayName: Green Shockwave2
+	OrangeRedShockwave.DisplayName: Orange Red Shockwave
+	YellowShockwave.DisplayName: Yellow Shockwave
+	BigGrayShockwave.DisplayName: Big Gray Shockwave
 }
 
 NPCs: {
@@ -174,6 +181,7 @@ NPCs: {
 	DankDiggerTail.DisplayName: Dank Digger
 	EbonButKill.DisplayName: Ebon But Kill
 	BloatedEbonfly.DisplayName: Bloated Ebonfly
+	Ignos.DisplayName: Exol of Ignos
 }
 
 Items: {
@@ -531,6 +539,11 @@ Items: {
 
 	DjungelskogI: {
 		DisplayName: Djungelskog I
+		Tooltip: ""
+	}
+
+	EIgnosSummon: {
+		DisplayName: E Ignos Summon
 		Tooltip: ""
 	}
 }

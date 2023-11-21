@@ -422,7 +422,7 @@ namespace EbonianMod.NPCs.Garbage
                         SoundEngine.PlaySound(new Terraria.Audio.SoundStyle("EbonianMod/Sounds/GarbageAwaken"));
                     if (AITimer == 55)
                         for (int i = 0; i < 3; i++)
-                            Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<BloodShockwave>(), 0, 0);
+                            Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<BloodShockwave2>(), 0, 0);
                     if (AITimer < 30)
                     {
 

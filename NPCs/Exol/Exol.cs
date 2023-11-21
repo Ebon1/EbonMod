@@ -10,16 +10,10 @@ using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.Audio;
 using Terraria.DataStructures;
-using System.Collections.Generic;
-using Terraria.Graphics.Shaders;
-using static Terraria.ModLoader.PlayerDrawLayer;
 using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Dusts;
 using EbonianMod.Projectiles.Exol;
-using System.Net.Http.Headers;
-using EbonianMod.NPCs.Corruption;
 using System.IO;
-using static Humanizer.In;
 
 namespace EbonianMod.NPCs.Exol
 {

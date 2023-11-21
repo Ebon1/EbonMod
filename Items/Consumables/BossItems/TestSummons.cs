@@ -154,6 +154,41 @@ namespace EbonianMod.Items.Consumables.BossItems
             return true;
         }
     }
+    public class EIgnosSummon : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.SortingPriorityBossSpawns[Item.type] = 12;
+        }
+        public override string Texture => Helper.Placeholder;
+        public override void SetDefaults()
+        {
+            Item.width = 20;
+            Item.height = 20;
+            Item.maxStack = 1;
+            Item.value = 1000000;
+            Item.rare = ItemRarityID.Red;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return !NPC.AnyNPCs(ModContent.NPCType<Ignos>());
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().Register();
+        }
+
+        public override bool? UseItem(Player player)
+        {
+            NPC.NewNPCDirect(player.GetSource_FromThis(), player.Center + new Microsoft.Xna.Framework.Vector2(300, -200), ModContent.NPCType<Ignos>());
+            return true;
+        }
+    }
     public class IgnosSummon : ModItem
     {
         public override void SetStaticDefaults()
@@ -180,8 +215,8 @@ namespace EbonianMod.Items.Consumables.BossItems
 
         public override bool? UseItem(Player player)
         {
-            if (!SubworldSystem.IsActive<Ignos>())
-                SubworldSystem.Enter<Ignos>();
+            if (!SubworldSystem.IsActive<IgnosSubworld>())
+                SubworldSystem.Enter<IgnosSubworld>();
             else
                 SubworldSystem.Exit();
             return true;

@@ -29,7 +29,7 @@ namespace EbonianMod
     public class EbonianMod : Mod
     {
         public static EbonianMod Instance;
-        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline, RTOutline2;
+        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline, RTOutline2;
         public RenderTarget2D render, render2, blurrender;
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
@@ -176,6 +176,7 @@ namespace EbonianMod
             Test2 = ModContent.Request<Effect>("EbonianMod/Effects/Test2", (AssetRequestMode)1).Value;
             Galaxy = ModContent.Request<Effect>("EbonianMod/Effects/Galaxy", (AssetRequestMode)1).Value;
             LavaRT = ModContent.Request<Effect>("EbonianMod/Effects/LavaRT", (AssetRequestMode)1).Value;
+            SpriteRotation = ModContent.Request<Effect>("EbonianMod/Effects/spriteRotation", (AssetRequestMode)1).Value;
             BeamShader = ModContent.Request<Effect>("EbonianMod/Effects/Beam", (AssetRequestMode)1).Value;
             Lens = ModContent.Request<Effect>("EbonianMod/Effects/Lens", (AssetRequestMode)1).Value;
             Tentacle = ModContent.Request<Effect>("EbonianMod/Effects/Tentacle", (AssetRequestMode)1).Value;
