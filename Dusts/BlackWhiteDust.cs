@@ -52,6 +52,7 @@ namespace EbonianMod.Dusts
                     if (d.scale == 0) alpha = 0;
                     if (d.type == ModContent.DustType<BlackWhiteDustExpand>())
                         alpha = MathHelper.SmoothStep(1.5f, 0, d.scale * 2);
+                    //EbonianMod.RTOutline.Parameters["col"].SetValue((Color.White * alpha).ToVector4());
                     if (d.scale > 0)
                         sb.Draw(tex, d.position - Main.screenPosition, null, Color.White * alpha, d.rotation, tex.Size() / 2, d.scale, SpriteEffects.None, 0);
                 }

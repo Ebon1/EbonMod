@@ -1,5 +1,5 @@
 ﻿sampler uImage0 : register(s0);
-sampler uImage1 : register(s1);
+sampler uImage1;
 float m;
 float n;
 float4 col = float4(2.55, 2.55, 2.55, 1);

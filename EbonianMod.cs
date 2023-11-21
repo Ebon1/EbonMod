@@ -23,13 +23,19 @@ using Terraria.Audio;
 using EbonianMod.NPCs.Garbage;
 using Humanizer;
 using System;
+using Microsoft.Xna.Framework.Graphics.PackedVector;
+using System.Linq;
 
 namespace EbonianMod
 {
     public class EbonianMod : Mod
     {
         public static EbonianMod Instance;
-        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline, RTOutline2;
+        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline;
+        public List<Effect> Effects = new List<Effect>()
+        {
+            Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline
+    };
         public RenderTarget2D render, render2, blurrender;
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
@@ -132,25 +138,16 @@ namespace EbonianMod
         public override void Unload()
         {
             sys = null;
-            Test1 = null;
-            RTAlpha = null;
-            CrystalShine = null;
-            TextGradient = null;
-            TextGradient2 = null;
-            TextGradientY = null;
-            Test2 = null;
-            Galaxy = null;
-            LavaRT = null;
-            BeamShader = null;
-            Lens = null;
-            Tentacle = null;
-            TentacleRT = null;
-            ScreenDistort = null;
-            TentacleBlack = null;
-            TrailShader = null;
-            Terraria.Graphics.Effects.On_FilterManager.EndCapture -= FilterManager_EndCapture;
+            foreach (Effect effect in Effects)
+            {
+                if (effect != null && !effect.IsDisposed)
+                    effect.Dispose();
+            }
+            //On_FilterManager.EndCapture -= FilterManager_EndCapture;
             Main.OnResolutionChanged -= Main_OnResolutionChanged;
-            Terraria.On_Main.DrawBG -= DrawBehindTilesAndWalls;
+            On_Main.DrawBG -= DrawBehindTilesAndWalls;
+            On_Main.DrawNPC -= DrawNPC;
+            On_Player.Update_NPCCollision -= SolidTopCollision;
             On_Main.DrawPlayers_AfterProjectiles -= PreDraw;
         }
         public override void Load()
@@ -168,7 +165,6 @@ namespace EbonianMod
             Crack = ModContent.Request<Effect>("EbonianMod/Effects/crackTest", (AssetRequestMode)1).Value;
             RTAlpha = ModContent.Request<Effect>("EbonianMod/Effects/RTAlpha", (AssetRequestMode)1).Value;
             RTOutline = ModContent.Request<Effect>("EbonianMod/Effects/RTOutline", (AssetRequestMode)1).Value;
-            RTOutline2 = ModContent.Request<Effect>("EbonianMod/Effects/RTOutline", (AssetRequestMode)1).Value;
             CrystalShine = ModContent.Request<Effect>("EbonianMod/Effects/CrystalShine", (AssetRequestMode)1).Value;
             TextGradient = ModContent.Request<Effect>("EbonianMod/Effects/TextGradient", (AssetRequestMode)1).Value;
             TextGradient2 = ModContent.Request<Effect>("EbonianMod/Effects/TextGradient2", (AssetRequestMode)1).Value;
@@ -193,14 +189,12 @@ namespace EbonianMod
             Filters.Scene["EbonianMod:HellTint2"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.425f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:HellTint2"] = new BasicTint();
             Filters.Scene["EbonianMod:ScreenFlash"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("EbonianMod/Effects/ScreenFlash", (AssetRequestMode)1).Value), "Flash"), EffectPriority.VeryHigh);
-            Terraria.Graphics.Effects.On_FilterManager.EndCapture += FilterManager_EndCapture;
+            //Terraria.Graphics.Effects.On_FilterManager.EndCapture += FilterManager_EndCapture;
             Main.OnResolutionChanged += Main_OnResolutionChanged;
             Terraria.On_Main.DrawBG += DrawBehindTilesAndWalls;
             Terraria.On_Main.DrawNPC += DrawNPC;
             Terraria.On_Player.Update_NPCCollision += SolidTopCollision;
             On_Main.DrawPlayers_AfterProjectiles += PreDraw;
-            //On.Terraria.Main.DoUpdate += testSlowDown;
-            //On.Terraria.Audio.SoundEngine.Update += testSlowDownAudio;
             CreateRender();
         }
         void PreDraw(On_Main.orig_DrawPlayers_AfterProjectiles orig, Main self)
@@ -211,8 +205,28 @@ namespace EbonianMod
             sb.Begin(SpriteSortMode.Deferred, MiscDrawingMethods.Subtractive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             ReiSmoke.DrawAll(sb);
             sb.End();
-            if (!Main.gameMenu && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro))
+            sb.Begin(SpriteSortMode.Deferred, MiscDrawingMethods.Subtractive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            foreach (Projectile proj in Main.projectile)
             {
+                if (proj.active && proj.timeLeft > 1 && proj.type == ModContent.ProjectileType<ReiCapeP>())
+                {
+                    Color color = new Color(69, 420, 0, 1);
+                    proj.ModProjectile.PostDraw(color);
+                }
+            }
+            sb.End();
+            var old = gd.GetRenderTargets();
+            if (!Main.gameMenu && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro) && gd.GetRenderTargets().Contains(Main.screenTarget))
+            {
+
+                /*if (!gd.GetRenderTargets().Contains(Main.screenTarget))
+                {
+                    gd.Textures[1] = null;
+                    gd.SetRenderTarget(Main.screenTarget);
+                    gd.Clear(Color.Transparent);
+                }
+
+                */
                 gd.SetRenderTarget(Main.screenTargetSwap);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
@@ -230,8 +244,14 @@ namespace EbonianMod
                         proj.ModProjectile.PreDraw(ref color);
                     }
                 }
-
                 sb.End();
+
+                gd.SetRenderTarget(render);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                BlackWhiteDust.DrawAll(sb);
+                sb.End();
+
 
                 gd.SetRenderTarget(Main.screenTarget);
                 gd.Clear(Color.Transparent);
@@ -245,114 +265,21 @@ namespace EbonianMod
                 RTOutline.Parameters["n"].SetValue(0.01f); // and 0.01f here.
                 RTOutline.Parameters["offset"].SetValue(new Vector2(Main.GlobalTimeWrappedHourly * 0.005f, 0));
                 sb.Draw(render2, Vector2.Zero, Color.White);
-                sb.End();
-            }
 
-            sb.Begin(SpriteSortMode.Deferred, MiscDrawingMethods.Subtractive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-            foreach (Projectile proj in Main.projectile)
-            {
-                if (proj.active && proj.timeLeft > 1 && proj.type == ModContent.ProjectileType<ReiCapeP>())
-                {
-                    Color color = new Color(69, 420, 0, 1);
-                    proj.ModProjectile.PostDraw(color);
-                }
-            }
-            sb.End();
-            orig(self);
-        }
-        private void Main_OnResolutionChanged(Vector2 obj)
-        {
-            CreateRender();
-        }
-        public void CreateRender()
-        {
-            if (Main.netMode != NetmodeID.Server)
-                Main.QueueMainThreadAction(() =>
-                {
-                    render = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-                    render2 = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-                    blurrender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-                });
-        }
-
-        public static int ExolID = ModContent.NPCType<Exol>();
-        public static float FlashAlpha, FlashAlphaDecrement;
-        private void FilterManager_EndCapture(Terraria.Graphics.Effects.On_FilterManager.orig_EndCapture orig, Terraria.Graphics.Effects.FilterManager self, RenderTarget2D finalTexture, RenderTarget2D screenTarget1, RenderTarget2D screenTarget2, Color clearColor)
-        {
-            GraphicsDevice gd = Main.instance.GraphicsDevice;
-            SpriteBatch sb = Main.spriteBatch;
-            #region "rt2d"
-            if (!Main.gameMenu && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro))
-            {
-                gd.SetRenderTarget(Main.screenTargetSwap);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
-                sb.End();
-
-                gd.SetRenderTarget(render);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                /*foreach (Projectile proj in Main.projectile)
-                {
-                    if (proj.active && proj.timeLeft > 1 && proj.type == ModContent.ProjectileType<>())
-                    {
-                        Color color = Color.White;
-                        proj.ModProjectile.PreDraw(ref color);
-                    }
-                }*/
-
-                BlackWhiteDust.DrawAll(sb);
-
-                sb.End();
-
-                gd.SetRenderTarget(Main.screenTarget);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
-                sb.End();
-                sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                 gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/black", (AssetRequestMode)1).Value;
-                RTOutline2.CurrentTechnique.Passes[0].Apply();
-                RTOutline2.Parameters["m"].SetValue(0.22f); // for more percise textures use 0.62f
-                RTOutline2.Parameters["n"].SetValue(0.1f); // and 0.01f here.
+                RTOutline.CurrentTechnique.Passes[0].Apply();
+                RTOutline.Parameters["m"].SetValue(0.22f); // for more percise textures use 0.62f
+                RTOutline.Parameters["n"].SetValue(0.1f); // and 0.01f here.
                 sb.Draw(render, Vector2.Zero, Color.White);
+                gd.Textures[1] = null;
                 sb.End();
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                sb.End();
-
-
             }
-            #endregion
 
-            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            FireDust.DrawAll(sb);
-            ColoredFireDust.DrawAll(sb);
-            GenericAdditiveDust.DrawAll(sb);
-            if (!NPC.AnyNPCs(ModContent.NPCType<Exol>()))
-                SmokeDustAkaFireDustButNoGlow.DrawAll(Main.spriteBatch);
-            sb.End();
+            orig(self);
 
-
-
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            if (FlashAlpha > 0)
+            if (!Main.gameMenu && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro) && gd.GetRenderTargets().Contains(Main.screenTarget))
             {
-                Main.spriteBatch.Draw(Helper.GetExtraTexture("Line"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * FlashAlpha * 2);
-            }
-            foreach (Projectile projectile in Main.projectile)
-            {
-                if (projectile.active && (projectile.type == ModContent.ProjectileType<TExplosion>()))
-                {
-                    Color color = Color.White;
-                    projectile.ModProjectile.PreDraw(ref color);
-                }
-            }
-            sb.End();
-            #region "rt2d"
-            if (Main.netMode != NetmodeID.Server && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro))
-            {
-                gd.SetRenderTarget(render);
+                gd.SetRenderTarget(blurrender);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
                 sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
@@ -380,13 +307,54 @@ namespace EbonianMod
                 Test2.CurrentTechnique.Passes[0].Apply();
                 Test2.Parameters["tex0"].SetValue(Main.screenTargetSwap);
                 Test2.Parameters["i"].SetValue(0.02f);
-                sb.Draw(render, Vector2.Zero, Color.White);
+                sb.Draw(blurrender, Vector2.Zero, Color.White);
                 sb.End();
-
             }
-            #endregion
-            orig(self, finalTexture, screenTarget1, screenTarget2, clearColor);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            FireDust.DrawAll(sb);
+            ColoredFireDust.DrawAll(sb);
+            GenericAdditiveDust.DrawAll(sb);
+            if (!NPC.AnyNPCs(ModContent.NPCType<Exol>()))
+                SmokeDustAkaFireDustButNoGlow.DrawAll(Main.spriteBatch);
+            sb.End();
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            if (FlashAlpha > 0)
+            {
+                Main.spriteBatch.Draw(Helper.GetExtraTexture("Line"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * FlashAlpha * 2);
+            }
+            foreach (Projectile projectile in Main.projectile)
+            {
+                if (projectile.active && (projectile.type == ModContent.ProjectileType<TExplosion>()))
+                {
+                    Color color = Color.White;
+                    projectile.ModProjectile.PreDraw(ref color);
+                }
+            }
+            sb.End();
         }
+        private void Main_OnResolutionChanged(Vector2 obj)
+        {
+            CreateRender();
+        }
+        public void CreateRender()
+        {
+            if (Main.netMode != NetmodeID.Server)
+                Main.QueueMainThreadAction(() =>
+                {
+                    if (render != null && !render.IsDisposed)
+                        render.Dispose();
+                    if (render2 != null && !render2.IsDisposed)
+                        render2.Dispose();
+                    if (blurrender != null && !blurrender.IsDisposed)
+                        blurrender.Dispose();
+                    render = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                    render2 = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                    blurrender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                });
+        }
+
+        public static int ExolID = ModContent.NPCType<Exol>();
+        public static float FlashAlpha, FlashAlphaDecrement;
     }
     public class EbonMenu : ModMenu
     {
