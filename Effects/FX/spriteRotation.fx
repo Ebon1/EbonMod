@@ -1,6 +1,7 @@
 sampler2D tex : register(s0);
 float rotation;
 float2 scale = float2(1, 1);
+float4 uColor = float4(1, 1, 1, 1);
 float4 main(float2 uv : TEXCOORD) : COLOR
 {
     float2 center = float2(0.5, 0.5);
@@ -14,7 +15,7 @@ float4 main(float2 uv : TEXCOORD) : COLOR
         return float4(0, 0, 0, 0);
     }
     float4 color = tex2D(tex, uv);
-    return color;
+    return color * uColor;
 }
 Technique techique1
 {

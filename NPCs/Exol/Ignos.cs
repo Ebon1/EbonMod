@@ -60,23 +60,44 @@ namespace EbonianMod.NPCs.Exol
             get => NPC.ai[3];
             set => NPC.ai[3] = value;
         }
-        const int Spawn = 0, SwordSlashes = 1, SwordSlashRain = 2, HoldSwordUpAndChannelSoulVortex = 3, StabSwordAndThrowRock = 4;
+        const int Spawn = 0, SwordSlashes = 1, SwordSlashRain = 2, HoldSwordUpAndChannelSoulVortex = 3, SwordSlashesVariant2 = 4, StabSwordAndThrowRock = 5;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
             PlayerDetection();
-            IdleMovement();
             AITimer++;
             switch (AIState)
             {
                 case Spawn:
                     {
                         Reset();
+                        AIState = SwordSlashes;
+                    }
+                    break;
+                case SwordSlashes:
+                    {
+                        IdleMovement(new Vector2(0, -200));
+                        if (AITimer % 3 == 0 && AITimer >= 30 && AITimer <= 100)
+                        {
+                            Projectile.NewProjectile(null, player.Center - new Vector2((AITimer - 30 - 50) * 40, 0), new Vector2(Main.rand.NextFloat(-0.1f, 0.1f), -1), ModContent.ProjectileType<IgnosSlashTelegraph>(), 30, 0);
+                        }
+                        if (AITimer == 75 || AITimer == 145)
+                            Projectile.NewProjectile(null, player.Center, new Vector2(0, -1), ModContent.ProjectileType<IgnosSlashTelegraph>(), 30, 0);
+                        if (AITimer % 3 == 0 && AITimer >= 90 && AITimer <= 160)
+                        {
+                            Projectile.NewProjectile(null, player.Center + new Vector2((AITimer - 90 - 50) * 40, 0), new Vector2(Main.rand.NextFloat(-0.1f, 0.1f), -1), ModContent.ProjectileType<IgnosSlashTelegraph>(), 30, 0);
+                        }
+                        if (AITimer >= 180)
+                        {
+                            Reset();
+                            AIState = SwordSlashRain;
+                        }
                     }
                     break;
             }
         }
         float rot;
+        float vortexAlpha;
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D tex = Helper.GetExtraTexture("vortex2");
@@ -84,9 +105,9 @@ namespace EbonianMod.NPCs.Exol
             rot -= 0.025f;
             Vector2 scale = new Vector2(1f, 0.25f);
             spriteBatch.Reload(EbonianMod.SpriteRotation);
-            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(rot);
-            EbonianMod.SpriteRotation.Parameters["scale"].SetValue(scale * 0.5f);
-            spriteBatch.Draw(tex, Main.MouseScreen, null, Color.White, 0, tex.Size() / 2, 1, SpriteEffects.None, 0);
+            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(-rot);
+            EbonianMod.SpriteRotation.Parameters["scale"].SetValue(scale * 0.75f);
+            EbonianMod.SpriteRotation.Parameters["uColor"].SetValue((Color.White * vortexAlpha).ToVector4());
             spriteBatch.Draw(tex, Main.MouseScreen, null, Color.White, 0, tex.Size() / 2, 1, SpriteEffects.None, 0);
             spriteBatch.Reload(BlendState.AlphaBlend);
             spriteBatch.Reload(effect: null);
@@ -103,11 +124,11 @@ namespace EbonianMod.NPCs.Exol
             AITimer3 = 0;
             NPC.damage = 0;
         }
-        void IdleMovement(bool over = false)
+        void IdleMovement(Vector2 offset = default)
         {
             Player player = Main.player[NPC.target];
             //NPC.velocity *= 0.975f;
-            NPC.velocity = Vector2.Clamp(Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 150), false) * 0.1f, -Vector2.One * 10, Vector2.One * 10);
+            NPC.velocity = Vector2.Clamp(Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 150) + offset, false) * 0.1f, -Vector2.One * 10, Vector2.One * 10);
         }
         void PlayerDetection()
         {
