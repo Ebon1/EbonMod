@@ -28,6 +28,11 @@ namespace EbonianMod.Projectiles.Exol
             Projectile.hostile = true;
             Projectile.timeLeft = 400;
             Projectile.tileCollide = false;
+            Projectile.hide = true;
+        }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            behindNPCs.Add(index);
         }
         public override Color? GetAlpha(Color lightColor) => Color.White;
         public override void Kill(int timeLeft)
@@ -209,6 +214,85 @@ namespace EbonianMod.Projectiles.Exol
                                 Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.oldPos[i] + Projectile.Size / 2, Vector2.Zero, ProjectileID.DaybreakExplosion, Projectile.damage * 2, 0);
                                 a.hostile = true;
                                 a.friendly = false;
+                            }
+                        }
+                    }
+                Projectile.velocity *= 0.95f;
+            }
+        }
+    }
+    public class RykardSkullSpiral : ModProjectile
+    {
+        public override string Texture => "EbonianMod/Projectiles/Exol/ESkullEmoji";
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 200;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 44;
+            Projectile.height = 40;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 220;
+            Projectile.tileCollide = false;
+        }
+        public override bool? CanDamage()
+        {
+            return false;
+        }
+        public override Color? GetAlpha(Color lightColor) => Color.White;
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Main.spriteBatch.Reload(BlendState.Additive);
+            (default(FlameLashDrawer)).Draw(Projectile);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return true;
+        }
+        /*public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            if (Projectile.timeLeft > 20)
+            {
+                foreach (Vector2 pos in Projectile.oldPos)
+                {
+                    if (new Rectangle((int)pos.X, (int)pos.Y, projHitbox.Width, projHitbox.Height).Intersects(targetHitbox))
+                        return true;
+                }
+                return false;
+            }
+            return false;
+        }*/
+        public override void AI()
+        {
+            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch);
+            if (Projectile.timeLeft > 200)
+                Projectile.velocity *= 0.99f;
+            /*if (++Projectile.frameCounter >= 5)
+            {
+                Projectile.frameCounter = 0;
+                if (++Projectile.frame >= 8)
+                {
+                    Projectile.frame = 0;
+                }
+            }*/
+            Projectile.rotation = Projectile.velocity.ToRotation();
+            if (Projectile.velocity.Length() < 20 && Projectile.timeLeft > 50)
+                Projectile.velocity *= 1.05f;
+            Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(Projectile.timeLeft * 0.02f));
+            if (Projectile.timeLeft < 45)
+            {
+                if (Projectile.timeLeft == 20)
+                    for (int i = 0; i < Projectile.oldPos.Length; i++)
+                    {
+                        if (Projectile.oldPos[i] != Vector2.Zero)
+                        {
+                            //if (i % 5 == 0)
+                            //  Helper.DustExplosion(Projectile.oldPos[i] + Projectile.Size / 2, Vector2.One, 0, smoke: i % 10 == 0, sound: false, scaleFactor: 0.25f);
+                            if (i % 3 == 0)
+                            {
+                                Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.oldPos[i] + Projectile.Size / 2, Vector2.Zero, ModContent.ProjectileType<FlameExplosion3>(), Projectile.damage * 2, 0);
                             }
                         }
                     }

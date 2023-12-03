@@ -64,7 +64,7 @@ namespace EbonianMod.Items.Weapons.Melee
             float rotation = direction == 1 ? start + MathHelper.Pi * 3 / 2 * swingProgress : end - MathHelper.Pi * 3 / 2 * swingProgress;
             player.SetCompositeArmBack(true, stretch, rotation - MathHelper.PiOver2);
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
+        public override void OnHit(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             for (int i = 0; i < 2; i++)
             {

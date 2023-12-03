@@ -121,6 +121,11 @@ Projectiles: {
 	OrangeRedShockwave.DisplayName: Orange Red Shockwave
 	YellowShockwave.DisplayName: Yellow Shockwave
 	BigGrayShockwave.DisplayName: Big Gray Shockwave
+	RykardSkullSpiral.DisplayName: Rykard Skull Spiral
+	FlameExplosion3.DisplayName: Flame Explosion3
+	VortexSkull.DisplayName: Vortex Skull
+	IgnosLightning.DisplayName: Ignos Lightning
+	IgArena.DisplayName: Ig Arena
 }
 
 NPCs: {

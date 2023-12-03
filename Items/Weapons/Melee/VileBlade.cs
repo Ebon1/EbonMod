@@ -60,7 +60,7 @@ namespace EbonianMod.Items.Weapons.Melee
             swingTime = 15;
             holdOffset = 15;
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
+        public override void OnHit(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             if (hitinfo.Crit)
             {

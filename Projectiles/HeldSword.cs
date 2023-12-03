@@ -7,6 +7,8 @@ using Terraria.ModLoader;
 using Terraria.GameContent;
 using EbonianMod;
 using System.IO;
+using Terraria.WorldBuilding;
+using Terraria.DataStructures;
 
 namespace EbonianMod.Projectiles
 {
@@ -19,6 +21,15 @@ namespace EbonianMod.Projectiles
         {
             ProjectileID.Sets.DontCancelChannelOnKill[Type] = true;
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            //ADD TRUE MELEE ON HIT LATER.
+            OnHit(target, hit, damageDone);
+        }
+        public virtual void OnHit(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+
+        }
         public override void SetDefaults()
         {
             Projectile.friendly = true;
@@ -28,9 +39,10 @@ namespace EbonianMod.Projectiles
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             SetExtraDefaults();
+            swingTime = (int)(swingTime / Main.LocalPlayer.GetAttackSpeed(DamageClass.Melee));
             Projectile.localNPCHitCooldown = swingTime;
             Projectile.timeLeft = swingTime;
-            baseHoldOffset = holdOffset;
+            baseHoldOffset = holdOffset * Main.LocalPlayer.GetAdjustedItemScale(Main.LocalPlayer.HeldItem);
         }
         public virtual float Ease(float f)
         {

@@ -22,7 +22,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             holdOffset = 20;
             useHeld = false;
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        public override void OnHit(NPC target, NPC.HitInfo hit, int damageDone)
         {
             hit.Crit = Projectile.ai[2] != 0;
             if (Projectile.localAI[0] == 21)
@@ -83,7 +83,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                 }
             }
             if (Projectile.localAI[0] != 0)
-                swingTime = (int)Projectile.localAI[0];
+                swingTime = (int)(Projectile.localAI[0] / player.GetAttackSpeed(DamageClass.Melee));
             if (Projectile.ai[1] == 0)
                 holdOffset = 50;
             baseHoldOffset = holdOffset;
