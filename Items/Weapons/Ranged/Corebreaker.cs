@@ -48,7 +48,6 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             //   for (int i = 0; i < 2; i++)
             //     Helper.DustExplosion(position + velocity, Vector2.One, 2, Color.White, false, false, 0.6f, 0.5f, new(velocity.X / 2, Main.rand.NextFloat(-5, -3)));
-            InGameNotificationsTracker.AddNotification(new EbonianAchievementNotification(1));
             Projectile.NewProjectile(source, position, velocity * 2, ModContent.ProjectileType<CorebreakerP>(), damage * 2, knockback, player.whoAmI);
             /*for (int i = -1; i < 2; i++)
             {
