@@ -15,42 +15,33 @@ namespace EbonianMod.Achievements
     public class EbonianAchievementSystem : ModSystem
     {
         public UserInterface achievementUI;
-        EbonianAchievementUIState achievementUIState;
+        public UserInterface achievementButtonUI;
+        public static EbonianAchievementUIState achievementUIState;
+        public static EbonianAchievementButtonUIState achievementButtonUIState;
         public override void Load()
         {
             achievementUIState = new();
             achievementUI = new();
+            achievementButtonUIState = new();
+            achievementButtonUI = new();
             achievementUI.SetState(achievementUIState);
+            achievementButtonUI.SetState(achievementButtonUIState);
         }
         public override void UpdateUI(GameTime gameTime)
         {
             achievementUI?.Update(gameTime);
-            if (Main.mouseRight)
-                IngameFancyUI.OpenUIState(achievementUIState);
+            achievementButtonUI?.Update(gameTime);
         }
         public struct AchievementTemplate
         {
             public string Text;
             public string Subtext;
-            public AchievementTemplate(string text, string subtext)
+            public bool HiddenUntilUnlocked;
+            public AchievementTemplate(string text, string subtext, bool hidden = false)
             {
-                Text = text; Subtext = subtext;
+                Text = text; Subtext = subtext; HiddenUntilUnlocked = hidden;
             }
         }
-        public static AchievementTemplate[] achievementTemplates = new AchievementTemplate[maxAchievements]
-        {
-            new("Nuclear Waste", "Defeat Hot Garbage."),
-            new("Who's laughing now?", "Defeat the vile conglomerate of The Corruption, Terrortoma."),
-            new("Seeing Red", "Defeat the unsightly aberration of The Crimson, Cecitior"),
-            new("Infernal Archeology", "Unleash Exol of Ignos' soul through weakening Inferos the Rock (idk lmfao)."),
-            new("Soul-Crushing", "Defeat Exol of Ignos"),
-            new("Too Spicy", "Anything is edible, the aftermath does not matter."),
-            new("Quit hitting yourself!", "Terrortoma was never the brightest corpse in the pile..."),
-            new("Djungelskog", "Acquire Djungelskog."),
-            new("Voidrunner", "Defeat 10 enemies at once using one time slip."),
-            new("Organ Harvest", "Acquire a sentient organ."),
-            new("Lore Accurate", "Defeat Inferos using the blade of Exol."),
-        };
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             int resourceBarIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
@@ -61,13 +52,31 @@ namespace EbonianMod.Achievements
                     delegate
                     {
                         achievementUI.Draw(Main.spriteBatch, new GameTime());
+                        if (Main.playerInventory)
+                            achievementButtonUI.Draw(Main.spriteBatch, new GameTime());
                         return true;
                     },
                     InterfaceScaleType.UI)
                 );
             }
         }
-        public const int maxAchievements = 11;
+        public const int maxAchievements = 13;
+        public static AchievementTemplate[] achievementTemplates = new AchievementTemplate[maxAchievements]
+        {
+            new("Nuclear Waste", "Defeat Hot Garbage, the first and only AI to ever reach true singularity.", true),
+            new("Who's laughing now?", "Defeat Terrortoma, the vile conglomerate of The Corruption."),
+            new("Seeing Red", "Defeat Cecitior, the unsightly aberration of The Crimson"),
+            new("Infernal Geology", "Unleash Exol of Ignos' soul through weakening Inferos.", true),
+            new("Soul-Crushing", "Defeat Exol of Ignos", true),
+            new("Too Spicy", "Anything is edible, the aftermath does not matter."),
+            new("Quit hitting yourself!", "Terrortoma was never the brightest corpse in the pile..."),
+            new("Djungelskog", "Acquire Djungelskog."),
+            new("Voidrunner", "Defeat 10 enemies at once using one time slip.", true),
+            new("Organ Harvest", "Acquire a sentient organ, found near the edge of the world."),
+            new("Lore Accurate", "Defeat Inferos using the blade of Exol.", true),
+            new("What, still here?", "Arrive at the buried land of Ignos."),
+            new("Dr. Abian", "'Blowing up the moon would solve all of our problems!'\nDefeat the Moon Lord through an... unconvential method."),
+        };
         public static bool[] acquiredAchievement = new bool[maxAchievements];
         public override void ClearWorld()
         {

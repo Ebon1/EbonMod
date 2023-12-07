@@ -17,6 +17,8 @@ using EbonianMod.Items.Weapons.Magic;
 using EbonianMod.Items.Weapons.Melee;
 using EbonianMod.Bossbars;
 using System.Linq;
+using EbonianMod.Achievements;
+using Terraria.UI;
 
 namespace EbonianMod.NPCs.Terrortoma
 {
@@ -338,6 +340,8 @@ namespace EbonianMod.NPCs.Terrortoma
                         SoundEngine.PlaySound(new("EbonianMod/Sounds/Eggplosion"));
                         NPC.immortal = false;
                         NPC.life = 0;
+                        if (!EbonianAchievementSystem.acquiredAchievement[1])
+                            InGameNotificationsTracker.AddNotification(new EbonianAchievementNotification(1));
                         NPC.checkDead();
                     }
                 }

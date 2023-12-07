@@ -22,6 +22,8 @@ using EbonianMod.Projectiles.Friendly.Crimson;
 using System.Reflection.Metadata;
 using EbonianMod.Projectiles;
 using ReLogic.Utilities;
+using EbonianMod.Achievements;
+using Terraria.UI;
 
 namespace EbonianMod.NPCs.Cecitior
 {
@@ -321,7 +323,8 @@ namespace EbonianMod.NPCs.Cecitior
             {
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position + openOffset, Vector2.UnitX * 5, ModContent.Find<ModGore>("EbonianMod/Cecitior1").Type, NPC.scale);
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, -Vector2.UnitX * 5, ModContent.Find<ModGore>("EbonianMod/Cecitior2").Type, NPC.scale);
-
+                if (!EbonianAchievementSystem.acquiredAchievement[2])
+                    InGameNotificationsTracker.AddNotification(new EbonianAchievementNotification(2));
                 NPC.dontTakeDamage = false;
                 NPC.life = 0;
                 NPC.checkDead();

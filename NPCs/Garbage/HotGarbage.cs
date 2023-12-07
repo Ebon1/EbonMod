@@ -15,6 +15,8 @@ using Terraria.Audio;
 using EbonianMod.NPCs.Corruption;
 using static tModPorter.ProgressUpdate;
 using System.Collections.Generic;
+using Terraria.UI;
+using EbonianMod.Achievements;
 
 namespace EbonianMod.NPCs.Garbage
 {
@@ -290,6 +292,8 @@ namespace EbonianMod.NPCs.Garbage
                 Music = 0;
                 return false;
             }
+            if (!EbonianAchievementSystem.acquiredAchievement[0])
+                InGameNotificationsTracker.AddNotification(new EbonianAchievementNotification(0));
             return true;
         }
         Vector2 pos;

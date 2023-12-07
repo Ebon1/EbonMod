@@ -19,13 +19,13 @@ namespace EbonianMod.Achievements
 {
     public class EbonianAchievement : UIPanel
     {
-        public EbonianAchievement(int index, string text, string subtext, string texture = "Extras/Sprites/Achievements")
+        public EbonianAchievement(int index, string text, string subtext, bool hiddenUntilUnlocked = false, string texture = "Extras/Sprites/Achievements")
         {
             Index = index;
             Text = text;
             Subtext = subtext;
             TexturePath = texture;
-
+            HiddenUntilUnlocked = hiddenUntilUnlocked;
             BackgroundColor = new Color(51, 69, 132) * 0.75f;
             BorderColor = Color.Black * 0.75f;
             Height.Set(82f, 0f);
@@ -38,6 +38,7 @@ namespace EbonianMod.Achievements
         public UIImageFramed icon;
         public int Index;
         public bool locked;
+        public bool HiddenUntilUnlocked;
         public string Text;
         public string Subtext;
         public string TexturePath;
@@ -74,9 +75,13 @@ namespace EbonianMod.Achievements
             spriteBatch.Draw(bottomTex, new Vector2(pos.X + width - 6f, pos.Y), new Rectangle(13, 0, 6, bottomTex.Height), color);
 
             pos += new Vector2(8, 4);
-            Vector2 subtextScale = new(0.92f);
+            Vector2 subtextScale = new(0.87f);
             string subtext = FontAssets.ItemStack.Value.CreateWrappedText(Subtext, (width - 20f) * (1f / subtextScale.X), Language.ActiveCulture.CultureInfo);
-            ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.ItemStack.Value, subtext, pos, Color.Gray, 0f, Vector2.Zero, subtextScale);
+            if (subtext.Contains("\n"))
+                subtextScale = new(0.84f);
+            if (locked && HiddenUntilUnlocked)
+                subtext = "???";
+            ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.ItemStack.Value, subtext, pos, locked ? Color.Gray : Color.White, 0f, Vector2.Zero, subtextScale);
         }
     }
     public class EbonianAchievementUIState : UIState
@@ -86,6 +91,7 @@ namespace EbonianMod.Achievements
         List<EbonianAchievement> achievements = new List<EbonianAchievement>();
         UIScrollbar scrollbar;
         bool[] achievementActive = new bool[EbonianAchievementSystem.maxAchievements];
+        int timer;
         public override void OnInitialize()
         {
             achievements.Clear();
@@ -144,15 +150,18 @@ namespace EbonianMod.Achievements
             };
             uITextPanel2.OnLeftClick += delegate (UIMouseEvent evt, UIElement listeningElement)
             {
-                Main.menuMode = 0;
-                IngameFancyUI.Close();
+                if (timer > 30)
+                {
+                    Main.menuMode = 0;
+                    IngameFancyUI.Close();
+                }
             };
             uITextPanel2.BackgroundColor = new Color(51, 69, 132) * 0.75f;
             ui.Append(uITextPanel2);
 
             for (int i = 0; i < EbonianAchievementSystem.maxAchievements; i++)
             {
-                EbonianAchievement achievement = new EbonianAchievement(i, EbonianAchievementSystem.achievementTemplates[i].Text, EbonianAchievementSystem.achievementTemplates[i].Subtext);
+                EbonianAchievement achievement = new EbonianAchievement(i, EbonianAchievementSystem.achievementTemplates[i].Text, EbonianAchievementSystem.achievementTemplates[i].Subtext, EbonianAchievementSystem.achievementTemplates[i].HiddenUntilUnlocked);
                 achievements.Add(achievement);
                 achievementList.Add(achievement);
             }
@@ -171,16 +180,71 @@ namespace EbonianMod.Achievements
         {
             if (!Main.inFancyUI)
                 return;
+            Main.player[Main.myPlayer].mouseInterface = true;
             base.Draw(spriteBatch);
         }
         public override void OnActivate()
         {
-
+            timer = 1;
         }
         public override void Update(GameTime gameTime)
         {
-
             base.Update(gameTime);
+            if (timer > 0)
+                timer++;
+        }
+    }
+    public class EbonianAchievementButtonUIState : UIState
+    {
+        UIImageFramed uiOutline;
+        public bool Hovering;
+        public override void OnInitialize()
+        {
+            uiOutline = new(ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/smallIconOutline"), new Rectangle(0, 0, 40, 40));
+            uiOutline.Width.Set(40, 0f);
+            uiOutline.Height.Set(40f, 0f);
+            uiOutline.VAlign = 0.255f;
+            uiOutline.HAlign = 0.0f;
+            uiOutline.Left.Set(0, 0.035f);
+            uiOutline.Color = Color.Black * 0.5f;
+            UIImageFramed uITextPanel2 = new(ModContent.Request<Texture2D>("EbonianMod/icon_small"), new Rectangle(0, 0, 30, 30));
+            uITextPanel2.Width.Set(30, 0f);
+            uITextPanel2.Height.Set(30f, 0f);
+            uITextPanel2.Left.Set(3, 0);
+            uITextPanel2.Top.Set(3, 0);
+            uITextPanel2.OnMouseOver += delegate (UIMouseEvent evt, UIElement listeningElement)
+            {
+                SoundEngine.PlaySound(SoundID.MenuTick);
+                Main.hoverItemName = "Ebonian Mod Achievements";
+                Hovering = true;
+            };
+            uITextPanel2.OnMouseOut += delegate (UIMouseEvent evt, UIElement listeningElement)
+            {
+                Hovering = false;
+            };
+            uITextPanel2.OnLeftClick += delegate (UIMouseEvent evt, UIElement listeningElement)
+            {
+                IngameFancyUI.OpenUIState(EbonianAchievementSystem.achievementUIState);
+            };
+            uiOutline.Append(uITextPanel2);
+            Append(uiOutline);
+        }
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+            if (Hovering)
+            {
+                Main.player[Main.myPlayer].mouseInterface = true;
+                Main.hoverItemName = "Ebonian Mod Achievements";
+            }
+        }
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            if (Hovering)
+            {
+                Main.hoverItemName = "Ebonian Mod Achievements";
+            }
         }
     }
 }
