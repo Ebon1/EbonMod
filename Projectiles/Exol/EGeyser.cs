@@ -62,7 +62,7 @@ namespace EbonianMod.Projectiles.Exol
                 Projectile.NewProjectileDirect(NPC.InheritSource(Projectile), Projectile.Bottom, Vector2.Zero, ModContent.ProjectileType<QuickFlare>(), 0, 0);
             if (Projectile.timeLeft < 250)
             {
-                if (Projectile.timeLeft % 5 == 0)
+                if (Projectile.timeLeft % (Projectile.ai[2] == 0 ? 5 : 30) == 0)
                 {
                     Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, new Vector2(Main.rand.NextFloat(-2, 2), -Main.rand.NextFloat(3, 15)), ModContent.ProjectileType<Gibs>(), Projectile.damage, Projectile.knockBack, ai2: 1);
                     a.friendly = false;

@@ -82,4 +82,52 @@ namespace EbonianMod.Projectiles.Friendly.Underworld
             /**/
         }
     }
+
+    public class MagmaArrowHostile : ModProjectile
+    {
+        public override string Texture => "EbonianMod/Projectiles/Friendly/Underworld/MagmaArrow";
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 35;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            Main.spriteBatch.Reload(BlendState.Additive);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
+            {
+                float mult = (1f - fadeMult * i);
+                if (i > 0)
+                    for (float j = 0; j < 10; j++)
+                    {
+                        Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 10));
+                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.OrangeRed * 0.25f, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f * mult, SpriteEffects.None, 0);
+                    }
+            }
+            Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, Projectile.Center - Main.screenPosition, null, Color.OrangeRed, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f, SpriteEffects.None, 0);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return true;
+        }
+        public override void SetDefaults()
+        {
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            Projectile.aiStyle = 0;
+            Projectile.timeLeft = 500;
+            Projectile.Size = new(18, 38);
+        }
+        public override void AI()
+        {
+            if (Projectile.velocity.Y < 8 && Projectile.timeLeft < 485)
+                Projectile.velocity.Y += 0.1f;
+            if (Projectile.timeLeft % 2 == 0)
+                Dust.NewDustPerfect(Projectile.Center, DustID.Torch, Projectile.velocity).noGravity = true;
+            else
+                Dust.NewDustPerfect(Projectile.Center, DustID.Torch, Main.rand.NextVector2Circular(1.5f, 1.5f));
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            /**/
+        }
+    }
 }

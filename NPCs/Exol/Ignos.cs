@@ -16,6 +16,8 @@ using EbonianMod.Projectiles.Exol;
 using System.IO;
 using FullSerializer.Internal;
 using System.Reflection.Metadata;
+using Terraria.Map;
+using EbonianMod.Projectiles.Friendly.Underworld;
 
 namespace EbonianMod.NPCs.Exol
 {
@@ -57,23 +59,44 @@ namespace EbonianMod.NPCs.Exol
             get => NPC.ai[2];
             set => NPC.ai[2] = value;
         }
-        public float AITimer3
+        public float IdleState
         {
             get => NPC.ai[3];
             set => NPC.ai[3] = value;
         }
-        const int Spawn = 0, SwordSlashes = 1, RykardSpiral = 2, SwordSlashesVariant2 = 3, HoldSwordUpAndChannelSoulVortex = 4, StabSwordAndThrowRock = 5, InfernalEye = 6, GreatArrowRain = 7, GiantExplosiveArrow = 8, FireGiantLavaExplosion = 9;
+        const int Spawn = 0, Idle = -1;
+        //BIG BOY ATTACKS
+        const int SwordSlashes = 1, RykardSpiral = 2, SwordSlashesVariant2 = 3, HoldSwordUpAndChannelSoulVortex = 4, GeyserRow = 5, InfernalEye = 6, GreatArrowRain = 7, SoulStorm = 8, FireGiantLavaExplosion = 9,
+            GaelDiscus = 10, LavaApocalypse = 11, SwordWaveSpam = 12;
+        //IDLE ATTACKS
+        const int QuickSlashes = 0, SwordWave = 1, MinorArrowHail = 2, SkullBurst = 3, SethKnife = 4, MeleeComboToCloseDistance = 5, GiantExplosiveArrow = 6, RenallaHomingBeams = 7, LavaEverywhereButUnder = 8, SwordThrustDash = 9;
+        //max idles: 3
+        public int IdleAttacks, CurrentIdleAttack = 0;
+        public int NextAttack = 1;
+        Vector2 lastPos;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
             PlayerDetection();
             AITimer++;
+            int maxIdles = 0;
+            if (NPC.life < NPC.lifeMax / 4)
+                maxIdles = 3;
+            else if (NPC.life < NPC.lifeMax / 2)
+                maxIdles = 2;
+            else if (NPC.life < NPC.lifeMax - NPC.lifeMax / 4)
+                maxIdles = 1;
             switch (AIState)
             {
                 case Spawn:
                     {
                         Reset();
-                        AIState = HoldSwordUpAndChannelSoulVortex;
+                        AIState = GaelDiscus;
+                    }
+                    break;
+                case Idle:
+                    {
+
                     }
                     break;
                 case SwordSlashes:
@@ -134,7 +157,7 @@ namespace EbonianMod.NPCs.Exol
                     {
                         if (AITimer < 30)
                         {
-                            IdleMovement();
+                            IdleMovement(speedLimit: 20);
                             vortexAlpha = Math.Min(vortexAlpha + 0.04f, 1);
                         }
                         else
@@ -164,27 +187,138 @@ namespace EbonianMod.NPCs.Exol
                         }
                     }
                     break;
-                case StabSwordAndThrowRock:
+                case GeyserRow:
                     {
-
+                        NPC.velocity = Helper.FromAToB(NPC.Center, Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 1000), false) * 0.1f;
+                        if (AITimer == 40)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<EGeyser>(), 0, 0);
+                        }
+                        if (AITimer >= 50 && AITimer <= 80 && AITimer % 10 == 0)
+                        {
+                            for (int i = -1; i < 2; i++)
+                            {
+                                if (i == 0 || i > 1) continue;
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - new Vector2(i * (AITimer - 40) * 25, 130), Vector2.Zero, ModContent.ProjectileType<EGeyser>(), 0, 0, ai2: 1);
+                            }
+                        }
                     }
                     break;
                 case InfernalEye:
                     {
-
+                        if (AITimer == 1)
+                            for (int i = 0; i < 5; i++)
+                            {
+                                float angle = Helper.CircleDividedEqually(i, 7);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center + new Vector2(250, 0).RotatedBy(angle), Vector2.Zero, ModContent.ProjectileType<IgnosEye>(), 0, 0, ai0: angle, ai1: 350, ai2: 3);
+                            }
+                        if (AITimer % 40 == 0)
+                        {
+                            foreach (Projectile projectile in Main.projectile)
+                            {
+                                if (projectile.type == ModContent.ProjectileType<IgnosEye>() && projectile.active)
+                                {
+                                    NPC.Center = projectile.Center;
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * 15, ModContent.ProjectileType<ESwordWave>(), 30, 0);
+                                    projectile.Kill();
+                                    break;
+                                }
+                            }
+                        }
                     }
                     break;
                 case GreatArrowRain:
                     {
+                        bowRotation = -MathHelper.PiOver2;
+                        if (AITimer < 30)
+                            bowAlpha = Math.Min(bowAlpha + 0.04f, 1);
+                        if (AITimer > 30 && AITimer < 60)
+                        {
+                            bowString += 0.65f;
+                        }
+                        if (AITimer > 30 && AITimer < 100)
+                            for (int i = 0; i < 1 + MathHelper.Clamp((AITimer - 30) / 7.5f, 0, 4); i++)
+                            {
+                                arrowAlpha[i] = MathHelper.Lerp(arrowAlpha[i], 1f, 0.1f);
+                            }
+                        if (AITimer > 100 && AITimer < 107)
+                        {
+                            bowString = MathHelper.Lerp(bowString, -5, 0.4f);
+                            for (int i = 0; i < arrowAlpha.Length; i++)
+                            {
+                                arrowAlpha[i] = 0;
+                            }
+                            for (int i = 0; i < 5; i++)
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(25, 0).RotatedBy(bowRotation), new Vector2(Helper.FromAToB(NPC.Center, player.Center, false).X * 0.01f + Main.rand.NextFloat(-1, 1), -25), ModContent.ProjectileType<MagmaArrowHostile>(), 30, 0);
+                        }
+                        if (AITimer > 107)
+                            bowString = MathHelper.Lerp(bowString, 0, 0.2f);
+                        if (AITimer > 155 && AITimer < 165)
+                        {
+                            float off = AITimer % 10 == 0 ? 20 : 10;
+                            for (int i = 0; i < 2; i++)
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), Helper.TRay.Cast(new Vector2(player.Center.X, (Main.maxTilesY * 16) / 2), -Vector2.UnitY, 1200) - new Vector2(0, 100), new Vector2(Main.rand.NextFloat(-off, off), Main.rand.NextFloat(5, 10)), ModContent.ProjectileType<MagmaArrowHostile>(), 30, 0);
+
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), Helper.TRay.Cast(new Vector2(player.Center.X, (Main.maxTilesY * 16) / 2), -Vector2.UnitY, 1200) - new Vector2(0, 100), new Vector2(player.velocity.X, Main.rand.NextFloat(5, 10)), ModContent.ProjectileType<MagmaArrowHostile>(), 30, 0);
+                        }
+
 
                     }
                     break;
-                case GiantExplosiveArrow:
+                case SoulStorm:
+                    {
+                        if (AITimer == 1)
+                        {
+                            EbonianSystem.ScreenShakeAmount = 3;
+                        }
+                        if (AITimer > 30 && AITimer < 90 && AITimer % 5 == 0)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(player.Center.X + 1080, (Main.maxTilesY * Main.rand.NextFloat(4, 28)) / 2), -Vector2.UnitX.RotatedByRandom(MathHelper.PiOver4 / 2) * 15, ModContent.ProjectileType<TinyRykardSkull>(), 30, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(player.Center.X - 1080, (Main.maxTilesY * Main.rand.NextFloat(4, 28)) / 2), Vector2.UnitX.RotatedByRandom(MathHelper.PiOver4 / 2) * 15, ModContent.ProjectileType<TinyRykardSkull>(), 30, 0);
+                        }
+                    }
+                    break;
+                case FireGiantLavaExplosion:
+                    {
+                        if (AITimer < 30)
+                            IdleMovement(new Vector2(0, -100));
+                        else
+                            NPC.velocity *= 0.8f;
+
+                        if (AITimer % 30 == 0 && AITimer < 150)
+                        {
+                            EbonianSystem.ScreenShakeAmount = 5f;
+                            Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosion>(), 30, 0);
+                            for (int i = 0; i < 8; i++)
+                            {
+                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-7, 7), Main.rand.NextFloat(-7, -4)), ModContent.ProjectileType<Gibs>(), 30, 0, ai2: 1);
+                                a.friendly = false;
+                                a.hostile = true;
+                            }
+                        }
+                    }
+                    break;
+                case GaelDiscus:
+                    {
+                        IdleMovement(new Vector2(0, -100));
+                        if (AITimer == 30)
+                            Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosion>(), 30, 0);
+                        if (AITimer == 50)
+                        {
+                            for (int i = 0; i < 8; i++)
+                            {
+                                float angle = Helper.CircleDividedEqually(i, 8);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.UnitX.RotatedBy(angle) * 20, ModContent.ProjectileType<ESickle>(), 30, 0, ai1: angle);
+                            }
+                        }
+                    }
+                    break;
+                case LavaApocalypse:
                     {
 
                     }
                     break;
-                case FireGiantLavaExplosion:
+                case SwordWaveSpam:
                     {
 
                     }
@@ -193,6 +327,8 @@ namespace EbonianMod.NPCs.Exol
         }
         float rot;
         float vortexAlpha;
+        float bowAlpha, bowRotation, bowString;
+        float[] arrowAlpha = new float[5];
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D tex = Helper.GetExtraTexture("vortex3");
@@ -211,22 +347,51 @@ namespace EbonianMod.NPCs.Exol
             spriteBatch.Reload(effect: null);
             return true;
         }
-        void Reset()
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            Texture2D tex = Helper.GetTexture("Items/Weapons/Ranged/MagmaBowP");
+            float off = MathHelper.Lerp(2, 0, bowString / 30);
+            if (NPC.ai[2] > 30)
+                off = 0;
+            Utils.DrawLine(Main.spriteBatch, NPC.Center + new Vector2(25, 0).RotatedBy(bowRotation) - new Vector2(8, 20).RotatedBy(bowRotation), NPC.Center + new Vector2(25, 0).RotatedBy(bowRotation) - new Vector2(8 + bowString, -off).RotatedBy(bowRotation), new Color(162, 44, 31), new Color(162, 44, 31), 2);
+            Utils.DrawLine(Main.spriteBatch, NPC.Center + new Vector2(25, 0).RotatedBy(bowRotation) - new Vector2(10, -20).RotatedBy(bowRotation), NPC.Center + new Vector2(25, 0).RotatedBy(bowRotation) - new Vector2(8 + off + bowString, off).RotatedBy(bowRotation), new Color(162, 44, 31), new Color(162, 44, 31), 2);
+            spriteBatch.Draw(tex, NPC.Center + new Vector2(25, 0).RotatedBy(bowRotation) - Main.screenPosition, null, Color.White * bowAlpha, bowRotation, tex.Size() / 2, 1, SpriteEffects.None, 0);
+
+            Texture2D tex2 = Helper.GetTexture("Projectiles/Friendly/Underworld/MagmaArrow");
+            for (int i = -2; i < 3; i++)
+            {
+                if (i == 0)
+                    continue;
+                Main.spriteBatch.Draw(tex2, NPC.Center + new Vector2(25, 0).RotatedBy(bowRotation) + Vector2.Lerp(new Vector2(20, 0).RotatedBy(bowRotation), Vector2.Zero, arrowAlpha[i + 2]) - Main.screenPosition, null, Color.White * arrowAlpha[i + 2], bowRotation + (i * 0.25f) - MathHelper.PiOver2, tex2.Size() / 2, 1, SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.Draw(tex2, NPC.Center + new Vector2(25, 0).RotatedBy(bowRotation) + Vector2.Lerp(new Vector2(20, 0).RotatedBy(bowRotation), Vector2.Zero, arrowAlpha[2]) - Main.screenPosition, null, Color.White * arrowAlpha[2], bowRotation - MathHelper.PiOver2, tex2.Size() / 2, 1, SpriteEffects.None, 0);
+        }
+        void Reset(bool idleReset = false)
         {
             NPC.noTileCollide = true;
             NPC.rotation = 0;
             NPC.velocity.X = 0;
             NPC.velocity.Y = 0;
+            bowAlpha = 0;
+            vortexAlpha = 0;
+            for (int i = 0; i < arrowAlpha.Length; i++)
+            {
+                arrowAlpha[i] = 0;
+            }
             AITimer = 0;
             AITimer2 = 0;
-            AITimer3 = 0;
+            lastPos = Vector2.Zero;
             NPC.damage = 0;
+            if (!idleReset)
+            {
+                IdleState = 0;
+            }
         }
-        void IdleMovement(Vector2 offset = default)
+        void IdleMovement(Vector2 offset = default, float speedLimit = 10)
         {
             Player player = Main.player[NPC.target];
             //NPC.velocity *= 0.975f;
-            NPC.velocity = Vector2.Clamp(Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 150) + offset, false) * 0.1f, -Vector2.One * 10, Vector2.One * 10);
+            NPC.velocity = Vector2.Clamp(Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 150) + offset, false) * (speedLimit * 0.01f), -Vector2.One * speedLimit, Vector2.One * speedLimit);
         }
         void PlayerDetection()
         {

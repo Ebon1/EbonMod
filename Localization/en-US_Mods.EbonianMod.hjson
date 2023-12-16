@@ -126,6 +126,13 @@ Projectiles: {
 	VortexSkull.DisplayName: Vortex Skull
 	IgnosLightning.DisplayName: Ignos Lightning
 	IgArena.DisplayName: Ig Arena
+	ESwordWave.DisplayName: E Sword Wave
+	IgnosEye.DisplayName: Ignos Eye
+	MagmaArrowHostile.DisplayName: Magma Arrow Hostile
+	TinyRykardSkull.DisplayName: Tiny Rykard Skull
+	ESickle.DisplayName: E Sickle
+	OstertagiP.DisplayName: Ostertagi P
+	OstertagiWorm.DisplayName: Ostertagi Worm
 }
 
 NPCs: {
@@ -551,6 +558,11 @@ Items: {
 		DisplayName: E Ignos Summon
 		Tooltip: ""
 	}
+
+	Ostertagi: {
+		DisplayName: Ostertagi
+		Tooltip: ""
+	}
 }
 
 Buffs: {
@@ -587,6 +599,11 @@ Buffs: {
 	DjungelskogB: {
 		DisplayName: Djungelskog B
 		Description: Mods.EbonianMod.Buffs.DjungelskogB.Description
+	}
+
+	OstertagiB: {
+		DisplayName: Ostertagi B
+		Description: Mods.EbonianMod.Buffs.OstertagiB.Description
 	}
 }
 
