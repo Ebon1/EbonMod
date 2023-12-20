@@ -53,6 +53,11 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
             if (Projectile.ai[0] == 0)
                 Projectile.ai[0] = Main.rand.NextFloat(0.1f, 0.3f);
             Projectile.SineMovement(startPos, startVel, 0.2f, 60);
+
+            if (Main.rand.NextBool(10))
+            {
+                Dust.NewDustPerfect(Projectile.Center, DustID.CorruptGibs, Main.rand.NextVector2Circular(4, 4), 0, default, Main.rand.NextFloat(1, 2)).noGravity = !Main.rand.NextBool(10);
+            }
         }
         public override bool PreDraw(ref Color lightColor)
         {

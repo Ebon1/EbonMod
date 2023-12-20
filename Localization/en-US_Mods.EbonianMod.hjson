@@ -133,6 +133,7 @@ Projectiles: {
 	ESickle.DisplayName: E Sickle
 	OstertagiP.DisplayName: Ostertagi P
 	OstertagiWorm.DisplayName: Ostertagi Worm
+	OstertagiExplosion.DisplayName: Ostertagi Explosion
 }
 
 NPCs: {
