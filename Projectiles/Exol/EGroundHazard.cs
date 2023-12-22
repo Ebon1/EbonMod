@@ -30,7 +30,7 @@ namespace EbonianMod.Projectiles.Exol
             Projectile.hostile = true;
             Projectile.aiStyle = -1;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 500;
+            Projectile.timeLeft = 300;
             Projectile.scale = 0;
             Projectile.hide = true;
         }
@@ -60,9 +60,9 @@ namespace EbonianMod.Projectiles.Exol
                 Projectile.Center = Helper.TRay.Cast(new Vector2(10, Main.maxTilesY * 8), Vector2.UnitY, 1000);
                 Projectile.ai[0] = 1;
             }
-            if (Projectile.timeLeft < 250 && NPC.AnyNPCs(ModContent.NPCType<Ignos>()))
-                Projectile.timeLeft = 250;
-            float progress = Utils.GetLerpValue(0, 500, Projectile.timeLeft);
+            //if (Projectile.timeLeft < 250 && NPC.AnyNPCs(ModContent.NPCType<Ignos>()))
+            //  Projectile.timeLeft = 250;
+            float progress = Utils.GetLerpValue(0, 300, Projectile.timeLeft);
             Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
         }
     }

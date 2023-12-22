@@ -32,7 +32,7 @@ namespace EbonianMod.Projectiles.Exol
         }
         public override bool ShouldUpdatePosition()
         {
-            return Projectile.scale >= 1;
+            return Projectile.ai[2] >= 1;
         }
         public override void OnSpawn(IEntitySource source)
         {
@@ -40,13 +40,17 @@ namespace EbonianMod.Projectiles.Exol
         }
         public override void AI()
         {
-            Projectile.scale = MathHelper.Min(Projectile.scale + 0.03f, 1);
+            if (Projectile.ai[1] == 0)
+                Projectile.ai[1] = Main.rand.Next(1, 3);
+            Projectile.ai[2] += 0.03f;
+            Projectile.scale = MathHelper.Min(Projectile.scale + 0.055f, 1);
             Projectile.rotation = Projectile.velocity.ToRotation();
         }
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = TextureAssets.Projectile[Type].Value;
             Main.spriteBatch.Reload(BlendState.Additive);
+            Rectangle rect = new Rectangle(0, 0, tex.Width, (int)(tex.Height * Projectile.scale));
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 float fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Type];
@@ -61,11 +65,11 @@ namespace EbonianMod.Projectiles.Exol
 
                     float alpha = MathHelper.Lerp((1f - fadeMult * i), (1f - fadeMult * k), (float)(j) / 10);
                     Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], lastP, (float)(j) / 10);
-                    Main.spriteBatch.Draw(tex, pos + (Projectile.Size / 2) - Main.screenPosition, null, Color.OrangeRed * alpha * 0.5f, Projectile.rotation, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.scale, 0, 0.5f), Projectile.scale / 2) * alpha, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex, pos + (Projectile.Size / 2) - Main.screenPosition, rect, Color.OrangeRed * alpha * 0.5f, Projectile.rotation + (Projectile.ai[1] == 2 ? MathHelper.Pi : 0), tex.Size() / 2, 0.5f * alpha/*new Vector2(MathHelper.Clamp(Projectile.scale, 0, 0.5f), Projectile.scale / 2) * alpha*/, Projectile.ai[1] == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
                 }
 
             }
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed, Projectile.rotation, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.scale, 0, 0.5f), Projectile.scale / 2), SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, rect, Color.OrangeRed, Projectile.rotation + (Projectile.ai[1] == 2 ? MathHelper.Pi : 0), tex.Size() / 2, 0.5f/*new Vector2(MathHelper.Clamp(Projectile.scale, 0, 0.5f), Projectile.scale / 2)*/, Projectile.ai[1] == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

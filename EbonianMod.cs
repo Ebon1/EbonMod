@@ -65,6 +65,8 @@ namespace EbonianMod
 
                     if (playerBox.Intersects(floorBox) && self.velocity.Y > 0 && !Collision.SolidCollision(self.Bottom, self.width, (int)Math.Max(1 + proj.velocity.Y, 0)))
                     {
+                        proj.timeLeft -= 2;
+                        proj.ai[2] = 3;
                         proj.ai[0]++;
                         self.gfxOffY = proj.gfxOffY;
                         self.position.Y = proj.position.Y - self.height + 4;

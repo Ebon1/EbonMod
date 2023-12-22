@@ -71,9 +71,14 @@ namespace EbonianMod.Projectiles.Exol
             Projectile.height = 64;
             Projectile.aiStyle = -1;
             Projectile.friendly = false;
+            Projectile.hide = true;
             Projectile.hostile = true;
             Projectile.timeLeft = 160;
             Projectile.tileCollide = false;
+        }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            behindNPCsAndTiles.Add(index);
         }
         public override Color? GetAlpha(Color lightColor) => Color.White;
         public override void AI()

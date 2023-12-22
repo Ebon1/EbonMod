@@ -64,7 +64,7 @@ namespace EbonianMod.Projectiles.Exol
         public override void AI()
         {
             NPC npc = Main.npc[(int)Projectile.localAI[0]];
-            if (npc == null || !npc.active || npc.type != EbonianMod.ExolID) Projectile.Kill();
+            if (npc == null || !npc.active) Projectile.Kill();
             Projectile.Center = Vector2.Lerp(Projectile.Center, npc.Center + new Vector2(Projectile.ai[1], Projectile.ai[2]).RotatedBy(MathHelper.ToRadians(npc.ai[1] * 0.3f * side)), 0.2f);
             if (Projectile.timeLeft > 250 - Projectile.ai[0])
             {

@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
+
 namespace EbonianMod.Projectiles.Exol
 {
     public class EPlatform : ModProjectile
@@ -21,13 +22,20 @@ namespace EbonianMod.Projectiles.Exol
             Projectile.tileCollide = false;
             Projectile.hostile = true;
             Projectile.aiStyle = -1;
+            Projectile.hide = true;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 500;
+            Projectile.timeLeft = 420;
+        }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            behindNPCsAndTiles.Add(index);
         }
         public override bool? CanDamage() => false;
         public override void AI()
         {
-            Projectile.timeLeft = 2;
+            Projectile.velocity *= 0.975f;
+            if (Projectile.timeLeft < 40 * (Projectile.ai[2] + 1))
+                Projectile.velocity.Y += 1;
         }
     }
 }
