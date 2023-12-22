@@ -161,7 +161,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         {
             for (int j = 0; j < 30; j++)
             {
-                Dust.NewDustPerfect(Projectile.Center, DustID.CursedTorch, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 5), Scale: Main.rand.NextFloat(2));
+                Dust.NewDustPerfect(Projectile.Center, DustID.CursedTorch, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 10), Scale: Main.rand.NextFloat(1, 3)).noGravity = true;
             }
         }
         public override void AI()
