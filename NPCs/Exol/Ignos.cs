@@ -72,14 +72,32 @@ namespace EbonianMod.NPCs.Exol
         //IDLE ATTACKS
         const int QuickSlashes = 0, SwordWave = 1, MinorArrowHail = 2, SkullBurst = 3, SethKnife = 4, MeleeComboToCloseDistance = 5, GiantExplosiveArrow = 6, RenallaHomingBeams = 7, LavaEverywhereButUnder = 8, SwordThrustDash = 9;
         //max idles: 3
-        public int IdleAttacks, CurrentIdleAttack = 0;
+        public int IdleAttacks;
         public int NextAttack = 1;
         Vector2 lastPos;
+        public float Ease(float f) => 1 - (float)Math.Pow(2, 10 * f - 10);
+        public float ScaleFunction(float progress) => 0.7f + (float)Math.Sin(progress * Math.PI) * 0.5f;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
             PlayerDetection();
             AITimer++;
+            if (turningSword)
+            {
+                swingTime--;
+                int direction = (int)swordDirection;
+                float swingProgress = Ease(Utils.GetLerpValue(0f, maxSwingTime, swingTime));
+                float defRot = swordRotationFocus;
+                float start = defRot - (MathHelper.PiOver2 + MathHelper.PiOver4);
+                float end = defRot + (MathHelper.PiOver2 + MathHelper.PiOver4);
+                float rotation = direction == 1 ? start + MathHelper.Pi * 3 / 2 * swingProgress : end - MathHelper.Pi * 3 / 2 * swingProgress;
+                Vector2 position = NPC.Center + rotation.ToRotationVector2() * swordPositionOffset * ScaleFunction(swingProgress);
+                swordRotation = (position - NPC.Center).ToRotation() + MathHelper.PiOver4 * 0.5f;
+                if (swingTime <= 0)
+                {
+                    turningSword = false;
+                }
+            }
             int maxIdles;
             if (NPC.life < NPC.lifeMax / 4)
                 maxIdles = 4;
@@ -92,7 +110,7 @@ namespace EbonianMod.NPCs.Exol
                 case Spawn:
                     {
                         Reset();
-                        AIState = SwordWaveSpam;
+                        AIState = Idle;
                     }
                     break;
                 case Idle:
@@ -100,18 +118,174 @@ namespace EbonianMod.NPCs.Exol
                         switch (IdleState)
                         {
                             case QuickSlashes:
+                                IdleMovement(new Vector2(0, -200));
+                                swordRotationFocus = MathHelper.Lerp(swordRotationFocus, -Vector2.UnitY.ToRotation(), 0.1f);
+                                swordRotation = MathHelper.Lerp(swordRotation, -Vector2.UnitY.ToRotation(), 0.1f);
+                                if (AITimer % 5 == 0 && AITimer < 50)
+                                {
+                                    Projectile.NewProjectile(null, player.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<IgnosSlashTelegraph>(), 30, 0);
+                                }
+                                if (AITimer > 75)
+                                {
+                                    if (--IdleAttacks <= 0)
+                                        AIState = NextAttack;
+                                    Reset(true);
+                                }
                                 break;
                             case SwordWave:
+                                IdleMovement();
+                                if (AITimer == 30)
+                                {
+                                    Vector2 vel = Helper.FromAToB(NPC.Center, player.Center);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + vel * 30, vel * 15, ModContent.ProjectileType<ESwordWave>(), 30, 0);
+                                }
+                                if (AITimer > 50)
+                                {
+                                    if (--IdleAttacks <= 0)
+                                        AIState = NextAttack;
+                                    Reset(true);
+                                }
                                 break;
                             case MinorArrowHail:
+                                bowRotation = -MathHelper.PiOver2;
+                                if (AITimer < 30)
+                                {
+                                    bowAlpha = Math.Min(bowAlpha + 0.04f, 1);
+                                    swordAlpha = Math.Max(swordAlpha - 0.04f, 0);
+                                }
+                                if (AITimer > 30 && AITimer < 60)
+                                {
+                                    IdleMovement(new Vector2(200 * Helper.FromAToB(NPC.Center, player.Center).X, -100));
+                                    bowString += 0.65f;
+                                }
+                                else NPC.velocity *= 0.98f;
+                                if (AITimer > 30 && AITimer < 60)
+                                    for (int i = 0; i < 1 + MathHelper.Clamp((AITimer - 30) / 7.5f, 0, 4); i++)
+                                    {
+                                        arrowAlpha[i] = MathHelper.Lerp(arrowAlpha[i], 1f, 0.2f);
+                                    }
+                                if (AITimer > 60 && AITimer < 67)
+                                {
+                                    bowString = MathHelper.Lerp(bowString, -5, 0.4f);
+                                    for (int i = 0; i < arrowAlpha.Length; i++)
+                                    {
+                                        arrowAlpha[i] = 0;
+                                    }
+                                    for (int i = 0; i < 5; i++)
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(25, 0).RotatedBy(bowRotation), new Vector2(Helper.FromAToB(NPC.Center, player.Center, false).X * 0.01f + Main.rand.NextFloat(-1, 1), -5), ModContent.ProjectileType<MagmaArrowHostile>(), 30, 0);
+                                }
+                                if (AITimer > 67)
+                                {
+                                    swordAlpha = Math.Min(swordAlpha + 0.04f, 1);
+                                    bowAlpha = Math.Max(bowAlpha - 0.04f, 0);
+                                    bowString = MathHelper.Lerp(bowString, 0, 0.2f);
+                                }
+
+                                if (AITimer >= 80)
+                                {
+                                    if (--IdleAttacks <= 0)
+                                        AIState = NextAttack;
+                                    Reset(true);
+                                }
                                 break;
                             case SkullBurst:
+                                if (AITimer < 30)
+                                {
+                                    Vector2 pos = NPC.Center + 200 * Main.rand.NextVector2Unit();
+                                    Dust a = Dust.NewDustPerfect(pos, ModContent.DustType<GenericAdditiveDust>(), Helper.FromAToB(pos, NPC.Center) * Main.rand.NextFloat(10, 20), newColor: Color.OrangeRed, Scale: Main.rand.NextFloat(0.05f, 0.15f));
+                                    a.noGravity = false;
+                                    a.customData = 1;
+                                }
+                                if (AITimer == 40)
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<InferosShockwave>(), 0, 0);
+                                    for (int i = 0; i < 8; i++)
+                                    {
+                                        Vector2 vel = Main.rand.NextVector2Unit() * 5;
+                                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, vel, ModContent.ProjectileType<ESkullEmoji>(), 15, 0);
+                                    }
+                                }
+                                if (AITimer > 50)
+                                {
+                                    if (--IdleAttacks <= 0)
+                                        AIState = NextAttack;
+                                    Reset(true);
+                                }
                                 break;
                             case SethKnife:
+                                IdleMovement(new Vector2(0, -200));
+                                if (AITimer > 30 && AITimer % 5 == 0 && AITimer < 60)
+                                {
+                                    NPC.velocity *= 0.75f;
+                                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(0, 50).RotatedBy(MathHelper.ToRadians((AITimer - 45) * 3.5f)), new Vector2(0, 1).RotatedBy(MathHelper.ToRadians((AITimer - 45) * 3.5f)) * 4, ModContent.ProjectileType<EFire>(), 15, 0, player.whoAmI).timeLeft = 170 + (int)AITimer;
+                                }
+                                if (AITimer > 60 && AITimer % 5 == 0 && AITimer < 90)
+                                {
+                                    NPC.velocity *= 0.75f;
+                                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(0, 50).RotatedBy(MathHelper.ToRadians((AITimer - 75) * 2.5f)), new Vector2(0, 1).RotatedBy(MathHelper.ToRadians((AITimer - 75) * 2.5f)) * 4, ModContent.ProjectileType<EFire>(), 15, 0, player.whoAmI).timeLeft = 170 + (int)AITimer;
+                                }
+                                if (AITimer > 100)
+                                {
+                                    if (--IdleAttacks <= 0)
+                                        AIState = NextAttack;
+                                    Reset(true);
+                                }
                                 break;
                             case MeleeComboToCloseDistance:
+                                if ((AITimer % 40 == 0 && AITimer <= 80) || AITimer == 1)
+                                {
+                                    PerformBasicSwordSlash(40);
+                                    NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 10;
+                                }
+                                if (AITimer > 100)
+                                {
+                                    if (--IdleAttacks <= 0)
+                                        AIState = NextAttack;
+                                    Reset(true);
+                                }
+                                else
+                                    NPC.damage = 50;
                                 break;
                             case GiantExplosiveArrow:
+                                if (AITimer < 60)
+                                    bowRotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation();
+                                if (AITimer < 30)
+                                {
+                                    bowAlpha = Math.Min(bowAlpha + 0.04f, 1);
+                                    swordAlpha = Math.Max(swordAlpha - 0.04f, 0);
+                                }
+                                if (AITimer > 30 && AITimer < 60)
+                                {
+                                    IdleMovement(new Vector2(200 * Helper.FromAToB(NPC.Center, player.Center).X, -200));
+                                    bowString += 0.65f;
+                                }
+                                else NPC.velocity *= 0.95f;
+                                if (AITimer > 30 && AITimer < 60)
+                                    arrowAlpha[2] = MathHelper.Lerp(arrowAlpha[2], 1f, 0.2f);
+                                if (AITimer > 70 && AITimer < 77)
+                                {
+                                    bowString = MathHelper.Lerp(bowString, -5, 0.4f);
+                                    for (int i = 0; i < arrowAlpha.Length; i++)
+                                    {
+                                        arrowAlpha[i] = 0;
+                                    }
+                                }
+                                if (AITimer == 70)
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(25, 0).RotatedBy(bowRotation), new Vector2(20, 0).RotatedBy(bowRotation), ModContent.ProjectileType<ExolGreatArrow>(), 40, 0);
+                                }
+                                if (AITimer > 77)
+                                {
+                                    swordAlpha = Math.Min(swordAlpha + 0.04f, 1);
+                                    bowAlpha = Math.Max(bowAlpha - 0.04f, 0);
+                                    bowString = MathHelper.Lerp(bowString, 0, 0.2f);
+                                }
+                                if (AITimer > 90)
+                                {
+                                    if (--IdleAttacks <= 0)
+                                        AIState = NextAttack;
+                                    Reset(true);
+                                }
                                 break;
                             case RenallaHomingBeams:
                                 break;
@@ -125,6 +299,8 @@ namespace EbonianMod.NPCs.Exol
                 case SwordSlashes:
                     {
                         IdleMovement(new Vector2(0, -200));
+                        swordRotationFocus = MathHelper.Lerp(swordRotationFocus, -Vector2.UnitY.ToRotation(), 0.1f);
+                        swordRotation = MathHelper.Lerp(swordRotation, -Vector2.UnitY.ToRotation(), 0.1f);
                         if (AITimer % 3 == 0 && AITimer >= 30 && AITimer <= 100)
                         {
                             Projectile.NewProjectile(null, player.Center - new Vector2((AITimer - 30 - 50) * 40, 0), new Vector2(Main.rand.NextFloat(-0.1f, 0.1f), -1), ModContent.ProjectileType<IgnosSlashTelegraph>(), 30, 0);
@@ -260,20 +436,21 @@ namespace EbonianMod.NPCs.Exol
                                 float angle = Helper.CircleDividedEqually(i, 7);
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center + new Vector2(250, 0).RotatedBy(angle), Vector2.Zero, ModContent.ProjectileType<IgnosEye>(), 0, 0, ai0: angle, ai1: 350, ai2: 3);
                             }
-                        if (AITimer % 40 == 0 && AITimer <= 160)
+                        if (AITimer % 40 == 0 && AITimer <= 200)
                         {
                             foreach (Projectile projectile in Main.projectile)
                             {
                                 if (projectile.type == ModContent.ProjectileType<IgnosEye>() && projectile.active)
                                 {
                                     NPC.Center = projectile.Center;
+                                    PerformBasicSwordSlash();
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * 15, ModContent.ProjectileType<ESwordWave>(), 30, 0);
                                     projectile.Kill();
                                     break;
                                 }
                             }
                         }
-                        if (AITimer >= 240)
+                        if (AITimer >= 280)
                         {
                             Reset();
                             AIState = Idle;
@@ -315,7 +492,11 @@ namespace EbonianMod.NPCs.Exol
 
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), Helper.TRay.Cast(new Vector2(player.Center.X, (Main.maxTilesY * 16) / 2), -Vector2.UnitY, 1200) - new Vector2(0, 100), new Vector2(player.velocity.X, Main.rand.NextFloat(5, 10)), ModContent.ProjectileType<MagmaArrowHostile>(), 30, 0);
                         }
-                        if (AITimer >= 205)
+                        if (AITimer > 155 && AITimer < 250 && AITimer % 5 == 0)
+                        {
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), Helper.TRay.Cast(new Vector2(player.Center.X + 920 * Main.rand.NextFloat(-1, 1f), (Main.maxTilesY * 16) / 2), -Vector2.UnitY, 1200) - new Vector2(0, 100), new Vector2(player.velocity.X, Main.rand.NextFloat(5, 10)), ModContent.ProjectileType<MagmaArrowHostile>(), 30, 0);
+                        }
+                        if (AITimer >= 265)
                         {
                             Reset();
                             AIState = Idle;
@@ -352,6 +533,9 @@ namespace EbonianMod.NPCs.Exol
 
                         if (AITimer % 30 == 0 && AITimer < 150)
                         {
+                            Vector2 vel = new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), AITimer % 60 == 0 ? -1 : 1).RotatedBy(MathHelper.ToRadians(AITimer2));
+                            NPC.velocity = -vel * 8;
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vel * 0.5f, ModContent.ProjectileType<EMine>(), 0, 0);
                             EbonianSystem.ScreenShakeAmount = 5f;
                             Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosion>(), 30, 0);
                             for (int i = 0; i < 8; i++)
@@ -418,6 +602,7 @@ namespace EbonianMod.NPCs.Exol
                         IdleMovement(new Vector2(0, -100));
                         if (AITimer % 30 == 0 && AITimer <= 180)
                         {
+                            PerformBasicSwordSlash();
                             if (AITimer % 90 == 0)
                                 for (int i = -2; i < 3; i++)
                                 {
@@ -448,10 +633,21 @@ namespace EbonianMod.NPCs.Exol
                     break;
             }
         }
+        void PerformBasicSwordSlash(int time = 40)
+        {
+            Player player = Main.player[NPC.target];
+            swordRotationFocus = Helper.FromAToB(NPC.Center, player.Center).ToRotation();
+            swordDirection = -swordDirection;
+            swingTime = time;
+            maxSwingTime = time;
+            turningSword = true;
+        }
         float rot;
         float vortexAlpha;
         float bowAlpha, bowRotation, bowString;
         float[] arrowAlpha = new float[5];
+        bool turningSword;
+        float swordAlpha = 1f, swordRotation, swordRotationFocus, swordDirection = 1, swingTime = 40, maxSwingTime = 40, swordPositionOffset = 40;
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D tex = Helper.GetExtraTexture("vortex3");
@@ -488,15 +684,41 @@ namespace EbonianMod.NPCs.Exol
                 Main.spriteBatch.Draw(tex2, NPC.Center + new Vector2(25, 0).RotatedBy(bowRotation) + Vector2.Lerp(new Vector2(20, 0).RotatedBy(bowRotation), Vector2.Zero, arrowAlpha[i + 2]) - Main.screenPosition, null, Color.White * arrowAlpha[i + 2], bowRotation + (i * 0.25f) - MathHelper.PiOver2, tex2.Size() / 2, 1, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Draw(tex2, NPC.Center + new Vector2(25, 0).RotatedBy(bowRotation) + Vector2.Lerp(new Vector2(20, 0).RotatedBy(bowRotation), Vector2.Zero, arrowAlpha[2]) - Main.screenPosition, null, Color.White * arrowAlpha[2], bowRotation - MathHelper.PiOver2, tex2.Size() / 2, 1, SpriteEffects.None, 0);
+
+
+            Texture2D tex3 = Helper.GetTexture("Items/Weapons/Melee/IgnosSword");
+            spriteBatch.Draw(tex3, NPC.Center + new Vector2(swordPositionOffset, 0).RotatedBy(swordRotation) - Main.screenPosition, null, Color.White * swordAlpha, swordRotation + (swordDirection == -1 ? 0 : MathHelper.PiOver2 * 3), tex3.Size() / 2, 1, (swordDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically), 0);
+
+            if (turningSword)
+            {
+                float mult = Ease(Utils.GetLerpValue(0f, maxSwingTime, swingTime));
+                Texture2D slash = Helper.GetExtraTexture("Extras2/slash_02");
+                float alpha = (float)Math.Sin(mult * Math.PI);
+                Vector2 pos = NPC.Center + new Vector2(swordPositionOffset, 0).RotatedBy(swordRotation);
+                Main.spriteBatch.Reload(BlendState.Additive);
+                Main.spriteBatch.Draw(slash, pos - Main.screenPosition, null, Color.OrangeRed * alpha * 0.5f, swordRotationFocus - MathHelper.PiOver2, slash.Size() / 2, 1 / 3f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            }
         }
         void Reset(bool idleReset = false)
         {
+            int maxIdles = 1;
+            if (NPC.life < NPC.lifeMax / 4)
+                maxIdles = 4;
+            else if (NPC.life < NPC.lifeMax / 2)
+                maxIdles = 3;
+            else if (NPC.life < NPC.lifeMax - NPC.lifeMax / 4)
+                maxIdles = 2;
+            if (!idleReset)
+                IdleAttacks = maxIdles;
             NPC.noTileCollide = true;
             NPC.rotation = 0;
-            IdleState = Main.rand.Next(10);
+            //IdleState = Main.rand.Next(10);
+            IdleState = GiantExplosiveArrow;
             NPC.velocity.X = 0;
             NPC.velocity.Y = 0;
             bowAlpha = 0;
+            swordAlpha = 1;
             vortexAlpha = 0;
             for (int i = 0; i < arrowAlpha.Length; i++)
             {
@@ -504,6 +726,7 @@ namespace EbonianMod.NPCs.Exol
             }
             AITimer = 0;
             AITimer2 = 0;
+            turningSword = false;
             lastPos = Vector2.Zero;
             NPC.damage = 0;
         }
