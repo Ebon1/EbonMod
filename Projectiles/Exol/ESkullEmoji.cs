@@ -114,6 +114,7 @@ namespace EbonianMod.Projectiles.Exol
         public override string Texture => "EbonianMod/Projectiles/Exol/ESkullEmoji";
         public override void SetStaticDefaults()
         {
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 1000;
             ProjectileID.Sets.TrailCacheLength[Type] = 200;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
@@ -319,6 +320,7 @@ namespace EbonianMod.Projectiles.Exol
         public override string Texture => "EbonianMod/Projectiles/Exol/ESkullEmoji";
         public override void SetStaticDefaults()
         {
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 1000;
             ProjectileID.Sets.TrailCacheLength[Type] = 200;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }

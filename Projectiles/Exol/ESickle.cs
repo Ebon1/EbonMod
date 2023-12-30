@@ -16,8 +16,8 @@ namespace EbonianMod.Projectiles.Exol
     {
         public override void SetDefaults()
         {
-            Projectile.width = 46;
-            Projectile.height = 46;
+            Projectile.width = 48;
+            Projectile.height = 40;
             Projectile.aiStyle = 0;
             Projectile.tileCollide = false;
             Projectile.friendly = false;

@@ -135,6 +135,7 @@ Projectiles: {
 	OstertagiWorm.DisplayName: Ostertagi Worm
 	OstertagiExplosion.DisplayName: Ostertagi Explosion
 	ExolGreatArrow.DisplayName: Exol Great Arrow
+	EHomingBeam.DisplayName: E Homing Beam
 }
 
 NPCs: {
@@ -196,6 +197,7 @@ NPCs: {
 	EbonButKill.DisplayName: Ebon But Kill
 	BloatedEbonfly.DisplayName: Bloated Ebonfly
 	Ignos.DisplayName: Exol of Ignos
+	MassiveSpectator.DisplayName: Massive Spectator
 }
 
 Items: {

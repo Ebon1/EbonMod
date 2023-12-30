@@ -361,7 +361,10 @@ namespace EbonianMod
         }
         public static Texture2D GetTexture(string path)
         {
-            return ModContent.Request<Texture2D>("EbonianMod/" + path).Value;
+            if (path.Contains("EbonianMod/"))
+                return ModContent.Request<Texture2D>(path).Value;
+            else
+                return ModContent.Request<Texture2D>("EbonianMod/" + path).Value;
         }
         public static Texture2D GetTextureAlt(string path)
         {

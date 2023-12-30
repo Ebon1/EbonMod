@@ -49,6 +49,11 @@ namespace EbonianMod.NPCs.Exol
                 Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Ignos");
             }
         }
+        public override void SetStaticDefaults()
+        {
+            NPCID.Sets.TrailCacheLength[Type] = 100;
+            NPCID.Sets.TrailingMode[Type] = 3;
+        }
         public float AIState { get => NPC.ai[0]; set => NPC.ai[0] = value; }
         public float AITimer
         {
@@ -67,16 +72,24 @@ namespace EbonianMod.NPCs.Exol
         }
         const int Spawn = 0, Idle = -1;
         //BIG BOY ATTACKS
-        const int SwordSlashes = 1, RykardSpiral = 2, SwordSlashesVariant2 = 3, HoldSwordUpAndChannelSoulVortex = 4, GeyserRow = 5, InfernalEye = 6, GreatArrowRain = 7, SoulStorm = 8, FireGiantLavaExplosion = 9,
+        const int SwordSlashes = 1, RykardSpiral = 2, SwordSlashesVariant2 = 3, HoldSwordUpAndChannelSoulVortex = 4, idkwhatthisshouldbe = 5, InfernalEye = 6, GreatArrowRain = 7, SoulStorm = 8, BigSwordCombo = 9,
             GaelDiscus = 10, LavaApocalypse = 11, SwordWaveSpam = 12;
         //IDLE ATTACKS
-        const int QuickSlashes = 0, SwordWave = 1, MinorArrowHail = 2, SkullBurst = 3, SethKnife = 4, MeleeComboToCloseDistance = 5, GiantExplosiveArrow = 6, RenallaHomingBeams = 7, LavaEverywhereButUnder = 8, SwordThrustDash = 9;
+        const int QuickSlashes = 0, SwordWave = 1, MinorArrowHail = 2, SkullBurst = 3, SethKnife = 4, MeleeComboToCloseDistance = 5, GiantExplosiveArrow = 6, RenallaHomingBeams = 7, FireGiantLavaExplosion = 8, SwordThrustDash = 9;
         //max idles: 3
         public int IdleAttacks;
         public int NextAttack = 1;
         Vector2 lastPos;
         public float Ease(float f) => 1 - (float)Math.Pow(2, 10 * f - 10);
         public float ScaleFunction(float progress) => 0.7f + (float)Math.Sin(progress * Math.PI) * 0.5f;
+        SoundStyle pull = new("EbonianMod/Sounds/bowPull")
+        {
+            PitchVariance = 0.25f,
+        };
+        SoundStyle release = new("EbonianMod/Sounds/bowRelease")
+        {
+            PitchVariance = 0.25f,
+        };
         public override void AI()
         {
             Player player = Main.player[NPC.target];
@@ -98,13 +111,11 @@ namespace EbonianMod.NPCs.Exol
                     turningSword = false;
                 }
             }
-            int maxIdles;
-            if (NPC.life < NPC.lifeMax / 4)
-                maxIdles = 4;
-            else if (NPC.life < NPC.lifeMax / 2)
-                maxIdles = 3;
-            else if (NPC.life < NPC.lifeMax - NPC.lifeMax / 4)
-                maxIdles = 2;
+            if (trailAlpha <= 0f)
+            {
+                for (int i = 0; i < NPC.oldPos.Length; i++)
+                    NPC.oldPos[i] = NPC.position;
+            }
             switch (AIState)
             {
                 case Spawn:
@@ -121,7 +132,7 @@ namespace EbonianMod.NPCs.Exol
                                 IdleMovement(new Vector2(0, -200));
                                 swordRotationFocus = MathHelper.Lerp(swordRotationFocus, -Vector2.UnitY.ToRotation(), 0.1f);
                                 swordRotation = MathHelper.Lerp(swordRotation, -Vector2.UnitY.ToRotation(), 0.1f);
-                                if (AITimer % 5 == 0 && AITimer < 50)
+                                if (AITimer % 10 == 0 && AITimer < 50)
                                 {
                                     Projectile.NewProjectile(null, player.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<IgnosSlashTelegraph>(), 30, 0);
                                 }
@@ -136,6 +147,7 @@ namespace EbonianMod.NPCs.Exol
                                 IdleMovement();
                                 if (AITimer == 30)
                                 {
+                                    PerformBasicSwordSlash(40);
                                     Vector2 vel = Helper.FromAToB(NPC.Center, player.Center);
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + vel * 30, vel * 15, ModContent.ProjectileType<ESwordWave>(), 30, 0);
                                 }
@@ -153,6 +165,10 @@ namespace EbonianMod.NPCs.Exol
                                     bowAlpha = Math.Min(bowAlpha + 0.04f, 1);
                                     swordAlpha = Math.Max(swordAlpha - 0.04f, 0);
                                 }
+                                if (AITimer == 30)
+                                    SoundEngine.PlaySound(pull, NPC.Center);
+                                if (AITimer == 60)
+                                    SoundEngine.PlaySound(release, NPC.Center);
                                 if (AITimer > 30 && AITimer < 60)
                                 {
                                     IdleMovement(new Vector2(200 * Helper.FromAToB(NPC.Center, player.Center).X, -100));
@@ -199,13 +215,13 @@ namespace EbonianMod.NPCs.Exol
                                 if (AITimer == 40)
                                 {
                                     Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<InferosShockwave>(), 0, 0);
-                                    for (int i = 0; i < 8; i++)
+                                    for (int i = 0; i < 3; i++)
                                     {
                                         Vector2 vel = Main.rand.NextVector2Unit() * 5;
                                         Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, vel, ModContent.ProjectileType<ESkullEmoji>(), 15, 0);
                                     }
                                 }
-                                if (AITimer > 50)
+                                if (AITimer > 80)
                                 {
                                     if (--IdleAttacks <= 0)
                                         AIState = NextAttack;
@@ -224,7 +240,7 @@ namespace EbonianMod.NPCs.Exol
                                     NPC.velocity *= 0.75f;
                                     Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(0, 50).RotatedBy(MathHelper.ToRadians((AITimer - 75) * 2.5f)), new Vector2(0, 1).RotatedBy(MathHelper.ToRadians((AITimer - 75) * 2.5f)) * 4, ModContent.ProjectileType<EFire>(), 15, 0, player.whoAmI).timeLeft = 170 + (int)AITimer;
                                 }
-                                if (AITimer > 100)
+                                if (AITimer > 130)
                                 {
                                     if (--IdleAttacks <= 0)
                                         AIState = NextAttack;
@@ -254,6 +270,8 @@ namespace EbonianMod.NPCs.Exol
                                     bowAlpha = Math.Min(bowAlpha + 0.04f, 1);
                                     swordAlpha = Math.Max(swordAlpha - 0.04f, 0);
                                 }
+                                if (AITimer == 30)
+                                    SoundEngine.PlaySound(pull, NPC.Center);
                                 if (AITimer > 30 && AITimer < 60)
                                 {
                                     IdleMovement(new Vector2(200 * Helper.FromAToB(NPC.Center, player.Center).X, -200));
@@ -262,7 +280,7 @@ namespace EbonianMod.NPCs.Exol
                                 else NPC.velocity *= 0.95f;
                                 if (AITimer > 30 && AITimer < 60)
                                     arrowAlpha[2] = MathHelper.Lerp(arrowAlpha[2], 1f, 0.2f);
-                                if (AITimer > 70 && AITimer < 77)
+                                if (AITimer > 80 && AITimer < 87)
                                 {
                                     bowString = MathHelper.Lerp(bowString, -5, 0.4f);
                                     for (int i = 0; i < arrowAlpha.Length; i++)
@@ -270,17 +288,18 @@ namespace EbonianMod.NPCs.Exol
                                         arrowAlpha[i] = 0;
                                     }
                                 }
-                                if (AITimer == 70)
+                                if (AITimer == 80)
                                 {
+                                    SoundEngine.PlaySound(release, NPC.Center);
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(25, 0).RotatedBy(bowRotation), new Vector2(20, 0).RotatedBy(bowRotation), ModContent.ProjectileType<ExolGreatArrow>(), 40, 0);
                                 }
-                                if (AITimer > 77)
+                                if (AITimer > 87)
                                 {
                                     swordAlpha = Math.Min(swordAlpha + 0.04f, 1);
                                     bowAlpha = Math.Max(bowAlpha - 0.04f, 0);
                                     bowString = MathHelper.Lerp(bowString, 0, 0.2f);
                                 }
-                                if (AITimer > 90)
+                                if (AITimer > 120)
                                 {
                                     if (--IdleAttacks <= 0)
                                         AIState = NextAttack;
@@ -288,10 +307,69 @@ namespace EbonianMod.NPCs.Exol
                                 }
                                 break;
                             case RenallaHomingBeams:
+                                if (AITimer % 5 == 0 && AITimer < 50)
+                                {
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextVector2CircularEdge(20, 10), ModContent.ProjectileType<EHomingBeam>(), 40, 0);
+                                }
+                                if (AITimer > 50)
+                                    IdleMovement(new Vector2(0, -200));
+                                if (AITimer > 120)
+                                {
+                                    if (--IdleAttacks <= 0)
+                                        AIState = NextAttack;
+                                    Reset(true);
+                                }
                                 break;
-                            case LavaEverywhereButUnder:
+                            case FireGiantLavaExplosion:
+                                if (AITimer < 30)
+                                    IdleMovement(new Vector2(0, -100));
+                                else
+                                    NPC.velocity *= 0.8f;
+
+                                if (AITimer % 30 == 0 && AITimer <= 120)
+                                {
+                                    Vector2 vel = new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), AITimer % 60 == 0 ? -1 : 1).RotatedBy(MathHelper.ToRadians(AITimer2));
+                                    NPC.velocity = -vel * 8;
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vel * 0.5f, ModContent.ProjectileType<EMine>(), 0, 0);
+                                    EbonianSystem.ScreenShakeAmount = 5f;
+                                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosion>(), 30, 0);
+                                    for (int i = 0; i < 8; i++)
+                                    {
+                                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-7, 7), Main.rand.NextFloat(-7, -4)), ModContent.ProjectileType<Gibs>(), 30, 0, ai2: 1);
+                                        a.friendly = false;
+                                        a.hostile = true;
+                                    }
+                                }
+                                if (AITimer >= 180)
+                                {
+                                    if (--IdleAttacks <= 0)
+                                        AIState = NextAttack;
+                                    Reset(true);
+                                }
                                 break;
                             case SwordThrustDash:
+                                if (AITimer < 35f)
+                                {
+                                    swordRotationFocus = MathHelper.Lerp(swordRotationFocus, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.PiOver4 * 0.5f, 0.25f);
+                                    swordRotation = MathHelper.Lerp(swordRotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.PiOver4 * 0.5f, 0.25f);
+                                }
+                                if (AITimer >= 40 && AITimer <= 50)
+                                {
+                                    NPC.damage = 50;
+                                    trailAlpha = Math.Min(trailAlpha + 0.1f, 1);
+                                    NPC.velocity += Vector2.UnitX.RotatedBy(swordRotation - MathHelper.PiOver4 * 0.5f) * 3.5f;
+                                }
+                                else NPC.velocity *= 0.95f;
+                                if (AITimer > 70)
+                                {
+                                    trailAlpha = Math.Max(trailAlpha - 0.04f, 0);
+                                }
+                                if (AITimer > 85)
+                                {
+                                    if (--IdleAttacks <= 0)
+                                        AIState = NextAttack;
+                                    Reset(true);
+                                }
                                 break;
                         }
                     }
@@ -323,6 +401,7 @@ namespace EbonianMod.NPCs.Exol
                     {
                         if (AITimer < 40)
                         {
+                            IdleMovement();
                             Vector2 pos = NPC.Center + 300 * Main.rand.NextVector2Unit();
                             Dust a = Dust.NewDustPerfect(pos, ModContent.DustType<GenericAdditiveDust>(), Helper.FromAToB(pos, NPC.Center) * Main.rand.NextFloat(10, 20), newColor: Color.OrangeRed, Scale: Main.rand.NextFloat(0.05f, 0.15f));
                             a.noGravity = false;
@@ -330,6 +409,7 @@ namespace EbonianMod.NPCs.Exol
                         }
                         if (AITimer == 45)
                         {
+                            NPC.velocity = Vector2.Zero;
                             Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosion>(), 30, 0);
                             for (int i = 0; i < 8; i++)
                             {
@@ -357,7 +437,7 @@ namespace EbonianMod.NPCs.Exol
                             float angle = Helper.CircleDividedEqually(AITimer2, 15);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + new Vector2(0, 200).RotatedBy(angle), Vector2.One.RotatedBy(angle), ModContent.ProjectileType<IgnosSlashTelegraph>(), 30, 0);
                         }
-                        if (AITimer >= 120)
+                        if (AITimer >= 150)
                         {
                             Reset();
                             AIState = Idle;
@@ -378,7 +458,7 @@ namespace EbonianMod.NPCs.Exol
                         {
                             Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<IgArena>(), 0, 0);
                         }
-                        if (AITimer > 40 && AITimer % 5 == 0 && AITimer < 80)
+                        if (AITimer > 40 && AITimer % 10 == 0 && AITimer < 80)
                         {
                             Vector2 vel = Main.rand.NextVector2Circular(5, 5);
                             Projectile.NewProjectile(null, NPC.Center - new Vector2(0, 100), vel, ModContent.ProjectileType<ESkullEmoji>(), 30, 0);
@@ -387,9 +467,9 @@ namespace EbonianMod.NPCs.Exol
                             Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center - new Vector2(0, 100), Vector2.Zero, ModContent.ProjectileType<FlameExplosion>(), 30, 0);
                         if (AITimer == 160)
                         {
-                            for (int i = 0; i < 8; i++)
+                            for (int i = 0; i < 4; i++)
                             {
-                                float angle = Helper.CircleDividedEqually(i, 8);
+                                float angle = Helper.CircleDividedEqually(i, 4);
                                 Projectile.NewProjectile(null, NPC.Center - new Vector2(0, 100), Main.rand.NextFloat(5, 10) * Vector2.UnitX.RotatedBy(angle), ModContent.ProjectileType<ESkullEmoji>(), 30, 0);
                             }
                         }
@@ -397,30 +477,17 @@ namespace EbonianMod.NPCs.Exol
                         {
                             vortexAlpha = Math.Max(vortexAlpha - 0.04f, 0);
                         }
-                        if (AITimer >= 300)
+                        if (AITimer >= 370)
                         {
                             Reset();
                             AIState = Idle;
-                            NextAttack = GeyserRow;
+                            NextAttack = idkwhatthisshouldbe;
                         }
                     }
                     break;
-                case GeyserRow:
+                case idkwhatthisshouldbe:
                     {
-                        NPC.velocity = Helper.FromAToB(NPC.Center, Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 1000), false) * 0.1f;
-                        if (AITimer == 40)
-                        {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<EGeyser>(), 0, 0);
-                        }
-                        if (AITimer >= 50 && AITimer <= 80 && AITimer % 10 == 0)
-                        {
-                            for (int i = -1; i < 2; i++)
-                            {
-                                if (i == 0 || i > 1) continue;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - new Vector2(i * (AITimer - 40) * 25, 130), Vector2.Zero, ModContent.ProjectileType<EGeyser>(), 0, 0, ai2: 1);
-                            }
-                        }
-                        if (AITimer >= 170)
+                        if (AITimer >= 1)
                         {
                             Reset();
                             AIState = Idle;
@@ -450,7 +517,7 @@ namespace EbonianMod.NPCs.Exol
                                 }
                             }
                         }
-                        if (AITimer >= 280)
+                        if (AITimer >= 340)
                         {
                             Reset();
                             AIState = Idle;
@@ -496,7 +563,7 @@ namespace EbonianMod.NPCs.Exol
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), Helper.TRay.Cast(new Vector2(player.Center.X + 920 * Main.rand.NextFloat(-1, 1f), (Main.maxTilesY * 16) / 2), -Vector2.UnitY, 1200) - new Vector2(0, 100), new Vector2(player.velocity.X, Main.rand.NextFloat(5, 10)), ModContent.ProjectileType<MagmaArrowHostile>(), 30, 0);
                         }
-                        if (AITimer >= 265)
+                        if (AITimer >= 285)
                         {
                             Reset();
                             AIState = Idle;
@@ -516,36 +583,43 @@ namespace EbonianMod.NPCs.Exol
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(player.Center.X + 1080, (Main.maxTilesY * Main.rand.NextFloat(4, 28)) / 2), -Vector2.UnitX.RotatedByRandom(MathHelper.PiOver4 / 2) * 15, ModContent.ProjectileType<TinyRykardSkull>(), 30, 0);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), new Vector2(player.Center.X - 1080, (Main.maxTilesY * Main.rand.NextFloat(4, 28)) / 2), Vector2.UnitX.RotatedByRandom(MathHelper.PiOver4 / 2) * 15, ModContent.ProjectileType<TinyRykardSkull>(), 30, 0);
                         }
-                        if (AITimer >= 180)
+                        if (AITimer >= 170)
                         {
                             Reset();
                             AIState = Idle;
-                            NextAttack = FireGiantLavaExplosion;
+                            NextAttack = BigSwordCombo;
                         }
                     }
                     break;
-                case FireGiantLavaExplosion:
+                case BigSwordCombo:
                     {
-                        if (AITimer < 30)
-                            IdleMovement(new Vector2(0, -100));
-                        else
-                            NPC.velocity *= 0.8f;
-
-                        if (AITimer % 30 == 0 && AITimer < 150)
+                        NPC.damage = 50;
+                        if ((AITimer % 30 == 0 && AITimer <= 120) || AITimer == 1 || AITimer == 200)
                         {
-                            Vector2 vel = new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), AITimer % 60 == 0 ? -1 : 1).RotatedBy(MathHelper.ToRadians(AITimer2));
-                            NPC.velocity = -vel * 8;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vel * 0.5f, ModContent.ProjectileType<EMine>(), 0, 0);
-                            EbonianSystem.ScreenShakeAmount = 5f;
-                            Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosion>(), 30, 0);
-                            for (int i = 0; i < 8; i++)
-                            {
-                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-7, 7), Main.rand.NextFloat(-7, -4)), ModContent.ProjectileType<Gibs>(), 30, 0, ai2: 1);
-                                a.friendly = false;
-                                a.hostile = true;
-                            }
+                            PerformBasicSwordSlash(30);
+                            NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 15;
                         }
-                        if (AITimer >= 200)
+                        if (AITimer >= 120 && AITimer < 200)
+                        {
+                            AITimer2++;
+                            if (AITimer2 < 35f)
+                            {
+                                swordRotationFocus = MathHelper.Lerp(swordRotationFocus, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.PiOver4 * 0.5f, 0.25f);
+                                swordRotation = MathHelper.Lerp(swordRotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.PiOver4 * 0.5f, 0.25f);
+                            }
+                            if (AITimer2 >= 40 && AITimer2 <= 50)
+                            {
+                                NPC.damage = 50;
+                                trailAlpha = Math.Min(trailAlpha + 0.1f, 1);
+                                NPC.velocity += Vector2.UnitX.RotatedBy(swordRotation - MathHelper.PiOver4 * 0.5f) * 3.5f;
+                            }
+                            else NPC.velocity *= 0.95f;
+                        }
+                        if (AITimer2 > 70)
+                        {
+                            trailAlpha = Math.Max(trailAlpha - 0.1f, 0);
+                        }
+                        if (AITimer >= 250)
                         {
                             Reset();
                             AIState = Idle;
@@ -566,7 +640,7 @@ namespace EbonianMod.NPCs.Exol
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.UnitX.RotatedBy(angle) * 2, ModContent.ProjectileType<ESickle>(), 30, 0, ai1: angle);
                             }
                         }
-                        if (AITimer >= 250)
+                        if (AITimer >= 270)
                         {
                             Reset();
                             AIState = Idle;
@@ -589,7 +663,7 @@ namespace EbonianMod.NPCs.Exol
                                 Projectile.NewProjectileDirect(NPC.InheritSource(NPC), Helper.TRay.Cast(NPC.Center + new Vector2(920 * Main.rand.NextFloat(-1, 1), -20), Vector2.UnitY, 1000) + Vector2.UnitY * 50, new Vector2(Main.rand.NextFloat(-1, 1), -Main.rand.NextFloat(5, 15)), ModContent.ProjectileType<ExolFireExplode>(), 30, 1);
                             }
                         }
-                        if (AITimer >= 400)
+                        if (AITimer >= 470)
                         {
                             Reset();
                             AIState = Idle;
@@ -623,7 +697,7 @@ namespace EbonianMod.NPCs.Exol
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + vel * 30, vel * 15, ModContent.ProjectileType<ESwordWave>(), 30, 0);
                             }
                         }
-                        if (AITimer >= 180)
+                        if (AITimer >= 200)
                         {
                             Reset();
                             AIState = Idle;
@@ -646,6 +720,7 @@ namespace EbonianMod.NPCs.Exol
         float vortexAlpha;
         float bowAlpha, bowRotation, bowString;
         float[] arrowAlpha = new float[5];
+        float trailAlpha;
         bool turningSword;
         float swordAlpha = 1f, swordRotation, swordRotationFocus, swordDirection = 1, swingTime = 40, maxSwingTime = 40, swordPositionOffset = 40;
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -685,6 +760,22 @@ namespace EbonianMod.NPCs.Exol
             }
             Main.spriteBatch.Draw(tex2, NPC.Center + new Vector2(25, 0).RotatedBy(bowRotation) + Vector2.Lerp(new Vector2(20, 0).RotatedBy(bowRotation), Vector2.Zero, arrowAlpha[2]) - Main.screenPosition, null, Color.White * arrowAlpha[2], bowRotation - MathHelper.PiOver2, tex2.Size() / 2, 1, SpriteEffects.None, 0);
 
+            if (trailAlpha > 0f)
+            {
+                var fadeMult = 1f / NPCID.Sets.TrailCacheLength[Type];
+                Main.spriteBatch.Reload(BlendState.Additive);
+                for (int i = 0; i < NPC.oldPos.Length; i++)
+                {
+                    float mult = (1f - fadeMult * i);
+                    if (i > 0)
+                        for (float j = 0; j < 10; j++)
+                        {
+                            Vector2 pos = Vector2.Lerp(NPC.oldPos[i], NPC.oldPos[i - 1], (float)(j / 10));
+                            Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + NPC.Size / 2 + new Vector2(swordPositionOffset, 0).RotatedBy(swordRotation) - Main.screenPosition, null, Color.OrangeRed * (0.35f * trailAlpha), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f * mult, SpriteEffects.None, 0);
+                            Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + NPC.Size / 2 + new Vector2(swordPositionOffset, 0).RotatedBy(swordRotation) - Main.screenPosition, null, Color.OrangeRed * (0.25f * trailAlpha), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.1f * mult, SpriteEffects.None, 0);
+                        }
+                }
+            }
 
             Texture2D tex3 = Helper.GetTexture("Items/Weapons/Melee/IgnosSword");
             spriteBatch.Draw(tex3, NPC.Center + new Vector2(swordPositionOffset, 0).RotatedBy(swordRotation) - Main.screenPosition, null, Color.White * swordAlpha, swordRotation + (swordDirection == -1 ? 0 : MathHelper.PiOver2 * 3), tex3.Size() / 2, 1, (swordDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically), 0);
@@ -704,7 +795,7 @@ namespace EbonianMod.NPCs.Exol
         {
             int maxIdles = 1;
             if (NPC.life < NPC.lifeMax / 4)
-                maxIdles = 4;
+                maxIdles = 2;
             else if (NPC.life < NPC.lifeMax / 2)
                 maxIdles = 3;
             else if (NPC.life < NPC.lifeMax - NPC.lifeMax / 4)
@@ -713,10 +804,13 @@ namespace EbonianMod.NPCs.Exol
                 IdleAttacks = maxIdles;
             NPC.noTileCollide = true;
             NPC.rotation = 0;
-            //IdleState = Main.rand.Next(10);
-            IdleState = GiantExplosiveArrow;
+            IdleState = Main.rand.Next(10);
+            //IdleState++;
+            //if (IdleState > SwordThrustDash)
+            //  IdleState = 0;
             NPC.velocity.X = 0;
             NPC.velocity.Y = 0;
+            trailAlpha = 0;
             bowAlpha = 0;
             swordAlpha = 1;
             vortexAlpha = 0;
