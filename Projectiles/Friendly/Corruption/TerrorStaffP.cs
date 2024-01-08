@@ -51,7 +51,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                 return false;
             }
             Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Helper.TRay.Cast(Projectile.Center, Vector2.UnitY, Main.screenWidth), Vector2.Zero, ModContent.ProjectileType<TExplosion>(), 0, 0);
-            Terraria.Audio.SoundEngine.PlaySound(new("EbonianMod/Sounds/Eggplosion"), Projectile.Center);
+            Terraria.Audio.SoundEngine.PlaySound(EbonianSounds.eggplosion, Projectile.Center);
             return true;
         }
         public override void AI()

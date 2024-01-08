@@ -576,10 +576,7 @@ Items: {
 
 	ClementinesCap: {
 		DisplayName: Bloody Ballcap
-		Tooltip: 
-		'''
-		"Still wearing that dirty old thing?"
-		'''
+		Tooltip: '''"Still wearing that dirty old thing?"'''
 	}
 }
 

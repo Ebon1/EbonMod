@@ -121,7 +121,7 @@ namespace EbonianMod.NPCs.Crimson
                         NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 15;
                     if (AITimer > 30)
                     {
-                        SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/chomp" + 2), NPC.Center);
+                        SoundEngine.PlaySound(EbonianSounds.chomp2, NPC.Center);
                         AITimer = 0;
                         AIState++;
                     }

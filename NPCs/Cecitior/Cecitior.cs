@@ -64,8 +64,8 @@ namespace EbonianMod.NPCs.Cecitior
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.boss = false;
-            SoundStyle hit = new("EbonianMod/Sounds/NPCHit/fleshHit");
-            SoundStyle death = new("EbonianMod/Sounds/NPCHit/cecitiordie");
+            SoundStyle hit = EbonianSounds.fleshHit;
+            SoundStyle death = EbonianSounds.cecitiorDie;
             NPC.HitSound = hit;
             NPC.DeathSound = death;
             NPC.buffImmune[24] = true;
@@ -252,14 +252,14 @@ namespace EbonianMod.NPCs.Cecitior
                 AITimer2 = 0;
                 EbonianSystem.ChangeCameraPos(NPC.Center, 180);
             }
-            SoundStyle selected = EbonianMod.flesh0;
+            SoundStyle selected = EbonianSounds.flesh0;
             switch (Main.rand.Next(3))
             {
                 case 0:
-                    selected = EbonianMod.flesh1;
+                    selected = EbonianSounds.flesh1;
                     break;
                 case 1:
-                    selected = EbonianMod.flesh2;
+                    selected = EbonianSounds.flesh2;
                     break;
             }
             if (!cachedSound.IsValid || !SoundEngine.TryGetActiveSound(cachedSound, out var activeSound) || !activeSound.IsPlaying)
@@ -308,8 +308,8 @@ namespace EbonianMod.NPCs.Cecitior
                 //NPC.damage = 40;
                 if ((openOffset.Length() < 2.5f && openOffset.Length() > 1f) || (openOffset.Length() > -2.5f && openOffset.Length() < -1f))
                 {
-                    SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/chomp" + 2), NPC.Center);
-                    SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/NPCHit/fleshHit"), NPC.Center);
+                    SoundEngine.PlaySound(EbonianSounds.chomp2, NPC.Center);
+                    SoundEngine.PlaySound(EbonianSounds.fleshHit, NPC.Center);
                     EbonianSystem.ScreenShakeAmount = 5;
                 }
                 if (openOffset != Vector2.Zero && AIState != ThrowUpBlood && AIState != LaserRain && NPC.frame.Y == 6 * 102)
@@ -419,7 +419,7 @@ namespace EbonianMod.NPCs.Cecitior
                 {
                     open = false;
                     EbonianSystem.ScreenShakeAmount = AITimer2.Safe(0.5f) * 1.25f;
-                    SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/chomp" + Main.rand.Next(2)), NPC.Center);
+                    SoundEngine.PlaySound(Main.rand.NextBool() ? EbonianSounds.chomp0 : EbonianSounds.chomp1, NPC.Center);
                     for (int i = 0; i < 15 + AITimer2 * 3; i++)
                         Dust.NewDustPerfect(NPC.Center, DustID.TreasureSparkle, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 10));
                     for (int i = 0; i < 10 + AITimer2 * 3; i++)

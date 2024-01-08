@@ -90,7 +90,7 @@ namespace EbonianMod.Items.Misc
                 info.DamageSource = customReason;
                 player.Hurt(info);
                 player.immuneTime = 0;
-                SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/NPCHit/fleshHit"), player.Center);
+                SoundEngine.PlaySound(EbonianSounds.fleshHit, player.Center);
 
                 Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                 for (int i = 0; i < 5; i++)
@@ -133,7 +133,7 @@ namespace EbonianMod.Items.Misc
 
                     EbonianSystem.ScreenShakeAmount = 2;
 
-                    SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/NPCHit/fleshHit") with { PitchVariance = 0.3f, Volume = 0.3f }, player.Center);
+                    SoundEngine.PlaySound(EbonianSounds.fleshHit with { PitchVariance = 0.3f, Volume = 0.3f }, player.Center);
 
                     for (int k = 0; k < 15; k++)
                     {
@@ -149,7 +149,7 @@ namespace EbonianMod.Items.Misc
 
                     EbonianSystem.ScreenShakeAmount = 2;
 
-                    SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/NPCHit/fleshHit") with { PitchVariance = 0.3f, Volume = 0.3f }, player.Center);
+                    SoundEngine.PlaySound(EbonianSounds.fleshHit with { PitchVariance = 0.3f, Volume = 0.3f }, player.Center);
 
                     for (int k = 0; k < 15; k++)
                     {
@@ -165,7 +165,7 @@ namespace EbonianMod.Items.Misc
 
                     EbonianSystem.ScreenShakeAmount = 2;
 
-                    SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/NPCHit/fleshHit") with { PitchVariance = 0.3f, Volume = 0.3f }, player.Center);
+                    SoundEngine.PlaySound(EbonianSounds.fleshHit with { PitchVariance = 0.3f, Volume = 0.3f }, player.Center);
 
                     for (int k = 0; k < 15; k++)
                     {

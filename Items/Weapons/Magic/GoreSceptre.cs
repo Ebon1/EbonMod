@@ -186,7 +186,7 @@ namespace EbonianMod.Items.Weapons.Magic
                     Projectile.ai[1] = 1f;
 
                     player.CheckMana((int)(20 - (Projectile.ai[2] / 2)), true);
-                    SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/heartbeat"), end);
+                    SoundEngine.PlaySound(EbonianSounds.heartbeat, end);
                     Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), end, Vector2.Zero, ModContent.ProjectileType<BloodShockwave2>(), 0, 0, Projectile.owner);
                     Projectile.damage++;
                     Projectile.ai[2]++;

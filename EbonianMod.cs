@@ -39,7 +39,6 @@ namespace EbonianMod
         public RenderTarget2D render, render2, blurrender;
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
-        public static SoundStyle flesh0, flesh1, flesh2;
         internal static void SolidTopCollision(Terraria.On_Player.orig_Update_NPCCollision orig, Player self) //https://discord.com/channels/103110554649894912/711551818194485259/998428409455714397
         {
             var modSelf = self.GetModPlayer<EbonianPlayer>();
@@ -154,10 +153,6 @@ namespace EbonianMod
         }
         public override void Load()
         {
-
-            flesh0 = new SoundStyle("EbonianMod/Sounds/flesh0");
-            flesh1 = new SoundStyle("EbonianMod/Sounds/flesh1");
-            flesh2 = new SoundStyle("EbonianMod/Sounds/flesh2");
 
             sys = new();
             Instance = this;

@@ -70,7 +70,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override void Kill(int timeLeft)
         {
             Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.OrangeRed);
-            SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/genericexplosion"), Projectile.Center);
+            SoundEngine.PlaySound(EbonianSounds.genericExplosion, Projectile.Center);
             for (int i = 0; i < 25; i++)
             {
                 Gore.NewGoreDirect(Projectile.GetSource_Death(), Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(), Main.rand.Next(new int[] { GoreID.Smoke1, GoreID.Smoke2, GoreID.Smoke3 }), Main.rand.NextFloat(0.25f, 1f));

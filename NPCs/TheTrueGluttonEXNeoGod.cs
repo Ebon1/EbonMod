@@ -214,7 +214,7 @@ namespace EbonianMod.NPCs.Corruption
                             Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CursedTorch, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                         }
                         Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Bottom, Vector2.Zero, ModContent.ProjectileType<TExplosion>(), 0, 0).scale = 2f;
-                        SoundEngine.PlaySound(new("EbonianMod/Sounds/Eggplosion"));
+                        SoundEngine.PlaySound(EbonianSounds.eggplosion);
                         /*Vector2 spawnAt = new Vector2(NPC.Center.X, NPC.Center.Y + 80);
                         var funny = Main.npc[NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<FatDudeDeath>())];
                         Item.NewItem(NPC.getRect(), ItemID.PlatinumCoin);

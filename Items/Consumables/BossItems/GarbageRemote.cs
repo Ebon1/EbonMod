@@ -58,7 +58,7 @@ namespace EbonianMod.Items.Consumables.BossItems
         public override bool? UseItem(Player player)
         {
             //NPC.NewNPCDirect(player.GetSource_FromThis(), player.Center + new Microsoft.Xna.Framework.Vector2(300, -200), ModContent.NPCType<HotGarbage>());
-            Terraria.Audio.SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/GarbageSignal").WithVolumeScale(3), player.position);
+            Terraria.Audio.SoundEngine.PlaySound(EbonianSounds.garbageSignal.WithVolumeScale(3), player.position);
             Projectile.NewProjectile(Item.GetSource_FromThis(), player.Center, Vector2.Zero, ModContent.ProjectileType<GarbageRemoteP>(), 0, 0, player.whoAmI);
             return true;
         }

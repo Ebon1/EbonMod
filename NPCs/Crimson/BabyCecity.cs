@@ -29,7 +29,7 @@ namespace EbonianMod.NPCs.Crimson
             NPC.damage = 15;
             NPC.defense = 2;
             NPC.lifeMax = 55;
-            NPC.HitSound = new SoundStyle("EbonianMod/Sounds/NPCHit/fleshHit");
+            NPC.HitSound = EbonianSounds.fleshHit;
             NPC.value = 60f;
             NPC.knockBackResist = 0.5f;
             NPC.aiStyle = -1;
@@ -144,7 +144,7 @@ namespace EbonianMod.NPCs.Crimson
                     NPC.velocity *= 0.9f;
                     if (AITimer2 == 10)
                     {
-                        SoundStyle sound = new SoundStyle("EbonianMod/Sounds/bloodSpit");
+                        SoundStyle sound = EbonianSounds.bloodSpit;
                         SoundEngine.PlaySound(sound, NPC.Center);
                     }
                     if (AITimer2 == 30)

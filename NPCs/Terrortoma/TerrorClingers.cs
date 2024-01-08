@@ -45,7 +45,9 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.noGravity = true;
             NPC.buffImmune[24] = true;
             NPC.netAlways = true;
+            NPC.hide = true;
         }
+        public override void DrawBehind(int index) => Main.instance.DrawCacheNPCsBehindNonSolidTiles.Add(index);
         //npc.rotation = npc.velocity.ToRotation() - MathHelper.PiOver2;
         private const int TimerSlot = 1;
 
@@ -160,7 +162,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
-                    NPC.velocity = (moveTo) * 0.05f;
+                    NPC.velocity = (moveTo) * 0.1f;
                 }
                 if (center.ai[2] != 4)
                 {
@@ -218,7 +220,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY.RotatedBy(j * 0.5f) * 10, ModContent.ProjectileType<TFlameThrower3>(), 10, 0);
                                                 }
                                             }
-                                            SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/NPCHit/fleshHit"), npc.Center);
+                                            SoundEngine.PlaySound(EbonianSounds.fleshHit, npc.Center);
                                             NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(85, 85).RotatedBy(center.rotation)) * 20;
                                             AITimer2 = AITimer2 > 30 ? 41 : 1;
                                         }
@@ -332,7 +334,9 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.noGravity = true;
             NPC.buffImmune[24] = true;
             NPC.netAlways = true;
+            NPC.hide = true;
         }
+        public override void DrawBehind(int index) => Main.instance.DrawCacheNPCsBehindNonSolidTiles.Add(index);
         private const int TimerSlot = 1;
 
         public float AITimer
@@ -590,7 +594,9 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.noGravity = true;
             NPC.buffImmune[24] = true;
             NPC.netAlways = true;
+            NPC.hide = true;
         }
+        public override void DrawBehind(int index) => Main.instance.DrawCacheNPCsBehindNonSolidTiles.Add(index);
 
         private Vector2 terrortomaCenter;
         Vector2 lastPos;
@@ -693,90 +699,93 @@ namespace EbonianMod.NPCs.Terrortoma
                     }
                 }
             }
-            if (center.ai[2] == 2 && NPC.ai[3] == 0)
-            {
-                bloomAlpha = 1f;
-                NPC.ai[3] = 1;
-            }
-            if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
-            if (alpha > 0f) alpha -= 0.01f;
-            if ((center.ai[2] != 2 && center.ai[2] <= 2) || center.ai[2] == 4)
-            {
-                NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
-                Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
-                Vector2 target = pos;
-                Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.05f;
-                NPC.ai[3] = 0;
-            }
             else
             {
-                if (AIState == 0 || AIState == 1 || AIState == 4 || AIState == 6)
+                if (center.ai[2] == 2 && NPC.ai[3] == 0)
+                {
+                    bloomAlpha = 1f;
+                    NPC.ai[3] = 1;
+                }
+                if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
+                if (alpha > 0f) alpha -= 0.01f;
+                if ((center.ai[2] != 2 && center.ai[2] <= 2) || center.ai[2] == 4)
                 {
                     NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
                     Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
                     NPC.velocity = (moveTo) * 0.05f;
+                    NPC.ai[3] = 0;
                 }
-                if (center.ai[2] != 4)
+                else
                 {
-                    switch (AIState)
+                    if (AIState == 0 || AIState == 1 || AIState == 4 || AIState == 6)
                     {
-                        case 2:
-                            if (CenterAITimer <= 300)
-                            {
-                                NPC.damage = 40;
-                                AITimer++;
-                                if (AITimer == 50)
+                        NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
+                        Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
+                        Vector2 target = pos;
+                        Vector2 moveTo = target - NPC.Center;
+                        NPC.velocity = (moveTo) * 0.05f;
+                    }
+                    if (center.ai[2] != 4)
+                    {
+                        switch (AIState)
+                        {
+                            case 2:
+                                if (CenterAITimer <= 300)
                                 {
-                                    NPC.velocity = Vector2.Zero;
-                                    alpha = 1f;
-                                    lastPos = player.Center;
+                                    NPC.damage = 40;
+                                    AITimer++;
+                                    if (AITimer == 50)
+                                    {
+                                        NPC.velocity = Vector2.Zero;
+                                        alpha = 1f;
+                                        lastPos = player.Center;
+                                    }
+                                    if (AITimer == 75)
+                                    {
+                                        NPC.velocity = Helper.FromAToB(NPC.Center, lastPos) * 30;
+                                    }
+                                    if (AITimer > 95 || AITimer < 50)
+                                    {
+                                        NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
+                                        Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
+                                        Vector2 target = pos;
+                                        Vector2 moveTo = target - NPC.Center;
+                                        NPC.velocity = (moveTo) * 0.05f;
+                                    }
+                                    else NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.ToRotation() - MathHelper.PiOver2, 0.1f);
+                                    if (AITimer >= 100)
+                                    {
+                                        center.ai[2] = 4;
+                                        AITimer = 0;
+                                    }
                                 }
-                                if (AITimer == 75)
+                                break;
+                            case 3:
                                 {
-                                    NPC.velocity = Helper.FromAToB(NPC.Center, lastPos) * 30;
-                                }
-                                if (AITimer > 95 || AITimer < 50)
-                                {
+                                    NPC.damage = 40;
                                     NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
-                                    Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
+                                    Vector2 pos = center.Center + new Vector2(0, 125).RotatedBy(center.rotation);
                                     Vector2 target = pos;
                                     Vector2 moveTo = target - NPC.Center;
-                                    NPC.velocity = (moveTo) * 0.05f;
+                                    NPC.velocity = (moveTo) * 0.1f;
                                 }
-                                else NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.ToRotation() - MathHelper.PiOver2, 0.1f);
-                                if (AITimer >= 100)
+                                break;
+                            case 5:
                                 {
-                                    center.ai[2] = 4;
-                                    AITimer = 0;
+                                    if (CenterAITimer < 40)
+                                        NPC.damage = 0;
+                                    else NPC.damage = 40;
+                                    if (CenterAITimer == 41)
+                                        bloomAlpha = 1f;
+                                    NPC.Center = Vector2.Lerp(NPC.Center, center.Center + new Vector2(0, Helper.TRay.CastLength(center.Center, Vector2.UnitY, 360)).RotatedBy((float)Math.Sin((float)Main.GlobalTimeWrappedHourly * 2)), 0.1f);
+                                    NPC.rotation = Helper.FromAToB(NPC.Center, center.Center + new Vector2(0, 340).RotatedBy((float)Math.Sin((float)Main.GlobalTimeWrappedHourly * 2))).ToRotation();
+                                    if (CenterAITimer > 369 + (center.life < center.lifeMax / 2 ? 50 : 0))
+                                        NPC.damage = 0;
                                 }
-                            }
-                            break;
-                        case 3:
-                            {
-                                NPC.damage = 40;
-                                NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
-                                Vector2 pos = center.Center + new Vector2(0, 125).RotatedBy(center.rotation);
-                                Vector2 target = pos;
-                                Vector2 moveTo = target - NPC.Center;
-                                NPC.velocity = (moveTo) * 0.1f;
-                            }
-                            break;
-                        case 5:
-                            {
-                                if (CenterAITimer < 40)
-                                    NPC.damage = 0;
-                                else NPC.damage = 40;
-                                if (CenterAITimer == 41)
-                                    bloomAlpha = 1f;
-                                NPC.Center = Vector2.Lerp(NPC.Center, center.Center + new Vector2(0, Helper.TRay.CastLength(center.Center, Vector2.UnitY, 360)).RotatedBy((float)Math.Sin((float)Main.GlobalTimeWrappedHourly * 2)), 0.1f);
-                                NPC.rotation = Helper.FromAToB(NPC.Center, center.Center + new Vector2(0, 340).RotatedBy((float)Math.Sin((float)Main.GlobalTimeWrappedHourly * 2))).ToRotation();
-                                if (CenterAITimer > 369 + (center.life < center.lifeMax / 2 ? 50 : 0))
-                                    NPC.damage = 0;
-                            }
-                            break;
+                                break;
+                        }
                     }
                 }
             }

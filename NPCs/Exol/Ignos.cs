@@ -83,11 +83,11 @@ namespace EbonianMod.NPCs.Exol
         Vector2 lastPos;
         public float Ease(float f) => 1 - (float)Math.Pow(2, 10 * f - 10);
         public float ScaleFunction(float progress) => 0.7f + (float)Math.Sin(progress * Math.PI) * 0.5f;
-        SoundStyle pull = new("EbonianMod/Sounds/bowPull")
+        SoundStyle pull = EbonianSounds.bowPull with
         {
             PitchVariance = 0.25f,
         };
-        SoundStyle release = new("EbonianMod/Sounds/bowRelease")
+        SoundStyle release = EbonianSounds.bowRelease with
         {
             PitchVariance = 0.25f,
         };

@@ -48,7 +48,7 @@ namespace EbonianMod.NPCs.Cecitior
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.buffImmune[24] = true;
-            SoundStyle hit = new("EbonianMod/Sounds/NPCHit/fleshHit");
+            SoundStyle hit = EbonianSounds.fleshHit;
             NPC.HitSound = hit;
             NPC.netAlways = true;
         }

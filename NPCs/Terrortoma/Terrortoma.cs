@@ -72,10 +72,8 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.noGravity = true;
             NPC.boss = false;
             NPC.BossBar = ModContent.GetInstance<TerrortomaBar>();
-            SoundStyle hit = new("EbonianMod/Sounds/NPCHit/TerrorHit");
-            SoundStyle death = new("EbonianMod/Sounds/NPCHit/TerrorDeath");
-            NPC.HitSound = hit;
-            NPC.DeathSound = death;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = SoundID.NPCDeath1;
             NPC.buffImmune[24] = true;
             NPC.netAlways = true;
             NPC.alpha = 255;
@@ -83,7 +81,7 @@ namespace EbonianMod.NPCs.Terrortoma
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color lightColor)
         {
             Player player = Main.player[NPC.target];
-            if ((player.ZoneCorrupt && AIState != -12124) || NPC.IsABestiaryIconDummy)
+            if ((/*player.ZoneCorrupt && */AIState != -12124) || NPC.IsABestiaryIconDummy)
             {
                 Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value.Width * 0.5f, NPC.height * 0.5f);
                 /*if ()
@@ -105,7 +103,7 @@ namespace EbonianMod.NPCs.Terrortoma
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Player player = Main.player[NPC.target];
-            if (player.ZoneCorrupt && AIState != -12124)
+            if (/*player.ZoneCorrupt && */AIState != -12124)
             {
                 Texture2D tex = Helper.GetTexture("NPCs/Terrortoma/TerrorEye");
                 Vector2 eyeOGPosition = NPC.Center - new Vector2(-7, 14).RotatedBy(NPC.rotation);
@@ -166,6 +164,45 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
             }
         }
+        public override bool CheckDead()
+        {
+            if (NPC.life <= 0 && !ded)
+            {
+                NPC.life = 1;
+                AIState = Death;
+                NPC.frameCounter = 0;
+                NPC.immortal = true;
+                NPC.dontTakeDamage = true;
+                EbonianSystem.ChangeCameraPos(NPC.Center, 250);
+                EbonianSystem.ScreenShakeAmount = 20;
+                ded = true;
+                AITimer = AITimer2 = 0;
+                NPC.velocity = Vector2.Zero;
+                NPC.life = 1;
+                return false;
+            }
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Unit() * 5, ModContent.Find<ModGore>("EbonianMod/Terrortoma1").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Unit() * 5, ModContent.Find<ModGore>("EbonianMod/Terrortoma2").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Unit() * 5, ModContent.Find<ModGore>("EbonianMod/Terrortoma3").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Unit() * 5, ModContent.Find<ModGore>("EbonianMod/Terrortoma4").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Unit() * 5, ModContent.Find<ModGore>("EbonianMod/Terrortoma5").Type, NPC.scale);
+            for (int i = 0; i < 40; i++)
+            {
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CursedTorch, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+            }
+            return true;
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(rotation);
+            writer.Write(ded);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            rotation = reader.ReadByte();
+            ded = reader.ReadBoolean();
+        }
+        float glareAlpha;
         private bool isLaughing;
         private bool HasSummonedClingers = false;
         private const int AISlot = 0;
@@ -202,51 +239,11 @@ namespace EbonianMod.NPCs.Terrortoma
         private const int Vilethorn2 = 6;
         float rotation;
         bool ded;
-        public override bool CheckDead()
-        {
-            if (NPC.life <= 0 && !ded)
-            {
-                NPC.life = 1;
-                AIState = Death;
-                NPC.frameCounter = 0;
-                NPC.immortal = true;
-                NPC.dontTakeDamage = true;
-                EbonianSystem.ChangeCameraPos(NPC.Center, 250);
-                EbonianSystem.ScreenShakeAmount = 20;
-                ded = true;
-                AITimer = AITimer2 = 0;
-                NPC.velocity = Vector2.Zero;
-                NPC.life = 1;
-                return false;
-            }
-
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Unit() * 5, ModContent.Find<ModGore>("EbonianMod/Terrortoma1").Type, NPC.scale);
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Unit() * 5, ModContent.Find<ModGore>("EbonianMod/Terrortoma2").Type, NPC.scale);
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Unit() * 5, ModContent.Find<ModGore>("EbonianMod/Terrortoma3").Type, NPC.scale);
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Unit() * 5, ModContent.Find<ModGore>("EbonianMod/Terrortoma4").Type, NPC.scale);
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Unit() * 5, ModContent.Find<ModGore>("EbonianMod/Terrortoma5").Type, NPC.scale);
-            for (int i = 0; i < 40; i++)
-            {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CursedTorch, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
-            }
-            return true;
-        }
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(rotation);
-            writer.Write(ded);
-        }
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            rotation = reader.ReadByte();
-            ded = reader.ReadBoolean();
-        }
-        float glareAlpha;
         public override void AI()
         {
             NPC.rotation = MathHelper.Lerp(NPC.rotation, rotation, 0.35f);
             Player player = Main.player[NPC.target];
-            if (!player.active || player.dead || !player.ZoneCorrupt)
+            if (!player.active || player.dead)//|| !player.ZoneCorrupt)
             {
                 NPC.TargetClosest(false);
                 player = Main.player[NPC.target];
@@ -255,7 +252,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     AIState = Intro;
                     AITimer = 0;
                 }
-                if (!player.active || player.dead || !player.ZoneCorrupt)
+                if (!player.active || player.dead)//|| !player.ZoneCorrupt)
                 {
                     AIState = -12124;
                     NPC.velocity = new Vector2(0, 10f);
@@ -315,9 +312,9 @@ namespace EbonianMod.NPCs.Terrortoma
                     AITimer = 0;
                     NPC.velocity = Vector2.Zero;
                     if (NPC.life > NPC.lifeMax / 2)
-                        AIState = Intro;
+                        AIState = Vilethorn;
                     else
-                        AIState = ApeShitMode;
+                        AIState = Vilethorn2;
                 }
             }
             else if (AIState == Death)
@@ -337,7 +334,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     if (Helper.TRay.CastLength(NPC.Center, Vector2.UnitY, Main.screenWidth) < NPC.width / 2)
                     {
                         Projectile.NewProjectileDirect(NPC.InheritSource(NPC), Helper.TRay.Cast(NPC.Center, Vector2.UnitY, Main.screenWidth), Vector2.Zero, ModContent.ProjectileType<TExplosion>(), 0, 0).scale = 2f;
-                        SoundEngine.PlaySound(new("EbonianMod/Sounds/Eggplosion"));
+                        SoundEngine.PlaySound(EbonianSounds.eggplosion);
                         NPC.immortal = false;
                         NPC.life = 0;
                         if (!EbonianAchievementSystem.acquiredAchievement[1])
@@ -389,7 +386,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 SelectedClinger = 4;
                 NPC.damage = 0;
                 NPC.localAI[0] = 40;
-                if (AITimer <= 250)
+                if (AITimer < 250)
                 {
                     if (++AITimer2 % 25 == 0)
                     {
@@ -400,6 +397,21 @@ namespace EbonianMod.NPCs.Terrortoma
                         else
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, new Vector2(0, 10), ModContent.ProjectileType<TerrorVilethorn1>(), 15, 0, 0);
                     }
+                    if (AITimer2 % 50 == 4)
+                    {
+                        SoundEngine.PlaySound(EbonianSounds.terrortomaDash, NPC.Center);
+                        for (int i = 0; i < 40; i++)
+                        {
+                            Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CursedTorch, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                        }
+                    }
+                    if (AITimer2 % 50 < 10)
+                    {
+                        NPC.velocity += Helper.FromAToB(NPC.Center, player.Center) * 2;
+                    }
+                    if (AITimer2 % 50 > 40)
+                        NPC.velocity *= 0.9f;
+                    rotation = NPC.velocity.ToRotation() - MathHelper.PiOver2;
                 }
                 if (AITimer >= 250)
                 {
@@ -408,8 +420,6 @@ namespace EbonianMod.NPCs.Terrortoma
                     NPC.velocity *= 0.9f;
                     isLaughing = true;
                 }
-                else
-                    rotation = 0;
                 if (++AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 290)
                 {
                     AIState = ClingerAttack1;

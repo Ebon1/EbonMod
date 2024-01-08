@@ -38,7 +38,7 @@ namespace EbonianMod.NPCs.Garbage
             NPC.lifeMax = 4500;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.knockBackResist = 0f;
-            NPC.DeathSound = new Terraria.Audio.SoundStyle("EbonianMod/Sounds/NPCHit/GarbageDeath");
+            NPC.DeathSound = EbonianSounds.garbageDeath;
             NPC.aiStyle = -1;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
@@ -378,7 +378,7 @@ namespace EbonianMod.NPCs.Garbage
                     NPC.immortal = false;
                     NPC.dontTakeDamage = false;
                     NPC.checkDead();
-                    SoundEngine.PlaySound(new Terraria.Audio.SoundStyle("EbonianMod/Sounds/NPCHit/GarbageDeath"), player.Center);
+                    SoundEngine.PlaySound(EbonianSounds.garbageDeath, player.Center);
                 }
                 if (AITimer >= 665 && player.Distance(NPC.Center) < 4500 / 2)
                 {
@@ -423,7 +423,7 @@ namespace EbonianMod.NPCs.Garbage
                         EbonianSystem.ChangeCameraPos(NPC.Center, 95);
                     }
                     if (AITimer == 15)
-                        SoundEngine.PlaySound(new Terraria.Audio.SoundStyle("EbonianMod/Sounds/GarbageAwaken"));
+                        SoundEngine.PlaySound(EbonianSounds.garbageAwaken);
                     if (AITimer == 55)
                         for (int i = 0; i < 3; i++)
                             Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<BloodShockwave2>(), 0, 0);
@@ -1076,7 +1076,7 @@ namespace EbonianMod.NPCs.Garbage
         }
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(new Terraria.Audio.SoundStyle("EbonianMod/Sounds/Nuke"));
+            SoundEngine.PlaySound(EbonianSounds.nuke);
             foreach (Player player in Main.player)
             {
                 if (player.active && player.Center.Distance(targetPos) < 4500 / 2)

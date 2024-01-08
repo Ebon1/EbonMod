@@ -87,11 +87,11 @@ namespace EbonianMod.Items.Weapons.Ranged
             return true;
         }
         float[] alpha = new float[5];
-        SoundStyle pull = new("EbonianMod/Sounds/bowPull")
+        SoundStyle pull = EbonianSounds.bowPull with
         {
             PitchVariance = 0.25f,
         };
-        SoundStyle release = new("EbonianMod/Sounds/bowRelease")
+        SoundStyle release = EbonianSounds.bowRelease with
         {
             PitchVariance = 0.25f,
         };

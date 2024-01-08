@@ -96,7 +96,7 @@ namespace EbonianMod.Items.Misc
                 info.DamageSource = customReason;
                 player.Hurt(info);
                 player.immuneTime = 0;
-                SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/NPCHit/fleshHit"), player.Center);
+                SoundEngine.PlaySound(EbonianSounds.fleshHit, player.Center);
                 EbonianSystem.ScreenShakeAmount = 5;
                 player.GetModPlayer<EbonianPlayer>().stabDirection = new Vector2(-player.direction, Main.rand.NextFloat(-1, 0));
                 for (int i = 0; i < 5; i++)

@@ -77,7 +77,7 @@ namespace EbonianMod.Items.Accessories
                             Helper.TPNoDust(Main.MouseWorld - new Vector2(0, 40), player);
                             Projectile.NewProjectile(null, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ReiExplosion>(), 50, 0, player.whoAmI);
                             EbonianSystem.ScreenShakeAmount = 5;
-                            SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/reiTP") { PitchVariance = 0.1f }, Main.MouseWorld);
+                            SoundEngine.PlaySound(EbonianSounds.reiTP, Main.MouseWorld);
                             modPlayer.reiBoostCool = 60;
                             break;
                         }

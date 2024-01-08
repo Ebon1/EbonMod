@@ -188,7 +188,7 @@ namespace EbonianMod.NPCs.Exol
             set => NPC.ai[3] = value;
         }
         public float AITimer4;
-        SoundStyle dash = new("EbonianMod/Sounds/ExolDash")
+        SoundStyle dash = EbonianSounds.exolDash with
         {
             PitchVariance = 0.25f,
         };

@@ -29,7 +29,7 @@ namespace EbonianMod.NPCs.Crimson
             NPC.damage = 0;
             NPC.defense = 3;
             NPC.lifeMax = 800;
-            NPC.HitSound = new SoundStyle("EbonianMod/Sounds/NPCHit/fleshHit");
+            NPC.HitSound = EbonianSounds.fleshHit;
             NPC.value = 60f;
             NPC.aiStyle = -1;
             NPC.noGravity = true;

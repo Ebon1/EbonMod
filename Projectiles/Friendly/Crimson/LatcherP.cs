@@ -191,7 +191,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<FatSmash>(), 0, 0, 0, 0);
                     player.velocity = Projectile.rotation.ToRotationVector2() * -10f;
                     Projectile.Kill();
-                    SoundEngine.PlaySound(new SoundStyle("EbonianMod/Sounds/chomp" + Main.rand.Next(2)), Projectile.Center);
+                    SoundEngine.PlaySound(Main.rand.NextBool() ? EbonianSounds.chomp0 : EbonianSounds.chomp1, Projectile.Center);
                 }
             }
             else if (Projectile.ai[1] == 2)
