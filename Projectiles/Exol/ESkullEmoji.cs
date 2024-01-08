@@ -387,7 +387,7 @@ namespace EbonianMod.Projectiles.Exol
                             //  Helper.DustExplosion(Projectile.oldPos[i] + Projectile.Size / 2, Vector2.One, 0, smoke: i % 10 == 0, sound: false, scaleFactor: 0.25f);
                             if (i % 3 == 0)
                             {
-                                Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.oldPos[i] + Projectile.Size / 2, Vector2.Zero, ModContent.ProjectileType<FlameExplosion3>(), Projectile.damage * 2, 0);
+                                Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.oldPos[i] + Projectile.Size / 2, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), Projectile.damage * 2, 0);
                             }
                         }
                     }

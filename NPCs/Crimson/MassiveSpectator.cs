@@ -9,12 +9,34 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent.Bestiary;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EbonianMod.NPCs.Crimson
 {
     public class MassiveSpectator : ModNPC
     {
+        public override void SetStaticDefaults()
+        {
+
+            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                CustomTexturePath = "EbonianMod/NPCs/Crimson/MassiveSpectator_Bestiary",
+                Position = new Vector2(7f, 24f),
+                PortraitPositionXOverride = 0f,
+                PortraitPositionYOverride = 32f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
+                new FlavorTextBestiaryInfoElement("Type: Organ"),
+                new FlavorTextBestiaryInfoElement("These towering eyes are the largest spectators ever recorded. It would seem they are connected to something at the very base of the Crimson. These spectators have never been seen before you found them. One may theorize they were created to directly observe you, your weaponry, your tactics and more."),
+            });
+        }
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;

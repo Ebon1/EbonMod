@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
@@ -53,7 +54,7 @@ namespace EbonianMod.Achievements
             base.DrawSelf(spriteBatch);
             CalculatedStyle iconSize = icon.GetDimensions();
             float width = GetInnerDimensions().Width - iconSize.Width + 1f;
-
+            icon.SetFrame(new Rectangle(locked ? 0 : 64, 64 * Index, 64, 64));
 
             Vector2 textScale = new(0.85f);
             Vector2 pos = new Vector2(iconSize.X + iconSize.Width + 7f, GetInnerDimensions().Y - 2f);

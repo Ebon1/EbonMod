@@ -86,7 +86,7 @@ namespace EbonianMod.Achievements
             string title = EbonianAchievementSystem.achievementTemplates[Index].Text;
 
 
-            float effectiveScale = Scale * 1.2f;
+            float effectiveScale = Scale * 1.1f;
             Vector2 size = (FontAssets.ItemStack.Value.MeasureString(title) + new Vector2(68f, 10f)) * effectiveScale;
             Rectangle panelSize = Utils.CenteredRectangle(bottomAnchorPosition + new Vector2(0f, (0f - size.Y) * 0.5f), size);
 
@@ -94,8 +94,8 @@ namespace EbonianMod.Achievements
 
             Utils.DrawInvBG(spriteBatch, panelSize, new Color(64, 109, 164) * (hovering ? 0.75f : 0.5f));
             float iconScale = effectiveScale * 0.5f;
-            Vector2 vector = panelSize.Right() - Vector2.UnitX * effectiveScale * (12f + iconScale * iconTexture.Width());
-            spriteBatch.Draw(iconTexture.Value, vector, new Rectangle(0, 64 * Index, 64, 64), Color.White * Opacity, 0f, new Vector2(0f, iconTexture.Width() / 2f), iconScale, SpriteEffects.None, 0f);
+            Vector2 vector = panelSize.Right() - Vector2.UnitX * effectiveScale * (12f + iconScale * (iconTexture.Width() / 2));
+            spriteBatch.Draw(iconTexture.Value, vector, new Rectangle(64, 64 * Index, 64, 64), Color.White * Opacity, 0f, new Vector2(0f, iconTexture.Width() / 4f), iconScale, SpriteEffects.None, 0f);
             Utils.DrawBorderString(color: new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor / 5, Main.mouseTextColor) * Opacity, sb: spriteBatch, text: title, pos: vector - Vector2.UnitX * 10f, scale: effectiveScale * 0.9f, anchorx: 1f, anchory: 0.4f);
 
             if (hovering)

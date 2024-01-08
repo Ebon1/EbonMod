@@ -52,7 +52,7 @@ namespace EbonianMod.Achievements
                     delegate
                     {
                         achievementUI.Draw(Main.spriteBatch, new GameTime());
-                        if (Main.playerInventory)
+                        if (Main.playerInventory && Main.LocalPlayer.chest == -1 && Main.npcShop <= 0)
                             achievementButtonUI.Draw(Main.spriteBatch, new GameTime());
                         return true;
                     },
@@ -60,18 +60,17 @@ namespace EbonianMod.Achievements
                 );
             }
         }
-        public const int maxAchievements = 13;
+        public const int maxAchievements = 12;
         public static AchievementTemplate[] achievementTemplates = new AchievementTemplate[maxAchievements]
         {
-            new("Nuclear Waste", "Defeat Hot Garbage, the first and only AI to ever reach true singularity.", true),
+            new("Nuclear Waste", "Defeat Hot Garbage, the first and only AI to ever reach true singularity."),
             new("Who's laughing now?", "Defeat Terrortoma, the vile conglomerate of The Corruption."),
             new("Seeing Red", "Defeat Cecitior, the unsightly aberration of The Crimson"),
-            new("Infernal Geology", "Unleash Exol of Ignos' soul through weakening Inferos.", true),
-            new("Soul-Crushing", "Defeat Exol of Ignos", true),
+            new("Infernal Geology", "Defeat Inferos, a beast of curious origin and unusual anatomy."),
+            new("Soul-Crushing", "Defeat the spirit of Exol, valiant knight of Ignos.", true),
             new("Too Spicy", "Anything is edible, the aftermath does not matter."),
             new("Quit hitting yourself!", "Terrortoma was never the brightest corpse in the pile..."),
             new("Djungelskog", "Acquire Djungelskog."),
-            new("Voidrunner", "Defeat 10 enemies at once using one time slip.", true),
             new("Organ Harvest", "Acquire a sentient organ, found near the edge of the world."),
             new("Lore Accurate", "Defeat Inferos using the blade of Exol.", true),
             new("What, still here?", "Arrive at the buried land of Ignos."),

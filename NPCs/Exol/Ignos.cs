@@ -19,6 +19,7 @@ using System.Reflection.Metadata;
 using Terraria.Map;
 using EbonianMod.Projectiles.Friendly.Underworld;
 using Terraria.GameContent.UI.Elements;
+using System.Collections.Generic;
 
 namespace EbonianMod.NPCs.Exol
 {
@@ -252,6 +253,8 @@ namespace EbonianMod.NPCs.Exol
                                 {
                                     PerformBasicSwordSlash(40);
                                     NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 10;
+                                    Vector2 vel = Helper.FromAToB(NPC.Center, player.Center);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + vel * 30, vel * 10, ModContent.ProjectileType<ESwordWave>(), 30, 0);
                                 }
                                 if (AITimer > 100)
                                 {
@@ -725,7 +728,7 @@ namespace EbonianMod.NPCs.Exol
         float swordAlpha = 1f, swordRotation, swordRotationFocus, swordDirection = 1, swingTime = 40, maxSwingTime = 40, swordPositionOffset = 40;
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D tex = Helper.GetExtraTexture("vortex3");
+            Texture2D vortex = Helper.GetExtraTexture("vortex3");
             spriteBatch.Reload(BlendState.Additive);
             rot -= 0.025f;
             Vector2 scale = new Vector2(1f, 0.25f);
@@ -735,8 +738,8 @@ namespace EbonianMod.NPCs.Exol
             Vector4 col = (Color.OrangeRed * vortexAlpha).ToVector4();
             col.W = vortexAlpha;
             EbonianMod.SpriteRotation.Parameters["uColor"].SetValue(col);
-            spriteBatch.Draw(tex, NPC.Center - new Vector2(0, 100) - Main.screenPosition, null, Color.White, 0, tex.Size() / 2, 1, SpriteEffects.None, 0);
-            spriteBatch.Draw(tex, NPC.Center - new Vector2(0, 100) - Main.screenPosition, null, Color.White, 0, tex.Size() / 2, 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(vortex, NPC.Center - new Vector2(0, 100) - Main.screenPosition, null, Color.White, 0, vortex.Size() / 2, 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(vortex, NPC.Center - new Vector2(0, 100) - Main.screenPosition, null, Color.White, 0, vortex.Size() / 2, 1, SpriteEffects.None, 0);
             spriteBatch.Reload(BlendState.AlphaBlend);
             spriteBatch.Reload(effect: null);
             return true;
