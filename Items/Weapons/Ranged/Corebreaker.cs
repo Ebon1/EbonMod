@@ -10,7 +10,6 @@ using EbonianMod.Projectiles.Exol;
 using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.Audio;
 using EbonianMod.Projectiles.Friendly.Underworld;
-using EbonianMod.Achievements;
 using Terraria.UI;
 
 namespace EbonianMod.Items.Weapons.Ranged

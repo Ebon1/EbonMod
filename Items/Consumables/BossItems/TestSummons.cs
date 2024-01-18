@@ -9,9 +9,9 @@ using Terraria.GameContent.Bestiary;
 using EbonianMod.NPCs.Corruption;
 using EbonianMod.NPCs.Terrortoma;
 using EbonianMod.NPCs.Cecitior;
-using EbonianMod.Worldgen.Subworlds;
 using SubworldLibrary;
 using EbonianMod.NPCs.Exol;
+using EbonianMod.Common.Systems.Worldgen.Subworlds;
 
 namespace EbonianMod.Items.Consumables.BossItems
 {

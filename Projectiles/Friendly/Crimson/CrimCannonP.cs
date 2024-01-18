@@ -1,4 +1,5 @@
-﻿using EbonianMod.Items.Accessories;
+﻿using EbonianMod.Common.Systems;
+using EbonianMod.Items.Accessories;
 using EbonianMod.Projectiles.VFXProjectiles;
 using Microsoft.Xna.Framework;
 using System;

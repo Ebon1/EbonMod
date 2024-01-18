@@ -15,6 +15,7 @@ using EbonianMod.Projectiles;
 using System.Net.Http.Headers;
 using Terraria.Audio;
 using EbonianMod.Dusts;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.NPCs.Terrortoma
 {
@@ -49,12 +50,11 @@ namespace EbonianMod.NPCs.Terrortoma
         }
         public override void DrawBehind(int index) => Main.instance.DrawCacheNPCsBehindNonSolidTiles.Add(index);
         //npc.rotation = npc.velocity.ToRotation() - MathHelper.PiOver2;
-        private const int TimerSlot = 1;
 
         public float AITimer
         {
-            get => NPC.ai[TimerSlot];
-            set => NPC.ai[TimerSlot] = value;
+            get => NPC.ai[1];
+            set => NPC.ai[1] = value;
         }
         public float AITimer2
         {
@@ -92,6 +92,11 @@ namespace EbonianMod.NPCs.Terrortoma
                     }
                     return;
                 }
+            }
+            if (center.ai[1] < 2)
+            {
+                AITimer = center.ai[1];
+                AITimer2 = 0;
             }
             if (center.ai[0] == -1)
             {
@@ -155,7 +160,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else
             {
-                if (AIState == 0 || AIState == 1 || AIState == 4 || AIState == 6)
+                if (AIState == 0 || AIState == 1 || AIState == 4)
                 {
                     AITimer = 0;
                     NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
@@ -169,37 +174,30 @@ namespace EbonianMod.NPCs.Terrortoma
                     switch (AIState)
                     {
                         case 2:
-                            if (CenterAITimer <= 300)
+                            AITimer++;
+                            NPC.rotation = MathHelper.Lerp(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2, 0.2f);
+                            NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + new Vector2(100).RotatedBy(MathHelper.ToRadians(AITimer * 3.6f)), false) * 0.25f;
+                            if (AITimer % 15 == 0)
                             {
-                                Vector2 pos = player.Center - new Vector2(0, 500).RotatedBy(MathHelper.ToRadians(AITimer * 3.6f));
-                                Vector2 target = pos;
-                                Vector2 moveTo = target - NPC.Center;
-                                NPC.velocity = (moveTo) * 0.05f;
-
-                                NPC.rotation = MathHelper.Lerp(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2, 0.2f);
-                                AITimer++;
-                                if (AITimer >= 30 && AITimer <= 90 && AITimer % 10 == 0)
-                                {
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4 / 3) * Main.rand.NextFloat(5, 10), ModContent.ProjectileType<TFlameThrower3>(), 15, 0);
-                                }
-                                if (AITimer == 100)
-                                {
-                                    center.ai[2] = 1;
-                                    AITimer = 0;
-                                }
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * 2, ModContent.ProjectileType<TFlameThrower4>(), 15, 0, ai2: AITimer - 100);
+                            }
+                            if (AITimer >= 101)
+                            {
+                                center.ai[2] = Main.rand.Next(3);
+                                AITimer = 0;
                             }
                             break;
                         case 3:
                             if (AITimer2 == 0 || (AITimer2 > 30 && AITimer2 < 40))
                             {
-                                NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, center.Center + new Vector2(85, -125).RotatedBy(center.rotation + MathHelper.ToRadians(AITimer * (5 + AITimer2 * 0.1f))), false) * 0.1f, 0.05f + AITimer * 0.03f);
+                                NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, center.Center + new Vector2(105, -125).RotatedBy(center.rotation + MathHelper.ToRadians(AITimer * (5 + AITimer2 * 0.1f))), false) * 0.1f, 0.1f + AITimer * 0.03f);
                                 AITimer++;
                                 for (int i = 0; i < Main.maxNPCs; i++)
                                 {
                                     NPC npc = Main.npc[i];
                                     if (npc.active && npc.type == ModContent.NPCType<TerrorClingerMelee>())
                                     {
-                                        if (npc.Center.Distance(NPC.Center) < npc.width * 1.5f)
+                                        if (npc.Center.Distance(NPC.Center) < npc.width)
                                         {
                                             for (int j = 0; j < 30; j++)
                                             {
@@ -209,6 +207,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                             {
                                                 for (int j = -5; j < 5; j++)
                                                 {
+                                                    if (j == 0) continue;
                                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY.RotatedBy(MathHelper.ToRadians(MathHelper.Lerp(-100, 100, (float)(j + 5) / 10))) * 10, ModContent.ProjectileType<TFlameThrower3>(), 10, 0);
                                                 }
                                             }
@@ -381,6 +380,11 @@ namespace EbonianMod.NPCs.Terrortoma
                     return;
                 }
             }
+            if (center.ai[1] < 2)
+            {
+                AITimer = center.ai[1];
+                AITimer2 = 0;
+            }
             if (center.ai[0] == -1)
             {
                 angle = 0;
@@ -439,7 +443,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else
             {
-                if (AIState == 0 || AIState == 1 || AIState == 4 || AIState == 6)
+                if (AIState == 0 || AIState == 1 || AIState == 4)
                 {
                     Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
                     Vector2 target = pos;
@@ -491,7 +495,7 @@ namespace EbonianMod.NPCs.Terrortoma
                         case 3:
                             if (AITimer2 == 0 || (AITimer2 > 30 && AITimer2 < 40))
                             {
-                                NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, center.Center + new Vector2(-85, -125).RotatedBy(center.rotation + MathHelper.ToRadians(-AITimer * (5 + AITimer2 * 0.1f))), false) * 0.1f, 0.05f + AITimer * 0.03f);
+                                NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, center.Center + new Vector2(-105, -125).RotatedBy(center.rotation + MathHelper.ToRadians(-AITimer * (5 + AITimer2 * 0.1f))), false) * 0.1f, 0.1f + AITimer * 0.03f);
                                 AITimer++;
                                 for (int i = 0; i < Main.maxNPCs; i++)
                                 {
@@ -640,6 +644,10 @@ namespace EbonianMod.NPCs.Terrortoma
                     return;
                 }
             }
+            if (center.ai[1] < 2)
+            {
+                AITimer = center.ai[1];
+            }
             NPC.damage = (int)center.localAI[0];
             if (!center.active || center.type != ModContent.NPCType<Terrortoma>())
             {
@@ -719,7 +727,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 else
                 {
-                    if (AIState == 0 || AIState == 1 || AIState == 4 || AIState == 6)
+                    if (AIState == 0 || AIState == 1 || AIState == 4)
                     {
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
                         Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);

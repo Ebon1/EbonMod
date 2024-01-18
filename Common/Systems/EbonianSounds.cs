@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Terraria.Audio;
 using Terraria.ModLoader;
 
-namespace EbonianMod
+namespace EbonianMod.Common.Systems
 {
     public class EbonianSounds : ModSystem
     {

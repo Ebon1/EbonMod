@@ -14,7 +14,7 @@ using Terraria.GameContent.Generation;
 using EbonianMod.Tiles;
 using Microsoft.Xna.Framework;
 
-namespace EbonianMod.Worldgen
+namespace EbonianMod.Common.Systems.Worldgen
 {
     public class WorldgenTest : ModSystem
     {
@@ -37,7 +37,7 @@ namespace EbonianMod.Worldgen
                 {
                     if (i == 0)
                         continue;
-                    int x = Main.maxTilesX / 2 + ((Main.maxTilesX / 5) * i);
+                    int x = Main.maxTilesX / 2 + Main.maxTilesX / 5 * i;
                     int y = 0;
                     for (int it = 0; it < 13; it++)
                     {
@@ -46,7 +46,7 @@ namespace EbonianMod.Worldgen
                     }
                     Point16 pos = new(x, y - 8);
                     Logging.PublicLogger.Debug(pos);
-                    StructureHelper.Generator.GenerateStructure("Worldgen/Structures/CorruptionMeteorNoNulls", pos, EbonianMod.Instance);
+                    Generator.GenerateStructure("Worldgen/Structures/CorruptionMeteorNoNulls", pos, EbonianMod.Instance);
                     for (int ite = x; ite < x + 13; ite++)
                     {
                         for (int iter = 0; iter < 12; iter++)
@@ -66,7 +66,7 @@ namespace EbonianMod.Worldgen
                 {
                     if (i == 0)
                         continue;
-                    int x = Main.maxTilesX / 2 + ((Main.maxTilesX / 5) * i);
+                    int x = Main.maxTilesX / 2 + Main.maxTilesX / 5 * i;
                     int y = 0;
                     for (int it = 0; it < 13; it++)
                     {
@@ -75,7 +75,7 @@ namespace EbonianMod.Worldgen
                     }
                     Point16 pos = new(x, y - 8);
                     Logging.PublicLogger.Debug(pos);
-                    StructureHelper.Generator.GenerateStructure("Worldgen/Structures/CrimsonMeteor", pos, EbonianMod.Instance);
+                    Generator.GenerateStructure("Worldgen/Structures/CrimsonMeteor", pos, EbonianMod.Instance);
                     for (int ite = x; ite < x + 13; ite++)
                     {
                         for (int iter = 0; iter < 12; iter++)

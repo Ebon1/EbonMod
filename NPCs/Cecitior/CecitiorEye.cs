@@ -14,6 +14,7 @@ using Terraria.GameContent.Bestiary;
 using EbonianMod.Misc;
 using System.Linq;
 using EbonianMod.Projectiles.Cecitior;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.NPCs.Cecitior
 {

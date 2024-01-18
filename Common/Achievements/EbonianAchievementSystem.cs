@@ -10,10 +10,46 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.UI;
 
-namespace EbonianMod.Achievements
+namespace EbonianMod.Common.Achievements
 {
+    public static class AchievementID
+    {
+        public const int HotGarbage = 0;
+        public const int Terrortoma = 1;
+        public const int Cecitior = 2;
+        public const int Inferos = 3;
+        public const int Exol = 4;
+        public const int TooSpicy = 5;
+        public const int TerrortomaSecret = 6;
+        public const int Djungelskog = 7;
+        public const int OrganHarvest = 8;
+        public const int LoreAccurateInferos = 9;
+        public const int Ignos = 10;
+        public const int DrAbian = 11;
+    }
     public class EbonianAchievementSystem : ModSystem
     {
+        public const int maxAchievements = 12;
+        public static AchievementTemplate[] achievementTemplates = new AchievementTemplate[maxAchievements]
+        {
+            new("Nuclear Waste", "Defeat Hot Garbage, the first and only AI to ever reach true singularity.", Color.DarkSlateBlue),
+            new("Who's laughing now?", "Defeat Terrortoma, the vile conglomerate of The Corruption.", Color.LawnGreen),
+            new("Seeing Red", "Defeat Cecitior, the unsightly aberration of The Crimson", Color.Red),
+            new("Infernal Geology", "Defeat Inferos, a beast of curious origin and unusual anatomy.", Color.DarkOrange),
+            new("Soul-Crushing", "Defeat the spirit of Exol, valiant knight of Ignos.", Color.DarkOrange, true),
+            new("Too Spicy", "Anything is edible, the aftermath does not matter.", Color.LawnGreen),
+            new("Quit hitting yourself!", "Terrortoma was never the brightest corpse in the pile...", Color.LawnGreen),
+            new("Djungelskog", "Acquire Djungelskog.", Color.White, true),
+            new("Organ Harvest", "Acquire a sentient organ, found near the edge of the world.", WorldGen.crimson ? Color.Red : Color.LawnGreen),
+            new("Lore Accurate", "Defeat Inferos using the blade of Exol.", Color.DarkOrange, true),
+            new("What, still here?", "Arrive at the buried land of Ignos.", Color.DarkOrange),
+            new("Dr. Abian", "'Blowing up the moon would solve all of our problems!'\nDefeat the Moon Lord through an... unconvential method.", Color.DarkSlateBlue),
+        };
+        public static void GrantAchievement(int ID)
+        {
+            if (!acquiredAchievement[ID])
+                InGameNotificationsTracker.AddNotification(new EbonianAchievementNotification(ID));
+        }
         public UserInterface achievementUI;
         public UserInterface achievementButtonUI;
         public static EbonianAchievementUIState achievementUIState;
@@ -37,9 +73,10 @@ namespace EbonianMod.Achievements
             public string Text;
             public string Subtext;
             public bool HiddenUntilUnlocked;
-            public AchievementTemplate(string text, string subtext, bool hidden = false)
+            public Color HoverColor;
+            public AchievementTemplate(string text, string subtext, Color hoverColor, bool hidden = false)
             {
-                Text = text; Subtext = subtext; HiddenUntilUnlocked = hidden;
+                Text = text; Subtext = subtext; HiddenUntilUnlocked = hidden; HoverColor = hoverColor;
             }
         }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
@@ -60,22 +97,6 @@ namespace EbonianMod.Achievements
                 );
             }
         }
-        public const int maxAchievements = 12;
-        public static AchievementTemplate[] achievementTemplates = new AchievementTemplate[maxAchievements]
-        {
-            new("Nuclear Waste", "Defeat Hot Garbage, the first and only AI to ever reach true singularity."),
-            new("Who's laughing now?", "Defeat Terrortoma, the vile conglomerate of The Corruption."),
-            new("Seeing Red", "Defeat Cecitior, the unsightly aberration of The Crimson"),
-            new("Infernal Geology", "Defeat Inferos, a beast of curious origin and unusual anatomy."),
-            new("Soul-Crushing", "Defeat the spirit of Exol, valiant knight of Ignos.", true),
-            new("Too Spicy", "Anything is edible, the aftermath does not matter."),
-            new("Quit hitting yourself!", "Terrortoma was never the brightest corpse in the pile..."),
-            new("Djungelskog", "Acquire Djungelskog."),
-            new("Organ Harvest", "Acquire a sentient organ, found near the edge of the world."),
-            new("Lore Accurate", "Defeat Inferos using the blade of Exol.", true),
-            new("What, still here?", "Arrive at the buried land of Ignos."),
-            new("Dr. Abian", "'Blowing up the moon would solve all of our problems!'\nDefeat the Moon Lord through an... unconvential method."),
-        };
         public static bool[] acquiredAchievement = new bool[maxAchievements];
         public override void ClearWorld()
         {

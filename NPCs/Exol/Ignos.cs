@@ -1,5 +1,4 @@
 ﻿using EbonianMod.Projectiles;
-using EbonianMod;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 using System;
@@ -20,6 +19,7 @@ using Terraria.Map;
 using EbonianMod.Projectiles.Friendly.Underworld;
 using Terraria.GameContent.UI.Elements;
 using System.Collections.Generic;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.NPCs.Exol
 {
@@ -106,7 +106,7 @@ namespace EbonianMod.NPCs.Exol
                 float end = defRot + (MathHelper.PiOver2 + MathHelper.PiOver4);
                 float rotation = direction == 1 ? start + MathHelper.Pi * 3 / 2 * swingProgress : end - MathHelper.Pi * 3 / 2 * swingProgress;
                 Vector2 position = NPC.Center + rotation.ToRotationVector2() * swordPositionOffset * ScaleFunction(swingProgress);
-                swordRotation = (position - NPC.Center).ToRotation() + MathHelper.PiOver4 * 0.5f;
+                swordRotation = (position - NPC.Center).ToRotation() + MathHelper.PiOver4;
                 if (swingTime <= 0)
                 {
                     turningSword = false;
@@ -353,14 +353,14 @@ namespace EbonianMod.NPCs.Exol
                             case SwordThrustDash:
                                 if (AITimer < 35f)
                                 {
-                                    swordRotationFocus = MathHelper.Lerp(swordRotationFocus, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.PiOver4 * 0.5f, 0.25f);
-                                    swordRotation = MathHelper.Lerp(swordRotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.PiOver4 * 0.5f, 0.25f);
+                                    swordRotationFocus = MathHelper.Lerp(swordRotationFocus, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.PiOver4, 0.25f);
+                                    swordRotation = MathHelper.Lerp(swordRotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.PiOver4, 0.25f);
                                 }
                                 if (AITimer >= 40 && AITimer <= 50)
                                 {
                                     NPC.damage = 50;
                                     trailAlpha = Math.Min(trailAlpha + 0.1f, 1);
-                                    NPC.velocity += Vector2.UnitX.RotatedBy(swordRotation - MathHelper.PiOver4 * 0.5f) * 3.5f;
+                                    NPC.velocity += Vector2.UnitX.RotatedBy(swordRotation - MathHelper.PiOver4) * 3.5f;
                                 }
                                 else NPC.velocity *= 0.95f;
                                 if (AITimer > 70)
@@ -607,14 +607,14 @@ namespace EbonianMod.NPCs.Exol
                             AITimer2++;
                             if (AITimer2 < 35f)
                             {
-                                swordRotationFocus = MathHelper.Lerp(swordRotationFocus, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.PiOver4 * 0.5f, 0.25f);
-                                swordRotation = MathHelper.Lerp(swordRotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.PiOver4 * 0.5f, 0.25f);
+                                swordRotationFocus = MathHelper.Lerp(swordRotationFocus, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.PiOver4, 0.25f);
+                                swordRotation = MathHelper.Lerp(swordRotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.PiOver4, 0.25f);
                             }
                             if (AITimer2 >= 40 && AITimer2 <= 50)
                             {
                                 NPC.damage = 50;
                                 trailAlpha = Math.Min(trailAlpha + 0.1f, 1);
-                                NPC.velocity += Vector2.UnitX.RotatedBy(swordRotation - MathHelper.PiOver4 * 0.5f) * 3.5f;
+                                NPC.velocity += Vector2.UnitX.RotatedBy(swordRotation - MathHelper.PiOver4) * 3.5f;
                             }
                             else NPC.velocity *= 0.95f;
                         }
@@ -780,7 +780,7 @@ namespace EbonianMod.NPCs.Exol
                 }
             }
 
-            Texture2D tex3 = Helper.GetTexture("Items/Weapons/Melee/IgnosSword");
+            Texture2D tex3 = Helper.GetExtraTexture("Sprites/ExolSword");
             spriteBatch.Draw(tex3, NPC.Center + new Vector2(swordPositionOffset, 0).RotatedBy(swordRotation) - Main.screenPosition, null, Color.White * swordAlpha, swordRotation + (swordDirection == -1 ? 0 : MathHelper.PiOver2 * 3), tex3.Size() / 2, 1, (swordDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically), 0);
 
             if (turningSword)

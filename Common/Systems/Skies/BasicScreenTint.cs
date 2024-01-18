@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.Graphics.Shaders;
 
-namespace EbonianMod.Skies
+namespace EbonianMod.Common.Systems.Skies
 {
     public class BasicScreenTint : ScreenShaderData
     {

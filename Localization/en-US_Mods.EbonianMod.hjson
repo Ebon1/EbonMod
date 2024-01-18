@@ -137,6 +137,7 @@ Projectiles: {
 	ExolGreatArrow.DisplayName: Exol Great Arrow
 	EHomingBeam.DisplayName: E Homing Beam
 	FlameExplosionWSprite.DisplayName: Flame Explosion W Sprite
+	TFlameThrower4.DisplayName: T Flame Thrower4
 }
 
 NPCs: {
@@ -199,6 +200,7 @@ NPCs: {
 	BloatedEbonfly.DisplayName: Bloated Ebonfly
 	Ignos.DisplayName: Exol of Ignos
 	MassiveSpectator.DisplayName: Massive Spectator
+	foreskin.DisplayName: Foreskin Apostle
 }
 
 Items: {
@@ -577,6 +579,26 @@ Items: {
 	ClementinesCap: {
 		DisplayName: Bloody Ballcap
 		Tooltip: '''"Still wearing that dirty old thing?"'''
+	}
+
+	InfernoBreastplate: {
+		DisplayName: Inferno Breastplate
+		Tooltip: ""
+	}
+
+	InfernoHeadgear: {
+		DisplayName: Inferno Headgear
+		Tooltip: ""
+	}
+
+	InfernoHeadgearAlt: {
+		DisplayName: Inferno Headgear Alt
+		Tooltip: ""
+	}
+
+	InfernoLeggings: {
+		DisplayName: Inferno Leggings
+		Tooltip: ""
 	}
 }
 

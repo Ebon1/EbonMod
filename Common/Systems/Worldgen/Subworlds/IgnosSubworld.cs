@@ -1,4 +1,5 @@
-﻿using EbonianMod.Tiles;
+﻿using EbonianMod.Common.Achievements;
+using EbonianMod.Tiles;
 using Microsoft.Xna.Framework;
 using SubworldLibrary;
 using System;
@@ -15,13 +16,29 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 using Terraria.WorldBuilding;
 
-namespace EbonianMod.Worldgen.Subworlds
+namespace EbonianMod.Common.Systems.Worldgen.Subworlds
 {
     public class IgnosSubworld : Subworld
     {
         public override int Width => 300;
-        public override int Height => 150;
+        public override int Height => 170;
         public override bool ShouldSave => false;
+        public override void CopyMainWorldData()
+        {
+            SubworldSystem.CopyWorldData(nameof(EbonianAchievementSystem.acquiredAchievement), EbonianAchievementSystem.acquiredAchievement);
+        }
+        public override void ReadCopiedMainWorldData()
+        {
+            EbonianAchievementSystem.acquiredAchievement = SubworldSystem.ReadCopiedWorldData<bool[]>(nameof(EbonianAchievementSystem.acquiredAchievement));
+        }
+        public override void CopySubworldData()
+        {
+            SubworldSystem.CopyWorldData(nameof(EbonianAchievementSystem.acquiredAchievement), EbonianAchievementSystem.acquiredAchievement);
+        }
+        public override void ReadCopiedSubworldData()
+        {
+            EbonianAchievementSystem.acquiredAchievement = SubworldSystem.ReadCopiedWorldData<bool[]>(nameof(EbonianAchievementSystem.acquiredAchievement));
+        }
         //public override bool NoPlayerSaving => true;
 
         public override List<GenPass> Tasks => new List<GenPass>()
@@ -77,7 +94,7 @@ namespace EbonianMod.Worldgen.Subworlds
 
                     progress.Set((j + i * Main.maxTilesY) / (float)(Main.maxTilesX * Main.maxTilesY)); // Controls the progress bar, should only be set between 0f and 1f
                     Tile tile = Main.tile[i, j];
-                    if (j > Main.maxTilesY - 52 + (int)(Math.Sin(i * 0.1f) * height) || j < 45 - (int)(Math.Sin(i * 0.1f) * height))
+                    if (j > Main.maxTilesY - 62 + (int)(Math.Sin(i * 0.1f) * height) || j < 55 - (int)(Math.Sin(i * 0.1f) * height))
                         tile.HasTile = true;
                     tile.TileType = (ushort)ModContent.TileType<InfernalTile>();
                 }

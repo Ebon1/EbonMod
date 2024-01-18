@@ -1,5 +1,4 @@
 ﻿using EbonianMod.Projectiles;
-using EbonianMod;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 using System;
@@ -14,6 +13,9 @@ using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Dusts;
 using EbonianMod.Projectiles.Exol;
 using System.IO;
+using EbonianMod.Common.Systems;
+using EbonianMod.Common.Achievements;
+using Terraria.UI;
 
 namespace EbonianMod.NPCs.Exol
 {
@@ -165,6 +167,7 @@ namespace EbonianMod.NPCs.Exol
                 NPC.life = 1;
                 return false;
             }
+            EbonianAchievementSystem.GrantAchievement(AchievementID.Inferos);
             return true;
         }
         public float AIState

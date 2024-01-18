@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using EbonianMod.Projectiles.Friendly.Underworld;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.Items.Weapons.Ranged
 {

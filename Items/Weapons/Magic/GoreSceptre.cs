@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
 using EbonianMod.Projectiles.VFXProjectiles;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.Items.Weapons.Magic
 {

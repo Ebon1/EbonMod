@@ -13,6 +13,7 @@ using EbonianMod.Projectiles.Friendly.Corruption;
 using EbonianMod.Projectiles.VFXProjectiles;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.Items.Misc
 {

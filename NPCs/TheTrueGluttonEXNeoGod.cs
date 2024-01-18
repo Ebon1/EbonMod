@@ -13,6 +13,7 @@ using static Terraria.ModLoader.PlayerDrawLayer;
 using EbonianMod.Dusts;
 using EbonianMod.Projectiles.Terrortoma;
 using Terraria.Audio;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.NPCs.Corruption
 {

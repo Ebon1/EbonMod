@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent.Bestiary;
 using Terraria.Audio;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.NPCs.Crimson
 {

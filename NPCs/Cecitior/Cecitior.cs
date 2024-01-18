@@ -22,8 +22,9 @@ using EbonianMod.Projectiles.Friendly.Crimson;
 using System.Reflection.Metadata;
 using EbonianMod.Projectiles;
 using ReLogic.Utilities;
-using EbonianMod.Achievements;
 using Terraria.UI;
+using EbonianMod.Common.Achievements;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.NPCs.Cecitior
 {
@@ -498,7 +499,7 @@ namespace EbonianMod.NPCs.Cecitior
                     AITimer = -250;
                     AITimer2 = 1;
                 }
-                NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 100), false) / 45f;
+                NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 70), false) / 45f;
                 if (AITimer >= 50)
                 {
                     if (NPC.ai[2] == 1)

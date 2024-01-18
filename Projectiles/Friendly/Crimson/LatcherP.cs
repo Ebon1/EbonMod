@@ -14,6 +14,7 @@ using EbonianMod.Misc;
 using System.IO;
 using System.Collections.Generic;
 using EbonianMod.NPCs.Corruption;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.Projectiles.Friendly.Crimson
 {

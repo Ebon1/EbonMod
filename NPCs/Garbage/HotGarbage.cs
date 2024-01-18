@@ -16,7 +16,8 @@ using EbonianMod.NPCs.Corruption;
 using static tModPorter.ProgressUpdate;
 using System.Collections.Generic;
 using Terraria.UI;
-using EbonianMod.Achievements;
+using EbonianMod.Common.Achievements;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.NPCs.Garbage
 {

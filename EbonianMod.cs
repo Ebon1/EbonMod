@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using Terraria.ID;
 using EbonianMod.Dusts;
 using EbonianMod.NPCs.Exol;
-using EbonianMod.Skies;
+using EbonianMod.Common.Systems.Skies;
 using System.Collections.Generic;
 using EbonianMod.Projectiles.Terrortoma;
 using EbonianMod.Projectiles.VFXProjectiles;
@@ -25,6 +25,7 @@ using Humanizer;
 using System;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using System.Linq;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod
 {
@@ -183,7 +184,7 @@ namespace EbonianMod
             SkyManager.Instance["EbonianMod:CrimsonTint"] = new BasicTint();
             Filters.Scene["EbonianMod:HellTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.2f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:HellTint"] = new BasicTint();
-            Filters.Scene["EbonianMod:HellTint2"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.425f), EffectPriority.Medium);
+            Filters.Scene["EbonianMod:HellTint2"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(0.03f, 0f, .18f).UseOpacity(0.425f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:HellTint2"] = new BasicTint();
             Filters.Scene["EbonianMod:ScreenFlash"] = new Filter(new ScreenShaderData(new Ref<Effect>(ModContent.Request<Effect>("EbonianMod/Effects/ScreenFlash", (AssetRequestMode)1).Value), "Flash"), EffectPriority.VeryHigh);
             //Terraria.Graphics.Effects.On_FilterManager.EndCapture += FilterManager_EndCapture;

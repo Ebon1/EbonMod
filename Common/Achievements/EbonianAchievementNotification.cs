@@ -15,7 +15,7 @@ using Terraria.UI;
 using Terraria.Audio;
 using Terraria.ID;
 
-namespace EbonianMod.Achievements
+namespace EbonianMod.Common.Achievements
 {
     public class EbonianAchievementNotification : IInGameNotification
     {
@@ -92,7 +92,7 @@ namespace EbonianMod.Achievements
 
             bool hovering = panelSize.Contains(Main.MouseScreen.ToPoint());
 
-            Utils.DrawInvBG(spriteBatch, panelSize, new Color(64, 109, 164) * (hovering ? 0.75f : 0.5f));
+            Utils.DrawInvBG(spriteBatch, panelSize, new Color(17, 17, 17) * (hovering ? 0.75f : 0.5f));
             float iconScale = effectiveScale * 0.5f;
             Vector2 vector = panelSize.Right() - Vector2.UnitX * effectiveScale * (12f + iconScale * (iconTexture.Width() / 2));
             spriteBatch.Draw(iconTexture.Value, vector, new Rectangle(64, 64 * Index, 64, 64), Color.White * Opacity, 0f, new Vector2(0f, iconTexture.Width() / 4f), iconScale, SpriteEffects.None, 0f);

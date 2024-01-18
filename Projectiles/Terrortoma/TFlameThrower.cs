@@ -61,4 +61,26 @@ namespace EbonianMod.Projectiles.Terrortoma
             Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.LawnGreen, false, false, 0.04f);
         }
     }
+    public class TFlameThrower4 : ModProjectile
+    {
+        public override string Texture => "EbonianMod/Extras/Empty";
+        public override void SetDefaults()
+        {
+            Projectile.CloneDefaults(96);
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.tileCollide = false;
+            AIType = 96;
+        }
+        public override bool ShouldUpdatePosition()
+        {
+            return ++Projectile.ai[2] > 30;
+        }
+        public override void PostAI()
+        {
+            Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.LawnGreen, false, false, 0.04f);
+            if (Projectile.ai[2] > 30)
+                Projectile.velocity *= 1.025f;
+        }
+    }
 }

@@ -9,7 +9,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.Graphics.Effects;
 
-namespace EbonianMod.Skies
+namespace EbonianMod.Common.Systems.Skies
 {
     public class BasicTint : CustomSky
     {

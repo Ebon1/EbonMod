@@ -17,8 +17,9 @@ using EbonianMod.Items.Weapons.Magic;
 using EbonianMod.Items.Weapons.Melee;
 using EbonianMod.Bossbars;
 using System.Linq;
-using EbonianMod.Achievements;
 using Terraria.UI;
+using EbonianMod.Common.Achievements;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.NPCs.Terrortoma
 {
@@ -92,6 +93,12 @@ namespace EbonianMod.NPCs.Terrortoma
                         spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value, drawPos, NPC.frame, lightColor * 0.5f, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
                     }
                 }*/
+
+                Texture2D tex = ModContent.Request<Texture2D>(Texture + "_Bloom").Value;
+                spriteBatch.Reload(BlendState.Additive);
+                spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.LawnGreen * bloomAlpha, NPC.rotation, tex.Size() / 2 - new Vector2(0, 2).RotatedBy(NPC.rotation), NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Reload(BlendState.AlphaBlend);
+
                 spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value, NPC.Center - pos, NPC.frame, lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
             }
             else
@@ -207,7 +214,7 @@ namespace EbonianMod.NPCs.Terrortoma
         private bool HasSummonedClingers = false;
         private const int AISlot = 0;
         private const int TimerSlot = 1;
-
+        float bloomAlpha;
         public float AIState
         {
             get => NPC.ai[AISlot];
@@ -228,19 +235,12 @@ namespace EbonianMod.NPCs.Terrortoma
         private float angle = 0;
         private bool hasDonePhase2ApeShitMode = false;
 
-        public const int ApeShitMode = 999;
-        public const int Death = -1;
-        public const int Intro = 0;
-        private const int Vilethorn = 1;
-        private const int ClingerAttack1 = 2;
-        private const int ClingerAttack2 = 3;
-        private const int CursedFlamesRain = 4;
-        private const int ClingerAttack3 = 5;
-        private const int Vilethorn2 = 6;
+        public const int ApeShitMode = 999, Idle = -2, Death = -1, Intro = 0, Vilethorn = 1, DifferentClingerAttacks = 2, HeadSlam = 3, CursedFlamesRain = 4, Pendulum = 5, ThrowUpVilethorns = 6, AnchoredMace = 7;
         float rotation;
         bool ded;
         public override void AI()
         {
+            if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
             NPC.rotation = MathHelper.Lerp(NPC.rotation, rotation, 0.35f);
             Player player = Main.player[NPC.target];
             if (!player.active || player.dead)//|| !player.ZoneCorrupt)
@@ -313,8 +313,6 @@ namespace EbonianMod.NPCs.Terrortoma
                     NPC.velocity = Vector2.Zero;
                     if (NPC.life > NPC.lifeMax / 2)
                         AIState = Vilethorn;
-                    else
-                        AIState = Vilethorn2;
                 }
             }
             else if (AIState == Death)
@@ -377,25 +375,52 @@ namespace EbonianMod.NPCs.Terrortoma
                 rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
                 if (++AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 60)
                 {
-                    AIState = Vilethorn2;
+                    AIState = Vilethorn;
                     AITimer = 0;
                 }
             }
             else if (AIState == Vilethorn)
             {
                 SelectedClinger = 4;
-                NPC.damage = 0;
+                if (AITimer == 1)
+                    bloomAlpha = 1f;
+                NPC.damage = 40;
                 NPC.localAI[0] = 40;
-                if (AITimer < 250)
+                if (AITimer < 250 && AITimer >= 50)
                 {
-                    if (++AITimer2 % 25 == 0)
+                    if (!hasDonePhase2ApeShitMode)
                     {
-                        Vector2 rainPos = new Vector2(Main.screenPosition.X + Main.screenWidth * Main.rand.NextFloat(), Main.screenPosition.Y + Main.screenHeight + 300);
-                        Vector2 rainPos2 = new Vector2(Main.screenPosition.X + Main.screenWidth * Main.rand.NextFloat(), Main.screenPosition.Y - 300);
-                        if (Main.rand.NextBool())
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, new Vector2(0, -10), ModContent.ProjectileType<TerrorVilethorn1>(), 15, 0, 0);
-                        else
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, new Vector2(0, 10), ModContent.ProjectileType<TerrorVilethorn1>(), 15, 0, 0);
+                        if (++AITimer2 % 25 == 0)
+                        {
+                            Vector2 rainPos = new Vector2(Main.screenPosition.X + Main.screenWidth * Main.rand.NextFloat(), Main.screenPosition.Y + Main.screenHeight + 300);
+                            Vector2 rainPos2 = new Vector2(Main.screenPosition.X + Main.screenWidth * Main.rand.NextFloat(), Main.screenPosition.Y - 300);
+                            if (Main.rand.NextBool())
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, new Vector2(0, -10), ModContent.ProjectileType<TerrorVilethorn1>(), 15, 0, 0);
+                            else
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, new Vector2(0, 10), ModContent.ProjectileType<TerrorVilethorn1>(), 15, 0, 0);
+                        }
+                    }
+                    else
+                    {
+                        if (++AITimer2 % 20 == 0)
+                        {
+                            Vector2 rainPos = new Vector2(Main.screenPosition.X + 1920 * Main.rand.NextFloat(), Main.screenPosition.Y + 1080 + 300);
+                            Vector2 rainPos2 = new Vector2(Main.screenPosition.X + 1920 * Main.rand.NextFloat(), Main.screenPosition.Y - 300);
+                            Vector2 rainPos3 = new Vector2(Main.screenPosition.X - 300, Main.screenPosition.Y + 1080 * Main.rand.NextFloat());
+                            Vector2 rainPos4 = new Vector2(Main.screenPosition.X + 1920 + 300, Main.screenPosition.Y + 1080 * Main.rand.NextFloat());
+                            if (Main.rand.NextBool())
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, new Vector2(0, -10), ModContent.ProjectileType<TerrorVilethorn1>(), 15, 0, 0);
+                            else
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, new Vector2(0, 10), ModContent.ProjectileType<TerrorVilethorn1>(), 15, 0, 0);
+
+                            if (Main.rand.NextBool(3))
+                            {
+                                if (Main.rand.NextBool())
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos3, new Vector2(10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 15, 0, 0);
+                                else
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos4, new Vector2(-10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 15, 0, 0);
+                            }
+                        }
                     }
                     if (AITimer2 % 50 == 4)
                     {
@@ -422,13 +447,14 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 if (++AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 290)
                 {
-                    AIState = ClingerAttack1;
+                    AIState = DifferentClingerAttacks;
                     isLaughing = false;
                     AITimer = 0;
+                    AITimer2 = 0;
                     SelectedClinger = 0;
                 }
             }
-            else if (AIState == ClingerAttack1)
+            else if (AIState == DifferentClingerAttacks)
             {
                 NPC.damage = 0;
                 NPC.localAI[0] = 0;
@@ -446,37 +472,28 @@ namespace EbonianMod.NPCs.Terrortoma
                     NPC.velocity *= 0.9f;
                     isLaughing = true;
                 }
-                if (++AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 360)
+                if (++AITimer >= 399)
                 {
                     angle = 0;
-                    AIState = ClingerAttack2;
+                    AIState = HeadSlam;
                     isLaughing = false;
                     AITimer = 0;
+                    AITimer2 = 0;
+                    SelectedClinger = 0;
                 }
             }
-            else if (AIState == ClingerAttack2)
+            else if (AIState == HeadSlam)
             {
                 SelectedClinger = 3;
                 NPC.damage = 0;
                 NPC.localAI[0] = 40;
-                if (AITimer <= 5)
-                {
-                    Vector2 toPlayer = player.Center - NPC.Center;
-                    rotation = 0;
-                    Vector2 pos = new Vector2(player.position.X, player.position.Y - 340);
-                    Vector2 target = pos;
-                    Vector2 moveTo = target - NPC.Center;
-                    NPC.velocity = (moveTo) * 0.0445f;
-                }
-                else
-                {
-                    NPC.velocity *= 0.5f;
-                }
-                if (++AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 370)
+                NPC.velocity *= 0.5f;
+                if (++AITimer >= 370)
                 {
                     AIState = CursedFlamesRain;
                     isLaughing = false;
                     AITimer = 0;
+                    AITimer2 = 0;
                 }
             }
             else if (AIState == CursedFlamesRain)
@@ -488,7 +505,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 NPC.localAI[0] = 40;
                 if (AITimer <= 150)
                 {
-                    Vector2 pos = new Vector2(player.position.X, player.position.Y - 340);
+                    Vector2 pos = new Vector2(player.position.X, player.position.Y - 75);
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
                     NPC.velocity = (moveTo) * 0.0445f;
@@ -516,13 +533,14 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 if (++AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 270)
                 {
-                    AIState = ClingerAttack3;
+                    AIState = Pendulum;
                     isLaughing = false;
                     AITimer = 0;
                     AITimer2 = 0;
+                    SelectedClinger = 0;
                 }
             }
-            else if (AIState == ClingerAttack3)
+            else if (AIState == Pendulum)
             {
                 SelectedClinger = 3;
                 NPC.damage = 0;
@@ -536,54 +554,10 @@ namespace EbonianMod.NPCs.Terrortoma
                 if (++AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 370)
                 {
                     NPC.velocity = Vector2.Zero;
-                    if (hasDonePhase2ApeShitMode)
-                        AIState = Vilethorn2;
-                    else AIState = Vilethorn;
+                    AIState = Vilethorn;
                     isLaughing = false;
                     AITimer = 0;
-                }
-            }
-            else if (AIState == Vilethorn2)
-            {
-                SelectedClinger = 4;
-                NPC.damage = 0;
-                NPC.localAI[0] = 40;
-                if (AITimer <= 250)
-                {
-                    if (++AITimer2 % 20 == 0)
-                    {
-                        Vector2 rainPos = new Vector2(Main.screenPosition.X + 1920 * Main.rand.NextFloat(), Main.screenPosition.Y + 1080 + 300);
-                        Vector2 rainPos2 = new Vector2(Main.screenPosition.X + 1920 * Main.rand.NextFloat(), Main.screenPosition.Y - 300);
-                        Vector2 rainPos3 = new Vector2(Main.screenPosition.X - 300, Main.screenPosition.Y + 1080 * Main.rand.NextFloat());
-                        Vector2 rainPos4 = new Vector2(Main.screenPosition.X + 1920 + 300, Main.screenPosition.Y + 1080 * Main.rand.NextFloat());
-                        if (Main.rand.NextBool())
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, new Vector2(0, -10), ModContent.ProjectileType<TerrorVilethorn1>(), 15, 0, 0);
-                        else
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, new Vector2(0, 10), ModContent.ProjectileType<TerrorVilethorn1>(), 15, 0, 0);
-
-                        if (Main.rand.NextBool(3))
-                        {
-                            if (Main.rand.NextBool())
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos3, new Vector2(10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 15, 0, 0);
-                            else
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos4, new Vector2(-10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 15, 0, 0);
-                        }
-                    }
-                }
-                if (AITimer >= 250)
-                {
-                    Vector2 toPlayer = player.Center - NPC.Center;
-                    rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-                    NPC.velocity *= 0.9f;
-                    isLaughing = true;
-                }
-                else
-                    rotation = 0;
-                if (++AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 370)
-                {
-                    AIState = ClingerAttack1;
-                    isLaughing = false;
-                    AITimer = 0;
+                    AITimer2 = 0;
                     SelectedClinger = 0;
                 }
             }

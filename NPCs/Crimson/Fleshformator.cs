@@ -17,6 +17,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using EbonianMod.Misc;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.NPCs.Crimson
 {
@@ -161,7 +162,7 @@ namespace EbonianMod.NPCs.Crimson
         {
             Player player = Main.player[NPC.target];
             Vector2 offset = Vector2.Zero;
-            Texture2D tex = Helper.GetExtraTexture("arrow");
+            Texture2D tex = Helper.GetExtraTexture("Sprites/arrow");
             if (player.whoAmI == Main.myPlayer)
             {
                 if (currentControl) offset += Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 5);

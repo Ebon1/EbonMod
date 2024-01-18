@@ -1,4 +1,5 @@
-﻿using EbonianMod.Misc;
+﻿using EbonianMod.Common.Systems;
+using EbonianMod.Misc;
 using EbonianMod.NPCs.Corruption;
 using EbonianMod.Projectiles.Terrortoma;
 using Microsoft.Xna.Framework;

@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections;
 using static tModPorter.ProgressUpdate;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.Items.Consumables.BossItems
 {

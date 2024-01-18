@@ -12,8 +12,8 @@ using EbonianMod.Items.Accessories;
 using Terraria.Graphics.Effects;
 using EbonianMod.NPCs.Crimson;
 using EbonianMod.Items.Weapons.Melee;
-using EbonianMod.Worldgen.Subworlds;
 using SubworldLibrary;
+using EbonianMod.Common.Systems.Worldgen.Subworlds;
 
 namespace EbonianMod
 {
@@ -102,7 +102,7 @@ namespace EbonianMod
             //Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint2", SubworldSystem.IsActive<Ignos>());
             if (Player.ZoneUnderworldHeight && Main.BackgroundEnabled)
             {
-                if (Main.rand.NextBool(SubworldSystem.IsActive<IgnosSubworld>() ? 3 : 13))
+                if (Main.rand.NextBool(SubworldSystem.IsActive<IgnosSubworld>() ? 15 : 13))
                 {
                     EbonianMod.sys.CreateParticle((part) =>
                     {
@@ -136,9 +136,43 @@ namespace EbonianMod
                         part.position = new Vector2(Main.screenPosition.X - Main.screenWidth + Main.rand.NextFloat(Main.screenWidth * 2), Main.screenPosition.Y - Main.screenHeight + Main.screenHeight * 2 + 100);
                     });
                 }
-            } // saved for the hell update
+                if (SubworldSystem.IsActive<IgnosSubworld>() && Main.rand.NextBool())
+                {
+                    EbonianMod.sys.CreateParticle((part) =>
+                    {
+                        if (part.ai[0] > 600)
+                        {
+                            part.dead = true;
+                        }
+                        part.velocity.X = (float)Math.Sin(part.ai[0] * Math.PI / 600);
+                        part.rotation = part.velocity.ToRotation();
+                        part.ai[0]++;
+                        part.scale = (float)Math.Sin(part.ai[0] * Math.PI / 600) * part.ai[1];
+                        part.alpha = (float)Math.Sin(part.ai[0] * Math.PI / 600);
+                    },
+                    new[]
+                    {
+                        Helper.GetExtraTexture("glow2"),
+
+                    }, (part, spriteBatch, position) =>
+                    {
+                        spriteBatch.End();
+                        spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                        spriteBatch.Draw(part.textures[0], part.position - Main.screenPosition, null, part.color, part.rotation, part.textures[0].Size() / 2, part.scale, SpriteEffects.None, 0);
+                        spriteBatch.End();
+                        spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                    }
+                    , new(Main.windSpeedCurrent + Main.rand.NextFloat(-2, 2f), Main.rand.NextFloat(-2, -4)), part =>
+                    {
+                        part.color = Color.Gray;
+                        part.scale = Main.rand.NextFloat(0.05f, 0.15f);
+                        part.ai[1] = Main.rand.NextFloat(0.025f, 0.05f);
+                        part.rotation = Main.rand.NextFloat(-1, 1);
+                        part.position = new Vector2(Main.screenPosition.X - Main.screenWidth * 2 + Main.rand.NextFloat(Main.screenWidth * 2), Main.screenPosition.Y - Main.screenHeight + Main.screenHeight * 2 + 100);
+                    });
+                }
+            }
             #endregion
-            //dont delete hell stuff...
         }
 
         public override void OnEnterWorld()
