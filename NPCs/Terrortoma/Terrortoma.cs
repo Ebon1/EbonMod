@@ -240,8 +240,9 @@ namespace EbonianMod.NPCs.Terrortoma
         bool ded;
         public override void AI()
         {
+            AITimer++;
             if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
-            NPC.rotation = MathHelper.Lerp(NPC.rotation, rotation, 0.35f);
+            NPC.rotation = rotation - NPC.rotation > MathHelper.Pi || rotation - NPC.rotation < -MathHelper.Pi ? rotation : MathHelper.SmoothStep(NPC.rotation, rotation, 0.5f);
             Player player = Main.player[NPC.target];
             if (!player.active || player.dead)//|| !player.ZoneCorrupt)
             {
@@ -362,7 +363,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 if (AITimer >= 150)
                 {
-                    AIState = Vilethorn;
+                    AIState = ThrowUpVilethorns;
                     AITimer = 0;
                     isLaughing = false;
                 }
@@ -373,7 +374,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 isLaughing = false;
                 Vector2 toPlayer = player.Center - NPC.Center;
                 rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-                if (++AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 60)
+                if (AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 60)
                 {
                     AIState = Vilethorn;
                     AITimer = 0;
@@ -445,7 +446,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     NPC.velocity *= 0.9f;
                     isLaughing = true;
                 }
-                if (++AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 290)
+                if (AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 290)
                 {
                     AIState = DifferentClingerAttacks;
                     isLaughing = false;
@@ -472,7 +473,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     NPC.velocity *= 0.9f;
                     isLaughing = true;
                 }
-                if (++AITimer >= 399)
+                if (AITimer >= 399)
                 {
                     angle = 0;
                     AIState = HeadSlam;
@@ -488,7 +489,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 NPC.damage = 0;
                 NPC.localAI[0] = 40;
                 NPC.velocity *= 0.5f;
-                if (++AITimer >= 370)
+                if (AITimer >= 270)
                 {
                     AIState = CursedFlamesRain;
                     isLaughing = false;
@@ -531,7 +532,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     NPC.velocity *= 0.9f;
                     isLaughing = true;
                 }
-                if (++AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 270)
+                if (AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 270)
                 {
                     AIState = Pendulum;
                     isLaughing = false;
@@ -551,7 +552,27 @@ namespace EbonianMod.NPCs.Terrortoma
                 Vector2 target = pos;
                 Vector2 moveTo = target - NPC.Center;
                 NPC.velocity = (moveTo) * 0.0545f;
-                if (++AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 370)
+                if (AITimer >= (hasDonePhase2ApeShitMode ? 0 : 50) + 370)
+                {
+                    NPC.velocity = Vector2.Zero;
+                    AIState = ThrowUpVilethorns;
+                    isLaughing = false;
+                    AITimer = 0;
+                    AITimer2 = 0;
+                    SelectedClinger = 0;
+                }
+            }
+            else if (AIState == ThrowUpVilethorns)
+            {
+                SelectedClinger = 4;
+                if (AITimer == 1)
+                    bloomAlpha = 1f;
+                rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2;
+                if (AITimer > 30 && AITimer % 5 == 0 && AITimer <= 75)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver2) * 0.5f, ModContent.ProjectileType<TerrorVilethorn1>(), 15, 0, 0);
+                }
+                if (AITimer >= 100)
                 {
                     NPC.velocity = Vector2.Zero;
                     AIState = Vilethorn;

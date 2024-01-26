@@ -153,6 +153,10 @@ namespace EbonianMod.NPCs.Terrortoma
             {
                 NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
                 Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
+                if (AIState == 6)
+                {
+                    pos = center.Center - new Vector2(85, 85).RotatedBy(center.rotation);
+                }
                 Vector2 target = pos;
                 Vector2 moveTo = target - NPC.Center;
                 NPC.velocity = (moveTo) * 0.05f;
@@ -205,7 +209,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                             }
                                             if (AITimer2 > 30)
                                             {
-                                                for (int j = -5; j < 5; j++)
+                                                for (int j = -5; j < 6; j++)
                                                 {
                                                     if (j == 0) continue;
                                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY.RotatedBy(MathHelper.ToRadians(MathHelper.Lerp(-100, 100, (float)(j + 5) / 10))) * 10, ModContent.ProjectileType<TFlameThrower3>(), 10, 0);
@@ -436,6 +440,10 @@ namespace EbonianMod.NPCs.Terrortoma
             if ((center.ai[2] != 1 && center.ai[2] <= 2) || center.ai[2] == 4)
             {
                 Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
+                if (AIState == 6)
+                {
+                    pos = center.Center - new Vector2(-85, 85).RotatedBy(center.rotation);
+                }
                 Vector2 target = pos;
                 Vector2 moveTo = target - NPC.Center;
                 NPC.velocity = (moveTo) * 0.05f;
@@ -443,7 +451,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else
             {
-                if (AIState == 0 || AIState == 1 || AIState == 4)
+                if (AIState == 0 || AIState == 1 || AIState == 4 || AIState == 5)
                 {
                     Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
                     Vector2 target = pos;
@@ -720,6 +728,10 @@ namespace EbonianMod.NPCs.Terrortoma
                 {
                     NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
                     Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
+                    if (AIState == 6)
+                    {
+                        pos = center.Center - new Vector2(0, 85).RotatedBy(center.rotation);
+                    }
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
                     NPC.velocity = (moveTo) * 0.05f;
