@@ -27,7 +27,9 @@ namespace EbonianMod.Projectiles.Terrortoma
             Projectile.tileCollide = false;
             Projectile.alpha = 255;
             Projectile.ignoreWater = true;
+            Projectile.hide = true;
         }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindProjectiles.Add(index);
         public override Color? GetAlpha(Color lightColor)
         {
             return Color.White * ((255 - Projectile.alpha) / 255f);
@@ -55,7 +57,7 @@ namespace EbonianMod.Projectiles.Terrortoma
                 {
                     num62 = ModContent.ProjectileType<TerrorVilethorn2>();
                 }
-                int num63 = Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.position + Projectile.velocity + (Projectile.Size/ 2), Vector2.SmoothStep(Projectile.velocity, Helper.FromAToB(Projectile.Center, Main.LocalPlayer.Center), Projectile.ai[1] / 65).SafeNormalize(Vector2.UnitY) * MathHelper.Lerp(Projectile.velocity.Length(), 28, Projectile.ai[1] /45), num62, Projectile.damage, 1, Projectile.owner);
+                int num63 = Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.position + Projectile.velocity + (Projectile.Size / 2), Vector2.SmoothStep(Projectile.velocity, Helper.FromAToB(Projectile.Center, Main.LocalPlayer.Center), Projectile.ai[1] / 65).SafeNormalize(Vector2.UnitY) * MathHelper.Lerp(Projectile.velocity.Length(), 28, Projectile.ai[1] / 45), num62, Projectile.damage, 1, Projectile.owner);
                 Main.projectile[num63].damage = Projectile.damage;
                 Main.projectile[num63].ai[1] = Projectile.ai[1] + 1f;
                 NetMessage.SendData(27, -1, -1, null, num63);
@@ -98,7 +100,9 @@ namespace EbonianMod.Projectiles.Terrortoma
             Projectile.tileCollide = false;
             Projectile.alpha = 255;
             Projectile.ignoreWater = true;
+            Projectile.hide = true;
         }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindProjectiles.Add(index);
 
         public override void AI()
         {

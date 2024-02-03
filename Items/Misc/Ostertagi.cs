@@ -196,7 +196,6 @@ namespace EbonianMod.Items.Misc
             Projectile.hostile = false;
 
             Projectile.Size = new Vector2(98);
-            Projectile.scale = 0.2f;
 
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
@@ -206,7 +205,7 @@ namespace EbonianMod.Items.Misc
 
         public override void OnSpawn(IEntitySource source)
         {
-            EbonianSystem.ScreenShakeAmount = 5;
+            EbonianSystem.ScreenShakeAmount = 3;
 
             SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
 
@@ -255,7 +254,7 @@ namespace EbonianMod.Items.Misc
             Vector2 position = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
             Color color = new Color(123, 255, 0, 0) * Projectile.Opacity;
 
-            Main.EntitySpriteDraw(texture, position, sourceRectangle, color, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(texture, position, sourceRectangle, color, Projectile.rotation, origin, (Projectile.scale - 0.8f), SpriteEffects.None, 0);
 
             texture = Helper.GetTexture("Extras/vortex");
 
@@ -264,7 +263,7 @@ namespace EbonianMod.Items.Misc
             color = new Color(123, 255, 0, 0) * Projectile.Opacity;
 
             magicRotation += 0.1f;
-            Main.EntitySpriteDraw(texture, position, sourceRectangle, color, Projectile.rotation + magicRotation, origin, Projectile.scale * 0.5f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(texture, position, sourceRectangle, color, Projectile.rotation + magicRotation, origin, (Projectile.scale - 0.8f) * 0.5f, SpriteEffects.None, 0);
 
             return false;
         }

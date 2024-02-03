@@ -16,6 +16,9 @@ using System.Net.Http.Headers;
 using Terraria.Audio;
 using EbonianMod.Dusts;
 using EbonianMod.Common.Systems;
+using EbonianMod.Projectiles.Friendly.Corruption;
+using EbonianMod.Items.Misc;
+using Terraria.GameContent;
 
 namespace EbonianMod.NPCs.Terrortoma
 {
@@ -66,7 +69,7 @@ namespace EbonianMod.NPCs.Terrortoma
         public override void AI()
         {
             Player player = Main.player[NPC.target];
-
+            NPC.damage = 0;
             NPC center = Main.npc[(int)NPC.ai[0]];
             if (!center.active || center.type != ModContent.NPCType<Terrortoma>())
             {
@@ -131,16 +134,8 @@ namespace EbonianMod.NPCs.Terrortoma
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
-                    for (int i = 0; i < 10; i++)
-                    {
-
-                        Projectile projectilee = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextVector2Unit() * 2f, ModContent.ProjectileType<TFlameThrower2>(), 0, 1f, Main.myPlayer)];
-                        projectilee.tileCollide = false;
-                        projectilee.timeLeft = 310;
-                        projectilee.friendly = false;
-                        projectilee.hostile = true;
-                        Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.CursedTorch, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
-                    }
+                    EbonianSystem.ScreenShakeAmount += 5f;
+                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                 }
             }
             if (center.ai[2] == 0 && NPC.ai[3] == 0 && AIState != 0)
@@ -164,7 +159,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else
             {
-                if (AIState == 0 || AIState == 1 || AIState == 4)
+                if (AIState == 0 || AIState == 1 || AIState == -2 || AIState == 4)
                 {
                     AITimer = 0;
                     NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
@@ -419,15 +414,16 @@ namespace EbonianMod.NPCs.Terrortoma
                         Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
                     }
 
+                    EbonianSystem.ScreenShakeAmount += 5f;
+                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                     for (int i = 0; i < 5; i++)
                     {
                         Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
                         Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
                         Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
-                        NPC funny = Main.npc[NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<NPCs.Corruption.EbonFly>())];
-                        funny.lifeMax = 450;
-                        funny.life = 450;
-                        funny.damage = 45;
+                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 7), ModContent.ProjectileType<OstertagiWorm>(), 30, 0, 0);
+                        a.friendly = false;
+                        a.hostile = true;
                     }
                 }
             }
@@ -437,6 +433,13 @@ namespace EbonianMod.NPCs.Terrortoma
                 NPC.ai[3] = 1;
             }
             if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
+            if (AIState == -2)
+            {
+                if (CenterAITimer % 75 == 0)
+                {
+                    NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), ModContent.NPCType<BloatedEbonfly>());
+                }
+            }
             if ((center.ai[2] != 1 && center.ai[2] <= 2) || center.ai[2] == 4)
             {
                 Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
@@ -451,7 +454,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else
             {
-                if (AIState == 0 || AIState == 1 || AIState == 4 || AIState == 5)
+                if (AIState == 0 || AIState == 1 || AIState == -2 || AIState == 4 || AIState == 5)
                 {
                     Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
                     Vector2 target = pos;
@@ -471,12 +474,18 @@ namespace EbonianMod.NPCs.Terrortoma
                                 NPC.velocity = (moveTo) * 0.05f;
 
                                 AITimer++;
+                                if (AITimer % 25 == 0)
+                                {
+                                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * Main.rand.NextFloat(5, 7), ModContent.ProjectileType<OstertagiWorm>(), 30, 0, 0);
+                                    a.friendly = false;
+                                    a.hostile = true;
+                                }
                                 if (AITimer == 50)
                                 {
                                     float off = Main.rand.NextFloat(MathHelper.Pi);
                                     for (int i = 0; i < 3; i++)
                                     {
-                                        NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), ModContent.NPCType<EbonFly>());
+                                        NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), ModContent.NPCType<BloatedEbonfly>());
                                         //float angle = Helper.CircleDividedEqually(i, 6) + off;
                                         //Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.One.RotatedBy(angle), ModContent.ProjectileType<TSpike>(), 15, 0);
                                     }
@@ -512,6 +521,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                     {
                                         if (npc.Center.Distance(NPC.Center) < npc.width)
                                         {
+                                            NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), ModContent.NPCType<BloatedEbonfly>());
                                             for (int j = 0; j < 30; j++)
                                             {
                                                 Dust.NewDustPerfect(NPC.Center + Helper.FromAToB(NPC.Center, npc.Center) * npc.width / 2, DustID.CursedTorch, (Main.rand.NextBool(5) ? Main.rand.NextVector2Unit() : Helper.FromAToB(NPC.Center, npc.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(1, 5)), Scale: Main.rand.NextFloat(2));
@@ -632,11 +642,17 @@ namespace EbonianMod.NPCs.Terrortoma
             get => NPC.ai[1];
             set => NPC.ai[1] = value;
         }
+        public override void OnSpawn(IEntitySource source)
+        {
+            NPC center = Main.npc[(int)NPC.ai[0]];
+            NPC.Center = center.Center;
+        }
         public override void AI()
         {
-            Player player = Main.player[NPC.target];
 
             NPC center = Main.npc[(int)NPC.ai[0]];
+            Player player = Main.player[NPC.target];
+            NPC.TargetClosest(false);
             terrortomaCenter = center.Center;
             if (!player.active || player.dead)
             {
@@ -669,7 +685,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 IsDashing = false;
                 if (center.ai[1] > 100)
                 {
-                    NPC.velocity = Vector2.UnitY * 5;
+                    NPC.velocity *= 1.025f;
                     NPC.rotation += MathHelper.ToRadians(3);
                 }
                 else
@@ -684,6 +700,9 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 if (center.ai[1] == 100)
                 {
+                    NPC.velocity = Vector2.UnitY * 5;
+                    EbonianSystem.ScreenShakeAmount += 5f;
+                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                     Vector2 neckOrigin = terrortomaCenter;
                     Vector2 NPCcenter = NPC.Center;
                     Vector2 distToProj = neckOrigin - NPC.Center;
@@ -739,7 +758,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 else
                 {
-                    if (AIState == 0 || AIState == 1 || AIState == 4)
+                    if (AIState == 0 || AIState == 1 || AIState == -2 || AIState == 4)
                     {
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
                         Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
@@ -804,6 +823,26 @@ namespace EbonianMod.NPCs.Terrortoma
                                     if (CenterAITimer > 369 + (center.life < center.lifeMax / 2 ? 50 : 0))
                                         NPC.damage = 0;
                                 }
+                                break;
+                            case 7:
+                                AITimer++;
+                                if (AITimer == 1)
+                                    bloomAlpha = 1f;
+                                if (AITimer == 30)
+                                {
+                                    NPC.velocity = Vector2.Zero;
+                                    alpha = 1f;
+                                    lastPos = Helper.TRay.Cast(NPC.Center, Helper.FromAToB(NPC.Center, player.Center), 2028);
+                                }
+                                if (AITimer > 30 && AITimer < 100)
+                                {
+                                    NPC.velocity += Helper.FromAToB(NPC.Center, lastPos, false) / 50f;
+                                    if (NPC.Center.Distance(lastPos) < NPC.width)
+                                    {
+                                        AITimer = 100;
+                                    }
+                                }
+                                else NPC.velocity *= 0.1f;
                                 break;
                         }
                     }

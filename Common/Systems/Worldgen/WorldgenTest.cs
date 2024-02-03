@@ -46,7 +46,7 @@ namespace EbonianMod.Common.Systems.Worldgen
                     }
                     Point16 pos = new(x, y - 8);
                     Logging.PublicLogger.Debug(pos);
-                    Generator.GenerateStructure("Worldgen/Structures/CorruptionMeteorNoNulls", pos, EbonianMod.Instance);
+                    Generator.GenerateStructure("Common/Systems/Worldgen/Structures/CorruptionMeteorNoNulls", pos, EbonianMod.Instance);
                     for (int ite = x; ite < x + 13; ite++)
                     {
                         for (int iter = 0; iter < 12; iter++)
@@ -75,7 +75,7 @@ namespace EbonianMod.Common.Systems.Worldgen
                     }
                     Point16 pos = new(x, y - 8);
                     Logging.PublicLogger.Debug(pos);
-                    Generator.GenerateStructure("Worldgen/Structures/CrimsonMeteor", pos, EbonianMod.Instance);
+                    Generator.GenerateStructure("Common/Systems/Worldgen/Structures/CrimsonMeteor", pos, EbonianMod.Instance);
                     for (int ite = x; ite < x + 13; ite++)
                     {
                         for (int iter = 0; iter < 12; iter++)

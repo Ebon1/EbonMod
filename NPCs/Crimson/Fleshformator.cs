@@ -93,7 +93,7 @@ namespace EbonianMod.NPCs.Crimson
                         if (Helper.TRay.CastLength(NPC.Center, Vector2.UnitY, 1500) < 1490)
                         {
                             NPC.ai[3] = 0.5f;
-                            NPC.Center = Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 500) - new Vector2(0, 14);
+                            NPC.Center = Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 1500) - new Vector2(0, 14);
                         }
                         rand = Main.rand.Next(4);
                         break;

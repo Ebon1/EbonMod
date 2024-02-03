@@ -21,10 +21,11 @@ namespace EbonianMod.Common.Systems
         bowPull = Default with { SoundPath = ebonianSoundPath + "bowPull" },
         bowRelease = Default with { SoundPath = ebonianSoundPath + "bowRelease" },
         chargedBeam = Default with { SoundPath = ebonianSoundPath + "chargedBeam" },
+        chargedBeamImpactOnly = Default with { SoundPath = ebonianSoundPath + "chargedBeamImpactOnly", PitchVariance = 0f },
         chomp0 = Default with { SoundPath = ebonianSoundPath + "chomp0" },
         chomp1 = Default with { SoundPath = ebonianSoundPath + "chomp1" },
         chomp2 = Default with { SoundPath = ebonianSoundPath + "chomp2" },
-        eggplosion = Default with { SoundPath = ebonianSoundPath + "eggplosion" },
+        eggplosion = Default with { SoundPath = ebonianSoundPath + "eggplosion", MaxInstances = 5 },
         exolDash = Default with { SoundPath = ebonianSoundPath + "exolDash" },
         exolRoar = Default with { SoundPath = ebonianSoundPath + "exolRoar" },
         exolSummon = Default with { SoundPath = ebonianSoundPath + "exolSummon" },
@@ -43,6 +44,9 @@ namespace EbonianMod.Common.Systems
         terrortomaDash = Default with { SoundPath = ebonianSoundPath + "terrortomaDash" },
         cecitiorDie = Default with { SoundPath = ebonianSoundPath + "NPCHit/cecitiorDie" },
         fleshHit = Default with { SoundPath = ebonianSoundPath + "NPCHit/fleshHit" },
+        terrortomaFlesh = Default with { SoundPath = ebonianSoundPath + "terrortomaFlesh" },
+        terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f },
+        blink = Default with { SoundPath = ebonianSoundPath + "blink" },
         garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" };
         public override void Load()
         {
@@ -50,10 +54,11 @@ namespace EbonianMod.Common.Systems
             bowPull = Default with { SoundPath = ebonianSoundPath + "bowPull" };
             bowRelease = Default with { SoundPath = ebonianSoundPath + "bowRelease" };
             chargedBeam = Default with { SoundPath = ebonianSoundPath + "chargedBeam" };
+            chargedBeamImpactOnly = Default with { SoundPath = ebonianSoundPath + "chargedBeamImpactOnly", PitchVariance = 0f };
             chomp0 = Default with { SoundPath = ebonianSoundPath + "chomp0" };
             chomp1 = Default with { SoundPath = ebonianSoundPath + "chomp1" };
             chomp2 = Default with { SoundPath = ebonianSoundPath + "chomp2" };
-            eggplosion = Default with { SoundPath = ebonianSoundPath + "eggplosion" };
+            eggplosion = Default with { SoundPath = ebonianSoundPath + "eggplosion", MaxInstances = 5 };
             exolDash = Default with { SoundPath = ebonianSoundPath + "exolDash" };
             exolRoar = Default with { SoundPath = ebonianSoundPath + "exolRoar" };
             exolSummon = Default with { SoundPath = ebonianSoundPath + "exolSummon" };
@@ -72,6 +77,9 @@ namespace EbonianMod.Common.Systems
             terrortomaDash = Default with { SoundPath = ebonianSoundPath + "terrortomaDash" };
             cecitiorDie = Default with { SoundPath = ebonianSoundPath + "NPCHit/cecitiorDie" };
             fleshHit = Default with { SoundPath = ebonianSoundPath + "NPCHit/fleshHit" };
+            terrortomaFlesh = Default with { SoundPath = ebonianSoundPath + "terrortomaFlesh" };
+            terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f };
+            blink = Default with { SoundPath = ebonianSoundPath + "blink" };
             garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" };
         }
     }

@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
 using EbonianMod.Projectiles.VFXProjectiles;
+using EbonianMod.Items.Misc;
 
 namespace EbonianMod.NPCs.Corruption
 {
@@ -58,7 +59,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.height = 38;
             NPC.npcSlots = 0.1f;
             NPC.lifeMax = 200;
-            NPC.damage = 12;
+            NPC.damage = 0;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.HitSound = SoundID.NPCHit1;
@@ -114,7 +115,9 @@ namespace EbonianMod.NPCs.Corruption
                     glowAlpha += 0.03f;
                     if (NPC.ai[3] > 250)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CursedFlameExplosion>(), 50, 0);
+                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 150, 0);
+                        a.friendly = true;
+                        a.hostile = true;
                         NPC.StrikeInstantKill();
                     }
                 }

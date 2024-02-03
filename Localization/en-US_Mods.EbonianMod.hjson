@@ -138,6 +138,7 @@ Projectiles: {
 	EHomingBeam.DisplayName: E Homing Beam
 	FlameExplosionWSprite.DisplayName: Flame Explosion W Sprite
 	TFlameThrower4.DisplayName: T Flame Thrower4
+	TerrorStaffPEvil.DisplayName: Terror Staff P Evil
 }
 
 NPCs: {
@@ -201,6 +202,10 @@ NPCs: {
 	Ignos.DisplayName: Exol of Ignos
 	MassiveSpectator.DisplayName: Massive Spectator
 	foreskin.DisplayName: Foreskin Apostle
+	TerrortomaBulb.DisplayName: Giant Cocoon
+	Bloodhound.DisplayName: Bloodhound
+	ClumpOfMeat.DisplayName: Clump Of Meat
+	Parasite.DisplayName: Latchers
 }
 
 Items: {
@@ -598,6 +603,11 @@ Items: {
 
 	InfernoLeggings: {
 		DisplayName: Inferno Leggings
+		Tooltip: ""
+	}
+
+	ee: {
+		DisplayName: ee
 		Tooltip: ""
 	}
 }

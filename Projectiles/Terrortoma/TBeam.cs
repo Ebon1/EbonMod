@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
+using static Terraria.GameContent.Bestiary.IL_BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions;
+using static EbonianMod.Helper;
+using Terraria.ID;
 
 namespace EbonianMod.Projectiles.Terrortoma
 {
@@ -20,7 +23,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             Projectile.hostile = true;
             Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 25;
+            Projectile.timeLeft = 165;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
@@ -38,7 +41,7 @@ namespace EbonianMod.Projectiles.Terrortoma
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * ((1920 / 4) * Projectile.scale), Projectile.width, ref a);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.rotation.ToRotationVector2() * 2048, 60, ref a) && Projectile.scale > 0.5f;
         }
         bool RunOnce;
 
@@ -50,41 +53,88 @@ namespace EbonianMod.Projectiles.Terrortoma
                 damage = Projectile.damage;
                 RunOnce = false;
             }
+            for (int i = 0; i < 5; i++)
+            {
+                int dust = Dust.NewDust(Projectile.position - new Vector2(30, 0) + Projectile.rotation.ToRotationVector2() * Main.rand.NextFloat(Projectile.ai[0]), 60, 60, DustID.CursedTorch, 2f);
+                Main.dust[dust].scale = 2f;
+                Main.dust[dust].velocity = Main.rand.NextVector2Circular(5, 5);
+                Main.dust[dust].noGravity = true;
+            }
+            if (visualOffset == 0)
+                visualOffset = Main.rand.NextFloat(0.75f, 1);
+            visual1 += 30 * visualOffset;
+            visual2 += 35 * visualOffset;
 
+            if (Projectile.ai[0] == 0)
+            {
+                float len = TRay.CastLength(Projectile.Center, Projectile.velocity, 2048);
+                for (int i = 0; i < 80; i++)
+                {
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + Projectile.velocity * len, DustID.CursedTorch, Main.rand.NextVector2Circular(15, 15));
+                    dust.scale = 2f;
+                    dust.noGravity = true;
+                }
+                Projectile.ai[0] = len;
+            }
+            Projectile.rotation = Projectile.velocity.ToRotation();
 
-            //Projectile.velocity = -Vector2.UnitY.RotatedBy(MathHelper.ToRadians(Projectile.ai[1]));
+            //Projectile.velocity = -Projectile.velocity.RotatedBy(MathHelper.ToRadians(Projectile.ai[1]));
 
-            float progress = Utils.GetLerpValue(0, 25, Projectile.timeLeft);
-            Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI), 0, 1);
+            float progress = Utils.GetLerpValue(0, 165, Projectile.timeLeft);
+            Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 5, 0, 1);
         }
+        float visualOffset;
+        float visual1, visual2;
         public override bool PreDraw(ref Color lightColor)
         {
-            Projectile.rotation += 0.3f;
+            Texture2D tex = Helper.GetExtraTexture("terrortomaBeam");
+            Texture2D tex2 = Helper.GetExtraTexture("oracleBeamv2");
+            Texture2D tex3 = Helper.GetExtraTexture("vortex3");
+            //Texture2D tex3 = Helper.GetExtraTexture("spark_06");
+            Vector2 pos = Projectile.Center;
+            Vector2 scale = new Vector2(1f, Projectile.scale);
+            Main.spriteBatch.Reload(BlendState.Additive);
+            for (int i = 0; i < Projectile.ai[0]; i++)
+            {
+                Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.LawnGreen, Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
+                pos += Projectile.rotation.ToRotationVector2();
+            }
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
+            Vector2 pos2 = Projectile.Center;
 
-            Helper.Reload(Main.spriteBatch, BlendState.Additive);
-            Helper.Reload(Main.spriteBatch, SpriteSortMode.Immediate);
+            int off = 0;
+            if (Projectile.ai[0] < 512)
+                off = 3;
+            else if (Projectile.ai[0] < 1024)
+                off = 2;
+            else if (Projectile.ai[0] < 1536)
+                off = 1;
+            for (int i = 0; i < 4 - off; i++)
+            {
+                int len = 512;
+                if (i == 3 && Projectile.ai[0] < 2048 && Projectile.ai[0] - 1536 > 0)
+                    len = (int)Projectile.ai[0] - 1536;
+                if (i == 2 && Projectile.ai[0] < 1536 && Projectile.ai[0] - 1024 > 0)
+                    len = (int)Projectile.ai[0] - 1024;
+                if (i == 1 && Projectile.ai[0] < 1024 && Projectile.ai[0] - 512 > 0)
+                    len = (int)Projectile.ai[0] - 512;
+                if (i == 0 && Projectile.ai[0] < 512)
+                    len = (int)Projectile.ai[0];
+                Main.spriteBatch.Draw(tex2, pos2 - Main.screenPosition, new Rectangle((int)-visual1, 0, len, 512), Color.LawnGreen, Projectile.rotation, new Vector2(0, tex2.Height / 2), scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex2, pos2 - Main.screenPosition, new Rectangle((int)-visual1, 0, len, 512), Color.White, Projectile.rotation, new Vector2(0, tex2.Height / 2), scale, SpriteEffects.None, 0);
 
-            float mult = (0.55f + (float)Math.Sin(Main.GlobalTimeWrappedHourly/* * 2*/) * 0.1f);
-            float scale = Projectile.scale * 4 * mult;
-            Texture2D bolt = Helper.GetExtraTexture("laser4");
-            Vector2 start = Projectile.Center;
-            Vector2 end = Projectile.Center + Projectile.velocity * ((1920 / 2) * Projectile.scale);
-            float num = Vector2.Distance(start, end);
-            Vector2 vector = (end - start) / num;
-            Vector2 vector2 = start;
-            float rotation = vector.ToRotation();
-            for (int j = 0; j < 2; j++)
-                for (int i = 0; i < num; i++)
-                {
-                    Main.spriteBatch.Draw(bolt, vector2 - Main.screenPosition, null, Color.Lerp(Color.LawnGreen, Color.LawnGreen * 0f, (float)(i / num)) * Projectile.scale, rotation, bolt.Size() / 2, new Vector2(1, Projectile.scale), SpriteEffects.None, 0f);
-                    vector2 = start + i * vector;
-                }
-            Texture2D texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Extras2/light_01").Value;
-
-            for (int j = 0; j < 2; j++)
-                Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.LawnGreen * Projectile.scale, Main.GameUpdateCount * 0.03f, new Vector2(texture.Width, texture.Height) / 2, scale * 0.1f, SpriteEffects.None, 0f);
-
-            Helper.Reload(Main.spriteBatch, BlendState.AlphaBlend);
+                Main.spriteBatch.Draw(tex2, pos2 - Main.screenPosition, new Rectangle((int)-visual2, 0, len, 512), Color.LawnGreen, Projectile.rotation, new Vector2(0, tex2.Height / 2), scale, SpriteEffects.FlipVertically, 0);
+                Main.spriteBatch.Draw(tex2, pos2 - Main.screenPosition, new Rectangle((int)-visual2, 0, len, 512), Color.White, Projectile.rotation, new Vector2(0, tex2.Height / 2), scale, SpriteEffects.FlipVertically, 0);
+                pos2 += Projectile.rotation.ToRotationVector2() * len;
+            }
+            Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.LawnGreen, Main.GameUpdateCount * 0.003f, tex3.Size() / 2, scale.Y * 0.15f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.White, Main.GameUpdateCount * -0.003f, tex3.Size() / 2, scale.Y * 0.15f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.LawnGreen, Main.GameUpdateCount * -0.003f, tex3.Size() / 2, scale.Y * 0.15f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex3, Projectile.Center + Projectile.ai[0] * Projectile.rotation.ToRotationVector2() - Main.screenPosition, null, Color.LawnGreen, Main.GameUpdateCount * 0.003f, tex3.Size() / 2, scale.Y * 0.25f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex3, Projectile.Center + Projectile.ai[0] * Projectile.rotation.ToRotationVector2() - Main.screenPosition, null, Color.White, Main.GameUpdateCount * -0.03f, tex3.Size() / 2, scale.Y * 0.25f, SpriteEffects.None, 0);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
 
             return false;
         }
