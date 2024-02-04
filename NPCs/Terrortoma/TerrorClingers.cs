@@ -483,7 +483,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                 if (AITimer == 50)
                                 {
                                     float off = Main.rand.NextFloat(MathHelper.Pi);
-                                    for (int i = 0; i < 3; i++)
+                                    for (int i = 0; i < 1; i++)
                                     {
                                         NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), ModContent.NPCType<BloatedEbonfly>());
                                         //float angle = Helper.CircleDividedEqually(i, 6) + off;
@@ -493,7 +493,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                 if (AITimer == 80)
                                 {
                                     float off = Main.rand.NextFloat(MathHelper.Pi);
-                                    for (int i = 0; i < 3; i++)
+                                    for (int i = 0; i < 2; i++)
                                     {
                                         NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), ModContent.NPCType<BloatedEbonfly>());
                                         //float angle = Helper.CircleDividedEqually(i, 8) + off;
@@ -521,7 +521,6 @@ namespace EbonianMod.NPCs.Terrortoma
                                     {
                                         if (npc.Center.Distance(NPC.Center) < npc.width)
                                         {
-                                            NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), ModContent.NPCType<BloatedEbonfly>());
                                             for (int j = 0; j < 30; j++)
                                             {
                                                 Dust.NewDustPerfect(NPC.Center + Helper.FromAToB(NPC.Center, npc.Center) * npc.width / 2, DustID.CursedTorch, (Main.rand.NextBool(5) ? Main.rand.NextVector2Unit() : Helper.FromAToB(NPC.Center, npc.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(1, 5)), Scale: Main.rand.NextFloat(2));
@@ -645,7 +644,8 @@ namespace EbonianMod.NPCs.Terrortoma
         public override void OnSpawn(IEntitySource source)
         {
             NPC center = Main.npc[(int)NPC.ai[0]];
-            NPC.Center = center.Center;
+            if (NPC.Center == Vector2.Zero && center.Center != Vector2.Zero)
+                NPC.Center = center.Center;
         }
         public override void AI()
         {

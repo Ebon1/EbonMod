@@ -115,7 +115,7 @@ namespace EbonianMod.NPCs.Corruption
                     glowAlpha += 0.03f;
                     if (NPC.ai[3] > 250)
                     {
-                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 150, 0);
+                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 50, 0);
                         a.friendly = true;
                         a.hostile = true;
                         NPC.StrikeInstantKill();

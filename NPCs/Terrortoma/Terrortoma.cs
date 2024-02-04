@@ -66,7 +66,7 @@ namespace EbonianMod.NPCs.Terrortoma
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.lifeMax = 4750;
+            NPC.lifeMax = 14000;
             NPC.damage = 40;
             NPC.noTileCollide = true;
             NPC.defense = 20;
@@ -207,6 +207,19 @@ namespace EbonianMod.NPCs.Terrortoma
             if (NPC.life <= 0 && !ded)
             {
                 NPC.life = 1;
+                foreach (Projectile projectile in Main.projectile)
+                {
+                    if (projectile.hostile && projectile.active)
+                        projectile.Kill();
+                }
+                foreach (NPC npc in Main.npc)
+                {
+                    if (npc.type == ModContent.NPCType<BloatedEbonfly>() && npc.active)
+                    {
+                        npc.life = 0;
+                        npc.checkDead();
+                    }
+                }
                 AIState = Death;
                 NPC.frameCounter = 0;
                 NPC.immortal = true;
@@ -452,10 +465,11 @@ namespace EbonianMod.NPCs.Terrortoma
                     {
                         Projectile.NewProjectileDirect(NPC.InheritSource(NPC), Helper.TRay.Cast(NPC.Center, Vector2.UnitY, Main.screenWidth), Vector2.Zero, ModContent.ProjectileType<TExplosion>(), 0, 0).scale = 2f;
                         SoundEngine.PlaySound(EbonianSounds.eggplosion);
+                        SoundEngine.PlaySound(EbonianSounds.evilOutro);
                         NPC.immortal = false;
                         NPC.life = 0;
-                        //if (!EbonianAchievementSystem.acquiredAchievement[1])
-                        InGameNotificationsTracker.AddNotification(new EbonianAchievementNotification(1));
+                        if (!EbonianAchievementSystem.acquiredAchievement[1])
+                            InGameNotificationsTracker.AddNotification(new EbonianAchievementNotification(1));
                         NPC.checkDead();
                     }
                 }
@@ -773,6 +787,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 if (AITimer == 170 && AITimer2 == 1)
                 {
                     SoundEngine.PlaySound(EbonianSounds.chomp1, NPC.Center);
+                    EbonianSystem.ScreenShakeAmount = 5f;
                     if (hasDonePhase2ApeShitMode)
                         Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(0, 0), ModContent.ProjectileType<FatSmash>(), 30, 0, 0, 0);
                 }

@@ -47,7 +47,8 @@ namespace EbonianMod.Common.Systems
         terrortomaFlesh = Default with { SoundPath = ebonianSoundPath + "terrortomaFlesh" },
         terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f },
         blink = Default with { SoundPath = ebonianSoundPath + "blink" },
-        garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" };
+        garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" },
+        evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };
         public override void Load()
         {
             bloodSpit = Default with { SoundPath = ebonianSoundPath + "bloodSpit" };
@@ -81,6 +82,7 @@ namespace EbonianMod.Common.Systems
             terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f };
             blink = Default with { SoundPath = ebonianSoundPath + "blink" };
             garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" };
+            evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };
         }
     }
 }

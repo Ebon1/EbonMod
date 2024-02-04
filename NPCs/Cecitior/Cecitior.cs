@@ -328,6 +328,7 @@ namespace EbonianMod.NPCs.Cecitior
                     InGameNotificationsTracker.AddNotification(new EbonianAchievementNotification(2));
                 NPC.dontTakeDamage = false;
                 NPC.life = 0;
+                SoundEngine.PlaySound(EbonianSounds.evilOutro);
                 NPC.checkDead();
             }
             else if (AIState == PrePreDeath)
