@@ -41,7 +41,7 @@ namespace EbonianMod.NPCs.Terrortoma
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
-                new FlavorTextBestiaryInfoElement("The Corruption is not capable of thought and only acts based on stimulus, it created the Terrortoma from the corpses of infected creatures specifically as a defense from the creatures released from the demise of the Wall of Flesh."),
+                new FlavorTextBestiaryInfoElement("An unusual conglomerate of corrupted entities with the strange capability to show emotion. It is malformed, and not the intended result of the metamorphosis."),
             });
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -107,7 +107,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.LawnGreen * bloomAlpha, NPC.rotation, tex.Size() / 2 - new Vector2(0, 2).RotatedBy(NPC.rotation), NPC.scale, SpriteEffects.None, 0);
                 spriteBatch.Reload(BlendState.AlphaBlend);
 
-                spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value, NPC.Center - pos, NPC.frame, lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value, NPC.Center - pos, NPC.frame, NPC.IsABestiaryIconDummy ? Color.White : lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
             }
             else if (isLaughing)
             {
@@ -140,7 +140,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 Vector2 eyePosition = NPC.Center - new Vector2(-7, 14).RotatedBy(NPC.rotation);
                 if (NPC.IsABestiaryIconDummy)
                 {
-                    spriteBatch.Draw(tex, eyePosition - screenPos, null, Color.White, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(tex, eyeOGPosition - screenPos, null, Color.White, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
                 }
                 else
                 {
@@ -748,7 +748,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 if (AITimer == 1)
                     bloomAlpha = 1f;
                 rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2;
-                if (AITimer > 30 && AITimer % 5 == 0 && AITimer <= (hasDonePhase2ApeShitMode ? 100 : 75))
+                if (AITimer > 30 && AITimer % 7 == 0 && AITimer <= (hasDonePhase2ApeShitMode ? 100 : 75))
                 {
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, (NPC.rotation + MathHelper.PiOver2).ToRotationVector2().RotatedByRandom(MathHelper.PiOver2) * 0.5f, ModContent.ProjectileType<TerrorVilethorn1>(), 15, 0, 0);
                 }

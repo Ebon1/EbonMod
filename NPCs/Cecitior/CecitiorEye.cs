@@ -50,12 +50,18 @@ namespace EbonianMod.NPCs.Cecitior
             NPC.noGravity = true;
             NPC.buffImmune[24] = true;
             SoundStyle hit = EbonianSounds.fleshHit;
-            NPC.HitSound = hit;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = hit;
             NPC.netAlways = true;
         }
         Verlet verlet;
         int timer;
         float randRot;
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
+        {
+            if (projectile.penetrate != 0)
+                modifiers.FinalDamage.Scale(0.65f);
+        }
         public override void OnSpawn(IEntitySource source)
         {
             randRot = Main.rand.NextFloat(MathHelper.Pi * 2);
@@ -117,7 +123,7 @@ namespace EbonianMod.NPCs.Cecitior
             if (timer < 0)
             {
                 NPC center = Main.npc[(int)NPC.ai[0]];
-                if (center.ai[3] == 1 || frantic) //frantically looking
+                if (center.ai[3] == 1 || frantic && center.ai[0] != 0) //frantically looking
                 {
                     ++NPC.frameCounter;
                     if (NPC.frameCounter % 5 == 0 && NPC.frameCounter < 550)

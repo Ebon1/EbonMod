@@ -139,6 +139,9 @@ Projectiles: {
 	FlameExplosionWSprite.DisplayName: Flame Explosion W Sprite
 	TFlameThrower4.DisplayName: T Flame Thrower4
 	TerrorStaffPEvil.DisplayName: Terror Staff P Evil
+	CecitiorBelch.DisplayName: Cecitior Belch
+	SerrationP.DisplayName: Serration P
+	SerrationSpike.DisplayName: Serration Spike
 }
 
 NPCs: {
@@ -206,6 +209,12 @@ NPCs: {
 	Bloodhound.DisplayName: Bloodhound
 	ClumpOfMeat.DisplayName: Clump Of Meat
 	Parasite.DisplayName: Latchers
+	FleshBrickBig.DisplayName: Sedimentary
+	FleshBrickMedium.DisplayName: Sedimentary
+	FleshBrickSmall.DisplayName: Sedimentary
+	TrumpetTail.DisplayName: Trumpet
+	TrumpetHead.DisplayName: Trumpet
+	TrumpetBody.DisplayName: Trumpet
 }
 
 Items: {
@@ -608,6 +617,11 @@ Items: {
 
 	ee: {
 		DisplayName: ee
+		Tooltip: ""
+	}
+
+	Serration: {
+		DisplayName: Serration
 		Tooltip: ""
 	}
 }

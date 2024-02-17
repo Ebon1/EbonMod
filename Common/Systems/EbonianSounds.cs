@@ -45,7 +45,9 @@ namespace EbonianMod.Common.Systems
         cecitiorDie = Default with { SoundPath = ebonianSoundPath + "NPCHit/cecitiorDie" },
         fleshHit = Default with { SoundPath = ebonianSoundPath + "NPCHit/fleshHit" },
         terrortomaFlesh = Default with { SoundPath = ebonianSoundPath + "terrortomaFlesh" },
-        terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f },
+        cecitiorBurp = Default with { SoundPath = ebonianSoundPath + "cecitiorBurp" },
+        trumpet = Default with { SoundPath = ebonianSoundPath + "trumpet", PitchVariance = 0.4f, Variants = new int[] { 0, 1 } },
+        terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f, Volume = 1.1f },
         blink = Default with { SoundPath = ebonianSoundPath + "blink" },
         garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" },
         evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };
@@ -79,7 +81,9 @@ namespace EbonianMod.Common.Systems
             cecitiorDie = Default with { SoundPath = ebonianSoundPath + "NPCHit/cecitiorDie" };
             fleshHit = Default with { SoundPath = ebonianSoundPath + "NPCHit/fleshHit" };
             terrortomaFlesh = Default with { SoundPath = ebonianSoundPath + "terrortomaFlesh" };
-            terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f };
+            cecitiorBurp = Default with { SoundPath = ebonianSoundPath + "cecitiorBurp" };
+            trumpet = Default with { SoundPath = ebonianSoundPath + "trumpet", PitchVariance = 0.4f, Variants = new int[] { 0, 1 } };
+            terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f, Volume = 1.1f };
             blink = Default with { SoundPath = ebonianSoundPath + "blink" };
             garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" };
             evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };

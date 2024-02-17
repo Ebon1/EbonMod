@@ -102,7 +102,7 @@ namespace EbonianMod.NPCs.Crimson
             //{
             NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(NPC.ai[1] * NPC.ai[3], NPC.ai[2]), false) * 0.005f;
             NPC.Center = Vector2.Clamp(NPC.Center, stalkBase - new Vector2(300), stalkBase + new Vector2(300));
-            if (NPC.Center.Distance(stalkBase) > 320)
+            if (NPC.Center.Distance(stalkBase) > 300)
             {
                 NPC.ai[1] = Main.rand.NextFloat(20, 100);
                 NPC.ai[2] = Main.rand.NextFloat(30, 100);

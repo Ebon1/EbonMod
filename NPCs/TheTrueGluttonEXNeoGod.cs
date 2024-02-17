@@ -23,13 +23,11 @@ namespace EbonianMod.NPCs.Corruption
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 9;
-            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
-                Position = new Vector2(50f, 70),
-                PortraitPositionXOverride = 0f,
-                PortraitPositionYOverride = 12f
+                Hide = true
             };
-            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
         }
         public override void SetBestiary(BestiaryDatabase dataProjectile, BestiaryEntry bestiaryEntry)
         {

@@ -1,31 +1,29 @@
-﻿using System;
+﻿using EbonianMod.Projectiles.Friendly.Corruption;
+using EbonianMod.Projectiles;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
-using Terraria.ID;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using EbonianMod.Projectiles;
-using EbonianMod.Projectiles.VFXProjectiles;
-using EbonianMod.Projectiles.Friendly.Corruption;
-using Terraria.Audio;
-//using EbonianMod.Worldgen.Subworlds;
-//using SubworldLibrary;
+using static EbonianMod.Helper;
+using EbonianMod.Projectiles.Friendly.Crimson;
 
 namespace EbonianMod.Items.Weapons.Melee
 {
-    public class MeatCrusher : ModItem
+    internal class Serration : ModItem
     {
         public override void SetDefaults()
         {
             Item.knockBack = 10f;
             Item.width = Item.height = 80;
             Item.crit = 30;
-            Item.damage = 150;
+            Item.damage = 70;
             Item.useAnimation = 40;
             Item.useTime = 40;
             Item.noUseGraphic = true;
@@ -37,7 +35,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = 5;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<MeatCrusherP>();
+            Item.shoot = ModContent.ProjectileType<SerrationP>();
         }
         public override bool? CanAutoReuseItem(Player player)
         {
@@ -49,29 +47,32 @@ namespace EbonianMod.Items.Weapons.Melee
             return false;
         }
     }
-    public class MeatCrusherP : HeldSword
+    public class SerrationP : HeldSword
     {
-        public override string Texture => "EbonianMod/Items/Weapons/Melee/MeatCrusher";
+        public override string Texture => "EbonianMod/Items/Weapons/Melee/Serration";
         public override void SetExtraDefaults()
         {
             Projectile.width = 60;
             Projectile.height = 60;
-            swingTime = 60;
-            holdOffset = 50;
+            swingTime = 65;
+            holdOffset = 30;
             Projectile.tileCollide = false;
+            modifyCooldown = true;
+            Projectile.localNPCHitCooldown = 10;
         }
         public override float Ease(float x)
         {
             return x == 0
-    ? 0
-    : x == 1
-    ? 1
-    : x < 0.5 ? MathF.Pow(2, 20 * x - 10) / 2
-    : (2 - MathF.Pow(2, -20 * x + 10)) / 2;
+  ? 0
+  : x == 1
+  ? 1
+  : x < 0.5 ? MathF.Pow(2, 20 * x - 10) / 2
+  : (2 - MathF.Pow(2, -20 * x + 10)) / 2;
         }
         float lerpProg = 1, swingProgress, rotation;
         public override void ExtraAI()
         {
+            Player player = Main.player[Projectile.owner];
             if (lerpProg != 1 && lerpProg != -1)
                 lerpProg = MathHelper.SmoothStep(lerpProg, 1, 0.1f);
             //          if (lerpProg < 0)
@@ -87,14 +88,10 @@ namespace EbonianMod.Items.Weapons.Melee
                     EbonianSystem.ScreenShakeAmount = 5;
                     Projectile.timeLeft = 15;
                     SoundEngine.PlaySound(SoundID.Item70, Projectile.Center);
-                    for (int i = 0; i < 5; i++)
-                    {
-                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center - new Vector2(0, 20), new Vector2(Main.rand.NextFloat(-4.5f, 4.5f), Main.rand.NextFloat(-2, -3)), ModContent.ProjectileType<VileMeatChunk>(), Projectile.damage, 0, Projectile.owner);
-                    }
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 30, Vector2.UnitY, 500, true), new Vector2((float)player.direction, 0), ModContent.ProjectileType<SerrationSpike>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 
                     lerpProg = -1;
                 }
-            Player player = Main.player[Projectile.owner];
             int direction = (int)Projectile.ai[1];
             if (lerpProg >= 0)
                 swingProgress = MathHelper.Lerp(swingProgress, Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft)), lerpProg);
@@ -110,6 +107,7 @@ namespace EbonianMod.Items.Weapons.Melee
             player.ChangeDir(Projectile.velocity.X < 0 ? -1 : 1);
             player.heldProj = Projectile.whoAmI;
             player.SetCompositeArmFront(true, stretch, rotation - MathHelper.PiOver2);
+            player.SetCompositeArmBack(true, stretch, rotation - MathHelper.PiOver2 - MathHelper.PiOver4);
         }
         public override bool? CanDamage()
         {
@@ -118,7 +116,7 @@ namespace EbonianMod.Items.Weapons.Melee
         public override void OnHit(NPC target, NPC.HitInfo hit, int damageDone)
         {
             EbonianSystem.ScreenShakeAmount = 2;
-            lerpProg = -.25f;
+            lerpProg = -.1f;
         }
     }
 }

@@ -69,7 +69,7 @@ namespace EbonianMod.NPCs.Crimson
             Player player = Main.player[NPC.target];
             if ((player.position - NPC.Center).LengthSquared() < 20 * 20)
             {
-                player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " is severely anemic."), 20, 0);
+                player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " is severely anemic."), 20, 0, cooldownCounter: 0, dodgeable: false);
                 Leech();
             }
             if (player.dead || !player.active)

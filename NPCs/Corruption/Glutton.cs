@@ -32,7 +32,7 @@ namespace EbonianMod.NPCs.Corruption
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("A strange monster. It appears to be based off of a human, with other more corruption-like features. It's size suggests a heavy diet. And for some strange reason, unlike other corrupted creatures, it is able to show emotions, mostly anger."),
+                new FlavorTextBestiaryInfoElement("A towering beast with curious traits for a corruption entity, such as its shape and face. It appears to have been much simpler once, and the reason for its strengthening is unknown."),
             });
         }
         public override void SetDefaults()
