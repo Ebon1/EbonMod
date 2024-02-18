@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
+using Terraria.Utilities;
 using XPT.Core.Audio.MP3Sharp.Decoding.Decoders.LayerIII;
 using static Terraria.ModLoader.PlayerDrawLayer;
 
@@ -85,16 +86,18 @@ namespace EbonianMod.Misc
 
             return verticeslist.ToArray();
         }
-        public void Draw(SpriteBatch sb, string texPath, string baseTex = null, string endTex = null, bool useColor = false, Color color = default, float scale = 1, float rot = 0, bool useRot = false, bool useRotEnd = false, bool useRotFirst = false, float endRot = 0, float firstRot = 0, bool scaleCalcForDist = false, bool clampScaleCalculationForDistCalculation = true)
+        public void Draw(SpriteBatch sb, string texPath, string baseTex = null, string endTex = null, bool useColor = false, Color color = default, float scale = 1, float rot = 0, bool useRot = false, bool useRotEnd = false, bool useRotFirst = false, float endRot = 0, float firstRot = 0, bool scaleCalcForDist = false, bool clampScaleCalculationForDistCalculation = true, bool textureVariation = false, int maxVariants = -1, int variantSeed = -1)
         {
+            UnifiedRandom rand = new UnifiedRandom(variantSeed);
             foreach (VerletSegment segment in segments)
             {
                 if ((baseTex != null || endTex != null) ? (segment != segments.First() && segment != segments.Last()) : true)
                 {
+                    int variant = rand.Next(maxVariants);
                     if (useColor)
-                        segment.DrawSegments(sb, texPath, color, true, scale: scale, rot, useRot, scaleCalcForDist, clampScaleCalculationForDistCalculation);
+                        segment.DrawSegments(sb, texPath + (textureVariation ? variant.ToString() : ""), color, true, scale: scale, rot, useRot, scaleCalcForDist, clampScaleCalculationForDistCalculation);
                     else
-                        segment.DrawSegments(sb, texPath, scale: scale, rot: rot, useRot: useRot, scaleCalcForDist: scaleCalcForDist, clampScaleCalculationForDistCalculation: clampScaleCalculationForDistCalculation);
+                        segment.DrawSegments(sb, texPath + (textureVariation ? variant.ToString() : ""), scale: scale, rot: rot, useRot: useRot, scaleCalcForDist: scaleCalcForDist, clampScaleCalculationForDistCalculation: clampScaleCalculationForDistCalculation);
                 }
                 else if (endTex != null && segment == segments.Last())
                 {

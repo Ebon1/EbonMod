@@ -215,6 +215,7 @@ NPCs: {
 	TrumpetTail.DisplayName: Trumpet
 	TrumpetHead.DisplayName: Trumpet
 	TrumpetBody.DisplayName: Trumpet
+	Rolypoly.DisplayName: Rolypoly
 }
 
 Items: {
