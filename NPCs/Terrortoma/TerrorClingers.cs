@@ -8,7 +8,6 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
-using EbonianMod.NPCs.Corruption;
 using EbonianMod.Projectiles.Terrortoma;
 using System.Text.Encodings.Web;
 using EbonianMod.Projectiles;
@@ -19,6 +18,7 @@ using EbonianMod.Common.Systems;
 using EbonianMod.Projectiles.Friendly.Corruption;
 using EbonianMod.Items.Misc;
 using Terraria.GameContent;
+using EbonianMod.NPCs.Corruption.Ebonflies;
 
 namespace EbonianMod.NPCs.Terrortoma
 {

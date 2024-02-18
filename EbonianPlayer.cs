@@ -10,10 +10,10 @@ using System;
 using static Terraria.ModLoader.PlayerDrawLayer;
 using EbonianMod.Items.Accessories;
 using Terraria.Graphics.Effects;
-using EbonianMod.NPCs.Crimson;
 using EbonianMod.Items.Weapons.Melee;
 using SubworldLibrary;
 using EbonianMod.Common.Systems.Worldgen.Subworlds;
+using EbonianMod.NPCs.Crimson.Fleshformator;
 
 namespace EbonianMod
 {

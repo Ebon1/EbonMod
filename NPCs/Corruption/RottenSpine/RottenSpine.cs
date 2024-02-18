@@ -12,7 +12,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EbonianMod.NPCs.Corruption
+namespace EbonianMod.NPCs.Corruption.RottenSpine
 {
     public class RottenSpineHead : WormHead
     {
@@ -23,7 +23,7 @@ namespace EbonianMod.NPCs.Corruption
 
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                CustomTexturePath = "EbonianMod/NPCs/Corruption/RottenSpine",
+                CustomTexturePath = "EbonianMod/NPCs/Corruption/RottenSpine/RottenSpine",
                 Position = new Vector2(7f, 24f),
                 PortraitPositionXOverride = 0f,
                 PortraitPositionYOverride = 12f
@@ -82,7 +82,7 @@ namespace EbonianMod.NPCs.Corruption
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D tex = Helper.GetTexture("NPCs/Corruption/RottenSpineHead");
+            Texture2D tex = Helper.GetTexture("NPCs/Corruption/RottenSpine/RottenSpineHead");
             spriteBatch.Draw(tex, NPC.Center - (Vector2.UnitY * tex.Height / 3).RotatedBy(NPC.rotation) - screenPos, null, drawColor, NPC.rotation, tex.Size() / 2, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
@@ -118,8 +118,8 @@ namespace EbonianMod.NPCs.Corruption
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D main = Helper.GetTexture("NPCs/Corruption/RottenSpineBody");
-            Texture2D alt = Helper.GetTexture("NPCs/Corruption/RottenSpineCoupling");
+            Texture2D main = Helper.GetTexture("NPCs/Corruption/RottenSpine/RottenSpineBody");
+            Texture2D alt = Helper.GetTexture("NPCs/Corruption/RottenSpine/RottenSpineCoupling");
             Texture2D tex = FollowingNPC.type == ModContent.NPCType<RottenSpineBody>() && FollowerNPC.type == ModContent.NPCType<RottenSpineBody>() ? alt : main; // god bless this code
             spriteBatch.Draw(tex, NPC.Center - screenPos, null, drawColor, NPC.rotation, tex.Size() / 2, NPC.scale, SpriteEffects.None, 0);
             return false;
@@ -164,7 +164,7 @@ namespace EbonianMod.NPCs.Corruption
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D tex = Helper.GetTexture("NPCs/Corruption/RottenSpineTail");
+            Texture2D tex = Helper.GetTexture("NPCs/Corruption/RottenSpine/RottenSpineTail");
             spriteBatch.Draw(tex, NPC.Center - screenPos, null, drawColor, NPC.rotation, tex.Size() / 2, NPC.scale, SpriteEffects.None, 0);
             return false;
         }

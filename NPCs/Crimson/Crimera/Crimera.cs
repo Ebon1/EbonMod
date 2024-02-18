@@ -14,7 +14,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EbonianMod.NPCs.Crimson
+namespace EbonianMod.NPCs.Crimson.Crimera
 {
     public class CrimeraHead : WormHead
     {
@@ -25,7 +25,7 @@ namespace EbonianMod.NPCs.Crimson
 
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                CustomTexturePath = "EbonianMod/NPCs/Crimson/Crimera",
+                CustomTexturePath = "EbonianMod/NPCs/Crimson/Crimera/Crimera",
                 Position = new Vector2(7f, 24f),
                 PortraitPositionXOverride = 0f,
                 PortraitPositionYOverride = 12f
@@ -68,7 +68,7 @@ namespace EbonianMod.NPCs.Crimson
             {
                 NPC.damage = 0;
                 Vector2 pos = player.Center + new Vector2(300, 0).RotatedBy(MathHelper.ToRadians(NPC.ai[2] * offset));
-                NPC.velocity = Helper.FromAToB(NPC.Center, pos, false) * 0.025f;
+                NPC.velocity = NPC.Center.FromAToB(pos, false) * 0.025f;
                 NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
                 if (NPC.ai[2] % 10 == 0 && NPC.ai[2] > 340)
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity, ProjectileID.BloodShot, 10, 0);
@@ -113,7 +113,7 @@ namespace EbonianMod.NPCs.Crimson
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D tex = Helper.GetTexture("NPCs/Crimson/CrimeraHead");
+            Texture2D tex = Helper.GetTexture("NPCs/Crimson/Crimera/CrimeraHead");
             spriteBatch.Draw(tex, NPC.Center - (Vector2.UnitY * tex.Height / 3).RotatedBy(NPC.rotation) - screenPos, null, drawColor, NPC.rotation, new Vector2(tex.Width / 2, tex.Height / 4), NPC.scale, SpriteEffects.None, 0);
             return false;
         }
@@ -149,7 +149,7 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D tex = Helper.GetTexture("NPCs/Crimson/CrimeraBody");
+            Texture2D tex = Helper.GetTexture("NPCs/Crimson/Crimera/CrimeraBody");
             spriteBatch.Draw(tex, NPC.Center - screenPos, null, drawColor, NPC.rotation, tex.Size() / 2, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
@@ -198,7 +198,7 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D tex = Helper.GetTexture("NPCs/Crimson/CrimeraTail");
+            Texture2D tex = Helper.GetTexture("NPCs/Crimson/Crimera/CrimeraTail");
             spriteBatch.Draw(tex, NPC.Center - screenPos, null, drawColor, NPC.rotation, new Vector2(tex.Width / 2, tex.Height + 2), NPC.scale, SpriteEffects.None, 0);
             return false;
         }

@@ -12,7 +12,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EbonianMod.NPCs.Corruption
+namespace EbonianMod.NPCs.Corruption.Rotling
 {
     public class RotlingHead : WormHead
     {
@@ -21,7 +21,7 @@ namespace EbonianMod.NPCs.Corruption
 
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                CustomTexturePath = "EbonianMod/NPCs/Corruption/Rotling",
+                CustomTexturePath = "EbonianMod/NPCs/Corruption/Rotling/Rotling",
                 Position = new Vector2(7f, 24f),
                 PortraitPositionXOverride = 0f,
                 PortraitPositionYOverride = 12f

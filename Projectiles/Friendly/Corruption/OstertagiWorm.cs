@@ -13,7 +13,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
 {
     public class OstertagiWorm : ModProjectile
     {
-        public override string Texture => "EbonianMod/NPCs/Corruption/RotlingHead";
+        public override string Texture => "EbonianMod/NPCs/Corruption/Rotling/RotlingHead";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 8 * 5;

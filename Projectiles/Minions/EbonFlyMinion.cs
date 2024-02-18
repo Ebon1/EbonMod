@@ -12,7 +12,7 @@ namespace EbonianMod.Projectiles.Minions
 {
     public class EbonFlyMinion : ModProjectile //this is literally ExampleMinion and i refuse to change anything
     {
-        public override string Texture => "EbonianMod/NPCs/Corruption/EbonFly";
+        public override string Texture => "EbonianMod/NPCs/Corruption/Ebonflies/EbonFly";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 2;

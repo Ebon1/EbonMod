@@ -14,7 +14,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EbonianMod.NPCs.Crimson
+namespace EbonianMod.NPCs.Crimson.Spectators
 {
     public class MassiveSpectator : ModNPC
     {
@@ -23,7 +23,7 @@ namespace EbonianMod.NPCs.Crimson
 
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                CustomTexturePath = "EbonianMod/NPCs/Crimson/MassiveSpectator_Bestiary",
+                CustomTexturePath = "EbonianMod/NPCs/Crimson/Spectators/MassiveSpectator_Bestiary",
                 Position = new Vector2(7f, 24f),
                 PortraitPositionXOverride = 0f,
                 PortraitPositionYOverride = 32f
@@ -97,10 +97,10 @@ namespace EbonianMod.NPCs.Crimson
                 }
                 stalkBase = Helper.TRay.Cast(NPC.Center, direction, 200) + new Vector2(0, 40);
             }
-            NPC.rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.Pi;
+            NPC.rotation = NPC.Center.FromAToB(player.Center).ToRotation() + MathHelper.Pi;
             //if (player.Distance(stalkBase) < 320)
             //{
-            NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(NPC.ai[1] * NPC.ai[3], NPC.ai[2]), false) * 0.005f;
+            NPC.velocity = NPC.Center.FromAToB(player.Center - new Vector2(NPC.ai[1] * NPC.ai[3], NPC.ai[2]), false) * 0.005f;
             NPC.Center = Vector2.Clamp(NPC.Center, stalkBase - new Vector2(300), stalkBase + new Vector2(300));
             if (NPC.Center.Distance(stalkBase) > 300)
             {

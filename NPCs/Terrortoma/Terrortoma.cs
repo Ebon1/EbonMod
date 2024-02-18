@@ -26,6 +26,7 @@ using static System.Net.Mime.MediaTypeNames;
 using Terraria.GameContent.Golf;
 using EbonianMod.Items.Misc;
 using EbonianMod.Projectiles.Friendly.Corruption;
+using EbonianMod.NPCs.Corruption.Ebonflies;
 
 namespace EbonianMod.NPCs.Terrortoma
 {

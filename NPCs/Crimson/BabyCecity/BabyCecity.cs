@@ -19,7 +19,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EbonianMod.NPCs.Crimson
+namespace EbonianMod.NPCs.Crimson.BabyCecity
 {
     public class BabyCecity : ModNPC
     {
@@ -67,7 +67,7 @@ namespace EbonianMod.NPCs.Crimson
                 {
                     if (!Main.gamePaused)
                         verlet[i].Update(NPC.Center, ogPos[i]);
-                    verlet[i].Draw(spriteBatch, "NPCs/Crimson/BabyCecity_Hook0", endTex: "NPCs/Crimson/BabyCecity_Hook2");
+                    verlet[i].Draw(spriteBatch, "NPCs/Crimson/BabyCecity/BabyCecity_Hook0", endTex: "NPCs/Crimson/BabyCecity/BabyCecity_Hook2");
                 }
             return true;
         }
@@ -121,7 +121,7 @@ namespace EbonianMod.NPCs.Crimson
             NPC.direction = NPC.velocity.X < 0 ? -1 : 1;
             if (verlet[0] == null)
                 return;
-            NPC.rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2;
+            NPC.rotation = NPC.Center.FromAToB(player.Center).ToRotation() - MathHelper.PiOver2;
             switch (AIState)
             {
                 case 0:
@@ -129,9 +129,9 @@ namespace EbonianMod.NPCs.Crimson
                         AITimer++;
                     if (NPC.Center.Distance(verlet[0].lastP.position) < 370 && NPC.Center.Distance(verlet[1].lastP.position) < 370)
                     {
-                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center) * 15, 0.01f);
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(player.Center) * 15, 0.01f);
                     }
-                    else NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, verlet[0].lastP.position) * 15, 0.01f);
+                    else NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(verlet[0].lastP.position) * 15, 0.01f);
                     if (AITimer >= 350)
                     {
                         AIState++;
@@ -150,7 +150,7 @@ namespace EbonianMod.NPCs.Crimson
                     }
                     if (AITimer2 == 30)
                     {
-                        Vector2 vel = Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(0.2f);
+                        Vector2 vel = NPC.Center.FromAToB(player.Center).RotatedByRandom(0.2f);
                         for (int i = 0; i < 15; i++)
                         {
                             Dust.NewDustDirect(NPC.Center, NPC.width / 2, NPC.height / 2, DustID.IchorTorch, vel.X * Main.rand.NextFloat(5, 8), vel.Y * Main.rand.NextFloat(5, 8));

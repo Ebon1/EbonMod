@@ -14,7 +14,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EbonianMod.NPCs.Corruption
+namespace EbonianMod.NPCs.Corruption.DankDigger
 {
     public class DankDiggerHead : WormHead
     {
@@ -23,7 +23,7 @@ namespace EbonianMod.NPCs.Corruption
 
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                CustomTexturePath = "EbonianMod/NPCs/Corruption/DankDigger",
+                CustomTexturePath = "EbonianMod/NPCs/Corruption/DankDigger/DankDigger",
                 Position = new Vector2(7f, 24f),
                 PortraitPositionXOverride = 0f,
                 PortraitPositionYOverride = 12f
@@ -61,7 +61,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.soundDelay = 10;
             if (++NPC.ai[3] >= 300 && NPC.ai[3] < 304)
             {
-                NPC.velocity += Helper.FromAToB(NPC.Center, player.Center) * 2.5f;
+                NPC.velocity += NPC.Center.FromAToB(player.Center) * 2.5f;
                 NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
                 SoundEngine.PlaySound(SoundID.Zombie38, NPC.Center);
             }
