@@ -93,7 +93,7 @@ namespace EbonianMod.Misc
             {
                 if ((baseTex != null || endTex != null) ? (segment != segments.First() && segment != segments.Last()) : true)
                 {
-                    int variant = rand.Next(maxVariants);
+                    int variant = rand.Next(maxVariants > 0 ? maxVariants : 2);
                     if (useColor)
                         segment.DrawSegments(sb, texPath + (textureVariation ? variant.ToString() : ""), color, true, scale: scale, rot, useRot, scaleCalcForDist, clampScaleCalculationForDistCalculation);
                     else

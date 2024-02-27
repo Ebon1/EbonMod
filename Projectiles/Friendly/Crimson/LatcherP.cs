@@ -147,7 +147,11 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             Projectile.hide = true;
             Projectile.hostile = true;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 200;
+            Projectile.timeLeft = 300;
+        }
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 3000;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

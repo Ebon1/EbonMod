@@ -142,6 +142,12 @@ Projectiles: {
 	CecitiorBelch.DisplayName: Cecitior Belch
 	SerrationP.DisplayName: Serration P
 	SerrationSpike.DisplayName: Serration Spike
+	CecitiorClawSlash.DisplayName: Cecitior Claw Slash
+	CecitiorClawWave.DisplayName: Cecitior Claw Wave
+	ClawGore.DisplayName: Claw Gore
+	BloodExplosionWSprite.DisplayName: Blood Explosion W Sprite
+	CecitiorBombThing.DisplayName: Cecitior Bomb Thing
+	IchorExplosion.DisplayName: Ichor Explosion
 }
 
 NPCs: {

@@ -207,13 +207,11 @@ namespace EbonianMod.Projectiles.VFXProjectiles
 
             Projectile.Size = new Vector2(50);
             //Projectile.scale = 0.2f;
-
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
 
             Projectile.aiStyle = -1;
         }
-
         public override void OnSpawn(IEntitySource source)
         {
             EbonianSystem.ScreenShakeAmount = 5;
@@ -272,6 +270,108 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             sourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
             origin = sourceRectangle.Size() / 2f;
             color = Color.OrangeRed * Projectile.Opacity;
+
+            magicRotation += 0.1f;
+            Main.spriteBatch.Reload(BlendState.Additive);
+            for (int i = -1; i < 2; i++)
+            {
+                if (i == 0) continue;
+                Main.EntitySpriteDraw(texture, position, sourceRectangle, color, Projectile.rotation + magicRotation * i, origin, (Projectile.scale - 0.8f) * 0.5f, SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return false;
+        }
+    }
+    public class BloodExplosionWSprite : ModProjectile
+    {
+        public override string Texture => "EbonianMod/Extras/Fire";
+
+        public override bool ShouldUpdatePosition() => false;
+
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Type] = 7;
+        }
+
+        public override void SetDefaults()
+        {
+            Projectile.penetrate = -1;
+            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+
+            Projectile.Size = new Vector2(50);
+            //Projectile.scale = 0.2f;
+
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+
+            Projectile.hide = true;
+            Projectile.aiStyle = -1;
+        }
+
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            overPlayers.Add(index);
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+            EbonianSystem.ScreenShakeAmount = 5;
+
+            SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
+
+            Projectile.rotation = Main.rand.NextFloat(0, MathHelper.TwoPi);
+
+            for (int k = 0; k < 20; k++)
+            {
+                Dust.NewDustPerfect(Projectile.Center, DustID.Blood, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 15), 0, default, Main.rand.NextFloat(1, 3)).noGravity = true;
+                Dust.NewDustPerfect(Projectile.Center, DustID.Bone, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 15), 100, default, Main.rand.NextFloat(1, 2)).noGravity = true;
+            }
+        }
+
+        public override void AI()
+        {
+            Lighting.AddLight(Projectile.Center, TorchID.Crimson);
+
+            Projectile.scale += 0.05f;
+
+            if (Projectile.alpha >= 255)
+            {
+                Projectile.Kill();
+            }
+            else
+            {
+                Projectile.alpha += 10;
+            }
+
+            if (Projectile.frameCounter++ >= 3 && Projectile.frame <= Main.projFrames[Type])
+            {
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+            }
+        }
+
+        float magicRotation;
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D texture = TextureAssets.Projectile[Type].Value;
+
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int frameY = frameHeight * Projectile.frame;
+
+            Rectangle sourceRectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
+            Vector2 origin = sourceRectangle.Size() / 2f;
+            Vector2 position = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
+            Color color = Color.Red * Projectile.Opacity;
+
+            Main.EntitySpriteDraw(texture, position, sourceRectangle, color, Projectile.rotation, origin, Projectile.scale - 0.8f, SpriteEffects.None, 0);
+
+            texture = Helper.GetTexture("Extras/vortex");
+
+            sourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
+            origin = sourceRectangle.Size() / 2f;
+            color = Color.Red * Projectile.Opacity;
 
             magicRotation += 0.1f;
             Main.spriteBatch.Reload(BlendState.Additive);

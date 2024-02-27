@@ -37,7 +37,7 @@ namespace EbonianMod.NPCs.Cecitior
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.lifeMax = 2000;
+            NPC.lifeMax = 1850;
             NPC.dontTakeDamage = false;
             NPC.damage = 0;
             NPC.noTileCollide = true;
@@ -193,6 +193,13 @@ namespace EbonianMod.NPCs.Cecitior
             bool leftie = leftSiders.Contains((int)NPC.ai[1]);
             NPC center = Main.npc[(int)NPC.ai[0]];
             Player player = Main.player[center.target];
+            int eyeCount = 0;
+            foreach (NPC npc in Main.npc)
+            {
+                if (npc.active && npc.type == Type)
+                    eyeCount++;
+            }
+            bool halfEyesPhase2 = eyeCount <= 3;
             if (!center.active || center.type != ModContent.NPCType<Cecitior>())
             {
                 NPC.life = 0;
@@ -231,13 +238,13 @@ namespace EbonianMod.NPCs.Cecitior
                         frantic = false;
                         focalPoint = NPC.Center + Helper.FromAToB(center.Center, NPC.Center) * 400;
                         timer++;
-                        if (AITimer == 30 && leftie)
+                        if ((AITimer == 30 || (halfEyesPhase2 && AITimer == 15)) && leftie)
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center), ModContent.ProjectileType<EyeVFX>(), 0, 0);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center) * 3, ModContent.ProjectileType<CecitiorEyeP>(), 15, 0);
                         }
 
-                        if (AITimer == 60 && !leftie)
+                        if ((AITimer == 60 || (halfEyesPhase2 && AITimer == 45)) && !leftie)
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center), ModContent.ProjectileType<EyeVFX>(), 0, 0);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center) * 3, ModContent.ProjectileType<CecitiorEyeP>(), 15, 0);
@@ -296,9 +303,9 @@ namespace EbonianMod.NPCs.Cecitior
                     focalPoint = player.Center;
                     break;
                 case 5:
-                    NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + new Vector2(200).RotatedBy(angle + MathHelper.ToRadians(timer)), false) / 3;
+                    NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + new Vector2(200).RotatedBy(angle + MathHelper.ToRadians(timer * (halfEyesPhase2 ? 3 : 1))), false) / 3;
                     focalPoint = player.Center;
-                    if (center.ai[1] % 50 == 0 && center.ai[1] > 1)
+                    if (center.ai[1] % (halfEyesPhase2 ? 20 : 50) == 0 && center.ai[1] > 1)
                         Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 0.5f, ModContent.ProjectileType<BloodLaser>(), 15, 0);
                     break;
                 case 6:

@@ -100,7 +100,7 @@ namespace EbonianMod.Items.Consumables.BossItems
             Item.useAnimation = 30;
             Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.HoldUp;
-            Item.consumable = true;
+            Item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)

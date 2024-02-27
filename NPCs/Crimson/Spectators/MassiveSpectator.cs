@@ -1,5 +1,9 @@
 ﻿using EbonianMod.Common.Systems;
+using EbonianMod.Items.Misc;
 using EbonianMod.Misc;
+using EbonianMod.NPCs.Cecitior;
+using EbonianMod.Projectiles.Friendly.Corruption;
+using EbonianMod.Projectiles.VFXProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -80,6 +84,27 @@ namespace EbonianMod.NPCs.Crimson.Spectators
             return false;
         }
         Vector2 stalkBase;
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            if (NPC.life <= 0)
+            {
+                SoundEngine.PlaySound(EbonianSounds.cecitiorDie, NPC.Center);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ModContent.Find<ModGore>("EbonianMod/Gnasher0").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk1").Type, NPC.scale);
+                for (int i = 0; i < 5; i++)
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+                for (int i = 0; i < 3; i++)
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+                for (int i = 0; i < verlet.points.Count; i++)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), verlet.points[i].position, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), verlet.points[i].position, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ModContent.Find<ModGore>("EbonianMod/CrimorrhageChain").Type, NPC.scale);
+                }
+                NPC.NewNPCDirect(NPC.GetSource_Death(), NPC.Center + new Vector2(0, -1300), ModContent.NPCType<Cecitior.Cecitior>());
+                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<BloodShockwave2>(), 0, 0, 0);
+            }
+        }
         public override void AI()
         {
             Player player = Main.player[NPC.target];
