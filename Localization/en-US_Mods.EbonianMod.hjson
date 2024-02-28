@@ -148,6 +148,7 @@ Projectiles: {
 	BloodExplosionWSprite.DisplayName: Blood Explosion W Sprite
 	CecitiorBombThing.DisplayName: Cecitior Bomb Thing
 	IchorExplosion.DisplayName: Ichor Explosion
+	CecitiorSpike.DisplayName: Cecitior Spike
 }
 
 NPCs: {
