@@ -72,15 +72,11 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BloodShockwave>(), Projectile.damage, 0, Projectile.owner);
             a.hostile = true;
             a.friendly = false;
-            for (int i = -1; i < 2; i++)
-            {
-                float speedX = i * 7.5f;
-                float speedY = Projectile.velocity.Y * -10;
-                Projectile proj = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.position.X + speedX, Projectile.position.Y + speedY, speedX, speedY, 814, (int)(Projectile.damage * 0.75), 0, Projectile.owner, 0, 0)];
-                proj.hostile = true;
-                proj.penetrate = 1;
-                proj.friendly = false;
-            }
+            float speedY = Projectile.velocity.Y * -10;
+            Projectile proj = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.position.X, Projectile.position.Y + speedY, 0, speedY, 814, (int)(Projectile.damage * 0.75), 0, Projectile.owner, 0, 0)];
+            proj.hostile = true;
+            proj.penetrate = 1;
+            proj.friendly = false;
             for (int num686 = 0; num686 < 30; num686++)
             {
                 int num687 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Blood, Projectile.velocity.X, Projectile.velocity.Y, 100, default(Color), 1.7f);

@@ -788,8 +788,8 @@ namespace EbonianMod.NPCs.Cecitior
                     NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 70), false) / 45f;
                 else
                 {
-                    if (AITimer < 60)
-                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 3;
+                    if (AITimer < 30)
+                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 100) * 2;
                     else NPC.velocity *= 0.9f;
                 }
                 if (AITimer >= 60)
