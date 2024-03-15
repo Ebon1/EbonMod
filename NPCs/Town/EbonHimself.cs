@@ -23,6 +23,8 @@ using ReLogic.Content;
 using Terraria.ModLoader.IO;
 using EbonianMod.NPCs.Exol;
 using System.IO;
+using EbonianMod.NPCs.Terrortoma;
+using EbonianMod.NPCs.Garbage;
 
 namespace EbonianMod.NPCs.Town
 {
@@ -63,7 +65,7 @@ namespace EbonianMod.NPCs.Town
         }
         public override bool CanTownNPCSpawn(int numTownNPCs)
         {
-            return Main.BestiaryTracker.Kills.GetKillCount(ModContent.NPCType<Exol.Exol>().ToString()) > 0;
+            return Main.BestiaryTracker.Kills.GetKillCount(ModContent.NPCType<HotGarbage>().ToString()) > 0;
         }
         public override ITownNPCProfile TownNPCProfile()
         {

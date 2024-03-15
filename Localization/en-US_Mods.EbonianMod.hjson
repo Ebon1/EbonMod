@@ -149,6 +149,12 @@ Projectiles: {
 	CecitiorBombThing.DisplayName: Cecitior Bomb Thing
 	IchorExplosion.DisplayName: Ichor Explosion
 	CecitiorSpike.DisplayName: Cecitior Spike
+	CecitiorTeethFriendly.DisplayName: Cecitior Teeth Friendly
+	GutlingGunP.DisplayName: Gutling Gun P
+	CursedToyP.DisplayName: Cursed Toy P
+	CursedToyBeam.DisplayName: Cursed Toy Beam
+	BigGreenShockwave.DisplayName: Big Green Shockwave
+	CorruptionClawP.DisplayName: Corruption Claw P
 }
 
 NPCs: {
@@ -223,6 +229,28 @@ NPCs: {
 	TrumpetHead.DisplayName: Trumpet
 	TrumpetBody.DisplayName: Trumpet
 	Rolypoly.DisplayName: Rolypoly
+	ArchmageX.DisplayName: Xareus
+
+	Thomas: {
+		DisplayName: Teratoma
+
+		TownNPCMood: {
+			Content: I am content.
+			NoHome: I hate not having a home.
+			FarFromHome: I am too far from home.
+			LoveSpace: I love having so much space.
+			DislikeCrowded: I dislike how crowded I am.
+			HateCrowded: I hate how crowded I am.
+			HateBiome: I hate {BiomeName}, where are the eaters? Where's all the purple? Lame.
+			LikeNPC: I like {NPCName}.
+			DislikeNPC: I dislike {NPCName}.
+			HateNPC: I hate {NPCName}.
+			LikeNPC_Princess: I like {NPCName}.
+			Princess_LovesNPC: I like {NPCName}.
+		}
+	}
+
+	JuvenileBrain.DisplayName: Juvenile Brain
 }
 
 Items: {
@@ -313,7 +341,7 @@ Items: {
 	}
 
 	TerrorStaff: {
-		DisplayName: Terror Staff
+		DisplayName: Nest Sceptre
 		Tooltip: ""
 	}
 
@@ -631,6 +659,26 @@ Items: {
 	Serration: {
 		DisplayName: Serration
 		Tooltip: ""
+	}
+
+	CecitiorBag: {
+		DisplayName: Cecitior Bag
+		Tooltip: ""
+	}
+
+	TerrortomaBag: {
+		DisplayName: Terrortoma Bag
+		Tooltip: ""
+	}
+
+	CursedToy: {
+		Tooltip: ""
+		DisplayName: Cursed Toy
+	}
+
+	CorruptionClaw: {
+		Tooltip: ""
+		DisplayName: Corruption Claw
 	}
 }
 

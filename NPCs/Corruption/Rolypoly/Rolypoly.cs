@@ -49,7 +49,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
             }
             texNum = Main.rand.Next(9999999);
             NPC.Size = new Vector2(200, 200) * NPC.scale;
-            verlet = new Verlet(NPC.Center, 16, amount, 0, false, false, 13);
+            verlet = new Verlet(NPC.Center, 16, amount, 0, false, false, 6);
         }
         public override bool CheckDead()
         {

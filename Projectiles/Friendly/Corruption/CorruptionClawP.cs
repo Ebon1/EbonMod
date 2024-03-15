@@ -13,9 +13,9 @@ using EbonianMod.Misc;
 using Terraria.GameContent;
 using Terraria.Audio;
 
-namespace EbonianMod.Projectiles.Friendly.Crimson
+namespace EbonianMod.Projectiles.Friendly.Corruption
 {
-    public class SpinaxP : ModProjectile
+    public class CorruptionClawP : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -23,7 +23,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             ProjectileID.Sets.TrailCacheLength[Type] = 5;
             ProjectileID.Sets.TrailingMode[Type] = 0;
         }
-        int swingTime = 40;
+        int swingTime = 30;
         public override void SetDefaults()
         {
             Projectile.friendly = true;
@@ -70,7 +70,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             if (verlet != null)
             {
                 verlet.Update(player.Center + Helper.FromAToB(player.Center, Projectile.Center) * off, Projectile.Center);
-                verlet.Draw(Main.spriteBatch, "Projectiles/Friendly/Crimson/SpinaxP_Chain");
+                verlet.Draw(Main.spriteBatch, "Projectiles/Friendly/Corruption/CorruptionClawP_Rope");
             }
             Texture2D tex = ModContent.Request<Texture2D>(Texture + "_Handle").Value;
             Texture2D trail = ModContent.Request<Texture2D>(Texture + "_Trail").Value;
@@ -88,7 +88,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                     for (float j = 0; j < 5; j++)
                     {
                         Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 5));
-                        Main.spriteBatch.Draw(trail, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.Maroon * 0.25f * MathHelper.Lerp(mult2, mult, (float)(j / 5)), Projectile.oldRot[i] + MathHelper.PiOver4 + (Projectile.ai[1] == 0 ? 0 : MathHelper.PiOver2 * 3), trail.Size() / 2, MathHelper.Lerp(mult2, mult, (float)(j / 5)), Projectile.ai[1] == 0 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+                        Main.spriteBatch.Draw(trail, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.Lime * 0.1f * MathHelper.Lerp(mult2, mult, (float)(j / 5)), Projectile.oldRot[i] + MathHelper.PiOver4 + (Projectile.ai[1] == 0 ? 0 : MathHelper.PiOver2 * 3), trail.Size() / 2, MathHelper.Lerp(mult2, mult, (float)(j / 5)), Projectile.ai[1] == 0 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
                     }
                 }
             }
@@ -113,7 +113,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                 {
                     Vector2 dir = Vector2.Normalize(Main.MouseWorld - player.Center);
                     float ai = (Projectile.ai[1] + 1);
-                    if (ai > 2) ai = -1;
+                    if (ai > 2) ai = 0;
                     Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, 0, ai);
                     proj.rotation = Projectile.rotation;
                     proj.Center = Projectile.Center;
@@ -140,10 +140,11 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                         }
                 }
             }
+
             player.itemTime = 2;
             player.itemAnimation = 2;
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Helper.FromAToB(player.Center, Projectile.Center).ToRotation() - MathHelper.PiOver2);
-            if (Projectile.ai[1] == 1 || Projectile.ai[1] == 0)
+            if (Projectile.ai[1] == 2 || Projectile.ai[1] == 0)
             {
                 if (Projectile.ai[0] == 0)
                 {
@@ -153,52 +154,40 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                 int direction = Projectile.ai[1] == 0 ? -1 : 1;
                 float swingProgress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
                 float defRot = Projectile.velocity.ToRotation();
-                float start = defRot - (MathHelper.PiOver2 + MathHelper.PiOver4);
-                float end = defRot + (MathHelper.PiOver2 + MathHelper.PiOver4);
-                float rotation = direction == 1 ? start + MathHelper.Pi * 3 / 2 * swingProgress : end - MathHelper.Pi * 3 / 2 * swingProgress;
+                float start = defRot - (MathHelper.PiOver2);
+                float end = defRot + (MathHelper.PiOver2);
+                float rotation = direction == 1 ? start + MathHelper.Pi * 1.5f * swingProgress : end - MathHelper.Pi * 1.5f * swingProgress;
                 Vector2 position = player.GetFrontHandPosition(Player.CompositeArmStretchAmount.Full, rotation - MathHelper.PiOver2) +
-                    rotation.ToRotationVector2() * 200 * ScaleFunction(swingProgress) + Projectile.velocity * 100;
+                    rotation.ToRotationVector2() * 250 * ScaleFunction(swingProgress) + Projectile.velocity * 140;
                 if (Projectile.timeLeft > 5 || Projectile.ai[1] == 0)
                     Projectile.Center = Vector2.Lerp(Projectile.Center, position, 0.15f);
-                else if (Projectile.timeLeft <= 5 && Projectile.ai[1] == 1)
+                else if (Projectile.timeLeft <= 5 && Projectile.ai[1] == 2)
                     Projectile.Center = Vector2.Lerp(Projectile.Center, player.Center, 0.25f);
                 Projectile.rotation = (position - player.Center).ToRotation();
                 player.ChangeDir(Main.MouseWorld.X < player.Center.X ? -1 : 1);
             }
-            if (Projectile.ai[1] == -1)
-            {
-                if (Projectile.ai[0] == 0)
-                {
-                    Projectile.rotation = 0;
-                    player.ChangeDir(Main.MouseWorld.X < player.Center.X ? -1 : 1);
-                    SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing, Projectile.Center);
-                    Projectile.ai[0] = 1;
-                }
-                Projectile.rotation += MathHelper.ToRadians(Projectile.ai[2] * 2);
-                Projectile.Center = player.Center + new Vector2(Projectile.ai[2] * 20, 0).RotatedBy(Projectile.rotation);
-
-                float progress = Utils.GetLerpValue(0, swingTime, Projectile.timeLeft);
-                float scale = MathHelper.Clamp((float)Math.Sin(progress * MathHelper.Pi) * 10, 0, 10);
-                Projectile.ai[2] = scale;
-            }
-            if (Projectile.ai[1] == 2)
+            if (Projectile.ai[1] == 1)
             {
                 if (Projectile.ai[2] == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing, Projectile.Center);
-                    Projectile.timeLeft = 25;
-                    swingTime = 25;
+                    Projectile.timeLeft = 40;
+                    swingTime = 20;
                     player.ChangeDir(Main.MouseWorld.X < player.Center.X ? -1 : 1);
                     lastPos = Main.MouseWorld;
                     Projectile.ai[2] = 1;
                 }
-                float progress = Utils.GetLerpValue(0, swingTime, Projectile.timeLeft);
+                if (Projectile.timeLeft == 20)
+                {
+                    swingTime = 20;
+                    SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing, Projectile.Center);
+                }
+                float progress = Utils.GetLerpValue(0, swingTime, Projectile.timeLeft > 20 ? Projectile.timeLeft - 20 : Projectile.timeLeft);
                 float scale = MathHelper.Clamp((float)Math.Sin(progress * MathHelper.Pi) * 0.75f, 0, 1);
                 if (scale > 0.9f)
                     Projectile.ai[0] = 1;
                 float scale2 = (MathHelper.Lerp(1, 0, scale) - 0.5f) * 2;
                 if (lastPos != Vector2.Zero)
-                    Projectile.Center = Vector2.SmoothStep(player.Center, player.Center + Helper.FromAToB(player.Center, lastPos) * 360 - new Vector2(0, scale2 * 200 * player.direction).RotatedBy(Projectile.rotation), scale);
+                    Projectile.Center = Vector2.SmoothStep(player.Center, player.Center + Helper.FromAToB(player.Center, lastPos) * 360 - new Vector2(0, scale2 * 200 * player.direction * (Projectile.timeLeft > 20 ? 1 : -1)).RotatedBy(Projectile.rotation), scale);
                 Projectile.rotation = Helper.FromAToB(player.Center, lastPos).ToRotation();
             }
         }

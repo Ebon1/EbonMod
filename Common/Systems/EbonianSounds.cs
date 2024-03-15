@@ -22,8 +22,9 @@ namespace EbonianMod.Common.Systems
         bowRelease = Default with { SoundPath = ebonianSoundPath + "bowRelease" },
         chargedBeam = Default with { SoundPath = ebonianSoundPath + "chargedBeam" },
         chargedBeamImpactOnly = Default with { SoundPath = ebonianSoundPath + "chargedBeamImpactOnly", PitchVariance = 0f },
-        chomp0 = Default with { SoundPath = ebonianSoundPath + "chomp0" },
-        chomp1 = Default with { SoundPath = ebonianSoundPath + "chomp1" },
+        cursedToyCharge = Default with { SoundPath = ebonianSoundPath + "cursedToyCharge", PitchVariance = 0f },
+        chomp0 = Default with { SoundPath = ebonianSoundPath + "chomp0", Volume = 1.3f },
+        chomp1 = Default with { SoundPath = ebonianSoundPath + "chomp1", Volume = 1.3f },
         chomp2 = Default with { SoundPath = ebonianSoundPath + "chomp2", MaxInstances = 1 },
         eggplosion = Default with { SoundPath = ebonianSoundPath + "eggplosion", MaxInstances = 5 },
         exolDash = Default with { SoundPath = ebonianSoundPath + "exolDash" },
@@ -59,8 +60,9 @@ namespace EbonianMod.Common.Systems
             bowRelease = Default with { SoundPath = ebonianSoundPath + "bowRelease" };
             chargedBeam = Default with { SoundPath = ebonianSoundPath + "chargedBeam" };
             chargedBeamImpactOnly = Default with { SoundPath = ebonianSoundPath + "chargedBeamImpactOnly", PitchVariance = 0f };
-            chomp0 = Default with { SoundPath = ebonianSoundPath + "chomp0" };
-            chomp1 = Default with { SoundPath = ebonianSoundPath + "chomp1" };
+            cursedToyCharge = Default with { SoundPath = ebonianSoundPath + "cursedToyCharge", PitchVariance = 0f };
+            chomp0 = Default with { SoundPath = ebonianSoundPath + "chomp0", Volume = 1.3f };
+            chomp1 = Default with { SoundPath = ebonianSoundPath + "chomp1", Volume = 1.3f };
             chomp2 = Default with { SoundPath = ebonianSoundPath + "chomp2", MaxInstances = 1 };
             eggplosion = Default with { SoundPath = ebonianSoundPath + "eggplosion", MaxInstances = 5 };
             exolDash = Default with { SoundPath = ebonianSoundPath + "exolDash" };

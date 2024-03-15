@@ -299,7 +299,16 @@ namespace EbonianMod.NPCs.Cecitior
 
                     break;
                 case 4:
-                    NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 10f;
+                    if (center.ai[1] > 115)
+                        NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 5f;
+                    else
+                    {
+                        if (leftie)
+                            NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(center.localAI[0], center.localAI[1]) + new Vector2(100).RotatedBy(angle), false) / 10f;
+                        else
+                            NPC.velocity = Helper.FromAToB(NPC.Center, center.Center - new Vector2(center.localAI[0], center.localAI[1]) + new Vector2(100).RotatedBy(angle), false) / 10f;
+
+                    }
                     focalPoint = player.Center;
                     break;
                 case 5:
