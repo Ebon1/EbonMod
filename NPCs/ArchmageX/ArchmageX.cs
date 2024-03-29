@@ -24,5 +24,29 @@ namespace EbonianMod.NPCs.ArchmageX
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
         }
+        public float AIState
+        {
+            get => NPC.ai[0];
+            set => NPC.ai[0] = value;
+        }
+        public float AITimer
+        {
+            get => NPC.ai[1];
+            set => NPC.ai[1] = value;
+        }
+        public float AITimer2
+        {
+            get => NPC.ai[2];
+            set => NPC.ai[2] = value;
+        }
+        public float Mana
+        {
+            get => NPC.ai[3];
+            set => NPC.ai[3] = value;
+        }
+        public override void AI()
+        {
+
+        }
     }
 }

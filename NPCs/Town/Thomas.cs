@@ -12,7 +12,6 @@ using ReLogic.Content;
 using Terraria.GameContent;
 using Terraria.Utilities;
 using Microsoft.Xna.Framework;
-using EbonianMod.Misc;
 using Terraria.DataStructures;
 
 namespace EbonianMod.NPCs.Town

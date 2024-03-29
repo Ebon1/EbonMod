@@ -11,7 +11,7 @@ using Terraria.Utilities;
 using XPT.Core.Audio.MP3Sharp.Decoding.Decoders.LayerIII;
 using static Terraria.ModLoader.PlayerDrawLayer;
 
-namespace EbonianMod.Misc
+namespace EbonianMod.Common.Systems.Misc
 {
 
     public class Verlet
@@ -91,7 +91,7 @@ namespace EbonianMod.Misc
             UnifiedRandom rand = new UnifiedRandom(variantSeed);
             foreach (VerletSegment segment in segments)
             {
-                if ((baseTex != null || endTex != null) ? (segment != segments.First() && segment != segments.Last()) : true)
+                if (baseTex != null || endTex != null ? segment != segments.First() && segment != segments.Last() : true)
                 {
                     int variant = rand.Next(maxVariants > 0 ? maxVariants : 2);
                     if (useColor)
@@ -164,13 +164,13 @@ namespace EbonianMod.Misc
         public float len;
         public float Rotation()
         {
-            return (this.pointA.position - this.pointB.position).ToRotation() - 1.57f;
+            return (pointA.position - pointB.position).ToRotation() - 1.57f;
         }
         public VerletPoint pointA, pointB;
         public VerletSegment(float len, VerletPoint pointA, VerletPoint pointB)
         {
             this.len = len;
-            this.cut = false;
+            cut = false;
             this.pointA = pointA;
             this.pointB = pointB;
         }
@@ -181,7 +181,7 @@ namespace EbonianMod.Misc
                 return;
             Vector2 vel = pointB.position - pointA.position;
             float distance = vel.Length();
-            float fraction = ((len - distance) / Math.Max(distance, 1)) / 2;
+            float fraction = (len - distance) / Math.Max(distance, 1) / 2;
             vel *= fraction;
 
             if (!pointA.locked)
@@ -205,10 +205,10 @@ namespace EbonianMod.Misc
             Vector2 distVector = pointA.position - pointB.position;
             float distance = distVector.Length();
             int attempts = 0;
-            while (distance > tex.Height * (scaleCalcForDist ? (clampScaleCalculationForDistCalculation ? MathHelper.Clamp(scale, 0, 1f) : scale) : 1f) && !float.IsNaN(distance) && ++attempts < 100)
+            while (distance > tex.Height * (scaleCalcForDist ? clampScaleCalculationForDistCalculation ? MathHelper.Clamp(scale, 0, 1f) : scale : 1f) && !float.IsNaN(distance) && ++attempts < 100)
             {
                 distVector.Normalize();
-                distVector *= tex.Height * (scaleCalcForDist ? (clampScaleCalculationForDistCalculation ? MathHelper.Clamp(scale, 0, 1f) : scale) : 1f);
+                distVector *= tex.Height * (scaleCalcForDist ? clampScaleCalculationForDistCalculation ? MathHelper.Clamp(scale, 0, 1f) : scale : 1f);
                 center += distVector;
                 distVector = pointA.position - center;
                 distance = distVector.Length();

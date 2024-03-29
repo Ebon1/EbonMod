@@ -10,7 +10,6 @@ using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 using EbonianMod.Projectiles.Terrortoma;
-using EbonianMod.Misc;
 
 namespace EbonianMod.NPCs.Corruption
 {

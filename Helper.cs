@@ -660,7 +660,7 @@ namespace EbonianMod
             int count = (int)(text.Length * realProg);
             string something = $"{text.Substring(0, count)}";
             return something;
-        }
+        }//OUTDATED
         public static void SetDialogue(int progress, string text, Color color)
         {
             EbonianPlayer player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
@@ -668,7 +668,7 @@ namespace EbonianMod
             player.dialogueProg = progress;
             player.dialogue = text;
             player.dialogueColor = color;
-        }
+        }//OUTDATED
         public static void DrawDialogue()
         {
             EbonianPlayer player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
@@ -683,7 +683,7 @@ namespace EbonianMod
                 ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, text, new Vector2(100, Main.screenHeight * 0.2f), player.dialogueColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f), Main.screenWidth - 100);
                 Main.spriteBatch.Reload(Main.DefaultSamplerState);
             }
-        }
+        } //OUTDATED
         public static void QuickDustLine(Vector2 start, Vector2 end, float splits, Color color)
         {
             Dust.QuickDust(start, color).scale = 1f;

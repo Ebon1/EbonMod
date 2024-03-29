@@ -9,9 +9,9 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
-using EbonianMod.Misc;
 using Terraria.GameContent;
 using Terraria.Audio;
+using EbonianMod.Common.Systems.Misc;
 
 namespace EbonianMod.Projectiles.Friendly.Crimson
 {

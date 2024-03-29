@@ -1,5 +1,4 @@
-﻿using EbonianMod.Misc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +11,7 @@ using EbonianMod.Effects.Prims;
 using Microsoft.Xna.Framework.Graphics;
 using EbonianMod.Dusts;
 using Terraria.ID;
+using EbonianMod.Common.Systems.Misc;
 
 namespace EbonianMod.Projectiles.VFXProjectiles
 {

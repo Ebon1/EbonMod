@@ -11,7 +11,6 @@ using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.Audio;
 using System.IO;
 using Terraria.GameContent.Bestiary;
-using EbonianMod.Misc;
 using Terraria.GameContent;
 using static System.Formats.Asn1.AsnWriter;
 //using SubworldLibrary;
@@ -32,6 +31,7 @@ using Steamworks;
 using Terraria.GameContent.UI.Elements;
 using EbonianMod.NPCs.Corruption;
 using static EbonianMod.Helper;
+using EbonianMod.Common.Systems.Misc;
 
 namespace EbonianMod.NPCs.Cecitior
 {

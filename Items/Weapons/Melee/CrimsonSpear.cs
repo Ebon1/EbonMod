@@ -9,6 +9,7 @@ using Terraria.DataStructures;
 using Terraria.Audio;
 using System.Collections.Generic;
 using EbonianMod.Projectiles.Friendly.Crimson;
+using EbonianMod.Common.Systems.Misc.Dialogue;
 
 namespace EbonianMod.Items.Weapons.Melee
 {
@@ -47,6 +48,7 @@ namespace EbonianMod.Items.Weapons.Melee
                 dir++;
             else
                 dir = -1;
+
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0, dir);
             return false;
         }

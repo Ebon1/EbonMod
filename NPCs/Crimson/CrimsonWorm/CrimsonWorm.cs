@@ -11,7 +11,6 @@ using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.Audio;
 using System.IO;
 using Terraria.GameContent.Bestiary;
-using EbonianMod.Misc;
 using Terraria.GameContent;
 using System.Text;
 using System.Linq;

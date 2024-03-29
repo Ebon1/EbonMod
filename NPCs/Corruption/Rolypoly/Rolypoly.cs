@@ -1,4 +1,4 @@
-﻿using EbonianMod.Misc;
+﻿using EbonianMod.Common.Systems.Misc;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -49,7 +49,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
             }
             texNum = Main.rand.Next(9999999);
             NPC.Size = new Vector2(200, 200) * NPC.scale;
-            verlet = new Verlet(NPC.Center, 16, amount, 0, false, false, 6);
+            verlet = new Verlet(NPC.Center, 16, amount, 0, false, false, 4);
         }
         public override bool CheckDead()
         {
@@ -62,7 +62,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
         }
         public override void AI()
         {
-            //lerpFactor = MathHelper.Lerp(lerpFactor, 0.25f, 0.1f);
+            lerpFactor = MathHelper.Lerp(lerpFactor, 0.25f, 0.1f);
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
             if (NPC.collideY)

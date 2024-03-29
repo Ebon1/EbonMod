@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using EbonianMod.Projectiles.Terrortoma;
 using EbonianMod.Projectiles.VFXProjectiles;
 using ReLogic.Graphics;
-using EbonianMod.Misc;
 using EbonianMod.Projectiles.Exol;
 ////using EbonianMod.Worldgen.Subworlds;
 ////using SubworldLibrary;

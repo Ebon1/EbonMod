@@ -10,7 +10,6 @@ using EbonianMod.Projectiles.Exol;
 using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.Audio;
 using EbonianMod.Projectiles.Friendly.Crimson;
-using EbonianMod.Misc;
 using System.IO;
 using System.Collections.Generic;
 using EbonianMod.NPCs.Corruption;

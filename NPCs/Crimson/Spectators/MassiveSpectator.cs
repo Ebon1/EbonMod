@@ -1,6 +1,6 @@
 ﻿using EbonianMod.Common.Systems;
+using EbonianMod.Common.Systems.Misc;
 using EbonianMod.Items.Misc;
-using EbonianMod.Misc;
 using EbonianMod.NPCs.Cecitior;
 using EbonianMod.Projectiles.Friendly.Corruption;
 using EbonianMod.Projectiles.VFXProjectiles;
@@ -123,8 +123,6 @@ namespace EbonianMod.NPCs.Crimson.Spectators
                 stalkBase = Helper.TRay.Cast(NPC.Center, direction, 200) + new Vector2(0, 40);
             }
             NPC.rotation = NPC.Center.FromAToB(player.Center).ToRotation() + MathHelper.Pi;
-            //if (player.Distance(stalkBase) < 320)
-            //{
             NPC.velocity = NPC.Center.FromAToB(player.Center - new Vector2(NPC.ai[1] * NPC.ai[3], NPC.ai[2]), false) * 0.005f;
             NPC.Center = Vector2.Clamp(NPC.Center, stalkBase - new Vector2(300), stalkBase + new Vector2(300));
             if (NPC.Center.Distance(stalkBase) > 300)
@@ -133,12 +131,6 @@ namespace EbonianMod.NPCs.Crimson.Spectators
                 NPC.ai[2] = Main.rand.NextFloat(30, 100);
                 NPC.ai[3] = Main.rand.NextFloatDirection();
             }
-            //}
-            /*else if (NPC.Distance(stalkBase) < 320)
-            {
-                NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(NPC.ai[1] * NPC.ai[3], NPC.ai[2]), false) * 0.005f;
-            }*/
-            //else
             if (verlet != null)
                 verlet.Update(stalkBase, NPC.Center + new Vector2(23, 0).RotatedBy(NPC.rotation));
         }

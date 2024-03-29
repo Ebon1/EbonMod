@@ -155,6 +155,7 @@ Projectiles: {
 	CursedToyBeam.DisplayName: Cursed Toy Beam
 	BigGreenShockwave.DisplayName: Big Green Shockwave
 	CorruptionClawP.DisplayName: Corruption Claw P
+	DankDiggerProjectileWorm.DisplayName: Dank Digger Projectile Worm
 }
 
 NPCs: {
@@ -251,6 +252,11 @@ NPCs: {
 	}
 
 	JuvenileBrain.DisplayName: Juvenile Brain
+	WormKing.DisplayName: Worm King
+	MiniTrumpetBody.DisplayName: Mini Trumpet Body
+	MiniTrumpetHead.DisplayName: Mini Trumpet Head
+	MiniTrumpetTail.DisplayName: Mini Trumpet Tail
+	Consumer.DisplayName: Consumer
 }
 
 Items: {
@@ -628,7 +634,7 @@ Items: {
 
 	ClementinesCap: {
 		DisplayName: Bloody Ballcap
-		Tooltip: '''"Still wearing that dirty old thing?"'''
+		Tooltip: '''"It's definitely seen better days."'''
 	}
 
 	InfernoBreastplate: {
@@ -642,7 +648,7 @@ Items: {
 	}
 
 	InfernoHeadgearAlt: {
-		DisplayName: Inferno Headgear Alt
+		DisplayName: Inferno Mask
 		Tooltip: ""
 	}
 
@@ -679,6 +685,61 @@ Items: {
 	CorruptionClaw: {
 		Tooltip: ""
 		DisplayName: Corruption Claw
+	}
+
+	DebugDialogueItemFast: {
+		DisplayName: Debug Dialogue Item Fast
+		Tooltip: ""
+	}
+
+	DebugDialogueItemInstant: {
+		DisplayName: Debug Dialogue Item Instant
+		Tooltip: ""
+	}
+
+	DebugDialogueItemLayered: {
+		DisplayName: Debug Dialogue Item Layered
+		Tooltip: ""
+	}
+
+	DebugDialogueItemSlow: {
+		DisplayName: Debug Dialogue Item Slow
+		Tooltip: ""
+	}
+
+	DebugDialogueItem1: {
+		DisplayName: Debug Dialogue Item1
+		Tooltip: ""
+	}
+
+	DebugDialogueItem2: {
+		DisplayName: Debug Dialogue Item2
+		Tooltip: ""
+	}
+
+	DebugDialogueItem3: {
+		DisplayName: Debug Dialogue Item3
+		Tooltip: ""
+	}
+
+	DebugDialogueItem4: {
+		DisplayName: Debug Dialogue Item4
+		Tooltip: ""
+	}
+
+	DebugDialogueItem5: {
+		DisplayName: Debug Dialogue Item5
+		Tooltip: ""
+	}
+
+	DebugDialogueItem6: {
+		DisplayName: Debug Dialogue Item6
+		Tooltip: ""
+	}
+
+	DebugDialogueItem0: {
+		DisplayName: Debug Dialogue Item0
+		Tooltip: ""
 	}
 }
 

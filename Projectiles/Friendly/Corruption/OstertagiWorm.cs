@@ -31,7 +31,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
             Projectile.timeLeft = 400;
             Projectile.hide = true;
         }
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindProjectiles.Add(index);
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindNPCs.Add(index);
         Vector2 startPos, startVel;
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
