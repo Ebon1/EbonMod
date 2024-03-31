@@ -62,7 +62,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
         }
         public override void AI()
         {
-            lerpFactor = MathHelper.Lerp(lerpFactor, 0.25f, 0.1f);
+            //lerpFactor = MathHelper.Lerp(lerpFactor, 0.25f, 0.1f);
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
             if (NPC.collideY)

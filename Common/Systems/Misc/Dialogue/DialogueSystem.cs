@@ -29,7 +29,7 @@ namespace EbonianMod.Common.Systems.Misc.Dialogue
         }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
-            int textIndex2 = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+            int textIndex2 = layers.FindIndex(layer => layer.Name.Equals("Vanilla: MP Player Names"));
             layers.Insert(textIndex2, new LegacyGameInterfaceLayer("EbonianMod: Dialogue", () =>
             {
 
@@ -42,7 +42,7 @@ namespace EbonianMod.Common.Systems.Misc.Dialogue
                 return true;
             }, InterfaceScaleType.Game));
         }
-        public static FloatingDialogueBox NewDialogueBox(int timeLeft, Vector2 center, string text, Color textColor, int maxWidth = -1, float scale = 0.5f, Color borderColor = default, float lerpSpeed = 2f, bool substring = true, int animationType = 0)
+        public static FloatingDialogueBox NewDialogueBox(int timeLeft, Vector2 center, string text, Color textColor, int maxWidth = -1, float scale = 0.5f, Color borderColor = default, float lerpSpeed = 2f, bool substring = true, DialogueAnimationIDs animationType = DialogueAnimationIDs.None)
         {
             int i = 0;
             while (DialogueBox[i].timeLeft > 0 && i < DialogueBox.Length - 1)
