@@ -156,6 +156,11 @@ Projectiles: {
 	BigGreenShockwave.DisplayName: Big Green Shockwave
 	CorruptionClawP.DisplayName: Corruption Claw P
 	DankDiggerProjectileWorm.DisplayName: Dank Digger Projectile Worm
+	XSpirit.DisplayName: X Spirit
+	XExplosion.DisplayName: X Explosion
+	VaccumWormP.DisplayName: Vaccum Worm P
+	XShadowflame.DisplayName: X Shadowflame
+	XAmethyst.DisplayName: X Amethyst
 }
 
 NPCs: {
@@ -257,6 +262,7 @@ NPCs: {
 	MiniTrumpetHead.DisplayName: Mini Trumpet Head
 	MiniTrumpetTail.DisplayName: Mini Trumpet Tail
 	Consumer.DisplayName: Consumer
+	TheFinalBossOfEbonianMod.DisplayName: The Final Boss Of Ebonian Mod
 }
 
 Items: {
@@ -740,6 +746,11 @@ Items: {
 	DebugDialogueItem0: {
 		DisplayName: Debug Dialogue Item0
 		Tooltip: ""
+	}
+
+	VaccumWorm: {
+		Tooltip: ""
+		DisplayName: Vaccum Worm
 	}
 }
 

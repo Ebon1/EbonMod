@@ -25,18 +25,19 @@ using System;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using System.Linq;
 using EbonianMod.Common.Systems;
+using Terraria.GameContent.Skies;
 
 namespace EbonianMod
 {
     public class EbonianMod : Mod
     {
         public static EbonianMod Instance;
-        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline;
-        public List<Effect> Effects = new List<Effect>()
+        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient;
+        public readonly List<Effect> Effects = new List<Effect>()
         {
-            Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline
+            Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient
     };
-        public RenderTarget2D render, render2, blurrender;
+        public RenderTarget2D render, render2, blurrender, xRender;
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
         internal static void SolidTopCollision(Terraria.On_Player.orig_Update_NPCCollision orig, Player self) //https://discord.com/channels/103110554649894912/711551818194485259/998428409455714397
@@ -177,8 +178,10 @@ namespace EbonianMod
             ScreenDistort = ModContent.Request<Effect>("EbonianMod/Effects/DistortMove", (AssetRequestMode)1).Value;
             TentacleBlack = ModContent.Request<Effect>("EbonianMod/Effects/TentacleBlack", (AssetRequestMode)1).Value;
             TrailShader = ModContent.Request<Effect>("EbonianMod/Effects/TrailShader", (AssetRequestMode)1).Value;
+            metaballGradient = ModContent.Request<Effect>("EbonianMod/Effects/metaballGradient", (AssetRequestMode)1).Value;
             Filters.Scene["EbonianMod:CorruptTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.68f, .56f, .73f).UseOpacity(0.35f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:CorruptTint"] = new BasicTint();
+
             Filters.Scene["EbonianMod:CrimsonTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.75f, 0f, 0f).UseOpacity(0.45f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:CrimsonTint"] = new BasicTint();
             Filters.Scene["EbonianMod:HellTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.2f), EffectPriority.Medium);
@@ -249,6 +252,11 @@ namespace EbonianMod
                 BlackWhiteDust.DrawAll(sb);
                 sb.End();
 
+                gd.SetRenderTarget(xRender);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                XGoopDust.DrawAll(sb);
+                sb.End();
 
                 gd.SetRenderTarget(Main.screenTarget);
                 gd.Clear(Color.Transparent);
@@ -268,7 +276,18 @@ namespace EbonianMod
                 RTOutline.Parameters["m"].SetValue(0.22f); // for more percise textures use 0.62f
                 RTOutline.Parameters["n"].SetValue(0.1f); // and 0.01f here.
                 sb.Draw(render, Vector2.Zero, Color.White);
+
+                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/shadowflameGradient", (AssetRequestMode)1).Value;
+                gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
+                metaballGradient.CurrentTechnique.Passes[0].Apply();
+                //metaballGradient.Parameters["m"].SetValue(0.32f); // for more percise textures use 0.62f
+                //metaballGradient.Parameters["n"].SetValue(0.3f); // and 0.01f here.
+                metaballGradient.Parameters["useAlphaGradient"].SetValue(true);
+                //metaballGradient.Parameters["col"].SetValue(new Vector4(0.58f, 0, 1.86f, 2.5f));
+                sb.Draw(xRender, Vector2.Zero, Color.White);
+
                 gd.Textures[1] = null;
+                gd.Textures[2] = null;
                 sb.End();
             }
 
@@ -311,6 +330,8 @@ namespace EbonianMod
             FireDust.DrawAll(sb);
             ColoredFireDust.DrawAll(sb);
             GenericAdditiveDust.DrawAll(sb);
+            SparkleDust.DrawAll(sb);
+            LineDustFollowPoint.DrawAll(sb);
             if (!NPC.AnyNPCs(ModContent.NPCType<Exol>()))
                 SmokeDustAkaFireDustButNoGlow.DrawAll(Main.spriteBatch);
             sb.End();
@@ -344,6 +365,9 @@ namespace EbonianMod
                         render2.Dispose();
                     if (blurrender != null && !blurrender.IsDisposed)
                         blurrender.Dispose();
+                    if (xRender != null && !xRender.IsDisposed)
+                        xRender.Dispose();
+                    xRender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                     render = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                     render2 = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                     blurrender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);

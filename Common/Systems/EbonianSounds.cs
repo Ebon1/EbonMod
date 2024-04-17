@@ -27,6 +27,7 @@ namespace EbonianMod.Common.Systems
         chomp1 = Default with { SoundPath = ebonianSoundPath + "chomp1", Volume = 1.3f },
         chomp2 = Default with { SoundPath = ebonianSoundPath + "chomp2", MaxInstances = 1 },
         eggplosion = Default with { SoundPath = ebonianSoundPath + "eggplosion", MaxInstances = 5 },
+        eruption = Default with { SoundPath = ebonianSoundPath + "eruption" },
         exolDash = Default with { SoundPath = ebonianSoundPath + "exolDash" },
         exolRoar = Default with { SoundPath = ebonianSoundPath + "exolRoar" },
         exolSummon = Default with { SoundPath = ebonianSoundPath + "exolSummon" },
@@ -51,6 +52,8 @@ namespace EbonianMod.Common.Systems
         trumpet = Default with { SoundPath = ebonianSoundPath + "trumpet", PitchVariance = 0.4f, Variants = new int[] { 0, 1 } },
         terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f, Volume = 1.1f },
         blink = Default with { SoundPath = ebonianSoundPath + "blink" },
+        xSpirit = Default with { SoundPath = ebonianSoundPath + "xSpirit" },
+        vaccum = Default with { SoundPath = ebonianSoundPath + "vaccum", IsLooped = true, PitchVariance = 0f },
         garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" },
         evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };
         public override void Load()
@@ -65,6 +68,7 @@ namespace EbonianMod.Common.Systems
             chomp1 = Default with { SoundPath = ebonianSoundPath + "chomp1", Volume = 1.3f };
             chomp2 = Default with { SoundPath = ebonianSoundPath + "chomp2", MaxInstances = 1 };
             eggplosion = Default with { SoundPath = ebonianSoundPath + "eggplosion", MaxInstances = 5 };
+            eruption = Default with { SoundPath = ebonianSoundPath + "eruption" };
             exolDash = Default with { SoundPath = ebonianSoundPath + "exolDash" };
             exolRoar = Default with { SoundPath = ebonianSoundPath + "exolRoar" };
             exolSummon = Default with { SoundPath = ebonianSoundPath + "exolSummon" };
@@ -89,6 +93,8 @@ namespace EbonianMod.Common.Systems
             trumpet = Default with { SoundPath = ebonianSoundPath + "trumpet", PitchVariance = 0.4f, Variants = new int[] { 0, 1 } };
             terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f, Volume = 1.1f };
             blink = Default with { SoundPath = ebonianSoundPath + "blink" };
+            xSpirit = Default with { SoundPath = ebonianSoundPath + "xSpirit" };
+            vaccum = Default with { SoundPath = ebonianSoundPath + "vaccum", IsLooped = true, PitchVariance = 0f };
             garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" };
             evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };
         }

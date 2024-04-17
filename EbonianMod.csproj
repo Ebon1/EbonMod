@@ -8,6 +8,7 @@
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
+		<None Remove="effects\fx\metaballGradient.fx" />
 		<None Remove="effects\fx\spriteRotation.fx" />
 	</ItemGroup>
 	<ItemGroup>

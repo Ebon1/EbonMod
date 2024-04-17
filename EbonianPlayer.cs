@@ -14,6 +14,7 @@ using EbonianMod.Items.Weapons.Melee;
 using SubworldLibrary;
 using EbonianMod.Common.Systems.Worldgen.Subworlds;
 using EbonianMod.NPCs.Crimson.Fleshformator;
+using EbonianMod.NPCs;
 
 namespace EbonianMod
 {
