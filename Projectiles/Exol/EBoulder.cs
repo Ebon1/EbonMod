@@ -15,9 +15,6 @@ namespace EbonianMod.Projectiles.Exol
 {
     public class EBoulder : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-        }
         public override void SetDefaults()
         {
             Projectile.width = 64;

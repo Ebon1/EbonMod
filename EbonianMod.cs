@@ -26,18 +26,20 @@ using Microsoft.Xna.Framework.Graphics.PackedVector;
 using System.Linq;
 using EbonianMod.Common.Systems;
 using Terraria.GameContent.Skies;
+using EbonianMod.Projectiles.ArchmageX;
+using Microsoft.CodeAnalysis;
 
 namespace EbonianMod
 {
     public class EbonianMod : Mod
     {
         public static EbonianMod Instance;
-        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient;
+        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient, invisibleMask;
         public readonly List<Effect> Effects = new List<Effect>()
         {
-            Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient
+            Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient, invisibleMask
     };
-        public RenderTarget2D render, render2, blurrender, xRender;
+        public RenderTarget2D render, render2, blurrender, xRender, invisRender, affectedByInvisRender;
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
         internal static void SolidTopCollision(Terraria.On_Player.orig_Update_NPCCollision orig, Player self) //https://discord.com/channels/103110554649894912/711551818194485259/998428409455714397
@@ -179,6 +181,7 @@ namespace EbonianMod
             TentacleBlack = ModContent.Request<Effect>("EbonianMod/Effects/TentacleBlack", (AssetRequestMode)1).Value;
             TrailShader = ModContent.Request<Effect>("EbonianMod/Effects/TrailShader", (AssetRequestMode)1).Value;
             metaballGradient = ModContent.Request<Effect>("EbonianMod/Effects/metaballGradient", (AssetRequestMode)1).Value;
+            invisibleMask = ModContent.Request<Effect>("EbonianMod/Effects/invisibleMask", (AssetRequestMode)1).Value;
             Filters.Scene["EbonianMod:CorruptTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.68f, .56f, .73f).UseOpacity(0.35f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:CorruptTint"] = new BasicTint();
 
@@ -325,6 +328,51 @@ namespace EbonianMod
                 Test2.Parameters["i"].SetValue(0.02f);
                 sb.Draw(blurrender, Vector2.Zero, Color.White);
                 sb.End();
+
+
+
+                gd.SetRenderTarget(Main.screenTargetSwap);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
+                sb.End();
+
+                gd.SetRenderTarget(affectedByInvisRender);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                foreach (Projectile projectile in Main.projectile)
+                {
+                    if (projectile.active && (projectileAffectedByInvisibleMaskList.Contains(projectile.type)))
+                    {
+                        Color color = Color.Transparent;
+                        projectile.ModProjectile.PreDraw(ref color);
+                    }
+                }
+                sb.End();
+
+                gd.SetRenderTarget(invisRender);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                foreach (Projectile projectile in Main.projectile)
+                {
+                    if (projectile.active && (projectileInvisibleMaskList.Contains(projectile.type)))
+                    {
+                        Color color = Color.Transparent;
+                        projectile.ModProjectile.PreDraw(ref color);
+                    }
+                }
+                sb.End();
+                gd.SetRenderTarget(Main.screenTarget);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+                sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
+                sb.End();
+                sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                invisibleMask.CurrentTechnique.Passes[0].Apply();
+                gd.Textures[1] = invisRender;
+                sb.Draw(affectedByInvisRender, Vector2.Zero, Color.White);
+                sb.End();
+                gd.Textures[1] = null;
             }
             sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             FireDust.DrawAll(sb);
@@ -342,7 +390,7 @@ namespace EbonianMod
             }
             foreach (Projectile projectile in Main.projectile)
             {
-                if (projectile.active && (projectile.type == ModContent.ProjectileType<TExplosion>()))
+                if (projectile.active && (projectileFinalDrawList.Contains(projectile.type)))
                 {
                     Color color = Color.White;
                     projectile.ModProjectile.PreDraw(ref color);
@@ -350,6 +398,9 @@ namespace EbonianMod
             }
             sb.End();
         }
+        public static List<int> projectileFinalDrawList = new List<int>();
+        public static List<int> projectileAffectedByInvisibleMaskList = new List<int>();
+        public static List<int> projectileInvisibleMaskList = new List<int>();
         private void Main_OnResolutionChanged(Vector2 obj)
         {
             CreateRender();
@@ -367,6 +418,12 @@ namespace EbonianMod
                         blurrender.Dispose();
                     if (xRender != null && !xRender.IsDisposed)
                         xRender.Dispose();
+                    if (invisRender != null && !invisRender.IsDisposed)
+                        invisRender.Dispose();
+                    if (affectedByInvisRender != null && !affectedByInvisRender.IsDisposed)
+                        affectedByInvisRender.Dispose();
+                    invisRender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                    affectedByInvisRender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                     xRender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                     render = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                     render2 = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);

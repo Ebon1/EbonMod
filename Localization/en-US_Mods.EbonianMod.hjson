@@ -161,6 +161,17 @@ Projectiles: {
 	VaccumWormP.DisplayName: Vaccum Worm P
 	XShadowflame.DisplayName: X Shadowflame
 	XAmethyst.DisplayName: X Amethyst
+	XBolt.DisplayName: X Bolt
+	XExplosionTiny.DisplayName: X Explosion Tiny
+	XSineLaser.DisplayName: X Sine Laser
+	XExplosionInvis.DisplayName: X Explosion Invis
+	XExplosionInvisMask.DisplayName: X Explosion Invis Mask
+	PhantasmalGreatswordP.DisplayName: Archmage Xareus' Shadowflame Skysplitter
+	PhantasmalGreatswordP2.DisplayName: Archmage Xareus' Shadowflame Skysplitter
+	XAmethystCloseIn.DisplayName: X Amethyst Close In
+	XLargeAmethyst.DisplayName: X Large Amethyst
+	XAmethystShard.DisplayName: X Amethyst Shard
+	XTentacle.DisplayName: X Tentacle
 }
 
 NPCs: {
@@ -751,6 +762,11 @@ Items: {
 	VaccumWorm: {
 		Tooltip: ""
 		DisplayName: Vaccum Worm
+	}
+
+	PhantasmalGreatsword: {
+		DisplayName: Archmage Xareus' Shadowflame Skysplitter
+		Tooltip: ""
 	}
 }
 

@@ -15,10 +15,6 @@ namespace EbonianMod.Projectiles.Exol
 {
     public class ESkullEmoji : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            //Main.projFrames[Projectile.type] = 8;
-        }
         public override void SetDefaults()
         {
             Projectile.width = 44;

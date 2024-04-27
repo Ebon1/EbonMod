@@ -53,6 +53,7 @@ namespace EbonianMod.Common.Systems
         terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f, Volume = 1.1f },
         blink = Default with { SoundPath = ebonianSoundPath + "blink" },
         xSpirit = Default with { SoundPath = ebonianSoundPath + "xSpirit" },
+        magicSlash = Default with { SoundPath = ebonianSoundPath + "magicSlash" },
         vaccum = Default with { SoundPath = ebonianSoundPath + "vaccum", IsLooped = true, PitchVariance = 0f },
         garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" },
         evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };
@@ -94,6 +95,7 @@ namespace EbonianMod.Common.Systems
             terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f, Volume = 1.1f };
             blink = Default with { SoundPath = ebonianSoundPath + "blink" };
             xSpirit = Default with { SoundPath = ebonianSoundPath + "xSpirit" };
+            magicSlash = Default with { SoundPath = ebonianSoundPath + "magicSlash" };
             vaccum = Default with { SoundPath = ebonianSoundPath + "vaccum", IsLooped = true, PitchVariance = 0f };
             garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" };
             evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };

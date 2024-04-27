@@ -16,6 +16,7 @@ namespace EbonianMod.Projectiles.Terrortoma
         public override void SetStaticDefaults()
         {
             Main.projFrames[Type] = 10;
+            EbonianMod.projectileFinalDrawList.Add(Type);
         }
         public override void SetDefaults()
         {
