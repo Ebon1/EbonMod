@@ -89,6 +89,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Player player = Main.player[Projectile.owner];
             if (Main.player[Projectile.owner].GetModPlayer<EbonianPlayer>().rei || Main.player[Projectile.owner].GetModPlayer<EbonianPlayer>().reiV)
                 Projectile.timeLeft = 10;
+            if (Main.player[Projectile.owner].GetModPlayer<EbonianPlayer>().sheep)
+                Projectile.Kill();
             UpdateSmoke();
             //for (int i = 0; i < 2; i++)
             //    Dust.NewDustPerfect(player.RotatedRelativePoint(player.MountedCenter) - new Vector2(0, player.height / 2 - 10), ModContent.DustType<ReiSmoke>(), new Vector2(-player.velocity.X * Main.rand.NextFloat(-0.1f, 0.1f) + Main.rand.NextFloat(-0.5f, 2f) * -player.direction, Main.rand.NextFloat(-2f, -0.25f))).scale = Main.rand.NextFloat(0.01f, 0.05f);
@@ -188,6 +190,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Player player = Main.player[Projectile.owner];
             if (Main.player[Projectile.owner].GetModPlayer<EbonianPlayer>().rei)
                 Projectile.timeLeft = 10;
+            if (Main.player[Projectile.owner].GetModPlayer<EbonianPlayer>().sheep)
+                Projectile.Kill();
             Projectile.Center = player.RotatedRelativePoint(player.MountedCenter) + new Vector2(5 * Projectile.ai[0], 19);
             Projectile.rotation = player.velocity.ToRotation();
             if (player.GetModPlayer<EbonianPlayer>().reiBoostCool == 59)

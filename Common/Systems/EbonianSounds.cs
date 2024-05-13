@@ -12,7 +12,7 @@ namespace EbonianMod.Common.Systems
     {
         public static SoundStyle Default = new SoundStyle("EbonianMod/Sounds/reiFail")
         {
-            MaxInstances = 3,
+            MaxInstances = 6,
             PitchVariance = 0.2f,
         };
         public const string ebonianSoundPath = "EbonianMod/Sounds/";
@@ -54,6 +54,7 @@ namespace EbonianMod.Common.Systems
         blink = Default with { SoundPath = ebonianSoundPath + "blink" },
         xSpirit = Default with { SoundPath = ebonianSoundPath + "xSpirit" },
         magicSlash = Default with { SoundPath = ebonianSoundPath + "magicSlash" },
+        sheep = Default with { SoundPath = ebonianSoundPath + "sheep" },
         vaccum = Default with { SoundPath = ebonianSoundPath + "vaccum", IsLooped = true, PitchVariance = 0f },
         garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" },
         evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };
@@ -96,6 +97,7 @@ namespace EbonianMod.Common.Systems
             blink = Default with { SoundPath = ebonianSoundPath + "blink" };
             xSpirit = Default with { SoundPath = ebonianSoundPath + "xSpirit" };
             magicSlash = Default with { SoundPath = ebonianSoundPath + "magicSlash" };
+            sheep = Default with { SoundPath = ebonianSoundPath + "sheep" };
             vaccum = Default with { SoundPath = ebonianSoundPath + "vaccum", IsLooped = true, PitchVariance = 0f };
             garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" };
             evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };

@@ -37,20 +37,26 @@ namespace EbonianMod.Projectiles.ArchmageX
             Texture2D explosion = Helper.GetExtraTexture("explosion");
             Texture2D flameEye2 = Helper.GetExtraTexture("flameEye2");
             Main.spriteBatch.Reload(BlendState.Additive);
-            Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.DarkOrchid * alpha2 * 2, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(flameEye2, Projectile.Center - Main.screenPosition, null, Color.Magenta * alpha2 * 2, Projectile.rotation, flameEye2.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.DarkOrchid * alpha, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 1.1f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.DarkOrchid * alpha * 0.5f, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 2f, SpriteEffects.None, 0);
+            if (Projectile.ai[2] == 0)
+            {
+                Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.DarkOrchid * alpha2 * 2, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(flameEye2, Projectile.Center - Main.screenPosition, null, Color.Magenta * alpha2 * 2, Projectile.rotation, flameEye2.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.DarkOrchid * (alpha), Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 1.1f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.DarkOrchid * alpha * (0.5f + Projectile.ai[2]), Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 2f, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
         public override void OnSpawn(IEntitySource source)
         {
-            SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(-0.5f), Projectile.Center);
-            for (int i = 0; i < 20; i++)
+            if (Projectile.ai[2] == 0)
             {
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(15, 15), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(20, 20), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f));
+                SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(-0.5f), Projectile.Center);
+                for (int i = 0; i < 20; i++)
+                {
+                    Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(15, 15), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
+                    Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(20, 20), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f));
+                }
             }
         }
         public override void AI()
@@ -66,8 +72,8 @@ namespace EbonianMod.Projectiles.ArchmageX
         public override string Texture => Helper.Placeholder;
         public override void SetDefaults()
         {
-            Projectile.height = 200;
-            Projectile.width = 200;
+            Projectile.height = 100;
+            Projectile.width = 100;
             Projectile.hostile = true;
             Projectile.friendly = false;
             Projectile.tileCollide = false;

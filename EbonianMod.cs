@@ -28,16 +28,19 @@ using EbonianMod.Common.Systems;
 using Terraria.GameContent.Skies;
 using EbonianMod.Projectiles.ArchmageX;
 using Microsoft.CodeAnalysis;
+using Terraria.DataStructures;
 
 namespace EbonianMod
 {
     public class EbonianMod : Mod
     {
         public static EbonianMod Instance;
-        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient, invisibleMask;
+        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur,
+            TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient, invisibleMask, PullingForce;
         public readonly List<Effect> Effects = new List<Effect>()
         {
-            Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient, invisibleMask
+            Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha,
+            Crack, Blur, RTOutline, metaballGradient, invisibleMask, PullingForce
     };
         public RenderTarget2D render, render2, blurrender, xRender, invisRender, affectedByInvisRender;
         public static DynamicSpriteFont lcd;
@@ -153,6 +156,7 @@ namespace EbonianMod
             On_Main.DrawNPC -= DrawNPC;
             On_Player.Update_NPCCollision -= SolidTopCollision;
             On_Main.DrawPlayers_AfterProjectiles -= PreDraw;
+            On_VanillaPlayerDrawLayer.Draw -= DrawPlayer;
         }
         public override void Load()
         {
@@ -182,6 +186,7 @@ namespace EbonianMod
             TrailShader = ModContent.Request<Effect>("EbonianMod/Effects/TrailShader", (AssetRequestMode)1).Value;
             metaballGradient = ModContent.Request<Effect>("EbonianMod/Effects/metaballGradient", (AssetRequestMode)1).Value;
             invisibleMask = ModContent.Request<Effect>("EbonianMod/Effects/invisibleMask", (AssetRequestMode)1).Value;
+            PullingForce = ModContent.Request<Effect>("EbonianMod/Effects/PullingForce", (AssetRequestMode)1).Value;
             Filters.Scene["EbonianMod:CorruptTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.68f, .56f, .73f).UseOpacity(0.35f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:CorruptTint"] = new BasicTint();
 
@@ -198,7 +203,14 @@ namespace EbonianMod
             Terraria.On_Main.DrawNPC += DrawNPC;
             Terraria.On_Player.Update_NPCCollision += SolidTopCollision;
             On_Main.DrawPlayers_AfterProjectiles += PreDraw;
+            On_VanillaPlayerDrawLayer.Draw += DrawPlayer;
             CreateRender();
+        }
+        void DrawPlayer(On_VanillaPlayerDrawLayer.orig_Draw orig, PlayerDrawLayer self, ref PlayerDrawSet drawInfo)
+        {
+            if (drawInfo.drawPlayer.GetModPlayer<EbonianPlayer>().sheep)
+                return;
+            orig(self, ref drawInfo);
         }
         void PreDraw(On_Main.orig_DrawPlayers_AfterProjectiles orig, Main self)
         {

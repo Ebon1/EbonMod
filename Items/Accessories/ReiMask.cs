@@ -31,11 +31,11 @@ namespace EbonianMod.Items.Accessories
         {
             EbonianPlayer modPlayer = player.GetModPlayer<EbonianPlayer>();
             modPlayer.reiV = true;
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<ReiCapeP>()] < 1)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<ReiCapeP>()] < 1 && !modPlayer.sheep)
             {
                 Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ReiCapeP>(), 0, 0, player.whoAmI);
             }
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<ReiCapeTrail>()] < 2)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<ReiCapeTrail>()] < 2 && !modPlayer.sheep)
             {
                 for (int i = -1; i < 2; i++)
                 {

@@ -44,12 +44,26 @@ namespace EbonianMod
     public static class Helper
     {
         /// <summary>
-        /// avoids division (or multiplication if youre trying to do something with that) by zero 
+        /// Avoids division by zero 
         /// </summary>
-        /// 
         public static float Safe(this float f, float x = 1)
         {
             return f + (f == 0 ? x : 0);
+        }
+        /// <summary>
+        /// Finds the shortest path to a desired angle
+        /// </summary>
+        public static float ShortestPathToAngle(float from, float to)
+        {
+            float difference = (to - from) % MathHelper.TwoPi;
+            return (2 * difference % MathHelper.TwoPi) - difference;
+        }
+        /// <summary>
+        /// Lerps to the shortest path to a desired angle
+        /// </summary>
+        public static float LerpAngle(float from, float to, float t)
+        {
+            return from + ShortestPathToAngle(from, to) * t;
         }
         public static Rectangle ToRectangle(this System.Drawing.RectangleF rect)
         {
@@ -335,7 +349,7 @@ namespace EbonianMod
 
                 for (int i = 0; i < length; i++)
                 {
-                    if (Collision.CanHitLine(output, 0, 0, output + direction, 0, 0) && (platformCheck ? !Collision.SolidTiles(output, 1, 1, platformCheck) : true))
+                    if (Collision.CanHitLine(output, 0, 0, output + direction, 0, 0) && (platformCheck ? !Collision.SolidTiles(output, 1, 1, platformCheck) && Main.tile[(int)output.X / 16, (int)output.Y / 16].TileType == TileID.Platforms : true))
                     {
                         output += direction;
                     }

@@ -42,7 +42,9 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.extraUpdates = 2;
             rots = new List<float>();
             len = 0;
+            Projectile.hide = true;
         }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindNPCs.Add(index);
         public override bool ShouldUpdatePosition()
         {
             return false;
@@ -102,8 +104,8 @@ namespace EbonianMod.Projectiles.ArchmageX
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            if (lightColor != Color.Transparent)
-                return false;
+            //if (lightColor != Color.Transparent)
+            //  return false;
             List<VertexInfo2> bars = new List<VertexInfo2>();
             for (int i = 1; i < len; i++)
             {
@@ -120,7 +122,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             if (bars.Count > 2)
             {
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin((SpriteSortMode)1, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone);
+                Main.spriteBatch.Begin((SpriteSortMode)1, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone);
                 Matrix projection = Matrix.CreateOrthographicOffCenter(0f, (float)Main.screenWidth, (float)Main.screenHeight, 0f, 0f, 1f);
                 Matrix model = Matrix.CreateTranslation(new Vector3(0f - Main.screenPosition.X, 0f - Main.screenPosition.Y, 0f)) * Main.GameViewMatrix.ZoomMatrix;
                 EbonianMod.Tentacle.Parameters[0].SetValue(model * projection);

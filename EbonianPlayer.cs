@@ -15,6 +15,7 @@ using SubworldLibrary;
 using EbonianMod.Common.Systems.Worldgen.Subworlds;
 using EbonianMod.NPCs.Crimson.Fleshformator;
 using EbonianMod.NPCs;
+using EbonianMod.Projectiles;
 
 namespace EbonianMod
 {
@@ -29,7 +30,7 @@ namespace EbonianMod
         public static EbonianPlayer Instance;
         public Vector2 stabDirection;
         public int reiBoostCool, reiBoostT;
-        public bool rolleg, brainAcc, heartAcc, ToxicGland, doomMinion, rei, reiV;
+        public bool rolleg, brainAcc, heartAcc, ToxicGland, doomMinion, rei, reiV, sheep;
         public override void ResetEffects()
         {
             reiBoostCool--;
@@ -48,6 +49,7 @@ namespace EbonianMod
             if (!NPC.AnyNPCs(ModContent.NPCType<Fleshformator>()))
                 fleshformators = 0;
             ToxicGland = false;
+            sheep = false;
         }
 
         public int platformWhoAmI = -1;
@@ -87,11 +89,33 @@ namespace EbonianMod
                 Player.maxRunSpeed += 2.5f;
                 Player.accRunSpeed += 2.5f;
             }
-            /*if (reiBoost)
+            if (sheep)
             {
-                Player.maxRunSpeed += 10f;
-                Player.runAcceleration += 2f;
-            }*/
+                Player.wingTimeMax = -1;
+                Player.wingTime = -1;
+                Player.wingsLogic = -1;
+                Player.wings = -1;
+                Player.mount.Dismount(Player);
+                Player.gravity = Player.defaultGravity;
+                Player.maxRunSpeed = 4.2f;
+                Player.accRunSpeed = 4.2f;
+                Player.jumpSpeed = 5.31f;
+                Player.jumpHeight = 18;
+                Player.dashType = 0;
+                Player.blockExtraJumps = true;
+            }
+        }
+        public override bool CanStartExtraJump(ExtraJump jump)
+        {
+            if (sheep)
+                return false;
+            return base.CanStartExtraJump(jump);
+        }
+        public override bool CanUseItem(Item item)
+        {
+            if (sheep)
+                return false;
+            return base.CanUseItem(item);
         }
         public override void PostUpdateMiscEffects()
         {
@@ -190,6 +214,19 @@ namespace EbonianMod
             flashMaxTime = time;
             flashTime = time;
             flashPosition = pos;
+        }
+        public override void PostUpdateBuffs()
+        {
+            if (sheep)
+            {
+                Player.height = Player.width;
+                Player.position.Y += Player.width + 2;
+                foreach (Projectile proj in Main.projectile)
+                {
+                    if (proj.active && proj.type == ModContent.ProjectileType<player_sheep>())
+                        proj.Center = Player.Bottom + new Vector2(0, -14);
+                }
+            }
         }
         public override void PostUpdate()
         {

@@ -172,6 +172,12 @@ Projectiles: {
 	XLargeAmethyst.DisplayName: X Large Amethyst
 	XAmethystShard.DisplayName: X Amethyst Shard
 	XTentacle.DisplayName: X Tentacle
+	player_sheep.DisplayName: Sheep
+	SheepeningOrb.DisplayName: Sheepening Orb
+	XManaPotion.DisplayName: X Mana Potion
+	XSpiritNoHome.DisplayName: X Spirit No Home
+	XRift.DisplayName: X Rift
+	XKnife.DisplayName: X Knife
 }
 
 NPCs: {
@@ -809,6 +815,11 @@ Buffs: {
 	OstertagiB: {
 		DisplayName: Ostertagi B
 		Description: Mods.EbonianMod.Buffs.OstertagiB.Description
+	}
+
+	Sheepened: {
+		DisplayName: Sheepened
+		Description: This is baad!
 	}
 }
 

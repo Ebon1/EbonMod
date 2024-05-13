@@ -60,9 +60,10 @@ namespace EbonianMod.Projectiles.ArchmageX
         bool RunOnce;
         List<Vector2> points = new List<Vector2>();
         Vector2 end;
+        float a;
         public override void AI() //growing laser, originates from fixed point
         {
-            if (Projectile.damage == 0)
+            if (Projectile.damage == 0 || Projectile.localAI[0] == 1)
             {
                 if (MAX_TIME > 80)
                 {
@@ -81,6 +82,14 @@ namespace EbonianMod.Projectiles.ArchmageX
             Vector2 start = Projectile.Center;
             Projectile.ai[2] = MathHelper.Min(Projectile.ai[2] + 1f, 20);
             end = Projectile.Center + Projectile.rotation.ToRotationVector2() * 2000;
+
+            if (Projectile.damage == 0)
+            {
+                float t = Utils.GetLerpValue(0, MAX_TIME - 20, Projectile.timeLeft - 20);
+                if (Projectile.timeLeft > 20)
+                    a = MathHelper.SmoothStep(Projectile.ai[1], 0, t);
+            }
+
             if (!RunOnce)
             {
                 n = 300;
@@ -89,6 +98,10 @@ namespace EbonianMod.Projectiles.ArchmageX
                 Vector2 dir = (end - start).RotatedBy(MathHelper.PiOver2);
                 dir.Normalize();
                 float x = 0;
+                if (Projectile.damage != 0)
+                {
+                    a = Projectile.ai[1];
+                }
                 for (int i = 0; i < n; i++)
                 {
                     if (i == n - 1)
@@ -111,7 +124,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                     if (Projectile.ai[0] % 3 == 0)
                     {
                         float s = 1;
-                        for (int i = 0; i < MathHelper.Clamp(Projectile.ai[0] * 2, 2, points.Count); i++)
+                        for (int i = 0; i < MathHelper.Clamp(Projectile.ai[0] * (2 + Projectile.localAI[0] * 2), 2, points.Count); i++)
                         {
                             if (i > 1)
                             {
@@ -122,6 +135,22 @@ namespace EbonianMod.Projectiles.ArchmageX
                             }
                             s -= i / (float)points.Count * 0.01f;
                         }
+                    }
+                }
+                else
+                {
+                    points.Clear();
+                    n = 300;
+                    Vector2 dir = (end - start).RotatedBy(MathHelper.PiOver2);
+                    dir.Normalize();
+                    float x = 0;
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (i == n - 1)
+                            x = 0;
+                        Vector2 point = Vector2.Lerp(start, end, i / (float)n) + dir * x; //x being maximum magnitude
+                        points.Add(point);
+                        x = MathF.Cos(4.7124f + ((float)i / n) * 35) * a;
                     }
                 }
                 points[0] = Projectile.Center;

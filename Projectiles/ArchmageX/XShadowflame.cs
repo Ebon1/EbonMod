@@ -31,7 +31,9 @@ namespace EbonianMod.Projectiles.ArchmageX
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.rotation.ToRotationVector2() * 220, 20, ref a);
+            Vector2 vel = Projectile.velocity;
+            vel.SafeNormalize(-Vector2.UnitY);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + vel * 220, 20, ref a);
         }
         public override bool ShouldUpdatePosition() => false;
         public override bool? CanDamage() => Projectile.ai[2] >= 0.5f;
