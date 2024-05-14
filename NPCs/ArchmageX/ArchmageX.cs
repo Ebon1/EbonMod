@@ -145,12 +145,13 @@ namespace EbonianMod.NPCs.ArchmageX
         public const int Taunt = -4, Despawn = -3, Death = -2, Idle = -1, Spawn = 0, PhantasmalSpirit = 1, ShadowflamePuddles = 2, SpectralOrbs = 3, MagnificentFireballs = 4, SineLaser = 5, AmethystCloseIn = 6,
             AmethystBulletHell = 7, GiantAmethyst = 8, Micolash = 9, TheSheepening = 10, ManaPotion = 11, PhantasmalBlast = 12, ShadowflameRift = 13, HelicopterBlades = 14, AmethystStorm = 15, ExplosionAtFeet = 16;
 
-        float Next = HelicopterBlades;
+        float Next = AmethystStorm;
         public override void AI()
         {
             if (NPC.direction != NPC.oldDirection)
                 rightArmRot = 0;
             float rightHandOffsetRot = MathHelper.Pi - (NPC.direction == 1 ? MathHelper.PiOver4 : MathHelper.PiOver2);
+            float leftHandOffsetRot = MathHelper.Pi - (NPC.direction == 1 ? MathHelper.PiOver2 : MathHelper.PiOver4);
             Player player = Main.player[NPC.target];
             if (!player.active || player.dead)
             {
@@ -736,29 +737,24 @@ namespace EbonianMod.NPCs.ArchmageX
                 case HelicopterBlades: //phase 2
                     {
                         FacePlayer();
-                        if (AITimer < 170)
+                        if (AITimer < 305)
                             rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, NPC.Center - Vector2.UnitY.RotatedBy(NPC.direction * 0.5f) * 100, reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
-                        else if (AITimer >= 170 && AITimer < 300)
-                            rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, player.Center, reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
-                        else
-                            rightArmRot = Helper.LerpAngle(rightArmRot, 0, 0.2f);
+
                         if (AITimer >= 40 && AITimer <= 240)
                         {
                             if (AITimer >= 180 && AITimer % 20 == 0)
                             {
                                 SoundEngine.PlaySound(SoundID.Item73.WithPitchOffset(-0.2f), NPC.Center);
                                 Vector2 vel = Helper.FromAToB(NPC.Center, player.Center);
-                                Projectile.NewProjectile(null, NPC.Center + vel * 25f, vel * 7f, ModContent.ProjectileType<XKnife>(), 15, 0);
+                                Projectile.NewProjectile(null, NPC.Center - new Vector2(14 + (NPC.direction == -1 ? 10 : 20), 0).RotatedBy(NPC.direction == -1 ? (rightArmRot - MathHelper.PiOver2 * 1.11f) : (rightArmRot - (MathHelper.Pi - MathHelper.PiOver4))) - new Vector2(25 * -NPC.direction, 24), vel * 7f, ModContent.ProjectileType<XKnife>(), 15, 0);
                             }
                             heliAlpha = MathHelper.Lerp(heliAlpha, 1, 0.1f);
                             NPC.noGravity = true;
-                            if (AITimer < 180)
-                                NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, Helper.TRay.Cast(player.Center, Vector2.UnitY, 1000, true) - new Vector2(0, 150), false) / 35, 0.025f);
-                            else
-                                NPC.velocity *= 0.9f;
+                            NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, Helper.TRay.Cast(player.Center, Vector2.UnitY, 1000, true) - new Vector2(0, 150), false) / 35, 0.025f);
                         }
                         if (AITimer > 250 && AITimer < 290)
                         {
+                            NPC.velocity *= 0.9f;
                             NPC.noGravity = false;
                             heliAlpha = MathHelper.Lerp(heliAlpha, 0, 0.25f);
                             Dust d = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Circular(200, 200), ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(Main.rand.NextVector2FromRectangle(NPC.getRect()), NPC.Center) * Main.rand.NextFloat(3, 7), 0, Color.DarkOrchid, Main.rand.NextFloat(0.06f, .2f));
@@ -769,14 +765,81 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0, ai2: 1);
                         }
+                        if (AITimer == 305)
+                        {
+                            AITimer2 = 15;
+                            disposablePos[0] = Helper.FromAToB(NPC.Center, player.Center);
+                        }
                         if (AITimer == 310)
                         {
                             SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(-0.2f), NPC.Center);
-                            Projectile a = Projectile.NewProjectileDirect(null, NPC.Center + Helper.FromAToB(NPC.Center, player.Center) * 40, Helper.FromAToB(NPC.Center, player.Center), ModContent.ProjectileType<PhantasmalGreatswordP2>(), 20, 0);
+                            Projectile a = Projectile.NewProjectileDirect(null, NPC.Center + Helper.FromAToB(NPC.Center, player.Center) * 40, Helper.FromAToB(NPC.Center, player.Center), ModContent.ProjectileType<PhantasmalGreatswordP2>(), 20, 0, -1, 0, 1);
                             a.friendly = false;
                             a.hostile = true;
                         }
-                        if (AITimer >= 400)
+                        if (AITimer > 305 && AITimer <= 330)
+                        {
+                            if (AITimer2 > 0)
+                                AITimer2--;
+                            float direction = 1;
+                            float swingProgress = Utils.GetLerpValue(0f, 15, AITimer2);
+                            float defRot = disposablePos[0].ToRotation();
+                            float start = defRot - (MathHelper.PiOver2 + MathHelper.PiOver4);
+                            float end = defRot + (MathHelper.PiOver2 * 2);
+                            float rotation = direction == 1 ? start + MathHelper.Pi * 3 / 2 * swingProgress : end - MathHelper.Pi * 3 / 2 * swingProgress;
+                            Vector2 position = NPC.Center +
+                                rotation.ToRotationVector2() * 50 * (0.7f + (float)Math.Sin(swingProgress * Math.PI) * 0.5f);
+                            rightArmRot = Helper.LerpAngle(rightArmRot, -((position - NPC.Center).ToRotation() + MathHelper.PiOver4), 0.25f);
+                        }
+                        if (AITimer >= 350)
+                        {
+                            Reset();
+                            Next = AmethystStorm;
+                            AIState = Idle;
+                        }
+                    }
+                    break;
+                case AmethystStorm:
+                    {
+                        if (AITimer == 40)
+                            DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Approaching Storm!", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
+                        if (AITimer < 70 && AITimer > 1)
+                        {
+                            rightArmRot = Helper.LerpAngle(rightArmRot, -Vector2.UnitY.ToRotation() - (NPC.direction == -1 ? (MathHelper.PiOver2 + MathHelper.PiOver4) : 0), 0.2f);
+                        }
+                        else
+                        {
+                            rightArmRot = Helper.LerpAngle(rightArmRot, 0, 0.2f);
+                        }
+
+                        if (AITimer < 50)
+                        {
+                            Vector2 pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X, NPC.Center.Y);
+                            if (player.Center.X < GetArenaRect().X + GetArenaRect().Width / 2)
+                                pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + OffsetBoundaries(NPC.Size * 1.5f).Width, NPC.Center.Y);
+                            NPC.direction = player.Center.X > NPC.Center.X ? -1 : 1;
+                            NPC.spriteDirection = NPC.direction;
+                            NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.05f, 0.1f);
+                            NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, pos).X * 3.75f, 0.1f);
+                        }
+                        else
+                            NPC.velocity.X *= 0.9f;
+                        if (AITimer == 70)
+                        {
+                            Projectile.NewProjectile(null, new Vector2(GetArenaRect().X + GetArenaRect().Width / 2, GetArenaRect().Y + 70), Vector2.Zero, ModContent.ProjectileType<XCloud>(), 0, 0);
+                        }
+
+                        if (AITimer >= 180)
+                        {
+                            Reset();
+                            Next = ExplosionAtFeet;
+                            AIState = Idle;
+                        }
+                    }
+                    break;
+                case ExplosionAtFeet:
+                    {
+                        if (AITimer >= 180)
                         {
                             Reset();
                             Next = PhantasmalSpirit;

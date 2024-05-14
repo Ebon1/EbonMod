@@ -39,7 +39,7 @@ namespace EbonianMod.Dusts
                 if (d.type == ModContent.DustType<XGoopDust>() && d.active)
                 {
                     Texture2D tex = ModContent.Request<Texture2D>("EbonianMod/Extras/Spotlight").Value;
-                    sb.Draw(tex, d.position - Main.screenPosition, null, Color.White * MathHelper.Clamp(d.scale * 2, 0, 1), 0, tex.Size() / 2, d.scale, SpriteEffects.None, 0);
+                    sb.Draw(tex, d.position - Main.screenPosition, null, (d.customData == null ? Color.White : d.color) * MathHelper.Clamp(d.scale * 2, 0, 1), 0, tex.Size() / 2, d.scale, SpriteEffects.None, 0);
                 }
             }
         }

@@ -178,6 +178,9 @@ Projectiles: {
 	XSpiritNoHome.DisplayName: X Spirit No Home
 	XRift.DisplayName: X Rift
 	XKnife.DisplayName: X Knife
+	XCloud.DisplayName: X Cloud
+	XLightningBolt.DisplayName: X Lightning Bolt
+	XTelegraphLine.DisplayName: X Telegraph Line
 }
 
 NPCs: {

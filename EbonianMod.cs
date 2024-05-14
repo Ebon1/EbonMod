@@ -281,24 +281,21 @@ namespace EbonianMod
                 sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                 gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/space", (AssetRequestMode)1).Value;
                 RTOutline.CurrentTechnique.Passes[0].Apply();
-                RTOutline.Parameters["m"].SetValue(0.62f); // for more percise textures use 0.62f
-                RTOutline.Parameters["n"].SetValue(0.01f); // and 0.01f here.
+                RTOutline.Parameters["m"].SetValue(0.62f);
+                RTOutline.Parameters["n"].SetValue(0.01f);
                 RTOutline.Parameters["offset"].SetValue(new Vector2(Main.GlobalTimeWrappedHourly * 0.005f, 0));
                 sb.Draw(render2, Vector2.Zero, Color.White);
 
                 gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/black", (AssetRequestMode)1).Value;
                 RTOutline.CurrentTechnique.Passes[0].Apply();
-                RTOutline.Parameters["m"].SetValue(0.22f); // for more percise textures use 0.62f
-                RTOutline.Parameters["n"].SetValue(0.1f); // and 0.01f here.
+                RTOutline.Parameters["m"].SetValue(0.22f);
+                RTOutline.Parameters["n"].SetValue(0.1f);
                 sb.Draw(render, Vector2.Zero, Color.White);
 
                 gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/shadowflameGradient", (AssetRequestMode)1).Value;
                 gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
                 metaballGradient.CurrentTechnique.Passes[0].Apply();
-                //metaballGradient.Parameters["m"].SetValue(0.32f); // for more percise textures use 0.62f
-                //metaballGradient.Parameters["n"].SetValue(0.3f); // and 0.01f here.
                 metaballGradient.Parameters["useAlphaGradient"].SetValue(true);
-                //metaballGradient.Parameters["col"].SetValue(new Vector4(0.58f, 0, 1.86f, 2.5f));
                 sb.Draw(xRender, Vector2.Zero, Color.White);
 
                 gd.Textures[1] = null;

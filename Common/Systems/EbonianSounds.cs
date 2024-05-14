@@ -12,8 +12,8 @@ namespace EbonianMod.Common.Systems
     {
         public static SoundStyle Default = new SoundStyle("EbonianMod/Sounds/reiFail")
         {
-            MaxInstances = 6,
-            PitchVariance = 0.2f,
+            MaxInstances = 10,
+            PitchVariance = 0.3f,
         };
         public const string ebonianSoundPath = "EbonianMod/Sounds/";
         public static SoundStyle
@@ -26,7 +26,7 @@ namespace EbonianMod.Common.Systems
         chomp0 = Default with { SoundPath = ebonianSoundPath + "chomp0", Volume = 1.3f },
         chomp1 = Default with { SoundPath = ebonianSoundPath + "chomp1", Volume = 1.3f },
         chomp2 = Default with { SoundPath = ebonianSoundPath + "chomp2", MaxInstances = 1 },
-        eggplosion = Default with { SoundPath = ebonianSoundPath + "eggplosion", MaxInstances = 5 },
+        eggplosion = Default with { SoundPath = ebonianSoundPath + "eggplosion" },
         eruption = Default with { SoundPath = ebonianSoundPath + "eruption" },
         exolDash = Default with { SoundPath = ebonianSoundPath + "exolDash" },
         exolRoar = Default with { SoundPath = ebonianSoundPath + "exolRoar" },
@@ -69,7 +69,7 @@ namespace EbonianMod.Common.Systems
             chomp0 = Default with { SoundPath = ebonianSoundPath + "chomp0", Volume = 1.3f };
             chomp1 = Default with { SoundPath = ebonianSoundPath + "chomp1", Volume = 1.3f };
             chomp2 = Default with { SoundPath = ebonianSoundPath + "chomp2", MaxInstances = 1 };
-            eggplosion = Default with { SoundPath = ebonianSoundPath + "eggplosion", MaxInstances = 5 };
+            eggplosion = Default with { SoundPath = ebonianSoundPath + "eggplosion" };
             eruption = Default with { SoundPath = ebonianSoundPath + "eruption" };
             exolDash = Default with { SoundPath = ebonianSoundPath + "exolDash" };
             exolRoar = Default with { SoundPath = ebonianSoundPath + "exolRoar" };
