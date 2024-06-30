@@ -117,9 +117,9 @@ namespace EbonianMod.Items.Weapons.Melee
                     for (int i = 0; i < 4; i++)
                     {
                         Vector2 pos = Vector2.Lerp(start, end, Main.rand.NextFloat());
-                        //Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Helper.FromAToB(pos, player.Center + Helper.FromAToB(player.Center, pos, false).RotatedBy(-Projectile.ai[1] * 0.5f)) * 5, 0, Color.DarkOrchid, Main.rand.NextFloat(0.1f, 0.15f)).noGravity = true;
+                        //Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Helper.FromAToB(pos, player.Center + Helper.FromAToB(player.Center, pos, false).RotatedBy(-Projectile.ai[1] * 0.5f)) * 5, 0, Color.Indigo, Main.rand.NextFloat(0.1f, 0.15f)).noGravity = true;
 
-                        Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(pos, player.Center + Helper.FromAToB(player.Center, pos, false).RotatedBy(-Projectile.ai[1] * 0.5f)) * 5, 0, Color.DarkOrchid, Main.rand.NextFloat(0.1f, 0.15f)).customData = position;
+                        Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(pos, player.Center + Helper.FromAToB(player.Center, pos, false).RotatedBy(-Projectile.ai[1] * 0.5f)) * 5, 0, Color.Indigo, Main.rand.NextFloat(0.1f, 0.15f)).customData = position;
                     }
 
             }
@@ -155,7 +155,7 @@ namespace EbonianMod.Items.Weapons.Melee
                         for (int j = 0; j < 4; j++)
                         {
                             Vector2 pos = Vector2.Lerp(start, end, (float)j / 4);
-                            Main.spriteBatch.Draw(tex2, pos - Main.screenPosition, null, Color.DarkOrchid * (alpha * s * 0.2f), Helper.FromAToB(start, end).ToRotation() - MathHelper.PiOver2, tex2.Size() / 2, s * 0.5f, SpriteEffects.None, 0);
+                            Main.spriteBatch.Draw(tex2, pos - Main.screenPosition, null, Color.Indigo * (alpha * s * 0.2f), Helper.FromAToB(start, end).ToRotation() - MathHelper.PiOver2, tex2.Size() / 2, s * 0.5f, SpriteEffects.None, 0);
                         }
 
                         s -= i / (float)Projectile.oldPos.Length * 0.03f;
@@ -187,10 +187,10 @@ namespace EbonianMod.Items.Weapons.Melee
                 slash = Helper.GetExtraTexture("Extras2/slash_06");
             Vector2 pos = player.Center + Projectile.velocity * 90;
             /*Main.spriteBatch.Reload(BlendState.Additive);
-            Main.spriteBatch.Draw(slash, pos - Main.screenPosition, null, Color.DarkOrchid * (alpha * 0.5f), Projectile.velocity.ToRotation(), slash.Size() / 2, Projectile.scale * 1.75f, Projectile.ai[1] == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(slash, pos - Main.screenPosition, null, Color.Indigo * (alpha * 0.5f), Projectile.velocity.ToRotation(), slash.Size() / 2, Projectile.scale * 1.75f, Projectile.ai[1] == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0f);
 
             slash = Helper.GetExtraTexture("Extras2/slash_02");
-            Main.spriteBatch.Draw(slash, pos - Main.screenPosition, null, Color.DarkOrchid * (alpha * 0.5f), Projectile.velocity.ToRotation() - MathHelper.PiOver2, slash.Size() / 2, Projectile.scale * 1.25f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(slash, pos - Main.screenPosition, null, Color.Indigo * (alpha * 0.5f), Projectile.velocity.ToRotation() - MathHelper.PiOver2, slash.Size() / 2, Projectile.scale * 1.25f, SpriteEffects.None, 0f);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);*/
         }
     }
@@ -279,7 +279,7 @@ namespace EbonianMod.Items.Weapons.Melee
                         for (int j = 0; j < 4; j++)
                         {
                             Vector2 pos = Vector2.Lerp(start, end, (float)j / 4);
-                            Main.spriteBatch.Draw(tex2, pos - Main.screenPosition, null, Color.DarkOrchid * (Projectile.ai[2] * s * 0.13f), Helper.FromAToB(start, end).ToRotation() - MathHelper.PiOver2, tex2.Size() / 2, s * 0.5f, SpriteEffects.None, 0);
+                            Main.spriteBatch.Draw(tex2, pos - Main.screenPosition, null, Color.Indigo * (Projectile.ai[2] * s * 0.13f), Helper.FromAToB(start, end).ToRotation() - MathHelper.PiOver2, tex2.Size() / 2, s * 0.5f, SpriteEffects.None, 0);
                         }
 
                         s -= i / (float)Projectile.oldPos.Length * 0.03f;
@@ -291,7 +291,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
             Main.spriteBatch.Reload(BlendState.Additive);
             Vector2 orig = texture.Size() / 2;
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.DarkOrchid * Projectile.ai[2], Projectile.rotation + (Projectile.ai[1] == 1 ? 0 : MathHelper.PiOver2 * 3), orig, Projectile.scale, Projectile.ai[1] == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.Indigo * Projectile.ai[2], Projectile.rotation + (Projectile.ai[1] == 1 ? 0 : MathHelper.PiOver2 * 3), orig, Projectile.scale, Projectile.ai[1] == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

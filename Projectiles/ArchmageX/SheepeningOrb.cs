@@ -86,7 +86,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             for (int i = (Projectile.velocity.Length() < 2 ? 12 : 0); i < Projectile.oldPos.Length; i++)
             {
                 float mult = (1f - fadeMult * i);
-                Main.spriteBatch.Draw(trail, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.DarkOrchid * 0.5f * alpha * mult, Projectile.oldRot[i] + MathHelper.PiOver2, trail.Size() / 2, Projectile.scale * 0.5f * mult, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(trail, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.Indigo * 0.5f * alpha * mult, Projectile.oldRot[i] + MathHelper.PiOver2, trail.Size() / 2, Projectile.scale * 0.5f * mult, SpriteEffects.None, 0);
             }
 
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -136,7 +136,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                         {
                             float rot = orbs[i].velocity.ToRotation() + MathHelper.PiOver2;
                             if (j > 1) rot = Helper.FromAToB(orbs[i].oldPos[j], orbs[i].oldPos[j - 1]).ToRotation() + MathHelper.PiOver2;
-                            Main.spriteBatch.Draw(orbTex, Projectile.Center + orbs[i].oldPos[j] - Main.screenPosition, null, Color.Lerp(Color.DarkOrchid, Color.Violet, (MathF.Sin(Main.GlobalTimeWrappedHourly) + 1) / 2) * (alpha * mult), rot, orbTex.Size() / 2, Projectile.scale * 0.1f * mult, SpriteEffects.None, 0);
+                            Main.spriteBatch.Draw(orbTex, Projectile.Center + orbs[i].oldPos[j] - Main.screenPosition, null, Color.Lerp(Color.Indigo, Color.Violet, (MathF.Sin(Main.GlobalTimeWrappedHourly) + 1) / 2) * (alpha * mult), rot, orbTex.Size() / 2, Projectile.scale * 0.1f * mult, SpriteEffects.None, 0);
                         }
                     }
                 }

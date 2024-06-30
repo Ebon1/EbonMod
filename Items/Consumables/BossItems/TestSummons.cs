@@ -47,7 +47,7 @@ namespace EbonianMod.Items.Consumables.BossItems
             return true;
         }
     }
-    public class TerrortomaSummon : ModItem
+    /*public class TerrortomaSummon : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -221,5 +221,5 @@ namespace EbonianMod.Items.Consumables.BossItems
                 SubworldSystem.Exit();
             return true;
         }
-    }
+    }*/
 }

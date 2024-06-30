@@ -131,7 +131,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                                 if (Main.rand.NextBool())
                                     Dust.NewDustPerfect(points[i], ModContent.DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], points[i]) * Main.rand.NextFloat(4, 8), 0, default, 0.5f * s);
                                 if (Main.rand.NextBool(4) && i % 4 == 0)
-                                    Dust.NewDustPerfect(points[i], ModContent.DustType<SparkleDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], points[i]) * Main.rand.NextFloat(4, 8), 0, Color.DarkOrchid * s, Main.rand.NextFloat(0.1f, 0.15f) * s);
+                                    Dust.NewDustPerfect(points[i], ModContent.DustType<SparkleDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], points[i]) * Main.rand.NextFloat(4, 8), 0, Color.Indigo * s, Main.rand.NextFloat(0.1f, 0.15f) * s);
                             }
                             s -= i / (float)points.Count * 0.01f;
                         }
@@ -170,7 +170,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                 bolt = Helper.GetExtraTexture("laser3");
             Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.damage != 0)
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.DarkOrchid * Projectile.scale, Main.GameUpdateCount * -0.003f, tex.Size() / 2, 0.2f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Indigo * Projectile.scale, Main.GameUpdateCount * -0.003f, tex.Size() / 2, 0.2f, SpriteEffects.None, 0);
             float s = 1;
             if (points.Count > 2)
             {
@@ -184,7 +184,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                     Vector2 vector2 = start;
                     float rotation = vector.ToRotation();
 
-                    Color color = Color.DarkOrchid * (s * Projectile.scale);
+                    Color color = Color.Indigo * (s * Projectile.scale);
                     if (Projectile.damage == 0)
                         color = Color.White * (s * Projectile.scale * 0.5f);
 

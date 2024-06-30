@@ -46,8 +46,8 @@ namespace EbonianMod.Projectiles.ArchmageX
             {
                 var fadeMult = 1f / Projectile.oldPos.Length;
                 float mult = (1f - fadeMult * i);
-                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f) * mult);
-                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<SparkleDust>(), Vector2.Zero, 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.15f) * mult);
+                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f) * mult);
+                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<SparkleDust>(), Vector2.Zero, 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.15f) * mult);
                 i++;
             }
             SoundEngine.PlaySound(SoundID.Shatter, Projectile.Center);
@@ -57,8 +57,8 @@ namespace EbonianMod.Projectiles.ArchmageX
         {
             for (int i = 0; i < 5; i++)
             {
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f));
+                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
             }
         }
         public override bool PreDraw(ref Color lightColor)
@@ -75,12 +75,12 @@ namespace EbonianMod.Projectiles.ArchmageX
                     for (float j = 0; j < 10; j++)
                     {
                         Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 10));
-                        Color col = Color.Lerp(Color.DarkOrchid * 0.5f, Color.Gray, (float)(i / Projectile.oldPos.Length));
+                        Color col = Color.Lerp(Color.Indigo * 0.5f, Color.Gray, (float)(i / Projectile.oldPos.Length));
                         Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, col * (0.35f + Projectile.ai[1]), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f * mult + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 3) + 1) / 2) * 0.005f), SpriteEffects.None, 0);
                         Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, col * (0.25f + Projectile.ai[1]), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.05f * mult, SpriteEffects.None, 0);
                     }
             }
-            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.DarkOrchid, Projectile.rotation, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.Indigo, Projectile.rotation, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
 
@@ -125,12 +125,12 @@ namespace EbonianMod.Projectiles.ArchmageX
                     for (float j = 0; j < 10; j++)
                     {
                         Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 10));
-                        Color col = Color.Lerp(Color.DarkOrchid * 0.5f, Color.Gray, (float)(i / Projectile.oldPos.Length)) * alpha;
+                        Color col = Color.Lerp(Color.Indigo * 0.5f, Color.Gray, (float)(i / Projectile.oldPos.Length)) * alpha;
                         Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, col * (0.35f), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f * mult + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 3) + 1) / 2) * 0.005f), SpriteEffects.None, 0);
                         Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, col * (0.25f), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.05f * mult, SpriteEffects.None, 0);
                     }
             }
-            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.DarkOrchid * alpha, Projectile.rotation, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.White * alpha, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
 
@@ -140,8 +140,8 @@ namespace EbonianMod.Projectiles.ArchmageX
         {
             for (int i = 0; i < 5; i++)
             {
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f));
+                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
             }
         }
         public override bool? CanDamage() => Projectile.ai[2] >= 0.9f && Projectile.velocity.Length() > 2.5f;

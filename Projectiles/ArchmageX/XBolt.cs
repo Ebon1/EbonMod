@@ -78,7 +78,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                     if (Main.rand.NextBool(3))
                     {
                         Vector2 pos = Projectile.Center + new Vector2((Projectile.width / 4) * Main.rand.NextFloat(-1, 1f), 10).RotatedBy(Projectile.rotation + MathHelper.PiOver2);
-                        Dust D = Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(Projectile.Center, pos) * 0.1f, 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
+                        Dust D = Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(Projectile.Center, pos) * 0.1f, 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
                         D.customData = Projectile.oldPos[Projectile.oldPos.Length - 1] + Projectile.Size / 2;
                     }
                 }

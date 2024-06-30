@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -120,6 +121,10 @@ namespace EbonianMod.NPCs.ArchmageX
             NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
             NPC.spriteDirection = NPC.direction;
         }
+        public override void OnSpawn(IEntitySource source)
+        {
+            sCenter = NPC.Center;
+        }
 
         public const int NeutralFace = 0, ShockedFace = 1 * 42, SadFace = 2 * 42, DisappointedFace = 3 * 42, AngryFace = 4 * 42;
         public float AIState
@@ -204,7 +209,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center).X * 2.75f, 0.1f);
                         if (NPC.Center.Y - player.Center.Y > NPC.height * 1.4f && AITimer2 <= 0)
                         {
-                            NPC.velocity.Y = -8.5f;
+                            NPC.velocity.Y = -9.5f;
                             //jump dust
                             AITimer2 = 180;
                         }
@@ -228,7 +233,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             headFrame.Y = ShockedFace;
                             Vector2 pos = NPC.Center + Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(10, 50);
-                            Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(3, 7), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
+                            Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(3, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
                         }
                         NPC.velocity.X *= 0.95f;
                         if (AITimer == 75 || AITimer == 95 || AITimer == 135)
@@ -241,9 +246,9 @@ namespace EbonianMod.NPCs.ArchmageX
                             {
                                 Vector2 pos = NPC.Center + Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(10, 50);
                                 if (i % 2 == 0)
-                                    Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(10, 15), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
+                                    Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(10, 15), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
                                 else
-                                    Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(10, 15), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
+                                    Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(10, 15), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
                             }
                             Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4) * 5f, ModContent.ProjectileType<XSpirit>(), 15, 0);
                         }
@@ -452,8 +457,8 @@ namespace EbonianMod.NPCs.ArchmageX
 
                                     for (int j = 0; j < 5; j++)
                                     {
-                                        Dust.NewDustPerfect(disposablePos[i], ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
-                                        Dust.NewDustPerfect(disposablePos[i], ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f));
+                                        Dust.NewDustPerfect(disposablePos[i], ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                                        Dust.NewDustPerfect(disposablePos[i], ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
                                     }
                                     break;
                                 }
@@ -520,7 +525,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Projectile a = Projectile.NewProjectileDirect(null, NPC.Center - new Vector2(0, 6), Helper.FromAToB(NPC.Center, disposablePos[0]).RotatedByRandom(MathHelper.PiOver4 * 0.5f), ModContent.ProjectileType<XTentacle>(), 15, 0);
                             a.ai[0] = Main.rand.Next(50, 90);
-                            a.ai[1] = Main.rand.NextFloat(0.5f, 2f);
+                            a.ai[1] = Main.rand.NextFloat(2.5f, 5f);
                         }
 
                         if (AITimer >= 260)
@@ -534,7 +539,10 @@ namespace EbonianMod.NPCs.ArchmageX
                 case TheSheepening:
                     {
                         if (AITimer < 70)
+                        {
+                            FacePlayer();
                             rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, player.Center, reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
+                        }
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                         if (AITimer == 40)
                         {
@@ -552,8 +560,8 @@ namespace EbonianMod.NPCs.ArchmageX
 
                             for (int i = 0; i < 15; i++)
                             {
-                                Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(17, 17), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
-                                Dust.NewDustPerfect(NPC.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(20, 20), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f));
+                                Dust.NewDustPerfect(NPC.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(17, 17), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                                Dust.NewDustPerfect(NPC.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(20, 20), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
                             }
                         }
                         if (AITimer == 70)
@@ -583,8 +591,8 @@ namespace EbonianMod.NPCs.ArchmageX
                                 Vector2 pos = NPC.Center - new Vector2(26 + (NPC.direction == -1 ? 8 : 18), 0).RotatedBy(NPC.direction == -1 ? (rightArmRot - MathHelper.PiOver2) : (rightArmRot - (MathHelper.Pi - MathHelper.PiOver4))) - new Vector2(0, 18);
                                 for (int i = 0; i < 10; i++)
                                 {
-                                    Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
-                                    Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f));
+                                    Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                                    Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
                                 }
                             }
                             AITimer2 = MathHelper.Lerp(AITimer2, MathHelper.PiOver4, 0.1f);
@@ -628,7 +636,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             headFrame.Y = NeutralFace;
                             Vector2 pos = NPC.Center + Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(10, 50);
-                            Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(3, 7), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
+                            Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(3, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
                         }
                         if (AITimer > 60 && AITimer < 150 && AITimer % 10 == 0)
                         {
@@ -651,9 +659,9 @@ namespace EbonianMod.NPCs.ArchmageX
                             {
                                 Vector2 pos = NPC.Center + Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(10, 50);
                                 if (i % 2 == 0)
-                                    Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(10, 15), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
+                                    Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(10, 15), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
                                 else
-                                    Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(10, 15), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
+                                    Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(10, 15), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
                             }
                             Vector2 vel = Helper.FromAToB(NPC.Center, disposablePos[0]);
                             Projectile.NewProjectileDirect(null, NPC.Center + vel * 15, vel, ModContent.ProjectileType<XSineLaser>(), 15, 0, ai1: 7.5f).localAI[0] = 1;
@@ -704,18 +712,18 @@ namespace EbonianMod.NPCs.ArchmageX
                             }
                             if (AITimer % 2 == 0)
                             {
-                                Dust.NewDustPerfect(disposablePos[0], ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
-                                Dust.NewDustPerfect(disposablePos[0], ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f)).customData = NPC.Center;
-                                Dust.NewDustPerfect(NPC.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f)).customData = disposablePos[0];
+                                Dust.NewDustPerfect(disposablePos[0], ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                                Dust.NewDustPerfect(disposablePos[0], ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f)).customData = NPC.Center;
+                                Dust.NewDustPerfect(NPC.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f)).customData = disposablePos[0];
 
-                                Dust.NewDustPerfect(disposablePos[1], ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
-                                Dust.NewDustPerfect(disposablePos[1], ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f));
+                                Dust.NewDustPerfect(disposablePos[1], ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                                Dust.NewDustPerfect(disposablePos[1], ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
                             }
                         }
                         if (AITimer > 60 && AITimer < 270 && AITimer % 5 == 0)
                         {
-                            Dust.NewDustPerfect(disposablePos[0], ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f)).customData = NPC.Center;
-                            Dust.NewDustPerfect(NPC.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f)).customData = disposablePos[0];
+                            Dust.NewDustPerfect(disposablePos[0], ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f)).customData = NPC.Center;
+                            Dust.NewDustPerfect(NPC.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f)).customData = disposablePos[0];
                         }
                         if (AITimer == 85)
                         {
@@ -757,7 +765,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             NPC.velocity *= 0.9f;
                             NPC.noGravity = false;
                             heliAlpha = MathHelper.Lerp(heliAlpha, 0, 0.25f);
-                            Dust d = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Circular(200, 200), ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(Main.rand.NextVector2FromRectangle(NPC.getRect()), NPC.Center) * Main.rand.NextFloat(3, 7), 0, Color.DarkOrchid, Main.rand.NextFloat(0.06f, .2f));
+                            Dust d = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Circular(200, 200), ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(Main.rand.NextVector2FromRectangle(NPC.getRect()), NPC.Center) * Main.rand.NextFloat(3, 7), 0, Color.Indigo, Main.rand.NextFloat(0.06f, .2f));
                             d.noGravity = true;
                             d.customData = NPC.Center + Helper.FromAToB(NPC.Center, player.Center) * 20;
                         }
@@ -850,12 +858,13 @@ namespace EbonianMod.NPCs.ArchmageX
             }
         }
         // TODO: Detached head, Drinkable mana potion, Mana system, smoother movement, improved arm movement, phase 2 attack changes
+        Vector2 sCenter;
         Rectangle GetArenaRect()
         {
-            Vector2 L = Helper.TRay.Cast(NPC.Center, -Vector2.UnitX, 900);
-            Vector2 R = Helper.TRay.Cast(NPC.Center, Vector2.UnitX, 900);
-            Vector2 U = Helper.TRay.Cast(NPC.Center, -Vector2.UnitY, 350);
-            Vector2 D = Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 350);
+            Vector2 L = Helper.TRay.Cast(sCenter, -Vector2.UnitX, 900);
+            Vector2 R = Helper.TRay.Cast(sCenter, Vector2.UnitX, 900);
+            Vector2 U = Helper.TRay.Cast(sCenter, -Vector2.UnitY, 350);
+            Vector2 D = Helper.TRay.Cast(sCenter, Vector2.UnitY, 350);
             Vector2 TopLeft = new Vector2(L.X, U.Y);
             Vector2 BottomRight = new Vector2(R.X, D.Y);
             Rectangle rect = new Rectangle((int)L.X, (int)U.Y, (int)Helper.FromAToB(TopLeft, BottomRight, false).X, (int)Helper.FromAToB(TopLeft, BottomRight, false).Y);

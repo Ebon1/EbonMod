@@ -42,8 +42,8 @@ namespace EbonianMod.Projectiles.ArchmageX
             Main.spriteBatch.Reload(BlendState.Additive);
             for (int i = 0; i < 3; i++)
             {
-                Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.DarkOrchid * alpha, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0] * 0.9f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.DarkOrchid * alpha, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 0.95f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0] * 0.9f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 0.95f, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
@@ -54,8 +54,8 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.NewProjectile(null, Projectile.Center, new Vector2(5.5f, 5.5f).RotatedByRandom(MathHelper.Pi), ModContent.ProjectileType<XExplosionInvisMask>(), 0, 0, ai2: Projectile.whoAmI);
             for (int i = 0; i < 20; i++)
             {
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(15, 15), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(20, 20), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f));
+                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(15, 15), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(20, 20), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
             }
         }
         public override void AI()

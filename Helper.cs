@@ -344,7 +344,7 @@ namespace EbonianMod
         {
             public static Vector2 Cast(Vector2 start, Vector2 direction, float length, bool platformCheck = false)
             {
-                direction = direction.SafeNormalize(Vector2.UnitY);
+                direction.Normalize();
                 Vector2 output = start;
 
                 for (int i = 0; i < length; i++)

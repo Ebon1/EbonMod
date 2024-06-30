@@ -92,6 +92,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                         a = 0;
                     Vector2 point = Vector2.SmoothStep(start, end, i / (float)n) + dir * a;
                     points.Add(point);
+                    //Dust.NewDustPerfect(point, ModContent.DustType<XGoopDustDark>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, default, 0.35f);
                     Dust.NewDustPerfect(point, ModContent.DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, default, 0.25f);
                     x -= i / (float)n;
                 }
@@ -112,9 +113,13 @@ namespace EbonianMod.Projectiles.ArchmageX
                             {
                                 Vector2 pos = Vector2.Lerp(i == 0 ? Projectile.Center : points[i - 1], points[i], j / 15f);
                                 if (Main.rand.NextBool())
-                                    Dust.NewDustPerfect(pos, ModContent.DustType<XGoopDust>(), Helper.FromAToB(pos, points[i]) * Main.rand.NextFloat(0.1f, 0.5f), 0, default, 0.4f * s);
+                                {
+                                    float velF = Main.rand.NextFloat(0.1f, 0.5f);
+                                    //Dust.NewDustPerfect(pos, ModContent.DustType<XGoopDustDark>(), Helper.FromAToB(pos, points[i]) * velF, 0, default, 0.5f * s);
+                                    Dust.NewDustPerfect(pos, ModContent.DustType<XGoopDust>(), Helper.FromAToB(pos, points[i]) * velF, 0, default, 0.4f * s);
+                                }
                                 if (Main.rand.NextBool(4) && j % 6 == 0 && Projectile.ai[0] < 7)
-                                    Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Unit(), 0, Color.DarkOrchid * s, Main.rand.NextFloat(0.1f, 0.15f) * s);
+                                    Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Unit(), 0, Color.Indigo * s, Main.rand.NextFloat(0.1f, 0.15f) * s);
                             }
                         }
                         s -= i / (float)points.Count * 0.01f;
@@ -167,7 +172,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                     Vector2 vector2 = start;
                     float rotation = vector.ToRotation();
 
-                    Color color = Color.DarkOrchid * (s * Projectile.scale);
+                    Color color = Color.Indigo * (s * Projectile.scale);
 
                     Vector2 pos1 = points[i] - Main.screenPosition;
                     Vector2 pos2 = points[i + 1] - Main.screenPosition;

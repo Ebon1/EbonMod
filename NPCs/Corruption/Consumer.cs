@@ -16,12 +16,12 @@ namespace EbonianMod.NPCs.Corruption
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[Type] = 7;
+            Main.npcFrameCount[Type] = 4;
         }
         public override void SetDefaults()
         {
-            NPC.width = 76;
-            NPC.height = 50;
+            NPC.width = 72;
+            NPC.height = 48;
             NPC.damage = 0;
             NPC.defense = 1;
             NPC.lifeMax = 60;
@@ -84,12 +84,12 @@ namespace EbonianMod.NPCs.Corruption
             switch (AIState)
             {
                 case 0:
-                    NPC.rotation = NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0);
                     AITimer++;
                     if (AITimer < 200)
                         NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center) * 3.5f, 0.01f);
                     if (AITimer > 200)
                         NPC.velocity *= 0.9f;
+                    NPC.rotation = NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0);
                     if (AITimer >= 230)
                     {
                         AITimer2 = Main.rand.NextBool() ? Main.rand.Next(3) : 0;

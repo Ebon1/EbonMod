@@ -38,11 +38,11 @@ namespace EbonianMod.Projectiles.ArchmageX
             {
                 var fadeMult = 1f / Projectile.oldPos.Length;
                 float mult = (1f - fadeMult * i);
-                Dust.NewDustPerfect(pos + Projectile.Size / 2 + (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount + i * 4) * 0.03f), ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f) * mult);
-                Dust.NewDustPerfect(pos + Projectile.Size / 2 + (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount + i * 4) * 0.03f), ModContent.DustType<SparkleDust>(), Vector2.Zero, 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.15f) * mult);
+                Dust.NewDustPerfect(pos + Projectile.Size / 2 + (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount + i * 4) * 0.03f), ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f) * mult);
+                Dust.NewDustPerfect(pos + Projectile.Size / 2 + (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount + i * 4) * 0.03f), ModContent.DustType<SparkleDust>(), Vector2.Zero, 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.15f) * mult);
 
-                Dust.NewDustPerfect(pos + Projectile.Size / 2 - (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount + i * 4) * 0.03f), ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f) * mult);
-                Dust.NewDustPerfect(pos + Projectile.Size / 2 - (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount + i * 4) * 0.03f), ModContent.DustType<SparkleDust>(), Vector2.Zero, 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.15f) * mult);
+                Dust.NewDustPerfect(pos + Projectile.Size / 2 - (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount + i * 4) * 0.03f), ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f) * mult);
+                Dust.NewDustPerfect(pos + Projectile.Size / 2 - (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount + i * 4) * 0.03f), ModContent.DustType<SparkleDust>(), Vector2.Zero, 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.15f) * mult);
                 i++;
             }
             SoundEngine.PlaySound(SoundID.Shatter, Projectile.Center);
@@ -65,7 +65,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                     for (float j = 0; j < 10; j++)
                     {
                         Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 10));
-                        Color col = Color.Lerp(Color.DarkOrchid * 0.5f, Color.Gray, (float)(i / Projectile.oldPos.Length));
+                        Color col = Color.Lerp(Color.Indigo * 0.5f, Color.Gray, (float)(i / Projectile.oldPos.Length));
                         Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 + (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount + i * 4) * 0.03f) - Main.screenPosition, null, col * (0.35f), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f * mult + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 3) + 1) / 2) * 0.005f), SpriteEffects.None, 0);
                         Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount - i * 4) * 0.03f) - Main.screenPosition, null, col * (0.35f), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f * mult + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 3) + 1) / 2) * 0.005f), SpriteEffects.None, 0);
                     }

@@ -10,6 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.NPCs.Town
 {
@@ -40,8 +41,8 @@ namespace EbonianMod.NPCs.Town
             NPC.damage = 0;
             NPC.defense = 0;
             NPC.lifeMax = int.MaxValue;
-            NPC.HitSound = SoundID.NPCHit1;
-            NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.HitSound = EbonianSounds.None;
+            NPC.DeathSound = EbonianSounds.None;
             NPC.knockBackResist = 0.5f;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)

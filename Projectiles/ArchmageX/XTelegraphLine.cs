@@ -38,16 +38,17 @@ namespace EbonianMod.Projectiles.ArchmageX
                 float eAlpha = MathHelper.Lerp(1, 0, Projectile.ai[2]);
                 for (float i = 0; i < Projectile.ai[0]; i++)
                 {
-                    Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.Lerp(Color.DarkOrchid, Color.Violet, i / Projectile.ai[0]) * (Projectile.ai[1]), Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
+                    float x = MathHelper.Clamp(MathHelper.SmoothStep(1, 0, (i / Projectile.ai[0]) * 5), 0, 1);
+                    float f = MathHelper.Lerp(50, 0, x);
+                    float alpha = MathHelper.Lerp(1, 0, x);
+                    Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.Lerp(Color.Indigo, Color.Violet, i / Projectile.ai[0]) * (Projectile.ai[1] * alpha), Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
                     pos += Projectile.rotation.ToRotationVector2();
 
                     for (int j = -1; j < 2; j++)
                     {
                         if (j == 0) continue;
 
-                        float x = MathHelper.Clamp(MathHelper.SmoothStep(1, 0, (i / Projectile.ai[0]) * 5), 0, 1);
-                        float f = MathHelper.Lerp(50, 0, x);
-                        Main.spriteBatch.Draw(tex, pos + Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.PiOver2) * (f * Projectile.ai[2] * j) - Main.screenPosition, null, Color.Lerp(Color.DarkOrchid, Color.Violet, i / Projectile.ai[0]) * (eAlpha), Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(tex, pos + Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.PiOver2) * (f * Projectile.ai[2] * j) - Main.screenPosition, null, Color.Lerp(Color.Indigo, Color.Violet, i / Projectile.ai[0]) * (eAlpha * alpha), Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
                     }
                 }
             }

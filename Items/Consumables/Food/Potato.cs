@@ -33,7 +33,7 @@ namespace EbonianMod.Items.Consumables.Food
 
             Item.useTime = 17;
             Item.useAnimation = 17;
-            Item.maxStack = 99;
+            Item.maxStack = 9999;
             Item.useStyle = ItemUseStyleID.EatFood;
             Item.value = 2800;
             Item.rare = ItemRarityID.Green;

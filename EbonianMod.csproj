@@ -8,6 +8,7 @@
 	<ItemGroup>
 		<None Remove="Effects\FX\invisibleMask.fx" />
 		<None Remove="effects\fx\metaballGradient.fx" />
+		<None Remove="Effects\FX\metaballGradientNoiseTex.fx" />
 		<None Remove="effects\fx\spriteRotation.fx" />
 	</ItemGroup>
 	<ItemGroup>

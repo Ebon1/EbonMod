@@ -46,9 +46,9 @@ namespace EbonianMod.Projectiles.ArchmageX
             {
                 var fadeMult = 1f / Projectile.oldPos.Length;
                 float mult = (1f - fadeMult * i);
-                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<GenericAdditiveDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.DarkOrchid, Main.rand.NextFloat(0.02f, 0.075f) * mult);
-                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f) * mult);
-                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<SparkleDust>(), Vector2.Zero, 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.15f) * mult);
+                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<GenericAdditiveDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.Indigo, Main.rand.NextFloat(0.02f, 0.075f) * mult);
+                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f) * mult);
+                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<SparkleDust>(), Vector2.Zero, 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.15f) * mult);
                 i++;
             }
             Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
@@ -68,13 +68,13 @@ namespace EbonianMod.Projectiles.ArchmageX
                     for (float j = 0; j < 10; j++)
                     {
                         Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 10));
-                        Color col = Color.Lerp(Color.DarkOrchid * 0.5f, Color.Gray, (float)(i / Projectile.oldPos.Length));
+                        Color col = Color.Lerp(Color.Indigo * 0.5f, Color.Gray, (float)(i / Projectile.oldPos.Length));
                         Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, col * (0.35f + Projectile.ai[1]), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f * mult + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 3) + 1) / 2) * 0.005f), SpriteEffects.None, 0);
                         Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, col * (0.25f + Projectile.ai[1]), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.05f * mult, SpriteEffects.None, 0);
                     }
             }
-            Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.DarkOrchid * 0.5f, Projectile.rotation + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 5) + 1) / 2) * 0.4f), SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.DarkOrchid * 0.5f, Projectile.rotation + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.Indigo * 0.5f, Projectile.rotation + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 5) + 1) / 2) * 0.4f), SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.Indigo * 0.5f, Projectile.rotation + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f, SpriteEffects.None, 0);
             //Main.spriteBatch.Reload(BlendState.AlphaBlend);
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 38, 34, 38), Color.White, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
             //Main.spriteBatch.Reload(BlendState.Additive);
@@ -126,9 +126,9 @@ namespace EbonianMod.Projectiles.ArchmageX
             {
                 var fadeMult = 1f / Projectile.oldPos.Length;
                 float mult = (1f - fadeMult * i);
-                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<GenericAdditiveDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.DarkOrchid, Main.rand.NextFloat(0.02f, 0.075f) * mult);
-                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f) * mult);
-                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<SparkleDust>(), Vector2.Zero, 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.15f) * mult);
+                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<GenericAdditiveDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.Indigo, Main.rand.NextFloat(0.02f, 0.075f) * mult);
+                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f) * mult);
+                Dust.NewDustPerfect(pos + Projectile.Size / 2, ModContent.DustType<SparkleDust>(), Vector2.Zero, 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.15f) * mult);
                 i++;
             }
             Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
@@ -148,13 +148,13 @@ namespace EbonianMod.Projectiles.ArchmageX
                     for (float j = 0; j < 10; j++)
                     {
                         Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 10));
-                        Color col = Color.Lerp(Color.DarkOrchid * 0.5f, Color.Gray, (float)(i / Projectile.oldPos.Length));
+                        Color col = Color.Lerp(Color.Indigo * 0.5f, Color.Gray, (float)(i / Projectile.oldPos.Length));
                         Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, col * (0.35f), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f * mult + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 3) + 1) / 2) * 0.005f), SpriteEffects.None, 0);
                         Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, col * (0.25f), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.05f * mult, SpriteEffects.None, 0);
                     }
             }
-            Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.DarkOrchid * 0.5f, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 5) + 1) / 2) * 0.4f), SpriteEffects.None, 0);
-            Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.DarkOrchid * 0.5f, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.Indigo * 0.5f, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 5) + 1) / 2) * 0.4f), SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.Indigo * 0.5f, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f, SpriteEffects.None, 0);
             //Main.spriteBatch.Reload(BlendState.AlphaBlend);
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 38, 34, 38), Color.White, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
             //Main.spriteBatch.Reload(BlendState.Additive);

@@ -181,6 +181,12 @@ Projectiles: {
 	XCloud.DisplayName: X Cloud
 	XLightningBolt.DisplayName: X Lightning Bolt
 	XTelegraphLine.DisplayName: X Telegraph Line
+	RegorgerBolt.DisplayName: Regorger Bolt
+	RegorgerTelegraph.DisplayName: Regorger Telegraph
+	GhizasWheelP.DisplayName: Ghizas Wheel P
+	VileTearTelegraph.DisplayName: Vile Tear Telegraph
+	AmbientGibs.DisplayName: Ambient Gibs
+	XCloudVFXExtra.DisplayName: X Cloud V F X Extra
 }
 
 NPCs: {
@@ -278,11 +284,15 @@ NPCs: {
 
 	JuvenileBrain.DisplayName: Juvenile Brain
 	WormKing.DisplayName: Worm King
-	MiniTrumpetBody.DisplayName: Mini Trumpet Body
-	MiniTrumpetHead.DisplayName: Mini Trumpet Head
-	MiniTrumpetTail.DisplayName: Mini Trumpet Tail
+	MiniTrumpetBody.DisplayName: Cornet
+	MiniTrumpetHead.DisplayName: Cornet
+	MiniTrumpetTail.DisplayName: Cornet
 	Consumer.DisplayName: Consumer
 	TheFinalBossOfEbonianMod.DisplayName: The Final Boss Of Ebonian Mod
+	Regorger.DisplayName: Regorger
+	Vileglider.DisplayName: Vileglider
+	ToxicAbomination.DisplayName: Toxic Abomination
+	VileTear.DisplayName: Vile Tear
 }
 
 Items: {
@@ -775,6 +785,11 @@ Items: {
 
 	PhantasmalGreatsword: {
 		DisplayName: Archmage Xareus' Shadowflame Skysplitter
+		Tooltip: ""
+	}
+
+	GhizasWheel: {
+		DisplayName: Ghizas Wheel
 		Tooltip: ""
 	}
 }

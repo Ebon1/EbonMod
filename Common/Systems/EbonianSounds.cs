@@ -17,6 +17,7 @@ namespace EbonianMod.Common.Systems
         };
         public const string ebonianSoundPath = "EbonianMod/Sounds/";
         public static SoundStyle
+        None = Default with { SoundPath = ebonianSoundPath + "sheep", Volume = 0f },
             bloodSpit = Default with { SoundPath = ebonianSoundPath + "bloodSpit" },
         bowPull = Default with { SoundPath = ebonianSoundPath + "bowPull" },
         bowRelease = Default with { SoundPath = ebonianSoundPath + "bowRelease" },
@@ -56,6 +57,7 @@ namespace EbonianMod.Common.Systems
         magicSlash = Default with { SoundPath = ebonianSoundPath + "magicSlash" },
         sheep = Default with { SoundPath = ebonianSoundPath + "sheep" },
         vaccum = Default with { SoundPath = ebonianSoundPath + "vaccum", IsLooped = true, PitchVariance = 0f },
+        ghizasWheel = Default with { SoundPath = ebonianSoundPath + "ghizasWheel", IsLooped = true, PitchVariance = 0f },
         garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" },
         evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };
         public override void Load()
@@ -99,6 +101,7 @@ namespace EbonianMod.Common.Systems
             magicSlash = Default with { SoundPath = ebonianSoundPath + "magicSlash" };
             sheep = Default with { SoundPath = ebonianSoundPath + "sheep" };
             vaccum = Default with { SoundPath = ebonianSoundPath + "vaccum", IsLooped = true, PitchVariance = 0f };
+            ghizasWheel = Default with { SoundPath = ebonianSoundPath + "ghizasWheel", IsLooped = true, PitchVariance = 0f };
             garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" };
             evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };
         }

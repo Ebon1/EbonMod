@@ -40,16 +40,16 @@ namespace EbonianMod.Projectiles.ArchmageX
         {
             for (int i = 0; i < 10; i++)
             {
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f));
+                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
             }
         }
         public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 5; i++)
             {
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f));
+                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
             }
             SoundEngine.PlaySound(SoundID.Shatter, Projectile.Center);
         }
@@ -57,7 +57,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
             if (Projectile.timeLeft % 2 == 0)
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), -Projectile.velocity * 0.5f, 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f));
+                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), -Projectile.velocity * 0.5f, 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
         }
     }
 }

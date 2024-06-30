@@ -36,13 +36,14 @@ namespace EbonianMod
     {
         public static EbonianMod Instance;
         public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur,
-            TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient, invisibleMask, PullingForce;
+            TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient, metaballGradientNoiseTex, invisibleMask, PullingForce;
         public readonly List<Effect> Effects = new List<Effect>()
         {
             Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha,
-            Crack, Blur, RTOutline, metaballGradient, invisibleMask, PullingForce
+            Crack, Blur, RTOutline, metaballGradient,metaballGradientNoiseTex, invisibleMask, PullingForce
     };
-        public RenderTarget2D render, render2, blurrender, xRender, invisRender, affectedByInvisRender;
+        public RenderTarget2D blurrender, invisRender, affectedByInvisRender;
+        public RenderTarget2D[] renders = new RenderTarget2D[4];
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
         internal static void SolidTopCollision(Terraria.On_Player.orig_Update_NPCCollision orig, Player self) //https://discord.com/channels/103110554649894912/711551818194485259/998428409455714397
@@ -185,6 +186,7 @@ namespace EbonianMod
             TentacleBlack = ModContent.Request<Effect>("EbonianMod/Effects/TentacleBlack", (AssetRequestMode)1).Value;
             TrailShader = ModContent.Request<Effect>("EbonianMod/Effects/TrailShader", (AssetRequestMode)1).Value;
             metaballGradient = ModContent.Request<Effect>("EbonianMod/Effects/metaballGradient", (AssetRequestMode)1).Value;
+            metaballGradientNoiseTex = ModContent.Request<Effect>("EbonianMod/Effects/metaballGradientNoiseTex", (AssetRequestMode)1).Value;
             invisibleMask = ModContent.Request<Effect>("EbonianMod/Effects/invisibleMask", (AssetRequestMode)1).Value;
             PullingForce = ModContent.Request<Effect>("EbonianMod/Effects/PullingForce", (AssetRequestMode)1).Value;
             Filters.Scene["EbonianMod:CorruptTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.68f, .56f, .73f).UseOpacity(0.35f), EffectPriority.Medium);
@@ -248,7 +250,7 @@ namespace EbonianMod
                 sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
                 sb.End();
 
-                gd.SetRenderTarget(render2);
+                gd.SetRenderTarget(renders[0]);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 foreach (Projectile proj in Main.projectile)
@@ -261,17 +263,18 @@ namespace EbonianMod
                 }
                 sb.End();
 
-                gd.SetRenderTarget(render);
+                gd.SetRenderTarget(renders[1]);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 BlackWhiteDust.DrawAll(sb);
                 sb.End();
 
-                gd.SetRenderTarget(xRender);
+                gd.SetRenderTarget(renders[2]);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 XGoopDust.DrawAll(sb);
                 sb.End();
+
 
                 gd.SetRenderTarget(Main.screenTarget);
                 gd.Clear(Color.Transparent);
@@ -284,22 +287,27 @@ namespace EbonianMod
                 RTOutline.Parameters["m"].SetValue(0.62f);
                 RTOutline.Parameters["n"].SetValue(0.01f);
                 RTOutline.Parameters["offset"].SetValue(new Vector2(Main.GlobalTimeWrappedHourly * 0.005f, 0));
-                sb.Draw(render2, Vector2.Zero, Color.White);
+                sb.Draw(renders[0], Vector2.Zero, Color.White);
 
                 gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/black", (AssetRequestMode)1).Value;
                 RTOutline.CurrentTechnique.Passes[0].Apply();
                 RTOutline.Parameters["m"].SetValue(0.22f);
                 RTOutline.Parameters["n"].SetValue(0.1f);
-                sb.Draw(render, Vector2.Zero, Color.White);
+                sb.Draw(renders[1], Vector2.Zero, Color.White);
 
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/shadowflameGradient", (AssetRequestMode)1).Value;
-                gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
-                metaballGradient.CurrentTechnique.Passes[0].Apply();
-                metaballGradient.Parameters["useAlphaGradient"].SetValue(true);
-                sb.Draw(xRender, Vector2.Zero, Color.White);
+                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/darkShadowflameGradient", (AssetRequestMode)1).Value;
+                gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/space_full", (AssetRequestMode)1).Value;
+                gd.Textures[3] = ModContent.Request<Texture2D>("EbonianMod/Extras/seamlessNoiseHighContrast", (AssetRequestMode)1).Value;
+                gd.Textures[4] = ModContent.Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
+                metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
+                metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
+                metaballGradientNoiseTex.Parameters["offset"].SetValue(0.1f);
+                sb.Draw(renders[2], Vector2.Zero, Color.White);
 
                 gd.Textures[1] = null;
                 gd.Textures[2] = null;
+                gd.Textures[3] = null;
+                gd.Textures[4] = null;
                 sb.End();
             }
 
@@ -419,23 +427,20 @@ namespace EbonianMod
             if (Main.netMode != NetmodeID.Server)
                 Main.QueueMainThreadAction(() =>
                 {
-                    if (render != null && !render.IsDisposed)
-                        render.Dispose();
-                    if (render2 != null && !render2.IsDisposed)
-                        render2.Dispose();
-                    if (blurrender != null && !blurrender.IsDisposed)
-                        blurrender.Dispose();
-                    if (xRender != null && !xRender.IsDisposed)
-                        xRender.Dispose();
+                    for (int i = 0; i < renders.Length; i++)
+                    {
+                        if (renders[i] != null && !renders[i].IsDisposed)
+                            renders[i].Dispose();
+                        renders[i] = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                    }
                     if (invisRender != null && !invisRender.IsDisposed)
                         invisRender.Dispose();
                     if (affectedByInvisRender != null && !affectedByInvisRender.IsDisposed)
                         affectedByInvisRender.Dispose();
+                    if (blurrender != null && !blurrender.IsDisposed)
+                        blurrender.Dispose();
                     invisRender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                     affectedByInvisRender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-                    xRender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-                    render = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-                    render2 = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                     blurrender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                 });
         }
