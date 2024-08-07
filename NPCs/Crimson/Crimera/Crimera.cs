@@ -18,6 +18,18 @@ namespace EbonianMod.NPCs.Crimson.Crimera
 {
     public class CrimeraHead : WormHead
     {
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            if ((hit.Damage >= NPC.life && NPC.life <= 0) || hit.InstantKill)
+            {
+                for (int i = 0; i < 3;)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/Gnasher1").Type, NPC.scale);
+                }
+            }
+        }
         //public override bool HasCustomBodySegments => true;
         public override bool byHeight => false;
         public override void SetStaticDefaults()
@@ -129,15 +141,19 @@ namespace EbonianMod.NPCs.Crimson.Crimera
     }
     public class CrimeraBody : WormBody
     {
-        public override bool byHeight => false;
-        public override void HitEffect(NPC.HitInfo hitinfo)
+        public override void HitEffect(NPC.HitInfo hit)
         {
-            //if (damage > NPC.life)
-            //if (FollowingNPC.type == ModContent.NPCType<CrimeraBody>() && FollowerNPC.type == ModContent.NPCType<CrimeraBody>())
-            //Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimeraGore3").Type, NPC.scale);
-            //else
-            //Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimeraGore2").Type, NPC.scale);
+            if ((hit.Damage >= NPC.life && NPC.life <= 0) || hit.InstantKill)
+            {
+                for (int i = 0; i < 2;)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/Gnasher1").Type, NPC.scale);
+                }
+            }
         }
+        public override bool byHeight => false;
         public override void SetStaticDefaults()
         {
 
@@ -172,10 +188,17 @@ namespace EbonianMod.NPCs.Crimson.Crimera
     public class CrimeraTail : WormTail
     {
         public override bool byHeight => false;
-        public override void HitEffect(NPC.HitInfo hitinfo)
+        public override void HitEffect(NPC.HitInfo hit)
         {
-            //if (damage > NPC.life)
-            //Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimeraGore1").Type, NPC.scale);
+            if ((hit.Damage >= NPC.life && NPC.life <= 0) || hit.InstantKill)
+            {
+                for (int i = 0; i < 3;)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/Gnasher1").Type, NPC.scale);
+                }
+            }
         }
         public override void SetStaticDefaults()
         {

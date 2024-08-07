@@ -19,6 +19,7 @@ namespace EbonianMod.NPCs.Town
     [AutoloadHead]
     public class Thomas : ModNPC
     {
+        public override bool IsLoadingEnabled(Mod mod) => false;
         public override void SetStaticDefaults()
         {
             NPC.Happiness.SetNPCAffection(NPCID.Wizard, AffectionLevel.Like);

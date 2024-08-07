@@ -13,6 +13,7 @@ namespace EbonianMod.NPCs.Corruption
 {
     public class EbonianStrider : ModNPC
     {
+        public override bool IsLoadingEnabled(Mod mod) => false;
         public override void SetStaticDefaults()
         {
             //Main.npcFrameCount[NPC.type] = 16;

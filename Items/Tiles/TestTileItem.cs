@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace EbonianMod.Items.Tiles
 {
-    public class TestTileItem : ModItem
+    /*public class TestTileItem : ModItem
     {
         public override string Texture => Helper.Placeholder;
         public override void SetStaticDefaults()
@@ -102,5 +102,5 @@ namespace EbonianMod.Items.Tiles
             Item.consumable = true;
             Item.createTile = ModContent.TileType<CrimsonBrainBlockSpecial>();
         }
-    }
+    }*/
 }

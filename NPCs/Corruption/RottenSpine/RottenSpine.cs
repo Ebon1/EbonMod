@@ -48,7 +48,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         }
         public override void ExtraAI()
         {
-            if (++NPC.ai[2] % 45 == 0)
+            if (++NPC.ai[2] % 200 == 0)
             {
                 Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, -Vector2.UnitY.RotatedBy(NPC.rotation) * 4, ModContent.ProjectileType<TFlameThrower>(), 10, 0);
             }
@@ -170,7 +170,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         }
         public override void ExtraAI()
         {
-            if (++NPC.ai[2] % 30 == 0)
+            if (++NPC.ai[2] % 50 == 0)
             {
                 Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.UnitY.RotatedBy(NPC.rotation) * 4, ModContent.ProjectileType<TFlameThrower>(), 10, 0);
             }

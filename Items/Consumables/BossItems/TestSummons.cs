@@ -15,38 +15,6 @@ using EbonianMod.Common.Systems.Worldgen.Subworlds;
 
 namespace EbonianMod.Items.Consumables.BossItems
 {
-    public class RedditGluttonSummon : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            ItemID.Sets.SortingPriorityBossSpawns[Item.type] = 12;
-        }
-
-        public override void SetDefaults()
-        {
-            Item.width = 20;
-            Item.height = 20;
-            Item.maxStack = 20;
-            Item.value = 1000000;
-            Item.rare = ItemRarityID.Red;
-            Item.useAnimation = 30;
-            Item.useTime = 30;
-            Item.useStyle = ItemUseStyleID.HoldUp;
-            Item.consumable = true;
-        }
-
-        public override bool CanUseItem(Player player)
-        {
-            return !NPC.AnyNPCs(ModContent.NPCType<TheTrueGluttonEXNeoGod>());
-        }
-
-        public override bool? UseItem(Player player)
-        {
-            NPC.NewNPCDirect(player.GetSource_FromThis(), player.Center + new Microsoft.Xna.Framework.Vector2(300, -200), ModContent.NPCType<TheTrueGluttonEXNeoGod>());
-            Terraria.Audio.SoundEngine.PlaySound(SoundID.Roar, player.position);
-            return true;
-        }
-    }
     /*public class TerrortomaSummon : ModItem
     {
         public override void SetStaticDefaults()

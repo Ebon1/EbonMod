@@ -75,12 +75,6 @@ namespace EbonianMod.Items.Weapons.Melee
             Player player = Main.player[Projectile.owner];
             if (lerpProg != 1 && lerpProg != -1)
                 lerpProg = MathHelper.SmoothStep(lerpProg, 1, 0.1f);
-            //          if (lerpProg < 0)
-            //                Projectile.timeLeft++;
-            //if (lerpProg < 0.2f)
-            //lerpProg += 0.025f;
-            //if (lerpProg < 1)
-            //  lerpProg -= 0.2f;
             if (swingProgress > 0.35f && swingProgress < 0.75f)
                 if (Projectile.ai[0] == 0 && Helper.TRay.CastLength(Projectile.Center, Vector2.UnitY, 100) < 15)
                 {

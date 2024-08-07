@@ -19,6 +19,23 @@ namespace EbonianMod.NPCs.Crimson
             Main.npcFrameCount[NPC.type] = 6;
         }
 
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            if ((hit.Damage >= NPC.life && NPC.life <= 0) || hit.InstantKill)
+            {
+                for (int i = 0; i < 4;)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/TinyBrainGore").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/TinyBrainGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/TinyBrainGore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/TinyBrainGore4").Type, NPC.scale);
+                }
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/SanguinaryBrainGore").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/SanguinaryBrainGore2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/SanguinaryBrainGore3").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/SanguinaryBrainGore4").Type, NPC.scale);
+            }
+        }
         public override void SetDefaults()
         {
             NPC.width = 38;

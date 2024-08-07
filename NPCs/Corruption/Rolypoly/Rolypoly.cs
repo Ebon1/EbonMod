@@ -17,7 +17,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
     {
         public override void SetDefaults()
         {
-            NPC.Size = new Vector2(200, 200);
+            NPC.Size = new Vector2(25, 25);
             NPC.lifeMax = 300;
             NPC.defense = 5;
             NPC.knockBackResist = 0.1f;
@@ -34,21 +34,25 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
         float lerpFactor = 1f;
         public override void OnSpawn(IEntitySource source)
         {
-            NPC.scale = Main.rand.Next(new float[] { 1f, 1f, 0.75f, 0.75f, 0.75f, 0.5f });
+            NPC.scale = Main.rand.Next(new float[] { 1.25f, 1f, 1f, 0.85f, 0.85f, 0.75f, 0.75f });
+            amount = 10;
             switch (NPC.scale)
             {
-                case 1:
+                case 1.25f:
                     amount = 16;
                     break;
-                case 0.75f:
+                case 1:
+                    amount = 14;
+                    break;
+                case 0.85f:
                     amount = 12;
                     break;
-                case 0.5f:
-                    amount = 8;
+                case 0.75f:
+                    amount = 10;
                     break;
             }
             texNum = Main.rand.Next(9999999);
-            NPC.Size = new Vector2(200, 200) * NPC.scale;
+            NPC.Size = new Vector2(100, 100) * NPC.scale;
             verlet = new Verlet(NPC.Center, 16, amount, 0, false, false, 4);
         }
         public override bool CheckDead()
@@ -59,6 +63,10 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
                     Gore.NewGore(NPC.GetSource_Death(), verlet.points[i].position, Main.rand.NextVector2Circular(4, 4), ModContent.Find<ModGore>("EbonianMod/Rolypoly" + Main.rand.Next(3)).Type);
                 }
             return true;
+        }
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        {
+            return NPC.velocity.Length() >= 4;
         }
         public override void AI()
         {
@@ -74,7 +82,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
 
                 Dust.NewDust(NPC.BottomLeft, NPC.width, 2, DustID.CorruptGibs, NPC.velocity.X, NPC.velocity.Y);
             }
-            NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, 17 * NPC.direction, 0.05f);
+            NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, 9 * NPC.direction, 0.05f);
             if (NPC.collideX)
             {
                 if (NPC.velocity.Y > -15)
@@ -87,16 +95,21 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
 
             rotFactor += NPC.velocity.X * 0.25f;
         }
+        public override bool? CanFallThroughPlatforms()
+        {
+            return true;
+        }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (verlet != null)
             {
-                verlet.Update(NPC.Center + new Vector2(0, 75 * NPC.scale), NPC.Center + new Vector2(0, 74 * NPC.scale), 1f);
                 for (int i = 0; i < verlet.points.Count; i++)
                 {
                     float angle = Helper.CircleDividedEqually(i, amount - 1);
                     //NPC.Center + new Vector2(0, 75 * NPC.scale).RotatedBy(angle + rot)
-                    verlet.points[i].position = Vector2.Lerp(verlet.points[i].position, Helper.TRay.Cast(NPC.Center, (angle + rot).ToRotationVector2(), 128 * NPC.scale, false), lerpFactor);
+                    float f = MathHelper.SmoothStep(0.5f, 1f, ((angle + rot).ToRotationVector2().Y + 1) * 0.5f);
+                    Vector2 pos = Helper.TRay.Cast(NPC.Center, (angle + rot).ToRotationVector2(), 128 * NPC.scale * f, false);
+                    verlet.points[i].position = Vector2.Lerp(verlet.points[i].position, pos, 0.2f);
                 }
                 verlet.Draw(spriteBatch, Texture + "_Tex", textureVariation: true, maxVariants: 3, variantSeed: texNum);
             }

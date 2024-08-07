@@ -60,7 +60,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.tileCollide = false;
             Projectile.Size = new(26, 60);
             Projectile.ignoreWater = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.timeLeft = maxTime;

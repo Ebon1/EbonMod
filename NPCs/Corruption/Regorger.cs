@@ -19,6 +19,7 @@ namespace EbonianMod.NPCs.Corruption
         {
             Main.npcFrameCount[Type] = 7;
         }
+        public override bool? CanFallThroughPlatforms() => true;
         public override void SetDefaults()
         {
             NPC.width = 76;

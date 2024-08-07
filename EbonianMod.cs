@@ -36,14 +36,14 @@ namespace EbonianMod
     {
         public static EbonianMod Instance;
         public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur,
-            TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient, metaballGradientNoiseTex, invisibleMask, PullingForce;
+            TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient, metaballGradientNoiseTex, invisibleMask, PullingForce, displacementMap;
         public readonly List<Effect> Effects = new List<Effect>()
         {
             Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha,
-            Crack, Blur, RTOutline, metaballGradient,metaballGradientNoiseTex, invisibleMask, PullingForce
+            Crack, Blur, RTOutline, metaballGradient,metaballGradientNoiseTex, invisibleMask, PullingForce,  displacementMap
     };
         public RenderTarget2D blurrender, invisRender, affectedByInvisRender;
-        public RenderTarget2D[] renders = new RenderTarget2D[4];
+        public RenderTarget2D[] renders = new RenderTarget2D[5];
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
         internal static void SolidTopCollision(Terraria.On_Player.orig_Update_NPCCollision orig, Player self) //https://discord.com/channels/103110554649894912/711551818194485259/998428409455714397
@@ -189,6 +189,7 @@ namespace EbonianMod
             metaballGradientNoiseTex = ModContent.Request<Effect>("EbonianMod/Effects/metaballGradientNoiseTex", (AssetRequestMode)1).Value;
             invisibleMask = ModContent.Request<Effect>("EbonianMod/Effects/invisibleMask", (AssetRequestMode)1).Value;
             PullingForce = ModContent.Request<Effect>("EbonianMod/Effects/PullingForce", (AssetRequestMode)1).Value;
+            displacementMap = ModContent.Request<Effect>("EbonianMod/Effects/displacementMap", (AssetRequestMode)1).Value;
             Filters.Scene["EbonianMod:CorruptTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.68f, .56f, .73f).UseOpacity(0.35f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:CorruptTint"] = new BasicTint();
 
@@ -276,6 +277,20 @@ namespace EbonianMod
                 sb.End();
 
 
+                gd.SetRenderTarget(renders[3]);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                foreach (Projectile proj in Main.projectile)
+                {
+                    if (proj.active && proj.timeLeft > 0 && proj.type == ModContent.ProjectileType<GarbageFlame>())
+                    {
+                        Color color = Color.Transparent;
+                        proj.ModProjectile.PreDraw(ref color);
+                    }
+                }
+                sb.End();
+
+
                 gd.SetRenderTarget(Main.screenTarget);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
@@ -301,8 +316,17 @@ namespace EbonianMod
                 gd.Textures[4] = ModContent.Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
                 metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
                 metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
-                metaballGradientNoiseTex.Parameters["offset"].SetValue(0.1f);
+                metaballGradientNoiseTex.Parameters["offsetX"].SetValue(MathF.Sin(Main.GlobalTimeWrappedHourly) * 0.1f);
+                metaballGradientNoiseTex.Parameters["offsetY"].SetValue(MathF.Cos(Main.GlobalTimeWrappedHourly) * 0.1f);
                 sb.Draw(renders[2], Vector2.Zero, Color.White);
+
+                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/coherentNoise", (AssetRequestMode)1).Value;
+                displacementMap.CurrentTechnique.Passes[0].Apply();
+                displacementMap.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.5f);
+                displacementMap.Parameters["offsetY"].SetValue(Main.GlobalTimeWrappedHourly * 0.05f);
+                displacementMap.Parameters["offset"].SetValue(0.02f);
+                displacementMap.Parameters["alpha"].SetValue(0.1f);
+                sb.Draw(renders[3], Vector2.Zero, Color.White);
 
                 gd.Textures[1] = null;
                 gd.Textures[2] = null;

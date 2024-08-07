@@ -25,6 +25,7 @@ namespace EbonianMod.NPCs.Exol
 {
     public class Ignos : ModNPC
     {
+        public override bool IsLoadingEnabled(Mod mod) => false;
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {

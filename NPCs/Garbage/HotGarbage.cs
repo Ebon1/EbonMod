@@ -491,11 +491,11 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     NPC.velocity *= 0.96f;
                 }
-                if (AITimer3 >= 22 && AITimer3 < 40)
+                if (AITimer3 >= 22 && AITimer3 < 40 && AITimer3 % 2 == 0)
                 {
                     for (int i = -2; i < 2; i++)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(2, 4) * i, NPC.height / 2 - 2), new Vector2(-NPC.direction, -2), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(2, 4) * i, NPC.height / 2 - 2), new Vector2(-NPC.direction * Main.rand.NextFloat(1, 3), Main.rand.NextFloat(-5, -1)), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
                     }
                 }
                 if (AITimer3 >= 40 && AITimer % 5 == 0)
@@ -611,7 +611,7 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer % 7 == 0)
                 {
 
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(-NPC.direction, -2), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(-NPC.direction * Main.rand.NextFloat(1, 3), Main.rand.NextFloat(-5, -1)), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
 
                 }
                 if (AITimer >= 100)
@@ -637,7 +637,7 @@ namespace EbonianMod.NPCs.Garbage
             else if (AIState == SpewFire)
             {
                 AITimer++;
-                if (AITimer % 3 == 0)
+                if (AITimer % 6 == 0)
                 {
                     for (int i = -2; i < 2; i++)
                     {
@@ -809,15 +809,38 @@ namespace EbonianMod.NPCs.Garbage
         public override string Texture => "EbonianMod/Extras/explosion";
         public override void SetStaticDefaults()
         {
-
+            ProjectileID.Sets.TrailCacheLength[Type] = 25;
+            ProjectileID.Sets.TrailingMode[Type] = 0;
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Main.spriteBatch.Reload(BlendState.Additive);
-            Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center - Main.screenPosition, null, Color.Orange, 0, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f, SpriteEffects.None, 0);
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            if (lightColor != Color.Transparent) return false;
+
+            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
+            {
+                if (Projectile.oldPos[i] == Vector2.Zero || Projectile.oldPos[i] == Projectile.position) continue;
+                float mult = (1f - fadeMult * i);
+                if (i > 0)
+                    for (float j = 0; j < 5; j++)
+                    {
+                        Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 5));
+                        Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + new Vector2(5, 10 / Main.GameZoomTarget) + Projectile.Size / 2 - Main.screenPosition, null, Color.Lerp(Color.DarkOrange, Color.OrangeRed, mult) * mult * 0.4f, 0, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f * mult, SpriteEffects.None, 0);
+                    }
+            }
+            Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center + new Vector2(5, 10 / Main.GameZoomTarget) - Main.screenPosition, null, Color.Yellow, 0, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f, SpriteEffects.None, 0);
             return false;
         }
+        public override void PostDraw(Color lightColor)
+        {
+            Main.spriteBatch.SaveCurrent();
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            //Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center - Main.screenPosition, null, Color.Yellow, 0, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f, SpriteEffects.None, 0);
+            //Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center - Main.screenPosition, null, Color.White * 0.5f, 0, TextureAssets.Projectile[Type].Value.Size() / 2, 0.03f, SpriteEffects.None, 0);
+            Main.spriteBatch.ApplySaved();
+        }
+
         public override void SetDefaults()
         {
             Projectile.width = 5;
@@ -843,7 +866,7 @@ namespace EbonianMod.NPCs.Garbage
             }
             if (Main.rand.Next(2) == 0)
             {
-                for (int dustNumber = 0; dustNumber < 5; dustNumber++)
+                /*for (int dustNumber = 0; dustNumber < 5; dustNumber++)
                 {
                     Dust dust = Main.dust[Dust.NewDust(Projectile.Center, Projectile.width, Projectile.height, 6, 0, 0, 0, default(Color), 1f)];
                     dust.position = Projectile.Center + Vector2.UnitY.RotatedByRandom(4.1887903213500977) * new Vector2(Projectile.width / 2, Projectile.height / 2) * 0.8f * (0.8f + Main.rand.NextFloat() * 0.2f);
@@ -851,7 +874,7 @@ namespace EbonianMod.NPCs.Garbage
                     dust.velocity.Y = -2f;
                     dust.noGravity = true;
                     dust.scale = Main.rand.NextFloat(0.65f, 1.25f);
-                }
+                }*/
             }
         }
     }

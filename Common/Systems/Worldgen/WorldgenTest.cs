@@ -26,7 +26,7 @@ namespace EbonianMod.Common.Systems.Worldgen
             int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
             if (ShiniesIndex != -1)
             {
-                tasks.Insert(ShiniesIndex + 1, new PassLegacy("Generating Hive thing", GenMeteors));
+                tasks.Add(new PassLegacy("Generating Hive thing", GenMeteors));
             }
         }
         public void GenMeteors(GenerationProgress progress, GameConfiguration _)

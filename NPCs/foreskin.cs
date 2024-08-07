@@ -10,6 +10,7 @@ namespace EbonianMod.NPCs
 {
     public class foreskin : ModNPC
     {
+        public override bool IsLoadingEnabled(Mod mod) => false;
         public override void SetStaticDefaults()
         {
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
@@ -23,7 +24,7 @@ namespace EbonianMod.NPCs
             NPC.CloneDefaults(NPCID.Derpling);
             NPC.dontTakeDamage = true;
             NPC.boss = true;
-            Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/foreskins");
+            //Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/foreskins");
         }
         public override void AI()
         {

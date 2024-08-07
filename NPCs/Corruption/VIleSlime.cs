@@ -65,6 +65,10 @@ namespace EbonianMod.NPCs.Corruption
         /// <param name="aggro"></param>
         /// <returns></returns>
         public virtual float JumpTimerAdd(bool aggro) => aggro ? 4f : 4f;
+        public override bool? CanFallThroughPlatforms()
+        {
+            return Main.player[NPC.target].Center.Y < NPC.Center.Y;
+        }
 
         private const int AIStateSlot = 0;
         private const int AITimerSlot = 1;

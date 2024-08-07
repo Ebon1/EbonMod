@@ -184,6 +184,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         {
             if (hitinfo.Damage > NPC.life)
             {
+                EbonianSystem.ScreenShakeAmount = 5;
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimsonWormSkull").Type, NPC.scale);
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimsonWormJaw").Type, NPC.scale);
             }

@@ -19,6 +19,10 @@ namespace EbonianMod.NPCs.Corruption
         {
             Main.npcFrameCount[NPC.type] = 6;
         }
+        public override bool? CanFallThroughPlatforms()
+        {
+            return Main.player[NPC.target].Center.Y < NPC.Center.Y;
+        }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {

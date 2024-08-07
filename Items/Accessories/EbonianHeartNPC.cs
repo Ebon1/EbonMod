@@ -59,7 +59,7 @@ namespace EbonianMod.Items.Accessories
 
             Vector2 pos = player.Center + new Vector2(player.direction == 1 ? -40 : 40, -80);
             NPC.Center = Vector2.Lerp(NPC.Center, pos, 0.2f);
-            if (++NPC.ai[0] % 30 == 0 && NPC.ai[0] > 0)
+            if (++NPC.ai[0] % 40 == 0 && NPC.ai[0] > 0)
                 foreach (NPC npc in Main.npc)
                 {
                     if (npc.active && !npc.friendly && !npc.dontTakeDamage && npc.Center.Distance(NPC.Center) < 1000 && npc.type != NPCID.TargetDummy)
@@ -67,7 +67,7 @@ namespace EbonianMod.Items.Accessories
                         NPC.ai[1]++;
                         if (NPC.ai[1] > 6)
                         {
-                            NPC.ai[0] = -200;
+                            NPC.ai[0] = -450;
                             break;
                         }
                         Projectile p = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Helper.FromAToB(NPC.Center, npc.Center) * 10, ModContent.ProjectileType<TFlameThrower3>(), 30, 0, player.whoAmI);

@@ -75,6 +75,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
         {
             if (hitinfo.Damage > NPC.life)
             {
+                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                 for (int i = 0; i < 18; i++)
                     Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(3, 3), ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
                 Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(3, 3), ModContent.Find<ModGore>("EbonianMod/CorruptionBrickGibs4").Type, NPC.scale);

@@ -19,6 +19,7 @@ namespace EbonianMod.NPCs.Corruption
 {
     public class TheTrueGluttonEXNeoGod : ModNPC
     {
+        public override bool IsLoadingEnabled(Mod mod) => false;
         public override string Texture => "EbonianMod/NPCs/Corruption/Glutton";
         public override void SetStaticDefaults()
         {

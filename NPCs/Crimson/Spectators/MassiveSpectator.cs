@@ -56,7 +56,8 @@ namespace EbonianMod.NPCs.Crimson.Spectators
             NPC.noGravity = true;
             NPC.buffImmune[24] = true;
             SoundStyle hit = EbonianSounds.fleshHit;
-            NPC.HitSound = hit;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = hit;
             NPC.netAlways = true;
             NPC.hide = true;
         }

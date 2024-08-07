@@ -22,6 +22,7 @@ namespace EbonianMod.NPCs.Exol
     [AutoloadBossHead]
     public class Exol : ModNPC
     {
+        public override bool IsLoadingEnabled(Mod mod) => false;
         public override void SetStaticDefaults()
         {
             NPCID.Sets.TrailCacheLength[NPC.type] = 4;

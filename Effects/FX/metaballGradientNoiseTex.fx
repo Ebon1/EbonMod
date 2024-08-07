@@ -4,7 +4,7 @@ sampler uImage2 : register(s2); //tex
 sampler uImage3 : register(s3); //noise
 sampler uImage4 : register(s4);
 float uTime;
-float offset = 1;
+float offsetX = 1, offsetY = 1;
 float noiseThreshold = 0.5f;
 float2 Wrap(float2 uv)
 {
@@ -26,13 +26,13 @@ float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
     float2 noiseCoords3 = coords;
     float2 noiseCoords4 = coords;
     
-    noiseCoords.x += uTime * offset;
-    noiseCoords2.x -= uTime * offset;
-    noiseCoords2.y -= uTime * offset * 0.25f;
-    noiseCoords3.y += uTime * offset * 0.16f;
-    noiseCoords3.x += uTime * offset * 0.51f;
-    noiseCoords4.y -= uTime * offset * 0.26f;
-    noiseCoords4.x -= uTime * offset * 0.61f;
+    noiseCoords.x += uTime * offsetX;
+    noiseCoords2.y -= uTime * offsetY * 0.25f;
+    noiseCoords2.x -= uTime * offsetX;
+    noiseCoords3.y += uTime * offsetY * 0.16f;
+    noiseCoords3.x += uTime * offsetX * 0.51f;
+    noiseCoords4.y -= uTime * offsetY * 0.26f;
+    noiseCoords4.x -= uTime * offsetX * 0.61f;
     
     noiseCoords = Wrap(noiseCoords);
     noiseCoords2 = Wrap(noiseCoords2);

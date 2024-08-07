@@ -138,6 +138,7 @@ namespace EbonianMod.NPCs.Corruption
                 }
             }
         }
+        public override bool? CanFallThroughPlatforms() => true;
         public override bool CheckDead()
         {
             for (int i = 0; i < 2; i++)

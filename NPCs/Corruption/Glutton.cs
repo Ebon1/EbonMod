@@ -16,6 +16,10 @@ namespace EbonianMod.NPCs.Corruption
 {
     public class Glutton : ModNPC
     {
+        public override bool? CanFallThroughPlatforms()
+        {
+            return Main.player[NPC.target].Bottom.Y < NPC.Center.Y;
+        }
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 9;
@@ -123,6 +127,21 @@ namespace EbonianMod.NPCs.Corruption
             set => NPC.ai[2] = value;
         }
         const int Walk = 0, Attack = 1;
+        public override void HitEffect(NPC.HitInfo hit)
+        {
+            if ((hit.Damage >= NPC.life && NPC.life <= 0) || hit.InstantKill)
+            {
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center - new Vector2(0, 25), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/GluttonGore1").Type, NPC.scale);
+                for (int i = 0; i < 2; i++)
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/GluttonGore5").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/GluttonGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/GluttonGore3").Type, NPC.scale);
+                    for (int j = 0; j < 2; j++)
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.Center + new Vector2(0, 25), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/GluttonGore4").Type, NPC.scale);
+                }
+            }
+        }
         public override void AI()
         {
             Player player = Main.player[NPC.target];

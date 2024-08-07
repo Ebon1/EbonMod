@@ -34,6 +34,7 @@ namespace EbonianMod.NPCs.Corruption
                 return 0;
             }
         }
+        public override bool? CanFallThroughPlatforms() => true;
 
         public override void SetDefaults()
         {
