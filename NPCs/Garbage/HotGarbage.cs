@@ -806,7 +806,7 @@ namespace EbonianMod.NPCs.Garbage
     }
     public class GarbageFlame : ModProjectile
     {
-        public override string Texture => "EbonianMod/Extras/explosion";
+        public override string Texture => "EbonianMod/Extras/Extras2/fire_01";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 25;
@@ -825,10 +825,10 @@ namespace EbonianMod.NPCs.Garbage
                     for (float j = 0; j < 5; j++)
                     {
                         Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 5));
-                        Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + new Vector2(5, 10 / Main.GameZoomTarget) + Projectile.Size / 2 - Main.screenPosition, null, Color.Lerp(Color.DarkOrange, Color.OrangeRed, mult) * mult * 0.4f, 0, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f * mult, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + new Vector2(5, 10 / Main.GameZoomTarget) + Projectile.Size / 2 - Main.screenPosition, null, Color.Lerp(Color.DarkOrange, Color.OrangeRed, mult) * mult * 0.4f, Main.GameUpdateCount * 0.03f * i, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f * mult, SpriteEffects.None, 0);
                     }
             }
-            Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center + new Vector2(5, 10 / Main.GameZoomTarget) - Main.screenPosition, null, Color.Yellow, 0, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center + new Vector2(5, 10 / Main.GameZoomTarget) - Main.screenPosition, null, Color.Yellow, Main.GameUpdateCount * 0.03f, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f, SpriteEffects.None, 0);
             return false;
         }
         public override void PostDraw(Color lightColor)
