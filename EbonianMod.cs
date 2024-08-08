@@ -323,13 +323,14 @@ namespace EbonianMod
                 gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/coherentNoise", (AssetRequestMode)1).Value;
                 displacementMap.CurrentTechnique.Passes[0].Apply();
                 displacementMap.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.75f);
-                displacementMap.Parameters["offsetY"].SetValue(Main.GlobalTimeWrappedHourly * 0.05f);
-                displacementMap.Parameters["offset"].SetValue(0.01f);
+                displacementMap.Parameters["offsetY"].SetValue(Main.GlobalTimeWrappedHourly * 0.25f);
+                displacementMap.Parameters["offsetX"].SetValue(Main.GlobalTimeWrappedHourly * 0.5f);
+                displacementMap.Parameters["offset"].SetValue(0.0075f);
                 displacementMap.Parameters["alpha"].SetValue(0.1f);
                 sb.Draw(renders[3], Vector2.Zero, Color.White);
                 gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
-                displacementMap.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * -0.75f);
-                displacementMap.Parameters["offsetY"].SetValue(-Main.GlobalTimeWrappedHourly * 0.1f);
+                displacementMap.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.75f);
+                displacementMap.Parameters["offsetY"].SetValue(Main.GlobalTimeWrappedHourly * 0.34f);
                 sb.Draw(renders[3], Vector2.Zero, Color.White);
 
                 gd.Textures[1] = null;

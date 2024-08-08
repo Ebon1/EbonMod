@@ -493,7 +493,7 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer3 >= 22 && AITimer3 < 40 && AITimer3 % 2 == 0)
                 {
-                    for (int i = -2; i < 2; i++)
+                    for (int i = -1; i < 1; i++)
                     {
                         Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(2, 4) * i, NPC.height / 2 - 2), new Vector2(-NPC.direction * Main.rand.NextFloat(1, 3), Main.rand.NextFloat(-5, -1)), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
                     }
@@ -812,21 +812,38 @@ namespace EbonianMod.NPCs.Garbage
             ProjectileID.Sets.TrailCacheLength[Type] = 25;
             ProjectileID.Sets.TrailingMode[Type] = 0;
         }
+        public override bool PreKill(int timeLeft)
+        {
+            int b = 0;
+            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            foreach (Vector2 pos in Projectile.oldPos)
+            {
+                b++;
+                float Y = MathHelper.Lerp(60, 0, (float)(MathHelper.Clamp(Projectile.velocity.Length(), -10, 10) + 10) / 20);
+                Vector2 oldpos = Vector2.SmoothStep(pos, pos - new Vector2(MathF.Sin(Main.GlobalTimeWrappedHourly * 2) * 5 + Main.windSpeedCurrent * 2, Y), (float)b / Projectile.oldPos.Length);
+                for (int i = 0; i < 2; i++)
+                    Dust.NewDustPerfect(oldpos + Projectile.Size / 2, DustID.Torch, Main.rand.NextVector2Circular(1.5f, 1.5f) * (3 + (1f - fadeMult * b)), Scale: 1 + fadeMult * 1.5f).noGravity = true;
+            }
+            return true;
+        }
         public override bool PreDraw(ref Color lightColor)
         {
             if (lightColor != Color.Transparent) return false;
 
             var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
-            for (int i = 0; i < Projectile.oldPos.Length; i++)
+            for (int i = 1; i < Projectile.oldPos.Length; i++)
             {
-                if (Projectile.oldPos[i] == Vector2.Zero || Projectile.oldPos[i] == Projectile.position) continue;
+                if (Projectile.oldPos[i] == Vector2.Zero) continue;
+                float Y = MathHelper.Lerp(60, 0, (float)(MathHelper.Clamp(Projectile.velocity.Length(), -10, 10) + 10) / 20);
+                Vector2 oldpos = Vector2.SmoothStep(Projectile.oldPos[i], Projectile.oldPos[i] - new Vector2(MathF.Sin(Main.GlobalTimeWrappedHourly * 2) * 5 + Main.windSpeedCurrent * 2, Y), (float)i / Projectile.oldPos.Length);
+                Vector2 olderpos = Vector2.SmoothStep(Projectile.oldPos[i - 1], Projectile.oldPos[i - 1] - new Vector2(MathF.Sin(Main.GlobalTimeWrappedHourly * 2) * 5 + Main.windSpeedCurrent * 2, Y), (float)i / Projectile.oldPos.Length);
+                if (oldpos == Vector2.Zero || oldpos == Projectile.position) continue;
                 float mult = (1f - fadeMult * i);
-                if (i > 0)
-                    for (float j = 0; j < 5; j++)
-                    {
-                        Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 5));
-                        Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + new Vector2(5, 10 / Main.GameZoomTarget) + Projectile.Size / 2 - Main.screenPosition, null, Color.Lerp(Color.DarkOrange, Color.OrangeRed, mult) * mult * 0.4f, Main.GameUpdateCount * 0.03f * i, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f * mult, SpriteEffects.None, 0);
-                    }
+                for (float j = 0; j < 5; j++)
+                {
+                    Vector2 pos = Vector2.Lerp(oldpos, olderpos, (float)(j / 5));
+                    Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + new Vector2(5, 10 / Main.GameZoomTarget) + Projectile.Size / 2 - Main.screenPosition, null, Color.Lerp(Color.DarkOrange, Color.OrangeRed, mult) * mult * 0.4f, Main.GameUpdateCount * 0.03f * i, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f * mult, SpriteEffects.None, 0);
+                }
             }
             Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center + new Vector2(5, 10 / Main.GameZoomTarget) - Main.screenPosition, null, Color.Yellow, Main.GameUpdateCount * 0.03f, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f, SpriteEffects.None, 0);
             return false;
