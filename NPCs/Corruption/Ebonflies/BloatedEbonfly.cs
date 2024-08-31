@@ -82,6 +82,7 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
         public override void OnSpawn(IEntitySource source)
         {
             NPC.scale = Main.rand.NextFloat(0.8f, 1.2f);
+            NPC.Center += Main.rand.NextVector2CircularEdge(40, 40);
             NPC.velocity = Main.rand.NextVector2Unit();
         }
         float glowAlpha = 0;
@@ -94,7 +95,7 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
                 {
                     if (npc.Center.Distance(NPC.Center) < npc.width * npc.scale)
                     {
-                        NPC.velocity += NPC.Center.FromAToB(npc.Center, true, true) * 0.5f;
+                        NPC.velocity += NPC.Center.FromAToB(npc.Center, true, true) * 0.25f;
                     }
                     if (npc.Center == NPC.Center)
                     {

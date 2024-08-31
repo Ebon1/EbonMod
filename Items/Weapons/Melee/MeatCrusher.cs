@@ -14,7 +14,7 @@ using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Projectiles.Friendly.Corruption;
 using Terraria.Audio;
 //using EbonianMod.Worldgen.Subworlds;
-//using SubworldLibrary;
+//
 
 namespace EbonianMod.Items.Weapons.Melee
 {

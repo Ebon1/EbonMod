@@ -1,6 +1,7 @@
 ﻿using EbonianMod.Common.Systems;
 using EbonianMod.Common.Systems.Misc;
 using EbonianMod.Items.Misc;
+using EbonianMod.NPCs.Corruption.Ebonflies;
 using EbonianMod.NPCs.Corruption.Trumpet;
 using EbonianMod.Projectiles.Friendly.Corruption;
 using Microsoft.Xna.Framework;
@@ -184,7 +185,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
                         NPC.ai[3]++;
                         NPC.Center = Vector2.Lerp(NPC.Center, stalkBase - new Vector2(MathF.Sin(NPC.ai[3] * 0.02f) * 200, 300 + (MathF.Cos(NPC.ai[3] * 0.02f) * 50)), 0.1f);
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, MathF.Sin(NPC.ai[3] * 0.02f), 0.1f);
-                        if (AITimer % 30 == 0)
+                        if (AITimer % 15 == 0)
                         {
                             if (Main.rand.NextBool())
                             {
@@ -196,7 +197,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
                                 scaleX = 0.9f;
                                 scaleY = 1.1f;
                             }
-                            NPC.NewNPCDirect(null, NPC.Center, ModContent.NPCType<MiniTrumpetHead>());
+                            NPC.NewNPCDirect(null, NPC.Center, ModContent.NPCType<BloatedEbonfly>());
                         }
                         if (AITimer > 90)
                         {
@@ -256,6 +257,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
 
                             Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FatSmash>(), 0, 0, 0, 0);
                             SoundEngine.PlaySound(EbonianSounds.terrortomaFlesh, NPC.Center);
+                            SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, NPC.Center);
                         }
                         if (AITimer > 55 && AITimer2 == 1)
                         {

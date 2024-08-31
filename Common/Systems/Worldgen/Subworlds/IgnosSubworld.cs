@@ -1,7 +1,7 @@
-﻿using EbonianMod.Common.Achievements;
+﻿/*using EbonianMod.Common.Achievements;
 using EbonianMod.Tiles;
 using Microsoft.Xna.Framework;
-using SubworldLibrary;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,92 +53,93 @@ namespace EbonianMod.Common.Systems.Worldgen.Subworlds
         {
             color = Color.White.ToVector3();
             return true;
-        }*/
-        public override void OnLoad()
-        {
-            Main.dayTime = false;
-            Main.time = 27000;
-            Main.cloudAlpha = 0;
-            Main.numClouds = 0;
-            Main.rainTime = 0;
-            Main.raining = false;
-            Main.maxRaining = 0f;
-            Main.slimeRain = false;
+        }*//*
+public override void OnLoad()
+{
+    Main.dayTime = false;
+    Main.time = 27000;
+    Main.cloudAlpha = 0;
+    Main.numClouds = 0;
+    Main.rainTime = 0;
+    Main.raining = false;
+    Main.maxRaining = 0f;
+    Main.slimeRain = false;
 
-        }
+}
     }
     public class IgnosPass : GenPass
+{
+    public IgnosPass() : base("Ignos", 1f) { }
+    protected override void ApplyPass(GenerationProgress progress, GameConfiguration configuration)
     {
-        public IgnosPass() : base("Ignos", 1f) { }
-        protected override void ApplyPass(GenerationProgress progress, GameConfiguration configuration)
+        progress.Message = "Generating Ignos"; // Sets the text displayed for this pass
+        Main.worldSurface = -100; // Hides the underground layer just out of bounds
+        Main.rockLayer = 0; // Hides the cavern layer way out of bounds
+        for (int i = 0; i < Main.maxTilesX; i++)
         {
-            progress.Message = "Generating Ignos"; // Sets the text displayed for this pass
-            Main.worldSurface = -100; // Hides the underground layer just out of bounds
-            Main.rockLayer = 0; // Hides the cavern layer way out of bounds
-            for (int i = 0; i < Main.maxTilesX; i++)
+            int height = 2;
+            int rand = Main.rand.Next(15);
+            if (rand == 0)
             {
-                int height = 2;
-                int rand = Main.rand.Next(15);
-                if (rand == 0)
-                {
-                    if (height > 0)
-                        height--;
-                }
-                else if (rand == 1)
-                {
-                    if (height < 2)
-                        height++;
-                }
-                for (int j = 0; j < Main.maxTilesY; j++)
-                {
-
-                    progress.Set((j + i * Main.maxTilesY) / (float)(Main.maxTilesX * Main.maxTilesY)); // Controls the progress bar, should only be set between 0f and 1f
-                    Tile tile = Main.tile[i, j];
-                    if (j > Main.maxTilesY - 62 + (int)(Math.Sin(i * 0.1f) * height) || j < 55 - (int)(Math.Sin(i * 0.1f) * height))
-                        tile.HasTile = true;
-                    tile.TileType = (ushort)ModContent.TileType<InfernalTile>();
-                }
+                if (height > 0)
+                    height--;
             }
-        }
-    }
-    public class IgnosGlobalNPC : GlobalNPC
-    {
-        public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
-        {
-            if (SubworldSystem.IsActive<IgnosSubworld>())
+            else if (rand == 1)
             {
-                spawnRate = int.MaxValue;
-                maxSpawns = 0;
+                if (height < 2)
+                    height++;
             }
-            base.EditSpawnRate(player, ref spawnRate, ref maxSpawns);
-        }
-    }
-    public class UpdateSubworldSystem : ModSystem
-    {
-        public override void PreUpdateWorld()
-        {
-            if (SubworldSystem.IsActive<IgnosSubworld>())
+            for (int j = 0; j < Main.maxTilesY; j++)
             {
 
-                // Update mechanisms
-                Wiring.UpdateMech();
-
-                // Update tile entities
-                TileEntity.UpdateStart();
-                foreach (TileEntity te in TileEntity.ByID.Values)
-                {
-                    te.Update();
-                }
-                TileEntity.UpdateEnd();
-
-                // Update liquid
-                if (++Liquid.skipCount > 1)
-                {
-                    Liquid.UpdateLiquid();
-                    Liquid.skipCount = 0;
-                }
+                progress.Set((j + i * Main.maxTilesY) / (float)(Main.maxTilesX * Main.maxTilesY)); // Controls the progress bar, should only be set between 0f and 1f
+                Tile tile = Main.tile[i, j];
+                if (j > Main.maxTilesY - 62 + (int)(Math.Sin(i * 0.1f) * height) || j < 55 - (int)(Math.Sin(i * 0.1f) * height))
+                    tile.HasTile = true;
+                tile.TileType = (ushort)ModContent.TileType<InfernalTile>();
             }
         }
     }
 }
+public class IgnosGlobalNPC : GlobalNPC
+{
+    public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
+    {
+        if (SubworldSystem.IsActive<IgnosSubworld>())
+        {
+            spawnRate = int.MaxValue;
+            maxSpawns = 0;
+        }
+        base.EditSpawnRate(player, ref spawnRate, ref maxSpawns);
+    }
+}
+public class UpdateSubworldSystem : ModSystem
+{
+    public override void PreUpdateWorld()
+    {
+        if (SubworldSystem.IsActive<IgnosSubworld>())
+        {
 
+            // Update mechanisms
+            Wiring.UpdateMech();
+
+            // Update tile entities
+            TileEntity.UpdateStart();
+            foreach (TileEntity te in TileEntity.ByID.Values)
+            {
+                te.Update();
+            }
+            TileEntity.UpdateEnd();
+
+            // Update liquid
+            if (++Liquid.skipCount > 1)
+            {
+                Liquid.UpdateLiquid();
+                Liquid.skipCount = 0;
+            }
+        }
+    }
+}
+}
+
+*/

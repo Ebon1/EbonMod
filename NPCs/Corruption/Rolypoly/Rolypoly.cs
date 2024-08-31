@@ -1,4 +1,5 @@
 ﻿using EbonianMod.Common.Systems.Misc;
+using EbonianMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -28,32 +29,38 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
             NPC.behindTiles = true;
         }
         Verlet verlet;
+        Verlet[] extraVerlets = new Verlet[7];
         int texNum;
         float rot, rotFactor;
         int amount;
         float lerpFactor = 1f;
         public override void OnSpawn(IEntitySource source)
         {
-            NPC.scale = Main.rand.Next(new float[] { 1.25f, 1f, 1f, 0.85f, 0.85f, 0.75f, 0.75f });
+            NPC.scale = Main.rand.Next(new float[] { 0.75f, 0.75f, 0.75f, 0.75f, 0.55f, 0.55f });
+            if (Main.rand.NextBool(50) && NPC.scale == 1f)
+                NPC.scale = 1.25f;
             amount = 10;
             switch (NPC.scale)
             {
                 case 1.25f:
                     amount = 16;
                     break;
-                case 1:
-                    amount = 14;
-                    break;
-                case 0.85f:
+                case 0.75f:
                     amount = 12;
                     break;
-                case 0.75f:
+                case 0.55f:
                     amount = 10;
+                    break;
+                default:
+                    amount = 8;
                     break;
             }
             texNum = Main.rand.Next(9999999);
             NPC.Size = new Vector2(100, 100) * NPC.scale;
             verlet = new Verlet(NPC.Center, 16, amount, 0, false, false, 4);
+
+            for (int i = 0; i < 7; i++)
+                extraVerlets[i] = new Verlet(NPC.Center, 16, amount - 3, 3f, true, true, 20, true, 8);
         }
         public override bool CheckDead()
         {
@@ -62,11 +69,18 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
                 {
                     Gore.NewGore(NPC.GetSource_Death(), verlet.points[i].position, Main.rand.NextVector2Circular(4, 4), ModContent.Find<ModGore>("EbonianMod/Rolypoly" + Main.rand.Next(3)).Type);
                 }
+            for (int i = 0; i < (NPC.scale > 0.55f ? 7 : 3); i++)
+                if (extraVerlets[i] != null)
+                    for (int j = 0; j < extraVerlets[i].points.Count; j++)
+                    {
+                        if (j % 3 == 0)
+                            Gore.NewGore(NPC.GetSource_Death(), extraVerlets[i].points[j].position, Main.rand.NextVector2Circular(4, 4), ModContent.Find<ModGore>("EbonianMod/Rolypoly" + Main.rand.Next(3)).Type);
+                    }
             return true;
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            return NPC.velocity.Length() >= 4;
+            return NPC.velocity.Length() >= 1;
         }
         public override void AI()
         {
@@ -82,18 +96,28 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
 
                 Dust.NewDust(NPC.BottomLeft, NPC.width, 2, DustID.CorruptGibs, NPC.velocity.X, NPC.velocity.Y);
             }
-            NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, 9 * NPC.direction, 0.05f);
+            NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, 2.5f * NPC.direction / (NPC.scale.Safe() + 0.3f), 0.05f);
             if (NPC.collideX)
             {
-                if (NPC.velocity.Y > -15)
-                    NPC.velocity.Y -= 1f;
+                if (NPC.velocity.Y > -5)
+                    NPC.velocity.Y -= .4f;
             }
             else
-                NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 30, 0.2f);
+            {
+                if (NPC.velocity.Y > 10)
+                    NPC.velocity.Y++;
+            }
 
             rot = MathHelper.Lerp(rot, MathHelper.ToRadians(rotFactor), 1f);
 
             rotFactor += NPC.velocity.X * 0.25f;
+
+            if (++NPC.ai[2] >= Main.rand.Next(300, 600) && player.Distance(NPC.Center) < 1800 && player.Distance(NPC.Center) > 200)
+            {
+                Vector2 vel = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200 * NPC.scale)) * 5 / NPC.scale.Safe();
+                NPC.velocity += new Vector2(vel.X * 0.7f, vel.Y * 2.2f);
+                NPC.ai[2] = Main.rand.Next(-200, 20);
+            }
         }
         public override bool? CanFallThroughPlatforms()
         {
@@ -111,7 +135,64 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
                     Vector2 pos = Helper.TRay.Cast(NPC.Center, (angle + rot).ToRotationVector2(), 128 * NPC.scale * f, false);
                     verlet.points[i].position = Vector2.Lerp(verlet.points[i].position, pos, 0.2f);
                 }
+                for (int i = 0; i < (NPC.scale > 0.55f ? 5 : 3); i++)
+                {
+                    if (extraVerlets[i] != null)
+                    {
+                        int p1 = 0;
+                        int p2 = amount - 1;
+                        switch (i)
+                        {
+                            case 0:
+                                p1 = 1;
+                                p2 = amount - 1;
+                                break;
+                            case 1:
+                                p1 = 2;
+                                p2 = amount - 2;
+                                break;
+                            case 2:
+                                p1 = 3;
+                                p2 = 1;
+                                break;
+                            case 3:
+                                p1 = 1;
+                                p2 = amount - 2;
+                                break;
+                            case 4:
+                                p1 = amount - 1;
+                                p2 = amount - 5;
+                                break;
+                        }
+
+                        extraVerlets[i].Update(verlet.points[p1].position, verlet.points[p2].position);
+                        extraVerlets[i].Draw(spriteBatch, Texture + "_Tex", textureVariation: true, maxVariants: 3, variantSeed: texNum);
+                    }
+                }
                 verlet.Draw(spriteBatch, Texture + "_Tex", textureVariation: true, maxVariants: 3, variantSeed: texNum);
+                if (NPC.scale > 0.55f)
+                    for (int i = 5; i < 7; i++)
+                    {
+                        if (extraVerlets[i] != null)
+                        {
+                            int p1 = 0;
+                            int p2 = amount - 1;
+                            switch (i)
+                            {
+                                case 5:
+                                    p1 = 4;
+                                    p2 = amount - 1;
+                                    break;
+                                case 6:
+                                    p1 = 0;
+                                    p2 = 5;
+                                    break;
+                            }
+
+                            extraVerlets[i].Update(verlet.points[p1].position, verlet.points[p2].position);
+                            extraVerlets[i].Draw(spriteBatch, Texture + "_Tex", textureVariation: true, maxVariants: 3, variantSeed: texNum);
+                        }
+                    }
             }
             return false;
         }

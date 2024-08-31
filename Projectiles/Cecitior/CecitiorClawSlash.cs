@@ -12,6 +12,7 @@ using Terraria.ModLoader;
 using Terraria;
 using EbonianMod.Common.Systems;
 using Terraria.GameContent;
+using EbonianMod.Effects.Prims;
 
 namespace EbonianMod.Projectiles.Cecitior
 {
@@ -53,43 +54,54 @@ namespace EbonianMod.Projectiles.Cecitior
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = Helper.GetExtraTexture("laser4");
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, Main.Rasterizer);
-            Vector2 pos3 = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitX) * 200;
-            for (int i = 0; i < MathHelper.Lerp(0, 200, MathHelper.Clamp(Projectile.ai[0], 0, 1f)); i++)
-            {
-                Vector2 scale = new Vector2(0.5f, 0.5f * Projectile.scale * MathHelper.Lerp(MathHelper.Lerp(0, 4, (float)(i / MathHelper.Lerp(0, 200, MathHelper.Clamp(Projectile.ai[0], 0, 1f)))), MathHelper.Lerp(0, 1.5f, (float)(i / MathHelper.Lerp(0, 200, MathHelper.Clamp(Projectile.ai[0], 0, 1f)))), Projectile.scale));
-                Main.spriteBatch.Draw(tex, pos3 - Main.screenPosition, null, Color.Black, Projectile.rotation, new Vector2(0, tex.Height / 2), scale * 2.5f, SpriteEffects.None, 0);
-                pos3 += -Projectile.velocity.SafeNormalize(Vector2.UnitX);
-            }
-            Vector2 pos4 = Projectile.Center;
-            for (int i = 0; i < MathHelper.Lerp(0, 200, MathHelper.Clamp(Projectile.ai[0] - 1, 0, 1f)); i++)
-            {
-                Vector2 scale = new Vector2(0.5f, 0.5f * Projectile.scale * MathHelper.Lerp(MathHelper.Lerp(4, 0, (float)(i / MathHelper.Lerp(0, 200, MathHelper.Clamp(Projectile.ai[0] - 1, 0, 1f)))), MathHelper.Lerp(1.5f, 0, (float)(i / MathHelper.Lerp(0, 200, MathHelper.Clamp(Projectile.ai[0] - 1, 0, 1f)))), Projectile.scale));
-                Main.spriteBatch.Draw(tex, pos4 - Main.screenPosition, null, Color.Black, Projectile.rotation, new Vector2(0, tex.Height / 2), scale * 2.5f, SpriteEffects.None, 0);
-                pos4 += -Projectile.velocity.SafeNormalize(Vector2.UnitX);
-            }
-            Main.spriteBatch.Reload(BlendState.Additive);
-            Vector2 pos = Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.UnitX) * 200;
-            for (int i = 0; i < MathHelper.Lerp(0, 200, MathHelper.Clamp(Projectile.ai[0], 0, 1f)); i++)
-            {
-                Vector2 scale = new Vector2(0.5f, 0.5f * Projectile.scale * MathHelper.Lerp(MathHelper.Lerp(0, 4, (float)(i / MathHelper.Lerp(0, 200, MathHelper.Clamp(Projectile.ai[0], 0, 1f)))), MathHelper.Lerp(0, 1.5f, (float)(i / MathHelper.Lerp(0, 200, MathHelper.Clamp(Projectile.ai[0], 0, 1f)))), Projectile.scale));
-                Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.Maroon, Projectile.rotation, new Vector2(0, tex.Height / 2), scale * 2.5f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.White * 0.35f, Projectile.rotation, new Vector2(0, tex.Height / 2), scale * 2.5f, SpriteEffects.None, 0);
-                pos += -Projectile.velocity.SafeNormalize(Vector2.UnitX);
-            }
-            Vector2 pos2 = Projectile.Center;
-            for (int i = 0; i < MathHelper.Lerp(0, 200, MathHelper.Clamp(Projectile.ai[0] - 1, 0, 1f)); i++)
-            {
-                Vector2 scale = new Vector2(0.5f, 0.5f * Projectile.scale * MathHelper.Lerp(MathHelper.Lerp(4, 0, (float)(i / MathHelper.Lerp(0, 200, MathHelper.Clamp(Projectile.ai[0] - 1, 0, 1f)))), MathHelper.Lerp(1.5f, 0, (float)(i / MathHelper.Lerp(0, 200, MathHelper.Clamp(Projectile.ai[0] - 1, 0, 1f)))), Projectile.scale));
-                Main.spriteBatch.Draw(tex, pos2 - Main.screenPosition, null, Color.Maroon, Projectile.rotation, new Vector2(0, tex.Height / 2), scale * 2.5f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(tex, pos2 - Main.screenPosition, null, Color.White * 0.35f, Projectile.rotation, new Vector2(0, tex.Height / 2), scale * 2.5f, SpriteEffects.None, 0);
-                pos2 += -Projectile.velocity.SafeNormalize(Vector2.UnitX);
-            }
+            float s = 0f;
+            List<VertexInfo2> vertices = new();
+            List<VertexInfo2> vertices2 = new();
 
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            for (int i = 1; i < 100; i++)
+            {
+                Vector2 pos = Projectile.Center + Projectile.velocity * i * 2;
+                Vector2 lastPos = Projectile.Center + Projectile.velocity * (i * 2 - 1);
+                if (i < 50)
+                    s = MathHelper.Lerp(0, 1, (float)(i) / 50);
+                else
+                    s = MathHelper.Lerp(1, 0, (float)(i - 50) / 50);
+
+                float alpha = Projectile.scale * s * 0.25f;
+
+                Vector2 start = pos - Main.screenPosition;
+                Vector2 end = lastPos - Main.screenPosition;
+                float rot = Projectile.velocity.ToRotation();
+                float y = MathHelper.Lerp(-2, 2, s);
+                vertices.Add(new VertexInfo2(start + new Vector2(2 + s * Projectile.scale * (105), y).RotatedBy(rot + MathHelper.PiOver2), new Vector3(s * 0.5f, 0, 0), Color.Maroon * alpha));
+                vertices.Add(new VertexInfo2(start + new Vector2(2 + s * Projectile.scale * (105), y).RotatedBy(rot - MathHelper.PiOver2), new Vector3(s * 0.5f, 1, 0), Color.Maroon * alpha));
+
+                vertices2.Add(new VertexInfo2(start + new Vector2(2 + s * Projectile.scale * (75) * 3.5f, y).RotatedBy(rot + MathHelper.PiOver2), new Vector3(s * 0.5f, 0, 0), Color.Black * alpha * .15f));
+                vertices2.Add(new VertexInfo2(start + new Vector2(2 + s * Projectile.scale * (75) * 3.5f, y).RotatedBy(rot - MathHelper.PiOver2), new Vector3(s * 0.5f, 1, 0), Color.Black * alpha * .15f));
+
+                pos = Projectile.Center - Projectile.velocity * i * 2;
+                start = pos - Main.screenPosition;
+                vertices.Add(new VertexInfo2(start + new Vector2(2 + s * Projectile.scale * (105), y).RotatedBy(rot + MathHelper.PiOver2), new Vector3(s * 0.5f, 0, 0), Color.Maroon * alpha));
+                vertices.Add(new VertexInfo2(start + new Vector2(2 + s * Projectile.scale * (105), y).RotatedBy(rot - MathHelper.PiOver2), new Vector3(s * 0.5f, 1, 0), Color.Maroon * alpha));
+
+                vertices2.Add(new VertexInfo2(start + new Vector2(2 + s * Projectile.scale * (75) * 3.5f, y).RotatedBy(rot + MathHelper.PiOver2), new Vector3(s * 0.5f, 0, 0), Color.Black * alpha * .15f));
+                vertices2.Add(new VertexInfo2(start + new Vector2(2 + s * Projectile.scale * (75) * 3.5f, y).RotatedBy(rot - MathHelper.PiOver2), new Vector3(s * 0.5f, 1, 0), Color.Black * alpha * .15f));
+            }
+            Main.spriteBatch.SaveCurrent();
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.graphics.GraphicsDevice.Textures[0] = tex;
+            if (vertices.Count >= 3)
+            {
+                Main.graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, vertices2.ToArray(), 0, vertices2.Count - 2);
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.AnisotropicClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                for (int j = 0; j < 2; j++)
+                    Main.graphics.GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, vertices.ToArray(), 0, vertices.Count - 2);
+
+            }
+            Main.spriteBatch.ApplySaved();
             return false;
         }
     }

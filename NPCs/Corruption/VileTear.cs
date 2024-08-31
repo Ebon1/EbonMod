@@ -116,7 +116,7 @@ namespace EbonianMod.NPCs.Corruption
                     AITimer++;
                     if (AITimer < 50)
                     {
-                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center + new Vector2(0, -200).RotatedBy(MathF.Sin(AITimer + Main.GlobalTimeWrappedHourly * 3) * 1.5f), false) / 40, 0.02f);
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center + new Vector2(0, -200).RotatedBy(MathF.Sin(AITimer + Main.GlobalTimeWrappedHourly * 3) * 1.5f), true) * 3, 0.02f);
                         NPC.rotation = Helper.LerpAngle(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.Pi, 0.25f);
                     }
                     if (AITimer > 70 && AITimer < 90)
@@ -127,8 +127,8 @@ namespace EbonianMod.NPCs.Corruption
                         NPC.damage = 40;
                         NPC.velocity = Vector2.Zero;
                         p = NPC.Center + Helper.FromAToB(NPC.Center, player.Center) * 1000;
-                        Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center), ModContent.ProjectileType<VileTearTelegraph>(), 0, 0);
-                        SoundEngine.PlaySound(EbonianSounds.cursedToyCharge.WithPitchOffset(0.25f), NPC.Center);
+                        //Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center), ModContent.ProjectileType<VileTearTelegraph>(), 0, 0);
+                        SoundEngine.PlaySound(EbonianSounds.cursedToyCharge.WithPitchOffset(-0.4f), NPC.Center);
                     }
                     if (AITimer == 90)
                         SoundEngine.PlaySound(EbonianSounds.terrortomaDash.WithPitchOffset(-0.25f), NPC.Center);

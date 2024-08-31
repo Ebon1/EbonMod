@@ -29,9 +29,9 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.width = 168;
             Item.height = 178;
             Item.crit = 40;
-            Item.damage = 25;
-            Item.useAnimation = 32;
-            Item.useTime = 32;
+            Item.damage = 15;
+            Item.useAnimation = 2;
+            Item.useTime = 2;
             Item.noUseGraphic = true;
             Item.autoReuse = false;
             Item.noMelee = true;
@@ -39,7 +39,7 @@ namespace EbonianMod.Items.Weapons.Melee
             //Item.reuseDelay = 45;
             Item.DamageType = DamageClass.Melee;
             //Item.UseSound = SoundID.Item1;
-            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<PhantasmalGreatswordP>();
@@ -70,9 +70,10 @@ namespace EbonianMod.Items.Weapons.Melee
         {
             Projectile.width = 168;
             Projectile.height = 178;
-            swingTime = 225;
+            useHeld = false;
+            swingTime = 140;
             Projectile.extraUpdates = 4;
-            holdOffset = 115;
+            holdOffset = 120;
         }
         bool hit, summoned;
         public override void OnHit(NPC target, NPC.HitInfo hitinfo, int damage)

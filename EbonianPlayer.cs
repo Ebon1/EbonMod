@@ -11,8 +11,8 @@ using static Terraria.ModLoader.PlayerDrawLayer;
 using EbonianMod.Items.Accessories;
 using Terraria.Graphics.Effects;
 using EbonianMod.Items.Weapons.Melee;
-using SubworldLibrary;
-using EbonianMod.Common.Systems.Worldgen.Subworlds;
+
+//using EbonianMod.Common.Systems.Worldgen.Subworlds;
 using EbonianMod.NPCs.Crimson.Fleshformator;
 using EbonianMod.NPCs;
 using EbonianMod.Projectiles;
@@ -123,9 +123,9 @@ namespace EbonianMod
             //Player.ManageSpecialBiomeVisuals("EbonianMod:CorruptTint", Player.ZoneCorrupt && !Player.ZoneUnderworldHeight);
             //Player.ManageSpecialBiomeVisuals("EbonianMod:CrimsonTint", Player.ZoneCrimson && !Player.ZoneUnderworldHeight);
             #region "hell stuff"
-            Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight || SubworldSystem.IsActive<IgnosSubworld>());
+            Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight);// || SubworldSystem.IsActive<IgnosSubworld>());
             //Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint2", SubworldSystem.IsActive<Ignos>());
-            if (Player.ZoneUnderworldHeight && Main.BackgroundEnabled)
+            /*if (Player.ZoneUnderworldHeight && Main.BackgroundEnabled)
             {
                 if (Main.rand.NextBool(SubworldSystem.IsActive<IgnosSubworld>() ? 15 : 13))
                 {
@@ -196,7 +196,7 @@ namespace EbonianMod
                         part.position = new Vector2(Main.screenPosition.X - Main.screenWidth * 2 + Main.rand.NextFloat(Main.screenWidth * 2), Main.screenPosition.Y - Main.screenHeight + Main.screenHeight * 2 + 100);
                     });
                 }
-            }
+            }*/
             #endregion
         }
 
