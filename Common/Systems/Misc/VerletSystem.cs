@@ -14,6 +14,36 @@ using static Terraria.ModLoader.PlayerDrawLayer;
 namespace EbonianMod.Common.Systems.Misc
 {
 
+    public struct VerletDrawData
+    {
+        public string texPath, baseTex, endTex;
+        public int maxVariants, variantSeed;
+        public bool useColor, useRot, useRotEnd, useRotFirst, scaleCalcForDist, clampScaleCalculationForDistCalculation, textureVariation;
+        public float scale, rot, endRot, firstRot;
+        public Color color;
+        public VerletDrawData(string _texPath, string _baseTex = null, string _endTex = null, bool _useColor = false, Color _color = default, float _scale = 1, float _rot = 0,
+            bool _useRot = false, bool _useRotEnd = false, bool _useRotFirst = false, float _endRot = 0, float _firstRot = 0, bool _scaleCalcForDist = false,
+            bool _clampScaleCalculationForDistCalculation = true, bool _textureVariation = false, int _maxVariants = -1, int _variantSeed = -1)
+        {
+            texPath = _texPath;
+            baseTex = _baseTex;
+            endTex = _endTex;
+            variantSeed = _variantSeed;
+            useColor = _useColor;
+            useRot = _useRot;
+            useRotEnd = _useRotEnd;
+            useRotFirst = _useRotFirst;
+            color = _color;
+            scale = _scale;
+            rot = _rot;
+            endRot = _endRot;
+            firstRot = _firstRot;
+            scaleCalcForDist = _scaleCalcForDist;
+            clampScaleCalculationForDistCalculation = _clampScaleCalculationForDistCalculation;
+            textureVariation = _textureVariation;
+            maxVariants = _maxVariants;
+        }
+    }
     public class Verlet
     {
 
@@ -113,6 +143,35 @@ namespace EbonianMod.Common.Systems.Misc
                     else
                         segment.Draw(sb, baseTex, scale: scale, rot: firstRot, useRot: useRotFirst);
 
+                }
+            }
+        }
+        public void Draw(SpriteBatch sb, VerletDrawData drawData)
+        {
+            UnifiedRandom rand = new UnifiedRandom(drawData.variantSeed);
+            foreach (VerletSegment segment in segments)
+            {
+                if (drawData.baseTex != null || drawData.endTex != null ? segment != segments.First() && segment != segments.Last() : true)
+                {
+                    int variant = rand.Next(drawData.maxVariants > 0 ? drawData.maxVariants : 2);
+                    if (drawData.useColor)
+                        segment.DrawSegments(sb, drawData.texPath + (drawData.textureVariation ? variant.ToString() : ""), drawData.color, true, scale: drawData.scale, drawData.rot, drawData.useRot, drawData.scaleCalcForDist, drawData.clampScaleCalculationForDistCalculation);
+                    else
+                        segment.DrawSegments(sb, drawData.texPath + (drawData.textureVariation ? variant.ToString() : ""), scale: drawData.scale, rot: drawData.rot, useRot: drawData.useRot, scaleCalcForDist: drawData.scaleCalcForDist, clampScaleCalculationForDistCalculation: drawData.clampScaleCalculationForDistCalculation);
+                }
+                else if (drawData.endTex != null && segment == segments.Last())
+                {
+                    if (drawData.useColor)
+                        segment.Draw(sb, drawData.endTex, drawData.color, true, scale: drawData.scale, drawData.endRot, drawData.useRotEnd);
+                    else
+                        segment.Draw(sb, drawData.endTex, scale: drawData.scale, rot: drawData.endRot, useRot: drawData.useRotEnd);
+                }
+                else if (drawData.baseTex != null && segment == segments.First())
+                {
+                    if (drawData.useColor)
+                        segment.Draw(sb, drawData.baseTex, drawData.color, true, scale: drawData.scale, drawData.firstRot, drawData.useRotFirst);
+                    else
+                        segment.Draw(sb, drawData.baseTex, scale: drawData.scale, rot: drawData.firstRot, useRot: drawData.useRotFirst);
                 }
             }
         }

@@ -29,6 +29,7 @@ using Terraria.GameContent.Skies;
 using EbonianMod.Projectiles.ArchmageX;
 using Microsoft.CodeAnalysis;
 using Terraria.DataStructures;
+using EbonianMod.Common.Systems.Misc;
 
 namespace EbonianMod
 {
@@ -219,6 +220,20 @@ namespace EbonianMod
         {
             GraphicsDevice gd = Main.instance.GraphicsDevice;
             SpriteBatch sb = Main.spriteBatch;
+
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            for (int i = 0; i < S_VerletSystem.verlets.Count; i++)
+            {
+                if (S_VerletSystem.verlets[i].timeLeft > 0 && S_VerletSystem.verlets[i].verlet != null)
+                {
+                    float alpha = MathHelper.Clamp(MathHelper.Lerp(0, 2, (float)S_VerletSystem.verlets[i].timeLeft / S_VerletSystem.verlets[i].maxTime), 0, 1);
+                    VerletDrawData verletDrawData = S_VerletSystem.verlets[i].drawData;
+                    verletDrawData.useColor = true;
+                    verletDrawData.color = Lighting.GetColor(S_VerletSystem.verlets[i].verlet.lastP.position.ToTileCoordinates()) * alpha;
+                    S_VerletSystem.verlets[i].verlet.Draw(Main.spriteBatch, verletDrawData);
+                }
+            }
+            Main.spriteBatch.End();
 
             sb.Begin(SpriteSortMode.Deferred, MiscDrawingMethods.Subtractive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             ReiSmoke.DrawAll(sb);

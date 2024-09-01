@@ -65,17 +65,28 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
         public override bool CheckDead()
         {
             if (verlet != null)
+            {
                 for (int i = 0; i < verlet.points.Count; i++)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), verlet.points[i].position, Main.rand.NextVector2Circular(4, 4), ModContent.Find<ModGore>("EbonianMod/Rolypoly" + Main.rand.Next(3)).Type);
+                    if (i % 5 == 0)
+                        Gore.NewGore(NPC.GetSource_Death(), verlet.points[i].position, Main.rand.NextVector2Circular(4, 4), ModContent.Find<ModGore>("EbonianMod/Rolypoly" + Main.rand.Next(3)).Type);
                 }
+                Verlet v = verlet;
+                v.gravity = 0;
+                S_VerletSystem.verlets.Add(new SpawnableVerlet(v, new VerletDrawData(Texture + "_Tex", _textureVariation: true, _maxVariants: 3, _variantSeed: texNum), new Vector2(Main.rand.NextFloat(1, 7) * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), Main.rand.NextFloat(-20, 5)), 800));
+            }
             for (int i = 0; i < (NPC.scale > 0.55f ? 7 : 3); i++)
                 if (extraVerlets[i] != null)
+                {
                     for (int j = 0; j < extraVerlets[i].points.Count; j++)
                     {
-                        if (j % 3 == 0)
+                        if (j % 5 == 0)
                             Gore.NewGore(NPC.GetSource_Death(), extraVerlets[i].points[j].position, Main.rand.NextVector2Circular(4, 4), ModContent.Find<ModGore>("EbonianMod/Rolypoly" + Main.rand.Next(3)).Type);
                     }
+                    Verlet v = extraVerlets[i];
+                    v.gravity = 0;
+                    S_VerletSystem.verlets.Add(new SpawnableVerlet(v, new VerletDrawData(Texture + "_Tex", _textureVariation: true, _maxVariants: 3, _variantSeed: texNum), new Vector2(Main.rand.NextFloat(1, 7) * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), Main.rand.NextFloat(-20, 5)), 800));
+                }
             return true;
         }
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
