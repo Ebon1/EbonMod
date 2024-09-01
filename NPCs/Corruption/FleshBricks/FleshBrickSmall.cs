@@ -145,7 +145,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                     heightMod = 1f - (NPC.velocity.Length() * 0.03f);
                     widthMod = 1f + (NPC.velocity.Length() * 0.03f);
                     if (NPC.velocity.Length() < 10)
-                        NPC.velocity.X += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 50, false).X * 0.004f;
+                        NPC.velocity.X += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).X * 0.004f;
                     if (AITimer > 20)
                     {
                         AIState = Halt;
@@ -156,7 +156,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                     heightMod = 1f + (NPC.velocity.Length() * 0.03f);
                     widthMod = 1f - (NPC.velocity.Length() * 0.03f);
                     if (NPC.velocity.Length() < 10)
-                        NPC.velocity.Y += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 50, false).Y * 0.004f;
+                        NPC.velocity.Y += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).Y * 0.004f;
                     if (AITimer > 20)
                     {
                         AIState = Halt;
