@@ -12,6 +12,9 @@ using Microsoft.Xna.Framework.Graphics;
 using EbonianMod.Dusts;
 using Terraria.ID;
 using EbonianMod.Common.Systems.Misc;
+using Terraria.Utilities;
+using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace EbonianMod.Projectiles.VFXProjectiles
 {
@@ -209,7 +212,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
     }
     public class ReiExplosion : ModProjectile
     {
-        public override string Texture => Helper.Empty;
+        public override string Texture => "EbonianMod/Extras/Fire";
         public override void SetDefaults()
         {
             Projectile.height = 200;
@@ -222,16 +225,63 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Projectile.localNPCHitCooldown = 100;
         }
         public override bool ShouldUpdatePosition() => false;
+        int seed;
+        public override void PostDraw(Color lightColor)
+        {
+            if (seed == 0) seed = Main.rand.Next(9421814);
+            Texture2D tex = Helper.GetExtraTexture("cone2");
+            Texture2D tex2 = Helper.GetExtraTexture("Extras2/trace_02");
+            UnifiedRandom rand = new UnifiedRandom(seed);
+            Main.spriteBatch.Reload(BlendState.Additive);
+            float max = 40;
+            float alpha = MathHelper.Lerp(0.5f, 0, Projectile.ai[1]) * 2;
+            for (float i = 0; i < max; i++)
+            {
+                float angle = Helper.CircleDividedEqually(i, max);
+                float scale = rand.NextFloat(0.2f, 1f);
+                Vector2 offset = new Vector2(Main.rand.NextFloat(50) * Projectile.ai[1] * scale, 0).RotatedBy(angle);
+                Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Cyan * (alpha * 0.5f), angle, new Vector2(0, tex.Height / 2), new Vector2(Projectile.ai[1], alpha) * scale * 0.7f, SpriteEffects.None, 0);
+                for (float j = 0; j < 3; j++)
+                    Main.spriteBatch.Draw(tex2, Projectile.Center + offset - Main.screenPosition, null, Color.Cyan * alpha, angle + MathHelper.PiOver2, new Vector2(tex2.Width / 2, 0), new Vector2(alpha, Projectile.ai[1]) * scale * 1.2f, SpriteEffects.None, 0);
+            }
+
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+            EbonianSystem.ScreenShakeAmount = 5;
+
+            Projectile.rotation = Main.rand.NextFloat(0, MathHelper.TwoPi);
+
+            for (int k = 0; k < 20; k++)
+            {
+                Dust.NewDustPerfect(Projectile.Center, DustID.Electric, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 15), 0, default, Main.rand.NextFloat(.1f, .3f)).noGravity = true;
+                Dust.NewDustPerfect(Projectile.Center, DustID.Electric, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 15), 100, default, Main.rand.NextFloat(.1f, .5f)).noGravity = true;
+            }
+        }
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = Helper.GetExtraTexture("explosion");
-            Texture2D tex2 = Helper.GetExtraTexture("flameEye2");
+            Texture2D tex2 = Helper.GetExtraTexture("Extras2/star_09");
             Main.spriteBatch.Reload(BlendState.Additive);
+            Texture2D texture = TextureAssets.Projectile[Type].Value;
+
+            int frameHeight = texture.Height / Main.projFrames[Projectile.type];
+            int frameY = frameHeight * Projectile.frame;
+
+            Rectangle sourceRectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
+            Vector2 origin = sourceRectangle.Size() / 2f;
+            Vector2 position = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
             float alpha = MathHelper.Lerp(2, 0, Projectile.ai[0]);
+            Color color = Color.Cyan * alpha;
+
+            for (int i = 0; i < 4; i++)
+                Main.EntitySpriteDraw(texture, position, sourceRectangle, color, Projectile.rotation, origin, Projectile.scale - 0.8f, SpriteEffects.None, 0);
+
             for (int i = 0; i < 2; i++)
             {
-                Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.Cyan * alpha, Projectile.rotation, tex2.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * alpha, Projectile.rotation, tex2.Size() / 2, Projectile.ai[0] * 0.3f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.Cyan * 0.5f * alpha, Projectile.rotation, tex2.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Cyan * 0.5f * alpha, Projectile.rotation, tex2.Size() / 2, Projectile.ai[0] * 0.3f, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
@@ -240,6 +290,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         {
             Lighting.AddLight(Projectile.Center, TorchID.Mushroom);
             Projectile.ai[0] += 0.05f;
+            Projectile.ai[1] += 0.075f;
             if (Projectile.ai[0] > 1)
                 Projectile.Kill();
         }

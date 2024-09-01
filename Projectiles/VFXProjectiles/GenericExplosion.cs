@@ -316,7 +316,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         }
         public override void OnSpawn(IEntitySource source)
         {
-            EbonianSystem.ScreenShakeAmount = 5;
+            EbonianSystem.ScreenShakeAmount = 3;
 
             SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
 

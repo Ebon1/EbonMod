@@ -46,18 +46,18 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
                     amount = 16;
                     break;
                 case 0.75f:
-                    amount = 12;
+                    amount = 14;
                     break;
                 case 0.55f:
-                    amount = 10;
+                    amount = 12;
                     break;
                 default:
-                    amount = 8;
+                    amount = 10;
                     break;
             }
             texNum = Main.rand.Next(9999999);
             NPC.Size = new Vector2(100, 100) * NPC.scale;
-            verlet = new Verlet(NPC.Center, 16, amount, 0, false, false, 4);
+            verlet = new Verlet(NPC.Center, 16, amount, 0, false, false, 4, true, 8);
 
             for (int i = 0; i < 7; i++)
                 extraVerlets[i] = new Verlet(NPC.Center, 16, amount - 3, 3f, true, true, 20, true, 8);
@@ -75,7 +75,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
                 v.gravity = 0;
                 S_VerletSystem.verlets.Add(new SpawnableVerlet(v, new VerletDrawData(Texture + "_Tex", _textureVariation: true, _maxVariants: 3, _variantSeed: texNum), new Vector2(Main.rand.NextFloat(1, 7) * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), Main.rand.NextFloat(-20, 5)), 800));
             }
-            for (int i = 0; i < (NPC.scale > 0.55f ? 7 : 3); i++)
+            for (int i = 0; i < (NPC.scale > 0.55f ? 7 : 2); i++)
                 if (extraVerlets[i] != null)
                 {
                     for (int j = 0; j < extraVerlets[i].points.Count; j++)
@@ -146,7 +146,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
                     Vector2 pos = Helper.TRay.Cast(NPC.Center, (angle + rot).ToRotationVector2(), 128 * NPC.scale * f, false);
                     verlet.points[i].position = Vector2.Lerp(verlet.points[i].position, pos, 0.2f);
                 }
-                for (int i = 0; i < (NPC.scale > 0.55f ? 5 : 3); i++)
+                for (int i = 0; i < (NPC.scale > 0.55f ? 5 : 2); i++)
                 {
                     if (extraVerlets[i] != null)
                     {

@@ -187,6 +187,8 @@ Projectiles: {
 	VileTearTelegraph.DisplayName: Vile Tear Telegraph
 	AmbientGibs.DisplayName: Ambient Gibs
 	XCloudVFXExtra.DisplayName: X Cloud V F X Extra
+	EquilibriumP.DisplayName: Equilibrium P
+	EquilibriumP2.DisplayName: Equilibrium P2
 }
 
 NPCs: {
@@ -791,6 +793,11 @@ Items: {
 	GhizasWheel: {
 		DisplayName: Ghizas Wheel
 		Tooltip: ""
+	}
+
+	Equilibrium: {
+		Tooltip: ""
+		DisplayName: Equilibrium
 	}
 }
 

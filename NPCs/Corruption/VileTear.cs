@@ -114,37 +114,43 @@ namespace EbonianMod.NPCs.Corruption
                     break;
                 case 1:
                     AITimer++;
-                    if (AITimer < 50)
+                    if (AITimer < 70)
                     {
-                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center + new Vector2(0, -200).RotatedBy(MathF.Sin(AITimer + Main.GlobalTimeWrappedHourly * 3) * 1.5f), true) * 3, 0.02f);
+                        p = NPC.Center + Helper.FromAToB(NPC.Center, player.Center) * 1000;
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center + new Vector2(0, -200).RotatedBy(MathF.Sin(AITimer + Main.GlobalTimeWrappedHourly * 3) * 1.5f), true) * 20, 0.025f);
                         NPC.rotation = Helper.LerpAngle(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.Pi, 0.25f);
                     }
-                    if (AITimer > 70 && AITimer < 90)
+                    if (AITimer > 50 && AITimer < 70)
+                    {
+                        NPC.rotation = Helper.LerpAngle(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.Pi, 0.25f);
                         NPC.ai[3] = MathHelper.Lerp(NPC.ai[3], 1, 0.1f);
+                    }
 
-                    if (AITimer == 50)
+                    if (AITimer == 30)
                     {
                         NPC.damage = 40;
-                        NPC.velocity = Vector2.Zero;
-                        p = NPC.Center + Helper.FromAToB(NPC.Center, player.Center) * 1000;
+                        NPC.velocity *= 0.5f;
                         //Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center), ModContent.ProjectileType<VileTearTelegraph>(), 0, 0);
                         SoundEngine.PlaySound(EbonianSounds.cursedToyCharge.WithPitchOffset(-0.4f), NPC.Center);
                     }
-                    if (AITimer == 90)
+                    if (AITimer == 70)
+                    {
+                        NPC.velocity = Vector2.Zero;
                         SoundEngine.PlaySound(EbonianSounds.terrortomaDash.WithPitchOffset(-0.25f), NPC.Center);
+                    }
 
-                    if (AITimer >= 90 && AITimer < 112)
+                    if (AITimer >= 70 && AITimer < 92)
                     {
                         NPC.velocity += Helper.FromAToB(NPC.Center, p) * 2;
                     }
-                    if (AITimer > 120)
+                    if (AITimer > 100)
                     {
                         NPC.ai[3] = MathHelper.Lerp(NPC.ai[3], 0, 0.1f);
                         NPC.damage = 10;
                         NPC.velocity *= 0.9f;
                     }
 
-                    if (AITimer > 140)
+                    if (AITimer > 120)
                     {
                         NPC.velocity = Vector2.Zero;
                         AITimer = 0;
