@@ -17,6 +17,7 @@ using Terraria.Audio;
 using System.Xml.Serialization;
 using EbonianMod.Items.Misc;
 using EbonianMod.Projectiles.VFXProjectiles;
+using EbonianMod.Common.Systems;
 
 namespace EbonianMod.Items.Weapons.Melee
 {
@@ -96,6 +97,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Player player = Main.player[Projectile.owner];
             if (!_hit)
             {
+                SoundEngine.PlaySound(EbonianSounds.FleshImpact, Projectile.Center);
                 Vector2 dir = Vector2.Normalize(Main.MouseWorld - player.Center);
                 Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity * 50, dir, ModContent.ProjectileType<EquilibriumP2>(), Projectile.damage, Projectile.knockBack, player.whoAmI, 0, (Projectile.ai[1]));
                 proj.rotation = Projectile.rotation;
@@ -130,7 +132,7 @@ namespace EbonianMod.Items.Weapons.Melee
             player.SetCompositeArmFront(true, stretch, rotation - MathHelper.PiOver2);
 
             if (Projectile.timeLeft == swingTime - 25 * 5)
-                SoundEngine.PlaySound(SoundID.Item1, Projectile.Center);
+                SoundEngine.PlaySound(EbonianSounds.HeavySwing, Projectile.Center);
 
             if (Projectile.timeLeft <= 15 * 5)
             {

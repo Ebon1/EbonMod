@@ -295,6 +295,7 @@ NPCs: {
 	Vileglider.DisplayName: Vileglider
 	ToxicAbomination.DisplayName: Toxic Abomination
 	VileTear.DisplayName: Vile Tear
+	BloodHunter.DisplayName: Blood Hunter
 }
 
 Items: {
