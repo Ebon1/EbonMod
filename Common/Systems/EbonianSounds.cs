@@ -53,7 +53,7 @@ namespace EbonianMod.Common.Systems
         trumpet = Default with { SoundPath = ebonianSoundPath + "trumpet", PitchVariance = 0.4f, Variants = new int[] { 0, 1 } },
         terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f, Volume = 1.1f },
         HeavySwing = Default with { SoundPath = ebonianSoundPath + "HeavySwing", Variants = new int[] { 0, 1, 2 }, PitchVariance = 0.25f, Volume = 1.1f },
-        FleshImpact = Default with { SoundPath = ebonianSoundPath + "FleshImpact", Variants = new int[] { 0, 1, 2 }, PitchVariance = 0.25f, Volume = 1.1f },
+        FleshImpact = Default with { SoundPath = ebonianSoundPath + "FleshImpact", Variants = new int[] { 0, 1, 2 }, PitchVariance = 0.25f, Volume = .7f },
         blink = Default with { SoundPath = ebonianSoundPath + "blink" },
         xSpirit = Default with { SoundPath = ebonianSoundPath + "xSpirit" },
         magicSlash = Default with { SoundPath = ebonianSoundPath + "magicSlash" },
@@ -99,7 +99,7 @@ namespace EbonianMod.Common.Systems
             trumpet = Default with { SoundPath = ebonianSoundPath + "trumpet", PitchVariance = 0.4f, Variants = new int[] { 0, 1 } };
             terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f, Volume = 1.1f };
             HeavySwing = Default with { SoundPath = ebonianSoundPath + "HeavySwing", Variants = new int[] { 0, 1, 2 }, PitchVariance = 0.25f, Volume = 1.1f };
-            FleshImpact = Default with { SoundPath = ebonianSoundPath + "FleshImpact", Variants = new int[] { 0, 1, 2 }, PitchVariance = 0.25f, Volume = .9f };
+            FleshImpact = Default with { SoundPath = ebonianSoundPath + "FleshImpact", Variants = new int[] { 0, 1, 2 }, PitchVariance = 0.25f, Volume = .7f };
             blink = Default with { SoundPath = ebonianSoundPath + "blink" };
             xSpirit = Default with { SoundPath = ebonianSoundPath + "xSpirit" };
             magicSlash = Default with { SoundPath = ebonianSoundPath + "magicSlash" };

@@ -145,6 +145,7 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override void Kill(int timeLeft)
         {
+            SoundEngine.PlaySound(SoundID.NPCDeath11);
             int radius = 150;
 
             for (int i = 0; i < Main.npc.Length; i++)

@@ -16,6 +16,13 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
 {
     public class BloodHunter : ModNPC
     {
+        public override void SetStaticDefaults()
+        {
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                CustomTexturePath = "EbonianMod/NPCs/Crimson/BloodHunter/BloodHunter_Bestiary"
+            });
+        }
         public override void SetDefaults()
         {
             NPC.Size = new Vector2(94, 80);
@@ -26,25 +33,54 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.aiStyle = -1;
         }
-        public Vector2[] legOffsets = new Vector2[3];
+        public Vector2[] fgLegOffsets = new Vector2[2];
+        public Vector2[] bgLegOffsets = new Vector2[2];
         public Vector2 stingerTarget;
+        public Vector2 bodyOffset;
         public bool stingerTrailActive = false;
         public Verlet tail;
         public override void OnSpawn(IEntitySource source)
         {
-            tail = new Verlet(NPC.Center, 20, 4, 0, true, true, 50, false);
-            stingerTarget = NPC.Center + new Vector2(14 * NPC.direction, 32);
+            tail = new Verlet(NPC.Center, 20, 6, -10, true, true, 60, false);
+            stingerTarget = NPC.Center + new Vector2(30 * NPC.direction, -35);
         }
         public override void AI()
         {
             Player player = Main.player[NPC.target];
-            NPC.TargetClosest(false);
+            if (stingerTarget == Vector2.Zero)
+                stingerTarget = NPC.Center + new Vector2(30 * NPC.direction, -35);
+            NPC.TargetClosest(true);
 
+            NPC.ai[0]++;
 
+            NPC.velocity.X = Helper.FromAToB(NPC.Center, Main.MouseWorld, true).X * 5;
+            if (NPC.ai[0] % 20 < 10)
+            {
+                if (NPC.velocity.Length() > 0.25f)
+                {
+                    bodyOffset = Vector2.Lerp(bodyOffset, -Vector2.UnitY * 4, (NPC.velocity.Length() * 0.02f));
+                    bgLegOffsets[0] = Vector2.Lerp(bgLegOffsets[0], new Vector2(MathHelper.Clamp(NPC.velocity.X * 5, -4, 4), -6 * (NPC.velocity.Length() * 0.02f)), 0.35f);
+                    fgLegOffsets[1] = Vector2.Lerp(fgLegOffsets[1], new Vector2(MathHelper.Clamp(NPC.velocity.X * 5, -4, 4), -20 * (NPC.velocity.Length() * 0.02f)), 0.35f);
+                }
+                bgLegOffsets[1] = Vector2.Lerp(bgLegOffsets[1], new Vector2(0, 3), 0.6f);
+                fgLegOffsets[0] = Vector2.Lerp(fgLegOffsets[0], new Vector2(0, 0), 0.6f);
+            }
+            else
+            {
+                bodyOffset = Vector2.Lerp(bodyOffset, Vector2.Zero, 0.2f);
+                if (NPC.velocity.Length() > 0.25f)
+                {
+                    bgLegOffsets[1] = Vector2.Lerp(bgLegOffsets[1], new Vector2(MathHelper.Clamp(NPC.velocity.X * 5, -4, 4), -6 * (NPC.velocity.Length() * 0.02f)), 0.35f);
+                    fgLegOffsets[0] = Vector2.Lerp(fgLegOffsets[0], new Vector2(MathHelper.Clamp(NPC.velocity.X * 5, -4, 4), -20 * (NPC.velocity.Length() * 0.02f)), 0.35f);
+                }
+
+                bgLegOffsets[0] = Vector2.Lerp(bgLegOffsets[0], new Vector2(0, 0), 0.6f);
+                fgLegOffsets[1] = Vector2.Lerp(fgLegOffsets[1], new Vector2(0, 0), 0.6f);
+            }
             if (tail != null)
             {
-                stingerTarget = Main.MouseWorld;
-                tail.Update(NPC.Center - new Vector2(50 * -NPC.direction, 40), stingerTarget);
+                stingerTarget = Vector2.Lerp(stingerTarget, NPC.Center + new Vector2(30 * NPC.direction, -28), 0.15f + (NPC.velocity.Length() * 0.02f));
+                tail.Update(NPC.Center - new Vector2(32 * NPC.direction, 17), stingerTarget);
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -52,10 +88,11 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
             Texture2D tex = TextureAssets.Npc[Type].Value;
             DrawBGLegs(spriteBatch, drawColor);
 
-            SpriteEffects effect = NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, tex.Size() / 2, NPC.scale, effect, 0);
-
             DrawTail(spriteBatch, drawColor);
+
+            SpriteEffects effect = NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(tex, NPC.Center + bodyOffset + new Vector2(0, 8) - Main.screenPosition, null, drawColor, NPC.rotation, tex.Size() / 2, NPC.scale, effect, 0);
+
 
             DrawFGLegs(spriteBatch, drawColor);
             return false;
@@ -68,17 +105,20 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
             Texture2D stinger = Helper.GetTexture(Texture + "_Stinger");
             if (tail != null)
             {
-                float rot = Helper.FromAToB(tail.points[0].position, tail.points[1].position).ToRotation();
-                spriteBatch.Draw(tail0, tail.points[0].position - Main.screenPosition, null, drawColor, rot, tail0.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+                for (int i = 0; i < tail.points.Count - 1; i++)
+                {
+                    float rot = Helper.FromAToB(tail.points[i].position, tail.points[i + 1].position).ToRotation();
+                    if (i == 0)
+                        rot = MathHelper.Clamp(Helper.FromAToB(tail.points[i].position, tail.points[i + 1].position).ToRotation(), -1.1f - MathHelper.PiOver2, 1.1f - MathHelper.PiOver2);
+                    Texture2D tex = tail0;
+                    if (i > 1)
+                        tex = tail1;
+                    if (i == tail.points.Count - 2)
+                        tex = tail2;
+                    spriteBatch.Draw(tex, tail.points[i].position - Main.screenPosition, null, drawColor, rot, tex.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+                }
 
-                rot = Helper.FromAToB(tail.points[1].position, tail.points[2].position).ToRotation();
-                spriteBatch.Draw(tail1, tail.points[1].position - Main.screenPosition, null, drawColor, rot, tail1.Size() / 2, NPC.scale, SpriteEffects.None, 0);
-
-                rot = Helper.FromAToB(tail.points[2].position, tail.points[3].position).ToRotation();
-                spriteBatch.Draw(tail2, tail.points[2].position - Main.screenPosition, null, drawColor, rot, tail2.Size() / 2, NPC.scale, SpriteEffects.None, 0);
-
-                rot = 0;
-                spriteBatch.Draw(stinger, tail.points[3].position - Main.screenPosition, null, drawColor, rot, stinger.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(stinger, tail.points[tail.points.Count - 1].position - Main.screenPosition, null, drawColor, 0, stinger.Size() / 2, NPC.scale, SpriteEffects.None, 0);
             }
         }
         void DrawBGLegs(SpriteBatch spriteBatch, Color drawColor)
@@ -86,12 +126,20 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
             Texture2D bgLeg0 = Helper.GetTexture(Texture + "_BGLeg0");
             Texture2D bgLeg1 = Helper.GetTexture(Texture + "_BGLeg1");
             Texture2D bgLeg2 = Helper.GetTexture(Texture + "_BGLeg2");
+            SpriteEffects effect = NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(bgLeg0, NPC.Center - new Vector2(2 * NPC.direction, -16) + bgLegOffsets[0] - Main.screenPosition, null, drawColor, NPC.rotation, bgLeg0.Size() / 2, NPC.scale, effect, 0);
+            spriteBatch.Draw(bgLeg1, NPC.Center - new Vector2(-10 * NPC.direction, -20) + bgLegOffsets[1] * 0.7f - Main.screenPosition, null, drawColor, NPC.rotation, bgLeg1.Size() / 2, NPC.scale, effect, 0);
+            spriteBatch.Draw(bgLeg2, NPC.Center - new Vector2(-18 * NPC.direction, -22) + bgLegOffsets[0] * 0.5f - Main.screenPosition, null, drawColor, NPC.rotation, bgLeg2.Size() / 2, NPC.scale, effect, 0);
         }
         void DrawFGLegs(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D fgLeg0 = Helper.GetTexture(Texture + "_FGLeg0");
             Texture2D fgLeg1 = Helper.GetTexture(Texture + "_FGLeg1");
             Texture2D fgLeg2 = Helper.GetTexture(Texture + "_FGLeg2");
+            SpriteEffects effect = NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(fgLeg0, NPC.Center - new Vector2((NPC.width / 2 - 6) * NPC.direction, -20) + fgLegOffsets[0] - Main.screenPosition, null, drawColor, NPC.rotation, fgLeg0.Size() / 2, NPC.scale, effect, 0);
+            spriteBatch.Draw(fgLeg1, NPC.Center - new Vector2(30 * NPC.direction, -25) + fgLegOffsets[1] * 0.7f - Main.screenPosition, null, drawColor, NPC.rotation, fgLeg1.Size() / 2, NPC.scale, effect, 0);
+            spriteBatch.Draw(fgLeg2, NPC.Center - new Vector2(18 * NPC.direction, -29) + fgLegOffsets[0] * 0.5f - Main.screenPosition, null, drawColor, NPC.rotation, fgLeg2.Size() / 2, NPC.scale, effect, 0);
         }
     }
 }
