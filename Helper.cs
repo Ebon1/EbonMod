@@ -154,7 +154,15 @@ namespace EbonianMod
         {
             return new VertexPositionColorTexture(new Vector3(position, 50), color, texCoord);
         }
+        public static VertexPositionColorTexture AsVertex(Vector2 position, Vector2 texCoord, Color color)
+        {
+            return new VertexPositionColorTexture(new Vector3(position, 50), color, texCoord);
+        }
         public static VertexPositionColorTexture AsVertex(Vector3 position, Color color, Vector2 texCoord)
+        {
+            return new VertexPositionColorTexture(position, color, texCoord);
+        }
+        public static VertexPositionColorTexture AsVertex(Vector3 position, Vector2 texCoord, Color color)
         {
             return new VertexPositionColorTexture(position, color, texCoord);
         }

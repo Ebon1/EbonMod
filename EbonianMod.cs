@@ -15,6 +15,7 @@ using EbonianMod.Projectiles.Terrortoma;
 using EbonianMod.Projectiles.VFXProjectiles;
 using ReLogic.Graphics;
 using EbonianMod.Projectiles.Exol;
+using EbonianMod.Projectiles.Garbage;
 ////using EbonianMod.Worldgen.Subworlds;
 ////
 using Terraria.GameContent.Drawing;
@@ -297,7 +298,7 @@ namespace EbonianMod
                 sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
                 foreach (Projectile proj in Main.projectile)
                 {
-                    if (proj.active && proj.timeLeft > 0 && proj.type == ModContent.ProjectileType<GarbageFlame>())
+                    if (proj.active && proj.timeLeft > 0 && (proj.type == ModContent.ProjectileType<GarbageFlame>() || proj.type == ModContent.ProjectileType<GarbageGiantFlame>()))
                     {
                         Color color = Color.Transparent;
                         proj.ModProjectile.PreDraw(ref color);
@@ -342,11 +343,20 @@ namespace EbonianMod
                 displacementMap.Parameters["offsetX"].SetValue(Main.GlobalTimeWrappedHourly * 0.5f);
                 displacementMap.Parameters["offset"].SetValue(0.0075f);
                 displacementMap.Parameters["alpha"].SetValue(0.1f);
-                sb.Draw(renders[3], Vector2.Zero, Color.White);
+                sb.Draw(renders[3], Vector2.Zero, Color.White * 0.25f);
                 gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
-                displacementMap.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.75f);
                 displacementMap.Parameters["offsetY"].SetValue(Main.GlobalTimeWrappedHourly * 0.34f);
-                sb.Draw(renders[3], Vector2.Zero, Color.White);
+                sb.Draw(renders[3], Vector2.Zero, Color.White * 0.25f);
+
+                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/coherentNoise", (AssetRequestMode)1).Value;
+                displacementMap.Parameters["offsetY"].SetValue(0);
+                displacementMap.Parameters["offsetX"].SetValue(Main.GlobalTimeWrappedHourly * 0.5f);
+                displacementMap.Parameters["offset"].SetValue(0.0075f);
+                displacementMap.Parameters["alpha"].SetValue(0.1f);
+                sb.Draw(renders[3], Vector2.Zero, Color.White * 0.25f);
+                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
+                displacementMap.Parameters["offsetX"].SetValue(Main.GlobalTimeWrappedHourly * 0.74f);
+                sb.Draw(renders[3], Vector2.Zero, Color.White * 0.25f);
 
                 gd.Textures[1] = null;
                 gd.Textures[2] = null;

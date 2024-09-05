@@ -18,7 +18,7 @@ namespace EbonianMod.Common.Systems
         public const string ebonianSoundPath = "EbonianMod/Sounds/";
         public static SoundStyle
         None = Default with { SoundPath = ebonianSoundPath + "sheep", Volume = 0f },
-            bloodSpit = Default with { SoundPath = ebonianSoundPath + "bloodSpit" },
+        bloodSpit = Default with { SoundPath = ebonianSoundPath + "bloodSpit" },
         bowPull = Default with { SoundPath = ebonianSoundPath + "bowPull" },
         bowRelease = Default with { SoundPath = ebonianSoundPath + "bowRelease" },
         chargedBeam = Default with { SoundPath = ebonianSoundPath + "chargedBeam" },
@@ -35,8 +35,8 @@ namespace EbonianMod.Common.Systems
         flesh0 = Default with { SoundPath = ebonianSoundPath + "flesh0" },
         flesh1 = Default with { SoundPath = ebonianSoundPath + "flesh1" },
         flesh2 = Default with { SoundPath = ebonianSoundPath + "flesh2" },
-        garbageAwaken = Default with { SoundPath = ebonianSoundPath + "garbageAwaken" },
-        garbageSignal = Default with { SoundPath = ebonianSoundPath + "garbageSignal" },
+        garbageAwaken = Default with { SoundPath = ebonianSoundPath + "garbageAwaken", PitchVariance = 0 },
+        garbageSignal = Default with { SoundPath = ebonianSoundPath + "garbageSignal", PitchVariance = 0 },
         genericExplosion = Default with { SoundPath = ebonianSoundPath + "genericExplosion" },
         heartbeat = Default with { SoundPath = ebonianSoundPath + "heartbeat" },
         nuke = Default with { SoundPath = ebonianSoundPath + "nuke" },
@@ -56,11 +56,12 @@ namespace EbonianMod.Common.Systems
         FleshImpact = Default with { SoundPath = ebonianSoundPath + "FleshImpact", Variants = new int[] { 0, 1, 2 }, PitchVariance = 0.25f, Volume = .7f },
         blink = Default with { SoundPath = ebonianSoundPath + "blink" },
         xSpirit = Default with { SoundPath = ebonianSoundPath + "xSpirit" },
+        firework = Default with { SoundPath = ebonianSoundPath + "firework" },
         magicSlash = Default with { SoundPath = ebonianSoundPath + "magicSlash" },
         sheep = Default with { SoundPath = ebonianSoundPath + "sheep" },
         vaccum = Default with { SoundPath = ebonianSoundPath + "vaccum", IsLooped = true, PitchVariance = 0f },
         ghizasWheel = Default with { SoundPath = ebonianSoundPath + "ghizasWheel", IsLooped = true, PitchVariance = 0f },
-        garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" },
+        garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath", PitchVariance = 0 },
         evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };
         public override void Load()
         {
@@ -81,8 +82,8 @@ namespace EbonianMod.Common.Systems
             flesh0 = Default with { SoundPath = ebonianSoundPath + "flesh0" };
             flesh1 = Default with { SoundPath = ebonianSoundPath + "flesh1" };
             flesh2 = Default with { SoundPath = ebonianSoundPath + "flesh2" };
-            garbageAwaken = Default with { SoundPath = ebonianSoundPath + "garbageAwaken" };
-            garbageSignal = Default with { SoundPath = ebonianSoundPath + "garbageSignal" };
+            garbageAwaken = Default with { SoundPath = ebonianSoundPath + "garbageAwaken", PitchVariance = 0 };
+            garbageSignal = Default with { SoundPath = ebonianSoundPath + "garbageSignal", PitchVariance = 0 };
             genericExplosion = Default with { SoundPath = ebonianSoundPath + "genericExplosion" };
             heartbeat = Default with { SoundPath = ebonianSoundPath + "heartbeat" };
             nuke = Default with { SoundPath = ebonianSoundPath + "nuke" };
@@ -102,11 +103,12 @@ namespace EbonianMod.Common.Systems
             FleshImpact = Default with { SoundPath = ebonianSoundPath + "FleshImpact", Variants = new int[] { 0, 1, 2 }, PitchVariance = 0.25f, Volume = .7f };
             blink = Default with { SoundPath = ebonianSoundPath + "blink" };
             xSpirit = Default with { SoundPath = ebonianSoundPath + "xSpirit" };
+            firework = Default with { SoundPath = ebonianSoundPath + "firework" };
             magicSlash = Default with { SoundPath = ebonianSoundPath + "magicSlash" };
             sheep = Default with { SoundPath = ebonianSoundPath + "sheep" };
             vaccum = Default with { SoundPath = ebonianSoundPath + "vaccum", IsLooped = true, PitchVariance = 0f };
             ghizasWheel = Default with { SoundPath = ebonianSoundPath + "ghizasWheel", IsLooped = true, PitchVariance = 0f };
-            garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath" };
+            garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath", PitchVariance = 0 };
             evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };
         }
     }

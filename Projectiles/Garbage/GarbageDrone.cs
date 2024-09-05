@@ -1,23 +1,85 @@
-﻿using EbonianMod.Projectiles.VFXProjectiles;
-using Microsoft.Xna.Framework.Graphics;
+﻿using EbonianMod.Common.Systems;
+using EbonianMod.Dusts;
+using EbonianMod.Projectiles.VFXProjectiles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using static System.Net.Mime.MediaTypeNames;
-using EbonianMod.Dusts;
-using EbonianMod.Common.Systems;
 
-namespace EbonianMod.Projectiles.ArchmageX
+namespace EbonianMod.Projectiles.Garbage
 {
-    public class XLightningBolt : ModProjectile
+    public class GarbageDrone : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 25;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 32;
+            Projectile.height = 20;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = false;
+            Projectile.tileCollide = false;
+            Projectile.hostile = true;
+            Projectile.timeLeft = 400;
+            Projectile.Opacity = 0;
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            lightColor = Color.White * Projectile.Opacity;
+            Texture2D tex = Helper.GetTexture(Texture + "_Bloom");
+            Main.spriteBatch.Reload(BlendState.Additive);
+            var fadeMult = 1f / Projectile.oldPos.Count();
+            for (int i = 0; i < Projectile.oldPos.Count(); i++)
+            {
+                float mult = (1 - i * fadeMult);
+                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.Cyan * (Projectile.Opacity * mult * 0.8f), Projectile.rotation, tex.Size() / 2, Projectile.scale * 1.1f, SpriteEffects.None, 0);
+            }
+
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Cyan * (0.5f * Projectile.Opacity), Projectile.rotation, tex.Size() / 2, Projectile.scale * (1 + (MathF.Sin(Main.GlobalTimeWrappedHourly * 3f) + 1) * 0.5f), SpriteEffects.None, 0);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return true;
+        }
+        Vector2 startP;
+        public override void AI()
+        {
+            if (startP == Vector2.Zero)
+                startP = Projectile.Center;
+            Projectile.Opacity = MathHelper.Lerp(Projectile.Opacity, 1, 0.025f);
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] < 20)
+                Projectile.velocity *= 1.025f;
+            if (Projectile.ai[0] < 80 && Projectile.ai[0] > 20 && Projectile.ai[0] % 5 == 0)
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, startP + new Vector2(Projectile.ai[1], -430), false).RotatedBy(MathF.Sin(Projectile.ai[0]) * Projectile.ai[2] * 10) * Projectile.ai[2] * 2, 0.2f);
+            else
+                Projectile.velocity *= 0.98f;
+            if (Projectile.ai[0] > 90 && Projectile.ai[0] % 5 == 0)
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, startP + new Vector2(Projectile.ai[1], -500), true).RotatedBy(MathF.Sin(Projectile.ai[0]) * Projectile.ai[2] * 10) * Projectile.ai[2] * 200, 0.2f);
+            if (Projectile.ai[0] == 150)
+                Projectile.NewProjectile(null, Projectile.Center, Vector2.UnitY, ModContent.ProjectileType<GarbageTelegraphSmall>(), 0, 0);
+
+            if (Projectile.ai[0] == 200)
+            {
+                Projectile.NewProjectile(null, Projectile.Center, Vector2.UnitY, ModContent.ProjectileType<GarbageLightning>(), Projectile.damage, 0);
+            }
+            if (Projectile.ai[0] == 230)
+            {
+                Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), 50, 0);
+                Projectile.Kill();
+            }
+        }
+    }
+    public class GarbageLightning : ModProjectile
     {
         public override string Texture => "EbonianMod/Extras/Empty";
         int MAX_TIME = 40;
@@ -66,7 +128,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.rotation = Projectile.velocity.ToRotation();
 
             float progress = Utils.GetLerpValue(0, MAX_TIME, Projectile.timeLeft);
-            Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 2, 0, 1);
+            Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI), 0, 1);
 
             int n;
 
@@ -76,7 +138,7 @@ namespace EbonianMod.Projectiles.ArchmageX
 
             if (!RunOnce)
             {
-                SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(-0.5f), Projectile.Center);
+                SoundEngine.PlaySound(SoundID.NPCDeath56, Projectile.Center);
                 n = 15;
                 points.Clear();
                 //Vector2 start = Projectile.Center + Helper.FromAToB(player.Center, Main.MouseWorld) * 40;
@@ -107,20 +169,17 @@ namespace EbonianMod.Projectiles.ArchmageX
                     float s = 1;
                     for (int i = 0; i < points.Count; i++)
                     {
-                        if (i > 1)
+                        for (float j = 0; j < 15; j++)
                         {
-                            for (float j = 0; j < 15; j++)
+                            Vector2 pos = Vector2.Lerp(i == 0 ? Projectile.Center : points[i - 1], points[i], j / 15f);
+                            if (j % 10 == 0)
                             {
-                                Vector2 pos = Vector2.Lerp(i == 0 ? Projectile.Center : points[i - 1], points[i], j / 15f);
-                                if (Main.rand.NextBool())
-                                {
-                                    float velF = Main.rand.NextFloat(0.1f, 0.5f);
-                                    //Dust.NewDustPerfect(pos, ModContent.DustType<XGoopDustDark>(), Helper.FromAToB(pos, points[i]) * velF, 0, default, 0.5f * s);
-                                    Dust.NewDustPerfect(pos, ModContent.DustType<XGoopDust>(), Helper.FromAToB(pos, points[i]) * velF, 0, default, 0.4f * s);
-                                }
-                                if (Main.rand.NextBool(4) && j % 6 == 0 && Projectile.ai[0] < 7)
-                                    Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Unit(), 0, Color.Indigo * s, Main.rand.NextFloat(0.1f, 0.15f) * s);
+                                float velF = Main.rand.NextFloat(1, 5);
+                                //Dust.NewDustPerfect(pos, ModContent.DustType<XGoopDustDark>(), Helper.FromAToB(pos, points[i]) * velF, 0, default, 0.5f * s);
+                                Dust.NewDustPerfect(pos, DustID.Electric, Helper.FromAToB(pos, points[i]).RotateRandom(MathHelper.PiOver4) * velF, 0, default, 0.6f * s);
                             }
+                            if (Main.rand.NextBool(4) && j % 6 == 0 && Projectile.ai[0] < 7)
+                                Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Unit(), 0, Color.Cyan * s, Main.rand.NextFloat(0.1f, 0.15f) * s);
                         }
                         s -= i / (float)points.Count * 0.01f;
                     }
@@ -137,7 +196,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            /*if (!RunOnce || points.Count < 2) return false;
+            if (!RunOnce || points.Count < 2) return false;
             Main.spriteBatch.Reload(SpriteSortMode.Immediate);
 
             float scale = Projectile.scale * 4;
@@ -156,12 +215,12 @@ namespace EbonianMod.Projectiles.ArchmageX
                     Vector2 vector2 = start;
                     float rotation = vector.ToRotation();
 
-                    Color color = Color.Indigo * (s * Projectile.scale);
+                    Color color = Color.Cyan * (s * Projectile.scale);
 
                     Vector2 pos1 = points[i] - Main.screenPosition;
                     Vector2 pos2 = points[i + 1] - Main.screenPosition;
-                    Vector2 dir1 = Helper.GetRotation(points, i) * 10 * scale * s;
-                    Vector2 dir2 = Helper.GetRotation(points, i + 1) * 10 * scale * (s + i / (float)points.Count * 0.03f);
+                    Vector2 dir1 = Helper.GetRotation(points, i) * 3 * scale * s;
+                    Vector2 dir2 = Helper.GetRotation(points, i + 1) * 3 * scale * (s + i / (float)points.Count * 0.03f);
                     Vector2 v1 = pos1 + dir1;
                     Vector2 v2 = pos1 - dir1;
                     Vector2 v3 = pos2 + dir2;
@@ -180,8 +239,9 @@ namespace EbonianMod.Projectiles.ArchmageX
                 }
                 Helper.DrawTexturedPrimitives(vertices, PrimitiveType.TriangleList, bolt);
             }
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);*/
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
     }
 }
+

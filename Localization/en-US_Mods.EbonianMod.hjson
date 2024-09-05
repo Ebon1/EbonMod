@@ -189,6 +189,19 @@ Projectiles: {
 	XCloudVFXExtra.DisplayName: X Cloud V F X Extra
 	EquilibriumP.DisplayName: Equilibrium P
 	EquilibriumP2.DisplayName: Equilibrium P2
+	GarbageBag.DisplayName: Garbage Bag
+	GarbageBarrel.DisplayName: Garbage Barrel
+	GarbageGiantFlame.DisplayName: Garbage Giant Flame
+	GarbageMissile.DisplayName: Garbage Missile
+	GarbageDrone.DisplayName: Garbage Drone
+	GarbageLightning.DisplayName: Garbage Lightning
+	GarbageTelegraph.DisplayName: Garbage Telegraph
+	GarbageTelegraphSmall.DisplayName: Garbage Telegraph Small
+	GarbageLaser.DisplayName: Garbage Laser
+	GarbageLaser1.DisplayName: Garbage Laser1
+	GarbageLaser2.DisplayName: Garbage Laser2
+	GarbageLaser3.DisplayName: Garbage Laser3
+	HeatBlastVFX.DisplayName: Heat Blast V F X
 }
 
 NPCs: {

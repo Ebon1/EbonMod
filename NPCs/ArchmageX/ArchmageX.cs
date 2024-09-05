@@ -147,8 +147,9 @@ namespace EbonianMod.NPCs.ArchmageX
             get => NPC.ai[3];
             set => NPC.ai[3] = value;
         }
-        public const int Taunt = -4, Despawn = -3, Death = -2, Idle = -1, Spawn = 0, PhantasmalSpirit = 1, ShadowflamePuddles = 2, SpectralOrbs = 3, MagnificentFireballs = 4, SineLaser = 5, AmethystCloseIn = 6,
-            AmethystBulletHell = 7, GiantAmethyst = 8, Micolash = 9, TheSheepening = 10, ManaPotion = 11, PhantasmalBlast = 12, ShadowflameRift = 13, HelicopterBlades = 14, AmethystStorm = 15, ExplosionAtFeet = 16;
+        public const int Taunt = -4, Despawn = -3, Death = -2, Idle = -1, Spawn = 0, PhantasmalSpirit = 1, ShadowflamePuddles = 2, SpectralOrbs = 3, MagnificentFireballs = 4,
+            SineLaser = 5, AmethystCloseIn = 6, AmethystBulletHell = 7, GiantAmethyst = 8, Micolash = 9, TheSheepening = 10, ManaPotion = 11, PhantasmalBlast = 12,
+            ShadowflameRift = 13, HelicopterBlades = 14, AmethystStorm = 15, ExplosionAtFeet = 16;
 
         float Next = AmethystStorm;
         public override void AI()

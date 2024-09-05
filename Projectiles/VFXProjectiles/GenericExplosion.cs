@@ -222,8 +222,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
 
             for (int k = 0; k < 20; k++)
             {
-                Dust.NewDustPerfect(Projectile.Center, DustID.Torch, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 15), 0, default, Main.rand.NextFloat(1, 3)).noGravity = true;
-                Dust.NewDustPerfect(Projectile.Center, DustID.Granite, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 15), 100, default, Main.rand.NextFloat(1, 2)).noGravity = true;
+                Dust.NewDustPerfect(Projectile.Center, DustID.Torch, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 15) * Projectile.scale, 0, default, Main.rand.NextFloat(1, 3) * Projectile.scale).noGravity = true;
+                Dust.NewDustPerfect(Projectile.Center, DustID.Granite, Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 15) * Projectile.scale, 100, default, Main.rand.NextFloat(1, 2) * Projectile.scale).noGravity = true;
             }
         }
 
@@ -265,6 +265,10 @@ namespace EbonianMod.Projectiles.VFXProjectiles
 
             Main.EntitySpriteDraw(texture, position, sourceRectangle, color, Projectile.rotation, origin, Projectile.scale - 0.8f, SpriteEffects.None, 0);
 
+            Main.spriteBatch.Reload(BlendState.Additive);
+            color = Color.Orange * Projectile.Opacity;
+            for (int i = 0; i < 2; i++)
+                Main.EntitySpriteDraw(texture, position, sourceRectangle, color, Projectile.rotation, origin, Projectile.scale - 0.8f, SpriteEffects.None, 0);
             texture = Helper.GetTexture("Extras/vortex");
 
             sourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
@@ -272,7 +276,6 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             color = Color.OrangeRed * Projectile.Opacity;
 
             magicRotation += 0.1f;
-            Main.spriteBatch.Reload(BlendState.Additive);
             for (int i = -1; i < 2; i++)
             {
                 if (i == 0) continue;
@@ -407,11 +410,14 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetExtraTexture("explosion");
+            Texture2D tex = Helper.GetExtraTexture("Extras2/star_08");
             Main.spriteBatch.Reload(BlendState.Additive);
             float scale = MathHelper.Lerp(1, 0, Projectile.ai[0]);
             for (int i = 0; i < 2; i++)
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Maroon * Projectile.ai[0] * 0.75f, Projectile.rotation, tex.Size() / 2, scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Maroon * Projectile.ai[0] * 0.75f, Main.GameUpdateCount * 0.02f, tex.Size() / 2, scale, SpriteEffects.None, 0);
+            tex = Helper.GetExtraTexture("Extras2/star_03");
+            for (int i = 0; i < 2; i++)
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Maroon * Projectile.ai[0], Main.GameUpdateCount * -0.01f, tex.Size() / 2, scale * 2, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

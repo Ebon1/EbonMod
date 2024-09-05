@@ -44,6 +44,7 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
             tail = new Verlet(NPC.Center, 20, 6, -10, true, true, 60, false);
             stingerTarget = NPC.Center + new Vector2(30 * NPC.direction, -35);
         }
+        int legUpdateT;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
@@ -51,36 +52,38 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
                 stingerTarget = NPC.Center + new Vector2(30 * NPC.direction, -35);
             NPC.TargetClosest(true);
 
-            NPC.ai[0]++;
-
-            NPC.velocity.X = Helper.FromAToB(NPC.Center, Main.MouseWorld, true).X * 5;
-            if (NPC.ai[0] % 20 < 10)
+            UpdateLegs();
+            if (tail != null)
+            {
+                stingerTarget = Vector2.Lerp(stingerTarget, NPC.Center + new Vector2(30 * NPC.direction, -28), 0.15f + (NPC.velocity.Length() * 0.02f));
+                tail.Update(NPC.Center - new Vector2(32 * NPC.direction, 17), stingerTarget);
+            }
+        }
+        void UpdateLegs()
+        {
+            legUpdateT++;
+            if (legUpdateT % 20 < 10)
             {
                 if (NPC.velocity.Length() > 0.25f)
                 {
                     bodyOffset = Vector2.Lerp(bodyOffset, -Vector2.UnitY * 4, (NPC.velocity.Length() * 0.02f));
-                    bgLegOffsets[0] = Vector2.Lerp(bgLegOffsets[0], new Vector2(MathHelper.Clamp(NPC.velocity.X * 5, -4, 4), -6 * (NPC.velocity.Length() * 0.02f)), 0.35f);
-                    fgLegOffsets[1] = Vector2.Lerp(fgLegOffsets[1], new Vector2(MathHelper.Clamp(NPC.velocity.X * 5, -4, 4), -20 * (NPC.velocity.Length() * 0.02f)), 0.35f);
+                    bgLegOffsets[0] = Vector2.Lerp(bgLegOffsets[0], new Vector2(MathHelper.Clamp(NPC.velocity.X * 5, -4, 4), -6 * (NPC.velocity.Length() * 0.02f)), 0.32f);
+                    fgLegOffsets[1] = Vector2.Lerp(fgLegOffsets[1], new Vector2(MathHelper.Clamp(NPC.velocity.X * 5, -4, 4), -20 * (NPC.velocity.Length() * 0.02f)), 0.325f);
                 }
-                bgLegOffsets[1] = Vector2.Lerp(bgLegOffsets[1], new Vector2(0, 3), 0.6f);
-                fgLegOffsets[0] = Vector2.Lerp(fgLegOffsets[0], new Vector2(0, 0), 0.6f);
+                bgLegOffsets[1] = Vector2.Lerp(bgLegOffsets[1], new Vector2(0, 3), 0.45f);
+                fgLegOffsets[0] = Vector2.Lerp(fgLegOffsets[0], new Vector2(0, 0), 0.45f);
             }
             else
             {
                 bodyOffset = Vector2.Lerp(bodyOffset, Vector2.Zero, 0.2f);
                 if (NPC.velocity.Length() > 0.25f)
                 {
-                    bgLegOffsets[1] = Vector2.Lerp(bgLegOffsets[1], new Vector2(MathHelper.Clamp(NPC.velocity.X * 5, -4, 4), -6 * (NPC.velocity.Length() * 0.02f)), 0.35f);
-                    fgLegOffsets[0] = Vector2.Lerp(fgLegOffsets[0], new Vector2(MathHelper.Clamp(NPC.velocity.X * 5, -4, 4), -20 * (NPC.velocity.Length() * 0.02f)), 0.35f);
+                    bgLegOffsets[1] = Vector2.Lerp(bgLegOffsets[1], new Vector2(MathHelper.Clamp(NPC.velocity.X * 5, -4, 4), -6 * (NPC.velocity.Length() * 0.02f)), 0.325f);
+                    fgLegOffsets[0] = Vector2.Lerp(fgLegOffsets[0], new Vector2(MathHelper.Clamp(NPC.velocity.X * 5, -4, 4), -20 * (NPC.velocity.Length() * 0.02f)), 0.325f);
                 }
 
-                bgLegOffsets[0] = Vector2.Lerp(bgLegOffsets[0], new Vector2(0, 0), 0.6f);
-                fgLegOffsets[1] = Vector2.Lerp(fgLegOffsets[1], new Vector2(0, 0), 0.6f);
-            }
-            if (tail != null)
-            {
-                stingerTarget = Vector2.Lerp(stingerTarget, NPC.Center + new Vector2(30 * NPC.direction, -28), 0.15f + (NPC.velocity.Length() * 0.02f));
-                tail.Update(NPC.Center - new Vector2(32 * NPC.direction, 17), stingerTarget);
+                bgLegOffsets[0] = Vector2.Lerp(bgLegOffsets[0], new Vector2(0, 0), 0.45f);
+                fgLegOffsets[1] = Vector2.Lerp(fgLegOffsets[1], new Vector2(0, 0), 0.45f);
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
