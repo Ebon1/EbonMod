@@ -50,6 +50,7 @@ namespace EbonianMod.Common.Systems
         terrortomaFlesh = Default with { SoundPath = ebonianSoundPath + "terrortomaFlesh" },
         cecitiorBurp = Default with { SoundPath = ebonianSoundPath + "cecitiorBurp" },
         clawSwipe = Default with { SoundPath = ebonianSoundPath + "clawSwipe" },
+        garbageLaser = Default with { SoundPath = ebonianSoundPath + "garbageLaser", PitchVariance = 0 },
         trumpet = Default with { SoundPath = ebonianSoundPath + "trumpet", PitchVariance = 0.4f, Variants = new int[] { 0, 1 } },
         terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f, Volume = 1.1f },
         HeavySwing = Default with { SoundPath = ebonianSoundPath + "HeavySwing", Variants = new int[] { 0, 1, 2 }, PitchVariance = 0.25f, Volume = 1.1f },
@@ -97,6 +98,7 @@ namespace EbonianMod.Common.Systems
             terrortomaFlesh = Default with { SoundPath = ebonianSoundPath + "terrortomaFlesh" };
             cecitiorBurp = Default with { SoundPath = ebonianSoundPath + "cecitiorBurp" };
             clawSwipe = Default with { SoundPath = ebonianSoundPath + "clawSwipe" };
+            garbageLaser = Default with { SoundPath = ebonianSoundPath + "garbageLaser", PitchVariance = 0 };
             trumpet = Default with { SoundPath = ebonianSoundPath + "trumpet", PitchVariance = 0.4f, Variants = new int[] { 0, 1 } };
             terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f, Volume = 1.1f };
             HeavySwing = Default with { SoundPath = ebonianSoundPath + "HeavySwing", Variants = new int[] { 0, 1, 2 }, PitchVariance = 0.25f, Volume = 1.1f };

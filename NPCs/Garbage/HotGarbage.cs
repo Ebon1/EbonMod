@@ -20,6 +20,8 @@ using Terraria.UI;
 using EbonianMod.Common.Achievements;
 using EbonianMod.Common.Systems;
 using System.Security.Cryptography.X509Certificates;
+using ReLogic.Utilities;
+using EbonianMod.Dusts;
 
 namespace EbonianMod.NPCs.Garbage
 {
@@ -64,6 +66,7 @@ namespace EbonianMod.NPCs.Garbage
             Texture2D drawTexture = Helper.GetTexture("NPCs/Garbage/HotGarbage");
             Texture2D glow = Helper.GetTexture("NPCs/Garbage/HotGarbage_Glow");
             Texture2D fire = Helper.GetTexture("NPCs/Garbage/HotGarbage_Fire");
+            Texture2D fireball = Helper.GetExtraTexture("fireball");
             Vector2 origin = new Vector2((drawTexture.Width / 3) * 0.5F, (drawTexture.Height / Main.npcFrameCount[NPC.type]) * 0.5F);
 
             Vector2 drawPos = new Vector2(
@@ -77,6 +80,11 @@ namespace EbonianMod.NPCs.Garbage
             spriteBatch.Draw(glow, drawPos, NPC.frame, Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
             if (AIState != Intro && AIState != Idle && AIState != OpenLid && AIState != SpewFire && AIState != CloseLid && AIState != Death && AIState != ActualDeath && AIState != FallOver && AIState != SpewFire2 && AIState != BouncingBarrels && NPC.frame.X == 80)
                 spriteBatch.Draw(fire, drawPos + new Vector2(NPC.width * -NPC.direction + (NPC.direction == 1 ? 9 : 0), 2).RotatedBy(NPC.rotation) * NPC.scale, new Rectangle(0, NPC.frame.Y - 76 * 3, 70, 76), Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
+
+            spriteBatch.Reload(BlendState.Additive);
+            spriteBatch.Draw(fireball, drawPos, null, Color.OrangeRed * flameAlpha, NPC.rotation + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height * 0.425f), NPC.scale * 2.2f, SpriteEffects.None, 0);
+            spriteBatch.Draw(fireball, drawPos, null, Color.Gold * flameAlpha, NPC.rotation + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height * 0.425f), NPC.scale * 2.15f, SpriteEffects.None, 0);
+            spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
         public override void FindFrame(int f)
@@ -305,7 +313,7 @@ namespace EbonianMod.NPCs.Garbage
         public override bool? CanFallThroughPlatforms()
         {
             Player player = Main.player[NPC.target];
-            return (NPC.Center.Y <= player.Center.Y - 100);
+            return (NPC.Center.Y <= player.Center.Y - 100) || AIState == MassiveLaser;
         }
         List<Vector2> redFrames = new List<Vector2>
         {
@@ -575,7 +583,7 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer == 2)
                     SoundEngine.PlaySound(SoundID.Zombie67, NPC.Center);
-                if (AITimer == 175)
+                if (AITimer == 195)
                     Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.UnitY, ModContent.ProjectileType<GarbageTelegraph>(), 0, 0);
                 if (AITimer == 200)
                 {
@@ -931,47 +939,128 @@ namespace EbonianMod.NPCs.Garbage
             else if (AIState == MassiveLaser)
             {
                 AITimer++;
-                if (AITimer <= 25)
+                if (AITimer < 60)
                 {
-                    NPC.velocity = Vector2.Zero;
-                    NPC.rotation += MathHelper.ToRadians(-0.9f * 4 * NPC.direction);
+                    NPC.velocity.X = 0;
+                    if (AITimer < 40)
+                        NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, -30, 0.1f);
+                    else
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, Vector2.Zero, 0.3f);
+                    if (AITimer > 40)
+                        NPC.rotation = Helper.LerpAngle(NPC.rotation, MathHelper.PiOver2*NPC.direction, 0.05f);
                 }
-                if (AITimer < 50 && AITimer > 25)
+                if (AITimer == 60)
+                    NPC.rotation = MathHelper.PiOver2 * NPC.direction;
+                if (AITimer > 60 && AITimer3 != 3)
                 {
+                    flameAlpha = MathHelper.Lerp(flameAlpha, 1, 0.1f);
                     pos = NPC.Center;
-                    NPC.velocity.Y--;
+                    if (NPC.velocity.Length() < 20)
+                    NPC.velocity.Y += 1+ NPC.velocity.Y;
+                    NPC.Center += Vector2.UnitY*NPC.velocity.Y ;
                 }
-                if (AITimer > 50)
+                else
+                    flameAlpha = MathHelper.Lerp(flameAlpha, 0, 0.2f);
+                if (NPC.collideY && AITimer > 60&& AITimer < 320)
                 {
-                    NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 500)).X * (2 + AITimer2), 0.2f);
-                    NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 500)).Y * (5 * AITimer2), 0.2f);
+                    if (AITimer3 != 3)
+                    {
+                        pos = NPC.Center- new Vector2(0, NPC.height*0.4f);
+                        AITimer3 = 3;
+                        Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FatSmash>(), 0, 0).scale = Main.rand.NextFloat(0.4f, 0.7f);
+                    }
+                    else
+                    {
+                        NPC.Center = pos + Main.rand.NextVector2Circular(AITimer2*5f, AITimer2*0.1f);
+                        NPC.velocity = Vector2.Zero;
+                    }
+                    if (AITimer % 3-(int)AITimer2 == 0)
+                    {
+                        Vector2 pos = NPC.Center + new Vector2(Main.rand.NextFloat(-NPC.width, NPC.width)*0.7f, NPC.height*0.3f);
+                        Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(10, 15),
+                            newColor: Color.OrangeRed, Scale: Main.rand.NextFloat(0.105f, 0.25f)).customData = NPC.Center- new Vector2(0, 100);
+                    }
                 }
-                if (AITimer == 100)
+                if (AITimer > 100 && AITimer < 300 && AITimer % 20 == 0)
+                {
+                    EbonianSystem.ScreenShakeAmount = 5 * AITimer2;
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15) , 0), new Vector2(NPC.direction * Main.rand.NextFloat(-6, 6)*AITimer2, -6 - Main.rand.NextFloat(3, 5) * AITimer2), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+                }
+                if (AITimer == 5)
+                {
+                    SoundEngine.PlaySound(SoundID.Zombie66, NPC.Center);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<GarbageTelegraph>(), 0, 0);
+                }
+                if (AITimer == 40)
                     Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.UnitY, ModContent.ProjectileType<GarbageTelegraph>(), 0, 0);
 
-                if (AITimer == 120)
+                if (AITimer == 60)
                 {
+                    SoundEngine.PlaySound(EbonianSounds.eruption.WithVolumeScale(0.8f), NPC.Center);
+                    laserSlot = SoundEngine.PlaySound(EbonianSounds.garbageLaser.WithVolumeScale(1.35f), NPC.Center);
                     EbonianSystem.ScreenShakeAmount = 5;
                     AITimer2 = 1;
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center + new Vector2(NPC.velocity.X, NPC.height * 0.75f), Vector2.UnitY, ModContent.ProjectileType<HeatBlastVFX>(), 0, 0);
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center + new Vector2(10, NPC.height * -0.75f), Vector2.UnitY, ModContent.ProjectileType<GarbageLaser1>(), 100, 0, ai0: NPC.whoAmI);
-                }
-                if (AITimer == 240)
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center - new Vector2(-6 * NPC.direction, NPC.height * 0.75f), -Vector2.UnitY, ModContent.ProjectileType<HeatBlastVFX>(), 0, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<GarbageLaserSmall1>(), 100, 0, ai0: NPC.whoAmI);
+                }                                                                  
+                if (AITimer == 130)
                 {
-                    EbonianSystem.ScreenShakeAmount = 15;
-                    AITimer2 = 2;
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center + new Vector2(NPC.velocity.X, NPC.height * 0.75f), Vector2.UnitY, ModContent.ProjectileType<HeatBlastVFX>(), 0, 0);
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center + new Vector2(10, NPC.height * -0.75f), Vector2.UnitY, ModContent.ProjectileType<GarbageLaser2>(), 100, 0, ai0: NPC.whoAmI);
-                }
-                if (AITimer == 360)
+                    if (SoundEngine.TryGetActiveSound(laserSlot, out var sound))
+                    {
+                        sound.Pitch += 0.3f;
+                        sound.Volume += 0.3f;
+                    }
+                    EbonianSystem.ScreenShakeAmount = 10;                          
+                    AITimer2 = 1.5f;                                                  
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center - new Vector2(-6*NPC.direction, NPC.height * 0.75f), -Vector2.UnitY, ModContent.ProjectileType<HeatBlastVFX>(), 0, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<GarbageLaserSmall2>(), 100, 0, ai0: NPC.whoAmI);
+                }                                                                   
+                if (AITimer == 200)
                 {
-                    EbonianSystem.ScreenShakeAmount = 30;
-                    AITimer2 = 3;
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center + new Vector2(NPC.velocity.X, NPC.height * 0.75f), Vector2.UnitY, ModContent.ProjectileType<HeatBlastVFX>(), 0, 0);
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center + new Vector2(10, NPC.height * -0.75f), Vector2.UnitY, ModContent.ProjectileType<GarbageLaser3>(), 100, 0, ai0: NPC.whoAmI);
+                    if (SoundEngine.TryGetActiveSound(laserSlot, out var sound))
+                    {
+                        sound.Pitch += 0.4f;
+                        sound.Volume += 0.4f;
+                    }
+                    EbonianSystem.ScreenShakeAmount = 15;                           
+                    AITimer2 = 2.25f;                                                   
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center - new Vector2(-6 * NPC.direction, NPC.height * 0.75f), -Vector2.UnitY, ModContent.ProjectileType<HeatBlastVFX>(), 0, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<GarbageLaserSmall3>(), 100, 0, ai0: NPC.whoAmI);
+                }
+                if (AITimer >= 260 && AITimer < 270)
+                {
+                    if (SoundEngine.TryGetActiveSound(laserSlot, out var sound))
+                    {
+                        sound.Pitch -= 0.1f;
+                    }
+                }
+                if (AITimer > 200 && AITimer < 320)
+                {
+                    for (float i = 0; i < 0.99f; i += 0.33f)
+                        Helper.DustExplosion(NPC.Center - new Vector2(6, NPC.height*0.2f), Vector2.One, 2, Color.Gray * 0.1f, false, false, 0.1f, 0.125f, -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver4 * i) * Main.rand.NextFloat(2f, 8f));
+                }
+                if (AITimer >= 420)
+                    NPC.rotation = Helper.LerpAngle(NPC.rotation, 0, 0.1f);
+                if (AITimer >= 460)
+                {
+
+                    if (SoundEngine.TryGetActiveSound(laserSlot, out var sound))
+                    {
+                        sound.Stop();
+                    }
+                    AITimer3 = 0;
+                    AITimer2 = 0;
+                    AITimer = 0;
+                    NPC.damage = 0;
+                    AIState = Idle;
+                    flameAlpha = 0;
+                    NextAttack = WarningForDash;
+                    NPC.velocity = Vector2.Zero;
                 }
             }
         }
+        SlotId laserSlot;
+        float flameAlpha;
     }
     public class HotGarbageNuke : ModProjectile
     {

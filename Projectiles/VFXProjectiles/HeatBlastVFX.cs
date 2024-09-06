@@ -46,10 +46,10 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             EbonianMod.SpriteRotation.Parameters["uColor"].SetValue(Color.OrangeRed.ToVector4() * alpha);
             for (int i = 0; i < 5; i++)
             {
-                float s = Projectile.ai[0] * (i + 1) * 0.2f;
-                Main.spriteBatch.Draw(tex1, Projectile.Center + Projectile.velocity * i * 0.5f - Main.screenPosition, null, Color.White * 0.4f, Projectile.velocity.ToRotation(), tex1.Size() / 2, s, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(tex2, Projectile.Center + Projectile.velocity * i - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation(), tex2.Size() / 2, s * 1.5f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(tex3, Projectile.Center + Projectile.velocity * i * 2 - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation(), tex3.Size() / 2, s * 0.9f, SpriteEffects.None, 0);
+                float s = Projectile.ai[0] * (i *2) * 0.2f;
+                Main.spriteBatch.Draw(tex1, Projectile.Center + Projectile.velocity * i *3 * (10*s)- Main.screenPosition, null, Color.White * 0.4f, Projectile.velocity.ToRotation(), tex1.Size() / 2, s, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex2, Projectile.Center + Projectile.velocity * i*4 * (10 * s) - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation(), tex2.Size() / 2, s * 1.5f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex3, Projectile.Center + Projectile.velocity * i * 5 * (10 * s) - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation(), tex3.Size() / 2, s * 0.9f, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Reload(effect: null);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);

@@ -202,6 +202,9 @@ Projectiles: {
 	GarbageLaser2.DisplayName: Garbage Laser2
 	GarbageLaser3.DisplayName: Garbage Laser3
 	HeatBlastVFX.DisplayName: Heat Blast V F X
+	GarbageLaserSmall1.DisplayName: Garbage Laser Small1
+	GarbageLaserSmall2.DisplayName: Garbage Laser Small2
+	GarbageLaserSmall3.DisplayName: Garbage Laser Small3
 }
 
 NPCs: {

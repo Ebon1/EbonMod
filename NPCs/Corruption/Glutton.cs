@@ -189,10 +189,6 @@ namespace EbonianMod.NPCs.Corruption
     public class FatSmash : ModProjectile
     {
         public override string Texture => Helper.Empty;
-        public override void SetStaticDefaults()
-        {
-        }
-
         public override void SetDefaults()
         {
             Projectile.width = 30;
