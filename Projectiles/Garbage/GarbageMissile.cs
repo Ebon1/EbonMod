@@ -30,6 +30,7 @@ namespace EbonianMod.Projectiles.Garbage
         {
             col = new Color(Main.rand.Next(25, 100), Main.rand.Next(25, 100), 0);
         }
+        public override bool? CanDamage() => Projectile.timeLeft < 300;
         public override Color? GetAlpha(Color lightColor) => col;
         public override void AI()
         {

@@ -33,6 +33,7 @@ namespace EbonianMod.Projectiles.Garbage
             Projectile.timeLeft = 200;
             Projectile.scale = 0;
         }
+        public override bool? CanDamage() => false;
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = TextureAssets.Projectile[Type].Value;

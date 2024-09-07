@@ -20,7 +20,7 @@ namespace EbonianMod.NPCs.Crimson.Crimera
     {
         public override void HitEffect(NPC.HitInfo hit)
         {
-            if ((hit.Damage >= NPC.life && NPC.life <= 0) || hit.InstantKill)
+            if ((hit.Damage >= NPC.life && NPC.life <= 0))
             {
                 for (int i = 0; i < 3;)
                 {
@@ -143,7 +143,7 @@ namespace EbonianMod.NPCs.Crimson.Crimera
     {
         public override void HitEffect(NPC.HitInfo hit)
         {
-            if ((hit.Damage >= NPC.life && NPC.life <= 0) || hit.InstantKill)
+            if ((hit.Damage >= NPC.life && NPC.life <= 0))
             {
                 for (int i = 0; i < 2;)
                 {
@@ -190,7 +190,7 @@ namespace EbonianMod.NPCs.Crimson.Crimera
         public override bool byHeight => false;
         public override void HitEffect(NPC.HitInfo hit)
         {
-            if ((hit.Damage >= NPC.life && NPC.life <= 0) || hit.InstantKill)
+            if ((hit.Damage >= NPC.life && NPC.life <= 0))
             {
                 for (int i = 0; i < 3;)
                 {

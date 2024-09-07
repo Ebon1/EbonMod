@@ -52,6 +52,7 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
                 stingerTarget = NPC.Center + new Vector2(30 * NPC.direction, -35);
             NPC.TargetClosest(true);
 
+            NPC.velocity.X = Helper.FromAToB(NPC.Center, player.Center).X * 5;
             UpdateLegs();
             if (tail != null)
             {

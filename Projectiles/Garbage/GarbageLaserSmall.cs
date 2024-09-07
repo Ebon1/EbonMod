@@ -18,7 +18,7 @@ namespace EbonianMod.Projectiles.Garbage
     public class GarbageLaserSmall1 : ModProjectile
     {
         public override string Texture => Helper.Empty;
-        int maxTime = 160;
+        int maxTime = 200;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.DrawScreenCheckFluff[Type] = 1500;
@@ -39,10 +39,10 @@ namespace EbonianMod.Projectiles.Garbage
         public override bool? CanDamage() => false;
         public override void AI()
         {
-            Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-30, 30), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(250,290), ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.35f) * 3*Main.rand.NextFloat(1, 3), 0, Color.OrangeRed, Main.rand.NextFloat(0.05f, 0.3f)).customData = Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2()*300;
+            Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-30, 30), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(250, 290), ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.35f) * 3 * Main.rand.NextFloat(1, 3), 0, Color.OrangeRed, Main.rand.NextFloat(0.05f, 0.3f)).customData = Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2() * 300;
             NPC npc = Main.npc[(int)Projectile.ai[0]];
             if (npc.active && npc.type == ModContent.NPCType<HotGarbage>())
-                Projectile.Center = npc.Center + new Vector2(-7*npc.direction, npc.height*0.4f);
+                Projectile.Center = npc.Center + new Vector2(-7 * npc.direction, npc.height * 0.4f);
             float progress = Utils.GetLerpValue(0, maxTime, Projectile.timeLeft);
             Projectile.scale = MathHelper.Clamp(MathF.Sin(progress * MathHelper.Pi) * 5, 0, 1);
             Projectile.ai[2] += 0.025f;
@@ -100,14 +100,14 @@ namespace EbonianMod.Projectiles.Garbage
                 vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(30 + MathHelper.SmoothStep(0, 250, i), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
                 vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(30 + MathHelper.SmoothStep(0, 250, i), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
 
-                
+
             }
 
             //Main.graphics.GraphicsDevice.Textures[0] = texture;
             Main.spriteBatch.SaveCurrent();
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            if (vertices.Count >= 3 && vertices2.Count >= 3 )
+            if (vertices.Count >= 3 && vertices2.Count >= 3)
             {
                 for (int i = 0; i < 4; i++)
                 {
@@ -144,10 +144,10 @@ namespace EbonianMod.Projectiles.Garbage
         public override bool? CanDamage() => false;
         public override void AI()
         {
-                Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-150, 150), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(250,290), ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * 3*Main.rand.NextFloat(2, 4), 0, Color.Orange, Main.rand.NextFloat(0.05f, 0.3f)).customData = Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2()*300;
+            Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-150, 150), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(250, 290), ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * 3 * Main.rand.NextFloat(2, 4), 0, Color.Orange, Main.rand.NextFloat(0.05f, 0.3f)).customData = Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2() * 300;
             NPC npc = Main.npc[(int)Projectile.ai[0]];
             if (npc.active && npc.type == ModContent.NPCType<HotGarbage>())
-                Projectile.Center = npc.Center + new Vector2(-7*npc.direction, npc.height*0.4f);
+                Projectile.Center = npc.Center + new Vector2(-7 * npc.direction, npc.height * 0.4f);
             float progress = Utils.GetLerpValue(0, maxTime, Projectile.timeLeft);
             Projectile.scale = MathHelper.Clamp(MathF.Sin(progress * MathHelper.Pi) * 5, 0, 1);
             Projectile.ai[2] += 0.025f;
@@ -178,7 +178,7 @@ namespace EbonianMod.Projectiles.Garbage
             float progress = Utils.GetLerpValue(0, maxTime, Projectile.timeLeft);
             float i_progress = MathHelper.Clamp(MathHelper.SmoothStep(1, 0, progress) * 50, 0, 1);
             Vector2 start = Projectile.Center - Main.screenPosition;
-            float factor = MathHelper.Lerp(MathF.Sin(Main.GlobalTimeWrappedHourly * 2), MathF.Cos(Main.GlobalTimeWrappedHourly * 2), (MathF.Sin(Main.GlobalTimeWrappedHourly)+1) * 0.5f);
+            float factor = MathHelper.Lerp(MathF.Sin(Main.GlobalTimeWrappedHourly * 2), MathF.Cos(Main.GlobalTimeWrappedHourly * 2), (MathF.Sin(Main.GlobalTimeWrappedHourly) + 1) * 0.5f);
             Vector2 off = (Projectile.velocity.ToRotation().ToRotationVector2() * (600 + (factor * 30)));
             Vector2 end = start + off;
             float rot = Helper.FromAToB(start, end).ToRotation();
@@ -223,7 +223,7 @@ namespace EbonianMod.Projectiles.Garbage
     public class GarbageLaserSmall3 : ModProjectile
     {
         public override string Texture => Helper.Empty;
-        int maxTime = 160;
+        int maxTime = 140;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.DrawScreenCheckFluff[Type] = 1500;
@@ -244,10 +244,10 @@ namespace EbonianMod.Projectiles.Garbage
         public override bool? CanDamage() => false;
         public override void AI()
         {
-            Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-300, 300), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(250,290), ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * 3*Main.rand.NextFloat(3, 5), 0, Color.Gold, Main.rand.NextFloat(0.05f, 0.3f)).customData = Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2()*300;
+            Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-300, 300), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(250, 290), ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * 3 * Main.rand.NextFloat(3, 5), 0, Color.Gold, Main.rand.NextFloat(0.05f, 0.3f)).customData = Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2() * 300;
             NPC npc = Main.npc[(int)Projectile.ai[0]];
             if (npc.active && npc.type == ModContent.NPCType<HotGarbage>())
-                Projectile.Center = npc.Center + new Vector2(-7*npc.direction, npc.height*0.4f);
+                Projectile.Center = npc.Center + new Vector2(-7 * npc.direction, npc.height * 0.4f);
             float progress = Utils.GetLerpValue(0, maxTime, Projectile.timeLeft);
             Projectile.scale = MathHelper.Clamp(MathF.Sin(progress * MathHelper.Pi) * 5, 0, 1);
             Projectile.ai[2] += 0.025f;
@@ -279,7 +279,7 @@ namespace EbonianMod.Projectiles.Garbage
             float progress = Utils.GetLerpValue(0, maxTime, Projectile.timeLeft);
             float i_progress = MathHelper.Clamp(MathHelper.SmoothStep(1, 0, progress) * 50, 0, 1);
             Vector2 start = Projectile.Center - Main.screenPosition;
-            float factor = MathHelper.Lerp(MathF.Sin(Main.GlobalTimeWrappedHourly * 2), MathF.Cos(Main.GlobalTimeWrappedHourly * 2), (MathF.Sin(Main.GlobalTimeWrappedHourly)+1) * 0.5f);
+            float factor = MathHelper.Lerp(MathF.Sin(Main.GlobalTimeWrappedHourly * 2), MathF.Cos(Main.GlobalTimeWrappedHourly * 2), (MathF.Sin(Main.GlobalTimeWrappedHourly) + 1) * 0.5f);
             Vector2 off = (Projectile.velocity.ToRotation().ToRotationVector2() * (600 + (factor * 30)));
             Vector2 end = start + off;
             float rot = Helper.FromAToB(start, end).ToRotation();
@@ -304,14 +304,14 @@ namespace EbonianMod.Projectiles.Garbage
                 vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(50 + MathHelper.SmoothStep(0, 100, i), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
                 vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(50 + MathHelper.SmoothStep(0, 100, i), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
 
-               
+
             }
 
             //Main.graphics.GraphicsDevice.Textures[0] = texture;
             Main.spriteBatch.SaveCurrent();
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            if (vertices.Count >= 3 && vertices2.Count >= 3 )
+            if (vertices.Count >= 3 && vertices2.Count >= 3)
             {
                 for (int i = 0; i < 4; i++)
                 {

@@ -8,11 +8,17 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EbonianMod.Projectiles.Garbage
 {
     public class Pipebomb : ModProjectile
     {
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 25;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+        }
         public override void SetDefaults()
         {
             Projectile.aiStyle = 14;
@@ -26,6 +32,22 @@ namespace EbonianMod.Projectiles.Garbage
             if (Projectile.Center.Y >= Main.LocalPlayer.Center.Y - 100)
                 fallThrough = false;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            lightColor = Color.White;
+            Texture2D tex = Helper.GetTexture(Texture + "_Bloom");
+            Main.spriteBatch.Reload(BlendState.Additive);
+            var fadeMult = 1f / Projectile.oldPos.Count();
+            for (int i = 0; i < Projectile.oldPos.Count(); i++)
+            {
+                float mult = (1 - i * fadeMult);
+                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.Maroon * (mult * 0.8f), Projectile.oldRot[i], tex.Size() / 2, Projectile.scale * 1.1f, SpriteEffects.None, 0);
+            }
+
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Maroon * (0.5f), Projectile.rotation, tex.Size() / 2, Projectile.scale * (1 + (MathF.Sin(Main.GlobalTimeWrappedHourly * 3f) + 1) * 0.5f), SpriteEffects.None, 0);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return true;
         }
         public override Color? GetAlpha(Color lightColor)
         {

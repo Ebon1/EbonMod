@@ -11,6 +11,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.Utilities;
 
 namespace EbonianMod.Projectiles.VFXProjectiles
 {
@@ -212,8 +213,10 @@ namespace EbonianMod.Projectiles.VFXProjectiles
 
             Projectile.aiStyle = -1;
         }
+        int seed;
         public override void OnSpawn(IEntitySource source)
         {
+            seed = Main.rand.Next(int.MaxValue / 2);
             EbonianSystem.ScreenShakeAmount = 5;
 
             SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
@@ -240,6 +243,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             else
             {
                 Projectile.alpha += 10;
+                if (Projectile.ai[1] < 1.1f)
+                    Projectile.ai[1] += 0.07f;
             }
 
             if (Projectile.frameCounter++ >= 3 && Projectile.frame <= Main.projFrames[Type])
@@ -281,6 +286,23 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                 if (i == 0) continue;
                 Main.EntitySpriteDraw(texture, position, sourceRectangle, color, Projectile.rotation + magicRotation * i, origin, (Projectile.scale - 0.8f) * 0.5f, SpriteEffects.None, 0);
             }
+
+            Texture2D tex = Helper.GetExtraTexture("cone5");
+            Texture2D tex2 = Helper.GetExtraTexture("Extras2/trace_04");
+            UnifiedRandom rand = new UnifiedRandom(seed);
+            float max = 40;
+            float alpha = MathHelper.Lerp(0.5f, 0, Projectile.ai[1]) * 2;
+            for (float i = 0; i < max; i++)
+            {
+                float angle = Helper.CircleDividedEqually(i, max);
+                float scale = rand.NextFloat(0.2f, 1f);
+                Vector2 offset = new Vector2(rand.NextFloat(50) * Projectile.ai[1] * scale, 0).RotatedBy(angle);
+                Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Red * (alpha * 0.5f), angle, new Vector2(0, tex.Height / 2), new Vector2(alpha, Projectile.ai[1] * 2) * scale * 0.5f, SpriteEffects.None, 0);
+                for (float j = 0; j < 3; j++)
+                    Main.spriteBatch.Draw(tex2, Projectile.Center + offset - Main.screenPosition, null, Color.OrangeRed * alpha, angle + MathHelper.PiOver2, new Vector2(tex2.Width / 2, 0), new Vector2(alpha, Projectile.ai[1]) * scale * .7f, SpriteEffects.None, 0);
+            }
+
+
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

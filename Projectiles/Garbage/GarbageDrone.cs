@@ -23,6 +23,10 @@ namespace EbonianMod.Projectiles.Garbage
             ProjectileID.Sets.TrailCacheLength[Type] = 25;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
+        public override bool? CanDamage()
+        {
+            return false;
+        }
         public override void SetDefaults()
         {
             Projectile.width = 32;

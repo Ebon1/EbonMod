@@ -136,7 +136,7 @@ namespace EbonianMod
             for (int i = 0; i < NPC.width * offsetX; i += (int)(1 / (offsetX == 0 ? 1 : offsetX))) //full sprite check
             {
 
-                bool a = TRay.CastLength(NPC.BottomLeft + Vector2.UnitX * i, Vector2.UnitY, 1000) < NPC.height * offset;
+                bool a = TRay.CastLength(NPC.BottomLeft + Vector2.UnitX * i, Vector2.UnitY, NPC.height * offset * 2) < NPC.height * offset;
                 if (!a)
                     continue;
                 return a;
