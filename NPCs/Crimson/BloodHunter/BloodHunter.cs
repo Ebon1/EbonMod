@@ -52,6 +52,7 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
                 stingerTarget = NPC.Center + new Vector2(30 * NPC.direction, -35);
             NPC.TargetClosest(true);
 
+            JumpCheck();
             NPC.velocity.X = Helper.FromAToB(NPC.Center, player.Center).X * 5;
             UpdateLegs();
             if (tail != null)
@@ -59,6 +60,21 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
                 stingerTarget = Vector2.Lerp(stingerTarget, NPC.Center + new Vector2(30 * NPC.direction, -28), 0.15f + (NPC.velocity.Length() * 0.02f));
                 tail.Update(NPC.Center - new Vector2(32 * NPC.direction, 17), stingerTarget);
             }
+        }
+        void JumpCheck()
+        {
+            Player player = Main.player[NPC.target];
+            Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
+            if (NPC.Grounded(offsetX: 0.5f) && (NPC.collideX || Helper.TRay.CastLength(NPC.Center, Vector2.UnitX, 1000) < NPC.width || Helper.TRay.CastLength(NPC.Center, -Vector2.UnitX, 1000) < NPC.width))
+                NPC.velocity.Y = -5;
+            if (Helper.TRay.CastLength(NPC.Center, -Vector2.UnitY, NPC.height) < NPC.height - 1)
+            {
+                NPC.noTileCollide = true;
+                if (!Collision.CanHit(NPC, player))
+                    NPC.Center -= Vector2.UnitY * 2;
+            }
+            else
+                NPC.noTileCollide = false;
         }
         void UpdateLegs()
         {

@@ -49,8 +49,8 @@ namespace EbonianMod.Projectiles.Garbage
                 Projectile.Center = Helper.TRay.Cast(Projectile.Center, Vector2.UnitY, 1000, true) - new Vector2(0, 44);
                 Projectile.ai[0] = 1;
             }
-            if (Projectile.timeLeft == 150)
-                Projectile.NewProjectileDirect(NPC.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CircleTelegraph>(), 0, 0);
+            //if (Projectile.timeLeft == 150)
+            //  Projectile.NewProjectileDirect(NPC.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CircleTelegraph>(), 0, 0);
             if (Projectile.timeLeft == 100)
             {
                 Projectile.frame = 1;

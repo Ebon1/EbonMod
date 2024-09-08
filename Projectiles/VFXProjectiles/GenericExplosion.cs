@@ -198,7 +198,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         {
             Main.projFrames[Type] = 7;
         }
-
+        public override bool? CanDamage() => Projectile.alpha < 150;
         public override void SetDefaults()
         {
             Projectile.penetrate = -1;
@@ -206,7 +206,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Projectile.friendly = false;
             Projectile.hostile = true;
 
-            Projectile.Size = new Vector2(50);
+            Projectile.Size = new Vector2(100);
             //Projectile.scale = 0.2f;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
@@ -451,8 +451,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             for (int i = 0; i < 3; i++)
                 Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Red * Projectile.ai[0], Main.GameUpdateCount * 0.02f, tex.Size() / 2, scale, SpriteEffects.None, 0);
             tex = Helper.GetExtraTexture("Extras2/star_03");
-            for (int i = 0; i < 3; i++)
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Red * Projectile.ai[0], Main.GameUpdateCount * -0.01f, tex.Size() / 2, scale * 2, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Red * Projectile.ai[0], Main.GameUpdateCount * -0.01f, tex.Size() / 2, scale * 2, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
