@@ -418,6 +418,10 @@ namespace EbonianMod.Projectiles.VFXProjectiles
     public class CircleTelegraph : ModProjectile
     {
         public override string Texture => Helper.Empty;
+        public override void SetStaticDefaults()
+        {
+            EbonianMod.projectileFinalDrawList.Add(Type);
+        }
         public override void SetDefaults()
         {
             Projectile.height = 300;
@@ -439,13 +443,16 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = Helper.GetExtraTexture("Extras2/star_08");
-            Main.spriteBatch.Reload(BlendState.Additive);
             float scale = MathHelper.Lerp(1, 0, Projectile.ai[0]);
-            for (int i = 0; i < 2; i++)
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Maroon * Projectile.ai[0] * 0.75f, Main.GameUpdateCount * 0.02f, tex.Size() / 2, scale, SpriteEffects.None, 0);
+
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Black * (Projectile.ai[0] * 0.5f), Main.GameUpdateCount * 0.02f, tex.Size() / 2, scale, SpriteEffects.None, 0);
+
+            Main.spriteBatch.Reload(BlendState.Additive);
+            for (int i = 0; i < 3; i++)
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Red * Projectile.ai[0], Main.GameUpdateCount * 0.02f, tex.Size() / 2, scale, SpriteEffects.None, 0);
             tex = Helper.GetExtraTexture("Extras2/star_03");
-            for (int i = 0; i < 2; i++)
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Maroon * Projectile.ai[0], Main.GameUpdateCount * -0.01f, tex.Size() / 2, scale * 2, SpriteEffects.None, 0);
+            for (int i = 0; i < 3; i++)
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Red * Projectile.ai[0], Main.GameUpdateCount * -0.01f, tex.Size() / 2, scale * 2, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
