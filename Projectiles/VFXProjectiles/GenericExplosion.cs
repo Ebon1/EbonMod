@@ -230,6 +230,12 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             }
         }
 
+        public override bool PreAI()
+        {
+            if (Projectile.ai[2] == 0)
+                Projectile.ai[2] = Projectile.scale;
+            return true;
+        }
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, TorchID.Torch);
@@ -290,12 +296,12 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Texture2D tex = Helper.GetExtraTexture("cone5");
             Texture2D tex2 = Helper.GetExtraTexture("Extras2/trace_04");
             UnifiedRandom rand = new UnifiedRandom(seed);
-            float max = 40;
+            float max = 30 * Projectile.ai[2];
             float alpha = MathHelper.Lerp(0.5f, 0, Projectile.ai[1]) * 2;
             for (float i = 0; i < max; i++)
             {
                 float angle = Helper.CircleDividedEqually(i, max);
-                float scale = rand.NextFloat(0.2f, 1f);
+                float scale = rand.NextFloat(0.2f, 1f) * Projectile.ai[2];
                 Vector2 offset = new Vector2(rand.NextFloat(50) * Projectile.ai[1] * scale, 0).RotatedBy(angle);
                 Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Red * (alpha * 0.5f), angle, new Vector2(0, tex.Height / 2), new Vector2(alpha, Projectile.ai[1] * 2) * scale * 0.5f, SpriteEffects.None, 0);
                 for (float j = 0; j < 3; j++)

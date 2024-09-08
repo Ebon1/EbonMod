@@ -77,14 +77,17 @@ namespace EbonianMod.Projectiles.Garbage
             Projectile.hostile = true;
             Projectile.timeLeft = 350;
         }
+        float savedP;
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
-            if (Projectile.Center.Y >= Main.LocalPlayer.Center.Y - 100)
+            if (Projectile.Center.Y >= savedP - 100)
                 fallThrough = false;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
         public override void AI()
         {
+            if (savedP == 0)
+                savedP = Main.LocalPlayer.Center.Y;
             if (Projectile.velocity.Y > 2.8f && Projectile.ai[0] == 0)
             {
                 Projectile.velocity *= 0.87f;
