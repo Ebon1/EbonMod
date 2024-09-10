@@ -105,6 +105,14 @@ namespace EbonianMod.Items.Consumables.BossItems
         float rot;
         public override void AI()
         {
+            foreach (NPC npc in Main.npc)
+            {
+                if (npc.active && npc.type == ModContent.NPCType<HotGarbage>())
+                {
+                    if (npc.Distance(Projectile.Center) < Projectile.Size.Length())
+                        Projectile.Kill();
+                }
+            }
             Player player = Main.player[Projectile.owner];
             if (Projectile.ai[0] == 0)
             {

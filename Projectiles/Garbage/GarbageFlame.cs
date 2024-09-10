@@ -86,6 +86,7 @@ namespace EbonianMod.Projectiles.Garbage
         }
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, TorchID.Torch);
             if (savedP == 0)
                 savedP = Main.LocalPlayer.Center.Y;
             if (Projectile.velocity.Y > 2.8f && Projectile.ai[0] == 0)

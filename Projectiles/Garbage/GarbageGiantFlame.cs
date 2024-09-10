@@ -19,7 +19,7 @@ namespace EbonianMod.Projectiles.Garbage
         public override string Texture => "EbonianMod/Extras/fireball";
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 65;
+            ProjectileID.Sets.TrailCacheLength[Type] = 50;
             ProjectileID.Sets.TrailingMode[Type] = 0;
         }
         public override bool PreKill(int timeLeft)
@@ -31,7 +31,7 @@ namespace EbonianMod.Projectiles.Garbage
             {
                 b++;
                 float s = MathHelper.SmoothStep(0, 1, (1f - fadeMult * b * 2));
-                if (b % 4 == 0 && b < Projectile.oldPos.Length / 2 - 6)
+                if (b % 6 == 0 && b < Projectile.oldPos.Length / 2 - 6)
                     Projectile.NewProjectileDirect(null, pos + Projectile.Size / 2, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), Projectile.damage, 0).scale = s;
                 float Y = MathHelper.Lerp(60, 0, (float)(MathHelper.Clamp(Projectile.velocity.Length(), -10, 10) + 10) / 20);
                 Vector2 oldpos = Vector2.SmoothStep(pos, pos - new Vector2(MathF.Sin(Main.GlobalTimeWrappedHourly * 2) * 5 + Main.windSpeedCurrent * 2, Y), (float)b / Projectile.oldPos.Length);

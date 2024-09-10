@@ -427,6 +427,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Projectile.height = 300;
             Projectile.width = 300;
             Projectile.hostile = true;
+            Projectile.tileCollide = false;
             Projectile.friendly = false;
             Projectile.penetrate = -1;
         }
