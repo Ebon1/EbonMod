@@ -206,6 +206,7 @@ Projectiles: {
 	GarbageLaserSmall2.DisplayName: Garbage Laser Small2
 	GarbageLaserSmall3.DisplayName: Garbage Laser Small3
 	ChargeUp.DisplayName: Charge Up
+	GluttonImpact.DisplayName: Glutton Impact
 }
 
 NPCs: {

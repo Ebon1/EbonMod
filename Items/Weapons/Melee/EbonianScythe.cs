@@ -77,11 +77,9 @@ namespace EbonianMod.Items.Weapons.Melee
         public override void PostDraw(Color lightColor)
         {
             Player player = Main.player[Projectile.owner];
-            Texture2D slash = Helper.GetExtraTexture("Extras2/slash_06_half");
+            Texture2D slash = Helper.GetExtraTexture("Extras2/slash_06");
             float mult = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
             float alpha = (float)Math.Sin(mult * Math.PI);
-            if (mult > 0.5f)
-                slash = Helper.GetExtraTexture("Extras2/slash_06");
             Vector2 pos = player.Center + Projectile.velocity * 20f;
             Main.spriteBatch.Reload(BlendState.Additive);
             Main.spriteBatch.Draw(slash, pos - Main.screenPosition, null, new Color(152, 187, 63) * alpha * 0.5f, Projectile.velocity.ToRotation(), slash.Size() / 2, Projectile.scale / 3.5f, SpriteEffects.None, 0f);

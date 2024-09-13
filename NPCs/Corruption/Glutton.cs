@@ -11,6 +11,11 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 using static Terraria.ModLoader.PlayerDrawLayer;
 using EbonianMod.Dusts;
+using EbonianMod.Items.Misc;
+using EbonianMod.Projectiles.VFXProjectiles;
+using Terraria.Audio;
+using EbonianMod.Projectiles.Terrortoma;
+using System.Net.Sockets;
 
 namespace EbonianMod.NPCs.Corruption
 {
@@ -59,7 +64,7 @@ namespace EbonianMod.NPCs.Corruption
         {
             NPC.frameCounter++;
             NPC.frame.Width = ActualWidth;
-            NPC.frame.X = (int)AIState * ActualWidth;
+            NPC.frame.X = (AIState == 0 ? 0 : 1) * ActualWidth;
             if (!NPC.collideY)
             {
                 NPC.frame.Y = 0;
@@ -75,12 +80,19 @@ namespace EbonianMod.NPCs.Corruption
                         else
                             NPC.frame.Y = 0;
                     }
-                    else
+                    else if (AIState == 1)
                     {
                         if (NPC.frame.Y < 8 * frameHeight)
                             NPC.frame.Y += frameHeight;
                         else
                             NPC.frame.Y = 0;
+                    }
+                    else
+                    {
+                        if (NPC.frame.Y < 4 * frameHeight)
+                            NPC.frame.Y += frameHeight;
+                        else
+                            NPC.frame.Y = 2 * frameHeight;
                     }
                 }
             }
@@ -99,6 +111,7 @@ namespace EbonianMod.NPCs.Corruption
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color lightColor)
         {
             Texture2D drawTexture = Helper.GetTexture("NPCs/Corruption/Glutton");
+            Texture2D glowTexture = Helper.GetTexture("NPCs/Corruption/Glutton_Glow");
             Vector2 origin = new Vector2((drawTexture.Width / 2) * 0.5F, (drawTexture.Height / Main.npcFrameCount[NPC.type]) * 0.5F);
 
             Vector2 drawPos = new Vector2(
@@ -108,6 +121,7 @@ namespace EbonianMod.NPCs.Corruption
             SpriteEffects effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
             spriteBatch.Draw(drawTexture, drawPos, NPC.frame, lightColor, NPC.rotation, origin, NPC.scale, effects, 0);
+            spriteBatch.Draw(glowTexture, drawPos, NPC.frame, Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
             return false;
         }
         public float AIState
@@ -126,10 +140,10 @@ namespace EbonianMod.NPCs.Corruption
             get => NPC.ai[2];
             set => NPC.ai[2] = value;
         }
-        const int Walk = 0, Attack = 1;
+        const int Walk = 0, GroundPound = 1, Conjure = 2;
         public override void HitEffect(NPC.HitInfo hit)
         {
-            if ((hit.Damage >= NPC.life && NPC.life <= 0) )
+            if ((hit.Damage >= NPC.life && NPC.life <= 0))
             {
                 Gore.NewGore(NPC.GetSource_Death(), NPC.Center - new Vector2(0, 25), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/GluttonGore1").Type, NPC.scale);
                 for (int i = 0; i < 2; i++)
@@ -146,18 +160,20 @@ namespace EbonianMod.NPCs.Corruption
         {
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(true);
+            NPC.spriteDirection = NPC.direction;
             if (AIState == Walk)
             {
                 Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
                 if (NPC.collideY && NPC.collideX)
                     NPC.velocity.Y = -10;
-                if (player.Center.Distance(NPC.Center) < NPC.width * 2)
+                if (player.Center.Distance(NPC.Center) < NPC.width * 4)
                 {
                     AITimer++;
                 }
                 if (player.Center.Distance(NPC.Center) < NPC.width / 2)
                 {
-                    AITimer = 300;
+                    if (AITimer < 280)
+                        AITimer = 280;
                 }
                 NPC.velocity.X = Helper.FromAToB(NPC.Center, player.Center).X * 3;
                 if (AITimer >= 300)
@@ -165,18 +181,38 @@ namespace EbonianMod.NPCs.Corruption
                     AITimer = 0;
                     NPC.frameCounter = 0;
                     NPC.frame.Y = 0;
-                    AIState = Attack;
+                    AIState = (player.Center.Distance(NPC.Center) > NPC.width / 2 ? Conjure : GroundPound);
+                    NPC.velocity = Vector2.Zero;
+                }
+            }
+            else if (AIState == GroundPound)
+            {
+                AITimer++;
+                if (AITimer == 30 || AITimer == 75)
+                {
+                    EbonianSystem.ScreenShakeAmount = 5;
+                    SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
+                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 50, 0), new Vector2(0, 0), ModContent.ProjectileType<GluttonImpact>(), 20, 0, 0, 0);
+                    a.friendly = false;
+                    a.hostile = true;
+                }
+                if (AITimer >= 85)
+                {
+                    AITimer = 0;
+                    NPC.frame.Y = 0;
+                    AIState = Walk;
                     NPC.velocity = Vector2.Zero;
                 }
             }
             else
             {
                 AITimer++;
-                if (AITimer == 30 || AITimer == 75)
+                if (AITimer % 10 == 0 && AITimer > 35)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(0, 0), ModContent.ProjectileType<FatSmash>(), 20, 0, 0, 0);
+                    Vector2 pos = NPC.Bottom + new Vector2(NPC.direction * Main.rand.NextFloat(-400, 400), 700);
+                    Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, player.Center).RotatedByRandom(MathHelper.PiOver4) * 10, ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0);
                 }
-                if (AITimer >= 85)
+                if (AITimer >= 105)
                 {
                     AITimer = 0;
                     NPC.frame.Y = 0;
