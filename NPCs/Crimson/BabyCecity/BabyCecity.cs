@@ -92,11 +92,12 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
         //float[] len = new float[3];
         public override void OnSpawn(IEntitySource source)
         {
+            NPC.Center = Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 1000) - Vector2.UnitY * Main.rand.NextFloat(200, 300);
             for (int i = 0; i < 2; i++)
             {
                 verlet[i] = new Verlet(NPC.Center, 20, 22, gravity: 0.2f, lastPointLocked: true, stiffness: 30);
-                dir[i] = -Helper.CircleDividedEqually(i + 1, 6).ToRotationVector2();
-                ogPos[i] = Helper.TRay.Cast(NPC.Center, dir[i], 350);
+                dir[i] = -Helper.CircleDividedEqually(i + 1, 6).ToRotationVector2().RotatedBy(MathHelper.Pi);
+                ogPos[i] = Helper.TRay.Cast(NPC.Center, dir[i], 350) + Vector2.UnitY * 30;
             }
         }
         public override void HitEffect(NPC.HitInfo hit)
@@ -129,9 +130,9 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
                         AITimer++;
                     if (NPC.Center.Distance(verlet[0].lastP.position) < 370 && NPC.Center.Distance(verlet[1].lastP.position) < 370)
                     {
-                        NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(player.Center) * 15, 0.01f);
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(player.Center - new Vector2(0, 100)) * 15, 0.01f);
                     }
-                    else NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(verlet[0].lastP.position) * 15, 0.01f);
+                    else NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(verlet[0].lastP.position - new Vector2(0, 100)) * 15, 0.01f);
                     if (AITimer >= 350)
                     {
                         AIState++;
@@ -158,6 +159,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
                         Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, vel * 7, ProjectileID.GoldenShowerHostile, 20, 0);
                         a.friendly = false;
                         a.hostile = true;
+                        a.tileCollide = false;
 
                     }
                     if (AITimer2 >= 60)

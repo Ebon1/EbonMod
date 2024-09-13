@@ -38,7 +38,7 @@ namespace EbonianMod.NPCs.Corruption
         }
         public override void DrawBehind(int index)
         {
-            Main.instance.DrawCacheNPCsMoonMoon.Add(index);
+            Main.instance.DrawCacheNPCsBehindNonSolidTiles.Add(index);
         }
         public override void FindFrame(int frameHeight)
         {
