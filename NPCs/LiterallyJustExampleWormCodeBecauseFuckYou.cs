@@ -606,7 +606,6 @@ namespace EbonianMod.NPCs
         {
             CommonAI_BodyTail(this);
         }
-
         public override void SetStaticDefaults()
         {
 

@@ -129,21 +129,22 @@ namespace EbonianMod
                     Main.screenPosition = Vector2.SmoothStep(player.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), CameraChangePos, CameraChangeTransition -= 0.05f);
                 }
                 else
-                {
                     isChangingCameraPos = false;
-                }
+            }
+            else
+            {
+                CameraChangeLength = 0;
+                cameraChangeStartPoint = Vector2.Zero;
+                CameraChangeTransition = 0;
+                CameraChangePos = Vector2.Zero;
             }
             if (!Main.gameMenu)
             {
                 ShakeTimer++;
                 if (ScreenShakeAmount >= 0 && ShakeTimer >= 5)
-                {
                     ScreenShakeAmount -= 0.1f;
-                }
                 if (ScreenShakeAmount < 0)
-                {
                     ScreenShakeAmount = 0;
-                }
                 Main.screenPosition += new Vector2(ScreenShakeAmount * Main.rand.NextFloat(), ScreenShakeAmount * Main.rand.NextFloat());
             }
             else
