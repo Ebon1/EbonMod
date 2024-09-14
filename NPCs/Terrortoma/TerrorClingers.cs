@@ -856,7 +856,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                 {
                                     NPC.velocity = Vector2.Zero;
                                     alpha = 1f;
-                                    lastPos = Helper.TRay.Cast(NPC.Center, Helper.FromAToB(NPC.Center, player.Center), 2028);
+                                    lastPos = Helper.TRay.Cast(NPC.Center, Vector2.Clamp(Helper.FromAToB(NPC.Center, player.Center), new Vector2(-0.45f, 1), new Vector2(0.45f, 1)), 2028);
                                 }
                                 if (AITimer > 30 && AITimer < 100)
                                 {
