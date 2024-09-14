@@ -16,6 +16,8 @@ using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.Audio;
 using EbonianMod.Projectiles.Terrortoma;
 using System.Net.Sockets;
+using EbonianMod.Common.Systems;
+using EbonianMod.Projectiles.Enemy.Corruption;
 
 namespace EbonianMod.NPCs.Corruption
 {
@@ -23,7 +25,7 @@ namespace EbonianMod.NPCs.Corruption
     {
         public override bool? CanFallThroughPlatforms()
         {
-            return Main.player[NPC.target].Bottom.Y < NPC.Center.Y;
+            return Main.player[NPC.target].Center.Y - 50 > NPC.Bottom.Y && AIState == 0;
         }
         public override void SetStaticDefaults()
         {
@@ -54,8 +56,8 @@ namespace EbonianMod.NPCs.Corruption
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath2;
             NPC.value = 60f;
-            NPC.knockBackResist = 0;
-            NPC.aiStyle = 0;
+            NPC.knockBackResist = 0.04f;
+            NPC.aiStyle = -1;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
         }
@@ -65,35 +67,48 @@ namespace EbonianMod.NPCs.Corruption
             NPC.frameCounter++;
             NPC.frame.Width = ActualWidth;
             NPC.frame.X = (AIState == 0 ? 0 : 1) * ActualWidth;
-            if (!NPC.collideY)
+            if (NPC.frameCounter % 5 == 0)
             {
-                NPC.frame.Y = 0;
-            }
-            else
-            {
-                if (NPC.frameCounter % 5 == 0)
+                if (AIState == 0)
                 {
-                    if (AIState == 0)
+                    if (!NPC.collideY)
                     {
-                        if (NPC.frame.Y < 5 * frameHeight)
-                            NPC.frame.Y += frameHeight;
-                        else
-                            NPC.frame.Y = 0;
-                    }
-                    else if (AIState == 1)
-                    {
-                        if (NPC.frame.Y < 8 * frameHeight)
-                            NPC.frame.Y += frameHeight;
-                        else
-                            NPC.frame.Y = 0;
+                        NPC.frame.Y = 0;
                     }
                     else
                     {
+                        if (NPC.frame.Y < 5 * frameHeight && !NPC.velocity.X.CloseTo(0, 0.1f))
+                            NPC.frame.Y += frameHeight;
+                        else
+                            NPC.frame.Y = 0;
+                    }
+                }
+                else if (AIState == 1)
+                {
+                    if (NPC.frame.Y < 8 * frameHeight)
+                        NPC.frame.Y += frameHeight;
+                    else
+                        NPC.frame.Y = 0;
+                }
+                else if (AIState == Conjure)
+                {
+                    if (AITimer < 85)
                         if (NPC.frame.Y < 4 * frameHeight)
                             NPC.frame.Y += frameHeight;
                         else
                             NPC.frame.Y = 2 * frameHeight;
+                    else
+                    {
+                        if (NPC.frame.Y > 0)
+                            NPC.frame.Y -= frameHeight;
                     }
+                }
+                else
+                {
+                    if (NPC.frame.Y < 8 * frameHeight)
+                        NPC.frame.Y += frameHeight;
+                    else
+                        NPC.frame.Y = 6 * frameHeight;
                 }
             }
         }
@@ -112,6 +127,7 @@ namespace EbonianMod.NPCs.Corruption
         {
             Texture2D drawTexture = Helper.GetTexture("NPCs/Corruption/Glutton");
             Texture2D glowTexture = Helper.GetTexture("NPCs/Corruption/Glutton_Glow");
+            Texture2D bloomTexture = Helper.GetTexture("NPCs/Corruption/Glutton_Bloom");
             Vector2 origin = new Vector2((drawTexture.Width / 2) * 0.5F, (drawTexture.Height / Main.npcFrameCount[NPC.type]) * 0.5F);
 
             Vector2 drawPos = new Vector2(
@@ -122,6 +138,9 @@ namespace EbonianMod.NPCs.Corruption
 
             spriteBatch.Draw(drawTexture, drawPos, NPC.frame, lightColor, NPC.rotation, origin, NPC.scale, effects, 0);
             spriteBatch.Draw(glowTexture, drawPos, NPC.frame, Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
+            spriteBatch.Reload(BlendState.Additive);
+            spriteBatch.Draw(bloomTexture, drawPos, NPC.frame, Color.White * eyeBeamAlpha, NPC.rotation, origin, NPC.scale, effects, 0);
+            spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
         public float AIState
@@ -140,7 +159,8 @@ namespace EbonianMod.NPCs.Corruption
             get => NPC.ai[2];
             set => NPC.ai[2] = value;
         }
-        const int Walk = 0, GroundPound = 1, Conjure = 2;
+        const int Walk = 0, GroundPound = 1, Conjure = 2, EyeBeam = 3;
+        Vector2 storedPlayerPos;
         public override void HitEffect(NPC.HitInfo hit)
         {
             if ((hit.Damage >= NPC.life && NPC.life <= 0))
@@ -156,43 +176,49 @@ namespace EbonianMod.NPCs.Corruption
                 }
             }
         }
+        float eyeBeamAlpha = 0;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
-            NPC.TargetClosest(true);
-            NPC.spriteDirection = NPC.direction;
+            NPC.TargetClosest(AIState != 3);
+            if (AIState != 3)
+                NPC.spriteDirection = NPC.direction;
             if (AIState == Walk)
             {
                 Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
-                if (NPC.collideY && NPC.collideX)
+                if ((NPC.collideY && NPC.collideX))
                     NPC.velocity.Y = -10;
                 if (player.Center.Distance(NPC.Center) < NPC.width * 4)
                 {
                     AITimer++;
                 }
-                if (player.Center.Distance(NPC.Center) < NPC.width / 2)
+                if (player.Center.Distance(NPC.Center) < NPC.width)
                 {
-                    if (AITimer < 280)
-                        AITimer = 280;
+                    if (AITimer < 130)
+                        AITimer = 130;
                 }
-                NPC.velocity.X = Helper.FromAToB(NPC.Center, player.Center).X * 3;
-                if (AITimer >= 300)
+                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 50).X * 3, 0.1f);
+                if (AITimer >= 200)
                 {
                     AITimer = 0;
                     NPC.frameCounter = 0;
                     NPC.frame.Y = 0;
-                    AIState = (player.Center.Distance(NPC.Center) > NPC.width / 2 ? Conjure : GroundPound);
+                    if (NPC.collideY && player.Center.Y - NPC.Center.Y < -100)
+                        AIState = (Main.rand.NextBool(3) ? EyeBeam : Conjure);
+                    else
+                        AIState = (player.Center.Distance(NPC.Center) > NPC.width ? (Main.rand.NextBool(3) ? EyeBeam : Conjure) : GroundPound);
                     NPC.velocity = Vector2.Zero;
                 }
             }
             else if (AIState == GroundPound)
             {
                 AITimer++;
+                NPC.velocity.Y += .5f;
                 if (AITimer == 30 || AITimer == 75)
                 {
                     EbonianSystem.ScreenShakeAmount = 5;
                     SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
-                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 50, 0), new Vector2(0, 0), ModContent.ProjectileType<GluttonImpact>(), 20, 0, 0, 0);
+                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ModContent.ProjectileType<GluttonImpact>(), 20, 2.5f, 0, 0);
                     a.friendly = false;
                     a.hostile = true;
                 }
@@ -204,7 +230,7 @@ namespace EbonianMod.NPCs.Corruption
                     NPC.velocity = Vector2.Zero;
                 }
             }
-            else
+            else if (AIState == Conjure)
             {
                 AITimer++;
                 if (AITimer % 10 == 0 && AITimer > 35)
@@ -212,7 +238,42 @@ namespace EbonianMod.NPCs.Corruption
                     Vector2 pos = NPC.Bottom + new Vector2(NPC.direction * Main.rand.NextFloat(-400, 400), 700);
                     Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, player.Center).RotatedByRandom(MathHelper.PiOver4) * 10, ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0);
                 }
+                if (AITimer == 60)
+                {
+                    Vector2 pos = NPC.Bottom + new Vector2(NPC.direction * Main.rand.NextFloat(-400, 400), 700);
+                    Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, player.Center) * 12, ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0);
+                }
                 if (AITimer >= 105)
+                {
+                    AITimer = 0;
+                    NPC.frame.Y = 0;
+                    AIState = Walk;
+                    NPC.velocity = Vector2.Zero;
+                }
+            }
+            else
+            {
+                AITimer++;
+                if (AITimer < 120 && AITimer > 60)
+                    eyeBeamAlpha = MathHelper.Lerp(eyeBeamAlpha, 1, 0.1f);
+                if (AITimer == 100)
+                {
+                    storedPlayerPos = player.Center;
+                    SoundEngine.PlaySound(EbonianSounds.cursedToyCharge, NPC.Center);
+                    Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Vector2.Zero, ModContent.ProjectileType<GreenChargeUp>(), 0, 0);
+                }
+                if (AITimer == 90)
+                    Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Vector2.Zero, ModContent.ProjectileType<GreenChargeUp>(), 0, 0);
+                if (AITimer > 155 && AITimer <= 174)
+                {
+                    if (AITimer % 2 == 0)
+                    {
+                        SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(0.5f), NPC.Center);
+                        Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Helper.FromAToB(NPC.Center + new Vector2(56 * NPC.direction, 22), storedPlayerPos).RotatedByRandom(MathHelper.PiOver4 * 0.35f) * Main.rand.NextFloat(0.4f, 0.8f), ModContent.ProjectileType<RegorgerBolt>(), 10, 0);
+                    }
+                    eyeBeamAlpha = MathHelper.Lerp(eyeBeamAlpha, 0, 0.2f);
+                }
+                if (AITimer >= 190)
                 {
                     AITimer = 0;
                     NPC.frame.Y = 0;

@@ -25,7 +25,7 @@ namespace EbonianMod.NPCs.Crimson.Spectators
         public override void SetStaticDefaults()
         {
 
-            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 CustomTexturePath = "EbonianMod/NPCs/Crimson/Spectators/MassiveSpectator_Bestiary",
                 Position = new Vector2(7f, 24f),

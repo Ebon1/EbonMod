@@ -18,7 +18,7 @@ namespace EbonianMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 3;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Hide = true
             };

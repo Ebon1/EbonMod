@@ -207,6 +207,7 @@ Projectiles: {
 	GarbageLaserSmall3.DisplayName: Garbage Laser Small3
 	ChargeUp.DisplayName: Charge Up
 	GluttonImpact.DisplayName: Glutton Impact
+	GreenChargeUp.DisplayName: Green Charge Up
 }
 
 NPCs: {
@@ -269,7 +270,7 @@ NPCs: {
 	EbonButKill.DisplayName: Ebon But Kill
 	BloatedEbonfly.DisplayName: Bloated Ebonfly
 	Ignos.DisplayName: Exol of Ignos
-	MassiveSpectator.DisplayName: Massive Spectator
+	MassiveSpectator.DisplayName: Spectator
 	foreskin.DisplayName: Foreskin Apostle
 	TerrortomaBulb.DisplayName: Giant Cocoon
 	Bloodhound.DisplayName: Bloodhound

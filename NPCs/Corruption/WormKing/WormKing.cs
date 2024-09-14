@@ -24,6 +24,14 @@ namespace EbonianMod.NPCs.Corruption.WormKing
     {
         public override void SetStaticDefaults()
         {
+            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                CustomTexturePath = "EbonianMod/NPCs/Corruption/WormKing/WormKing_Bestiary",
+                Position = new Vector2(7f, 24f),
+                PortraitPositionXOverride = 0f,
+                PortraitPositionYOverride = 45f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
             Main.npcFrameCount[Type] = 8;
         }
         public override void SetDefaults()

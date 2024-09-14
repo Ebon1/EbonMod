@@ -18,8 +18,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override string Texture => Helper.Placeholder;
         public override void SetDefaults()
         {
-            Projectile.width = 200;
-            Projectile.height = 100;
+            Projectile.width = 300;
+            Projectile.height = 20;
             Projectile.aiStyle = -1;
             Projectile.friendly = false;
             Projectile.hostile = true;
@@ -31,11 +31,12 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         {
             return false;
         }
+        public override bool? CanDamage() => Projectile.timeLeft > 30;
         int seed;
         public override void OnSpawn(IEntitySource source)
         {
             seed = Main.rand.Next(int.MaxValue);
-            for (int k = 0; k < 30; k++)
+            for (int k = 0; k < 50; k++)
             {
                 Dust.NewDustPerfect(Projectile.Center, DustID.CursedTorch, Main.rand.NextVector2Unit(-MathHelper.Pi, MathHelper.Pi) * Main.rand.NextFloat(1, 30), 0, default, Main.rand.NextFloat(1, 3)).noGravity = true;
                 Dust.NewDustPerfect(Projectile.Center, DustID.Granite, Main.rand.NextVector2Unit(-MathHelper.Pi, MathHelper.Pi) * Main.rand.NextFloat(1, 30), 100, default, Main.rand.NextFloat(1, 2)).noGravity = true;

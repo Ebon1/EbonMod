@@ -19,7 +19,7 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
         public override string Texture => Helper.Placeholder;
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 1400;
+            ProjectileID.Sets.TrailCacheLength[Type] = 1200;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
         public override void SetDefaults()
@@ -29,7 +29,7 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
             Projectile.tileCollide = true;
             Projectile.aiStyle = 0;
             Projectile.extraUpdates = 120;
-            Projectile.timeLeft = 500 * 80;
+            Projectile.timeLeft = 3000;
             Projectile.Size = new(5, 5);
         }
         public override bool PreDraw(ref Color lightColor)
@@ -74,16 +74,8 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
             }
             Projectile.ai[0]++;
             Projectile.direction = velocity.X > 0 ? 1 : -1;
-            if (Projectile.ai[0] > 80 && Projectile.ai[0] < 171)
-            {
-                Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(4 * Projectile.direction));
-            }
-            else if (Projectile.ai[0] > 450 && Projectile.ai[0] < 540)
-            {
-                Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(-4 * Projectile.direction));
-            }
-            else
-                Projectile.velocity = velocity;
+            Projectile.velocity = velocity;
+            Projectile.Center += new Vector2(0, MathF.Sin(Projectile.ai[0] * (1 / 60f)) * 0.05f).RotatedBy(velocity.ToRotation());
             if (Projectile.ai[0] > 550)
                 Projectile.ai[0] = 0;
         }

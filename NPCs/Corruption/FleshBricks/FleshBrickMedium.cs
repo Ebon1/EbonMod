@@ -20,6 +20,11 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
         public override string Texture => "EbonianMod/NPCs/Corruption/FleshBricks/FleshBrickMedium0";
         public override void SetStaticDefaults()
         {
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
             Main.npcFrameCount[Type] = 6;
             NPCID.Sets.TrailCacheLength[Type] = 5;
             NPCID.Sets.TrailingMode[Type] = 0;

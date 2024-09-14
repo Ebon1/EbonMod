@@ -20,7 +20,7 @@ namespace EbonianMod.NPCs.Crimson
         {
             NPC.width = 72;
             NPC.height = 78;
-            NPC.damage = 0;
+            NPC.damage = 40;
             NPC.defense = 1;
             NPC.lifeMax = 60;
             NPC.aiStyle = -1;
