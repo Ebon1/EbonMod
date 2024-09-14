@@ -33,7 +33,7 @@ namespace EbonianMod.Projectiles.Cecitior
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
             Texture2D tex = Helper.GetExtraTexture("EbonianGatlingBullet");
-            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 spriteBatch.Draw(tex, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.Black * (1f - fadeMult * i), Projectile.rotation, tex.Size() / 2, Projectile.scale * (1f - fadeMult * i), SpriteEffects.None, 0);

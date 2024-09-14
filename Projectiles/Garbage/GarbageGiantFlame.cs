@@ -25,7 +25,7 @@ namespace EbonianMod.Projectiles.Garbage
         public override bool PreKill(int timeLeft)
         {
             int b = 0;
-            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), 0, 0);
             foreach (Vector2 pos in Projectile.oldPos)
             {
@@ -52,7 +52,7 @@ namespace EbonianMod.Projectiles.Garbage
         {
             if (lightColor != Color.Transparent) return false;
 
-            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             for (int i = 1; i < Projectile.oldPos.Length; i++)
             {
                 if (Projectile.oldPos[i] == Vector2.Zero) continue;

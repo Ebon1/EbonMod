@@ -104,10 +104,8 @@ namespace EbonianMod.Projectiles.Garbage
                 vertices3.Add(Helper.AsVertex(start + off * i + new Vector2(100 + MathHelper.SmoothStep(150, MathF.Sin(Main.GlobalTimeWrappedHourly * 2) * 50, i), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
                 vertices3.Add(Helper.AsVertex(start + off * i + new Vector2(100 + MathHelper.SmoothStep(150, MathF.Sin(Main.GlobalTimeWrappedHourly * 2) * 50, i), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
 
-                //ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, (i).ToString(), start + off * i + new Vector2(Projectile.scale * 160, 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, col, rot + MathHelper.PiOver2, new Vector2(0, 0.5f), Vector2.One);
             }
 
-            //Main.graphics.GraphicsDevice.Textures[0] = texture;
             Main.spriteBatch.SaveCurrent();
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -209,15 +207,8 @@ namespace EbonianMod.Projectiles.Garbage
                 col = Color.Lerp(Color.OrangeRed, Color.Orange, i) * (s * s * 2);
                 vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(0, 650, i), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
                 vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(0, 650, i), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
-
-                //col = Color.Orange * (s * s * 2);
-                //vertices3.Add(Helper.AsVertex(start + off * i + new Vector2(50 + MathHelper.SmoothStep(250, 400, i), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
-                //vertices3.Add(Helper.AsVertex(start + off * i + new Vector2(50 + MathHelper.SmoothStep(250, 400, i), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
-
-                //ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, (i).ToString(), start + off * i + new Vector2(Projectile.scale * 160, 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, col, rot + MathHelper.PiOver2, new Vector2(0, 0.5f), Vector2.One);
             }
 
-            //Main.graphics.GraphicsDevice.Textures[0] = texture;
             Main.spriteBatch.SaveCurrent();
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -227,7 +218,6 @@ namespace EbonianMod.Projectiles.Garbage
                 {
                     Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, texture, false);
                     Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, texture2, false);
-                    //Helper.DrawTexturedPrimitives(vertices3.ToArray(), PrimitiveType.TriangleStrip, texture3, false);
                 }
             }
             Main.spriteBatch.ApplySaved();
@@ -318,11 +308,8 @@ namespace EbonianMod.Projectiles.Garbage
                 col = Color.Lerp(Color.White, Color.Gold, i) * (s * s * 2);
                 vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(0, 950, i * 2), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
                 vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(0, 950, i * 2), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
-
-                //ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, (i).ToString(), start + off * i + new Vector2(Projectile.scale * 160, 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, col, rot + MathHelper.PiOver2, new Vector2(0, 0.5f), Vector2.One);
             }
 
-            //Main.graphics.GraphicsDevice.Textures[0] = texture;
             Main.spriteBatch.SaveCurrent();
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);

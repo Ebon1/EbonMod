@@ -77,7 +77,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             Main.spriteBatch.Draw(tex, player.Center + Helper.FromAToB(player.Center, Projectile.Center) * off - Main.screenPosition, null, Color.White, Helper.FromAToB(player.Center, Projectile.Center).ToRotation() + MathHelper.PiOver4, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 
 
-            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 float mult = (1f - fadeMult * i);

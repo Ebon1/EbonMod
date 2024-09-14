@@ -36,7 +36,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             int i = 0;
             foreach (Vector2 pos in Projectile.oldPos)
             {
-                var fadeMult = 1f / Projectile.oldPos.Length;
+                var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
                 float mult = (1f - fadeMult * i);
                 Dust.NewDustPerfect(pos + Projectile.Size / 2 + (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount + i * 4) * 0.03f), ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f) * mult);
                 Dust.NewDustPerfect(pos + Projectile.Size / 2 + (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount + i * 4) * 0.03f), ModContent.DustType<SparkleDust>(), Vector2.Zero, 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.15f) * mult);
@@ -57,7 +57,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Texture2D tex = TextureAssets.Projectile[Type].Value;
             Texture2D glow = Helper.GetTexture(Texture + "_Glow");
             Main.spriteBatch.Reload(BlendState.Additive);
-            var fadeMult = 1f / Projectile.oldPos.Length;
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 float mult = (1f - fadeMult * i);

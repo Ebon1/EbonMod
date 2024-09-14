@@ -91,7 +91,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Texture2D tex = TextureAssets.Projectile[Type].Value;
             Texture2D glow = Helper.GetTexture(Texture + "_Glow");
             Main.spriteBatch.Reload(BlendState.Additive);
-            var fadeMult = 1f / Projectile.oldPos.Length;
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 float mult = (1f - fadeMult * i);

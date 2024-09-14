@@ -61,7 +61,7 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
             NPC.soundDelay = 10;
             if (++NPC.ai[3] >= 300 && NPC.ai[3] < 304)
             {
-                NPC.velocity += NPC.Center.FromAToB(player.Center) * 2.5f;
+                NPC.velocity += NPC.Center.FromAToB(player.Center) * 1.15f;
                 NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
                 SoundEngine.PlaySound(SoundID.Zombie38, NPC.Center);
             }

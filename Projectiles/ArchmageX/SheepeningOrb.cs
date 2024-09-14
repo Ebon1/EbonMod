@@ -82,7 +82,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Main.spriteBatch.Reload(BlendState.Additive);
             OrbLogic(true);
 
-            var fadeMult = 1f / Projectile.oldPos.Length;
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             for (int i = (Projectile.velocity.Length() < 2 ? 12 : 0); i < Projectile.oldPos.Length; i++)
             {
                 float mult = (1f - fadeMult * i);

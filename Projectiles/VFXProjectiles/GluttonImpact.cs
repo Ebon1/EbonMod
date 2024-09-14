@@ -31,7 +31,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         {
             return false;
         }
-        public override bool? CanDamage() => Projectile.timeLeft > 30;
+        public override bool? CanDamage() => Projectile.timeLeft > 45;
         int seed;
         public override void OnSpawn(IEntitySource source)
         {

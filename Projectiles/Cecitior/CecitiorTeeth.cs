@@ -56,7 +56,7 @@ namespace EbonianMod.Projectiles.Cecitior
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 float mult = (1f - fadeMult * i);
@@ -130,7 +130,7 @@ namespace EbonianMod.Projectiles.Cecitior
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 float mult = (1f - fadeMult * i);

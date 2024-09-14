@@ -22,7 +22,7 @@ namespace EbonianMod.Projectiles.Friendly.Underworld
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             Main.spriteBatch.Reload(BlendState.Additive);
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
@@ -53,10 +53,10 @@ namespace EbonianMod.Projectiles.Friendly.Underworld
             foreach (Vector2 pos in Projectile.oldPos)
                 for (int i = 0; i < 2; i++)
                     Dust.NewDustPerfect(pos + Projectile.Size / 2, DustID.Torch, Main.rand.NextVector2Circular(3, 3));
-            Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileID.DaybreakExplosion, Projectile.damage, Projectile.knockBack);
-            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosion>(), Projectile.damage, Projectile.knockBack);
-            a.hostile = false;
-            a.friendly = true;
+            //Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileID.DaybreakExplosion, Projectile.damage, Projectile.knockBack);
+            //Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosion>(), Projectile.damage, Projectile.knockBack);
+            //a.hostile = false;
+            //a.friendly = true;
             for (int i = 0; i < Main.rand.Next(1, 3); i++)
             {
                 Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Main.rand.NextVector2Circular(15, 15), ModContent.ProjectileType<Gibs>(), Projectile.damage, Projectile.knockBack, ai2: 1);
@@ -93,7 +93,7 @@ namespace EbonianMod.Projectiles.Friendly.Underworld
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             Main.spriteBatch.Reload(BlendState.Additive);
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {

@@ -39,7 +39,7 @@ namespace EbonianMod.NPCs.Crimson.Spectators
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
                 new FlavorTextBestiaryInfoElement("Type: Organ"),
-                new FlavorTextBestiaryInfoElement("These towering eyes are the largest spectators ever recorded. It would seem they are connected to something at the very base of the Crimson. These spectators have never been seen before you found them. One may theorize they were created to directly observe you, your weaponry, your tactics and more."),
+                new FlavorTextBestiaryInfoElement("These towering eyes seem to be connected to something at the very base of the Crimson. They only appeared very recently, so not much else is known about them."),
             });
         }
         public override void SetDefaults()

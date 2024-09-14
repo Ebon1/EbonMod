@@ -104,17 +104,17 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
                 }
             }
             if (Main.LocalPlayer.Center.Distance(NPC.Center) < 900)
-                if (++NPC.ai[3] > 200)
+                if (++NPC.ai[3] > 100)
                 {
                     NPC.aiStyle = -1;
                     AIType = 0;
                     NPC.velocity *= 0.99f;
-                    if (NPC.ai[3] >= 220)
+                    if (NPC.ai[3] >= 120)
                         NPC.Center = lastPos + Main.rand.NextVector2Circular(4 * glowAlpha, 4 * glowAlpha);
                     else
                         lastPos = NPC.Center;
                     glowAlpha += 0.03f;
-                    if (NPC.ai[3] > 250)
+                    if (NPC.ai[3] > 150)
                     {
                         Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 50, 0);
                         a.friendly = true;

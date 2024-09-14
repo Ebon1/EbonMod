@@ -34,7 +34,7 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[1]);
             for (int i = 0; i < Projectile.oldPos.Length; i++)

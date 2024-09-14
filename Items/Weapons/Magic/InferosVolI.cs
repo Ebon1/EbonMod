@@ -62,7 +62,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Texture2D a = ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/ExolPortal").Value;
             //Texture2D a = Helper.GetExtraTexture("explosion");
             //Main.spriteBatch.Reload(BlendState.Additive);
-            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 Main.spriteBatch.Draw(a, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.OrangeRed * 0.5f * (1f - fadeMult * i) * alpha, 0, a.Size() / 2, 1f * (1f - fadeMult * i), SpriteEffects.None, 0);

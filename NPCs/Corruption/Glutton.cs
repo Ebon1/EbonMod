@@ -92,15 +92,17 @@ namespace EbonianMod.NPCs.Corruption
                 }
                 else if (AIState == Conjure)
                 {
-                    if (AITimer < 85)
+                    if (AITimer < 50)
+                    {
                         if (NPC.frame.Y < 4 * frameHeight)
                             NPC.frame.Y += frameHeight;
                         else
                             NPC.frame.Y = 2 * frameHeight;
+                    }
                     else
                     {
-                        if (NPC.frame.Y > 0)
-                            NPC.frame.Y -= frameHeight;
+                        if (NPC.frame.Y < 8 * frameHeight)
+                            NPC.frame.Y += frameHeight;
                     }
                 }
                 else
@@ -197,7 +199,7 @@ namespace EbonianMod.NPCs.Corruption
                     if (AITimer < 130)
                         AITimer = 130;
                 }
-                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 50).X * 3, 0.1f);
+                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 55).X * 3, 0.1f);
                 if (AITimer >= 200)
                 {
                     AITimer = 0;
@@ -233,15 +235,18 @@ namespace EbonianMod.NPCs.Corruption
             else if (AIState == Conjure)
             {
                 AITimer++;
-                if (AITimer % 10 == 0 && AITimer > 35)
+                if (AITimer == 65)
                 {
-                    Vector2 pos = NPC.Bottom + new Vector2(NPC.direction * Main.rand.NextFloat(-400, 400), 700);
-                    Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, player.Center).RotatedByRandom(MathHelper.PiOver4) * 10, ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0);
-                }
-                if (AITimer == 60)
-                {
-                    Vector2 pos = NPC.Bottom + new Vector2(NPC.direction * Main.rand.NextFloat(-400, 400), 700);
-                    Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, player.Center) * 12, ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0);
+                    for (int i = 0; i < 12; i++)
+                    {
+                        Vector2 pos = NPC.Bottom + new Vector2(NPC.direction * Main.rand.NextFloat(-30, 30), 0);
+                        Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, player.Center).RotatedBy(-MathHelper.PiOver4 * 0.3f).RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(5, 10), ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0);
+                    }
+                    EbonianSystem.ScreenShakeAmount = 5;
+                    SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
+                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ModContent.ProjectileType<GluttonImpact>(), 20, 2.5f, 0, 0);
+                    a.friendly = false;
+                    a.hostile = true;
                 }
                 if (AITimer >= 105)
                 {
@@ -256,6 +261,14 @@ namespace EbonianMod.NPCs.Corruption
                 AITimer++;
                 if (AITimer < 120 && AITimer > 60)
                     eyeBeamAlpha = MathHelper.Lerp(eyeBeamAlpha, 1, 0.1f);
+                if (AITimer == 30)
+                {
+                    EbonianSystem.ScreenShakeAmount = 5;
+                    SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
+                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ModContent.ProjectileType<GluttonImpact>(), 20, 2.5f, 0, 0);
+                    a.friendly = false;
+                    a.hostile = true;
+                }
                 if (AITimer == 100)
                 {
                     storedPlayerPos = player.Center;

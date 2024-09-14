@@ -24,7 +24,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D a = TextureAssets.Projectile[Type].Value;
-            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 Main.spriteBatch.Draw(a, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, lightColor * (1f - fadeMult * i), Projectile.rotation, a.Size() / 2, Projectile.scale * (1f - fadeMult * i), SpriteEffects.None, 0);

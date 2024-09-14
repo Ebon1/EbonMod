@@ -10,6 +10,7 @@ using Terraria;
 using static Terraria.GameContent.Bestiary.IL_BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions;
 using static EbonianMod.Helper;
 using Terraria.ID;
+using Terraria.Map;
 
 namespace EbonianMod.Projectiles.Terrortoma
 {
@@ -69,20 +70,19 @@ namespace EbonianMod.Projectiles.Terrortoma
 
             if (Projectile.rotation != Projectile.oldRot[1])
             {
-                float len = TRay.CastLength(Projectile.Center, Projectile.velocity, 2048);
+                float len = 2048;
                 Vector2 vel = Projectile.velocity;
                 vel.Normalize();
-                for (int i = 0; i < 30; i++)
-                {
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center + vel * (len), DustID.CursedTorch, Main.rand.NextVector2Circular(15, 15));
-                    dust.scale = 2f;
-                    dust.noGravity = true;
-                }
-                Projectile.ai[1] = len;
             }
             Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], .006f, 0.015f);
             Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, Main.LocalPlayer.Center), Projectile.ai[2]);
-            Projectile.ai[0] = MathHelper.SmoothStep(Projectile.ai[0], Projectile.ai[1], 0.25f);
+            Projectile.ai[0] = MathHelper.SmoothStep(Projectile.ai[0], 2048, 0.35f);
+
+            Projectile.ai[1] -= 0.03f;
+            if (Projectile.ai[1] <= 0)
+                Projectile.ai[1] = 1;
+            Projectile.ai[1] = MathHelper.Clamp(Projectile.ai[1], float.Epsilon, 1 - float.Epsilon);
+
             Projectile.rotation = Projectile.velocity.ToRotation();
 
             //Projectile.velocity = -Projectile.velocity.RotatedBy(MathHelper.ToRadians(Projectile.ai[1]));
@@ -94,56 +94,53 @@ namespace EbonianMod.Projectiles.Terrortoma
         float visual1, visual2;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetExtraTexture("terrortomaBeam");
-            Texture2D tex2 = Helper.GetExtraTexture("oracleBeamv2");
-            Texture2D tex3 = Helper.GetExtraTexture("vortex3");
-            //Texture2D tex3 = Helper.GetExtraTexture("spark_06");
-            Vector2 pos = Projectile.Center;
-            Vector2 scale = new Vector2(1f, Projectile.scale);
-            Main.spriteBatch.Reload(BlendState.Additive);
-            for (int i = 0; i < Projectile.ai[0]; i++)
-            {
-                Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.LawnGreen, Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
-                pos += Projectile.rotation.ToRotationVector2();
-            }
+            Main.spriteBatch.SaveCurrent();
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
-            Vector2 pos2 = Projectile.Center;
 
-            int off = 0;
-            if (Projectile.ai[0] < 512)
-                off = 3;
-            else if (Projectile.ai[0] < 1024)
-                off = 2;
-            else if (Projectile.ai[0] < 1536)
-                off = 1;
-            for (int i = 0; i < 4 - off; i++)
+            List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
+            List<VertexPositionColorTexture> vertices2 = new List<VertexPositionColorTexture>();
+            Texture2D texture = Helper.GetExtraTexture("FlamesSeamless");
+            Texture2D texture2 = Helper.GetExtraTexture("Extras2/spark_08");
+            float progress = Utils.GetLerpValue(0, 165, Projectile.timeLeft);
+            float i_progress = MathHelper.Clamp(MathHelper.SmoothStep(1, 0, progress) * 50, 0, 1);
+            Vector2 start = Projectile.Center - Main.screenPosition;
+            Vector2 off = (Projectile.velocity.ToRotation().ToRotationVector2() * (2000 + (MathF.Sin(Main.GlobalTimeWrappedHourly * 0.1f) * 250)));
+            Vector2 end = start + off;
+            float rot = Helper.FromAToB(start, end).ToRotation();
+
+            float s = 0f;
+            for (float i = 0; i < 1; i += 0.002f)
             {
-                int len = 512;
-                if (i == 3 && Projectile.ai[0] < 2048 && Projectile.ai[0] - 1536 > 0)
-                    len = (int)Projectile.ai[0] - 1536;
-                if (i == 2 && Projectile.ai[0] < 1536 && Projectile.ai[0] - 1024 > 0)
-                    len = (int)Projectile.ai[0] - 1024;
-                if (i == 1 && Projectile.ai[0] < 1024 && Projectile.ai[0] - 512 > 0)
-                    len = (int)Projectile.ai[0] - 512;
-                if (i == 0 && Projectile.ai[0] < 512)
-                    len = (int)Projectile.ai[0];
-                Main.spriteBatch.Draw(tex2, pos2 - Main.screenPosition, new Rectangle((int)-visual1, 0, len, 512), Color.LawnGreen, Projectile.rotation, new Vector2(0, tex2.Height / 2), scale, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(tex2, pos2 - Main.screenPosition, new Rectangle((int)-visual1, 0, len, 512), Color.White, Projectile.rotation, new Vector2(0, tex2.Height / 2), scale, SpriteEffects.None, 0);
+                if (i < 0.5f)
+                    s = MathHelper.Clamp(i * 3.5f, 0, 0.5f);
+                else
+                    s = MathHelper.Clamp((-i + 1) * 2, 0, 0.5f);
 
-                Main.spriteBatch.Draw(tex2, pos2 - Main.screenPosition, new Rectangle((int)-visual2, 0, len, 512), Color.LawnGreen, Projectile.rotation, new Vector2(0, tex2.Height / 2), scale, SpriteEffects.FlipVertically, 0);
-                Main.spriteBatch.Draw(tex2, pos2 - Main.screenPosition, new Rectangle((int)-visual2, 0, len, 512), Color.White, Projectile.rotation, new Vector2(0, tex2.Height / 2), scale, SpriteEffects.FlipVertically, 0);
-                pos2 += Projectile.rotation.ToRotationVector2() * len;
+                float __off = Projectile.ai[1];
+                if (__off > 1) __off = -__off + 1;
+                float _off = __off + i;
+
+                Color col = Color.Lerp(Color.LawnGreen, Color.Green, i) * (s * s * 5);
+                vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(0, 420, i * 3), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
+                vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(0, 420, i * 3), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
+
+                col = Color.Lerp(Color.White, Color.Olive, i) * (s * s * 2);
+                vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(0, 950, i * 2), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
+                vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(0, 950, i * 2), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
             }
-            Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.LawnGreen, Main.GameUpdateCount * 0.003f, tex3.Size() / 2, scale.Y * 0.15f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.White, Main.GameUpdateCount * -0.003f, tex3.Size() / 2, scale.Y * 0.15f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.LawnGreen, Main.GameUpdateCount * -0.003f, tex3.Size() / 2, scale.Y * 0.15f, SpriteEffects.None, 0);
-            float alpha = MathHelper.Lerp(-1f, 1f, (Projectile.ai[0] / Projectile.ai[1]));
-            Main.spriteBatch.Draw(tex3, Projectile.Center + Projectile.ai[0] * Projectile.rotation.ToRotationVector2() - Main.screenPosition, null, Color.LawnGreen * alpha, Main.GameUpdateCount * 0.003f, tex3.Size() / 2, scale.Y * 0.25f * alpha, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex3, Projectile.Center + Projectile.ai[0] * Projectile.rotation.ToRotationVector2() - Main.screenPosition, null, Color.White * alpha, Main.GameUpdateCount * -0.03f, tex3.Size() / 2, scale.Y * 0.25f * alpha, SpriteEffects.None, 0);
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
 
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            if (vertices.Count >= 3 && vertices2.Count >= 3)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, texture, false);
+                    Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, texture2, false);
+                }
+            }
+            Main.spriteBatch.ApplySaved();
             return false;
         }
     }

@@ -43,6 +43,7 @@ namespace EbonianMod.NPCs.Garbage
             NPC.lifeMax = 5250;
             NPC.knockBackResist = 0f;
             NPC.HitSound = SoundID.NPCHit4;
+            NPC.buffImmune[BuffID.OnFire] = true;
             //NPC.DeathSound = EbonianSounds.garbageDeath;
             NPC.aiStyle = -1;
             NPC.noGravity = false;
@@ -1100,9 +1101,9 @@ namespace EbonianMod.NPCs.Garbage
                     EbonianSystem.ScreenShakeAmount = 5 * AITimer2;
                     for (int i = 0; i < 3; i++)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), 0), new Vector2(NPC.direction * Main.rand.NextFloat(-10, 10), -6 - Main.rand.NextFloat(2, 4)), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), -40), new Vector2(NPC.direction * Main.rand.NextFloat(-10, 10), -6 - Main.rand.NextFloat(2, 4)), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
                     }
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), 0), new Vector2(NPC.direction * Main.rand.NextFloat(-6, 6) * AITimer2, -6 - Main.rand.NextFloat(3, 5) * AITimer2), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), -40), new Vector2(NPC.direction * Main.rand.NextFloat(-6, 6) * AITimer2, -6 - Main.rand.NextFloat(3, 5) * AITimer2), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
                 }
                 if (AITimer == 5)
                 {

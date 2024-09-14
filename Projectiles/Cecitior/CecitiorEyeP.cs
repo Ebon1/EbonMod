@@ -40,7 +40,7 @@ namespace EbonianMod.Projectiles.Cecitior
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D a = TextureAssets.Projectile[Type].Value;
-            var fadeMult = 1f / ProjectileID.Sets.TrailCacheLength[Projectile.type];
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 Main.spriteBatch.Draw(a, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, new Rectangle(0, Projectile.frame * 34, 32, 34), lightColor * (Projectile.timeLeft < 40 ? Projectile.timeLeft * 0.1f : 1) * 0.4f * (1f - fadeMult * i), Projectile.rotation, Projectile.Size / 2, Projectile.scale * (1f - fadeMult * i), SpriteEffects.None, 0);
