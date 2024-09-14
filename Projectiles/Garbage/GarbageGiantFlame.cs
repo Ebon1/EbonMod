@@ -9,7 +9,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
-using EbonianMod.Projectiles.Exol;
+
 using EbonianMod.Projectiles.VFXProjectiles;
 
 namespace EbonianMod.Projectiles.Garbage

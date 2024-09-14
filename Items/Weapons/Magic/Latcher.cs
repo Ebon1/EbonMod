@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using EbonianMod.Projectiles.Friendly.Corruption;
 using Terraria.DataStructures;
-using EbonianMod.Projectiles.Exol;
+
 using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.Audio;
 using EbonianMod.Projectiles.Friendly.Crimson;

@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using EbonianMod.Projectiles.Friendly.Corruption;
 using Terraria.DataStructures;
-using EbonianMod.Projectiles.Exol;
 using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.Audio;
 using Terraria.ObjectData;
@@ -28,16 +27,6 @@ namespace EbonianMod.Tiles
             /*ModTranslation name = CreateMapEntryName();
             name.SetDefault("Music Box");*/
             AddMapEntry(new Color(200, 200, 200));
-        }
-        public override bool RightClick(int i, int j)
-        {
-            Tile tile = Main.tile[i, j];
-            if (tile.TileFrameX >= 36)
-            {
-                Helper.SetBossTitle(250, "Now Playing", Color.Blue, "Trash Compactor by Yuri O", -2);
-                return true;
-            }
-            return false;
         }
         public override void MouseOver(int i, int j)
         {

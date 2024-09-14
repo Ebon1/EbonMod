@@ -8,13 +8,11 @@ using Terraria.GameContent;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using EbonianMod.Dusts;
-using EbonianMod.NPCs.Exol;
 using EbonianMod.Common.Systems.Skies;
 using System.Collections.Generic;
 using EbonianMod.Projectiles.Terrortoma;
 using EbonianMod.Projectiles.VFXProjectiles;
 using ReLogic.Graphics;
-using EbonianMod.Projectiles.Exol;
 using EbonianMod.Projectiles.Garbage;
 ////using EbonianMod.Worldgen.Subworlds;
 ////
@@ -44,6 +42,10 @@ namespace EbonianMod
             Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha,
             Crack, Blur, RTOutline, metaballGradient,metaballGradientNoiseTex, invisibleMask, PullingForce,  displacementMap
     };
+        public static List<int> projectileFinalDrawList = new List<int>();
+        public static List<int> climbableProj = new List<int>();
+        public static List<int> projectileAffectedByInvisibleMaskList = new List<int>();
+        public static List<int> projectileInvisibleMaskList = new List<int>();
         public RenderTarget2D blurrender, invisRender, affectedByInvisRender;
         public RenderTarget2D[] renders = new RenderTarget2D[5];
         public static DynamicSpriteFont lcd;
@@ -65,7 +67,7 @@ namespace EbonianMod
                 {
                     Projectile proj = Main.projectile[i];
 
-                    if (!proj.active || proj.ModProjectile == null || proj.type != ModContent.ProjectileType<EPlatform>() || (proj.whoAmI == modSelf.platformWhoAmI && modSelf.platformDropTimer > 0))
+                    if (!proj.active || proj.ModProjectile == null || !climbableProj.Contains(proj.type) || (proj.whoAmI == modSelf.platformWhoAmI && modSelf.platformDropTimer > 0))
                         continue;
 
                     var playerBox = new Rectangle((int)self.position.X, (int)self.position.Y + self.height, self.width, 1);
@@ -112,8 +114,8 @@ namespace EbonianMod
             SpriteBatch sb = Main.spriteBatch;
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            if (NPC.AnyNPCs(ModContent.NPCType<Exol>()))
-                SmokeDustAkaFireDustButNoGlow.DrawAll(Main.spriteBatch);
+            //if (NPC.AnyNPCs(ModContent.NPCType<Exol>()))
+            SmokeDustAkaFireDustButNoGlow.DrawAll(Main.spriteBatch);
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             orig(self, iNPCIndex, behindTiles);
@@ -134,14 +136,14 @@ namespace EbonianMod
         public void DrawBehindTilesAndWalls(Terraria.On_Main.orig_DrawBG orig, global::Terraria.Main self)
         {
             orig(self);
-            foreach (Projectile projectile in Main.projectile)
+            /*foreach (Projectile projectile in Main.projectile)
             {
                 if (projectile.active && (projectile.type == ModContent.ProjectileType<EBoulder>() || projectile.type == ModContent.ProjectileType<EBoulder2>()))
                 {
                     Color color = Color.White;
                     projectile.ModProjectile.PreDraw(ref color);
                 }
-            }
+            }*/
             sys.DrawParticles();
 
         }
@@ -451,8 +453,8 @@ namespace EbonianMod
             GenericAdditiveDust.DrawAll(sb);
             SparkleDust.DrawAll(sb);
             LineDustFollowPoint.DrawAll(sb);
-            if (!NPC.AnyNPCs(ModContent.NPCType<Exol>()))
-                SmokeDustAkaFireDustButNoGlow.DrawAll(Main.spriteBatch);
+            //if (!NPC.AnyNPCs(ModContent.NPCType<Exol>()))
+            //  SmokeDustAkaFireDustButNoGlow.DrawAll(Main.spriteBatch);
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             if (FlashAlpha > 0)
@@ -469,9 +471,6 @@ namespace EbonianMod
             }
             sb.End();
         }
-        public static List<int> projectileFinalDrawList = new List<int>();
-        public static List<int> projectileAffectedByInvisibleMaskList = new List<int>();
-        public static List<int> projectileInvisibleMaskList = new List<int>();
         private void Main_OnResolutionChanged(Vector2 obj)
         {
             CreateRender();
@@ -499,26 +498,6 @@ namespace EbonianMod
                 });
         }
 
-        public static int ExolID = ModContent.NPCType<Exol>();
         public static float FlashAlpha, FlashAlphaDecrement;
-    }
-    public class EbonMenu : ModMenu
-    {
-        public override int Music => MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Exol");
-        public override string DisplayName => "Ebonian Mod";
-        public override ModSurfaceBackgroundStyle MenuBackgroundStyle => ModContent.GetInstance<EbonMenuBG>();
-        public override Asset<Texture2D> Logo => ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/Logo");
-        public override bool PreDrawLogo(SpriteBatch spriteBatch, ref Vector2 logoDrawCenter, ref float logoRotation, ref float logoScale, ref Color drawColor)
-        {
-            //spriteBatch.Draw(Helper.GetExtraTexture("menutest"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
-            drawColor = Color.White;
-            return true;
-        }
-        public class EbonMenuBG : ModSurfaceBackgroundStyle
-        {
-            public override void ModifyFarFades(float[] fades, float transitionSpeed)
-            {
-            }
-        }
     }
 }

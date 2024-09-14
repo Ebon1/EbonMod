@@ -134,45 +134,43 @@ namespace EbonianMod.NPCs.Terrortoma
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Player player = Main.player[NPC.target];
-            if (/*player.ZoneCorrupt && */AIState != -12124 && AIState != Intro && !isLaughing)
+            Texture2D tex = Helper.GetTexture("NPCs/Terrortoma/TerrorEye");
+            Vector2 eyeOGPosition = NPC.Center - new Vector2(-7, 14).RotatedBy(NPC.rotation);
+            Vector2 eyePosition = NPC.Center - new Vector2(-7, 14).RotatedBy(NPC.rotation);
+            Vector2 fromTo = Helper.FromAToB(eyeOGPosition, player.Center);
+            if (NPC.IsABestiaryIconDummy)
             {
-                Texture2D tex = Helper.GetTexture("NPCs/Terrortoma/TerrorEye");
-                Vector2 eyeOGPosition = NPC.Center - new Vector2(-7, 14).RotatedBy(NPC.rotation);
-                Vector2 eyePosition = NPC.Center - new Vector2(-7, 14).RotatedBy(NPC.rotation);
-                if (NPC.IsABestiaryIconDummy)
+                spriteBatch.Draw(tex, eyeOGPosition - screenPos, null, Color.White, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
+            }
+            if (AIState != -12124 && AIState != Intro && !isLaughing)
+            {
+                float dist = MathHelper.Clamp(Helper.FromAToB(eyeOGPosition, player.Center, false).Length() * 0.1f, 0, 6);
+                if (AIState == Death)
                 {
-                    spriteBatch.Draw(tex, eyeOGPosition - screenPos, null, Color.White, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
+                    Vector2 vel = NPC.velocity;
+                    vel.Normalize();
+                    if (NPC.velocity == Vector2.Zero)
+                        eyePosition += Main.rand.NextVector2Unit() * Main.rand.NextFloat(3);
+                    else
+                        eyePosition += vel * 5;
                 }
                 else
-                {
-                    Vector2 fromTo = Helper.FromAToB(eyeOGPosition, player.Center);
-                    float dist = MathHelper.Clamp(Helper.FromAToB(eyeOGPosition, player.Center, false).Length() * 0.1f, 0, 6);
-                    if (AIState == Death)
-                    {
-                        Vector2 vel = NPC.velocity;
-                        vel.Normalize();
-                        if (NPC.velocity == Vector2.Zero)
-                            eyePosition += Main.rand.NextVector2Unit() * Main.rand.NextFloat(3);
-                        else
-                            eyePosition += vel * 5;
-                    }
-                    else
-                        eyePosition += dist * fromTo;
-                    spriteBatch.Draw(tex, eyePosition - screenPos, null, Color.White, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
+                    eyePosition += dist * fromTo;
+                spriteBatch.Draw(tex, eyePosition - screenPos, null, Color.White, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
 
-                    Texture2D tex2 = Helper.GetExtraTexture("crosslight");
-                    Main.spriteBatch.Reload(BlendState.Additive);
-                    Main.spriteBatch.Draw(tex2, eyePosition - Main.screenPosition, null, Color.LawnGreen * glareAlpha, 0, tex2.Size() / 2, glareAlpha * 0.2f, SpriteEffects.None, 0);
-                    if (AIState == Death)
-                    {
-                        Texture2D tex3 = Helper.GetExtraTexture("Extras2/flare_01");
-                        Texture2D tex4 = Helper.GetExtraTexture("Extras2/star_02");
-                        Main.spriteBatch.Draw(tex2, eyePosition - Main.screenPosition, null, Color.Olive * (glareAlpha - 1), Main.GameUpdateCount * 0.03f, tex2.Size() / 2, (glareAlpha - 1) * 0.25f, SpriteEffects.None, 0);
-                        Main.spriteBatch.Draw(tex3, eyePosition - Main.screenPosition, null, Color.Green * (glareAlpha - 2), Main.GameUpdateCount * -0.03f, tex3.Size() / 2, (glareAlpha - 2) * 0.45f, SpriteEffects.None, 0);
-                        Main.spriteBatch.Draw(tex4, eyePosition - Main.screenPosition, null, Color.Green * (glareAlpha - 3), Main.GameUpdateCount * -0.03f, tex4.Size() / 2, (glareAlpha - 3) * 0.75f, SpriteEffects.None, 0);
-                    }
-                    Main.spriteBatch.Reload(BlendState.AlphaBlend);
+                Texture2D tex2 = Helper.GetExtraTexture("crosslight");
+                Main.spriteBatch.Reload(BlendState.Additive);
+                Main.spriteBatch.Draw(tex2, eyePosition - Main.screenPosition, null, Color.LawnGreen * glareAlpha, 0, tex2.Size() / 2, glareAlpha * 0.2f, SpriteEffects.None, 0);
+                if (AIState == Death)
+                {
+                    Texture2D tex3 = Helper.GetExtraTexture("Extras2/flare_01");
+                    Texture2D tex4 = Helper.GetExtraTexture("Extras2/star_02");
+                    Main.spriteBatch.Draw(tex2, eyePosition - Main.screenPosition, null, Color.Olive * (glareAlpha - 1), Main.GameUpdateCount * 0.03f, tex2.Size() / 2, (glareAlpha - 1) * 0.25f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex3, eyePosition - Main.screenPosition, null, Color.Green * (glareAlpha - 2), Main.GameUpdateCount * -0.03f, tex3.Size() / 2, (glareAlpha - 2) * 0.45f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex4, eyePosition - Main.screenPosition, null, Color.Green * (glareAlpha - 3), Main.GameUpdateCount * -0.03f, tex4.Size() / 2, (glareAlpha - 3) * 0.75f, SpriteEffects.None, 0);
                 }
+                Main.spriteBatch.Reload(BlendState.AlphaBlend);
+
             }
         }
         //npc.rotation = npc.velocity.ToRotation() - MathHelper.PiOver2;

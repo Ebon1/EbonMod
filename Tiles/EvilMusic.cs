@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using EbonianMod.Projectiles.Friendly.Corruption;
 using Terraria.DataStructures;
-using EbonianMod.Projectiles.Exol;
 using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.Audio;
 using Terraria.ObjectData;
@@ -31,16 +30,6 @@ namespace EbonianMod.Tiles
             AddMapEntry(new Color(200, 200, 200));
         }
 
-        public override bool RightClick(int i, int j)
-        {
-            Tile tile = Main.tile[i, j];
-            if (tile.TileFrameX >= 36)
-            {
-                Helper.SetBossTitle(250, "Now Playing", Color.Red, "Forces of Evil by Yuri O", -69);
-                return true;
-            }
-            return false;
-        }
         public override void MouseOver(int i, int j)
         {
             Player player = Main.LocalPlayer;

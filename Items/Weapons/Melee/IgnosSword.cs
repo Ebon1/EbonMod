@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using EbonianMod.Projectiles.Terrortoma;
 using Terraria.GameContent;
 using EbonianMod.NPCs.Garbage;
-using EbonianMod.Projectiles.Exol;
+
 using static System.Net.Mime.MediaTypeNames;
 
 namespace EbonianMod.Items.Weapons.Melee

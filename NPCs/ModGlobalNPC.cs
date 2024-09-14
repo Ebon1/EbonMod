@@ -16,6 +16,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 using EbonianMod.NPCs.Garbage;
 using EbonianMod.Items.Weapons.Magic;
+using EbonianMod.NPCs.Cecitior;
 
 namespace EbonianMod.NPCs
 {
@@ -56,7 +57,7 @@ namespace EbonianMod.NPCs
 
         public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
         {
-            if (NPC.AnyNPCs(ModContent.NPCType<Terrortoma.Terrortoma>()) || NPC.AnyNPCs(ModContent.NPCType<Exol.Exol>()) || NPC.AnyNPCs(ModContent.NPCType<HotGarbage>()))
+            if (NPC.AnyNPCs(ModContent.NPCType<Terrortoma.Terrortoma>()) || NPC.AnyNPCs(ModContent.NPCType<Cecitior.Cecitior>()) || NPC.AnyNPCs(ModContent.NPCType<ArchmageX.ArchmageX>()) || NPC.AnyNPCs(ModContent.NPCType<HotGarbage>()))
             {
                 maxSpawns = 0;
                 spawnRate = 0;

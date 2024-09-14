@@ -10,7 +10,7 @@ using EbonianMod.Projectiles.VFXProjectiles;
 using ReLogic.Graphics;
 using Terraria.GameContent;
 using EbonianMod.Projectiles;
-using EbonianMod.Projectiles.Exol;
+
 using Terraria.Audio;
 using EbonianMod.NPCs.Corruption;
 using EbonianMod.Projectiles.Garbage;

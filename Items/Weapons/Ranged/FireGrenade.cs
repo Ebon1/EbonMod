@@ -9,7 +9,7 @@ using EbonianMod.Items.Weapons.Melee;
 using Terraria.GameContent;
 using Terraria.Audio;
 using EbonianMod.Projectiles.Friendly;
-using EbonianMod.Projectiles.Exol;
+
 using static Terraria.ModLoader.PlayerDrawLayer;
 using System.IO;
 using System.Collections.Generic;

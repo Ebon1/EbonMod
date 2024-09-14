@@ -10,7 +10,6 @@ using EbonianMod.NPCs.Corruption;
 using EbonianMod.NPCs.Terrortoma;
 using EbonianMod.NPCs.Cecitior;
 
-using EbonianMod.NPCs.Exol;
 
 namespace EbonianMod.Items.Consumables.BossItems
 {
