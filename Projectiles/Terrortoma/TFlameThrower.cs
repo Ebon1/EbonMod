@@ -14,7 +14,7 @@ namespace EbonianMod.Projectiles.Terrortoma
         public override string Texture => "EbonianMod/Extras/Empty";
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 50;
+            ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
         public override bool PreDraw(ref Color lightColor)
@@ -60,7 +60,7 @@ namespace EbonianMod.Projectiles.Terrortoma
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 50;
+            ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
         public override bool PreDraw(ref Color lightColor)
@@ -102,7 +102,7 @@ namespace EbonianMod.Projectiles.Terrortoma
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 50;
+            ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
         public override bool PreDraw(ref Color lightColor)
@@ -144,7 +144,7 @@ namespace EbonianMod.Projectiles.Terrortoma
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 50;
+            ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
         public override bool PreDraw(ref Color lightColor)
