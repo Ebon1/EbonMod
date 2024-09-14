@@ -581,7 +581,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 if (AITimer == 1)
                     bloomAlpha = 1f;
                 NPC.damage = 100;
-                NPC.localAI[0] = 40;
+                NPC.localAI[0] = 100;
                 if (AITimer < 250 && AITimer >= 50)
                 {
                     if (!hasDonePhase2ApeShitMode)
@@ -664,7 +664,7 @@ namespace EbonianMod.NPCs.Terrortoma
             {
                 SelectedClinger = 3;
                 NPC.damage = 0;
-                NPC.localAI[0] = 40;
+                NPC.localAI[0] = 100;
                 if (AITimer < 100)
                     NPC.velocity = -Vector2.UnitY * MathHelper.Clamp(MathHelper.Lerp(1, 5, player.Center.Y - NPC.Center.Y / 300), 1, 5);
                 else
@@ -681,7 +681,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 NPC.damage = 0;
                 Vector2 toPlayer = new Vector2(0, -10);
                 rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
-                NPC.localAI[0] = 40;
+                NPC.localAI[0] = 100;
                 if (AITimer <= 150)
                 {
                     Vector2 pos = new Vector2(player.position.X, player.position.Y - 75);
@@ -718,7 +718,7 @@ namespace EbonianMod.NPCs.Terrortoma
             {
                 SelectedClinger = 3;
                 NPC.damage = 0;
-                NPC.localAI[0] = 40;
+                NPC.localAI[0] = 100;
                 if (++AITimer2 % 25 == 0)
                 {
                     Vector2 rainPos3 = new Vector2(player.Center.X + 1920 * Main.rand.NextFloat(-0.5f, 0.5f), player.Center.Y + 1300);

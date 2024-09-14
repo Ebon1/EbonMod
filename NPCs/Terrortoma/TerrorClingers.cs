@@ -186,7 +186,7 @@ namespace EbonianMod.NPCs.Terrortoma
                             NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + new Vector2(100).RotatedBy(MathHelper.ToRadians(AITimer * 3.6f)), false) * 0.25f;
                             if (AITimer % 15 == 0)
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * 2, ModContent.ProjectileType<TFlameThrower4>(), 15, 0, ai2: AITimer - 100);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * 2, ModContent.ProjectileType<TFlameThrower4>(), 30, 0, ai2: AITimer - 100);
                             }
                             if (AITimer >= 101)
                             {
@@ -215,7 +215,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                                 for (int j = -5; j < 6; j++)
                                                 {
                                                     if (j == 0) continue;
-                                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY.RotatedBy(MathHelper.ToRadians(MathHelper.Lerp(-100, 100, (float)(j + 5) / 10))) * 10, ModContent.ProjectileType<TFlameThrower3>(), 10, 0);
+                                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY.RotatedBy(MathHelper.ToRadians(MathHelper.Lerp(-100, 100, (float)(j + 5) / 10))) * 10, ModContent.ProjectileType<TFlameThrower3>(), 30, 0);
                                                 }
                                             }
                                             else
@@ -223,7 +223,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                                 for (int j = -3; j < 4; j++)
                                                 {
                                                     if (j == 0) continue;
-                                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY.RotatedBy(j * 0.5f) * 10, ModContent.ProjectileType<TFlameThrower3>(), 10, 0);
+                                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY.RotatedBy(j * 0.5f) * 10, ModContent.ProjectileType<TFlameThrower3>(), 30, 0);
                                                 }
                                             }
                                             SoundEngine.PlaySound(EbonianSounds.fleshHit, npc.Center);
@@ -264,7 +264,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                     {
                                         if (AITimer2 == 0)
                                         {
-                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4 / 3) * 5, ModContent.ProjectileType<TFlameThrower3>(), 15, 0);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4 / 3) * 5, ModContent.ProjectileType<TFlameThrower3>(), 35, 0);
                                             AITimer2 = 1;
                                         }
                                     }
@@ -794,7 +794,7 @@ namespace EbonianMod.NPCs.Terrortoma
                             case 2:
                                 if (CenterAITimer <= 300)
                                 {
-                                    NPC.damage = 40;
+                                    NPC.damage = 100;
                                     AITimer++;
                                     if (AITimer == 50)
                                     {
@@ -824,7 +824,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                 break;
                             case 3:
                                 {
-                                    NPC.damage = 40;
+                                    NPC.damage = 100;
                                     NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
                                     Vector2 pos = center.Center + new Vector2(0, 125).RotatedBy(center.rotation);
                                     Vector2 target = pos;
@@ -836,7 +836,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                 {
                                     if (CenterAITimer < 40)
                                         NPC.damage = 0;
-                                    else NPC.damage = 40;
+                                    else NPC.damage = 100;
                                     if (CenterAITimer == 41)
                                         bloomAlpha = 1f;
                                     NPC.Center = Vector2.Lerp(NPC.Center, center.Center + new Vector2(0, Helper.TRay.CastLength(center.Center, Vector2.UnitY, 360)).RotatedBy((float)Math.Sin((float)Main.GlobalTimeWrappedHourly * 2)), 0.1f);
