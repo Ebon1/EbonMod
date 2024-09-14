@@ -24,7 +24,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useAnimation = 40;
             Item.useTime = 40;
             Item.knockBack = 4f;
-            Item.damage = 20;
+            Item.damage = 35;
             Item.noUseGraphic = true;
             Item.shoot = ModContent.ProjectileType<TerrortomaFlail>();
             Item.shootSpeed = 15.1f;

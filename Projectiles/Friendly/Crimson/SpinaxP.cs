@@ -157,7 +157,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                 float end = defRot + (MathHelper.PiOver2 + MathHelper.PiOver4);
                 float rotation = direction == 1 ? start + MathHelper.Pi * 3 / 2 * swingProgress : end - MathHelper.Pi * 3 / 2 * swingProgress;
                 Vector2 position = player.GetFrontHandPosition(Player.CompositeArmStretchAmount.Full, rotation - MathHelper.PiOver2) +
-                    rotation.ToRotationVector2() * 200 * ScaleFunction(swingProgress) + Projectile.velocity * 100;
+                    rotation.ToRotationVector2() * 270 * ScaleFunction(swingProgress) + Projectile.velocity * 120;
                 if (Projectile.timeLeft > 5 || Projectile.ai[1] == 0)
                     Projectile.Center = Vector2.Lerp(Projectile.Center, position, 0.15f);
                 else if (Projectile.timeLeft <= 5 && Projectile.ai[1] == 1)

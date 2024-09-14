@@ -808,7 +808,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                         NPC.velocity = Helper.FromAToB(NPC.Center, lastPos) * 30;
                                     }
                                     if (AITimer > 75)
-                                        NPC.Center += NPC.velocity * 0.5f;
+                                        NPC.Center += NPC.velocity * 0.75f;
                                     if (AITimer > 95 || AITimer < 50)
                                     {
                                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);

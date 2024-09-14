@@ -37,11 +37,11 @@ namespace EbonianMod.NPCs.Cecitior
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.lifeMax = 1850;
+            NPC.lifeMax = 2000;
             NPC.dontTakeDamage = false;
             NPC.damage = 0;
             NPC.noTileCollide = true;
-            NPC.defense = 10;
+            NPC.defense = 15;
             NPC.knockBackResist = 0;
             NPC.width = 32;
             NPC.height = 32;

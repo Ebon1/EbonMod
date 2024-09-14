@@ -29,6 +29,10 @@ namespace EbonianMod.Projectiles.Cecitior
             Projectile.timeLeft = 500;
             Projectile.Size = new(30, 10);
         }
+        public override void OnHitPlayer(Player target, Player.HurtInfo info)
+        {
+            target.AddBuff(BuffID.Ichor, 240);
+        }
         public override bool PreDraw(ref Color lightColor)
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
@@ -43,9 +47,9 @@ namespace EbonianMod.Projectiles.Cecitior
             spriteBatch.Reload(BlendState.Additive);
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                spriteBatch.Draw(tex, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.Red * 0.5f * (1f - fadeMult * i), Projectile.rotation, tex.Size() / 2, Projectile.scale * Math.Clamp((1f - fadeMult * i) * 2, 0, 1), SpriteEffects.None, 0);
+                spriteBatch.Draw(tex, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.Gold * 0.5f * (1f - fadeMult * i), Projectile.rotation, tex.Size() / 2, Projectile.scale * Math.Clamp((1f - fadeMult * i) * 2, 0, 1), SpriteEffects.None, 0);
             }
-            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Red * 0.3f, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Gold * 0.3f, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
 
 
             spriteBatch.Reload(BlendState.AlphaBlend);

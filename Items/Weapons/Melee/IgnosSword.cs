@@ -341,7 +341,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Vector2 pos = player.Center - new Vector2(-10, 17).RotatedBy(Projectile.rotation);
 
             player.itemRotation = (rot);
-
+            player.ChangeDir(Main.MouseWorld.X < player.Center.X ? -1 : 1);
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, rot - MathHelper.PiOver2);
 
             Projectile.rotation = rot;

@@ -21,7 +21,6 @@ namespace EbonianMod.Projectiles.ArchmageX
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
-            Main.projFrames[Type] = 4;
         }
         public override void SetDefaults()
         {
@@ -76,7 +75,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.Indigo * 0.5f, Projectile.rotation + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 5) + 1) / 2) * 0.4f), SpriteEffects.None, 0);
             Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.Indigo * 0.5f, Projectile.rotation + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f, SpriteEffects.None, 0);
             //Main.spriteBatch.Reload(BlendState.AlphaBlend);
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 38, 34, 38), Color.White, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
             //Main.spriteBatch.Reload(BlendState.Additive);
             Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.White * 0.5f, Projectile.rotation, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -85,9 +84,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         }
         public override void AI()
         {
-            if (++Projectile.frameCounter % 5 == 0)
-                if (++Projectile.frame > 3)
-                    Projectile.frame = 0;
+
 
             Player player = Main.player[Projectile.owner];
             Projectile.velocity = Vector2.SmoothStep(Projectile.velocity, Helper.FromAToB(Projectile.Center, player.Center), 0.35f).SafeNormalize(Vector2.UnitY) * 5;
@@ -101,7 +98,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
-            Main.projFrames[Type] = 4;
+
         }
         public override void SetDefaults()
         {
@@ -156,7 +153,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.Indigo * 0.5f, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 5) + 1) / 2) * 0.4f), SpriteEffects.None, 0);
             Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.Indigo * 0.5f, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f, SpriteEffects.None, 0);
             //Main.spriteBatch.Reload(BlendState.AlphaBlend);
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 38, 34, 38), Color.White, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
             //Main.spriteBatch.Reload(BlendState.Additive);
             Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.White * 0.5f, Projectile.rotation, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -171,9 +168,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                 initP = Projectile.Center;
                 initV = Projectile.velocity;
             }
-            if (++Projectile.frameCounter % 5 == 0)
-                if (++Projectile.frame > 3)
-                    Projectile.frame = 0;
+
 
             Player player = Main.player[Projectile.owner];
             Projectile.SineMovement(initP, initV, 0.25f, 40);

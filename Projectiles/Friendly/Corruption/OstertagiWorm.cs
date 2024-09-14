@@ -28,6 +28,8 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
             Projectile.friendly = true;
             Projectile.hostile = false;
             Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 100;
             Projectile.timeLeft = 400;
             Projectile.hide = true;
         }

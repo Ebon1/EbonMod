@@ -29,7 +29,8 @@ namespace EbonianMod.Projectiles.Cecitior
             Projectile.aiStyle = -1;
             Projectile.friendly = false;
             Projectile.hostile = true;
-            Projectile.timeLeft = 200;
+            Projectile.timeLeft = 200 * 2;
+            Projectile.extraUpdates = 1;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
         }
@@ -68,7 +69,7 @@ namespace EbonianMod.Projectiles.Cecitior
                 Projectile.frame++;
             else
                 Projectile.frame = 0;
-            if (Projectile.timeLeft > 155)
+            if (Projectile.timeLeft > 155 * 2)
                 Projectile.ai[1] = Projectile.velocity.ToRotation() + MathHelper.Pi;
             Projectile.rotation = MathHelper.Lerp(Projectile.rotation, Projectile.ai[1], 0.45f);
             Vector2 move = Vector2.Zero;
@@ -88,14 +89,18 @@ namespace EbonianMod.Projectiles.Cecitior
                     }
                 }
             }
-            if (++Projectile.ai[0] % 5 == 0 && target && Projectile.timeLeft > 45 && Projectile.timeLeft < 155)
+            if (++Projectile.ai[0] % 5 * 3 == 0 && target && Projectile.timeLeft > 45 * 2 && Projectile.timeLeft < 155 * 2)
             {
                 Projectile.ai[1] = Projectile.velocity.ToRotation() + MathHelper.Pi;
                 AdjustMagnitude(ref move);
-                Projectile.velocity = (6.2f * Projectile.velocity + move) / 6.2f;
+                Projectile.velocity = (Projectile.velocity.Length() * Projectile.velocity + move) / Projectile.velocity.Length();
                 AdjustMagnitude(ref Projectile.velocity);
             }
-            if (Projectile.timeLeft < 45)
+            if (Projectile.timeLeft < 100 * 2)
+            {
+                Projectile.velocity *= 0.99f;
+            }
+            if (Projectile.timeLeft < 60 * 2)
             {
                 Projectile.velocity *= 0.95f;
             }
@@ -104,9 +109,9 @@ namespace EbonianMod.Projectiles.Cecitior
         private void AdjustMagnitude(ref Vector2 vector)
         {
             float magnitude = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
-            if (magnitude > 6.2f)
+            if (magnitude > Projectile.velocity.Length())
             {
-                vector *= 6.2f / magnitude;
+                vector *= Projectile.velocity.Length() / magnitude;
             }
         }
     }

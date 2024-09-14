@@ -12,6 +12,8 @@ using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 using EbonianMod.Projectiles.Terrortoma;
+using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 
 namespace EbonianMod.Projectiles.Friendly.Corruption
 {
@@ -21,18 +23,28 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
         {
             Main.projFrames[Projectile.type] = 3;
         }
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            behindProjectiles.Add(index);
+        }
         public override void SetDefaults()
         {
             Projectile.aiStyle = -1;
             Projectile.damage = 0;
+            Projectile.hide = true;
             Projectile.tileCollide = false;
             Projectile.width = 18;
             Projectile.height = 18;
             Projectile.hostile = false;
             Projectile.friendly = true;
+            Projectile.light = 0;
             Projectile.penetrate = -1;
         }
-        private int AITimer = 0;
+        public float AITimer
+        {
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
+        }
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
@@ -48,7 +60,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                 Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
                 Vector2 target = pos;
                 Vector2 moveTo = target - Projectile.Center;
-                Projectile.velocity = (moveTo) * 0.05f;
+                Projectile.velocity = (moveTo) * 0.1f;
                 AITimer++;
                 if (AITimer % 100 == 0)
                 {
@@ -60,29 +72,23 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
             }
             else if (Projectile.frame == 1)
             {
+                AITimer++;
                 Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
                 Vector2 target = pos;
                 Vector2 moveTo = target - Projectile.Center;
-                Projectile.velocity = (moveTo) * 0.05f;
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Minions.EbonFlyMinion>()] < 18)
-                {
-                    AITimer++;
-                    if (AITimer >= 180)
-                    {
-                        Projectile fly = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.Minions.EbonFlyMinion>(), Projectile.damage, 1f, Main.myPlayer)];
-                        AITimer = 0;
-                    }
-                }
+                Projectile.velocity = (moveTo) * 0.1f;
+                if (AITimer % 180 == 0)
+                    Projectile.NewProjectile(null, Projectile.Center, Helper.FromAToB(Projectile.Center, Main.MouseWorld) * Main.rand.NextFloat(5, 8), ModContent.ProjectileType<OstertagiWorm>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Main.rand.NextFloat(0.05f, 0.2f));
             }
             else
             {
+                AITimer++;
                 Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
-                Vector2 pos = Main.MouseWorld;
-                Vector2 target = pos;
-                Vector2 moveTo = target - Projectile.Center;
+                Vector2 moveTo = (center.Center + new Vector2(40 * (MathF.Sin(AITimer * 3) + 1.5f), 0).RotatedBy(MathHelper.ToRadians(AITimer * 10))) - Projectile.Center;
                 Projectile.velocity = (moveTo) * 0.09f;
             }
         }
+        public override Color? GetAlpha(Color lightColor) => Lighting.GetColor((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16);
         public override bool PreDraw(ref Color drawColor)
         {
             Player player = Main.player[Projectile.owner];

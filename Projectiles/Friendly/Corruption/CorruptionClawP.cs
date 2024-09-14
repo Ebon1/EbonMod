@@ -158,7 +158,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                 float end = defRot + (MathHelper.PiOver2);
                 float rotation = direction == 1 ? start + MathHelper.Pi * 1.5f * swingProgress : end - MathHelper.Pi * 1.5f * swingProgress;
                 Vector2 position = player.GetFrontHandPosition(Player.CompositeArmStretchAmount.Full, rotation - MathHelper.PiOver2) +
-                    rotation.ToRotationVector2() * 250 * ScaleFunction(swingProgress) + Projectile.velocity * 140;
+                    rotation.ToRotationVector2() * 350 * ScaleFunction(swingProgress) + Projectile.velocity * 140;
                 if (Projectile.timeLeft > 5 || Projectile.ai[1] == 0)
                     Projectile.Center = Vector2.Lerp(Projectile.Center, position, 0.15f);
                 else if (Projectile.timeLeft <= 5 && Projectile.ai[1] == 2)

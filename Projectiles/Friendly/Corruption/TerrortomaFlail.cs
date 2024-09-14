@@ -9,6 +9,7 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
+using EbonianMod.Common.Systems.Misc;
 namespace EbonianMod.Projectiles.Friendly.Corruption
 {
     public class TerrortomaFlail : ModProjectile
@@ -23,112 +24,91 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
         {
             Projectile.width = 34;
             Projectile.height = 32;
+            Projectile.extraUpdates = 1;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Melee;
         }
-        private int aaaaaaaaaa = 0;
+        public float AITimer
+        {
+            get => Projectile.ai[0];
+            set => Projectile.ai[0] = value;
+        }
+        public float ChannelCheck
+        {
+            get => Projectile.ai[1];
+            set => Projectile.ai[1] = value;
+        }
+        public float AITimer2
+        {
+            get => Projectile.ai[2];
+            set => Projectile.ai[2] = value;
+        }
+        Verlet verlet;
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            if (ChannelCheck < 10)
+                ChannelCheck++;
+        }
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (ChannelCheck <= 10)
+                modifiers.FinalDamage.Base -= ChannelCheck;
+        }
         public override void AI()
         {
-            var dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 93, Projectile.velocity.X * 0.4f, Projectile.velocity.Y * 0.4f, 100, default, 1.5f);
+            Dust dust = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.CorruptGibs, Projectile.velocity.X * 0.4f, Projectile.velocity.Y * 0.4f, 100, default, 1.5f);
             dust.noGravity = true;
-            dust.velocity /= 2f;
 
-            var player = Main.player[Projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
+            Projectile.timeLeft = 2;
             if (player.dead)
             {
                 Projectile.Kill();
                 return;
             }
-
-            player.itemAnimation = 10;
-            player.itemTime = 10;
-
-            int newDirection = Projectile.Center.X > player.Center.X ? 1 : -1;
-            player.ChangeDir(newDirection);
-            Projectile.direction = newDirection;
-
-            var vectorToPlayer = player.MountedCenter - Projectile.Center;
-            float currentChainLength = vectorToPlayer.Length();
-
-            if (Projectile.ai[0] == 0)
+            if (!player.channel)
+                ChannelCheck = 15;
+            AITimer++;
+            if (AITimer == 1)
             {
-                float maxChainLength = 350f;
-                Projectile.tileCollide = true;
-
-                if (currentChainLength > maxChainLength)
-                {
-                    Projectile.ai[0] = 1f;
-                    Projectile.netUpdate = true;
-                }
-                else if (!player.channel)
-                {
-                    if (Projectile.velocity.Y < 0)
-                        Projectile.velocity.Y *= 0.9f;
-
-                    Projectile.velocity.Y += 1f;
-                    Projectile.velocity.X *= 0.9f;
-                }
-            }
-            else if (Projectile.ai[0] == 1f)
-            {
-                float elasticFactorA = 14f / player.GetAttackSpeed(DamageClass.Melee);
-                float elasticFactorB = 0.9f / player.GetAttackSpeed(DamageClass.Melee);
-                float maxStretchLength = 560f;
-
-                if (Projectile.ai[1] == 1f)
-                    Projectile.tileCollide = false;
-
-                if (!player.channel || currentChainLength > maxStretchLength || !Projectile.tileCollide)
-                {
-                    Projectile.ai[1] = 1f;
-
-                    if (Projectile.tileCollide)
-                        Projectile.netUpdate = true;
-
-                    Projectile.tileCollide = false;
-
-                    if (currentChainLength < 20f)
-                        Projectile.Kill();
-                }
-
-                if (!Projectile.tileCollide)
-                    elasticFactorB *= 2f;
-
-                int restingChainLength = 140;
-
-                if (currentChainLength > restingChainLength || !Projectile.tileCollide)
-                {
-                    var elasticAcceleration = vectorToPlayer * elasticFactorA / currentChainLength - Projectile.velocity;
-                    elasticAcceleration *= elasticFactorB / elasticAcceleration.Length();
-                    Projectile.velocity *= 0.98f;
-                    Projectile.velocity += elasticAcceleration;
-                }
-                else
-                {
-                    if (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y) < 6f)
-                    {
-                        Projectile.velocity.X *= 0.96f;
-                        Projectile.velocity.Y += 0.2f;
-                    }
-                    if (player.velocity.X == 0)
-                        Projectile.velocity.X *= 0.96f;
-                }
-            }
-
-            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2; ;
-
-            if (aaaaaaaaaa == 0)
-            {
+                verlet = new Verlet(Projectile.Center, 8, 15, stiffness: 8);
                 Projectile eater = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TerrortomaFlail_Clingers>(), Projectile.damage, 0, player.whoAmI, Projectile.whoAmI)];
                 Projectile smasher = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TerrortomaFlail_Clingers>(), Projectile.damage, 0, player.whoAmI, Projectile.whoAmI)];
                 Projectile summoner = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TerrortomaFlail_Clingers>(), Projectile.damage, 0, player.whoAmI, Projectile.whoAmI)];
                 eater.frame = 2;
                 smasher.frame = 0;
                 summoner.frame = 1;
-                aaaaaaaaaa = 1;
             }
+
+            if (ChannelCheck < 10)
+            {
+                Vector2 moveTo = (player.Center + new Vector2(150, 0).RotatedBy(MathHelper.ToRadians(AITimer * 7))) - Projectile.Center;
+                Projectile.velocity = (moveTo) * 0.15f;
+            }
+            else
+            {
+                AITimer2++;
+                if (AITimer < 10)
+                    Projectile.velocity *= 0.96f;
+                if (AITimer2 == 10)
+                    Projectile.velocity = Helper.FromAToB(Projectile.Center, Main.MouseWorld) * 20;
+                if (AITimer2 > 30 && AITimer2 < 50)
+                    Projectile.velocity *= 0.86f;
+                if (AITimer2 > 50)
+                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, player.Center) * 30f, 0.1f);
+                if (AITimer2 > 50 && Projectile.Center.Distance(player.Center) < 50)
+                    Projectile.Kill();
+            }
+
+            player.itemAnimation = 10;
+            player.itemTime = 10;
+
+            player.ChangeDir(Projectile.Center.X > player.Center.X ? 1 : -1);
+            Projectile.direction = Projectile.Center.X > player.Center.X ? 1 : -1;
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -174,23 +154,14 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
 
             Player player = Main.player[Projectile.owner];
 
-            Vector2 neckOrigin = player.Center;
-            Vector2 ccenter = Projectile.Center;
-            Vector2 distToProj = neckOrigin - Projectile.Center;
-            float projRotation = distToProj.ToRotation() - 1.57f;
-            float distance = distToProj.Length();
-            while (distance > 8 && !float.IsNaN(distance))
+            if (verlet != null)
             {
-                distToProj.Normalize();
-                distToProj *= 8;
-                ccenter += distToProj;
-                distToProj = neckOrigin - ccenter;
-                distance = distToProj.Length();
-
-                //Draw chain
-                Main.EntitySpriteDraw(ModContent.Request<Texture2D>("EbonianMod/Projectiles/Friendly/Corruption/TerrortomaFlail_Chain").Value, ccenter - Main.screenPosition,
-                    new Rectangle(0, 0, 16, 8), Lighting.GetColor((int)ccenter.X / 16, (int)ccenter.Y / 16), projRotation,
-                    new Vector2(16 * 0.5f, 8 * 0.5f), 1f, SpriteEffects.None, 0);
+                VerletDrawData data = new VerletDrawData()
+                {
+                    texPath = "EbonianMod/Projectiles/Friendly/Corruption/TerrortomaFlail_Chain"
+                };
+                verlet.Draw(Main.spriteBatch, "EbonianMod/Projectiles/Friendly/Corruption/TerrortomaFlail_Chain");
+                verlet.Update(player.Center, Projectile.Center);
             }
             return true;
         }
