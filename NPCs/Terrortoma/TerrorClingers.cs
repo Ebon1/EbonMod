@@ -24,6 +24,14 @@ namespace EbonianMod.NPCs.Terrortoma
 {
     public class TerrorClingerRanged : ModNPC
     {
+        public override void SetStaticDefaults()
+        {
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
+        }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[ModContent.NPCType<Terrortoma>()], quickUnlock: true);
@@ -315,6 +323,11 @@ namespace EbonianMod.NPCs.Terrortoma
         private float angle = 0;
         public override void SetStaticDefaults()
         {
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
         }
         public override void SetDefaults()
         {
@@ -591,11 +604,19 @@ namespace EbonianMod.NPCs.Terrortoma
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
-                new FlavorTextBestiaryInfoElement("These creatures were the heads of infected corpses, they connect to the Terrortoma with part of the Eater of World's spine. This creature's body is made from the remains of a long extinct ancestor to all of the many eaters in this region."),
+                new FlavorTextBestiaryInfoElement("These creatures were the heads of infected corpses, they connect to the Terrortoma with part of the Eater of World's spine."),
             });
         }
         public override void SetStaticDefaults()
         {
+            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                CustomTexturePath = "EbonianMod/NPCs/Terrortoma/TerrorClinger_Bestiary",
+                Position = new Vector2(7f, 24f),
+                PortraitPositionXOverride = 0f,
+                PortraitPositionYOverride = -45f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
             NPCID.Sets.TrailCacheLength[NPC.type] = 4;
             NPCID.Sets.TrailingMode[NPC.type] = 0;
         }

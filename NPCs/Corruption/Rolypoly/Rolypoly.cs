@@ -16,6 +16,17 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
 {
     public class Rolypoly : ModNPC
     {
+        public override void SetStaticDefaults()
+        {
+            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                CustomTexturePath = "EbonianMod/NPCs/Corruption/Rolypoly/Rolypoly",
+                Position = new Vector2(7f, 24f),
+                PortraitPositionXOverride = 0f,
+                PortraitPositionYOverride = 45f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
+        }
         public override void SetDefaults()
         {
             NPC.Size = new Vector2(25, 25);
