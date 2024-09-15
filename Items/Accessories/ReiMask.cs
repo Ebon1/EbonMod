@@ -12,6 +12,8 @@ using Terraria.DataStructures;
 using EbonianMod.Dusts;
 using Terraria.Audio;
 using EbonianMod.Common.Systems;
+using EbonianMod.Common;
+using Terraria.Localization;
 
 namespace EbonianMod.Items.Accessories
 {
@@ -20,12 +22,21 @@ namespace EbonianMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            ArmorIDs.Face.Sets.DrawInFaceHeadLayer[Item.faceSlot] = true;
             ArmorIDs.Face.Sets.PreventHairDraw[Item.faceSlot] = true;
         }
         public override void SetDefaults()
         {
             Item.accessory = true;
             Item.rare = ItemRarityID.Lime;
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            TooltipLine line = tooltips.FirstOrDefault(x => x.Text.Contains("{ReiM_Keybind}"));
+            if (line != null)
+            {
+                line.Text = line.Text.Replace("{ReiM_Keybind}", "[" + EbonianKeybinds.ReiDash.GetAssignedKeys()[0] + "]");
+            }
         }
         public override void UpdateVanity(Player player)
         {

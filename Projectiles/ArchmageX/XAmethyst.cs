@@ -144,7 +144,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                 Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
             }
         }
-        public override bool? CanDamage() => Projectile.ai[2] >= 0.9f && Projectile.velocity.Length() > 2.5f;
+        public override bool? CanDamage() => Projectile.velocity.Length() > .5f;
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation();

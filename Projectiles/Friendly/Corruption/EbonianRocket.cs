@@ -1,6 +1,7 @@
 ﻿using EbonianMod.Effects.Prims;
 using EbonianMod.Projectiles.VFXProjectiles;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -30,8 +32,24 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Main.spriteBatch.Reload(Microsoft.Xna.Framework.Graphics.BlendState.AlphaBlend);
-            (default(GreenTrail)).Draw(Projectile);
+
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
+            Main.spriteBatch.Reload(BlendState.Additive);
+            float alpha = 1f;
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
+            {
+                float mult = (1f - fadeMult * i) * alpha;
+                if (i > 0)
+                    for (float j = 0; j < 3; j++)
+                    {
+                        Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 3));
+                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.LawnGreen * mult, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.02f * mult, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.LawnGreen * mult, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.035f * mult, SpriteEffects.None, 0);
+                    }
+            }
+            Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, Projectile.Center - Main.screenPosition, null, Color.LawnGreen * alpha, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.02f, SpriteEffects.None, 0);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+
             bool shouldDraw = (Projectile.ai[1] == 0);
             return shouldDraw;
         }

@@ -121,7 +121,9 @@ namespace EbonianMod.Items.Misc
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetAttackSpeed(DamageClass.Generic) += 2.5f;
+            player.GetAttackSpeed(DamageClass.Generic) += 1f;
+            player.GetDamage(DamageClass.Generic).Flat += 5;
+            player.GetDamage(DamageClass.Generic) += 0.25f;
             player.lifeRegen = 0;
             player.lifeRegenTime = 0;
             Vector2 dir = Main.rand.NextVector2Unit();

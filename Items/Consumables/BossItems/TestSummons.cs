@@ -9,10 +9,41 @@ using Terraria.GameContent.Bestiary;
 using EbonianMod.NPCs.Corruption;
 using EbonianMod.NPCs.Terrortoma;
 using EbonianMod.NPCs.Cecitior;
+using EbonianMod.NPCs.ArchmageX;
 
 
 namespace EbonianMod.Items.Consumables.BossItems
 {
+    public class XareusSummon : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.SortingPriorityBossSpawns[Item.type] = 12;
+        }
+        public override string Texture => Helper.Placeholder;
+        public override void SetDefaults()
+        {
+            Item.width = 20;
+            Item.height = 20;
+            Item.maxStack = 2;
+            Item.value = 1000000;
+            Item.rare = ItemRarityID.Red;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.consumable = false;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return !NPC.AnyNPCs(ModContent.NPCType<ArchmageX>());
+        }
+        public override bool? UseItem(Player player)
+        {
+            NPC.NewNPCDirect(player.GetSource_FromThis(), player.Center + new Microsoft.Xna.Framework.Vector2(50, -20), ModContent.NPCType<ArchmageX>());
+            return true;
+        }
+    }
     /*public class TerrortomaSummon : ModItem
     {
         public override void SetStaticDefaults()

@@ -42,11 +42,11 @@ namespace EbonianMod.Projectiles.ArchmageX
         {
             if (Projectile.velocity == Vector2.Zero) Projectile.velocity = -Vector2.UnitY;
             Projectile.velocity.SafeNormalize(-Vector2.UnitY);
-            if (Projectile.timeLeft == 1399)
-            {
+
+            if (Projectile.timeLeft == 1398)
                 Projectile.Center = Helper.TRay.Cast(Projectile.Center, -Projectile.velocity, 1000);
+            if (Projectile.timeLeft == 1399)
                 SoundEngine.PlaySound(EbonianSounds.cursedToyCharge, Projectile.Center);
-            }
 
 
             if (Projectile.localAI[1] >= .99f)
@@ -83,6 +83,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         }
         public override bool PreDraw(ref Color lightColor)
         {
+            if (Projectile.timeLeft > 1397) return false;
             Texture2D tex = Helper.GetExtraTexture("rune_alt");
 
             Main.spriteBatch.Reload(BlendState.Additive);

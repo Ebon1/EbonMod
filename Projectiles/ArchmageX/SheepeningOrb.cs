@@ -88,21 +88,6 @@ namespace EbonianMod.Projectiles.ArchmageX
                 float mult = (1f - fadeMult * i);
                 Main.spriteBatch.Draw(trail, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.Indigo * 0.5f * alpha * mult, Projectile.oldRot[i] + MathHelper.PiOver2, trail.Size() / 2, Projectile.scale * 0.5f * mult, SpriteEffects.None, 0);
             }
-
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
-
-            Main.spriteBatch.Reload(effect: EbonianMod.PullingForce);
-            EbonianMod.PullingForce.Parameters["uOpacity"].SetValue(alpha * 2);
-            EbonianMod.PullingForce.Parameters["uIntensity"].SetValue(alpha * 2);
-            EbonianMod.PullingForce.Parameters["uOffset"].SetValue(0.5f);
-            EbonianMod.PullingForce.Parameters["uSpeed"].SetValue(4f);
-            EbonianMod.PullingForce.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 4f);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * alpha, Main.GameUpdateCount * -0.005f, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * alpha, Main.GameUpdateCount * 0.005f, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
-            Main.spriteBatch.Reload(effect: null);
-
-            Main.spriteBatch.Reload(BlendState.Additive);
-            OrbLogic(false);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
 
             return false;

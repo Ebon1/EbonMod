@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria.ModLoader;
 
-namespace EbonianMod.Items.Accessories
+namespace EbonianMod.Common
 {
     public class EbonianKeybinds : ModSystem
     {

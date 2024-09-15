@@ -119,7 +119,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         {
             if (NPC.ai[3] < 462 && NPC.ai[3] > 198 || NPC.ai[3] > 800 || NPC.ai[3] < -900 || NPC.IsABestiaryIconDummy)
             {
-                if (NPC.frameCounter++ % 5 == 0)
+                if (NPC.frameCounter++ % 2 == 0)
                 {
                     if (NPC.frame.Y < 7 * frameHeight)
                         NPC.frame.Y += frameHeight;
@@ -129,48 +129,14 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             }
             else
             {
-                UglyFuckingCode(frameHeight);
-            }
-        }
-        void UglyFuckingCode(int frameHeight)
-        {
-            float Pi = MathHelper.Pi;
-            float[] rots = new float[] { 0, Pi * 0.125f, Pi * 0.25f, Pi * 0.375f, Pi * 0.5f, Pi * 0.625f, Pi * 0.75f, Pi * 0.875f, Pi, Pi + Pi * 0.125f, Pi + Pi * 0.25f, /*11 =>*/ Pi + Pi * 0.375f, Pi + Pi * 0.5f + MathHelper.ToRadians(20), Pi + Pi * 0.625f, Pi + Pi * 0.75f, Pi + Pi * 0.875f, }; //holy fuck what have i done
-            for (int i = 0; i < rots.Length; i++)
-                rots[i] -= MathHelper.PiOver2;
-            var closest = rots.IndexOfClosestTo(NPC.rotation);
-            if (closest < 8)
-            {
-                NPC.frame.Y = closest * frameHeight;
-            }
-            else
-                switch (closest)
+                if (NPC.frameCounter++ % 5 == 0)
                 {
-                    case 8:
+                    if (NPC.frame.Y < 7 * frameHeight)
+                        NPC.frame.Y += frameHeight;
+                    else
                         NPC.frame.Y = 0;
-                        break;
-                    case 9:
-                        NPC.frame.Y = frameHeight;
-                        break;
-                    case 10:
-                        NPC.frame.Y = 2 * frameHeight;
-                        break;
-                    case 11:
-                        NPC.frame.Y = 3 * frameHeight;
-                        break;
-                    case 12:
-                        NPC.frame.Y = 4 * frameHeight;
-                        break;
-                    case 13:
-                        NPC.frame.Y = 5 * frameHeight;
-                        break;
-                    case 14:
-                        NPC.frame.Y = 6 * frameHeight;
-                        break;
-                    case 15:
-                        NPC.frame.Y = 7 * frameHeight;
-                        break;
                 }
+            }
         }
         public override void Init()
         {
@@ -299,9 +265,9 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         {
             NPC head = Main.npc[(int)NPC.ai[3]];
             bool headIdle = !(head.ai[3] < 462 && head.ai[3] > 198 || head.ai[3] > 800 || head.ai[3] < -900);
-            if (isDed && !headIdle)
+            if (isDed)
             {
-                if (NPC.frameCounter++ % 5 == 0)
+                if (NPC.frameCounter++ % (headIdle ? 5 : 2) == 0)
                 {
                     if (NPC.frame.Y < 7 * frameHeight)
                         NPC.frame.Y += frameHeight;
@@ -309,13 +275,9 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
                         NPC.frame.Y = 0;
                 }
             }
-            else if (isDed && headIdle)
+            else if (!isDed)
             {
-                NPC.frame.Y = head.frame.Y / 72 * frameHeight;
-            }
-            else if (!isDed && !headIdle)
-            {
-                if (NPC.frameCounter++ % 5 == 0)
+                if (NPC.frameCounter++ % (headIdle ? 5 : 2) == 0)
                 {
                     if (NPC.frame.Y < 3 * frameHeight)
                         NPC.frame.Y += frameHeight;
@@ -323,12 +285,16 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
                         NPC.frame.Y = 0;
                 }
             }
-            else if (!isDed && headIdle)
+            /*else if (isDed && headIdle)
+            {
+                NPC.frame.Y = head.frame.Y / 72 * frameHeight;
+            }*/
+            /*else if (!isDed && headIdle)
                 if (NPC.frameCounter++ % 5 == 0)
                 {
                     if (NPC.frame.Y < 3 * frameHeight)
                         NPC.frame.Y += frameHeight;
-                }
+                }*/
 
         }
         public override void Init()
@@ -416,7 +382,9 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         }
         public override void FindFrame(int frameHeight)
         {
-            if (NPC.frameCounter++ % 5 == 0)
+            NPC head = Main.npc[(int)NPC.ai[3]];
+            bool headIdle = !(head.ai[3] < 462 && head.ai[3] > 198 || head.ai[3] > 800 || head.ai[3] < -900);
+            if (NPC.frameCounter++ % (headIdle ? 5 : 2) == 0)
             {
                 if (NPC.frame.Y < 7 * frameHeight)
                     NPC.frame.Y += frameHeight;

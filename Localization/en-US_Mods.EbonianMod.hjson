@@ -26,7 +26,7 @@ Projectiles: {
 	EFireBreath.DisplayName: Fire
 	EFire.DisplayName: Fire
 	Rolleg.DisplayName: Rolleg
-	CecitiorEyeP.DisplayName: False Gazer
+	CecitiorEyeP.DisplayName: Spectral Gazer
 	BloodLaser.DisplayName: Blood Blast
 	Pipebomb.DisplayName: Pipebomb
 	Mailbox.DisplayName: Mailbox
@@ -37,7 +37,7 @@ Projectiles: {
 	VileBladeP.DisplayName: Vile Blade
 	SanguineSlasherP.DisplayName: Sawnguine
 	IgnosP.DisplayName: Exol
-	ExolsawP.DisplayName: Infernal Discblade
+	ExolsawP.DisplayName: Infernal Disc
 	EbonianScytheP.DisplayName: Ebonian Scythe
 	InferosP.DisplayName: Infernomicon
 	PanopticonP.DisplayName: Panopticon
@@ -69,48 +69,48 @@ Projectiles: {
 	IchorGlobSmall.DisplayName: Ichor Glob
 	IchorGlob.DisplayName: Ichor Glob
 	TinyFish.DisplayName: Tiny Fish
-	RingOfFireP.DisplayName: Ring Of Fire P
-	RingOfFireP2.DisplayName: Ring Of Fire P2
+	RingOfFireP.DisplayName: Ring Of Fire
+	RingOfFireP2.DisplayName: Ring Of Fire
 	VilethornF2.DisplayName: Vilethorn F2
 	VilethornF1.DisplayName: Vilethorn F1
-	MeatCrusherP.DisplayName: Meat Crusher P
-	CrimsonSpearP.DisplayName: Crimson Spear P
+	MeatCrusherP.DisplayName: Meat Crusher
+	CrimsonSpearP.DisplayName: Crimson Spear
 	GoreBeam.DisplayName: Gore Beam
 	RedSpark.DisplayName: Red Spark
 	BloodShockwave2.DisplayName: Blood Shockwave2
-	SunOfGreatKnowledgeP.DisplayName: Sun Of Great Knowledge P
-	SunOfGreatKnowledgeP2.DisplayName: Sun Of Great Knowledge P2
+	SunOfGreatKnowledgeP.DisplayName: Sun Of Great Knowledge
+	SunOfGreatKnowledgeP2.DisplayName: Sun Of Great Knowledge
 	InferosShockwave.DisplayName: Inferos Shockwave
 	ExolFireSpiral.DisplayName: Exol Fire Spiral
-	EGeyser.DisplayName: E Geyser
+	EGeyser.DisplayName: Geyser
 	InferosShockwave2.DisplayName: Inferos Shockwave2
-	ESun.DisplayName: E Sun
-	EFire2.DisplayName: E Fire2
+	ESun.DisplayName: Sun
+	EFire2.DisplayName: Fire2
 	ExolFireExplode.DisplayName: Exol Fire Explode
 	InferosShockwave3.DisplayName: Inferos Shockwave3
 	FlameExplosion.DisplayName: Flame Explosion
-	EFire3.DisplayName: E Fire3
-	ESkullEmoji.DisplayName: E Skull Emoji
-	EPentagramAsh.DisplayName: E Pentagram Ash
+	EFire3.DisplayName: Fire3
+	ESkullEmoji.DisplayName: Skull Emoji
+	EPentagramAsh.DisplayName: Pentagram Ash
 	FlameExplosion2.DisplayName: Flame Explosion2
-	ETelegraph.DisplayName: E Telegraph
+	ETelegraph.DisplayName: Telegraph
 	Noise.DisplayName: Noise
 	NoiseOverlay.DisplayName: Noise Overlay
-	EMine.DisplayName: E Mine
+	EMine.DisplayName: Mine
 	QuickFlare.DisplayName: Quick Flare
-	FireGrenadeP.DisplayName: Fire Grenade P
+	FireGrenadeP.DisplayName: Fire Grenade
 	CursedFlameExplosion.DisplayName: Cursed Flame Explosion
-	CrimCannonP.DisplayName: Crim Cannon P
+	CrimCannonP.DisplayName: Crim Cannon
 	Gibs.DisplayName: Gibs
-	SpinaxP.DisplayName: Spinax P
+	SpinaxP.DisplayName: Spinax
 	SelfStabP.DisplayName: Sacrificial Dagger
 	BloodVignette.DisplayName: Blood Vignette
-	EPlatform.DisplayName: E Platform
-	EGroundHazard.DisplayName: E Ground Hazard
+	EPlatform.DisplayName: Platform
+	EGroundHazard.DisplayName: Ground Hazard
 	RykardSkull.DisplayName: Rykard Skull
-	MagmaBowP.DisplayName: Magma Bow P
+	MagmaBowP.DisplayName: Magma Bow
 	MagmaArrow.DisplayName: Magma Arrow
-	ReiCapeP.DisplayName: Rei Cape P
+	ReiCapeP.DisplayName: Rei Cape
 	ReiCapeTrail.DisplayName: Rei Cape Trail
 	Djungelskog.DisplayName: Djungelskog
 	ReiExplosion.DisplayName: Rei Explosion
@@ -126,69 +126,69 @@ Projectiles: {
 	VortexSkull.DisplayName: Vortex Skull
 	IgnosLightning.DisplayName: Ignos Lightning
 	IgArena.DisplayName: Ig Arena
-	ESwordWave.DisplayName: E Sword Wave
+	ESwordWave.DisplayName: Sword Wave
 	IgnosEye.DisplayName: Ignos Eye
 	MagmaArrowHostile.DisplayName: Magma Arrow Hostile
 	TinyRykardSkull.DisplayName: Tiny Rykard Skull
-	ESickle.DisplayName: E Sickle
-	OstertagiP.DisplayName: Ostertagi P
+	ESickle.DisplayName: Sickle
+	OstertagiP.DisplayName: Ostertagi
 	OstertagiWorm.DisplayName: Ostertagi Worm
 	OstertagiExplosion.DisplayName: Ostertagi Explosion
 	ExolGreatArrow.DisplayName: Exol Great Arrow
-	EHomingBeam.DisplayName: E Homing Beam
-	FlameExplosionWSprite.DisplayName: Flame Explosion W Sprite
-	TFlameThrower4.DisplayName: T Flame Thrower4
-	TerrorStaffPEvil.DisplayName: Terror Staff P Evil
+	EHomingBeam.DisplayName: Homing Beam
+	FlameExplosionWSprite.DisplayName: Flame Explosion
+	TFlameThrower4.DisplayName: Flame
+	TerrorStaffPEvil.DisplayName: Terror Staff  Evil
 	CecitiorBelch.DisplayName: Cecitior Belch
-	SerrationP.DisplayName: Serration P
+	SerrationP.DisplayName: Serration
 	SerrationSpike.DisplayName: Serration Spike
 	CecitiorClawSlash.DisplayName: Cecitior Claw Slash
 	CecitiorClawWave.DisplayName: Cecitior Claw Wave
 	ClawGore.DisplayName: Claw Gore
-	BloodExplosionWSprite.DisplayName: Blood Explosion W Sprite
-	CecitiorBombThing.DisplayName: Cecitior Bomb Thing
+	BloodExplosionWSprite.DisplayName: Blood Explosion
+	CecitiorBombThing.DisplayName: Cecitior Bomb
 	IchorExplosion.DisplayName: Ichor Explosion
 	CecitiorSpike.DisplayName: Cecitior Spike
-	CecitiorTeethFriendly.DisplayName: Cecitior Teeth Friendly
-	GutlingGunP.DisplayName: Gutling Gun P
-	CursedToyP.DisplayName: Cursed Toy P
+	CecitiorTeethFriendly.DisplayName: Cecitior Teeth
+	GutlingGunP.DisplayName: Gutling Gun
+	CursedToyP.DisplayName: Cursed Toy
 	CursedToyBeam.DisplayName: Cursed Toy Beam
 	BigGreenShockwave.DisplayName: Big Green Shockwave
-	CorruptionClawP.DisplayName: Corruption Claw P
+	CorruptionClawP.DisplayName: Corruption Claw
 	DankDiggerProjectileWorm.DisplayName: Dank Digger Projectile Worm
-	XSpirit.DisplayName: X Spirit
-	XExplosion.DisplayName: X Explosion
-	VaccumWormP.DisplayName: Vaccum Worm P
-	XShadowflame.DisplayName: X Shadowflame
-	XAmethyst.DisplayName: X Amethyst
-	XBolt.DisplayName: X Bolt
-	XExplosionTiny.DisplayName: X Explosion Tiny
-	XSineLaser.DisplayName: X Sine Laser
-	XExplosionInvis.DisplayName: X Explosion Invis
-	XExplosionInvisMask.DisplayName: X Explosion Invis Mask
+	XSpirit.DisplayName: Spirit
+	XExplosion.DisplayName: Explosion
+	VaccumWormP.DisplayName: Vaccum Worm
+	XShadowflame.DisplayName: Shadowflame
+	XAmethyst.DisplayName: Amethyst
+	XBolt.DisplayName: Bolt
+	XExplosionTiny.DisplayName: Explosion Tiny
+	XSineLaser.DisplayName: Sine Laser
+	XExplosionInvis.DisplayName: Explosion Invis
+	XExplosionInvisMask.DisplayName: Explosion Invis Mask
 	PhantasmalGreatswordP.DisplayName: Archmage Xareus' Shadowflame Skysplitter
 	PhantasmalGreatswordP2.DisplayName: Archmage Xareus' Shadowflame Skysplitter
-	XAmethystCloseIn.DisplayName: X Amethyst Close In
-	XLargeAmethyst.DisplayName: X Large Amethyst
-	XAmethystShard.DisplayName: X Amethyst Shard
-	XTentacle.DisplayName: X Tentacle
+	XAmethystCloseIn.DisplayName: Amethyst Close In
+	XLargeAmethyst.DisplayName: Large Amethyst
+	XAmethystShard.DisplayName: Amethyst Shard
+	XTentacle.DisplayName: Tentacle
 	player_sheep.DisplayName: Sheep
 	SheepeningOrb.DisplayName: Sheepening Orb
-	XManaPotion.DisplayName: X Mana Potion
-	XSpiritNoHome.DisplayName: X Spirit No Home
-	XRift.DisplayName: X Rift
-	XKnife.DisplayName: X Knife
-	XCloud.DisplayName: X Cloud
-	XLightningBolt.DisplayName: X Lightning Bolt
-	XTelegraphLine.DisplayName: X Telegraph Line
+	XManaPotion.DisplayName: Mana Potion
+	XSpiritNoHome.DisplayName: Spirit No Home
+	XRift.DisplayName: Rift
+	XKnife.DisplayName: Knife
+	XCloud.DisplayName: Cloud
+	XLightningBolt.DisplayName: Lightning Bolt
+	XTelegraphLine.DisplayName: Telegraph Line
 	RegorgerBolt.DisplayName: Regorger Bolt
 	RegorgerTelegraph.DisplayName: Regorger Telegraph
-	GhizasWheelP.DisplayName: Ghizas Wheel P
+	GhizasWheelP.DisplayName: Ghizas Wheel
 	VileTearTelegraph.DisplayName: Vile Tear Telegraph
 	AmbientGibs.DisplayName: Ambient Gibs
-	XCloudVFXExtra.DisplayName: X Cloud V F X Extra
-	EquilibriumP.DisplayName: Equilibrium P
-	EquilibriumP2.DisplayName: Equilibrium P2
+	XCloudVFXExtra.DisplayName: CloudExtra
+	EquilibriumP.DisplayName: Equilibrium
+	EquilibriumP2.DisplayName: Equilibrium
 	GarbageBag.DisplayName: Garbage Bag
 	GarbageBarrel.DisplayName: Garbage Barrel
 	GarbageGiantFlame.DisplayName: Garbage Giant Flame
@@ -196,17 +196,17 @@ Projectiles: {
 	GarbageDrone.DisplayName: Garbage Drone
 	GarbageLightning.DisplayName: Garbage Lightning
 	GarbageTelegraph.DisplayName: Garbage Telegraph
-	GarbageTelegraphSmall.DisplayName: Garbage Telegraph Small
+	GarbageTelegraphSmall.DisplayName: Garbage Telegraph
 	GarbageLaser.DisplayName: Garbage Laser
-	GarbageLaser1.DisplayName: Garbage Laser1
-	GarbageLaser2.DisplayName: Garbage Laser2
-	GarbageLaser3.DisplayName: Garbage Laser3
-	HeatBlastVFX.DisplayName: Heat Blast V F X
-	GarbageLaserSmall1.DisplayName: Garbage Laser Small1
-	GarbageLaserSmall2.DisplayName: Garbage Laser Small2
-	GarbageLaserSmall3.DisplayName: Garbage Laser Small3
+	GarbageLaser1.DisplayName: Garbage Laser
+	GarbageLaser2.DisplayName: Garbage Laser
+	GarbageLaser3.DisplayName: Garbage Laser
+	HeatBlastVFX.DisplayName: Heat Blast
+	GarbageLaserSmall1.DisplayName: Garbage Laser
+	GarbageLaserSmall2.DisplayName: Garbage Laser
+	GarbageLaserSmall3.DisplayName: Garbage Laser
 	ChargeUp.DisplayName: Charge Up
-	GluttonImpact.DisplayName: Glutton Impact
+	GluttonImpact.DisplayName: Impact
 	GreenChargeUp.DisplayName: Green Charge Up
 }
 
@@ -232,26 +232,23 @@ NPCs: {
 	}
 
 	HotGarbage.DisplayName: Hot Garbage
-	Exol.DisplayName: Inferos
 	Glutton.DisplayName: Glutton
 	Cecitior.DisplayName: Cecitior
 	Terrortoma.DisplayName: Terrortoma
 	TerrorClingerSummoner.DisplayName: Clinger
 	TerrorClingerRanged.DisplayName: Clinger
 	TerrorClingerMelee.DisplayName: Clinger
-	CrimsonWormTail.DisplayName: Terrorformer
-	CrimsonWormHead.DisplayName: Terrorformer
-	CrimsonWormBody.DisplayName: Terrorformer
+	CrimsonWormTail.DisplayName: Gutworm
+	CrimsonWormHead.DisplayName: Gutworm
+	CrimsonWormBody.DisplayName: Gutworm
 	CrimeraTail.DisplayName: Scorn
 	CrimeraHead.DisplayName: Scorn
 	CrimeraBody.DisplayName: Scorn
 	Crimera.DisplayName: Crimera
-	VileSlime.DisplayName: Vile Slime
-	TheTrueGluttonEXNeoGod.DisplayName: THE Glutton
+	VileSlime.DisplayName: Muckling
 	RottenSpineTail.DisplayName: Rotten Spine
 	RottenSpineHead.DisplayName: Rotten Spine
 	RottenSpineBody.DisplayName: Rotten Spine
-	EbonWasp.DisplayName: Winged Worm
 	EbonianStrider.DisplayName: Regurgitator
 	EbonFly.DisplayName: Ebonfly
 	EbonCrawler.DisplayName: Waster
@@ -269,13 +266,11 @@ NPCs: {
 	DankDiggerTail.DisplayName: Dank Digger
 	EbonButKill.DisplayName: Ebon But Kill
 	BloatedEbonfly.DisplayName: Bloated Ebonfly
-	Ignos.DisplayName: Exol of Ignos
 	MassiveSpectator.DisplayName: Spectator
-	foreskin.DisplayName: Foreskin Apostle
 	TerrortomaBulb.DisplayName: Giant Cocoon
 	Bloodhound.DisplayName: Bloodhound
 	ClumpOfMeat.DisplayName: Clump Of Meat
-	Parasite.DisplayName: Latchers
+	Parasite.DisplayName: Latcher
 	FleshBrickBig.DisplayName: Sedimentary
 	FleshBrickMedium.DisplayName: Sedimentary
 	FleshBrickSmall.DisplayName: Sedimentary
@@ -284,37 +279,16 @@ NPCs: {
 	TrumpetBody.DisplayName: Trumpet
 	Rolypoly.DisplayName: Rolypoly
 	ArchmageX.DisplayName: Xareus
-
-	Thomas: {
-		DisplayName: Teratoma
-
-		TownNPCMood: {
-			Content: I am content.
-			NoHome: I hate not having a home.
-			FarFromHome: I am too far from home.
-			LoveSpace: I love having so much space.
-			DislikeCrowded: I dislike how crowded I am.
-			HateCrowded: I hate how crowded I am.
-			HateBiome: I hate {BiomeName}, where are the eaters? Where's all the purple? Lame.
-			LikeNPC: I like {NPCName}.
-			DislikeNPC: I dislike {NPCName}.
-			HateNPC: I hate {NPCName}.
-			LikeNPC_Princess: I like {NPCName}.
-			Princess_LovesNPC: I like {NPCName}.
-		}
-	}
-
 	JuvenileBrain.DisplayName: Juvenile Brain
 	WormKing.DisplayName: Worm King
 	MiniTrumpetBody.DisplayName: Cornet
 	MiniTrumpetHead.DisplayName: Cornet
 	MiniTrumpetTail.DisplayName: Cornet
 	Consumer.DisplayName: Consumer
-	TheFinalBossOfEbonianMod.DisplayName: The Final Boss Of Ebonian Mod
 	Regorger.DisplayName: Regorger
 	Vileglider.DisplayName: Vileglider
-	ToxicAbomination.DisplayName: Toxic Abomination
-	VileTear.DisplayName: Vile Tear
+	ToxicAbomination.DisplayName: Virulant
+	VileTear.DisplayName: Grinner
 	BloodHunter.DisplayName: Blood Hunter
 }
 
@@ -322,7 +296,7 @@ Items: {
 	RingOfFire: {
 		Tooltip:
 			'''
-			Ignores defense and never deals critical damage.
+			Ignores defense but never deals critical damage.
 			Can't pop purple balloons.
 			'''
 		DisplayName: Ring of Fire
@@ -338,26 +312,22 @@ Items: {
 	}
 
 	ThornBow: {
-		Tooltip: Shoots Vilethorn arrows that 'bloom' on hit.
 		DisplayName: Thorny Bow
+		Tooltip: ""
 	}
 
 	GutlingGun: {
-		Tooltip: Shoots ichor micro-grenades that detonate on contact with anything.
 		DisplayName: Gutling
+		Tooltip: ""
 	}
 
 	EbonianRocketLauncher: {
-		DisplayName: Abhorrent Cannon
-		Tooltip: Turns rockets into homing corrupt missiles.
+		DisplayName: Mawzooka
+		Tooltip: Converts any rocket into a homing corrupted one.
 	}
 
 	EbonianGun: {
-		Tooltip:
-			'''
-			Wield two guns that shoot weak Cursed-Fire bullets.
-			The firearm is sadly not actually cursed.
-			'''
+		Tooltip: Shoots cursed bullets.
 		DisplayName: Cursed Firearm
 	}
 
@@ -371,38 +341,29 @@ Items: {
 		Tooltip: Half flamethrower, Half cannon, Complete madness.
 	}
 
-	VileBlade: {
-		Tooltip:
-			'''
-			Critical hits inflict Cursed Inferno.
-			Remnants of a basic iron sword, withered by the Corruption.
-			'''
-		DisplayName: Vile Blade
-	}
-
 	TerrorFlail: {
-		DisplayName: Terrorflail
-		Tooltip: Pocket Terrortoma at your disposal.
+		DisplayName: Flailotoma
+		Tooltip: Makes you wonder if there's an even smaller one inside.
 	}
 
 	SanguineSlasher: {
-		Tooltip: Saw-shaped creature that doesn't mind losing its teeth, it seems to have an infinite supply anyways.
+		Tooltip: Saw-shaped creature that doesn't mind losing its teeth, seemingly having an infinite supply anyways.
 		DisplayName: Saw-nguine
 	}
 
 	MeatCrusher: {
-		Tooltip: Just as advertised!
 		DisplayName: Meat Crusher
+		Tooltip: ""
 	}
 
 	Exolsaw: {
-		Tooltip: ""
 		DisplayName: Infernal Disc
+		Tooltip: ""
 	}
 
 	EbonianScythe: {
 		Tooltip: Increases maximum movement speed while used.
-		DisplayName: Ebonian Scythe
+		DisplayName: Grimrot Cutter
 	}
 
 	TerrorStaff: {
@@ -420,37 +381,17 @@ Items: {
 	}
 
 	InferosVolI: {
-		Tooltip: Releases infernal discs that seek enemies.
 		DisplayName: Infernomicon
+		Tooltip: ""
 	}
 
 	GoreSceptre: {
 		DisplayName: Defibrillator
 		Tooltip:
 			'''
-			Gets stronger with each beat.
+			Summons an electrified heart that shocks enemies.
 			CLEAR!
 			'''
-	}
-
-	TestTileItem4: {
-		Tooltip: Shadow the
-		DisplayName: Test Tile Item4
-	}
-
-	TestTileItem3: {
-		Tooltip: An announcement.
-		DisplayName: Test Tile Item3
-	}
-
-	TestTileItem2: {
-		Tooltip: To make
-		DisplayName: Test Tile Item2
-	}
-
-	TestTileItem: {
-		Tooltip: I've come
-		DisplayName: Test Tile Item
 	}
 
 	EbonHiveI: {
@@ -459,12 +400,8 @@ Items: {
 	}
 
 	Panopticon: {
-		DisplayName: Panopticon
-		Tooltip:
-			'''
-			Summons the Flesh Panopticon
-			LIVE PANOPTICON REACTION
-			'''
+		DisplayName: Flesh Cube
+		Tooltip: Summons a Flesh Cube
 	}
 
 	CursedCone: {
@@ -473,19 +410,16 @@ Items: {
 	}
 
 	DoomsdayRemote: {
-		Tooltip: Surely pressing it is a good idea.
 		DisplayName: The Red Button
+		Tooltip: ""
 	}
 
 	IchorFlintlock: {
-		Tooltip: If you keep attacking, the 5th bullet will be turned into a piercing ichor orb that decreases enemies' defense for a short while.
+		Tooltip: The 5th consecutive bullet gets replaced with a piercing ichor orb that decreases nearby enemies' defenses for a short while.
 		DisplayName: Bloodcolt
 	}
 
-	FangSlinger: {
-		Tooltip: Shoots fangs, who would've thought.
-		DisplayName: Fang Slinger
-	}
+	FangSlinger.DisplayName: Fang Slinger
 
 	CrimCannon: {
 		Tooltip: Shoots out a gory set of teeth.
@@ -498,8 +432,8 @@ Items: {
 	}
 
 	PepperSpray: {
-		Tooltip: Used for self defense, right?
 		DisplayName: Pepper Spray
+		Tooltip: ""
 	}
 
 	WormPaintingI: {
@@ -547,20 +481,6 @@ Items: {
 		DisplayName: Cordnyaceps shroom
 	}
 
-	TerrortomaSummon: {
-		Tooltip: placeholder
-		DisplayName: Terrortomarrrr
-	}
-
-	RedditGluttonSummon: {
-		Tooltip:
-			'''
-			Summons THE Glutton
-			Years of evolution lead to this.
-			'''
-		DisplayName: Glutton's Bulb
-	}
-
 	GarbageRemote: {
 		Tooltip:
 			'''
@@ -568,11 +488,6 @@ Items: {
 			Be warned.
 			'''
 		DisplayName: Dusty Quantum Computer
-	}
-
-	CecitiorSummon: {
-		Tooltip: placeholder
-		DisplayName: Cecitiorrrr
 	}
 
 	ExolWings: {
@@ -594,61 +509,32 @@ Items: {
 			'''
 			While the brains are active, they slowly heal you.
 			Each individual brain can be destroyed by enemies but if the player gets hit, all the brains die.
-			"For the first time ever! Experience being meat jail from the hit game megamurder!"
 			'''
-		DisplayName: Judgemental Brain
+		DisplayName: Seeping Brain
 	}
 
 	IchorGlobScepter: {
-		Tooltip: Shoots out an icky glob of ichor that splits into 3 exploding chunks of ichor
+		Tooltip: Shoots out an icky glob that splits into 3 exploding chunks of ichor.
 		DisplayName: Ichor Glob Sceptre
 	}
 
 	VileNoodleBox: {
 		Tooltip:
 			'''
-			Provides you 100% guaranteed literal heartburn
-			The noodles may be worms.
+			Provides you 100% guaranteed literal heartburn.
+			The noodles seem to wiggle.
 			'''
 		DisplayName: Vile Noodle Box
 	}
 
 	CorruptionStaff: {
-		Tooltip: Conjures seeking vilethorns.
+		Tooltip: Conjures homing vilethorns.
 		DisplayName: Thorn-A-Part
 	}
 
 	CrimsonSpear: {
 		DisplayName: Vitriolic Voulge
-		Tooltip: The longer you use it, the faster it becomes.
-	}
-
-	IgnosSummon: {
-		DisplayName: Exol Subworld
-		Tooltip: ""
-	}
-
-	SunOfGreatKnowledge: {
-		DisplayName: Sun Of Great Knowledge
-		Tooltip:
-			'''
-			When the primary bolt strikes an enemy, it divides into five bolts instead of three.
-			Everyone who has attempted to read this has inevitably succumbed to madness.
-			'''
-	}
-
-	ExolSummon: {
-		DisplayName: Exol Summon
-		Tooltip: ""
-	}
-
-	FireGrenade: {
-		DisplayName: Incinerator
-		Tooltip:
-			'''
-			Explodes on direct contact with enemies.
-			Slowly melts nearby enemies, before exploding, on contact with tiles.
-			'''
+		Tooltip: Gets more powerful with extended use.
 	}
 
 	Spinax: {
@@ -658,32 +544,31 @@ Items: {
 
 	SelfStab: {
 		DisplayName: Sacrificial Dagger
-		Tooltip: ""
+		Tooltip: Massively boosts all your damage, at a cost.
 	}
 
 	MagmaBow: {
 		DisplayName: Pentabow
-		Tooltip: Shoots 5 explosive arrows.
+		Tooltip: Shoots 5 volcanic arrows.
 	}
 
 	ReiMask: {
-		DisplayName: Rei Mask
-		Tooltip: ""
+		DisplayName: Voidrunner Mask
+		Tooltip:
+			'''
+			Slightly increases movement speed.
+			Allows teleportation by pressing {ReiM_Keybind} while hovering over an enemy.
+			'''
 	}
 
 	DjungelskogI: {
-		DisplayName: Djungelskog I
-		Tooltip: ""
-	}
-
-	EIgnosSummon: {
-		DisplayName: E Ignos Summon
+		DisplayName: Djungelskog
 		Tooltip: ""
 	}
 
 	Ostertagi: {
 		DisplayName: Ostertagi
-		Tooltip: ""
+		Tooltip: Massively boosts damage and attacking speed, at a cost.
 	}
 
 	Potato: {
@@ -693,31 +578,26 @@ Items: {
 
 	ClementinesCap: {
 		DisplayName: Bloody Ballcap
-		Tooltip: '''"It's definitely seen better days."'''
+		Tooltip: Definitely seen better days.
 	}
 
 	InfernoBreastplate: {
-		DisplayName: Inferno Breastplate
+		DisplayName: Infernal Chestplate
 		Tooltip: ""
 	}
 
 	InfernoHeadgear: {
-		DisplayName: Inferno Headgear
+		DisplayName: Infernal Helm
 		Tooltip: ""
 	}
 
 	InfernoHeadgearAlt: {
-		DisplayName: Inferno Mask
+		DisplayName: Infernal Mask
 		Tooltip: ""
 	}
 
 	InfernoLeggings: {
-		DisplayName: Inferno Leggings
-		Tooltip: ""
-	}
-
-	ee: {
-		DisplayName: ee
+		DisplayName: Infernal Leggings
 		Tooltip: ""
 	}
 
@@ -727,83 +607,28 @@ Items: {
 	}
 
 	CecitiorBag: {
-		DisplayName: Cecitior Bag
+		DisplayName: Treasure Bag (Cecitior)
 		Tooltip: ""
 	}
 
 	TerrortomaBag: {
-		DisplayName: Terrortoma Bag
+		DisplayName: Treasure Bag (Terrortoma)
 		Tooltip: ""
 	}
 
 	CursedToy: {
 		Tooltip: ""
-		DisplayName: Cursed Toy
+		DisplayName: Cursed Doll
 	}
 
 	CorruptionClaw: {
 		Tooltip: ""
-		DisplayName: Corruption Claw
-	}
-
-	DebugDialogueItemFast: {
-		DisplayName: Debug Dialogue Item Fast
-		Tooltip: ""
-	}
-
-	DebugDialogueItemInstant: {
-		DisplayName: Debug Dialogue Item Instant
-		Tooltip: ""
-	}
-
-	DebugDialogueItemLayered: {
-		DisplayName: Debug Dialogue Item Layered
-		Tooltip: ""
-	}
-
-	DebugDialogueItemSlow: {
-		DisplayName: Debug Dialogue Item Slow
-		Tooltip: ""
-	}
-
-	DebugDialogueItem1: {
-		DisplayName: Debug Dialogue Item1
-		Tooltip: ""
-	}
-
-	DebugDialogueItem2: {
-		DisplayName: Debug Dialogue Item2
-		Tooltip: ""
-	}
-
-	DebugDialogueItem3: {
-		DisplayName: Debug Dialogue Item3
-		Tooltip: ""
-	}
-
-	DebugDialogueItem4: {
-		DisplayName: Debug Dialogue Item4
-		Tooltip: ""
-	}
-
-	DebugDialogueItem5: {
-		DisplayName: Debug Dialogue Item5
-		Tooltip: ""
-	}
-
-	DebugDialogueItem6: {
-		DisplayName: Debug Dialogue Item6
-		Tooltip: ""
-	}
-
-	DebugDialogueItem0: {
-		DisplayName: Debug Dialogue Item0
-		Tooltip: ""
+		DisplayName: Chained Claw
 	}
 
 	VaccumWorm: {
 		Tooltip: ""
-		DisplayName: Vaccum Worm
+		DisplayName: Vaccum
 	}
 
 	PhantasmalGreatsword: {
@@ -812,7 +637,7 @@ Items: {
 	}
 
 	GhizasWheel: {
-		DisplayName: Ghizas Wheel
+		DisplayName: Corrosive Wheel
 		Tooltip: ""
 	}
 
@@ -820,21 +645,26 @@ Items: {
 		Tooltip: ""
 		DisplayName: Equilibrium
 	}
+
+	XareusSummon: {
+		DisplayName: Xareus Summon
+		Tooltip: ""
+	}
 }
 
 Buffs: {
 	ExolStun: {
 		Description: Mods.EbonianMod.Buffs.ExolStun.Description
-		DisplayName: Exol Stun
+		DisplayName: Stunned
 	}
 
 	PanopticonB: {
 		Description: This prison... To orbit around... ME!?
-		DisplayName: Panopticon
+		DisplayName: Flesh Cube
 	}
 
 	HightomaB: {
-		Description: hnnmhmggg
+		Description: Not entirely lucid enough to try attacking you.
 		DisplayName: Tinytoma
 	}
 
@@ -844,23 +674,23 @@ Buffs: {
 	}
 
 	DoomsdayBuff: {
-		Description: The Doomsday Drone will fight for you.
+		Description: .
 		DisplayName: Doomsday Drone
 	}
 
 	SelfStabB: {
-		DisplayName: Self Stab B
-		Description: Mods.EbonianMod.Buffs.SelfStabB.Description
+		DisplayName: Sacrificed
+		Description: Massively boosted damage.
 	}
 
 	DjungelskogB: {
-		DisplayName: Djungelskog B
-		Description: Mods.EbonianMod.Buffs.DjungelskogB.Description
+		DisplayName: Djungelskog
+		Description: Dumb teddy bear.
 	}
 
 	OstertagiB: {
-		DisplayName: Ostertagi B
-		Description: Mods.EbonianMod.Buffs.OstertagiB.Description
+		DisplayName: Infected
+		Description: Massively boosted damage and attacking speed.
 	}
 
 	Sheepened: {
@@ -870,7 +700,6 @@ Buffs: {
 }
 
 Keybinds: {
-	RandomBuff.DisplayName: Random Buff
-	"Rei Dash.DisplayName": Rei  Dash
-	"Time Slip.DisplayName": Time  Slip
+	"Rei Dash.DisplayName": Timeslip (Voidrunner Mask Ability)
+	"Time Slip.DisplayName": Timeslip (Voidrunner Mask Ability)
 }

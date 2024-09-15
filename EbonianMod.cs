@@ -238,19 +238,6 @@ namespace EbonianMod
             }
             Main.spriteBatch.End();
 
-            sb.Begin(SpriteSortMode.Deferred, MiscDrawingMethods.Subtractive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-            ReiSmoke.DrawAll(sb);
-            sb.End();
-            sb.Begin(SpriteSortMode.Deferred, MiscDrawingMethods.Subtractive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-            foreach (Projectile proj in Main.projectile)
-            {
-                if (proj.active && proj.timeLeft > 1 && proj.type == ModContent.ProjectileType<ReiCapeP>())
-                {
-                    Color color = new Color(69, 420, 0, 1);
-                    proj.ModProjectile.PostDraw(color);
-                }
-            }
-            sb.End();
             var old = gd.GetRenderTargets();
             if (!Main.gameMenu && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro) && gd.GetRenderTargets().Contains(Main.screenTarget))
             {
@@ -333,9 +320,9 @@ namespace EbonianMod
                 gd.Textures[3] = ModContent.Request<Texture2D>("EbonianMod/Extras/seamlessNoiseHighContrast", (AssetRequestMode)1).Value;
                 gd.Textures[4] = ModContent.Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
                 metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
-                metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly);
-                metaballGradientNoiseTex.Parameters["offsetX"].SetValue(MathF.Sin(Main.GlobalTimeWrappedHourly) * 0.1f);
-                metaballGradientNoiseTex.Parameters["offsetY"].SetValue(MathF.Cos(Main.GlobalTimeWrappedHourly) * 0.1f);
+                metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.2f);
+                metaballGradientNoiseTex.Parameters["offsetX"].SetValue(1f);
+                metaballGradientNoiseTex.Parameters["offsetY"].SetValue(1f);
                 sb.Draw(renders[2], Vector2.Zero, Color.White);
 
                 gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/coherentNoise", (AssetRequestMode)1).Value;
@@ -366,6 +353,20 @@ namespace EbonianMod
                 gd.Textures[4] = null;
                 sb.End();
             }
+
+            sb.Begin(SpriteSortMode.Deferred, MiscDrawingMethods.Subtractive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            ReiSmoke.DrawAll(sb);
+            sb.End();
+            sb.Begin(SpriteSortMode.Deferred, MiscDrawingMethods.Subtractive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            foreach (Projectile proj in Main.projectile)
+            {
+                if (proj.active && proj.timeLeft > 1 && proj.type == ModContent.ProjectileType<ReiCapeP>())
+                {
+                    Color color = new Color(69, 420, 0, 1);
+                    proj.ModProjectile.PostDraw(color);
+                }
+            }
+            sb.End();
 
             orig(self);
 
