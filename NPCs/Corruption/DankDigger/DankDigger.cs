@@ -35,7 +35,7 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("The Dank Diggers are a sign you are in the Eater of Worlds’ destructive wake- whenever a shadow scale breaks, the remnant regenerates as best as it can and makes a Dank Digger."),
+                new FlavorTextBestiaryInfoElement("The Dank Diggers are a sign you are in the Eater of Worlds' destructive wake- whenever a shadow scale breaks, the remnant regenerates as best as it can and makes a Dank Digger."),
             });
         }
         public override bool byHeight => true;

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -26,6 +27,14 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
                 PortraitPositionYOverride = 45f
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
+                new FlavorTextBestiaryInfoElement("Bundled together, these corrupt worms share a collective and much greater mind at the cost of their mobility.\nHowever, by the time they become permanently entangled, their combined mind concludes that such a form is rather stupid."),
+            });
         }
         public override void SetDefaults()
         {

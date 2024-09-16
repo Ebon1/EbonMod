@@ -269,19 +269,23 @@ namespace EbonianMod.NPCs.Corruption
                     a.friendly = false;
                     a.hostile = true;
                 }
+                if (AITimer == 45)
+                    SoundEngine.PlaySound(EbonianSounds.BeamWindUp, NPC.Center);
                 if (AITimer == 100)
                 {
                     storedPlayerPos = player.Center;
-                    SoundEngine.PlaySound(EbonianSounds.cursedToyCharge, NPC.Center);
                     Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Vector2.Zero, ModContent.ProjectileType<GreenChargeUp>(), 0, 0);
                 }
                 if (AITimer == 90)
                     Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Vector2.Zero, ModContent.ProjectileType<GreenChargeUp>(), 0, 0);
+                if (AITimer == 155)
+                    Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0);
                 if (AITimer > 155 && AITimer <= 174)
                 {
                     if (AITimer % 2 == 0)
                     {
-                        SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(0.5f), NPC.Center);
+                        EbonianSystem.ScreenShakeAmount = 5;
+                        SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(0.4f).WithVolumeScale(1.2f), NPC.Center);
                         Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Helper.FromAToB(NPC.Center + new Vector2(56 * NPC.direction, 22), storedPlayerPos).RotatedByRandom(MathHelper.PiOver4 * 0.35f) * Main.rand.NextFloat(0.4f, 0.8f), ModContent.ProjectileType<RegorgerBolt>(), 10, 0);
                     }
                     eyeBeamAlpha = MathHelper.Lerp(eyeBeamAlpha, 0, 0.2f);

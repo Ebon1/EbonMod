@@ -50,6 +50,7 @@ namespace EbonianMod.Common.Systems
         terrortomaFlesh,
         cecitiorBurp,
         clawSwipe,
+        BeamWindUp,
         garbageLaser,
         trumpet,
         terrortomaLaugh,
@@ -98,6 +99,7 @@ namespace EbonianMod.Common.Systems
             terrortomaFlesh = Default with { SoundPath = ebonianSoundPath + "terrortomaFlesh" };
             cecitiorBurp = Default with { SoundPath = ebonianSoundPath + "cecitiorBurp" };
             clawSwipe = Default with { SoundPath = ebonianSoundPath + "clawSwipe" };
+            BeamWindUp = Default with { SoundPath = ebonianSoundPath + "BeamWindUp", PitchVariance = 0 };
             garbageLaser = Default with { SoundPath = ebonianSoundPath + "garbageLaser", PitchVariance = 0 };
             trumpet = Default with { SoundPath = ebonianSoundPath + "trumpet", PitchVariance = 0.4f, Variants = new int[] { 0, 1 } };
             terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f, Volume = 1.1f };
