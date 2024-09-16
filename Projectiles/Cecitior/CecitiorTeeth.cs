@@ -22,7 +22,7 @@ namespace EbonianMod.Projectiles.Cecitior
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
+        /*public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (Projectile.tileCollide)
             {
@@ -32,7 +32,7 @@ namespace EbonianMod.Projectiles.Cecitior
                 Projectile.timeLeft = 20;
             }
             return false;
-        }
+        }*/
         public override void SetDefaults()
         {
             Projectile.width = 14;
@@ -40,7 +40,7 @@ namespace EbonianMod.Projectiles.Cecitior
             Projectile.aiStyle = 0;
             Projectile.friendly = false;
             Projectile.hostile = true;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.timeLeft = 500;
         }
@@ -71,10 +71,7 @@ namespace EbonianMod.Projectiles.Cecitior
         }
         public override void AI()
         {
-            if (Projectile.tileCollide)
-                Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            else
-                Projectile.rotation = Projectile.oldRot[0];
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             if (Projectile.timeLeft > 490 && Projectile.velocity.Length() > 0.05f)
                 Projectile.velocity *= 0.9f;
             if (Projectile.timeLeft < 450 && Projectile.velocity.Length() < 25)

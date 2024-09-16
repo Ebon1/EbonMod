@@ -17,12 +17,8 @@ using EbonianMod.Dusts;
 
 namespace EbonianMod.Common.Systems.Worldgen
 {
-    public class WorldgenTest : ModSystem
+    public class ArchmageShackGen : ModSystem
     {
-        public override void PostWorldGen()
-        {
-
-        }
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight)
         {
             int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Pots"));
@@ -30,13 +26,19 @@ namespace EbonianMod.Common.Systems.Worldgen
             {
                 tasks.Insert(ShiniesIndex + 1, new PassLegacy("Generating the Archmage's shack", GenHouse));
             }
+            ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Traps"));
+            if (ShiniesIndex != -1)
+            {
+                tasks.Insert(ShiniesIndex + 1, new PassLegacy("Generating the Archmage's dungeon", GenHouse2));
+            }
             ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
             if (ShiniesIndex != -1)
             {
-                tasks.Insert(ShiniesIndex + 1, new PassLegacy("Cleaning up the Archmage's shack", GenHouse2));
+                tasks.Insert(ShiniesIndex + 1, new PassLegacy("Cleaning up the Archmage's shack", GenHouse3));
             }
         }
-        public void GenHouse2(GenerationProgress progress, GameConfiguration _)
+        Point16 arenaPos;
+        public void GenHouse3(GenerationProgress progress, GameConfiguration _)
         {
 
             int x = Main.maxTilesX / 2 + 140;
@@ -68,11 +70,39 @@ namespace EbonianMod.Common.Systems.Worldgen
                 }
             }
         }
+        public void GenHouse2(GenerationProgress progress, GameConfiguration _)
+        {
+            Generator.GenerateStructure("Common/Systems/Worldgen/Structures/ArchmageArena", arenaPos, EbonianMod.Instance);
+            for (int i = arenaPos.X; i < arenaPos.X + 50; i++)
+            {
+                for (int j = arenaPos.Y; j < arenaPos.Y + 100; j++)
+                {
+                    if (Main.tile[i, j].TileType == TileID.SillyBalloonGreen)
+                    {
+                        Tile tile = Main.tile[i, j];
+                        tile.TileType = (ushort)ModContent.TileType<ArchmageStaffTile>();
+                    }
+                }
+            }
+        }
         public void GenHouse(GenerationProgress progress, GameConfiguration _)
         {
-            int atts = 0;
-            int x = Main.maxTilesX / 2 + 140;
+            List<int> tempHeightsL = new List<int>();
+            List<int> tempHeightsR = new List<int>();
+            for (int i = Main.maxTilesX / 2 - 440; i < Main.maxTilesX / 2 + 440; i++)
+            {
+                int tempY = 0;
+                while (!Main.tile[i, tempY].HasTile)
+                    tempY++;
+                if (i < Main.maxTilesX / 2)
+                    tempHeightsL.Add(tempY);
+                else
+                    tempHeightsR.Add(tempY);
+            }
+            int side = (tempHeightsL.Max() - tempHeightsL.Min() > tempHeightsR.Max() - tempHeightsR.Min()) ? 1 : -1;
+            int x = Main.maxTilesX / 2 + 140 * side;
             int _y = 0;
+            int atts = 0;
             while (atts < 300)
             {
                 int y = 0;
@@ -82,23 +112,23 @@ namespace EbonianMod.Common.Systems.Worldgen
                         y++;
                 }
                 List<int> heights = new List<int>();
-                for (int it = -1; it < 37; it++)
+                for (int it = -2; it < 39; it++)
                 {
                     int tempY = 0;
                     while (!Main.tile[x + it, tempY].HasTile)
                         tempY++;
                     heights.Add(tempY);
                 }
-                if (heights.Max() - heights.Min() > 3)
+                if (heights.Max() - heights.Min() > 4)
                 {
-                    x++;
-                    _y = y;
+                    x += side;
+                    _y = y + 1;
                     atts++;
                     continue;
                 }
                 else
                 {
-                    _y = y;
+                    _y = y + 1;
                     atts = 400;
                 }
             }
@@ -108,8 +138,7 @@ namespace EbonianMod.Common.Systems.Worldgen
             Generator.GenerateStructure("Common/Systems/Worldgen/Structures/ArchmageStair", pos, EbonianMod.Instance);
             pos = new(x + 25, _y + 23);
             Generator.GenerateStructure("Common/Systems/Worldgen/Structures/ArchmageStair", pos, EbonianMod.Instance);
-            pos = new(x - 38, _y + 43);
-            Generator.GenerateStructure("Common/Systems/Worldgen/Structures/ArchmageArena", pos, EbonianMod.Instance);
+            arenaPos = new(x - 38, _y + 43);
         }
     }
 }

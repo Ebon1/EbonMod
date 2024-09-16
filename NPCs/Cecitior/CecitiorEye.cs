@@ -278,7 +278,7 @@ namespace EbonianMod.NPCs.Cecitior
                             NPC.velocity = Vector2.Zero;
                         if (AITimer > 300 && AITimer < 330 && AITimer % 5 == 0)
                         {
-                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 15 + Main.rand.NextVector2Unit(-0.5f, 0.5f), ModContent.ProjectileType<BloodLaser>(), 15, 0);
+                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 15 + Main.rand.NextVector2Unit(-0.5f, 0.5f), ModContent.ProjectileType<CecitiorTeeth>(), 15, 0);
                             a.hostile = true;
                             a.friendly = false;
                         }
@@ -315,7 +315,7 @@ namespace EbonianMod.NPCs.Cecitior
                     NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + new Vector2(200).RotatedBy(angle + MathHelper.ToRadians(timer * (halfEyesPhase2 ? 3 : 1))), false) / 3;
                     focalPoint = player.Center;
                     if (center.ai[1] % (halfEyesPhase2 ? 20 : 50) == 0 && center.ai[1] > 1)
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 0.5f, ModContent.ProjectileType<BloodLaser>(), 15, 0);
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 0.5f, ModContent.ProjectileType<CecitiorTeeth>(), 15, 0);
                     break;
                 case 6:
                     NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 10f;

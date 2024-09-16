@@ -80,10 +80,10 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.npcSlots = 1f;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
-            NPC.boss = false;
             NPC.BossBar = ModContent.GetInstance<TerrortomaBar>();
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
+            Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/EvilMiniboss");
             NPC.buffImmune[24] = true;
             NPC.netAlways = true;
             NPC.behindTiles = true;
@@ -481,7 +481,6 @@ namespace EbonianMod.NPCs.Terrortoma
                 rotation = 0;
                 if (AITimer == 1)
                 {
-                    Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/EvilMiniboss");
                     //Helper.SetBossTitle(120, "Terrortoma", Color.LawnGreen, "The Conglomerate", 0);
                     EbonianSystem.ChangeCameraPos(NPC.Center, 100);
                     //add sound later

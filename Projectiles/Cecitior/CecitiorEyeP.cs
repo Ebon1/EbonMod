@@ -89,7 +89,7 @@ namespace EbonianMod.Projectiles.Cecitior
                     }
                 }
             }
-            if (++Projectile.ai[0] % 5 * 3 == 0 && target && Projectile.timeLeft > 45 * 2 && Projectile.timeLeft < 155 * 2)
+            if (++Projectile.ai[0] % 12 * 3 == 0 && target && Projectile.timeLeft > 45 * 2 && Projectile.timeLeft < 155 * 2)
             {
                 Projectile.ai[1] = Projectile.velocity.ToRotation() + MathHelper.Pi;
                 AdjustMagnitude(ref move);

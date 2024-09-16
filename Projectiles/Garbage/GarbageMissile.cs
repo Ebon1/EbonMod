@@ -41,9 +41,6 @@ namespace EbonianMod.Projectiles.Garbage
             {
                 if (Projectile.velocity.Length() < 16)
                     Projectile.velocity *= 1.025f;
-                if (Projectile.timeLeft % 3 == 0)
-                    for (float i = 0; i < 0.99f; i += 0.33f)
-                        Helper.DustExplosion(Projectile.Center, Vector2.One, 2, Color.Gray * 0.1f, false, false, 0.1f, 0.125f, -Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * i) * Main.rand.NextFloat(0.2f, 0.8f));
             }
             if (Projectile.timeLeft == 300)
                 SoundEngine.PlaySound(EbonianSounds.firework, Projectile.Center);

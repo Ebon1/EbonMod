@@ -515,7 +515,7 @@ namespace EbonianMod.NPCs.Cecitior
                 }
                 if (openOffset != Vector2.Zero && AIState != ThrowUpBlood && AIState != LaserRain && NPC.frame.Y == 6 * 102)
                     if (player.Center.Distance(NPC.Center - openOffset) < 75 || player.Center.Distance(NPC.Center + openOffset) < 75)
-                        player.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), 50, 0);
+                        player.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), 150, 0);
             }
             //open = Main.mouseRight;
             //openRotation = NPC.rotation;
@@ -1101,7 +1101,7 @@ namespace EbonianMod.NPCs.Cecitior
                     {
                         if (i == 0)
                             continue;
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(i * AITimer2, 5), ModContent.ProjectileType<BloodLaser>(), 15, 0);
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(i * AITimer2, 5), ModContent.ProjectileType<CecitiorTeeth>(), 15, 0);
                     }
                 }
                 if (AITimer >= 65)
@@ -1185,10 +1185,10 @@ namespace EbonianMod.NPCs.Cecitior
                     rotation -= MathHelper.ToRadians(2);
                 }
                 if (AITimer == 20)
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.rotation.ToRotationVector2(), ModContent.ProjectileType<EyeVFX>(), 0, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2CircularEdge(30, 30), Main.rand.NextVector2Unit(), ModContent.ProjectileType<EyeVFX>(), 0, 0);
                 if (AITimer >= 30 && AITimer <= 80 && AITimer % 5 == 0)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.rotation.ToRotationVector2() * 4, ModContent.ProjectileType<CecitiorEyeP>(), 20, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2CircularEdge(30, 30), Main.rand.NextVector2Unit() * 2, ModContent.ProjectileType<CecitiorEyeP>(), 20, 0);
                 }
                 if (AITimer >= 80)
                 {
