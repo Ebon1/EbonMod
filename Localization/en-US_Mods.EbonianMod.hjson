@@ -181,8 +181,8 @@ Projectiles: {
 	XCloud.DisplayName: Cloud
 	XLightningBolt.DisplayName: Lightning Bolt
 	XTelegraphLine.DisplayName: Telegraph Line
-	RegorgerBolt.DisplayName: Regorger Bolt
-	RegorgerTelegraph.DisplayName: Regorger Telegraph
+	RegorgerBolt.DisplayName: Tittering Bolt
+	RegorgerTelegraph.DisplayName: Tittering Telegraph
 	GhizasWheelP.DisplayName: Ghizas Wheel
 	VileTearTelegraph.DisplayName: Vile Tear Telegraph
 	AmbientGibs.DisplayName: Ambient Gibs
@@ -284,8 +284,8 @@ NPCs: {
 	MiniTrumpetBody.DisplayName: Cornet
 	MiniTrumpetHead.DisplayName: Cornet
 	MiniTrumpetTail.DisplayName: Cornet
-	Consumer.DisplayName: Consumer
-	Regorger.DisplayName: Regorger
+	Consumer.DisplayName: Rotjaw
+	Regorger.DisplayName: Tittering
 	Vileglider.DisplayName: Vileglider
 	ToxicAbomination.DisplayName: Virulant
 	VileTear.DisplayName: Grinner
