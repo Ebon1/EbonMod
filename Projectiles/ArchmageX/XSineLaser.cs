@@ -107,7 +107,8 @@ namespace EbonianMod.Projectiles.ArchmageX
                     if (i == n - 1)
                         x = 0;
                     Vector2 point = Vector2.Lerp(start, end, i / (float)n) + dir * x; //x being maximum magnitude
-                    points.Add(point);
+                    if (Helper.TRay.CastLength(point, Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point), 2) > 1)
+                        points.Add(point);
                     if (Projectile.damage != 0 && i != 0)
                         Dust.NewDustPerfect(point, ModContent.DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, default, 0.25f);
                     x = MathF.Cos(4.7124f + ((float)i / n) * 35) * Projectile.ai[1];

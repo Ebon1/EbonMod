@@ -87,7 +87,8 @@ namespace EbonianMod.Projectiles.ArchmageX
 
 
             Player player = Main.player[Projectile.owner];
-            Projectile.velocity = Vector2.SmoothStep(Projectile.velocity, Helper.FromAToB(Projectile.Center, player.Center), 0.35f).SafeNormalize(Vector2.UnitY) * 5;
+            if (Projectile.timeLeft % 4 == 0)
+                Projectile.velocity = Vector2.SmoothStep(Projectile.velocity, Helper.FromAToB(Projectile.Center, player.Center), 0.35f).SafeNormalize(Vector2.UnitY) * 5;
             Projectile.rotation = Projectile.velocity.ToRotation();
         }
     }

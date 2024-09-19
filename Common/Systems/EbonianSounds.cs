@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 
@@ -65,7 +66,7 @@ namespace EbonianMod.Common.Systems
         ghizasWheel,
         garbageDeath,
         evilOutro;
-        public override void OnModLoad()
+        public static void LoadSounds()
         {
             bloodSpit = Default with { SoundPath = ebonianSoundPath + "bloodSpit" };
             bowPull = Default with { SoundPath = ebonianSoundPath + "bowPull" };
@@ -114,6 +115,10 @@ namespace EbonianMod.Common.Systems
             ghizasWheel = Default with { SoundPath = ebonianSoundPath + "ghizasWheel", IsLooped = true, PitchVariance = 0f };
             garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath", PitchVariance = 0 };
             evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };
+        }
+        public override void OnModLoad()
+        {
+            LoadSounds();
         }
     }
 }

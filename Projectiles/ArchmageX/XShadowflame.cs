@@ -44,7 +44,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.velocity.SafeNormalize(-Vector2.UnitY);
 
             if (Projectile.timeLeft == 1398)
-                Projectile.Center = Helper.TRay.Cast(Projectile.Center, -Projectile.velocity, 1000);
+                Projectile.Center = Helper.TRay.Cast(Projectile.Center, -Projectile.velocity, 29 * 16);
             if (Projectile.timeLeft == 1399)
                 SoundEngine.PlaySound(EbonianSounds.cursedToyCharge, Projectile.Center);
 

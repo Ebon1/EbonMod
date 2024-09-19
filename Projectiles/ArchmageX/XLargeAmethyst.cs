@@ -83,7 +83,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Player player = Main.player[Projectile.owner];
             Projectile.ai[0]++;
             float progress = Utils.GetLerpValue(0, 250, Projectile.timeLeft);
-            float vel = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 1.5f, 0, 1);
+            float vel = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3f, 0, 2);
             if (Projectile.timeLeft > 70)
             {
                 Projectile.velocity = Helper.FromAToB(Projectile.Center, player.Center + Helper.FromAToB(player.Center, Projectile.Center) * 50) * 3 * vel;

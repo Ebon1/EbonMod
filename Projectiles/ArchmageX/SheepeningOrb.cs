@@ -1,4 +1,6 @@
 ﻿using EbonianMod.Buffs;
+using EbonianMod.Common.Systems;
+using EbonianMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -7,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -18,7 +21,7 @@ namespace EbonianMod.Projectiles.ArchmageX
 {
     public class SheepeningOrb : ModProjectile
     {
-        int MaxTime = 3000;
+        int MaxTime = 60;
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 100;
@@ -30,102 +33,156 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.hostile = true;
             Projectile.tileCollide = true;
             Projectile.aiStyle = -1;
+            Projectile.hide = true;
             Projectile.timeLeft = MaxTime;
-            Projectile.extraUpdates = 3;
             Projectile.Size = new(32, 32);
         }
         float alpha;
-        public override bool OnTileCollide(Vector2 oldVelocity)
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindNPCsAndTiles.Add(index);
+        public override bool ShouldUpdatePosition() => false;
+        public override bool? CanDamage() => Projectile.ai[1] != 0;
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            Projectile.velocity = Vector2.Zero;
-            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<XExplosionTiny>(), 0, 0);
-            if (Projectile.timeLeft > 60)
-                Projectile.timeLeft = 60;
-            return false;
+            float a = 0f;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.rotation.ToRotationVector2() * 1400, 60, ref a);
         }
         public override void AI()
         {
-            if (Projectile.velocity.Length() < 20)
-                Projectile.velocity *= 1.025f;
-            if (Projectile.timeLeft > 60)
-                alpha = MathHelper.Lerp(alpha, 1, 0.05f);
+            if (Projectile.timeLeft > 55)
+                Projectile.velocity = Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center);
+            Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 0, 0.1f);
+            if (Projectile.timeLeft < 31 && Projectile.timeLeft > 10)
+                Projectile.ai[1] = MathHelper.Lerp(Projectile.ai[1], 1, 0.3f);
+            if (Projectile.timeLeft > 30)
+                Projectile.ai[0] = MathHelper.Lerp(Projectile.ai[0], 1f, 0.1f);
             else
-                alpha = MathHelper.Lerp(alpha, 0, 0.1f);
-        }
-        struct Orb
-        {
-            public Vector2 pos, velocity;
-            public Vector2[] oldPos;
-            public bool[] behind;
-            public float dir;
-        };
-        public override void OnSpawn(IEntitySource source)
-        {
-            for (int i = 0; i < orbs.Length; i++)
             {
-                orbs[i].velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(1f, 2.75f);
-                orbs[i].oldPos = new Vector2[15];
-                orbs[i].behind = new bool[15];
-                orbs[i].dir = Main.rand.NextFloatDirection();
+                if (Projectile.timeLeft > 10)
+                {
+                    Projectile.ai[0] = MathHelper.Lerp(Projectile.ai[0], 0, 0.2f);
+                }
+                else
+                {
+                    Projectile.ai[1] = MathHelper.Lerp(Projectile.ai[1], 0, 0.05f);
+                }
             }
+            if (Projectile.timeLeft == 30)
+            {
+                EbonianSystem.ScreenShakeAmount = 10f;
+                Projectile.NewProjectile(null, Projectile.Center + Projectile.velocity * 10, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
+                SoundEngine.PlaySound(EbonianSounds.xSpirit, Projectile.Center);
+                for (int i = 0; i < 20; i++)
+                {
+                    Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 15), 0, Color.White, Main.rand.NextFloat(0.05f, 0.175f));
+                    Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 15), 0, Color.White, Main.rand.NextFloat(0.05f, 0.24f));
+                }
+                Projectile.ai[2] = 0.5f;
+            }
+            if (Projectile.timeLeft == 29)
+                Projectile.ai[2] = 1;
+
+            Projectile.localAI[0] -= 0.07f;
+            if (Projectile.localAI[0] <= 0)
+                Projectile.localAI[0] = 1;
+            Projectile.localAI[0] = MathHelper.Clamp(Projectile.localAI[0], float.Epsilon, 1 - float.Epsilon);
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+
+            Main.spriteBatch.SaveCurrent();
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
+
+            List<VertexPositionColorTexture> verticesMain1 = new List<VertexPositionColorTexture>();
+            List<VertexPositionColorTexture> verticesMain2 = new List<VertexPositionColorTexture>();
+
+            List<VertexPositionColorTexture> verticesFlash = new List<VertexPositionColorTexture>();
+
+            List<VertexPositionColorTexture> verticesTelegraph1 = new List<VertexPositionColorTexture>();
+            List<VertexPositionColorTexture> verticesTelegraph2 = new List<VertexPositionColorTexture>();
+            Texture2D texture = Helper.GetExtraTexture("wavyLaser");
+            Texture2D texture2 = Helper.GetExtraTexture("Ex1");
+            Texture2D texture3 = Helper.GetExtraTexture("Tentacle");
+            Vector2 start = Projectile.Center - Main.screenPosition;
+            Vector2 off = (Projectile.velocity.ToRotation().ToRotationVector2() * 1528);
+            Vector2 end = start + off;
+            float rot = Helper.FromAToB(start, end).ToRotation();
+
+            float s = 0f;
+            float sLin = 0f;
+            for (float i = 0; i < 1; i += 0.001f)
+            {
+                if (i < 0.5f)
+                    s = MathHelper.Clamp(i * 3.5f, 0, 0.5f);
+                else
+                    s = MathHelper.Clamp((-i + 1) * 2, 0, 0.5f);
+
+                if (i < 0.5f)
+                    sLin = MathHelper.Clamp(i, 0, 0.5f);
+                else
+                    sLin = MathHelper.Clamp((-i + 1), 0, 0.5f);
+
+                float __off = Projectile.localAI[0];
+                if (__off > 1) __off = -__off + 1;
+                float _off = __off + i;
+
+                Color col = Color.White * 0.5f * s;
+                if (Projectile.ai[0] > 0)
+                {
+                    verticesTelegraph1.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(10, 450, i), 0).RotatedBy(rot + MathHelper.PiOver2) * Projectile.ai[0], new Vector2(_off, 1), col * Projectile.ai[0]));
+                    verticesTelegraph1.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(10, 450, i), 0).RotatedBy(rot - MathHelper.PiOver2) * Projectile.ai[0], new Vector2(_off, 0), col * Projectile.ai[0]));
+
+                    col = Color.Magenta * 0.25f * s;
+                    verticesTelegraph2.Add(Helper.AsVertex(start + off * i + new Vector2(420, 0).RotatedBy(rot + MathHelper.PiOver2) * Projectile.ai[0], new Vector2(_off, 1), col * Projectile.ai[0]));
+                    verticesTelegraph2.Add(Helper.AsVertex(start + off * i + new Vector2(420, 0).RotatedBy(rot - MathHelper.PiOver2) * Projectile.ai[0], new Vector2(_off, 0), col * Projectile.ai[0]));
+                }
+                if (Projectile.ai[1] > 0)
+                {
+                    float cA = MathHelper.Lerp(s, sLin, i);
+                    col = Color.Indigo * (cA);
+                    verticesMain1.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(0, 50, sLin * 2), 0).RotatedBy(rot + MathHelper.PiOver2) * Projectile.ai[1], new Vector2(_off, 1), col * Projectile.ai[1] * 2));
+                    verticesMain1.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(0, 50, sLin * 2), 0).RotatedBy(rot - MathHelper.PiOver2) * Projectile.ai[1], new Vector2(_off, 0), col * Projectile.ai[1] * 2));
+
+                    col = Color.Lerp(Color.White, Color.Indigo, Projectile.ai[2]) * (cA * 0.5f);
+                    verticesMain2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(0, 20, sLin * 2), 0).RotatedBy(rot + MathHelper.PiOver2) * Projectile.ai[1], new Vector2(_off, 1), col * Projectile.ai[1]));
+                    verticesMain2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(0, 20, sLin * 2), 0).RotatedBy(rot - MathHelper.PiOver2) * Projectile.ai[1], new Vector2(_off, 0), col * Projectile.ai[1]));
+                }
+                if (Projectile.ai[2] > 0)
+                {
+                    col = Color.Lerp(Color.MistyRose, Color.Transparent, i) * (s);
+                    verticesFlash.Add(Helper.AsVertex(start + off * 1.2f * i + new Vector2(MathHelper.SmoothStep(20, 85, i * 3), 0).RotatedBy(rot + MathHelper.PiOver2) * Projectile.ai[2], new Vector2(_off, 1), col * Projectile.ai[2] * 4));
+                    verticesFlash.Add(Helper.AsVertex(start + off * 1.2f * i + new Vector2(MathHelper.SmoothStep(20, 85, i * 3), 0).RotatedBy(rot - MathHelper.PiOver2) * Projectile.ai[2], new Vector2(_off, 0), col * Projectile.ai[2] * 4));
+                }
+            }
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            if (verticesMain1.Count >= 3 && verticesMain2.Count >= 3)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    Helper.DrawTexturedPrimitives(verticesMain1.ToArray(), PrimitiveType.TriangleStrip, texture, false);
+                    Helper.DrawTexturedPrimitives(verticesMain2.ToArray(), PrimitiveType.TriangleStrip, texture3, false);
+                }
+            }
+            if (verticesTelegraph1.Count >= 3 && verticesTelegraph2.Count >= 3)
+            {
+                Helper.DrawTexturedPrimitives(verticesTelegraph1.ToArray(), PrimitiveType.TriangleStrip, texture2, false);
+                Helper.DrawTexturedPrimitives(verticesTelegraph2.ToArray(), PrimitiveType.TriangleStrip, texture2, false);
+            }
+            if (verticesFlash.Count >= 3)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    Helper.DrawTexturedPrimitives(verticesFlash.ToArray(), PrimitiveType.TriangleStrip, texture3, false);
+                }
+            }
+            Main.spriteBatch.ApplySaved();
+            return false;
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
             target.AddBuff(ModContent.BuffType<Sheepened>(), (Main.expertMode ? Main.masterMode ? 16 : 13 : 10) * 60);
-        }
-        Orb[] orbs = new Orb[3];
-        public override bool PreDraw(ref Color lightColor)
-        {
-            Texture2D tex = TextureAssets.Projectile[Type].Value;
-            Texture2D trail = Helper.GetExtraTexture("fireball");
-
-            Main.spriteBatch.Reload(BlendState.Additive);
-            OrbLogic(true);
-
-            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
-            for (int i = (Projectile.velocity.Length() < 2 ? 12 : 0); i < Projectile.oldPos.Length; i++)
-            {
-                float mult = (1f - fadeMult * i);
-                Main.spriteBatch.Draw(trail, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.Indigo * 0.5f * alpha * mult, Projectile.oldRot[i] + MathHelper.PiOver2, trail.Size() / 2, Projectile.scale * 0.5f * mult, SpriteEffects.None, 0);
-            }
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
-
-            return false;
-        }
-        void OrbLogic(bool behind)
-        {
-            Texture2D orbTex = Helper.GetExtraTexture("fireball");
-            if (orbs[0].velocity != Vector2.Zero)
-            {
-                for (int i = 0; i < orbs.Length; i++)
-                {
-                    for (int num16 = orbs[i].oldPos.Length - 1; num16 > 0; num16--)
-                    {
-                        orbs[i].oldPos[num16] = orbs[i].oldPos[num16 - 1];
-                    }
-                    orbs[i].oldPos[0] = orbs[i].pos;
-                    orbs[i].velocity = orbs[i].velocity.RotatedBy(MathHelper.ToRadians(orbs[i].velocity.Length() * 2 * orbs[i].dir));
-                    orbs[i].pos += orbs[i].velocity;
-                    if ((orbs[i].pos + Projectile.Center + orbs[i].velocity).Distance(Projectile.Center) > 32)
-                        orbs[i].velocity = -orbs[i].velocity;
-
-                    var fadeMult = 1f / orbs[i].oldPos.Length;
-                    for (int j = 0; j < orbs[i].oldPos.Length; j++)
-                    {
-                        float mult = (1f - fadeMult * j);
-                        if (orbs[i].oldPos[j].Distance(Projectile.Center) > 16)
-                        {
-                            orbs[i].behind[j] = Main.rand.NextBool();
-                        }
-                        if ((orbs[i].behind[j] && behind) || (!orbs[i].behind[j] && !behind))
-                        {
-                            float rot = orbs[i].velocity.ToRotation() + MathHelper.PiOver2;
-                            if (j > 1) rot = Helper.FromAToB(orbs[i].oldPos[j], orbs[i].oldPos[j - 1]).ToRotation() + MathHelper.PiOver2;
-                            Main.spriteBatch.Draw(orbTex, Projectile.Center + orbs[i].oldPos[j] - Main.screenPosition, null, Color.Lerp(Color.Indigo, Color.Violet, (MathF.Sin(Main.GlobalTimeWrappedHourly) + 1) / 2) * (alpha * mult), rot, orbTex.Size() / 2, Projectile.scale * 0.1f * mult, SpriteEffects.None, 0);
-                        }
-                    }
-                }
-            }
         }
     }
 }
