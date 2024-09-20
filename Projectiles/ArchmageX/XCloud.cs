@@ -28,7 +28,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.friendly = false;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 340;
+            Projectile.timeLeft = 355;
         }
         public override bool? CanDamage() => false;
         public override bool ShouldUpdatePosition() => false;
@@ -87,12 +87,12 @@ namespace EbonianMod.Projectiles.ArchmageX
                 Dust.NewDustPerfect(Main.rand.NextVector2FromRectangle(Projectile.getRect()), ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(2, 2), 0, Color.Indigo, Scale: Main.rand.NextFloat(0.1f, .15f));
             if (Projectile.timeLeft <= 320)
                 Projectile.ai[0]++;
-            if (Projectile.ai[0] == 40)
+            if (Projectile.ai[0] == 20)
             {
-                savedDir = new Vector2(Main.rand.NextFloat(-1, 1), 1);
+                savedDir = Main.rand.NextBool() ? new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(0.5f, 1)) : Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center);
                 Projectile.NewProjectile(null, Projectile.Center, savedDir, ModContent.ProjectileType<XTelegraphLine>(), 0, 0);
             }
-            if (Projectile.ai[0] > 75)
+            if (Projectile.ai[0] > 55)
             {
                 Projectile.NewProjectile(null, Projectile.Center, savedDir, ModContent.ProjectileType<XLightningBolt>(), 20, 0);
                 Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);

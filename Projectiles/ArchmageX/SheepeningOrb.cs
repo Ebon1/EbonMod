@@ -33,18 +33,16 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.hostile = true;
             Projectile.tileCollide = true;
             Projectile.aiStyle = -1;
-            Projectile.hide = true;
             Projectile.timeLeft = MaxTime;
             Projectile.Size = new(32, 32);
         }
         float alpha;
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindNPCsAndTiles.Add(index);
         public override bool ShouldUpdatePosition() => false;
         public override bool? CanDamage() => Projectile.ai[1] != 0;
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.rotation.ToRotationVector2() * 1400, 60, ref a);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2() * 2000, 120, ref a);
         }
         public override void AI()
         {

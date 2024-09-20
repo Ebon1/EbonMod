@@ -107,10 +107,11 @@ namespace EbonianMod.Projectiles.ArchmageX
                     if (i == n - 1)
                         x = 0;
                     Vector2 point = Vector2.Lerp(start, end, i / (float)n) + dir * x; //x being maximum magnitude
-                    if (Helper.TRay.CastLength(point, Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point), 2) > 1)
-                        points.Add(point);
-                    if (Projectile.damage != 0 && i != 0)
+
+                    points.Add(point);
+                    if (Projectile.damage != 0 && i != 0 && Collision.CanHitLine(Projectile.Center, 1, 1, points[i], 1, 1))
                         Dust.NewDustPerfect(point, ModContent.DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, default, 0.25f);
+
                     x = MathF.Cos(4.7124f + ((float)i / n) * 35) * Projectile.ai[1];
                 }
                 RunOnce = true;
@@ -125,10 +126,12 @@ namespace EbonianMod.Projectiles.ArchmageX
                     if (Projectile.ai[0] % 3 == 0)
                     {
                         float s = 1;
-                        for (int i = 0; i < MathHelper.Clamp(Projectile.ai[0] * (2 + Projectile.localAI[0] * 2), 2, points.Count); i++)
+                        for (int i = 0; i < MathHelper.Clamp(Projectile.ai[0] * (2 + Projectile.localAI[0] * 2), 2, points.Count - 1); i++)
                         {
                             if (i > 1)
                             {
+                                if (!Collision.CanHitLine(Projectile.Center, 1, 1, points[i], 1, 1))
+                                    continue;
                                 if (Main.rand.NextBool())
                                     Dust.NewDustPerfect(points[i], ModContent.DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], points[i]) * Main.rand.NextFloat(4, 8), 0, default, 0.5f * s);
                                 if (Main.rand.NextBool(4) && i % 4 == 0)
@@ -188,6 +191,9 @@ namespace EbonianMod.Projectiles.ArchmageX
                     Color color = Color.Indigo * (s * Projectile.scale);
                     if (Projectile.damage == 0)
                         color = Color.White * (s * Projectile.scale * 0.5f);
+
+                    if (!Collision.CanHitLine(Projectile.Center, 1, 1, points[i], 1, 1))
+                        color = Color.Transparent;
 
                     Vector2 pos1 = points[i] - Main.screenPosition;
                     Vector2 pos2 = points[i + 1] - Main.screenPosition;

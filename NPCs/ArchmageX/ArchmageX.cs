@@ -114,9 +114,76 @@ namespace EbonianMod.NPCs.ArchmageX
             spriteBatch.Draw(headGlow, NPC.Center + new Vector2(NPC.direction == -1 ? 6 : 12, -38).RotatedBy(NPC.rotation) - screenPos, headFrame, Color.White, headRotation, new Vector2(36, 42) / 2, NPC.scale, NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             return false;
         }
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+
+            arenaAlpha = MathHelper.Lerp(arenaAlpha, 1, 0.1f);
+
+            arenaVFXOffset += 0.005f;
+            if (arenaVFXOffset >= 1)
+                arenaVFXOffset = 0;
+            arenaVFXOffset = MathHelper.Clamp(arenaVFXOffset, float.Epsilon, 1 - float.Epsilon);
+            List<VertexPositionColorTexture> verticesL = new List<VertexPositionColorTexture>();
+            List<VertexPositionColorTexture> verticesR = new List<VertexPositionColorTexture>();
+            List<VertexPositionColorTexture> verticesT = new List<VertexPositionColorTexture>();
+            List<VertexPositionColorTexture> verticesB = new List<VertexPositionColorTexture>();
+            Texture2D texture = Helper.GetExtraTexture("wavyLaser2");
+            Vector2 startB = GetArenaRect().BottomLeft() - Main.screenPosition;
+            Vector2 startTL = GetArenaRect().TopLeft() - Main.screenPosition;
+            Vector2 startR = GetArenaRect().TopRight() - Main.screenPosition;
+            Vector2 offHoriz = (Helper.FromAToB(GetArenaRect().BottomLeft(), GetArenaRect().BottomRight() + Vector2.UnitX * 8, false));
+            Vector2 offVert = (Helper.FromAToB(GetArenaRect().TopLeft(), GetArenaRect().BottomLeft() + Vector2.UnitY * 8, false));
+            float rotHoriz = Helper.FromAToB(startB, startB + offHoriz).ToRotation();
+            float rotVert = Helper.FromAToB(startTL, startTL + offVert).ToRotation();
+            float s = 0f;
+            float sLin = 0f;
+            for (float i = 0; i < 1; i += 0.001f)
+            {
+                if (i < 0.5f)
+                    s = MathHelper.Clamp(i * 3.5f, 0, 0.5f);
+                else
+                    s = MathHelper.Clamp((-i + 1) * 2, 0, 0.5f);
+
+                if (i < 0.5f)
+                    sLin = MathHelper.Clamp(i, 0, 0.5f);
+                else
+                    sLin = MathHelper.Clamp((-i + 1), 0, 0.5f);
+
+                float cA = MathHelper.Lerp(s, sLin, i);
+                float vertSize = MathHelper.SmoothStep(5, 18, s);
+
+                float __off = arenaVFXOffset;
+                if (__off > 1) __off = -__off + 1;
+                float _off = __off + i;
+
+                Color col = Color.Indigo * (arenaAlpha);
+                verticesB.Add(Helper.AsVertex(startB - new Vector2(vertSize * 0.5f, -vertSize) + offHoriz * i + new Vector2(vertSize, 0).RotatedBy(rotHoriz + MathHelper.PiOver2), new Vector2(_off, 1), col * 2));
+                verticesB.Add(Helper.AsVertex(startB - new Vector2(vertSize * 0.5f, -vertSize) + offHoriz * i + new Vector2(vertSize, 0).RotatedBy(rotHoriz - MathHelper.PiOver2), new Vector2(_off, 0), col * 2));
+
+                verticesT.Add(Helper.AsVertex(startTL + new Vector2(-vertSize * 0.5f, -vertSize) + offHoriz * i + new Vector2(vertSize, 0).RotatedBy(rotHoriz + MathHelper.PiOver2), new Vector2(_off, 0), col * 2));
+                verticesT.Add(Helper.AsVertex(startTL + new Vector2(-vertSize * 0.5f, -vertSize) + offHoriz * i + new Vector2(vertSize, 0).RotatedBy(rotHoriz - MathHelper.PiOver2), new Vector2(_off, 1), col * 2));
+
+                verticesL.Add(Helper.AsVertex(startTL + new Vector2(-vertSize * 0.5f, -vertSize) + offVert * i + new Vector2(vertSize, 0).RotatedBy(rotVert + MathHelper.PiOver2), new Vector2(_off, 1), col * 2));
+                verticesL.Add(Helper.AsVertex(startTL + new Vector2(-vertSize * 0.5f, -vertSize) + offVert * i + new Vector2(vertSize, 0).RotatedBy(rotVert - MathHelper.PiOver2), new Vector2(_off, 0), col * 2));
+
+                verticesR.Add(Helper.AsVertex(startR - new Vector2(-vertSize * 0.5f, vertSize) + offVert * i + new Vector2(vertSize, 0).RotatedBy(rotVert + MathHelper.PiOver2), new Vector2(_off, 0), col * 2));
+                verticesR.Add(Helper.AsVertex(startR - new Vector2(-vertSize * 0.5f, vertSize) + offVert * i + new Vector2(vertSize, 0).RotatedBy(rotVert - MathHelper.PiOver2), new Vector2(_off, 1), col * 2));
+            }
+            Main.spriteBatch.SaveCurrent();
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            if (verticesB.Count >= 3 && verticesL.Count >= 3 && verticesR.Count >= 3 && verticesT.Count >= 3)
+            {
+                Helper.DrawTexturedPrimitives(verticesB.ToArray(), PrimitiveType.TriangleStrip, texture, false);
+                Helper.DrawTexturedPrimitives(verticesL.ToArray(), PrimitiveType.TriangleStrip, texture, false);
+                Helper.DrawTexturedPrimitives(verticesR.ToArray(), PrimitiveType.TriangleStrip, texture, false);
+                Helper.DrawTexturedPrimitives(verticesT.ToArray(), PrimitiveType.TriangleStrip, texture, false);
+            }
+            Main.spriteBatch.ApplySaved();
+        }
         float leftArmRot, rightArmRot;
         float headRotation, headYOff, headOffIncrementOffset;
-        float manaPotAlpha, staffAlpha = 1f, heliAlpha;
+        float manaPotAlpha, staffAlpha = 1f, heliAlpha, arenaVFXOffset, arenaAlpha;
         Rectangle headFrame = new Rectangle(0, 0, 36, 42);
         public void FacePlayer()
         {
@@ -293,8 +360,8 @@ namespace EbonianMod.NPCs.ArchmageX
                     break;
                 case Taunt:
                     {
-                        rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction + MathHelper.ToRadians(-65f), 0.1f);
-                        leftArmRot = Helper.LerpAngle(leftArmRot, NPC.direction + MathHelper.ToRadians(65f), 0.1f);
+                        rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction + MathHelper.ToRadians(-65f) * NPC.direction, 0.1f);
+                        leftArmRot = Helper.LerpAngle(leftArmRot, NPC.direction + MathHelper.ToRadians(65f) * NPC.direction, 0.1f);
                         FacePlayer();
                         AITimer2--;
 
@@ -432,7 +499,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             }
                             if (AITimer >= 60 && AITimer <= 180 && AITimer % (Main.expertMode ? 20 : 40) == 0)
                             {
-                                Vector2 pos = new Vector2(Main.rand.NextVector2FromRectangle(GetArenaRect()).X, 0);
+                                Vector2 pos = new Vector2(GetArenaRect().X + GetArenaRect().Width * Main.rand.NextFloat(), NPC.Center.Y);
                                 Projectile.NewProjectile(null, pos, Main.rand.NextBool() ? Vector2.UnitY : -Vector2.UnitY, ModContent.ProjectileType<XShadowflame>(), 30, 0);
                             }
                         }
@@ -440,12 +507,12 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             if (AITimer == 100)
                             {
-                                for (int i = 0; i < 10; i++)
+                                for (int i = 0; i < 7; i++)
                                 {
-                                    Vector2 _pos = Helper.TRay.Cast(NPC.Center, -Vector2.UnitX, GetArenaRect().Height);
-                                    Vector2 __pos = Helper.TRay.Cast(NPC.Center, Vector2.UnitX, GetArenaRect().Height);
-                                    Vector2 pos = Vector2.Lerp(_pos + new Vector2(40, 0), __pos - new Vector2(16, 0), (float)i / 9);
-                                    if (Helper.TRay.CastLength(pos, -Vector2.UnitY, 1000) < 900)
+                                    Vector2 _pos = Helper.TRay.Cast(NPC.Center, -Vector2.UnitX, GetArenaRect().Width);
+                                    Vector2 __pos = Helper.TRay.Cast(NPC.Center, Vector2.UnitX, GetArenaRect().Width);
+                                    Vector2 pos = Vector2.Lerp(_pos + new Vector2(40, 0), __pos - new Vector2(16, 0), (float)i / 6);
+                                    if (Helper.TRay.CastLength(pos, -Vector2.UnitY, GetArenaRect().Height + 10) <= GetArenaRect().Height)
                                     {
                                         Projectile p1 = Projectile.NewProjectileDirect(null, pos, Vector2.UnitY, ModContent.ProjectileType<XShadowflame>(), 30, 0);
                                         p1.timeLeft = 1398;
@@ -1010,7 +1077,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         }
                         if (AITimer == 70)
                         {
-                            Projectile.NewProjectile(null, new Vector2(GetArenaRect().X + GetArenaRect().Width / 2, GetArenaRect().Y + 70), Vector2.Zero, ModContent.ProjectileType<XCloud>(), 0, 0);
+                            Projectile.NewProjectile(null, new Vector2(GetArenaRect().X + GetArenaRect().Width / 2, GetArenaRect().Y + 70), Vector2.Zero, ModContent.ProjectileType<XCloud>(), 0, 0, player.whoAmI);
                         }
 
                         if (AITimer >= 79)
@@ -1027,10 +1094,22 @@ namespace EbonianMod.NPCs.ArchmageX
         Vector2 sCenter;
         Rectangle GetArenaRect()
         {
-            Vector2 L = Helper.TRay.Cast(sCenter, -Vector2.UnitX, 31.5f * 16);
-            Vector2 R = Helper.TRay.Cast(sCenter, Vector2.UnitX, 28 * 16);
-            Vector2 U = Helper.TRay.Cast(sCenter, -Vector2.UnitY, 350);
-            Vector2 D = Helper.TRay.Cast(sCenter, Vector2.UnitY, 350);
+            float LLen = Helper.TRay.CastLength(sCenter, -Vector2.UnitX, 34.5f * 16);
+            float RLen = Helper.TRay.CastLength(sCenter, Vector2.UnitX, 34.5f * 16);
+            Vector2 L = sCenter;
+            Vector2 R = sCenter;
+            if (LLen > RLen)
+            {
+                R = Helper.TRay.Cast(sCenter, Vector2.UnitX, 34.5f * 16);
+                L = Helper.TRay.Cast(R, -Vector2.UnitX, 34.5f * 32);
+            }
+            else
+            {
+                R = Helper.TRay.Cast(L, Vector2.UnitX, 34.5f * 32);
+                L = Helper.TRay.Cast(sCenter, -Vector2.UnitX, 34.5f * 16);
+            }
+            Vector2 U = Helper.TRay.Cast(sCenter, -Vector2.UnitY, 380);
+            Vector2 D = Helper.TRay.Cast(sCenter, Vector2.UnitY, 380);
             Vector2 TopLeft = new Vector2(L.X, U.Y);
             Vector2 BottomRight = new Vector2(R.X, D.Y);
             Rectangle rect = new Rectangle((int)L.X, (int)U.Y, (int)Helper.FromAToB(TopLeft, BottomRight, false).X, (int)Helper.FromAToB(TopLeft, BottomRight, false).Y);

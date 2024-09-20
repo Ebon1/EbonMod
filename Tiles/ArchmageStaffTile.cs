@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EbonianMod.NPCs.ArchmageX;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using System;
@@ -17,6 +18,7 @@ namespace EbonianMod.Tiles
 {
     public class ArchmageStaffTile : ModTile
     {
+        public float[,] staffAlpha = new float[Main.maxTilesX, Main.maxTilesY];
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = false;
@@ -42,6 +44,10 @@ namespace EbonianMod.Tiles
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
+            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()))
+                staffAlpha[i, j] = MathHelper.Lerp(staffAlpha[i, j], .1f, 0.1f);
+            else
+                staffAlpha[i, j] = MathHelper.Lerp(staffAlpha[i, j], 1f, 0.2f);
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 position = new Vector2(i * 16, j * 16 + MathF.Sin(Main.GlobalTimeWrappedHourly * .15f) * 16) + zero - Main.screenPosition;
             Texture2D tex = Helper.GetTexture("Items/Weapons/Magic/StaffOfX");
@@ -56,20 +62,20 @@ namespace EbonianMod.Tiles
             int max = 20;
             for (int k = 0; k < max; k++)
             {
-                float factor = (MathF.Sin(Main.GlobalTimeWrappedHourly + i * rand.Next(1, 100) * .02f) + 1) * 0.5f;
+                float factor = (MathF.Sin(Main.GlobalTimeWrappedHourly + i * rand.Next(1, 100) * .02f) + 1) * 0.5f * staffAlpha[i, j];
                 float alpha = MathHelper.Clamp(MathHelper.Lerp(0.4f, -0.1f, factor) * 2, 0, 0.5f);
                 float angle = Helper.CircleDividedEqually(k, max);
                 float scale = rand.NextFloat(0.5f, 1.5f) * factor;
                 Vector2 offset = new Vector2(rand.NextFloat(50) * factor * scale, 0).RotatedBy(angle);
                 for (int l = 0; l < 2; l++)
-                    Main.spriteBatch.Draw(streak, position + new Vector2(rand.NextFloat(-80, 80), rand.NextFloat(-20, 20)) + offset, null, Color.Violet * (alpha), angle, new Vector2(0, streak.Height / 2), new Vector2(alpha, factor * 2) * scale * 0.5f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(streak, position + new Vector2(rand.NextFloat(-80, 80), rand.NextFloat(-20, 20)) + offset, null, Color.Violet * (alpha * staffAlpha[i, j]), angle, new Vector2(0, streak.Height / 2), new Vector2(alpha, factor * 2) * scale * 0.5f, SpriteEffects.None, 0);
             }
 
-            Main.spriteBatch.Draw(bloom, position, null, Color.Violet * (0.5f + MathHelper.Clamp(MathF.Sin(Main.GlobalTimeWrappedHourly * .5f), 0, 0.4f)), MathHelper.PiOver4, bloom.Size() / 2, 1, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(bloom, position, null, Color.Violet * (0.05f + (MathF.Sin(Main.GlobalTimeWrappedHourly * .55f) + .5f) * 0.3f), MathHelper.PiOver4, bloom.Size() / 2, 1.1f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(bloom, position, null, Color.Violet * ((0.5f + MathHelper.Clamp(MathF.Sin(Main.GlobalTimeWrappedHourly * .5f), 0, 0.4f)) * staffAlpha[i, j]), MathHelper.PiOver4, bloom.Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(bloom, position, null, Color.Violet * ((0.05f + (MathF.Sin(Main.GlobalTimeWrappedHourly * .55f) + .5f) * 0.3f) * staffAlpha[i, j]), MathHelper.PiOver4, bloom.Size() / 2, 1.1f, SpriteEffects.None, 0);
             Main.spriteBatch.ApplySaved();
 
-            Main.spriteBatch.Draw(tex, position, null, Color.White, MathHelper.PiOver4, tex.Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, position, null, Color.White * staffAlpha[i, j], MathHelper.PiOver4, tex.Size() / 2, 1, SpriteEffects.None, 0);
             return false;
         }
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)
