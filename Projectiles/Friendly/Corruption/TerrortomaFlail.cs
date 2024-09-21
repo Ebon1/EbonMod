@@ -74,7 +74,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
             AITimer++;
             if (AITimer == 1)
             {
-                verlet = new Verlet(Projectile.Center, 8, 15, stiffness: 8);
+                verlet = new Verlet(Projectile.Center, 8, 15, stiffness: 25);
                 Projectile eater = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TerrortomaFlail_Clingers>(), Projectile.damage, 0, player.whoAmI, Projectile.whoAmI)];
                 Projectile smasher = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TerrortomaFlail_Clingers>(), Projectile.damage, 0, player.whoAmI, Projectile.whoAmI)];
                 Projectile summoner = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TerrortomaFlail_Clingers>(), Projectile.damage, 0, player.whoAmI, Projectile.whoAmI)];

@@ -108,8 +108,8 @@ namespace EbonianMod.NPCs.Corruption
                     break;
                 case 1:
                     AITimer++;
-                    if (AITimer < 10)
-                        NPC.rotation = MathHelper.Lerp(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 0.25f);
+                    if (AITimer < 15)
+                        NPC.rotation = Helper.LerpAngle(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 0.25f);
                     else
                         NPC.rotation = NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0);
                     if (AITimer >= 10)

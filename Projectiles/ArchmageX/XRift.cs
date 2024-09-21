@@ -37,6 +37,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         {
             return false;
         }
+        public override bool? CanDamage() => false;
         public override void AI()
         {
             Projectile.velocity.SafeNormalize(Vector2.UnitX);

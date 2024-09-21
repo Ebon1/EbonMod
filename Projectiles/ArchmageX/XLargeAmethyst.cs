@@ -31,6 +31,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.timeLeft = 250;
             Projectile.Size = new(28, 28);
         }
+        public override bool? CanDamage() => false;
         public override bool PreKill(int timeLeft)
         {
             int i = 0;

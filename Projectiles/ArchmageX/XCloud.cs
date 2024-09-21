@@ -92,7 +92,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                 Projectile.ai[0]++;
             if (Projectile.ai[0] == 20)
             {
-                savedDir = Main.rand.NextBool() ? new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(0.5f, 1)) : Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center);
+                savedDir = Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center);
                 Projectile.NewProjectile(null, Projectile.Center, savedDir, ModContent.ProjectileType<XTelegraphLine>(), 0, 0);
             }
             if (Projectile.ai[0] > 55)

@@ -59,6 +59,7 @@ namespace EbonianMod.Common.Systems
         FleshImpact,
         blink,
         xSpirit,
+        helicopter,
         firework,
         magicSlash,
         sheep,
@@ -108,6 +109,7 @@ namespace EbonianMod.Common.Systems
             FleshImpact = Default with { SoundPath = ebonianSoundPath + "FleshImpact", Variants = new int[] { 0, 1, 2 }, PitchVariance = 0.25f, Volume = .7f };
             blink = Default with { SoundPath = ebonianSoundPath + "blink" };
             xSpirit = Default with { SoundPath = ebonianSoundPath + "xSpirit" };
+            helicopter = Default with { SoundPath = ebonianSoundPath + "helicopter", PitchVariance = 0f };
             firework = Default with { SoundPath = ebonianSoundPath + "firework" };
             magicSlash = Default with { SoundPath = ebonianSoundPath + "magicSlash" };
             sheep = Default with { SoundPath = ebonianSoundPath + "sheep" };

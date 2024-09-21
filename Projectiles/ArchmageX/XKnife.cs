@@ -68,7 +68,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.Size = new Vector2(30, 30);
             Projectile.friendly = false;
             Projectile.hostile = true;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.aiStyle = 0;
             Projectile.timeLeft = 500;
         }
@@ -82,6 +82,8 @@ namespace EbonianMod.Projectiles.ArchmageX
         }
         public override void AI()
         {
+            if (Projectile.timeLeft < 460)
+                Projectile.tileCollide = true;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
             if (Projectile.timeLeft % 2 == 0)
                 Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), -Projectile.velocity * 0.5f, 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));

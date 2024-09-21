@@ -442,7 +442,7 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<HotGarbageNuke>(), 0, 0);
                 }
-                if (AITimer == 664)
+                if (AITimer == 654)
                     Music = 0;
                 if (AITimer >= 665 && player.Distance(NPC.Center) > 4500 / 2)
                 {
