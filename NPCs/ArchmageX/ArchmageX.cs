@@ -232,7 +232,13 @@ namespace EbonianMod.NPCs.ArchmageX
             Micolash,
             ShadowflamePuddles,
             MagnificentFireballs,
-            AmethystStorm
+            AmethystStorm,
+            //adding weight to the rng
+            SineLaser,
+            PhantasmalSpirit,
+            ShadowflamePuddles,
+            SpectralOrbs,
+            MagnificentFireballs
         };
         public List<int> Phase2AttackPool = new List<int>()
         {
@@ -240,7 +246,7 @@ namespace EbonianMod.NPCs.ArchmageX
             PhantasmalSpirit,
             AmethystCloseIn,
             GiantAmethyst,
-            TheSheepening ,
+            TheSheepening,
             SpectralOrbs,
             AmethystBulletHell,
             Micolash,
@@ -249,7 +255,29 @@ namespace EbonianMod.NPCs.ArchmageX
             MagnificentFireballs,
             HelicopterBlades,
             PhantasmalBlast,
-            AmethystStorm
+            AmethystStorm,
+            //adding weight to the rng
+            ShadowflameRift,
+            GiantAmethyst,
+            PhantasmalSpirit,
+            SineLaser,
+            MagnificentFireballs
+
+        };
+        public List<float> MeleeAttacks = new List<float>()
+        {
+            ManaPotion,
+            PhantasmalSpirit,
+            SineLaser,
+            MagnificentFireballs,
+            GiantAmethyst,
+            AmethystStorm,
+            HelicopterBlades,
+            ShadowflamePuddles,
+            SpectralOrbs,
+            Micolash,
+            AmethystBulletHell,
+            AmethystCloseIn,
         };
         float Next = 1;
         void IdleAnimation()
@@ -269,30 +297,52 @@ namespace EbonianMod.NPCs.ArchmageX
         void PickAttack()
         {
             oldAttack = AIState;
-            int attempts = 0;
-            if (!phase2)
+            if (doneAttacksBefore)
             {
-                Next = Main.rand.Next(Phase1AttackPool);
-                while (attempts++ < 20 && Next != AmethystStorm && oldAttack == Next)
+                int attempts = 0;
+                if (!phase2)
+                {
                     Next = Main.rand.Next(Phase1AttackPool);
+                    while (attempts++ < 10 && Next == AmethystStorm && oldAttack == Next)
+                        Next = Main.rand.Next(Phase1AttackPool);
+                }
+                else
+                {
+                    Next = Main.rand.Next(Phase2AttackPool);
+                    while (attempts++ < 20 && Phase2AttackPool.IndexOf((int)Next) > 11 && oldAttack == Next)
+                        Next = Main.rand.Next(Phase2AttackPool);
+                }
+                if (Main.rand.NextBool(phase2 ? 20 : 5) && oldAttack != Spawn && oldAttack != Taunt)
+                    Next = Taunt;
             }
             else
             {
-                Next = Main.rand.Next(Phase2AttackPool);
-                while (attempts++ < 20 && Phase2AttackPool.IndexOf((int)Next) > 11 && oldAttack == Next)
-                    Next = Main.rand.Next(Phase2AttackPool);
+                Next = oldAttack + 1;
+                if (Next > (phase2 ? 15 : 11))
+                {
+                    doneAttacksBefore = true;
+                    PickAttack();
+                    return;
+                }
             }
-            if (Main.rand.NextBool(phase2 ? 20 : 5))
-                Next = Taunt;
             AITimer = Main.rand.Next(-40, 20);
             AIState = Idle;
         }
         bool phase2;
-        float oldAttack;
+        float oldAttack = Spawn;
+        bool doneAttacksBefore;
         public override void AI()
         {
             if (NPC.life < NPC.lifeMax / 2 + 400)
-                phase2 = true;
+            {
+                if (!phase2)
+                {
+                    Next = 1;
+                    oldAttack = 1;
+                    doneAttacksBefore = false;
+                    phase2 = true;
+                }
+            }
             if (NPC.direction != NPC.oldDirection)
                 rightArmRot = 0;
             float rightHandOffsetRot = MathHelper.Pi - (NPC.direction == 1 ? MathHelper.PiOver4 : MathHelper.PiOver2);
@@ -317,6 +367,8 @@ namespace EbonianMod.NPCs.ArchmageX
 
             float staffRot = rightArmRot + MathHelper.Pi * (NPC.direction == 1 ? .5f : 1);
             Vector2 staffTip = staffP + staffRot.ToRotationVector2().RotatedBy(-MathHelper.PiOver4) * 48;
+
+            Lighting.AddLight(staffTip, TorchID.Purple);
             AITimer++;
             switch (AIState)
             {
@@ -360,13 +412,21 @@ namespace EbonianMod.NPCs.ArchmageX
                     break;
                 case Taunt:
                     {
-                        rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction + MathHelper.ToRadians(-65f) * NPC.direction, 0.1f);
-                        leftArmRot = Helper.LerpAngle(leftArmRot, NPC.direction + MathHelper.ToRadians(65f) * NPC.direction, 0.1f);
+                        if (AITimer < 80 + (NPC.life * 0.01f))
+                        {
+                            headFrame.Y = DisappointedFace;
+                            rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction + MathHelper.ToRadians(-25f) * NPC.direction, 0.15f);
+                            leftArmRot = Helper.LerpAngle(leftArmRot, NPC.direction + MathHelper.ToRadians(25f) * NPC.direction, 0.15f);
+                        }
+                        else
+                        {
+                            headFrame.Y = NeutralFace;
+                            IdleAnimation();
+                        }
                         FacePlayer();
                         AITimer2--;
 
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
-                        headFrame.Y = DisappointedFace;
                         if (AITimer == 40)
                         {
                             WeightedRandom<string> chat = new WeightedRandom<string>();
@@ -389,11 +449,28 @@ namespace EbonianMod.NPCs.ArchmageX
                 case Idle:
                     {
                         IdleAnimation();
-                        FacePlayer();
+                        //
+                        if (MeleeAttacks.Contains(Next))
+                        {
+                            FacePlayer();
+                            NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center).X * 3, 0.1f);
+                        }
+                        else
+                        {
+                            if (AITimer == 1) disposablePos[9] = Main.rand.NextVector2FromRectangle(GetArenaRect());
+                            Vector2 pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220, NPC.Center.Y);
+                            if (disposablePos[9].X < NPC.Center.X)
+                                pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220 + OffsetBoundaries(NPC.Size * 1.5f).Width - 220, NPC.Center.Y);
+                            if (NPC.Distance(pos) < 70)
+                                AITimer++;
+                            NPC.velocity.X = Helper.FromAToB(NPC.Center, pos, false).X * .01f;
+                            FacePlayer();
+                            NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
+                        }
                         AITimer2--;
 
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
-                        NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center).X, 0.1f);
+
                         if (NPC.Center.Y - player.Center.Y > NPC.height * 1.4f && AITimer2 <= 0)
                         {
                             NPC.velocity.Y = -9.5f;
@@ -477,18 +554,6 @@ namespace EbonianMod.NPCs.ArchmageX
                             rightArmRot = Helper.LerpAngle(rightArmRot, 0, 0.2f);
                         }
 
-                        if (AITimer < 50)
-                        {
-                            Vector2 pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X, NPC.Center.Y);
-                            if (player.Center.X < GetArenaRect().X + GetArenaRect().Width / 2)
-                                pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + OffsetBoundaries(NPC.Size * 1.5f).Width, NPC.Center.Y);
-                            NPC.direction = player.Center.X > NPC.Center.X ? -1 : 1;
-                            NPC.spriteDirection = NPC.direction;
-                            NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
-                            NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, pos).X * 3.75f, 0.1f);
-                        }
-                        else
-                            NPC.velocity.X *= 0.9f;
 
                         if (AITimer2 > 0)
                         {
@@ -509,8 +574,8 @@ namespace EbonianMod.NPCs.ArchmageX
                             {
                                 for (int i = 0; i < 7; i++)
                                 {
-                                    Vector2 _pos = Helper.TRay.Cast(NPC.Center, -Vector2.UnitX, GetArenaRect().Width);
-                                    Vector2 __pos = Helper.TRay.Cast(NPC.Center, Vector2.UnitX, GetArenaRect().Width);
+                                    Vector2 _pos = GetArenaRect().Left();
+                                    Vector2 __pos = GetArenaRect().Right();
                                     Vector2 pos = Vector2.Lerp(_pos + new Vector2(40, 0), __pos - new Vector2(16, 0), (float)i / 6);
                                     if (Helper.TRay.CastLength(pos, -Vector2.UnitY, GetArenaRect().Height + 10) <= GetArenaRect().Height)
                                     {
@@ -540,9 +605,9 @@ namespace EbonianMod.NPCs.ArchmageX
                         FacePlayer();
                         leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f); rightArmRot = Helper.LerpAngle(rightArmRot, -Vector2.UnitY.ToRotation() - (NPC.direction == -1 ? (MathHelper.PiOver2 + MathHelper.PiOver4) : 0), 0.2f);
-                        if (AITimer == 40)
-                            if (oldAttack != AIState)
-                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Spectral Jewels!", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
+                        if (AITimer == 30)
+                            if (oldAttack != AIState && oldAttack != AmethystBulletHell)
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Glittering Amethysts!", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
 
                         if (AITimer >= 50 && AITimer <= (Main.expertMode ? 120 : 90) && AITimer % (phase2 ? 20 : 30) == 0)
                         {
@@ -565,24 +630,42 @@ namespace EbonianMod.NPCs.ArchmageX
                     break;
                 case MagnificentFireballs:
                     {
+                        if (AITimer == 1) disposablePos[9] = player.Center;
+                        if (AITimer < 50)
+                        {
+
+                            Vector2 pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220, NPC.Center.Y);
+                            if (disposablePos[9].X < NPC.Center.X)
+                                pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220 + OffsetBoundaries(NPC.Size * 1.5f).Width - 220, NPC.Center.Y);
+                            NPC.velocity.X = Helper.FromAToB(NPC.Center, pos, false).X * .01f;
+                            NPC.direction = disposablePos[9].X > NPC.Center.X ? -1 : 1;
+                            NPC.spriteDirection = NPC.direction;
+                            NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
+                        }
+                        else
+                            NPC.velocity.X *= 0.9f;
                         leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                         if (AITimer == 30)
-                        {
-                            Projectile.NewProjectile(null, staffTip, Vector2.Zero, ModContent.ProjectileType<XExplosionInvis>(), 0, 0);
                             if (oldAttack != AIState)
                                 DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Shimmering Fusillade!", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
+                        if (AITimer == 80)
+                        {
+                            Projectile.NewProjectile(null, staffTip, Vector2.Zero, ModContent.ProjectileType<XExplosionInvis>(), 0, 0);
                         }
-                        if ((AITimer <= 100 && AITimer >= 70) || AITimer == 110 || (AITimer <= 180 && AITimer >= 160) || (AITimer <= 240 && AITimer >= 230))
+                        if (AITimer > 55)
                         {
                             FacePlayer();
+                            rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, player.Center, reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
+                        }
+                        if ((AITimer <= 110 && AITimer >= 90) || AITimer == 150 || (AITimer <= 190 && AITimer >= 170) || (AITimer <= 250 && AITimer >= 240))
+                        {
                             if (AITimer % (AITimer > 229 ? 5 : 10) == 0)
                             {
                                 SoundEngine.PlaySound(SoundID.Item73.WithPitchOffset(-0.2f), staffTip);
-                                Vector2 vel = Helper.FromAToB(staffTip, player.Center).RotatedByRandom(MathHelper.PiOver4 * (AITimer == 110 ? 0 : (AITimer > 229 ? 1.2f : 0.65f)));
+                                Vector2 vel = Helper.FromAToB(staffTip, player.Center).RotatedByRandom(MathHelper.PiOver4 * 0.7f * (AITimer == 110 ? 0 : (AITimer > 229 ? 1.2f : 0.65f)));
                                 Projectile.NewProjectile(null, NPC.Center + vel * 15f, vel * 7f, ModContent.ProjectileType<XBolt>(), 15, 0);
                             }
-                            rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(staffTip, player.Center, reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
                         }
 
                         if (AITimer >= 300)
@@ -597,9 +680,9 @@ namespace EbonianMod.NPCs.ArchmageX
                     {
                         leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
-                        if (AITimer == 40)
+                        if (AITimer == 30)
                             if (oldAttack != AIState)
-                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Shadowey Helix of Flame!", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Helix of Shadowflame!", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
                         if (AITimer < 80)
                         {
                             FacePlayer();
@@ -614,14 +697,14 @@ namespace EbonianMod.NPCs.ArchmageX
                             Projectile.NewProjectile(null, NPC.Center, vel, ModContent.ProjectileType<XSineLaser>(), 0, 0, ai1: 70);
                             Projectile.NewProjectile(null, NPC.Center, vel, ModContent.ProjectileType<XSineLaser>(), 0, 0, ai1: -70);
                         }
-                        if (AITimer == 120)
+                        if (AITimer == 145)
                         {
                             SoundStyle s = EbonianSounds.eruption;
                             SoundEngine.PlaySound(s, NPC.Center);
                             Projectile.NewProjectile(null, NPC.Center, vel, ModContent.ProjectileType<XSineLaser>(), 15, 0, ai1: 70);
                             Projectile.NewProjectile(null, NPC.Center, vel, ModContent.ProjectileType<XSineLaser>(), 15, 0, ai1: -70);
                         }
-                        if (AITimer >= 250)
+                        if (AITimer >= 280)
                         {
                             Reset();
                             PickAttack();
@@ -632,8 +715,8 @@ namespace EbonianMod.NPCs.ArchmageX
                 case AmethystCloseIn:
                     {
                         FacePlayer();
+                        rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction + MathHelper.ToRadians(-25f) * NPC.direction, 0.15f);
                         leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
-                        rightArmRot = Helper.LerpAngle(rightArmRot, 0, 0.2f);
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                         if (AITimer == 40)
                             if (oldAttack != AIState)
@@ -651,6 +734,7 @@ namespace EbonianMod.NPCs.ArchmageX
                                 p.ai[0] = NPC.Center.X;
                                 p.ai[1] = NPC.Center.Y;
                             }
+                            Projectile.NewProjectileDirect(null, staffTip, Vector2.Zero, ModContent.ProjectileType<XExplosionTiny>(), 0, 0);
                         }
 
                         if (AITimer >= 100)
@@ -663,18 +747,32 @@ namespace EbonianMod.NPCs.ArchmageX
                     break;
                 case AmethystBulletHell: //phase 2
                     {
-                        FacePlayer();
+                        rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction + MathHelper.ToRadians(-45f) * NPC.direction, 0.15f);
+                        if (AITimer == 1) disposablePos[9] = player.Center;
+                        if (AITimer < 50)
+                        {
+
+                            Vector2 pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220, NPC.Center.Y);
+                            if (disposablePos[9].X < NPC.Center.X)
+                                pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220 + OffsetBoundaries(NPC.Size * 1.5f).Width - 220, NPC.Center.Y);
+                            NPC.velocity.X = Helper.FromAToB(NPC.Center, pos, false).X * .01f;
+                            FacePlayer();
+                            NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
+                        }
+                        else
+                            NPC.velocity.X *= 0.9f;
                         leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
                         rightArmRot = Helper.LerpAngle(rightArmRot, 0, 0.2f);
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                         if (AITimer == 40)
-                            if (oldAttack != AIState)
-                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "FOCUS!", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
+                            if (oldAttack != AIState && oldAttack != SpectralOrbs)
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Glittering Amethysts", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
 
                         if (AITimer > 60 && AITimer < 170)
                         {
-                            if (AITimer % 10 == 0)
+                            if (AITimer % 15 == 0)
                             {
+                                SoundEngine.PlaySound(SoundID.Shatter, NPC.Center);
                                 for (int i = 0; i < disposablePos.Length; i++)
                                 {
                                     if (disposablePos[i] != Vector2.Zero)
@@ -685,6 +783,9 @@ namespace EbonianMod.NPCs.ArchmageX
                                     {
                                         Dust.NewDustPerfect(disposablePos[i], ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
                                         Dust.NewDustPerfect(disposablePos[i], ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
+
+                                        Dust.NewDustPerfect(staffTip, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                                        Dust.NewDustPerfect(staffTip, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f)).customData = disposablePos[i];
                                     }
                                     break;
                                 }
@@ -692,7 +793,6 @@ namespace EbonianMod.NPCs.ArchmageX
                         }
                         if (AITimer > 60 && AITimer % 20 == 0)
                         {
-                            SoundEngine.PlaySound(SoundID.Shatter, NPC.Center);
                             for (int i = 0; i < disposablePos.Length; i++)
                             {
                                 Projectile.NewProjectile(null, disposablePos[i], Helper.FromAToB(disposablePos[i], player.Center + Main.rand.NextVector2Circular(150, 150)) * 0.1f, ModContent.ProjectileType<XAmethystCloseIn>(), 15, 0);
@@ -709,19 +809,32 @@ namespace EbonianMod.NPCs.ArchmageX
                     break;
                 case GiantAmethyst:
                     {
-                        FacePlayer();
+                        if (AITimer == 1) disposablePos[9] = player.Center;
+                        if (AITimer < 50)
+                        {
+
+                            Vector2 pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220, NPC.Center.Y);
+                            if (disposablePos[9].X < NPC.Center.X)
+                                pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220 + OffsetBoundaries(NPC.Size * 1.5f).Width - 220, NPC.Center.Y);
+                            NPC.velocity.X = Helper.FromAToB(NPC.Center, pos, false).X * .01f;
+                            NPC.direction = disposablePos[9].X > NPC.Center.X ? -1 : 1;
+                            NPC.spriteDirection = NPC.direction;
+                            NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
+                        }
+                        else
+                            NPC.velocity.X *= 0.9f;
                         leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
                         rightArmRot = Helper.LerpAngle(rightArmRot, -Vector2.UnitY.ToRotation() - (NPC.direction == -1 ? (MathHelper.PiOver2 + MathHelper.PiOver4) : 0), 0.2f);
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                         if (AITimer == 40)
                             if (oldAttack != AIState)
-                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "big gem lmfao", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
-                        if (AITimer == 70)
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "The Archmage's Great Amethysts", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
+                        if (AITimer >= 60 && AITimer % 25 == 0)
                         {
                             Projectile.NewProjectile(null, staffTip, Vector2.Zero, ModContent.ProjectileType<XLargeAmethyst>(), 30, 0);
                             Projectile.NewProjectile(null, staffTip, Vector2.Zero, ModContent.ProjectileType<XExplosionInvis>(), 0, 0);
                         }
-                        if (AITimer >= 78)
+                        if (AITimer >= 111)
                         {
                             Reset();
                             PickAttack();
@@ -733,14 +846,14 @@ namespace EbonianMod.NPCs.ArchmageX
                     {
                         leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
                         rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, disposablePos[0], reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
-                        if (AITimer == 40)
-                            if (oldAttack != AIState)
-                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Think fast!", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
+                        //if (AITimer == 40)
+                        //  if (oldAttack != AIState)
+                        //    DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Think fast!", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
                         if (AITimer < 130)
                         {
                             FacePlayer();
                             NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.02f, 0.1f);
-                            NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center).X * 7, 0.1f);
+                            NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center - Helper.FromAToB(NPC.Center, player.Center) * 60, false).X * 0.07f, 0.1f);
                         }
                         else
                         {
@@ -748,9 +861,9 @@ namespace EbonianMod.NPCs.ArchmageX
                             NPC.velocity.X *= 0.7f;
                         }
                         if (AITimer == 130)
-                        {
                             Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosionInvis>(), 0, 0);
-                        }
+                        if (AITimer == 170)
+                            Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
                         if (AITimer < 145)
                             disposablePos[0] = player.Center;
                         if (AITimer > 170 && AITimer < 202 && AITimer % 4 == 0)
@@ -772,7 +885,21 @@ namespace EbonianMod.NPCs.ArchmageX
                 case TheSheepening:
                     {
                         leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
-                        if (AITimer < 70)
+                        if (AITimer == 1) disposablePos[9] = player.Center;
+                        if (AITimer < 50)
+                        {
+
+                            Vector2 pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220, NPC.Center.Y);
+                            if (disposablePos[9].X < NPC.Center.X)
+                                pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220 + OffsetBoundaries(NPC.Size * 1.5f).Width - 220, NPC.Center.Y);
+                            NPC.direction = disposablePos[9].X < NPC.Center.X ? -1 : 1;
+                            NPC.spriteDirection = NPC.direction;
+                            NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
+                            NPC.velocity.X = Helper.FromAToB(NPC.Center, pos, false).X * .01f;
+                        }
+                        else
+                            NPC.velocity.X *= 0.9f;
+                        if (AITimer < 70 && AITimer > 50)
                         {
                             FacePlayer();
                             rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, player.Center, reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
@@ -804,8 +931,8 @@ namespace EbonianMod.NPCs.ArchmageX
                             shouldAttack = AITimer >= 70 && AITimer % 20 == 0;
                         if (shouldAttack)
                         {
-                            SoundEngine.PlaySound(EbonianSounds.xSpirit, NPC.Center);
-                            Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center), ModContent.ProjectileType<SheepeningOrb>(), 1, 0, player.whoAmI);
+                            SoundEngine.PlaySound(EbonianSounds.cursedToyCharge, NPC.Center);
+                            Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center + player.velocity), ModContent.ProjectileType<SheepeningOrb>(), 1, 0, player.whoAmI);
                         }
                         if (AITimer >= 120)
                         {
@@ -856,7 +983,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer >= 100)
                         {
                             Reset();
-                            if (Main.rand.Next(4) >= 2)
+                            if (Main.rand.Next(18) > 4)
                                 PickAttack();
                             //AIState = Idle;
                         }
@@ -864,18 +991,34 @@ namespace EbonianMod.NPCs.ArchmageX
                     break;
                 case PhantasmalBlast: //phase 2
                     {
-                        FacePlayer();
+                        if (AITimer == 1) disposablePos[9] = player.Center;
+                        if (AITimer < 50)
+                        {
+
+                            Vector2 pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220, NPC.Center.Y);
+                            if (disposablePos[9].X < NPC.Center.X)
+                                pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220 + OffsetBoundaries(NPC.Size * 1.5f).Width - 220, NPC.Center.Y);
+                            NPC.velocity.X = Helper.FromAToB(NPC.Center, pos, false).X * .01f;
+                            FacePlayer();
+                            NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
+                        }
+                        else
+                        {
+                            NPC.velocity.X *= 0.9f;
+                        }
                         leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
-                        if (AITimer == 40)
+                        if (AITimer == 30)
+                            if (oldAttack != AIState)
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Phantasmal Blast!", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
+
+                        if (AITimer == 50)
                         {
                             AITimer2 = 0.5f;
                             Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosionInvis>(), 0, 0);
-                            if (oldAttack != AIState)
-                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Phantasmal Blast!", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
                         }
 
-                        if (AITimer < 145) rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, player.Center, reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
+                        if (AITimer < 145 && AITimer > 50) rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, player.Center, reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
                         else rightArmRot = Helper.LerpAngle(rightArmRot, 0, 0.2f);
 
                         if (AITimer > 60 && AITimer < 120 && AITimer % 20 < 10)
@@ -884,13 +1027,13 @@ namespace EbonianMod.NPCs.ArchmageX
                             Vector2 pos = NPC.Center + Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(10, 50);
                             Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(3, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
                         }
-                        if (AITimer > 60 && AITimer < 150 && AITimer % 10 == 0)
+                        if (AITimer > 80 && AITimer < 170 && AITimer % 20 == 0)
                         {
                             AITimer2 += 0.1f;
                             headFrame.Y = ShockedFace;
                             SoundEngine.PlaySound(EbonianSounds.xSpirit, NPC.Center);
                             EbonianSystem.ScreenShakeAmount = 6;
-                            Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver2 * 0.7f * AITimer2) * 5f, ModContent.ProjectileType<XSpiritNoHome>(), 15, 0, -1, 0.25f);
+                            Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver2 * 0.7f * AITimer2) * Main.rand.NextFloat(5, 8), ModContent.ProjectileType<XSpiritNoHome>(), 15, 0, -1, 0.25f);
                         }
                         if (AITimer == 110)
                         {
@@ -936,15 +1079,17 @@ namespace EbonianMod.NPCs.ArchmageX
                             if (oldAttack != AIState)
                                 DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), chat, Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
                         }
+                        if (AITimer == 1) disposablePos[9] = player.Center;
                         if (AITimer < 50)
                         {
-                            Vector2 pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X, NPC.Center.Y);
-                            if (player.Center.X < GetArenaRect().X + GetArenaRect().Width / 2)
-                                pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + OffsetBoundaries(NPC.Size * 1.5f).Width, NPC.Center.Y);
-                            NPC.direction = player.Center.X > NPC.Center.X ? -1 : 1;
+
+                            Vector2 pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220, NPC.Center.Y);
+                            if (disposablePos[9].X < NPC.Center.X)
+                                pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220 + OffsetBoundaries(NPC.Size * 1.5f).Width - 220, NPC.Center.Y);
+                            NPC.velocity.X = Helper.FromAToB(NPC.Center, pos, false).X * .01f;
+                            NPC.direction = disposablePos[9].X > NPC.Center.X ? -1 : 1;
                             NPC.spriteDirection = NPC.direction;
                             NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
-                            NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, pos).X * 3.75f, 0.1f);
                         }
                         else
                         {
@@ -1047,28 +1192,32 @@ namespace EbonianMod.NPCs.ArchmageX
                     break;
                 case AmethystStorm:
                     {
-                        leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
                         if (AITimer == 40)
                             if (oldAttack != AIState)
-                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "idk something something cloud", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
-                        if (AITimer < 70 && AITimer > 1)
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Shadowflame Mist!", Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite);
+                        if (AITimer < 160 && AITimer > 50)
                         {
-                            rightArmRot = Helper.LerpAngle(rightArmRot, -Vector2.UnitY.ToRotation() - (NPC.direction == -1 ? (MathHelper.PiOver2 + MathHelper.PiOver4) : 0), 0.2f);
+                            headFrame.Y = DisappointedFace;
+                            rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction + MathHelper.ToRadians(-25f) * NPC.direction, 0.15f);
+                            leftArmRot = Helper.LerpAngle(leftArmRot, NPC.direction + MathHelper.ToRadians(25f) * NPC.direction, 0.15f);
                         }
                         else
                         {
+                            headFrame.Y = NeutralFace;
                             IdleAnimation();
                         }
 
+                        if (AITimer == 1) disposablePos[9] = player.Center;
                         if (AITimer < 50)
                         {
-                            Vector2 pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X, NPC.Center.Y);
-                            if (player.Center.X < GetArenaRect().X + GetArenaRect().Width / 2)
-                                pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + OffsetBoundaries(NPC.Size * 1.5f).Width, NPC.Center.Y);
-                            NPC.direction = player.Center.X > NPC.Center.X ? -1 : 1;
+
+                            Vector2 pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220, NPC.Center.Y);
+                            if (disposablePos[9].X < NPC.Center.X)
+                                pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220 + OffsetBoundaries(NPC.Size * 1.5f).Width - 220, NPC.Center.Y);
+                            NPC.direction = disposablePos[9].X > NPC.Center.X ? -1 : 1;
                             NPC.spriteDirection = NPC.direction;
                             NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.05f, 0.1f);
-                            NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, pos).X * 3.75f, 0.1f);
+                            NPC.velocity.X = Helper.FromAToB(NPC.Center, pos, false).X * .01f;
                         }
                         else
                         {
@@ -1077,10 +1226,10 @@ namespace EbonianMod.NPCs.ArchmageX
                         }
                         if (AITimer == 70)
                         {
-                            Projectile.NewProjectile(null, new Vector2(GetArenaRect().X + GetArenaRect().Width / 2, GetArenaRect().Y + 70), Vector2.Zero, ModContent.ProjectileType<XCloud>(), 0, 0, player.whoAmI);
+                            Projectile.NewProjectile(null, new Vector2(MathHelper.Clamp(NPC.Center.X, GetArenaRect().X + 40, GetArenaRect().X + GetArenaRect().Width - 40), MathHelper.Clamp(NPC.Center.Y - 120, GetArenaRect().Y + 70, GetArenaRect().Y + GetArenaRect().Width - 70)), Vector2.Zero, ModContent.ProjectileType<XCloud>(), 0, 0, player.whoAmI);
                         }
 
-                        if (AITimer >= 79)
+                        if (AITimer >= 180)
                         {
                             Reset();
                             PickAttack();

@@ -85,10 +85,10 @@ namespace EbonianMod.Projectiles.ArchmageX
         public override void AI()
         {
 
-
+            Lighting.AddLight(Projectile.Center, TorchID.Purple);
             Player player = Main.player[Projectile.owner];
-            if (Projectile.timeLeft % 4 == 0)
-                Projectile.velocity = Vector2.SmoothStep(Projectile.velocity, Helper.FromAToB(Projectile.Center, player.Center), 0.35f).SafeNormalize(Vector2.UnitY) * 5;
+            if (Projectile.timeLeft % 2 == 0)
+                Projectile.velocity = Vector2.SmoothStep(Projectile.velocity, Helper.FromAToB(Projectile.Center, player.Center), 0.35f).SafeNormalize(Vector2.UnitY) * 5.5f;
             Projectile.rotation = Projectile.velocity.ToRotation();
         }
     }

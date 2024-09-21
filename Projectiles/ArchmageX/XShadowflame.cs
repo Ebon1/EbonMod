@@ -36,7 +36,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + vel * 220, 20, ref a);
         }
         public override bool ShouldUpdatePosition() => false;
-        public override bool? CanDamage() => Projectile.ai[2] >= 0.5f;
+        public override bool? CanDamage() => Projectile.ai[2] >= 0.8f;
         float riftAlpha;
         public override void AI()
         {
@@ -73,30 +73,38 @@ namespace EbonianMod.Projectiles.ArchmageX
                     if (Projectile.localAI[1] >= 0.99f)
                     {
                         if (Main.rand.NextBool(Projectile.extraUpdates) && Projectile.ai[2] > 0.5f)
-                            Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool() ? ModContent.DustType<SparkleDust>() : ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(6, 15) * Projectile.ai[2], 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f));
+                            Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(30, 1), ModContent.DustType<SparkleDust>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(6, 15) * Projectile.ai[2], 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
                         else
-                            Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<XGoopDust>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(0.1f, 15 * Projectile.ai[2]), Scale: Main.rand.NextFloat(0.5f, 0.7f));
+                            Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(10, 1), ModContent.DustType<XGoopDust>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(.1f, 15 * Projectile.ai[2]), Scale: Main.rand.NextFloat(0.5f, 0.7f));
                     }
                     if (Main.rand.NextBool(Projectile.localAI[1] < 0.5f ? 10 : 5))
-                        Dust.NewDustPerfect(Projectile.Center, Main.rand.NextBool() ? ModContent.DustType<SparkleDust>() : ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.Pi) * Main.rand.NextFloat(0.1f, 4), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.24f));
+                        Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(30, 1), ModContent.DustType<SparkleDust>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(1f, 6), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
                 }
         }
         public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.timeLeft > 1397) return false;
             Texture2D tex = Helper.GetExtraTexture("rune_alt");
+            Texture2D bloom = Helper.GetExtraTexture("rune_alt_bloom");
 
-            Main.spriteBatch.Reload(BlendState.Additive);
-            Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
+            Main.spriteBatch.SaveCurrent();
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, Main.Rasterizer, EbonianMod.SpriteRotation, Main.GameViewMatrix.TransformationMatrix);
 
             Vector2 scale = new Vector2(1f, 0.25f);
-            EbonianMod.SpriteRotation.Parameters["scale"].SetValue(scale * 0.75f);
-            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(-Main.GameUpdateCount * 0.035f);
-            EbonianMod.SpriteRotation.Parameters["uColor"].SetValue(Color.DarkOrchid.ToVector4());
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * riftAlpha, Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, riftAlpha / 4, SpriteEffects.None, 0);
+            for (int i = 0; i < 10; i++)
+            {
+                float alpha = MathHelper.Lerp(1, 0, (float)i / 10);
+                Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
+                EbonianMod.SpriteRotation.Parameters["scale"].SetValue(new Vector2(scale.X * 0.75f, scale.Y / alpha.Safe() * 0.5f));
+                EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(-Main.GameUpdateCount * 0.035f * alpha);
+                EbonianMod.SpriteRotation.Parameters["uColor"].SetValue(new Color(60, 2, 113).ToVector4() * alpha * alpha * 0.8f);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Vector2.UnitY * riftAlpha * i * 2 * -Projectile.velocity.Y - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, riftAlpha / 4, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(bloom, Projectile.Center - Vector2.UnitY * riftAlpha * i * 2 * -Projectile.velocity.Y - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, riftAlpha / 4, SpriteEffects.None, 0);
+                Main.spriteBatch.Reload(effect: null);
+            }
 
-            Main.spriteBatch.Reload(effect: null);
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            Main.spriteBatch.ApplySaved();
             return false;
         }
     }

@@ -42,7 +42,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2() * 2000, 120, ref a);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2() * 2000, 30, ref a);
         }
         public override void AI()
         {
@@ -180,7 +180,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            target.AddBuff(ModContent.BuffType<Sheepened>(), (Main.expertMode ? Main.masterMode ? 16 : 13 : 10) * 60);
+            target.AddBuff(ModContent.BuffType<Sheepened>(), (Main.expertMode ? Main.masterMode ? 10 : 8 : 6) * 60);
         }
     }
 }
