@@ -32,7 +32,7 @@ namespace EbonianMod.NPCs.ArchmageX
         public override void SetDefaults()
         {
             NPC.Size = new Vector2(50, 78);
-            NPC.lifeMax = 5300;
+            NPC.lifeMax = 4200;
             NPC.defense = 7;
             NPC.damage = 0;
             NPC.boss = true;
@@ -42,6 +42,10 @@ namespace EbonianMod.NPCs.ArchmageX
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             Music = 0;
+        }
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
+        {
+            NPC.lifeMax = (int)(NPC.lifeMax * balance * bossAdjustment);
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -446,7 +450,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             chat.Add("Would a purple laser pointer ALSO defeat you?");
                             if (NPC.life > NPC.lifeMax - 500)
                                 chat.Add("Wait, you're actually THAT incompetent?! I pity you.");
-                            DialogueSystem.NewDialogueBox(160, NPC.Center - new Vector2(0, 80), chat, Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                            DialogueSystem.NewDialogueBox(160, NPC.Center - new Vector2(0, 80), chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                         }
                         if (AITimer >= 100)
                         {
@@ -654,7 +658,7 @@ namespace EbonianMod.NPCs.ArchmageX
                                 if (player.HeldItem.DamageType == DamageClass.Summon)
                                     chat.Add("Coward! Strength in numbers is futile against ME!!!");
                             }
-                            DialogueSystem.NewDialogueBox(160, NPC.Center - new Vector2(0, 80), chat, Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                            DialogueSystem.NewDialogueBox(160, NPC.Center - new Vector2(0, 80), chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                         }
                         if (AITimer >= 100 + (NPC.life * 0.01f))
                         {
@@ -674,7 +678,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
                             if (NPC.Center.Y - player.Center.Y > NPC.height * 1.4f && NPC.Grounded())
                                 NPC.velocity.Y = -9.5f;
-                            NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center).X * 3, 0.1f);
+                            NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 150, false).X * .02f, 0.1f);
                         }
                         else
                         {
@@ -697,7 +701,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
 
 
-                        if (AITimer >= 100 + (NPC.life * 0.01f))
+                        if (AITimer >= 45 + (NPC.life * 0.01f))
                         {
                             Reset();
                             AIState = Next;
@@ -712,6 +716,10 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 40)
                             if (oldAttack != AIState)
                                 DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Phantasmal Spirits!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                            else
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "And again!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+
+
 
                         if (AITimer < 135) rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, player.Center, reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
                         else rightArmRot = Helper.LerpAngle(rightArmRot, 0, 0.2f);
@@ -760,6 +768,8 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 40)
                             if (oldAttack != AIState)
                                 DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Shadowflame Eruption!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                            else
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "And again!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                         if (AITimer < 180 && AITimer > 1)
                         {
                             rightArmRot = Helper.LerpAngle(rightArmRot, -Vector2.UnitY.ToRotation() - (NPC.direction == -1 ? (MathHelper.PiOver2 + MathHelper.PiOver4) : 0), 0.2f);
@@ -800,13 +810,13 @@ namespace EbonianMod.NPCs.ArchmageX
                                     if (Helper.TRay.CastLength(pos, -Vector2.UnitY, GetArenaRect().Height + 10) <= GetArenaRect().Height)
                                     {
                                         Projectile p1 = Projectile.NewProjectileDirect(null, pos, Vector2.UnitY, ModContent.ProjectileType<XShadowflame>(), 15, 0);
-                                        p1.timeLeft = 1398;
+                                        p1.timeLeft = 868;
                                         p1.ai[1] = 2;
                                     }
                                     Projectile p2 = Projectile.NewProjectileDirect(null, pos, -Vector2.UnitY, ModContent.ProjectileType<XShadowflame>(), 15, 0);
                                     if (i > 0)
                                     {
-                                        p2.timeLeft = 1398;
+                                        p2.timeLeft = 868;
                                         p2.ai[1] = 2;
                                     }
                                 }
@@ -878,6 +888,8 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 30)
                             if (oldAttack != AIState)
                                 DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Shimmering Fusillade!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                            else
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "And again!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                         if (AITimer == 80)
                         {
                             Projectile.NewProjectile(null, staffTip, Vector2.Zero, ModContent.ProjectileType<XExplosionInvis>(), 0, 0);
@@ -915,6 +927,8 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 30)
                             if (oldAttack != AIState)
                                 DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phase2 ? "Helix" : "Wave") + " of Shadowflame!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                            else
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "And again!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                         if (AITimer < 80)
                         {
                             disposablePos[0] = player.Center;
@@ -961,6 +975,8 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 40)
                             if (oldAttack != AIState)
                                 DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Amethysts of Empowerment!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                            else
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "And again!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
 
                         if (AITimer % (phase2 ? 15 : 20) == 0 && AITimer > 29 && AITimer < 91)
                         {
@@ -1078,6 +1094,8 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 40)
                             if (oldAttack != AIState)
                                 DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "The Archmage's Great Amethysts!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                            else
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "And again!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                         if (AITimer >= 60 && AITimer % 25 == 0)
                         {
                             Projectile.NewProjectile(null, staffTip, Vector2.Zero, ModContent.ProjectileType<XLargeAmethyst>(), 15, 0);
@@ -1181,6 +1199,8 @@ namespace EbonianMod.NPCs.ArchmageX
                             chat.Add("Have you any wool?");
                             if (oldAttack != AIState)
                                 DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), chat, Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                            else
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "And again!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                         }
 
                         if (AITimer == 50)
@@ -1285,6 +1305,8 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 30)
                             if (oldAttack != AIState)
                                 DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Phantasmal Blast!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                            else
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "And again!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
 
                         if (AITimer == 50)
                         {
@@ -1355,6 +1377,8 @@ namespace EbonianMod.NPCs.ArchmageX
                             chat.Add("Hehehehe..."); //phase 2
                             if (oldAttack != AIState)
                                 DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), chat, Color.Purple, -1, 0.6f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                            else
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "And again!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                         }
                         if (AITimer == 1) disposablePos[9] = player.Center;
                         if (AITimer < 50)
@@ -1499,6 +1523,8 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 40)
                             if (oldAttack != AIState)
                                 DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Shadowflame Mist!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                            else
+                                DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "And again!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                         if (AITimer < 260 && AITimer > 50)
                         {
                             headFrame.Y = phase2 ? (NPC.life < NPC.lifeMax * 0.1f ? AngryFace : SmirkFace) : DisappointedFace;
@@ -1592,7 +1618,7 @@ namespace EbonianMod.NPCs.ArchmageX
         public override bool? CanFallThroughPlatforms()
         {
             Player player = Main.player[NPC.target];
-            return (player.Center.Y > NPC.Center.Y + 50 && AIState == Idle) || NPC.noGravity;
+            return (player.Center.Y > NPC.Center.Y + 50 && (AIState == Idle || AIState == Spawn)) || NPC.noGravity;
         }
         void Reset()
         {

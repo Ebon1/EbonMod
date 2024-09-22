@@ -25,7 +25,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.friendly = false;
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 1400;
+            Projectile.timeLeft = 870;
             Projectile.extraUpdates = 5;
         }
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -43,9 +43,9 @@ namespace EbonianMod.Projectiles.ArchmageX
             if (Projectile.velocity == Vector2.Zero) Projectile.velocity = -Vector2.UnitY;
             Projectile.velocity.SafeNormalize(-Vector2.UnitY);
 
-            if (Projectile.timeLeft == 1398)
+            if (Projectile.timeLeft == 868)
                 Projectile.Center = Helper.TRay.Cast(Projectile.Center, -Projectile.velocity, 29 * 16);
-            if (Projectile.timeLeft == 1399)
+            if (Projectile.timeLeft == 869)
                 SoundEngine.PlaySound(EbonianSounds.cursedToyCharge, Projectile.Center);
 
 
@@ -54,21 +54,21 @@ namespace EbonianMod.Projectiles.ArchmageX
                 Projectile.ai[1]++;
                 if (Projectile.ai[1] == 1)
                 {
-                    SoundEngine.PlaySound(EbonianSounds.eruption.WithPitchOffset(0.3f), Projectile.Center);
+                    SoundEngine.PlaySound(EbonianSounds.eruption.WithPitchOffset(0.7f), Projectile.Center);
                 }
                 Projectile.ai[2] += 0.025f;
                 Projectile.ai[2] += Projectile.ai[2];
                 Projectile.ai[2] = MathHelper.Clamp(Projectile.ai[2], 0, 1f);
             }
-            Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], 1, 0.015f);
+            Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], 1, 0.0175f);
 
-            if (Projectile.timeLeft > 200)
+            if (Projectile.timeLeft > 100)
                 riftAlpha = MathHelper.Lerp(0, 1, Projectile.localAI[1]);
             else
                 riftAlpha = MathHelper.Lerp(riftAlpha, 0, 0.015f);
 
             if (Projectile.timeLeft % 2 == 0)
-                if (Projectile.localAI[1] >= 0.25f && Projectile.timeLeft > 200)
+                if (Projectile.localAI[1] >= 0.25f && Projectile.timeLeft > 100)
                 {
                     if (Projectile.localAI[1] >= 0.99f)
                     {
@@ -83,7 +83,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            if (Projectile.timeLeft > 1397) return false;
+            if (Projectile.timeLeft > 867) return false;
             Texture2D tex = Helper.GetExtraTexture("rune_alt");
             Texture2D bloom = Helper.GetExtraTexture("rune_alt_bloom");
 
