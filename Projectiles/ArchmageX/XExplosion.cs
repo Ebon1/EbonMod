@@ -51,8 +51,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         {
             if (Projectile.ai[2] == 0)
             {
-                SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(-0.5f), Projectile.Center);
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < 17; i++)
                 {
                     Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(15, 15), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
                     Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(20, 20), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
@@ -61,6 +60,8 @@ namespace EbonianMod.Projectiles.ArchmageX
         }
         public override void AI()
         {
+            if (Projectile.ai[0] == 0)
+                SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(-0.5f), Projectile.Center);
             Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(150 * Projectile.ai[0], 150 * Projectile.ai[0]), ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
             Projectile.ai[0] += 0.075f;
             if (Projectile.ai[0] > 1)

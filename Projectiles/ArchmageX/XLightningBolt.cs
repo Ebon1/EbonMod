@@ -93,7 +93,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                     Vector2 point = Vector2.SmoothStep(start, end, i / (float)n) + dir * a;
                     points.Add(point);
                     //Dust.NewDustPerfect(point, ModContent.DustType<XGoopDustDark>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, default, 0.35f);
-                    Dust.NewDustPerfect(point, ModContent.DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, default, 0.25f);
+                    Dust.NewDustPerfect(point, ModContent.DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, Color.White * 0.7f, 0.25f).customData = 1;
                     x -= i / (float)n;
                 }
                 RunOnce = true;
@@ -116,7 +116,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                                 {
                                     float velF = Main.rand.NextFloat(0.1f, 0.5f);
                                     //Dust.NewDustPerfect(pos, ModContent.DustType<XGoopDustDark>(), Helper.FromAToB(pos, points[i]) * velF, 0, default, 0.5f * s);
-                                    Dust.NewDustPerfect(pos, ModContent.DustType<XGoopDust>(), Helper.FromAToB(pos, points[i]) * velF, 0, default, 0.4f * s);
+                                    Dust.NewDustPerfect(pos, ModContent.DustType<XGoopDust>(), Helper.FromAToB(pos, points[i]) * velF, 0, Color.White * 0.7f, 0.4f * s).customData = 1;
                                 }
                                 if (Main.rand.NextBool(4) && j % 6 == 0 && Projectile.ai[0] < 7)
                                     Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Unit(), 0, Color.Indigo * s, Main.rand.NextFloat(0.1f, 0.15f) * s);

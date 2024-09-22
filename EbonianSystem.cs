@@ -43,10 +43,11 @@ namespace EbonianMod
         }
         public override void PostUpdateEverything()
         {
-            /*if (!NPC.AnyNPCs(EbonianMod.ExolID))
-            {
-                VerletSystem.ClearAll();
-            }*/
+            xareusFightCooldown--;
+        }
+        public override void OnWorldLoad()
+        {
+            xareusFightCooldown = 0;
         }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
@@ -176,6 +177,13 @@ namespace EbonianMod
             CameraChangeTransition = 0;
             if (Main.GameZoomTarget < zoom)
                 zoomAmount = zoom;
+        }
+        public static bool heardXareusIntroMonologue;
+        public static int xareusFightCooldown;
+        public override void Load()
+        {
+            heardXareusIntroMonologue = false;
+            xareusFightCooldown = 0;
         }
     }
 }

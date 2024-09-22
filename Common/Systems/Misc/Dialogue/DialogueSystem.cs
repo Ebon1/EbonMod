@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -42,8 +43,10 @@ namespace EbonianMod.Common.Systems.Misc.Dialogue
                 return true;
             }, InterfaceScaleType.Game));
         }
-        public static FloatingDialogueBox NewDialogueBox(int timeLeft, Vector2 center, string text, Color textColor, int maxWidth = -1, float scale = 0.5f, Color borderColor = default, float lerpSpeed = 2f, bool substring = true, DialogueAnimationIDs animationType = DialogueAnimationIDs.None)
+        public static FloatingDialogueBox NewDialogueBox(int timeLeft, Vector2 center, string text, Color textColor, int maxWidth = -1, float scale = 0.5f, Color borderColor = default, float lerpSpeed = 2f, bool substring = true, DialogueAnimationIDs animationType = DialogueAnimationIDs.None, SoundStyle sound = default, int soundInterval = 10)
         {
+            if (sound == default)
+                sound = EbonianSounds.None;
             int i = 0;
             while (DialogueBox[i].timeLeft > 0 && i < DialogueBox.Length - 1)
             {
@@ -53,7 +56,7 @@ namespace EbonianMod.Common.Systems.Misc.Dialogue
             }
             if (i < DialogueBox.Length)
             {
-                DialogueBox[i] = new FloatingDialogueBox(timeLeft, center, text, textColor, maxWidth, scale, borderColor, lerpSpeed, substring, animationType);
+                DialogueBox[i] = new FloatingDialogueBox(timeLeft, center, text, textColor, maxWidth, scale, borderColor, lerpSpeed, substring, animationType, sound, soundInterval);
                 return DialogueBox[i];
             }
             return new FloatingDialogueBox(-1, Vector2.Zero, "", Color.White);

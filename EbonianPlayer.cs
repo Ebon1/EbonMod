@@ -16,6 +16,8 @@ using EbonianMod.Items.Weapons.Melee;
 using EbonianMod.NPCs.Crimson.Fleshformator;
 using EbonianMod.NPCs;
 using EbonianMod.Projectiles;
+using EbonianMod.Tiles;
+using EbonianMod.NPCs.ArchmageX;
 
 namespace EbonianMod
 {
@@ -230,6 +232,20 @@ namespace EbonianMod
         }
         public override void PostUpdate()
         {
+            for (int i = (int)Player.Center.X / 16 - 3; i < (int)Player.Center.X / 16 + 3; i++)
+            {
+                for (int j = (int)Player.Center.Y / 16 - 3; j < (int)Player.Center.Y / 16 + 3; j++)
+                {
+                    if (Main.tile[i, j].TileType == (ushort)ModContent.TileType<ArchmageStaffTile>())
+                    {
+                        if (EbonianSystem.xareusFightCooldown <= 0)
+                        {
+                            Projectile.NewProjectile(null, new Vector2(i * 16, j * 16 - 100), Vector2.Zero, ModContent.ProjectileType<ArchmageXSpawnAnim>(), 0, 0);
+                            break;
+                        }
+                    }
+                }
+            }
             if (flashTime > 0)
             {
                 flashTime--;

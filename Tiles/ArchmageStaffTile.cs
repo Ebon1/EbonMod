@@ -44,7 +44,7 @@ namespace EbonianMod.Tiles
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()))
+            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0)
                 staffAlpha[i, j] = MathHelper.Lerp(staffAlpha[i, j], .1f, 0.1f);
             else
                 staffAlpha[i, j] = MathHelper.Lerp(staffAlpha[i, j], 1f, 0.2f);
@@ -52,6 +52,7 @@ namespace EbonianMod.Tiles
             Vector2 position = new Vector2(i * 16, j * 16 + MathF.Sin(Main.GlobalTimeWrappedHourly * .15f) * 16) + zero - Main.screenPosition;
             Texture2D tex = Helper.GetTexture("Items/Weapons/Magic/StaffOfX");
             Texture2D bloom = Helper.GetTexture("Items/Weapons/Magic/StaffOfX_Bloom");
+            Texture2D interact = Helper.GetTexture("Items/Weapons/Magic/StaffOfX_InteractionHover");
             Texture2D streak = Helper.GetExtraTexture("Extras2/scratch_02");
             UnifiedRandom rand = new UnifiedRandom(i + j);
 
