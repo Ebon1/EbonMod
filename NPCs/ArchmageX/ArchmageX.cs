@@ -338,6 +338,10 @@ namespace EbonianMod.NPCs.ArchmageX
         {
             EbonianSystem.xareusFightCooldown = 3600 * 12;
             Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<ArchmageDeath>(), 0, 0);
+            if (SoundEngine.TryGetActiveSound(helicopterSlot, out var sound))
+            {
+                sound.Stop();
+            }
             return true;
         }
         public override void AI()
@@ -783,17 +787,12 @@ namespace EbonianMod.NPCs.ArchmageX
 
                         if (AITimer2 > 0)
                         {
-                            if (AITimer == 100)
-                            {
-                                Vector2 pos = new Vector2(player.Center.X, NPC.Center.Y);
-                                Projectile.NewProjectile(null, pos, Main.rand.NextBool() && Helper.TRay.CastLength(pos, -Vector2.UnitY, GetArenaRect().Height) < 900 ? Vector2.UnitY : -Vector2.UnitY, ModContent.ProjectileType<XShadowflame>(), 15, 0);
-                            }
                             if (AITimer >= 60 && AITimer <= 180 && AITimer % (phase2 ? 15 : 25) == 0)
                             {
                                 for (int i = 0; i < 5; i++)
                                     Dust.NewDustPerfect(staffTip, ModContent.DustType<XGoopDust>(), Main.rand.NextVector2Circular(2, 2), 0, Color.White, Main.rand.NextFloat(.1f, .6f));
                                 Vector2 pos = new Vector2(GetArenaRect().X + GetArenaRect().Width * Main.rand.NextFloat(), NPC.Center.Y);
-                                Projectile.NewProjectile(null, pos, Main.rand.NextBool() ? Vector2.UnitY : -Vector2.UnitY, ModContent.ProjectileType<XShadowflame>(), 15, 0);
+                                Projectile.NewProjectile(null, pos, AITimer % (phase2 ? 30 : 50) == 0 ? Vector2.UnitY : -Vector2.UnitY, ModContent.ProjectileType<XShadowflame>(), 15, 0);
                             }
                         }
                         else//phase 2
@@ -907,7 +906,7 @@ namespace EbonianMod.NPCs.ArchmageX
                                     Dust.NewDustPerfect(staffTip, ModContent.DustType<XGoopDust>(), Main.rand.NextVector2Circular(2, 2), 0, Color.White, Main.rand.NextFloat(.1f, .6f));
                                 SoundEngine.PlaySound(SoundID.Item73.WithPitchOffset(-0.2f), staffTip);
                                 Vector2 vel = Helper.FromAToB(staffTip, player.Center).RotatedByRandom(MathHelper.PiOver4 * 0.7f * (AITimer == 110 ? 0 : (AITimer > 229 ? 1.2f : 0.65f)));
-                                Projectile.NewProjectile(null, NPC.Center + vel * 15f, vel * 7f, ModContent.ProjectileType<XBolt>(), 15, 0);
+                                Projectile.NewProjectile(null, staffTip, vel * 7f, ModContent.ProjectileType<XBolt>(), 15, 0);
                             }
                         }
 
