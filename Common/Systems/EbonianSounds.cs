@@ -23,6 +23,7 @@ namespace EbonianMod.Common.Systems
         bowPull,
         bowRelease,
         chargedBeam,
+        chargedBeamWindUp,
         chargedBeamImpactOnly,
         cursedToyCharge,
         chomp0,
@@ -73,6 +74,7 @@ namespace EbonianMod.Common.Systems
             bowPull = Default with { SoundPath = ebonianSoundPath + "bowPull" };
             bowRelease = Default with { SoundPath = ebonianSoundPath + "bowRelease" };
             chargedBeam = Default with { SoundPath = ebonianSoundPath + "chargedBeam" };
+            chargedBeamWindUp = Default with { SoundPath = ebonianSoundPath + "chargedBeamWindUp", PitchVariance = 0f };
             chargedBeamImpactOnly = Default with { SoundPath = ebonianSoundPath + "chargedBeamImpactOnly", PitchVariance = 0f };
             cursedToyCharge = Default with { SoundPath = ebonianSoundPath + "cursedToyCharge", PitchVariance = 0f };
             chomp0 = Default with { SoundPath = ebonianSoundPath + "chomp0", Volume = 1.3f };

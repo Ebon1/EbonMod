@@ -11,6 +11,8 @@ using static Terraria.GameContent.Bestiary.IL_BestiaryDatabaseNPCsPopulator.Comm
 using static EbonianMod.Helper;
 using Terraria.ID;
 using Terraria.Map;
+using Terraria.GameContent.ItemDropRules;
+using Microsoft.Xna.Framework.Graphics.PackedVector;
 
 namespace EbonianMod.Projectiles.Terrortoma
 {
@@ -18,8 +20,8 @@ namespace EbonianMod.Projectiles.Terrortoma
     {
         public override void SetDefaults()
         {
-            Projectile.width = 25;
-            Projectile.height = 25;
+            Projectile.width = 1;
+            Projectile.height = 1;
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.ignoreWater = true;
@@ -34,7 +36,8 @@ namespace EbonianMod.Projectiles.Terrortoma
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailingMode[Type] = 2;
-            ProjectileID.Sets.TrailCacheLength[Type] = 2;
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 7000;
+            ProjectileID.Sets.TrailCacheLength[Type] = 10;
         }
         int damage;
         public override bool ShouldUpdatePosition()
@@ -46,14 +49,14 @@ namespace EbonianMod.Projectiles.Terrortoma
             float a = 0f;
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.ai[0], 60, ref a) && Projectile.scale > 0.5f;
         }
-        bool RunOnce;
+        bool RunOnce = true;
 
         public override void AI()
         {
             if (RunOnce)
             {
                 Projectile.velocity.Normalize();
-                damage = Projectile.damage;
+                Projectile.rotation = Projectile.velocity.ToRotation();
                 RunOnce = false;
             }
             for (int i = 0; i < 5; i++)
@@ -63,85 +66,79 @@ namespace EbonianMod.Projectiles.Terrortoma
                 Main.dust[dust].velocity = Main.rand.NextVector2Circular(5, 5);
                 Main.dust[dust].noGravity = true;
             }
-            if (visualOffset == 0)
-                visualOffset = Main.rand.NextFloat(0.75f, 1);
-            visual1 += 30 * visualOffset;
-            visual2 += 35 * visualOffset;
+            Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], .05f, 0.015f);
 
-            if (Projectile.rotation != Projectile.oldRot[1])
-            {
-                float len = 2048;
-                Vector2 vel = Projectile.velocity;
-                vel.Normalize();
-            }
-            Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], .006f, 0.015f);
-            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, Main.LocalPlayer.Center), Projectile.ai[2]);
             Projectile.ai[0] = MathHelper.SmoothStep(Projectile.ai[0], 2048, 0.35f);
 
-            Projectile.ai[1] -= 0.03f;
-            if (Projectile.ai[1] <= 0)
-                Projectile.ai[1] = 1;
-            Projectile.ai[1] = MathHelper.Clamp(Projectile.ai[1], float.Epsilon, 1 - float.Epsilon);
+            visual1 -= 0.04f;
+            if (visual1 <= 0)
+                visual1 = 1;
+            visual1 = MathHelper.Clamp(visual1, float.Epsilon, 1 - float.Epsilon);
 
-            Projectile.rotation = Projectile.velocity.ToRotation();
+            visual2 -= 0.038f;
+            if (visual2 <= 0)
+                visual2 = 1;
+            visual2 = MathHelper.Clamp(visual2, float.Epsilon, 1 - float.Epsilon);
+
+            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, Main.LocalPlayer.Center), Projectile.ai[2]);
 
             //Projectile.velocity = -Projectile.velocity.RotatedBy(MathHelper.ToRadians(Projectile.ai[1]));
 
             float progress = Utils.GetLerpValue(0, 165, Projectile.timeLeft);
-            Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 5, 0, 1);
+            Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 4 * (Projectile.scale + 0.5f), 0, 1);
         }
-        float visualOffset;
         float visual1, visual2;
         public override bool PreDraw(ref Color lightColor)
         {
-            Main.spriteBatch.SaveCurrent();
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
+            Texture2D texture = Helper.GetExtraTexture("FlamesSeamless");
+            Texture2D texture2 = Helper.GetExtraTexture("trail_04");
+            float progress = Utils.GetLerpValue(0, 165, Projectile.timeLeft);
+            float i_progress = MathHelper.Clamp(MathHelper.SmoothStep(1, 0.2f, progress) * 50, 0, 1);
 
+            DrawVertices(Projectile.velocity.ToRotation(), texture, texture2, i_progress, 1);
+            return false;
+        }
+        void DrawVertices(float rotation, Texture2D texture, Texture2D texture2, float i_progress, float alphaOffset)
+        {
+            Main.spriteBatch.SaveCurrent();
             List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
             List<VertexPositionColorTexture> vertices2 = new List<VertexPositionColorTexture>();
-            Texture2D texture = Helper.GetExtraTexture("FlamesSeamless");
-            Texture2D texture2 = Helper.GetExtraTexture("Extras2/spark_08");
-            float progress = Utils.GetLerpValue(0, 165, Projectile.timeLeft);
-            float i_progress = MathHelper.Clamp(MathHelper.SmoothStep(1, 0, progress) * 50, 0, 1);
             Vector2 start = Projectile.Center - Main.screenPosition;
-            Vector2 off = (Projectile.velocity.ToRotation().ToRotationVector2() * (2000 + (MathF.Sin(Main.GlobalTimeWrappedHourly * 0.1f) * 250)));
+            Vector2 off = (rotation.ToRotationVector2() * (1600));
             Vector2 end = start + off;
             float rot = Helper.FromAToB(start, end).ToRotation();
 
-            float s = 0f;
+            float s = 0.5f;
             for (float i = 0; i < 1; i += 0.002f)
             {
-                if (i < 0.5f)
-                    s = MathHelper.Clamp(i * 3.5f, 0, 0.5f);
-                else
+                if (i > 0.5f)
                     s = MathHelper.Clamp((-i + 1) * 2, 0, 0.5f);
 
-                float __off = Projectile.ai[1];
+                float __off = visual1;
                 if (__off > 1) __off = -__off + 1;
                 float _off = __off + i;
 
-                Color col = Color.Lerp(Color.LawnGreen, Color.Green, i) * (s * s * 5);
-                vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(0, 420, i * 3), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
-                vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(0, 420, i * 3), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
+                float __off2 = visual2;
+                if (__off2 > 1) __off = -__off + 1;
+                float _off2 = __off + i;
 
-                col = Color.Lerp(Color.White, Color.Olive, i) * (s * s * 2);
-                vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(0, 950, i * 2), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
-                vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(0, 950, i * 2), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
+                Color col = Color.Lerp(Color.LawnGreen, Color.LawnGreen * 1.2f, i) * (s * 14 * alphaOffset);
+                vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(0, MathHelper.SmoothStep(120, 200, i), i * 3), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
+                vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(0, MathHelper.SmoothStep(120, 200, i), i * 3), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
+
+                col = Color.White * (s * s * 10 * alphaOffset);
+                vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(0, MathHelper.SmoothStep(100, 250, i), i * 2), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off2, 1), col * Projectile.scale));
+                vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(0, MathHelper.SmoothStep(100, 250, i), i * 2), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off2, 0), col * Projectile.scale));
             }
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             if (vertices.Count >= 3 && vertices2.Count >= 3)
             {
-                for (int i = 0; i < 4; i++)
-                {
-                    Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, texture, false);
-                    Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, texture2, false);
-                }
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, texture, false);
+                Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, texture2, false);
             }
             Main.spriteBatch.ApplySaved();
-            return false;
         }
     }
 }

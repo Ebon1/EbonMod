@@ -28,6 +28,7 @@ using EbonianMod.Items.Misc;
 using EbonianMod.Projectiles.Friendly.Corruption;
 using EbonianMod.NPCs.Corruption.Ebonflies;
 using EbonianMod.Projectiles.VFXProjectiles;
+using EbonianMod.Projectiles.Enemy.Corruption;
 
 namespace EbonianMod.NPCs.Terrortoma
 {
@@ -440,21 +441,25 @@ namespace EbonianMod.NPCs.Terrortoma
                     if (AITimer == 305)
                     {
                         Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ambience");
-                        Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, (rotation + MathHelper.PiOver2).ToRotationVector2(), ModContent.ProjectileType<TelegraphLine>(), 0, 0);
+                        SoundEngine.PlaySound(EbonianSounds.chargedBeamWindUp, NPC.Center);
+                        Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, (rotation + MathHelper.PiOver2).ToRotationVector2(), ModContent.ProjectileType<VileTearTelegraph>(), 0, 0);
                     }
-                    if (AITimer < 295)
+                    if (AITimer < 290)
                         rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2;
+                    else
+                        rotation = Helper.LerpAngle(rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2, 0.03f);
                     glareAlpha = MathHelper.Lerp(glareAlpha, 4f, 0.05f);
                 }
                 if (AITimer == 326)
                 {
+                    NPC.velocity = Vector2.Zero;
                     EbonianSystem.ScreenShakeAmount = 15f;
                     SoundEngine.PlaySound(EbonianSounds.chargedBeamImpactOnly, NPC.Center);
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center - NPC.rotation.ToRotationVector2().RotatedBy(MathHelper.PiOver2) * 80, (NPC.rotation + MathHelper.PiOver2).ToRotationVector2(), ModContent.ProjectileType<TBeam>(), 10000, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, (NPC.rotation + MathHelper.PiOver2).ToRotationVector2(), ModContent.ProjectileType<TBeam>(), 10000, 0);
                 }
-                if (AITimer == 450)
+                if (AITimer == 480)
                     NPC.velocity = Vector2.UnitY;
-                if (AITimer >= 450)
+                if (AITimer >= 480)
                 {
                     Helper.DustExplosion(NPC.Center, Vector2.One, 2, Color.Gray * 0.35f, false, false, 0.4f, 0.5f, new Vector2(Main.rand.NextFloat(-7, 7), Main.rand.NextFloat(-6, -4)));
                     NPC.velocity *= 1.025f;

@@ -167,7 +167,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else
             {
-                if (AIState == 0 || AIState == 1 || AIState == -2 || AIState == 4)
+                if (AIState == 0 || AIState == 1 || AIState == -2 || AIState == 4 || AIState == 999)
                 {
                     AITimer = 0;
                     NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
@@ -273,6 +273,14 @@ namespace EbonianMod.NPCs.Terrortoma
                             }
                             break;
                     }
+                }
+                else
+                {
+                    NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
+                    Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
+                    Vector2 target = pos;
+                    Vector2 moveTo = target - NPC.Center;
+                    NPC.velocity = (moveTo) * 0.1f;
                 }
             }
 
@@ -467,7 +475,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else
             {
-                if (AIState == 0 || AIState == 1 || AIState == -2 || AIState == 4 || AIState == 5)
+                if (AIState == 0 || AIState == 1 || AIState == -2 || AIState == 4 || AIState == 999 || AIState == 5)
                 {
                     Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
                     Vector2 target = pos;
@@ -560,6 +568,13 @@ namespace EbonianMod.NPCs.Terrortoma
                             }
                             break;
                     }
+                }
+                else
+                {
+                    Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
+                    Vector2 target = pos;
+                    Vector2 moveTo = target - NPC.Center;
+                    NPC.velocity = (moveTo) * 0.05f;
                 }
             }
         }
@@ -779,7 +794,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 else
                 {
-                    if (AIState == 0 || AIState == 1 || AIState == -2 || AIState == 4)
+                    if (AIState == 0 || AIState == 1 || AIState == -2 || AIState == 4 || AIState == 999)
                     {
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
                         Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
@@ -869,6 +884,14 @@ namespace EbonianMod.NPCs.Terrortoma
                                 else NPC.velocity *= 0.1f;
                                 break;
                         }
+                    }
+                    else
+                    {
+                        NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
+                        Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
+                        Vector2 target = pos;
+                        Vector2 moveTo = target - NPC.Center;
+                        NPC.velocity = (moveTo) * 0.05f;
                     }
                 }
             }
