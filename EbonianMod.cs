@@ -29,6 +29,7 @@ using EbonianMod.Projectiles.ArchmageX;
 using Microsoft.CodeAnalysis;
 using Terraria.DataStructures;
 using EbonianMod.Common.Systems.Misc;
+using EbonianMod.NPCs.ArchmageX;
 
 namespace EbonianMod
 {
@@ -47,7 +48,7 @@ namespace EbonianMod
         public static List<int> projectileAffectedByInvisibleMaskList = new List<int>();
         public static List<int> projectileInvisibleMaskList = new List<int>();
         public RenderTarget2D blurrender, invisRender, affectedByInvisRender;
-        public RenderTarget2D[] renders = new RenderTarget2D[5];
+        public RenderTarget2D[] renders = new RenderTarget2D[7];
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
         internal static void SolidTopCollision(Terraria.On_Player.orig_Update_NPCCollision orig, Player self) //https://discord.com/channels/103110554649894912/711551818194485259/998428409455714397
@@ -279,6 +280,14 @@ namespace EbonianMod
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 XGoopDust.DrawAll(sb);
+                foreach (Projectile proj in Main.projectile)
+                {
+                    if (proj.active && proj.timeLeft > 0 && proj.type == ModContent.ProjectileType<ArchmageChargeUp>())
+                    {
+                        Color color = Color.Transparent;
+                        proj.ModProjectile.PreDraw(ref color);
+                    }
+                }
                 sb.End();
 
 
@@ -288,6 +297,19 @@ namespace EbonianMod
                 foreach (Projectile proj in Main.projectile)
                 {
                     if (proj.active && proj.timeLeft > 0 && (proj.type == ModContent.ProjectileType<GarbageFlame>() || proj.type == ModContent.ProjectileType<GarbageGiantFlame>()))
+                    {
+                        Color color = Color.Transparent;
+                        proj.ModProjectile.PreDraw(ref color);
+                    }
+                }
+                sb.End();
+
+                gd.SetRenderTarget(renders[4]);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                foreach (Projectile proj in Main.projectile)
+                {
+                    if (proj.active && proj.timeLeft > 0 && proj.type == ModContent.ProjectileType<ArchmageXSpawnAnim>())
                     {
                         Color color = Color.Transparent;
                         proj.ModProjectile.PreDraw(ref color);
@@ -346,6 +368,16 @@ namespace EbonianMod
                 gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
                 displacementMap.Parameters["offsetX"].SetValue(Main.GlobalTimeWrappedHourly * 0.74f);
                 sb.Draw(renders[3], Vector2.Zero, Color.White * 0.25f);
+
+                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/shadowflameGradient", (AssetRequestMode)1).Value;
+                gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/space_full", (AssetRequestMode)1).Value;
+                gd.Textures[3] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
+                gd.Textures[4] = ModContent.Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
+                metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
+                metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.1f);
+                metaballGradientNoiseTex.Parameters["offsetX"].SetValue(1f);
+                metaballGradientNoiseTex.Parameters["offsetY"].SetValue(1f);
+                sb.Draw(renders[4], Vector2.Zero, Color.White);
 
                 gd.Textures[1] = null;
                 gd.Textures[2] = null;

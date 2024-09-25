@@ -37,6 +37,7 @@ namespace EbonianMod.Common.Systems
         flesh0,
         flesh1,
         flesh2,
+        buildup,
         garbageAwaken,
         garbageSignal,
         genericExplosion,
@@ -88,6 +89,7 @@ namespace EbonianMod.Common.Systems
             flesh0 = Default with { SoundPath = ebonianSoundPath + "flesh0" };
             flesh1 = Default with { SoundPath = ebonianSoundPath + "flesh1" };
             flesh2 = Default with { SoundPath = ebonianSoundPath + "flesh2" };
+            buildup = Default with { SoundPath = ebonianSoundPath + "buildup", PitchVariance = 0 };
             garbageAwaken = Default with { SoundPath = ebonianSoundPath + "garbageAwaken", PitchVariance = 0 };
             garbageSignal = Default with { SoundPath = ebonianSoundPath + "garbageSignal", PitchVariance = 0 };
             genericExplosion = Default with { SoundPath = ebonianSoundPath + "genericExplosion" };
@@ -110,7 +112,7 @@ namespace EbonianMod.Common.Systems
             HeavySwing = Default with { SoundPath = ebonianSoundPath + "HeavySwing", Variants = new int[] { 0, 1, 2 }, PitchVariance = 0.25f, Volume = 1.1f };
             FleshImpact = Default with { SoundPath = ebonianSoundPath + "FleshImpact", Variants = new int[] { 0, 1, 2 }, PitchVariance = 0.25f, Volume = .7f };
             blink = Default with { SoundPath = ebonianSoundPath + "blink" };
-            xSpirit = Default with { SoundPath = ebonianSoundPath + "xSpirit" };
+            xSpirit = Default with { SoundPath = ebonianSoundPath + "xSpirit", Volume = 0.7f };
             helicopter = Default with { SoundPath = ebonianSoundPath + "helicopter", PitchVariance = 0f };
             firework = Default with { SoundPath = ebonianSoundPath + "firework" };
             magicSlash = Default with { SoundPath = ebonianSoundPath + "magicSlash" };

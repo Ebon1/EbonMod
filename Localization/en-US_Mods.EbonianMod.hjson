@@ -212,6 +212,7 @@ Projectiles: {
 	ArchmageArm.DisplayName: Archmage Arm
 	ArchmageDeath.DisplayName: Archmage Death
 	ArchmageXSpawnAnim.DisplayName: Archmage X Spawn Anim
+	ArchmageChargeUp.DisplayName: Archmage Charge Up
 }
 
 NPCs: {

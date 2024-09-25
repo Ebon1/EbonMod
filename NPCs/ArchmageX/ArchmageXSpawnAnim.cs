@@ -9,6 +9,11 @@ using Microsoft.Xna.Framework;
 using EbonianMod.Projectiles.ArchmageX;
 using Terraria.Audio;
 using EbonianMod.Common.Systems;
+using Terraria.ID;
+using Terraria.GameContent.ObjectInteractions;
+using EbonianMod.Projectiles.VFXProjectiles;
+using Microsoft.Xna.Framework.Graphics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EbonianMod.NPCs.ArchmageX
 {
@@ -55,8 +60,26 @@ namespace EbonianMod.NPCs.ArchmageX
         {
             NPC.NewNPCDirect(null, Projectile.Center, ModContent.NPCType<ArchmageX>());
         }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (lightColor != Color.Transparent) return false;
+            Texture2D tex4 = Helper.GetExtraTexture("crosslight");
+            Main.spriteBatch.Reload(BlendState.Additive);
+            for (int i = 0; i < 4; i++)
+            {
+                Main.spriteBatch.Draw(tex4, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha), Main.GameUpdateCount * -0.04f, tex4.Size() / 2, (glareAlpha) * 1.55f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex4, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha), Main.GameUpdateCount * 0.04f, tex4.Size() / 2, (glareAlpha) * 1.9f, SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return false;
+        }
+        float glareAlpha;
         public override void AI()
         {
+            if (Projectile.timeLeft > 20)
+                glareAlpha = MathHelper.SmoothStep(0, 1, Utils.GetLerpValue(400, 0, Projectile.timeLeft));
+            else
+                glareAlpha = MathHelper.Lerp(glareAlpha, 0, 0.05f);
             Player player = Main.LocalPlayer;
             if (GetArenaRect().Size().Length() > 100)
             {
@@ -80,17 +103,19 @@ namespace EbonianMod.NPCs.ArchmageX
             EbonianSystem.xareusFightCooldown = 500;
             Projectile.scale = MathHelper.Lerp(Projectile.scale, 4, 0.01f);
             int fac = 12;
-            if (Projectile.timeLeft < 175)
+            if (Projectile.timeLeft < 140)
                 fac = 1;
-            else if (Projectile.timeLeft < 225)
+            else if (Projectile.timeLeft < 205)
                 fac = 3;
             else if (Projectile.timeLeft < 275)
                 fac = 5;
             else if (Projectile.timeLeft < 300)
                 fac = 7;
+            else if (Projectile.timeLeft < 320)
+                fac = 8;
             else if (Projectile.timeLeft < 360)
                 fac = 9;
-            if (Projectile.timeLeft % fac == 0)
+            if (Projectile.timeLeft % fac == 0 && Projectile.timeLeft > 35)
             {
                 Projectile.NewProjectile(null, Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(2.5f, 4) * Projectile.scale, ModContent.ProjectileType<XCloudVFXExtra>(), 0, 0);
             }
@@ -100,14 +125,16 @@ namespace EbonianMod.NPCs.ArchmageX
                 if (Projectile.timeLeft % 50 == 0)
                 {
                     Vector2 pos = Projectile.Center + new Vector2(Main.rand.NextFloat(-280, 280), 0);
-                    SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(-1f), pos);
                     float off = Main.rand.NextFloat(-1, 1);
-                    Projectile.NewProjectile(null, pos, Vector2.UnitY.RotatedBy(off), ModContent.ProjectileType<XLightningBolt>(), 0, 0);
-                    Projectile.NewProjectile(null, pos, -Vector2.UnitY.RotatedBy(off), ModContent.ProjectileType<XLightningBolt>(), 0, 0);
+                    //Projectile.NewProjectile(null, pos, Vector2.UnitY.RotatedBy(off), ModContent.ProjectileType<XLightningBolt>(), 0, 0, ai1: 1);
+                    //Projectile.NewProjectile(null, pos, -Vector2.UnitY.RotatedBy(off), ModContent.ProjectileType<XLightningBolt>(), 0, 0, ai1: 1);
                 }
             }
             if (Projectile.timeLeft == 399)
+            {
+                SoundEngine.PlaySound(EbonianSounds.buildup, Projectile.Center);
                 EbonianSystem.ChangeCameraPos(Projectile.Center, 120, 1f);
+            }
             if (Projectile.timeLeft == 299)
                 EbonianSystem.ChangeCameraPos(Projectile.Center, 120, 1.3f);
             if (Projectile.timeLeft == 199)
@@ -116,6 +143,11 @@ namespace EbonianMod.NPCs.ArchmageX
                 EbonianSystem.ChangeCameraPos(Projectile.Center, 100, 2f);
             if (Projectile.timeLeft == 130)
                 SoundEngine.PlaySound(EbonianSounds.BeamWindUp.WithPitchOffset(-0.5f), Projectile.Center);
+
+            if (Projectile.timeLeft == 40)
+            {
+                Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ArchmageChargeUp>(), 0, 0);
+            }
         }
     }
     public class SpawnAnimMusic : ModBiome

@@ -61,7 +61,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             }
             for (int i = 0; i < 5; i++)
             {
-                int dust = Dust.NewDust(Projectile.position - new Vector2(30, 0) + Projectile.rotation.ToRotationVector2() * Main.rand.NextFloat(Projectile.ai[0]), 60, 60, DustID.CursedTorch, 2f);
+                int dust = Dust.NewDust(Projectile.position - new Vector2(30, 0) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(Projectile.ai[0]), 60, 60, DustID.CursedTorch, 2f);
                 Main.dust[dust].scale = 2f;
                 Main.dust[dust].velocity = Main.rand.NextVector2Circular(5, 5);
                 Main.dust[dust].noGravity = true;
@@ -81,19 +81,19 @@ namespace EbonianMod.Projectiles.Terrortoma
             visual2 = MathHelper.Clamp(visual2, float.Epsilon, 1 - float.Epsilon);
 
             Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, Main.LocalPlayer.Center), Projectile.ai[2]);
-
+            startSize = MathHelper.Lerp(startSize, 0, 0.01f);
             //Projectile.velocity = -Projectile.velocity.RotatedBy(MathHelper.ToRadians(Projectile.ai[1]));
 
             float progress = Utils.GetLerpValue(0, 165, Projectile.timeLeft);
             Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 4 * (Projectile.scale + 0.5f), 0, 1);
         }
-        float visual1, visual2;
+        float visual1, visual2, startSize = 2f;
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = Helper.GetExtraTexture("FlamesSeamless");
             Texture2D texture2 = Helper.GetExtraTexture("trail_04");
             float progress = Utils.GetLerpValue(0, 165, Projectile.timeLeft);
-            float i_progress = MathHelper.Clamp(MathHelper.SmoothStep(1, 0.2f, progress) * 50, 0, 1);
+            float i_progress = MathHelper.Clamp(MathHelper.SmoothStep(1, 0.2f, progress) * 50, 0, 1 / MathHelper.Clamp(startSize, 1, 2));
 
             DrawVertices(Projectile.velocity.ToRotation(), texture, texture2, i_progress, 1);
             return false;
@@ -111,7 +111,9 @@ namespace EbonianMod.Projectiles.Terrortoma
             float s = 0.5f;
             for (float i = 0; i < 1; i += 0.002f)
             {
-                if (i > 0.5f)
+                if (i < 0.5f)
+                    s = MathHelper.Clamp(i * 3.5f, 0, 0.5f);
+                else
                     s = MathHelper.Clamp((-i + 1) * 2, 0, 0.5f);
 
                 float __off = visual1;
@@ -122,21 +124,28 @@ namespace EbonianMod.Projectiles.Terrortoma
                 if (__off2 > 1) __off = -__off + 1;
                 float _off2 = __off + i;
 
-                Color col = Color.Lerp(Color.LawnGreen, Color.LawnGreen * 1.2f, i) * (s * 14 * alphaOffset);
-                vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(0, MathHelper.SmoothStep(120, 200, i), i * 3), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
-                vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(0, MathHelper.SmoothStep(120, 200, i), i * 3), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
+                Color col = Color.Lerp(Color.LimeGreen, Color.LimeGreen * 1.2f, i) * (s * s * 2f * alphaOffset);
+                vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(MathHelper.Lerp(60, 100, i) * startSize, MathHelper.SmoothStep(120, 300, i), i * 3) * MathHelper.Clamp(startSize, 1, 2), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
+                vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(MathHelper.Lerp(60, 100, i) * startSize, MathHelper.SmoothStep(120, 300, i), i * 3) * MathHelper.Clamp(startSize, 1, 2), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
 
-                col = Color.White * (s * s * 10 * alphaOffset);
-                vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(0, MathHelper.SmoothStep(100, 250, i), i * 2), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off2, 1), col * Projectile.scale));
-                vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(0, MathHelper.SmoothStep(100, 250, i), i * 2), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off2, 0), col * Projectile.scale));
+                col = Color.White * (s * s * 1.5f * alphaOffset);
+                vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(MathHelper.Lerp(0, 30, i) * startSize, MathHelper.SmoothStep(100, 250, i), i * 2) * MathHelper.Clamp(startSize, 1, 2), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off2, 1), col * Projectile.scale));
+                vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(MathHelper.Lerp(0, 30, i) * startSize, MathHelper.SmoothStep(100, 250, i), i * 2) * MathHelper.Clamp(startSize, 1, 2), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off2, 0), col * Projectile.scale));
             }
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             if (vertices.Count >= 3 && vertices2.Count >= 3)
             {
-                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, texture, false);
-                Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, texture2, false);
+                for (int i = 0; i < 2; i++)
+                {
+                    Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, texture, false);
+
+                    Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, texture2, false);
+                    Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, texture, false);
+
+                    Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, texture2, false);
+                }
             }
             Main.spriteBatch.ApplySaved();
         }

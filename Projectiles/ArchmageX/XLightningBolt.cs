@@ -76,7 +76,8 @@ namespace EbonianMod.Projectiles.ArchmageX
 
             if (!RunOnce)
             {
-                SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(-0.5f), Projectile.Center);
+                if (Projectile.ai[1] == 0)
+                    SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(-0.5f), Projectile.Center);
                 n = 15;
                 points.Clear();
                 //Vector2 start = Projectile.Center + Helper.FromAToB(player.Center, Main.MouseWorld) * 40;
@@ -128,7 +129,8 @@ namespace EbonianMod.Projectiles.ArchmageX
 
                     SoundStyle sound = SoundID.DD2_LightningAuraZap;
                     sound.Volume = 0.5f;
-                    SoundEngine.PlaySound(sound, Projectile.Center);
+                    if (Projectile.ai[1] == 0)
+                        SoundEngine.PlaySound(sound, Projectile.Center);
                 }
             }
             points[0] = Projectile.Center;

@@ -79,6 +79,7 @@ namespace EbonianMod
             if (!isChangingCameraPos && !isChangingZoom)
             {
                 zoomBefore = Main.GameZoomTarget;
+                zoomAmount = 0;
             }
             if (isChangingZoom)
             {
@@ -102,6 +103,11 @@ namespace EbonianMod
                     zoomChangeTransition -= 0.025f;
                 }
                 else isChangingZoom = false;
+            }
+            else
+            {
+                zoomChangeLength = 0;
+                zoomChangeTransition = 0;
             }
             if (isChangingCameraPos)
             {
@@ -175,8 +181,7 @@ namespace EbonianMod
             CameraChangePos = pos - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
             isChangingCameraPos = true;
             CameraChangeTransition = 0;
-            if (Main.GameZoomTarget < zoom)
-                zoomAmount = zoom;
+            zoomAmount = zoom;
         }
         public static bool heardXareusIntroMonologue;
         public static int xareusFightCooldown;
