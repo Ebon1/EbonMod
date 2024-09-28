@@ -150,18 +150,25 @@ namespace EbonianMod.Items.Weapons.Melee
             Texture2D jaw = Helper.GetTexture(Texture + "_Jaw");
             Texture2D head = Helper.GetTexture(Texture + "_Head");
             Vector2 orig = texture.Size() / 2;
-            Main.EntitySpriteDraw(texture, Projectile.Center + visualOffset - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), lightColor, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), orig, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
-            Main.EntitySpriteDraw(jaw, Projectile.Center + new Vector2(-18, 22).RotatedBy(Projectile.rotation + jawRotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3)) * Projectile.scale + visualOffset - Main.screenPosition, null, lightColor, Projectile.rotation + jawRotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), new Vector2(0, jaw.Height), Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
-
-            Vector2 headOff = new Vector2(-23, 18);
-            Vector2 headOrig = new Vector2(0, head.Height);
-            if (Projectile.ai[1] != -1)
+            if (Projectile.ai[1] == 0)
             {
-                headOrig = new Vector2(0, jaw.Height);
-                headOff = new Vector2(-20, 14);
-            }
-            Main.EntitySpriteDraw(head, Projectile.Center + headOff.RotatedBy(Projectile.rotation - jawRotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3)) * Projectile.scale + visualOffset - Main.screenPosition, null, lightColor, Projectile.rotation - jawRotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), headOrig, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+                Main.EntitySpriteDraw(texture, Projectile.Center + visualOffset - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), lightColor, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), orig, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+                Main.EntitySpriteDraw(jaw, Projectile.Center + new Vector2(-18, 22).RotatedBy(Projectile.rotation + jawRotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3)) * Projectile.scale + visualOffset - Main.screenPosition, null, lightColor, Projectile.rotation + jawRotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), new Vector2(0, jaw.Height), Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
 
+                Vector2 headOff = new Vector2(-23, 18);
+                Vector2 headOrig = new Vector2(0, head.Height);
+                if (Projectile.ai[1] != -1)
+                {
+                    headOrig = new Vector2(0, jaw.Height);
+                    headOff = new Vector2(-20, 14);
+                }
+                Main.EntitySpriteDraw(head, Projectile.Center + headOff.RotatedBy(Projectile.rotation - jawRotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3)) * Projectile.scale + visualOffset - Main.screenPosition, null, lightColor, Projectile.rotation - jawRotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), headOrig, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+            }
+            else
+            {
+                texture = Helper.GetTexture("Items/Weapons/Melee/SanguineSlasher");
+                Main.EntitySpriteDraw(texture, Projectile.Center + visualOffset - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), lightColor, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), orig, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+            }
 
             Player player = Main.player[Projectile.owner];
             Texture2D slash = Helper.GetExtraTexture("Extras2/slash_06");

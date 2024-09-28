@@ -30,6 +30,7 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
             NPC.defense = 5;
             NPC.lifeMax = 400;
             NPC.HitSound = SoundID.NPCHit1;
+            NPC.knockBackResist = 0.45f;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.aiStyle = -1;
         }
@@ -49,9 +50,9 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
         {
             for (int i = 0; i < 2; i++)
             {
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk8").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk8").Type, NPC.scale);
 
 
                 Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/BloodHunter_FGLeg0").Type, NPC.scale);
@@ -92,7 +93,7 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
             JumpCheck();
             if (NPC.Grounded())
             {
-                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, MathHelper.Clamp(Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * (60 + NPC.ai[1]), false).X * 0.03f, -7, 7), 0.1f);
+                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, MathHelper.Clamp(Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * (60 + NPC.ai[1]), false).X * 0.03f, -5, 5), 0.1f);
                 if (NPC.Distance(player.Center) < 100)
                 {
                     NPC.ai[0]++;
@@ -139,7 +140,7 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
         void UpdateLegs()
         {
             legUpdateT++;
-            if (legUpdateT % 20 < 10)
+            if (legUpdateT % 20 < 10 & NPC.Grounded())
             {
                 if (!NPC.velocity.X.CloseTo(0, 0.05f))
                 {

@@ -53,6 +53,7 @@ namespace EbonianMod.NPCs.Conglomerate
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy) return false;
             Texture2D tex = Helper.GetTexture(Texture);
             Texture2D glow = Helper.GetTexture(Texture + "_Glow");
             DrawVerlets(spriteBatch);
