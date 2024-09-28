@@ -85,7 +85,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.Center = pos;
             Projectile.rotation = Projectile.velocity.ToRotation();
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2);
-            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(player.Center, Main.MouseWorld), 0.1f - MathHelper.Lerp(0.09f, 0f, Projectile.ai[0] / 35)).SafeNormalize(Vector2.UnitX);
+            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(player.Center, Main.MouseWorld), 0.1f - MathHelper.Lerp(0.09f, 0f, Projectile.ai[0] / 10)).SafeNormalize(Vector2.UnitX);
             if (Projectile.ai[0] > 2)
                 Projectile.ai[0] -= 0.1f;
             if (++Projectile.ai[1] > Projectile.ai[0])
@@ -109,7 +109,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                 }
                 */
                 SoundEngine.PlaySound(SoundID.Item11.WithPitchOffset(0.75f - (Projectile.ai[0] * 0.02f)), player.Center);
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + Projectile.velocity * 15, Projectile.velocity.RotatedBy(Main.rand.NextFloat(-(MathHelper.Pi / 16), MathHelper.Pi / 16)) * Main.rand.NextFloat(1, 2), ModContent.ProjectileType<CecitiorTeethFriendly>(), Projectile.damage, Projectile.knockBack, player.whoAmI);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + Projectile.velocity * 25, Projectile.velocity.RotatedBy(Main.rand.NextFloat(-(MathHelper.Pi / 16), MathHelper.Pi / 16)) * Main.rand.NextFloat(4, 6), ModContent.ProjectileType<CecitiorTeethFriendly>(), Projectile.damage, Projectile.knockBack, player.whoAmI);
                 Projectile.ai[1] = 0;
             }
         }

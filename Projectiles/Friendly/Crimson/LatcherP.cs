@@ -19,27 +19,21 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
 {
     public class LatcherP : ModProjectile
     {
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 3000;
+        }
         public override void SetDefaults()
         {
             Projectile.width = 12;
             Projectile.height = 20;
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.hostile = false;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 160;
-        }
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            Projectile.velocity = Vector2.Zero;
-            if (Projectile.ai[0] == 0)
-            {
-                Projectile.timeLeft = 200;
-                Projectile.ai[1] = 1;
-            }
-            return false;
+            Projectile.timeLeft = 60;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {
@@ -47,7 +41,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             if (Projectile.ai[0] == 0)
             {
                 Projectile.ai[0] = target.whoAmI;
-                Projectile.timeLeft = 200;
+                Projectile.timeLeft = 60;
                 Projectile.ai[1] = 2;
             }
         }
@@ -61,24 +55,24 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             Player player = Main.player[Projectile.owner];
             if (Main.myPlayer == Projectile.owner && Main.mouseRight)
                 Projectile.Kill();
-            if (Projectile.ai[1] == 1)
-            {
-                Projectile.rotation = Helper.FromAToB(player.Center, Projectile.Center).ToRotation();
-                player.velocity = Helper.FromAToB(player.Center, Projectile.Center, false) / 10;
-                if (player.Center.Distance(Projectile.Center) < 50)
-                    Projectile.Kill();
-            }
-            else if (Projectile.ai[1] == 2)
+            if (Projectile.ai[1] == 2)
             {
                 Projectile.rotation = Helper.FromAToB(player.Center, Projectile.Center).ToRotation();
                 NPC npc = Main.npc[(int)Projectile.ai[0]];
                 if (npc.active && npc.life > 0 && player.Center.Distance(npc.Center) > npc.width)
                 {
                     Projectile.Center = npc.Center;
-                    if (npc.knockBackResist == 0f)
-                        player.velocity = Helper.FromAToB(player.Center, Projectile.Center, false) / 10;
-                    else
-                        npc.velocity = Helper.FromAToB(npc.Center, player.Center, false) / 20;
+                    if (Projectile.timeLeft % 5 == 0 && Projectile.timeLeft > 40)
+                    {
+                        if (npc.knockBackResist <= 0.75f)
+                        {
+                            player.velocity = Vector2.Clamp(Helper.FromAToB(player.Center, Projectile.Center, false) / 7, Vector2.One * -20, Vector2.One * 20);
+                        }
+                        else
+                        {
+                            npc.velocity = Helper.FromAToB(npc.Center, player.Center, false) / 10;
+                        }
+                    }
                 }
                 else
                     Projectile.Kill();
@@ -86,10 +80,10 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             else
             {
                 Projectile.rotation = Projectile.velocity.ToRotation();
-                if (Projectile.timeLeft < 90)
+                if (Projectile.timeLeft < 30)
                 {
                     Projectile.Center = Vector2.Lerp(Projectile.Center, player.Center, 0.2f);
-                    if (Projectile.Center.Distance(player.Center) < 100)
+                    if (Projectile.Center.Distance(player.Center) < 140)
                     {
                         Projectile.Kill();
                     }

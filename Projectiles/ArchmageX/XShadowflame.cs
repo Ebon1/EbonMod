@@ -67,7 +67,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             else
                 riftAlpha = MathHelper.Lerp(riftAlpha, 0, 0.015f);
 
-            if (Projectile.timeLeft % 2 == 0)
+            if (Projectile.timeLeft % 3 == 0)
                 if (Projectile.localAI[1] >= 0.25f && Projectile.timeLeft > 100)
                 {
                     if (Projectile.localAI[1] >= 0.99f)
@@ -91,18 +91,16 @@ namespace EbonianMod.Projectiles.ArchmageX
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, Main.Rasterizer, EbonianMod.SpriteRotation, Main.GameViewMatrix.TransformationMatrix);
 
-            Vector2 scale = new Vector2(1f, 0.25f);
-            for (int i = 0; i < 10; i++)
-            {
-                float alpha = MathHelper.Lerp(1, 0, (float)i / 10);
-                Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
-                EbonianMod.SpriteRotation.Parameters["scale"].SetValue(new Vector2(scale.X * 0.75f, scale.Y / alpha.Safe() * 0.5f));
-                EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(-Main.GameUpdateCount * 0.035f * alpha);
-                EbonianMod.SpriteRotation.Parameters["uColor"].SetValue(new Color(60, 2, 113).ToVector4() * alpha * alpha * 0.8f);
-                Main.spriteBatch.Draw(tex, Projectile.Center - Vector2.UnitY * riftAlpha * i * 2 * -Projectile.velocity.Y - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, riftAlpha / 4, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(bloom, Projectile.Center - Vector2.UnitY * riftAlpha * i * 2 * -Projectile.velocity.Y - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, riftAlpha / 4, SpriteEffects.None, 0);
-                Main.spriteBatch.Reload(effect: null);
-            }
+            Vector2 scale = new Vector2(0.65f, 0.25f);
+            float alpha = riftAlpha;
+            float i = 1;
+            Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
+            EbonianMod.SpriteRotation.Parameters["scale"].SetValue(new Vector2(scale.X * 0.75f, scale.Y / alpha.Safe() * 0.5f));
+            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(-Main.GameUpdateCount * 0.035f * alpha);
+            EbonianMod.SpriteRotation.Parameters["uColor"].SetValue(new Color(60, 2, 113).ToVector4() * alpha * alpha * 0.8f);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Vector2.UnitY * riftAlpha * i * 2 * -Projectile.velocity.Y - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, riftAlpha / 4, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(bloom, Projectile.Center - Vector2.UnitY * riftAlpha * i * 2 * -Projectile.velocity.Y - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, riftAlpha / 4, SpriteEffects.None, 0);
+            Main.spriteBatch.Reload(effect: null);
 
             Main.spriteBatch.ApplySaved();
             return false;

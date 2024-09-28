@@ -213,6 +213,8 @@ Projectiles: {
 	ArchmageDeath.DisplayName: Archmage Death
 	ArchmageXSpawnAnim.DisplayName: Archmage X Spawn Anim
 	ArchmageChargeUp.DisplayName: Archmage Charge Up
+	FangSlingerP.DisplayName: Fang Slinger P
+	ThornBowP.DisplayName: Thorn Bow P
 }
 
 NPCs: {
@@ -296,6 +298,7 @@ NPCs: {
 	VileTear.DisplayName: Grinner
 	BloodHunter.DisplayName: Blood Hunter
 	ArchmageXDeathAnim.DisplayName: Archmage X Death Anim
+	Conglomerate.DisplayName: Conglomerate
 }
 
 Items: {
@@ -425,7 +428,10 @@ Items: {
 		DisplayName: Bloodcolt
 	}
 
-	FangSlinger.DisplayName: Fang Slinger
+	FangSlinger: {
+		DisplayName: Fang Slinger
+		Tooltip: ""
+	}
 
 	CrimCannon: {
 		Tooltip: Shoots out a gory set of teeth.

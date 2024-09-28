@@ -32,7 +32,7 @@ namespace EbonianMod.NPCs.ArchmageX
         public override void SetDefaults()
         {
             NPC.Size = new Vector2(50, 78);
-            NPC.lifeMax = 4200;
+            NPC.lifeMax = 6750;
             NPC.defense = 7;
             NPC.damage = 0;
             NPC.boss = true;

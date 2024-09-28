@@ -184,7 +184,7 @@ namespace EbonianMod.NPCs.Cecitior
                         }
                     }
 
-                    claw[i].verlet.Update(NPC.Center + (new Vector2(20 + i * 6f, (i - 1) * 15).RotatedBy(openRotation) + openOffset) * (i == 2 ? -1 : 1), claw[i].position);
+                    claw[i].verlet.Update(NPC.Center + (new Vector2(20 + i * 6f, (i - 1) * 10).RotatedBy(openRotation) + openOffset) * (i == 2 ? -1 : 1), claw[i].position);
                     if (i == (int)AITimer3)
                     {
                         if (AIState == Phase2ClawGrab && AITimer2 == 1)
@@ -410,7 +410,6 @@ namespace EbonianMod.NPCs.Cecitior
             public Vector2 position;
             public Vector2[] oldPosition = new Vector2[25];
             public float[] oldRotation = new float[25];
-            //public float orbAlpha = 0f;
             public Verlet verlet;
             public CecitiorClaw(Vector2 _position, Verlet _verlet)
             {
@@ -472,7 +471,8 @@ namespace EbonianMod.NPCs.Cecitior
                 player = Main.player[NPC.target];
                 if (NPC.HasValidTarget)
                 {
-                    AIState = Intro;
+                    if (AIState != Intro)
+                        AIState = Idle;
                     AITimer = 0;
                 }
                 if (!player.active || player.dead)// || !player.ZoneCrimson)
@@ -696,6 +696,14 @@ namespace EbonianMod.NPCs.Cecitior
                     NPC.dontTakeDamage = true;
                     NPC.Center = savedPos + Main.rand.NextVector2Circular(AITimer * 0.25f, AITimer * 0.25f);
                 }
+                if (AITimer == 40)
+                {
+                    EbonianSystem.ChangeCameraPos(NPC.Center, 60, 2f);
+                }
+                if (AITimer < 53 && AITimer > 40)
+                {
+                    EbonianSystem.ScreenShakeAmount = (AITimer - 40) * 0.1f;
+                }
                 if (AITimer == 63)
                 {
                     NPC.dontTakeDamage = false;
@@ -713,6 +721,7 @@ namespace EbonianMod.NPCs.Cecitior
                     {
                         Dust.NewDustPerfect(NPC.Center, DustID.Blood, -Vector2.UnitX.RotatedBy(0.25f).RotatedByRandom(0.5f) * Main.rand.NextFloat(7, 15), 0, default, Main.rand.NextFloat(1, 2));
                     }
+
                 }
                 if (AITimer > 63)
                 {
@@ -1660,7 +1669,7 @@ namespace EbonianMod.NPCs.Cecitior
                                     Projectile p = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(7, 7), ModContent.ProjectileType<Gibs>(), 40, 0, 0, 0);
                                     p.friendly = false;
                                     p.hostile = true;
-                                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(14, 14), ModContent.ProjectileType<CecitiorEyeP>(), 40, 0, 0, 0);
+                                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(7, 7), ModContent.ProjectileType<CecitiorEyeP>(), 40, 0, 0, 0);
                                 }
                             }
                             if (AITimer3 == 1)
@@ -1672,7 +1681,7 @@ namespace EbonianMod.NPCs.Cecitior
                                     Projectile p = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(14, 14), ModContent.ProjectileType<Gibs>(), 40, 0, 0, 0);
                                     p.friendly = false;
                                     p.hostile = true;
-                                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(14, 14), ModContent.ProjectileType<CecitiorEyeP>(), 40, 0, 0, 0);
+                                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(7, 7), ModContent.ProjectileType<CecitiorEyeP>(), 40, 0, 0, 0);
                                 }
                             }
                             SoundEngine.PlaySound(Main.rand.NextBool() ? EbonianSounds.chomp0 : EbonianSounds.chomp1, NPC.Center);

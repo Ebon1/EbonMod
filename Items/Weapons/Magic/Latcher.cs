@@ -23,6 +23,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.CloneDefaults(ItemID.Harpoon);
             Item.shoot = ModContent.ProjectileType<LatcherP>();
             Item.DamageType = DamageClass.Magic;
+            Item.noUseGraphic = true;
             Item.mana = 25;
             Item.shootSpeed = 20;
         }

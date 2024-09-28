@@ -93,6 +93,7 @@ namespace EbonianMod.Projectiles.Cecitior
             Projectile.width = 14;
             Projectile.height = 18;
             Projectile.aiStyle = 0;
+            Projectile.penetrate = -1;
             Projectile.friendly = true;
             Projectile.hostile = false;
             Projectile.tileCollide = true;

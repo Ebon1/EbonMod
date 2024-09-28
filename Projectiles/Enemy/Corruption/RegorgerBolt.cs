@@ -19,8 +19,9 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
         public override string Texture => Helper.Placeholder;
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 1200;
+            ProjectileID.Sets.TrailCacheLength[Type] = 500;
             ProjectileID.Sets.TrailingMode[Type] = 2;
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 3000;
         }
         public override void SetDefaults()
         {
@@ -28,8 +29,8 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
             Projectile.hostile = true;
             Projectile.tileCollide = true;
             Projectile.aiStyle = 0;
-            Projectile.extraUpdates = 120;
-            Projectile.timeLeft = 3000;
+            Projectile.extraUpdates = 4;
+            Projectile.timeLeft = 400;
             Projectile.Size = new(5, 5);
         }
         public override bool PreDraw(ref Color lightColor)
@@ -40,7 +41,7 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 float mult = (1f - fadeMult * i) * alpha;
-                if (i > 0)
+                if (i > 0 && Projectile.oldPos[i] != Projectile.position)
                     for (float j = 0; j < 3; j++)
                     {
                         Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 3));
@@ -62,11 +63,11 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
         Vector2 velocity;
         public override void OnSpawn(IEntitySource source)
         {
-            velocity = Projectile.velocity;
+            velocity = Projectile.velocity * 5;
         }
         public override void AI()
         {
-            if (Projectile.timeLeft % 60 == 0)
+            if (Projectile.timeLeft % 5 == 0)
                 Dust.NewDustPerfect(Projectile.Center, DustID.CursedTorch, Projectile.velocity).noGravity = true;
             if (Projectile.ai[2] > 0)
             {
@@ -75,7 +76,7 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
             Projectile.ai[0]++;
             Projectile.direction = velocity.X > 0 ? 1 : -1;
             Projectile.velocity = velocity;
-            Projectile.Center += new Vector2(0, MathF.Sin(Projectile.ai[0] * (1 / 60f)) * 0.05f).RotatedBy(velocity.ToRotation());
+            Projectile.Center += new Vector2(0, MathF.Sin(Projectile.ai[0] * (1 / 3f)) * 0.1f).RotatedBy(velocity.ToRotation());
             if (Projectile.ai[0] > 550)
                 Projectile.ai[0] = 0;
         }

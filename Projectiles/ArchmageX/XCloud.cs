@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -64,7 +65,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Lighting.AddLight(Projectile.Center, TorchID.Purple);
             Vector2 vel = Main.rand.NextVector2Circular(2, 2);
             float s = Main.rand.NextFloat(1.5f, 4.25f);
-            if (Projectile.timeLeft > 30)
+            if (Projectile.timeLeft > 30 && Projectile.timeLeft % 2 == 0)
                 Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<XGoopDust>(), vel, 0, Color.White * 0.1f, Scale: s).customData = 1;
             //Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<XGoopDustDark>(), vel, 0, Color.White * 0.15f, Scale: s * 1.1f);
             //Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<XGoopDust>(), vel, 0, Color.White * 0.15f, Scale: s);
@@ -72,7 +73,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             if (Projectile.ai[0] > 40)
             {
                 Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 1, 0.2f);
-                if (Projectile.ai[0] % 4 == 0 && Projectile.ai[0] < 70)
+                if (Projectile.ai[0] % 6 == 0 && Projectile.ai[0] < 70)
                 {
                     Vector2 pos = Projectile.Center + Main.rand.NextVector2CircularEdge(150, 150) * Main.rand.NextFloat(1, 2);
                     Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(pos, Projectile.Center) * Main.rand.NextFloat(1, 2), 0, Color.Lerp(Color.Purple, Color.Indigo, Projectile.ai[2]), Scale: Main.rand.NextFloat(0.15f, .4f)).customData = Projectile.Center;
@@ -81,12 +82,12 @@ namespace EbonianMod.Projectiles.ArchmageX
             else
                 Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 0, 0.2f);
 
-            if (Projectile.timeLeft % 4 == 0)
+            if (Projectile.timeLeft % 8 == 0)
             {
                 Projectile.NewProjectile(null, Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(2.5f, 4), ModContent.ProjectileType<XCloudVFXExtra>(), 0, 0);
             }
 
-            if (Projectile.timeLeft % 2 == 0)
+            if (Projectile.timeLeft % 6 == 0)
                 Dust.NewDustPerfect(Main.rand.NextVector2FromRectangle(Projectile.getRect()), ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(2, 2), 0, Color.Indigo, Scale: Main.rand.NextFloat(0.1f, .15f));
             if (Projectile.timeLeft <= 345)
                 Projectile.ai[0]++;
@@ -126,7 +127,8 @@ namespace EbonianMod.Projectiles.ArchmageX
             UnifiedRandom rand = new UnifiedRandom(seed);
             Projectile.velocity = Projectile.velocity.RotatedBy(MathHelper.ToRadians(rand.NextFloat(1.5f, 3.5f)) * (rand.NextFloatDirection() > 0 ? 1 : -1));
             //Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<XGoopDustDark>(), Vector2.Zero, Scale: Projectile.timeLeft * 0.015f);
-            Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<XGoopDust>(), Vector2.Zero, 0, Color.White * 0.7f, Projectile.timeLeft * 0.015f).customData = 1;
+            if (Projectile.timeLeft % 2 == 0)
+                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<XGoopDust>(), Projectile.velocity * MathHelper.Lerp(0.05f, 0, (float)Projectile.timeLeft / 60), 0, Color.White * 0.7f, Projectile.timeLeft * 0.015f).customData = 1;
         }
     }
 }
