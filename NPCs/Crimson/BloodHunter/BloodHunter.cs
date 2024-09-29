@@ -46,6 +46,10 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
             tail = new Verlet(NPC.Center, 20, 6, -10, true, true, 60, false);
             stingerTarget = NPC.Center + new Vector2(30 * NPC.direction, -35);
         }
+        public override bool? CanFallThroughPlatforms()
+        {
+            return Main.player[NPC.target].Center.Y > NPC.Center.Y + NPC.height;
+        }
         public override bool CheckDead()
         {
             for (int i = 0; i < 2; i++)
@@ -89,11 +93,12 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
                 stingerTarget = NPC.Center + new Vector2(30 * NPC.direction, -35);
             NPC.TargetClosest(true);
 
+
             NPC.ai[1] = MathHelper.Lerp(NPC.ai[1], MathF.Sin(NPC.ai[0] * Main.rand.NextFloat(0.05f, 0.2f)) * 40, 0.1f);
             JumpCheck();
             if (NPC.Grounded())
             {
-                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, MathHelper.Clamp(Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * (60 + NPC.ai[1]), false).X * 0.03f, -5, 5), 0.1f);
+                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, MathHelper.Clamp(Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * (60 + NPC.ai[1]), false).X * 0.03f, -8, 8), 0.1f);
                 if (NPC.Distance(player.Center) < 100)
                 {
                     NPC.ai[0]++;
@@ -126,7 +131,7 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
         {
             Player player = Main.player[NPC.target];
             Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
-            if (NPC.Grounded(offsetX: 0.5f) && (NPC.collideX || Helper.TRay.CastLength(NPC.Center, Vector2.UnitX, 1000) < NPC.width || Helper.TRay.CastLength(NPC.Center, -Vector2.UnitX, 1000) < NPC.width))
+            if (NPC.Grounded(offsetX: 0.5f) && (NPC.collideX || Helper.TRay.CastLength(NPC.Center, Vector2.UnitX, 1000) < NPC.width || Helper.TRay.CastLength(NPC.Center, -Vector2.UnitX, 1000) < NPC.width) && player.Center.Y < NPC.Center.Y + NPC.height)
                 NPC.velocity.Y = -5;
             if (Helper.TRay.CastLength(NPC.Center, -Vector2.UnitY, NPC.height) < NPC.height - 1)
             {
