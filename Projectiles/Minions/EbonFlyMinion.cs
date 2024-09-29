@@ -8,27 +8,44 @@ using EbonianMod.Buffs;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
+using Microsoft.Xna.Framework.Graphics;
+using static System.Net.Mime.MediaTypeNames;
+using EbonianMod.Items.Misc;
 namespace EbonianMod.Projectiles.Minions
 {
     public class EbonFlyMinion : ModProjectile //this is literally ExampleMinion and i refuse to change anything
     {
-        public override string Texture => "EbonianMod/NPCs/Corruption/Ebonflies/EbonFly";
+        public override string Texture => "EbonianMod/NPCs/Corruption/Ebonflies/BloatedEbonfly";
         public override void SetStaticDefaults()
         {
-            Main.projFrames[Projectile.type] = 2;
+            Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
 
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
 
         }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = Helper.GetTexture(Texture);
+            Texture2D glow = Helper.GetTexture(Texture + "_Glow");
+            Texture2D glow2 = Helper.GetTexture(Texture + "_Glow2");
+            SpriteEffects effects = Projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 40, 40, 40), lightColor, Projectile.rotation, Projectile.Size / 2, Projectile.scale, effects, 0);
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 40, 40, 40), Color.White, Projectile.rotation, Projectile.Size / 2, Projectile.scale, effects, 0);
+            Main.spriteBatch.Reload(BlendState.Additive);
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 40, 40, 40), Color.LawnGreen * glowAlpha, Projectile.rotation, Projectile.Size / 2, Projectile.scale, effects, 0);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return false;
+        }
 
         public sealed override void SetDefaults()
         {
-            Projectile.width = 28;
-            Projectile.height = 24;
+            Projectile.width = 40;
+            Projectile.height = 38;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 400;
             Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override void OnSpawn(IEntitySource source)
         {
@@ -37,6 +54,7 @@ namespace EbonianMod.Projectiles.Minions
 
         public override void Kill(int timeLeft)
         {
+            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), Projectile.damage * 2, 0, Projectile.owner);
             Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, Projectile.scale);
             Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, Projectile.scale);
             Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, Projectile.scale);
@@ -49,7 +67,7 @@ namespace EbonianMod.Projectiles.Minions
         {
             return true;
         }
-
+        float glowAlpha;
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
@@ -101,6 +119,8 @@ namespace EbonianMod.Projectiles.Minions
             Vector2 targetCenter = Projectile.position;
             bool foundTarget = false;
 
+            if (glowAlpha >= 1)
+                Projectile.Kill();
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
@@ -110,6 +130,8 @@ namespace EbonianMod.Projectiles.Minions
                     distanceFromTarget = between;
                     targetCenter = npc.Center;
                     foundTarget = true;
+                    if (between < 100)
+                        glowAlpha += 0.03f;
                 }
             }
             if (!foundTarget)

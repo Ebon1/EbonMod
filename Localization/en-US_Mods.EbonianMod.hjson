@@ -377,7 +377,11 @@ Items: {
 
 	TerrorStaff: {
 		DisplayName: Nest Sceptre
-		Tooltip: ""
+		Tooltip:
+			'''
+			Summons Bloated Ebonflies that explode on nearby enemies.
+			Does not consume minion slots.
+			'''
 	}
 
 	Latcher: {
@@ -424,7 +428,7 @@ Items: {
 	}
 
 	IchorFlintlock: {
-		Tooltip: The 5th consecutive bullet gets replaced with a piercing ichor orb that decreases nearby enemies' defenses for a short while.
+		Tooltip: The 5th consecutive bullet gets replaced with a piercing Ichor orb.
 		DisplayName: Bloodcolt
 	}
 

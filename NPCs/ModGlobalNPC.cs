@@ -22,15 +22,6 @@ namespace EbonianMod.NPCs
 {
     public class ModGlobalNPC : GlobalNPC
     {
-        public override void ModifyShop(NPCShop shop)
-        {
-            if (shop.NpcType == NPCID.Merchant)
-            {
-                shop.Add<PepperSpray>();
-
-
-            }
-        }
         public override bool InstancePerEntity => true;
         public bool stunned;
         public override void ResetEffects(NPC npc)

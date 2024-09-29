@@ -89,7 +89,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                 return;
             }
             float progress = Ease(Utils.GetLerpValue(0f, 15, Projectile.timeLeft));
-            if (Projectile.timeLeft == 8 && player.ownedProjectileCounts[Type] < 2)
+            if (Projectile.timeLeft == 1 && player.ownedProjectileCounts[Type] < 1)
             {
                 if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems)
                 {

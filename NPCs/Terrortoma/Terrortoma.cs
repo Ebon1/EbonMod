@@ -13,7 +13,6 @@ using Terraria.GameContent.Bestiary;
 using EbonianMod.Projectiles.Terrortoma;
 using EbonianMod.Projectiles;
 using System.Reflection.Metadata;
-using EbonianMod.Items.Weapons.Magic;
 using EbonianMod.Items.Weapons.Melee;
 using EbonianMod.Bossbars;
 using System.Linq;
@@ -29,6 +28,7 @@ using EbonianMod.Projectiles.Friendly.Corruption;
 using EbonianMod.NPCs.Corruption.Ebonflies;
 using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Projectiles.Enemy.Corruption;
+using EbonianMod.Items.Weapons.Summoner;
 
 namespace EbonianMod.NPCs.Terrortoma
 {

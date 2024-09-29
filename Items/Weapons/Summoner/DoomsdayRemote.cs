@@ -20,7 +20,7 @@ namespace EbonianMod.Items.Weapons.Summoner
         public override void SetDefaults()
         {
             Item.damage = 23;
-            Item.DamageType = DamageClass.Summon;
+            Item.DamageType = DamageClass.Magic;
             Item.mana = 10;
             Item.width = 26;
             Item.height = 28;
@@ -32,16 +32,8 @@ namespace EbonianMod.Items.Weapons.Summoner
             Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.rare = ItemRarityID.Cyan;
             Item.UseSound = SoundID.Item44;
-            Item.shoot = ModContent.ProjectileType<DoomsdayDrone>();
-            Item.buffType = ModContent.BuffType<Buffs.DoomsdayBuff>();
-        }
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockBack)
-        {
-            player.AddBuff(Item.buffType, 2);
-            var projectile = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockBack, Main.myPlayer);
-            projectile.originalDamage = Item.damage;
-            return false;
+            //Item.shoot = ModContent.ProjectileType<DoomsdayDrone>();
+            //Item.buffType = ModContent.BuffType<Buffs.DoomsdayBuff>();
         }
     }
 }

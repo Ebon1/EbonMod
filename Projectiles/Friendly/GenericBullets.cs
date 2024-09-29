@@ -106,14 +106,6 @@ namespace EbonianMod.Projectiles.Friendly
         public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             target.AddBuff(BuffID.Ichor, 50);
-            foreach (NPC npc in Main.npc)
-            {
-                if (npc.active && npc.Center.Distance(target.Center) < 600 && npc != target && !npc.friendly && !npc.buffImmune[BuffID.Ichor] && npc.realLife == -1)
-                {
-                    Helper.QuickDustLine(Projectile.Center, npc.Center, 100f, Color.Gold);
-                    npc.AddBuff(BuffID.Ichor, 50);
-                }
-            }
         }
         public override void AI()
         {

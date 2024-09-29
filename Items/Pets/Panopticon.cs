@@ -55,11 +55,12 @@ namespace EbonianMod.Items.Pets
             {
                 float angle = Helper.CircleDividedEqually(i, 4) - Main.GlobalTimeWrappedHourly;
                 Vector2 pos = Projectile.Center + Vector2.UnitX.RotatedBy(angle) * 40;
-                Main.spriteBatch.Draw(eye, pos - Main.screenPosition, null, lightColor, pos.FromAToB(Main.MouseWorld).ToRotation(), eye.Size() / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(eye, pos - Main.screenPosition, null, lightColor * 0.4f, pos.FromAToB(Main.MouseWorld).ToRotation(), eye.Size() / 2, 1, SpriteEffects.None, 0);
             }
         }
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, TorchID.White);
             Player player = Main.player[Projectile.owner];
             if (++Projectile.frameCounter % 5 == 0)
             {

@@ -10,7 +10,7 @@ using EbonianMod.Projectiles.Terrortoma;
 using EbonianMod.Projectiles.Minions;
 using EbonianMod.Projectiles.Friendly.Corruption;
 
-namespace EbonianMod.Items.Weapons.Magic
+namespace EbonianMod.Items.Weapons.Summoner
 {
     public class TerrorStaff : ModItem
     {
@@ -21,14 +21,14 @@ namespace EbonianMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 35;
+            Item.damage = 19;
             Item.width = 40;
             Item.height = 40;
             Item.mana = 10;
             Item.reuseDelay = 20;
             Item.useTime = 10;
             Item.useAnimation = 30;
-            Item.DamageType = DamageClass.Magic;
+            Item.DamageType = DamageClass.Summon;
             Item.useStyle = 5;
             Item.knockBack = 10; Item.rare = 8;
             Item.value = 1000;
@@ -41,12 +41,12 @@ namespace EbonianMod.Items.Weapons.Magic
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 pointPoisition = player.RotatedRelativePoint(player.MountedCenter, reverseRotation: true);
-            float num2 = (float)Main.mouseX + Main.screenPosition.X - pointPoisition.X;
-            float num3 = (float)Main.mouseY + Main.screenPosition.Y - pointPoisition.Y;
+            float num2 = Main.mouseX + Main.screenPosition.X - pointPoisition.X;
+            float num3 = Main.mouseY + Main.screenPosition.Y - pointPoisition.Y;
             Vector2 vector5 = new Vector2(num2, num3);
-            vector5.X = (float)Main.mouseX + Main.screenPosition.X - pointPoisition.X;
-            vector5.Y = (float)Main.mouseY + Main.screenPosition.Y - pointPoisition.Y - 1000f;
-            player.itemRotation = (float)Math.Atan2(vector5.Y * (float)player.direction, vector5.X * (float)player.direction);
+            vector5.X = Main.mouseX + Main.screenPosition.X - pointPoisition.X;
+            vector5.Y = Main.mouseY + Main.screenPosition.Y - pointPoisition.Y - 1000f;
+            player.itemRotation = (float)Math.Atan2(vector5.Y * player.direction, vector5.X * player.direction);
             NetMessage.SendData(13, -1, -1, null, player.whoAmI);
             NetMessage.SendData(41, -1, -1, null, player.whoAmI);
 

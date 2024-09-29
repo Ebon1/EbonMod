@@ -9,8 +9,8 @@ using Terraria.ModLoader;
 using Terraria;
 using EbonianMod.NPCs.Cecitior;
 using EbonianMod.Items.Weapons.Melee;
-using EbonianMod.Items.Weapons.Magic;
 using EbonianMod.NPCs.Terrortoma;
+using EbonianMod.Items.Weapons.Summoner;
 
 namespace EbonianMod.Items.BossTreasure
 {

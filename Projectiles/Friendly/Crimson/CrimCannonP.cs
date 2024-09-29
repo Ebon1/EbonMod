@@ -29,7 +29,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
         }
         public override void OnKill(int timeLeft)
         {
-            SoundEngine.PlaySound(EbonianSounds.fleshHit with { PitchVariance = 0.2f }, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.NPCHit1 with { PitchVariance = 0.2f }, Projectile.Center);
             for (int i = 0; i < 19; i++)
                 Dust.NewDustPerfect(Projectile.Center, DustID.Blood, Main.rand.NextVector2Unit());
         }
@@ -42,7 +42,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                 Projectile.ai[0] = target.type;
                 Projectile.localAI[0] = Helper.FromAToB(target.Center, Projectile.Center, false).X;
                 Projectile.localAI[1] = Helper.FromAToB(target.Center, Projectile.Center, false).Y;
-                SoundEngine.PlaySound(EbonianSounds.fleshHit with { PitchVariance = 0.2f }, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.NPCHit1 with { PitchVariance = 0.2f }, Projectile.Center);
                 for (int i = 0; i < 7; i++)
                 {
                     Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, new Vector2(Main.rand.NextFloat(5, 10), 0).RotatedBy(Projectile.velocity.RotatedByRandom(MathHelper.PiOver2).ToRotation()), ModContent.ProjectileType<Gibs>(), Projectile.damage / 2, 0, Projectile.owner);
@@ -64,12 +64,13 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                 Projectile.velocity = Vector2.Zero;
                 Projectile.Center += oldVelocity;
                 Projectile.ai[2] = 1;
-                SoundEngine.PlaySound(EbonianSounds.fleshHit, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.NPCHit1, Projectile.Center);
             }
             return false;
         }
         public override void AI()
         {
+            Projectile.velocity.Y = MathHelper.Lerp(Projectile.velocity.Y, 15, 0.01f);
             if (Projectile.ai[2] == 2)
             {
                 NPC target = Main.npc[(int)Projectile.ai[1]];

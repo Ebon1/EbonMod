@@ -11,14 +11,14 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 using EbonianMod.Projectiles.Friendly.Crimson;
 
-namespace EbonianMod.Items.Weapons.Ranged
+namespace EbonianMod.Items.Weapons.Magic
 {
     public class CrimCannon : ModItem
     {
         public override void SetDefaults()
         {
             Item.damage = 10;
-            Item.DamageType = DamageClass.Ranged;
+            Item.DamageType = DamageClass.Magic;
             Item.width = 40;
             Item.height = 20;
             Item.useTime = 30;
@@ -28,6 +28,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.knockBack = 4;
             Item.value = 0;
             Item.rare = 2;
+            Item.mana = 5;
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<CrimCannonP>();

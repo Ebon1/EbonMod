@@ -15,7 +15,7 @@ using System.IO;
 using System.Collections.Generic;
 using EbonianMod.Common.Systems;
 
-namespace EbonianMod.Items.Weapons.Ranged
+namespace EbonianMod.Items.Weapons.Magic
 {
     public class RingOfFire : ModItem
     {
@@ -23,7 +23,8 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             Item.Size = new Vector2(32);
             Item.damage = 1;
-            Item.DamageType = DamageClass.Ranged;
+            Item.mana = 10;
+            Item.DamageType = DamageClass.Magic;
             Item.useAnimation = 32;
             Item.useTime = 32;
             Item.reuseDelay = 70;
@@ -38,11 +39,11 @@ namespace EbonianMod.Items.Weapons.Ranged
     }
     public class RingOfFireP : ModProjectile
     {
-        public override string Texture => "EbonianMod/Items/Weapons/Ranged/RingOfFire";
+        public override string Texture => "EbonianMod/Items/Weapons/Magic/RingOfFire";
         public override void SetDefaults()
         {
             Projectile.Size = new Vector2(32);
-            Projectile.DamageType = DamageClass.Ranged;
+            Projectile.DamageType = DamageClass.Magic;
             Projectile.aiStyle = 2;
             Projectile.friendly = true;
             Projectile.hostile = false;
@@ -249,6 +250,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override void AI()
         {
             Projectile.CritChance = 0;
+            proj = Main.projectile[(int)Projectile.ai[2]];
             if (proj != null)
                 if (proj.active && proj.type == ModContent.ProjectileType<RingOfFireP>() && proj.whoAmI == Projectile.ai[2])
                     Projectile.Center = Main.projectile[(int)Projectile.ai[2]].Center;

@@ -15,6 +15,7 @@ namespace EbonianMod.Projectiles.Minions
 {
     public class DoomsdayDrone : MinionAI2
     {
+        public override bool IsLoadingEnabled(Mod mod) => false;
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 10;
