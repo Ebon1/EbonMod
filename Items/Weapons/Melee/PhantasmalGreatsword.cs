@@ -151,7 +151,7 @@ namespace EbonianMod.Items.Weapons.Melee
         float visualOff;
         public override bool PreDraw(ref Color lightColor)
         {
-            visualOff -= 0.04f;
+            visualOff -= 0.05f;
             if (visualOff <= 0)
                 visualOff = 1;
             visualOff = MathHelper.Clamp(visualOff, float.Epsilon, 1 - float.Epsilon);
@@ -177,45 +177,48 @@ namespace EbonianMod.Items.Weapons.Melee
                 if (oldPositions.Count > 3)
                 {
                     if (Projectile.ai[1] == -1)
-                        for (int i = 1; i < oldPositions.Count - 3; i++)
+                        for (int i = 1; i < Projectile.oldPos.Length - 3; i++)
                         {
                             if (Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i + 1] != Vector2.Zero)
                             {
                                 float s = MathHelper.SmoothStep(0, 1f, (float)i / oldPositions.Count);
                                 float cS = MathF.Pow(MathHelper.Lerp(1, 0, (float)i / oldPositions.Count), 2);
                                 float rot2 = Projectile.oldRot[i] - MathHelper.PiOver4;
-                                Vector2 end = player.Center + rot2.ToRotationVector2() * (Projectile.height + holdOffset * 0.5f) - Main.screenPosition;
-                                Vector2 start = Vector2.Lerp(player.Center - Main.screenPosition, end, s);
+                                Vector2 end = player.Center + rot2.ToRotationVector2().RotatedBy(MathHelper.ToRadians(-9)) * (Projectile.height + holdOffset * 0.6f);
+                                Vector2 start = Vector2.Lerp(player.Center, end, s);
                                 Color col = Color.Lerp(Color.Magenta, Color.Indigo, (float)i / oldPositions.Count) * cS * alpha;
-                                float __off = visualOff;
+                                float __off = visualOff + s;
                                 if (__off > 1) __off = -__off + 1;
-                                float _off = __off + i;
-                                vertices.Add(Helper.AsVertex(start, col, new Vector2(_off, 1)));
-                                vertices.Add(Helper.AsVertex(end, col, new Vector2(_off, 0)));
+                                float _off = __off;
+
+                                vertices.Add(Helper.AsVertex(start - Main.screenPosition, col, new Vector2(_off, 1)));
+                                vertices.Add(Helper.AsVertex(end - Main.screenPosition, col, new Vector2(_off, 0)));
+
                             }
                         }
                     else
-                        for (int i = oldPositions.Count - 2; i > 2; i--)
+                        for (int i = Projectile.oldPos.Length - 2; i > 2; i--)
                         {
                             if (Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i + 1] != Vector2.Zero)
                             {
                                 float s = MathHelper.SmoothStep(0, 1f, (float)i / oldPositions.Count);
                                 float cS = MathF.Pow(MathHelper.Lerp(1, 0, (float)i / oldPositions.Count), 2);
                                 float rot2 = Projectile.oldRot[i] - MathHelper.PiOver4;
-                                Vector2 end = player.Center + rot2.ToRotationVector2() * (Projectile.height + holdOffset * 0.5f) - Main.screenPosition;
-                                Vector2 start = Vector2.Lerp(player.Center - Main.screenPosition, end, s);
+                                Vector2 end = player.Center + rot2.ToRotationVector2().RotatedBy(MathHelper.ToRadians(9)) * (Projectile.height + holdOffset * 0.6f);
+                                Vector2 start = Vector2.Lerp(player.Center, end, s);
                                 Color col = Color.Lerp(Color.Magenta, Color.Indigo, s) * cS * alpha;
-                                float __off = visualOff;
+                                float __off = visualOff + s;
                                 if (__off > 1) __off = -__off + 1;
-                                float _off = __off + i;
-                                vertices.Add(Helper.AsVertex(start, col, new Vector2(_off, 1)));
-                                vertices.Add(Helper.AsVertex(end, col, new Vector2(_off, 0)));
+                                float _off = __off;
+
+                                vertices.Add(Helper.AsVertex(start - Main.screenPosition, col, new Vector2(_off, 1)));
+                                vertices.Add(Helper.AsVertex(end - Main.screenPosition, col, new Vector2(_off, 0)));
                             }
                         }
                 }
                 if (vertices.Count > 3)
                 {
-                    for (int i = 0; i < 4; i++)
+                    for (int i = 0; i < 3; i++)
                         Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, tex2, false);
                 }
                 /*for (int i = 1; i < Projectile.oldPos.Length - 3; i++)
