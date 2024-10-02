@@ -18,7 +18,7 @@ namespace EbonianMod.Projectiles.ArchmageX
 {
     public class XKnife : ModProjectile
     {
-        public override string Texture => "EbonianMod/Items/Weapons/Melee/AmethystShard";
+        public override string Texture => "EbonianMod/Items/Weapons/Ranged/AmethystShard";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 15;

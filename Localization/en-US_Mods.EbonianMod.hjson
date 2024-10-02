@@ -666,6 +666,11 @@ Items: {
 		DisplayName: Xareus Summon
 		Tooltip: ""
 	}
+
+	Chainsword: {
+		DisplayName: Chainsword
+		Tooltip: ""
+	}
 }
 
 Buffs: {

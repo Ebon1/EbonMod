@@ -17,6 +17,8 @@ using EbonianMod.Dusts;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using Terraria.Audio;
 using EbonianMod.Common.Systems;
+using System.Runtime.InteropServices;
+using static Terraria.GameContent.Bestiary.IL_BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions;
 
 namespace EbonianMod.Items.Weapons.Melee
 {
@@ -71,9 +73,9 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.width = 168;
             Projectile.height = 178;
             useHeld = false;
-            swingTime = 140;
+            swingTime = 190;
             Projectile.extraUpdates = 4;
-            holdOffset = 120;
+            holdOffset = 130;
         }
         bool hit, summoned;
         public override void OnHit(NPC target, NPC.HitInfo hitinfo, int damage)
@@ -124,6 +126,20 @@ namespace EbonianMod.Items.Weapons.Melee
                     }
 
             }
+            if (Projectile.timeLeft == 20)
+            {
+                if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems)
+                {
+                    if (player.whoAmI == Main.myPlayer)
+                    {
+                        Vector2 dir = Vector2.Normalize(Main.MouseWorld - player.Center);
+                        Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, 0, (-Projectile.ai[1]));
+                        proj.rotation = Projectile.rotation;
+                        proj.Center = Projectile.Center;
+                    }
+                    Projectile.active = false;
+                }
+            }
             alpha = MathHelper.Clamp((float)Math.Sin(swingProgress * Math.PI) * 3f, 0, 1);
         }
         float alpha;
@@ -132,20 +148,77 @@ namespace EbonianMod.Items.Weapons.Melee
             SoundEngine.PlaySound(EbonianSounds.magicSlash, Projectile.Center);
         }
         public override Color? GetAlpha(Color lightColor) => Color.White;
+        float visualOff;
         public override bool PreDraw(ref Color lightColor)
         {
+            visualOff -= 0.04f;
+            if (visualOff <= 0)
+                visualOff = 1;
+            visualOff = MathHelper.Clamp(visualOff, float.Epsilon, 1 - float.Epsilon);
+
             Player player = Main.player[Projectile.owner];
 
             Main.spriteBatch.Reload(BlendState.Additive);
 
 
             float swingProgress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
-            float s = 1;
             if (Projectile.oldPos.Length > 2)
             {
-                Texture2D tex2 = Helper.GetExtraTexture("fireball");
-                VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[(Projectile.oldPos.Length - 1) * 6];
-                for (int i = 1; i < Projectile.oldPos.Length - 3; i++)
+                Texture2D tex2 = Helper.GetExtraTexture("trail_04");
+                List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
+                List<Vector2> oldPositions = new List<Vector2>(Projectile.oldPos.Length);
+                for (int i = 0; i < Projectile.oldPos.Length; i++)
+                {
+                    if (Projectile.oldPos[i] != Vector2.Zero)
+                        oldPositions.Add(Projectile.oldPos[i]);
+                    else
+                        break;
+                }
+                if (oldPositions.Count > 3)
+                {
+                    if (Projectile.ai[1] == -1)
+                        for (int i = 1; i < oldPositions.Count - 3; i++)
+                        {
+                            if (Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i + 1] != Vector2.Zero)
+                            {
+                                float s = MathHelper.SmoothStep(0, 1f, (float)i / oldPositions.Count);
+                                float cS = MathF.Pow(MathHelper.Lerp(1, 0, (float)i / oldPositions.Count), 2);
+                                float rot2 = Projectile.oldRot[i] - MathHelper.PiOver4;
+                                Vector2 end = player.Center + rot2.ToRotationVector2() * (Projectile.height + holdOffset * 0.5f) - Main.screenPosition;
+                                Vector2 start = Vector2.Lerp(player.Center - Main.screenPosition, end, s);
+                                Color col = Color.Lerp(Color.Magenta, Color.Indigo, (float)i / oldPositions.Count) * cS * alpha;
+                                float __off = visualOff;
+                                if (__off > 1) __off = -__off + 1;
+                                float _off = __off + i;
+                                vertices.Add(Helper.AsVertex(start, col, new Vector2(_off, 1)));
+                                vertices.Add(Helper.AsVertex(end, col, new Vector2(_off, 0)));
+                            }
+                        }
+                    else
+                        for (int i = oldPositions.Count - 2; i > 2; i--)
+                        {
+                            if (Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i + 1] != Vector2.Zero)
+                            {
+                                float s = MathHelper.SmoothStep(0, 1f, (float)i / oldPositions.Count);
+                                float cS = MathF.Pow(MathHelper.Lerp(1, 0, (float)i / oldPositions.Count), 2);
+                                float rot2 = Projectile.oldRot[i] - MathHelper.PiOver4;
+                                Vector2 end = player.Center + rot2.ToRotationVector2() * (Projectile.height + holdOffset * 0.5f) - Main.screenPosition;
+                                Vector2 start = Vector2.Lerp(player.Center - Main.screenPosition, end, s);
+                                Color col = Color.Lerp(Color.Magenta, Color.Indigo, s) * cS * alpha;
+                                float __off = visualOff;
+                                if (__off > 1) __off = -__off + 1;
+                                float _off = __off + i;
+                                vertices.Add(Helper.AsVertex(start, col, new Vector2(_off, 1)));
+                                vertices.Add(Helper.AsVertex(end, col, new Vector2(_off, 0)));
+                            }
+                        }
+                }
+                if (vertices.Count > 3)
+                {
+                    for (int i = 0; i < 4; i++)
+                        Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, tex2, false);
+                }
+                /*for (int i = 1; i < Projectile.oldPos.Length - 3; i++)
                 {
                     if (Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i + 1] != Vector2.Zero)
                     {
@@ -161,7 +234,7 @@ namespace EbonianMod.Items.Weapons.Melee
 
                         s -= i / (float)Projectile.oldPos.Length * 0.03f;
                     }
-                }
+                }*/
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
 
