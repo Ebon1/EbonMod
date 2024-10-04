@@ -134,7 +134,7 @@ namespace EbonianMod.NPCs.Conglomerate
                     return;
                 }
             }
-            NPC.rotation = Helper.LerpAngle(NPC.rotation, rotation, 0.1f);
+            NPC.rotation = Helper.LerpAngle(NPC.rotation, rotation, 0.05f);
             AITimer++;
             switch (AIState)
             {
@@ -214,11 +214,14 @@ namespace EbonianMod.NPCs.Conglomerate
                         if (AITimer == 40)
                             Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0);
 
-                        if (AITimer == 70)
+                        if (AITimer == 70 || AITimer == 80 || AITimer == 140)
+                        {
+                            Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0);
                             for (int i = -3; i < 4; i++)
-                                NPC.NewNPCDirect(null, player.Center - new Vector2(i * 100, 700), ModContent.NPCType<BloatedEbonfly>());
+                                NPC.NewNPCDirect(null, NPC.Center + Vector2.One.RotatedBy(i) * 30, ModContent.NPCType<BloatedEbonfly>());
+                        }
 
-                        if (AITimer >= 100)
+                        if (AITimer >= 200)
                         {
                             AIState = CursedFlameRain;
                             Reset();
@@ -319,16 +322,70 @@ namespace EbonianMod.NPCs.Conglomerate
                         }
                         if (AITimer == 110)
                             Projectile.NewProjectile(null, NPC.Center + new Vector2(7, -14).RotatedBy(NPC.rotation), Vector2.Zero, ModContent.ProjectileType<GreenChargeUp>(), 0, 0);
-                        if (AITimer == 145)
+                        if (AITimer == 165)
                             Projectile.NewProjectile(null, NPC.Center + new Vector2(7, -14).RotatedBy(NPC.rotation), Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0);
-                        if (AITimer > 145 && AITimer <= 240)
+                        if (AITimer > 165 && AITimer <= 220)
                         {
                             if (AITimer % 2 == 0)
                             {
+                                float angleScale = MathHelper.SmoothStep(0.5f, 0, (float)(AITimer - 165) / 55);
                                 EbonianSystem.ScreenShakeAmount = 5;
                                 SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(0.4f).WithVolumeScale(1.2f), NPC.Center);
-                                Projectile.NewProjectile(null, NPC.Center + new Vector2(7, -14).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center + new Vector2(7, -14).RotatedBy(NPC.rotation), disposablePos[0]).RotatedByRandom(MathHelper.PiOver4 * 0.35f) * Main.rand.NextFloat(1f, 2f), ModContent.ProjectileType<RegorgerBolt>(), 10, 0);
+                                Projectile.NewProjectile(null, NPC.Center + new Vector2(7, -14).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center + new Vector2(7, -14).RotatedBy(NPC.rotation), disposablePos[0]).RotatedByRandom(MathHelper.PiOver2 * angleScale) * Main.rand.NextFloat(1f, 2f), ModContent.ProjectileType<RegorgerBolt>(), 10, 0);
                             }
+                        }
+                        if (AITimer >= 240)
+                        {
+                            AIState = SpinAroundThePlayerAndDash;
+                            Reset();
+                        }
+                    }
+                    break;
+                case SpinAroundThePlayerAndDash:
+                    {
+                        if (NPC.velocity.Length() > .1f)
+                            NPC.rotation = NPC.velocity.ToRotation() - MathHelper.PiOver2;
+                        else
+                            rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2;
+
+                        AITimer2++;
+
+                        if (AITimer2 == 1)
+                            disposablePos[0] = Main.rand.NextVector2Unit();
+                        else if (AITimer2 < 60)
+                        {
+                            NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center + new Vector2(600, 0).RotatedBy(disposablePos[0].ToRotation() + MathHelper.ToRadians(AITimer2 * 4)), false) * 0.03f, 0.15f);
+                        }
+                        if (AITimer2 > 60 && AITimer2 < 70)
+                            NPC.velocity *= 0.9f;
+                        if (AITimer == 70)
+                        {
+                            SoundEngine.PlaySound(EbonianSounds.terrortomaDash, NPC.Center);
+                            for (int i = 0; i < 20; i++)
+                            {
+                                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CursedTorch, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Ichor, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                            }
+                            NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 2.5f;
+                        }
+                        if (AITimer2 > 70 && AITimer2 < 80)
+                        {
+                            NPC.velocity += Helper.FromAToB(NPC.Center, player.Center) * 2.5f;
+                            NPC.damage = 120;
+                        }
+                        if (AITimer2 > 130)
+                        {
+                            NPC.velocity *= 0.8f;
+                        }
+                        if (AITimer2 > 140)
+                        {
+                            NPC.damage = 0;
+                            AITimer2 = 0;
+                        }
+                        if (AITimer >= 300)
+                        {
+                            AIState = BodySlamTantrum;
+                            Reset();
                         }
                     }
                     break;

@@ -104,7 +104,7 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
                 }
             }
             if (Main.LocalPlayer.Center.Distance(NPC.Center) < 900)
-                if (++NPC.ai[3] > 100)
+                if (++NPC.ai[3] > 100 * NPC.scale)
                 {
                     NPC.aiStyle = -1;
                     AIType = 0;
