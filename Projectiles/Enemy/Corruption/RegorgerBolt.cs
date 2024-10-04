@@ -45,8 +45,8 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
                     for (float j = 0; j < 3; j++)
                     {
                         Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 3));
-                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.LawnGreen * (0.35f + Projectile.ai[1]) * mult, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.01f * mult, SpriteEffects.None, 0);
-                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.LawnGreen * (0.25f + Projectile.ai[1]) * mult, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f * mult, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.LawnGreen * (0.85f + Projectile.ai[1]) * mult, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.01f * mult, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.LawnGreen * (0.75f + Projectile.ai[1]) * mult, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f * mult, SpriteEffects.None, 0);
                     }
             }
             Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, Projectile.Center - Main.screenPosition, null, Color.LawnGreen * (1 - Projectile.ai[1]) * alpha, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.01f, SpriteEffects.None, 0);
@@ -56,7 +56,7 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (Projectile.ai[2]++ == 0)
-                Projectile.timeLeft = 30 * 120;
+                Projectile.timeLeft = 30 * 4;
             Projectile.velocity = Vector2.Zero;
             return false;
         }

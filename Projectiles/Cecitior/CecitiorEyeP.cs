@@ -36,7 +36,12 @@ namespace EbonianMod.Projectiles.Cecitior
         }
         public override Color? GetAlpha(Color lightColor)
         {
-            return lightColor * 0.5f * (Projectile.timeLeft < 40 ? Projectile.timeLeft * 0.1f : 1);
+            float alpha = 1;
+            if (Projectile.timeLeft < 40)
+                alpha = Projectile.timeLeft * 0.1f;
+            if (Projectile.timeLeft > 360)
+                alpha = MathHelper.Lerp(1, 0, (float)(Projectile.timeLeft - 360) / 40);
+            return Color.White * 0.5f * alpha;
         }
         public override bool PreDraw(ref Color lightColor)
         {
