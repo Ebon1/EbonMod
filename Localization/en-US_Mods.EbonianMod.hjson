@@ -215,6 +215,7 @@ Projectiles: {
 	ArchmageChargeUp.DisplayName: Archmage Charge Up
 	FangSlingerP.DisplayName: Fang Slinger P
 	ThornBowP.DisplayName: Thorn Bow P
+	ChainswordP.DisplayName: Chainsword P
 }
 
 NPCs: {

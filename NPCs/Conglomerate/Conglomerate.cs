@@ -358,7 +358,7 @@ namespace EbonianMod.NPCs.Conglomerate
                         }
                         if (AITimer2 > 60 && AITimer2 < 70)
                             NPC.velocity *= 0.9f;
-                        if (AITimer == 70)
+                        if (AITimer2 == 70)
                         {
                             SoundEngine.PlaySound(EbonianSounds.terrortomaDash, NPC.Center);
                             for (int i = 0; i < 20; i++)
