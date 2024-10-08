@@ -367,7 +367,7 @@ namespace EbonianMod.NPCs.Conglomerate
                             EbonianSystem.ScreenShakeAmount = 10f;
                             SoundEngine.PlaySound(EbonianSounds.chargedBeamImpactOnly, NPC.Center);
                             Projectile.NewProjectile(null, NPC.Center + new Vector2(7, -14).RotatedBy(NPC.rotation), Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0);
-                            Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, disposablePos[0]), ModContent.ProjectileType<CBeam>(), 100, 0);
+                            Projectile.NewProjectile(null, NPC.Center , Helper.FromAToB(NPC.Center, disposablePos[0]), ModContent.ProjectileType<CBeam>(), 100, 0);
                         }
                         if (AITimer >= 350)
                         {
