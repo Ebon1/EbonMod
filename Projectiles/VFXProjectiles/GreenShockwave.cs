@@ -78,14 +78,13 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Texture2D tex = Helper.GetExtraTexture("circlething");
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(2, 0, Projectile.ai[0]);
-            for (int i = 0; i < 2; i++)
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Green * alpha, Projectile.rotation, tex.Size() / 2, Projectile.ai[0] * 0.5f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Green * alpha, Projectile.rotation, tex.Size() / 2, Projectile.ai[0] * 0.5f, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
         public override void AI()
         {
-            Projectile.ai[0] += 0.05f;
+            Projectile.ai[0] += 0.075f;
             if (Projectile.ai[0] > 2)
                 Projectile.Kill();
         }

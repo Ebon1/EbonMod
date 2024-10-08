@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.Utilities;
 
 namespace EbonianMod.Projectiles.VFXProjectiles
 {

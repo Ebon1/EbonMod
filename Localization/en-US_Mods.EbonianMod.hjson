@@ -216,6 +216,9 @@ Projectiles: {
 	FangSlingerP.DisplayName: Fang Slinger P
 	ThornBowP.DisplayName: Thorn Bow P
 	ChainswordP.DisplayName: Chainsword P
+	CBeam.DisplayName: C Beam
+	FlareExplosion.DisplayName: Flare Explosion
+	CFlareExplosion.DisplayName: C Flare Explosion
 }
 
 NPCs: {
