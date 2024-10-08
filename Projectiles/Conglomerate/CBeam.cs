@@ -129,9 +129,10 @@ namespace EbonianMod.Projectiles.Conglomerate
                 if (__off2 > 1) __off = -__off + 1;
                 float _off2 = __off + i;
 
-                Color col = Color.Lerp(Color.LimeGreen, Color.LimeGreen * 1.2f, i) * (s * s * 2f * alphaOffset);
+                Color col = Color.Lerp(Color.Red, Color.Red * 1.2f, i) * (s * s * 2f * alphaOffset);
                 vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(MathHelper.Lerp(60, 100, i) * startSize, MathHelper.SmoothStep(120, 300, i), i * 3) * MathHelper.Clamp(startSize, 1, 2), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
-                col = Color.Lerp(Color.Red, Color.Red * 1.2f, i) * (s * s * 2f * alphaOffset);
+
+                col = Color.Lerp(Color.LimeGreen, Color.LimeGreen * 1.2f, i) * (s * s * 2f * alphaOffset);
                 vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(MathHelper.Lerp(60, 100, i) * startSize, MathHelper.SmoothStep(120, 300, i), i * 3) * MathHelper.Clamp(startSize, 1, 2), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
 
                 col = Color.White * (s * s * alphaOffset);
