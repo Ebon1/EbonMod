@@ -22,6 +22,7 @@ using EbonianMod.NPCs.Corruption.Ebonflies;
 using EbonianMod.Items.Misc;
 using EbonianMod.Projectiles.Enemy.Corruption;
 using EbonianMod.Projectiles.Conglomerate;
+using EbonianMod.Dusts;
 
 namespace EbonianMod.NPCs.Conglomerate
 {
@@ -93,7 +94,7 @@ namespace EbonianMod.NPCs.Conglomerate
         const int Intro = 0, Idle = 1,
             // Generic Attacks
             BloodAndWormSpit = 2, HomingEyeAndVilethornVomit = 3, BloatedEbonflies = 4, CursedFlameRain = 5, DashAndChomp = 6, ExplodingBalls = 7,
-            RandomFocusedBeams = 8, SpinAroundThePlayerAndDash = 9, IchorBomb = 10, GoldenShower = 11, SpikesCloseIn = 12, HomingEyeRain = 13, VerticalDashSpam = 14,
+            BayleLaser = 8, SpinAroundThePlayerAndDash = 9, IchorBomb = 10, GoldenShower = 11, SpikesCloseIn = 12, HomingEyeRain = 13, VerticalDashSpam = 14,
             // Phase 2
             ClawTriangle = 15, GrabAttack = 16, SpineChargedFlame = 17, ClingerHipfire = 18, EyeBeamPlusHomingEyes = 19, ClawTantrum = 20, SpineDashFollowedByMainDash = 21,
             ClingerWaveFire = 22, SpineWormVomit = 23, ClawPlucksBombsFromSpine = 24, BitesEyeToRainBlood = 25, ClingerComboType1 = 26, ClingerComboType2 = 27,
@@ -164,7 +165,7 @@ namespace EbonianMod.NPCs.Conglomerate
                     {
                         if (AITimer >= 10)
                         {
-                            AIState = BloodAndWormSpit;
+                            AIState = BayleLaser;
                             Reset();
                         }
                     }
@@ -253,7 +254,7 @@ namespace EbonianMod.NPCs.Conglomerate
                                 NPC.NewNPCDirect(null, NPC.Center + Vector2.One.RotatedBy(i) * 30, ModContent.NPCType<BloatedEbonfly>());
                         }
 
-                        if (AITimer >= 200)
+                        if (AITimer >= 150)
                         {
                             AIState = CursedFlameRain;
                             Reset();
@@ -263,13 +264,13 @@ namespace EbonianMod.NPCs.Conglomerate
                 case CursedFlameRain:
                     {
                         rotation = -Vector2.UnitY.ToRotation() - MathHelper.PiOver2;
-                        if (AITimer <= 150)
+                        if (AITimer <= 160)
                         {
                             Vector2 pos = new Vector2(player.position.X, player.position.Y - 75);
                             Vector2 target = pos;
                             Vector2 moveTo = target - NPC.Center;
                             NPC.velocity = (moveTo) * 0.0445f;
-                            if (++AITimer2 % 60 == 0)
+                            if (++AITimer2 % 40 == 0)
                             {
                                 for (int i = 0; i <= 5 + (Main.expertMode ? 5 : 0); i++)
                                 {
@@ -323,25 +324,28 @@ namespace EbonianMod.NPCs.Conglomerate
                 case ExplodingBalls:
                     {
                         rotation = -Vector2.UnitY.ToRotation() - MathHelper.PiOver2;
-                        if (AITimer > 50 && AITimer % (phase2 ? 5 : 10) == 0 && AITimer < 150)
+                        if (AITimer > 50 && AITimer % (phase2 ? 2 : 4) == 0 && AITimer < 90)
                         {
                             Vector2 pos = player.Center - new Vector2(Main.rand.NextFloat(-1200, 1200), 1000);
                             Projectile.NewProjectile(null, NPC.Center + -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver4) * 30, -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(10, 20), (Main.rand.NextBool() ? ModContent.ProjectileType<TerrorStaffPEvil>() : ModContent.ProjectileType<CecitiorBombThing>()), 20, 0);
                         }
-                        if (AITimer >= 180)
+                        if (AITimer >= 110)
                         {
-                            AIState = RandomFocusedBeams;
+                            AIState = BayleLaser;
                             Reset();
                         }
                     }
                     break;
-                case RandomFocusedBeams:
+                case BayleLaser:
                     {
                         if (AITimer > 30)
                         {
-                            if (!(AITimer < 165 && AITimer > 140))
+                            if (!(AITimer < 165 && AITimer > 140) && AITimer < 320)
                                 disposablePos[0] = Vector2.Lerp(disposablePos[0], player.Center, 0.05f);
-                            rotation = Helper.FromAToB(NPC.Center, disposablePos[0]).ToRotation() - MathHelper.PiOver2;
+                            if (AITimer < 320)
+                                rotation = Helper.FromAToB(NPC.Center, disposablePos[0]).ToRotation() - MathHelper.PiOver2;
+                            else
+                                rotation = Vector2.UnitY.ToRotation() - MathHelper.PiOver2 + MathHelper.ToRadians(20);
                         }
                         if (AITimer == 30)
                         {
@@ -350,9 +354,7 @@ namespace EbonianMod.NPCs.Conglomerate
                         if (AITimer == 45)
                             SoundEngine.PlaySound(EbonianSounds.BeamWindUp, NPC.Center);
                         if (AITimer == 100)
-                        {
                             Projectile.NewProjectile(null, NPC.Center + new Vector2(7, -14).RotatedBy(NPC.rotation), Vector2.Zero, ModContent.ProjectileType<ChargeUp>(), 0, 0);
-                        }
                         if (AITimer == 110)
                             Projectile.NewProjectile(null, NPC.Center + new Vector2(7, -14).RotatedBy(NPC.rotation), Vector2.Zero, ModContent.ProjectileType<GreenChargeUp>(), 0, 0);
 
@@ -361,15 +363,53 @@ namespace EbonianMod.NPCs.Conglomerate
                             SoundEngine.PlaySound(EbonianSounds.chargedBeamWindUp, NPC.Center);
                             Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, (rotation + MathHelper.PiOver2).ToRotationVector2(), ModContent.ProjectileType<VileTearTelegraph>(), 0, 0);
                         }
-
                         if (AITimer == 165)
                         {
                             EbonianSystem.ScreenShakeAmount = 10f;
-                            SoundEngine.PlaySound(EbonianSounds.chargedBeamImpactOnly, NPC.Center);
+                            SoundStyle s = EbonianSounds.chargedBeamImpactOnly;
+                            SoundEngine.PlaySound(s.WithPitchOffset(0.2f), NPC.Center);
                             Projectile.NewProjectile(null, NPC.Center + new Vector2(7, -14).RotatedBy(NPC.rotation), Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0);
-                            Projectile.NewProjectile(null, NPC.Center , Helper.FromAToB(NPC.Center, disposablePos[0]), ModContent.ProjectileType<CBeam>(), 100, 0);
+                            Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, disposablePos[0]), ModContent.ProjectileType<CBeam>(), 100, 0, -1, 0, 0, NPC.whoAmI);
                         }
-                        if (AITimer >= 350)
+                        if (AITimer > 160 && AITimer < 220)
+                            NPC.velocity = Helper.FromAToB(disposablePos[0], NPC.Center) * 0.5f;
+                        if ((AITimer > 220 && AITimer < 240) || (AITimer > 340 && AITimer < 360))
+                            NPC.velocity *= 0.9f;
+                        if (AITimer == 320)
+                            NPC.velocity = -Vector2.UnitY.RotatedBy(-MathHelper.PiOver4) * 8f;
+                        if (AITimer > 320 && AITimer < 390)
+                        {
+                            for (int i = 0; i < 1 + (AITimer * 0.025f); i++)
+                            {
+                                Vector2 pos = NPC.Center + Helper.FromAToB(NPC.Center, NPC.Center + (NPC.rotation + MathHelper.PiOver2).ToRotationVector2() * 10).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(100, 600);
+                                Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(pos, NPC.Center).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(15, 35), 0, Color.Lerp(Color.LimeGreen, Color.Maroon, Main.rand.NextFloat()), Main.rand.NextFloat(0.06f, .15f)).customData = NPC.Center;
+                            }
+                        }
+                        if (AITimer == 360)
+                        {
+                            SoundEngine.PlaySound(EbonianSounds.chargedBeamWindUp, NPC.Center);
+                            Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, (rotation + MathHelper.PiOver2).ToRotationVector2(), ModContent.ProjectileType<VileTearTelegraph>(), 0, 0);
+                        }
+                        if (AITimer == 385)
+                        {
+                            EbonianSystem.ScreenShakeAmount = 20f;
+                            SoundStyle s = EbonianSounds.chargedBeamImpactOnly;
+                            SoundEngine.PlaySound(s.WithPitchOffset(0.2f), NPC.Center);
+                            Projectile.NewProjectile(null, NPC.Center + new Vector2(7, -14).RotatedBy(NPC.rotation), Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0);
+                            Projectile.NewProjectile(null, NPC.Center, (rotation + MathHelper.PiOver2).ToRotationVector2(), ModContent.ProjectileType<CBeam>(), 100, 0, -1, 0, 0, NPC.whoAmI);
+                        }
+                        if (AITimer > 385 && AITimer < 470)
+                        {
+                            disposablePos[0] = new Vector2((player.Center.X < NPC.Center.X ? 1 : -1), 0);
+                            NPC.velocity = Vector2.Lerp(NPC.velocity, new Vector2(15, 0), 0.05f);
+                        }
+                        if (AITimer > 470 && AITimer < 520)
+                        {
+                            NPC.rotation += MathHelper.ToRadians(MathHelper.SmoothStep(0.25f, 11f, (AITimer - 470) / 80) * disposablePos[0].X);
+                            NPC.velocity *= 0.9f;
+                        }
+
+                        if (AITimer >= 550)
                         {
                             AIState = SpinAroundThePlayerAndDash;
                             Reset();
@@ -379,7 +419,7 @@ namespace EbonianMod.NPCs.Conglomerate
                 case SpinAroundThePlayerAndDash:
                     {
                         if (NPC.velocity.Length() > .1f)
-                            NPC.rotation = NPC.velocity.ToRotation() - MathHelper.PiOver2;
+                            rotation = NPC.velocity.ToRotation() - MathHelper.PiOver2;
                         else
                             rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2;
 
@@ -401,6 +441,8 @@ namespace EbonianMod.NPCs.Conglomerate
                                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CursedTorch, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Ichor, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                             }
+                            for (int i = 0; i < 3; i++)
+                                Projectile.NewProjectile(null, NPC.Center + Main.rand.NextVector2CircularEdge(5, 5), Helper.FromAToB(NPC.Center, player.Center), ModContent.ProjectileType<CecitiorEyeP>(), 25, 0);
                             NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 2.5f;
                         }
                         if (AITimer2 > 70 && AITimer2 < 80)

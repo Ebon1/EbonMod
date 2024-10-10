@@ -220,6 +220,7 @@ Projectiles: {
 	FlareExplosion.DisplayName: Flare Explosion
 	CFlareExplosion.DisplayName: C Flare Explosion
 	ScreenFlash.DisplayName: Screen Flash
+	CImplosionFlare.DisplayName: C Implosion Flare
 }
 
 NPCs: {
