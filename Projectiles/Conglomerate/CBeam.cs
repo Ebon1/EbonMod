@@ -125,16 +125,10 @@ namespace EbonianMod.Projectiles.Conglomerate
             float alpha = (0.35f + MathF.Sin(Main.GlobalTimeWrappedHourly * 6) * 0.1f) * Projectile.scale;
             if (Projectile.timeLeft < 134)
             {
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.Red, Color.LimeGreen, 0.5f) * alpha, 0, tex.Size() / 2, 5 + Projectile.scale, SpriteEffects.None, 0);
-                /*var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
-                for (int i = 0; i < Projectile.oldPos.Length; i++)
-                {
-                    if (i % 2 == 0 && Projectile.oldPos[i] != Vector2.Zero)
-                    {
-                        float mult = (1f - fadeMult * i);
-                        DrawVertices(Projectile.oldPos[i], Projectile.oldRot[i], texture, texture2, i_progress, mult, 0.01f);
-                    }
-                }*/
+                Main.spriteBatch.Reload(BlendState.Additive);
+                for (int i = 0; i < 3; i++)
+                    Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.Red, Color.LimeGreen, 0.5f) * alpha, 0, tex.Size() / 2, 5 + Projectile.scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Reload(BlendState.AlphaBlend);
                 DrawVertices(Projectile.Center, Projectile.velocity.ToRotation(), texture, texture2, i_progress, 8);
             }
             return false;
@@ -264,7 +258,7 @@ namespace EbonianMod.Projectiles.Conglomerate
                     Vector2 offset = new Vector2(Main.rand.NextFloat(50) * scale, 0).RotatedBy(angle);
                     int jMax = rand.Next(3, 5);
                     for (int j = 0; j < jMax; j++)
-                        Dust.NewDustPerfect(Projectile.Center + offset * 0.5f, Main.rand.NextBool() ? DustID.Ichor : DustID.CursedTorch, Helper.FromAToB(Projectile.Center, Projectile.Center + offset).RotatedByRandom(MathHelper.PiOver4 * (j == 0 ? 0 : 1)) * (scale * 20)).noGravity = true;
+                        Dust.NewDustPerfect(Projectile.Center + offset * 0.5f, Main.rand.NextBool() ? DustID.IchorTorch : DustID.CursedTorch, Helper.FromAToB(Projectile.Center, Projectile.Center + offset).RotatedByRandom(MathHelper.PiOver4 * (j == 0 ? 0 : 1)) * (scale * 20)).noGravity = true;
                 }
             }
 

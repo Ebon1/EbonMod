@@ -54,6 +54,7 @@ namespace EbonianMod.Projectiles.Cecitior
         {
             target.AddBuff(BuffID.Ichor, 200);
         }
+        public override Color? GetAlpha(Color lightColor) => Color.White;
         public override bool PreDraw(ref Color lightColor)
         {
             var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
@@ -122,6 +123,7 @@ namespace EbonianMod.Projectiles.Cecitior
             }
             return false;
         }
+        public override Color? GetAlpha(Color lightColor) => Color.White;
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             target.AddBuff(BuffID.Ichor, 30);

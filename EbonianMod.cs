@@ -37,11 +37,11 @@ namespace EbonianMod
     {
         public static EbonianMod Instance;
         public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur,
-            TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient, metaballGradientNoiseTex, invisibleMask, PullingForce, displacementMap, waterEffect;
+            TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient, metaballGradientNoiseTex, invisibleMask, PullingForce, displacementMap, waterEffect, spherize;
         public readonly List<Effect> Effects = new List<Effect>()
         {
             Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha,
-            Crack, Blur, RTOutline, metaballGradient,metaballGradientNoiseTex, invisibleMask, PullingForce,  displacementMap, waterEffect
+            Crack, Blur, RTOutline, metaballGradient,metaballGradientNoiseTex, invisibleMask, PullingForce,  displacementMap, waterEffect, spherize
     };
         public static List<int> projectileFinalDrawList = new List<int>();
         public static List<int> climbableProj = new List<int>();
@@ -196,6 +196,7 @@ namespace EbonianMod
             PullingForce = ModContent.Request<Effect>("EbonianMod/Effects/PullingForce", (AssetRequestMode)1).Value;
             displacementMap = ModContent.Request<Effect>("EbonianMod/Effects/displacementMap", (AssetRequestMode)1).Value;
             waterEffect = ModContent.Request<Effect>("EbonianMod/Effects/waterEffect", (AssetRequestMode)1).Value;
+            spherize = ModContent.Request<Effect>("EbonianMod/Effects/spherize", (AssetRequestMode)1).Value;
             Filters.Scene["EbonianMod:CorruptTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.68f, .56f, .73f).UseOpacity(0.35f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:CorruptTint"] = new BasicTint();
 
