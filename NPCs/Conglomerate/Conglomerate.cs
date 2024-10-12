@@ -192,6 +192,17 @@ namespace EbonianMod.NPCs.Conglomerate
         public override void AI()
         {
             bool t = true;
+            if (NPC.life < NPC.lifeMax / 2 + NPC.lifeMax / 4 && !phase2)
+            {
+                Reset();
+                foreach (Projectile projectile in Main.projectile)
+                {
+                    if (projectile.hostile && projectile.active)
+                        projectile.Kill();
+                }
+                phase2 = true;
+                AIState = PhaseTransition;
+            }
             if (Main.dayTime)
             {
                 Main.time = 31400;
@@ -262,6 +273,11 @@ namespace EbonianMod.NPCs.Conglomerate
                         {
 
                         }
+                    }
+                    break;
+                case PhaseTransition:
+                    {
+                        Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/EvilMinibossMessy");
                     }
                     break;
                 case Intro:
@@ -788,6 +804,7 @@ namespace EbonianMod.NPCs.Conglomerate
                                 a.friendly = false;
                                 a.hostile = true;
                             }
+                            EbonianSystem.ScreenShakeAmount = 10;
                         }
                         if (AITimer == 140)
                         {
@@ -799,6 +816,7 @@ namespace EbonianMod.NPCs.Conglomerate
                                 a.friendly = false;
                                 a.hostile = true;
                             }
+                            EbonianSystem.ScreenShakeAmount = 10;
                         }
 
                         if (AITimer >= 220)
@@ -830,7 +848,7 @@ namespace EbonianMod.NPCs.Conglomerate
                             for (int i = -1; i < 2; i++)
                             {
                                 if (i == 0) continue;
-                                Projectile.NewProjectile(null, NPC.Center, new Vector2(i * 15, -7), ModContent.ProjectileType<CIchorBomb>(), 40, 0);
+                                Projectile.NewProjectile(null, NPC.Center, new Vector2(i * 10, -7), ModContent.ProjectileType<CIchorBomb>(), 40, 0);
                             }
                         }
                         if (AITimer >= 70)
@@ -847,6 +865,15 @@ namespace EbonianMod.NPCs.Conglomerate
                         }
 
                         if (AITimer >= 190)
+                        {
+                            AIState = LastPrismLaser;
+                            Reset();
+                        }
+                    }
+                    break;
+                case LastPrismLaser:
+                    {
+                        if (AITimer >= 20)
                         {
                             AIState = BloodAndWormSpit;
                             Reset();

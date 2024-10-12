@@ -2,6 +2,7 @@
 using EbonianMod.Projectiles.Friendly.Corruption;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,15 @@ namespace EbonianMod.Projectiles.Conglomerate
 {
     public class CIchorBomb : ModProjectile
     {
-        public override string Texture => "EbonianMod/Extras/swirlyNoise";
+        public override string Texture => "EbonianMod/Projectiles/Cecitior/CecitiorBombThing";
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 20;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+        }
         public override void SetDefaults()
         {
-            Projectile.Size = new Vector2(64);
+            Projectile.Size = new Vector2(32);
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.penetrate = -1;
@@ -38,41 +44,26 @@ namespace EbonianMod.Projectiles.Conglomerate
                 a.hostile = true;
             }
             if (Projectile.ai[2] < 2)
-                Projectile.NewProjectile(null, Projectile.Center, new Vector2(Projectile.velocity.X, -Projectile.velocity.Y * 0.9f), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 0, Projectile.ai[1] - 0.15f, Projectile.ai[2] + 1);
+                Projectile.NewProjectile(null, Projectile.Center, new Vector2(Projectile.velocity.X, -10 + Projectile.ai[2] * 2), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 0, Projectile.ai[1] - 0.15f, Projectile.ai[2] + 1);
         }
+        public override Color? GetAlpha(Color lightColor) => Color.White;
         public override bool PreDraw(ref Color lightColor)
         {
-
-            GraphicsDevice gd = Main.graphics.GraphicsDevice;
             SpriteBatch sb = Main.spriteBatch;
-            Main.spriteBatch.SaveCurrent();
-            Main.spriteBatch.End();
-            sb.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.AnisotropicWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            EbonianMod.spherize.CurrentTechnique.Passes[0].Apply();
-            EbonianMod.spherize.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 20);
-            EbonianMod.spherize.Parameters["alpha"].SetValue(1);
-            EbonianMod.spherize.Parameters["noShadow"].SetValue(true);
-
-            EbonianMod.spherize.Parameters["lightDirection"].SetValue(Projectile.velocity);
-            EbonianMod.spherize.Parameters["insideColor"].SetValue(Color.Lerp(Color.Maroon, Color.LawnGreen, 0.5f).ToVector4());
-            EbonianMod.spherize.Parameters["outsideColor"].SetValue(new Vector4(0, 0, 0, 0));
-
-            sb.Draw(Helper.GetExtraTexture("swirlyNoise"), Projectile.Center - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation(), Helper.GetExtraTexture("swirlyNoise").Size() / 2, (128f / Helper.GetExtraTexture("swirlyNoise").Size().Length()) * (1 + Projectile.ai[1]), SpriteEffects.None, 0);
-            sb.ApplySaved();
-            Main.spriteBatch.SaveCurrent();
-            Main.spriteBatch.End();
-            sb.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.AnisotropicWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            EbonianMod.spherize.CurrentTechnique.Passes[0].Apply();
-            EbonianMod.spherize.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 15f);
-            for (int i = 0; i < 2; i++)
-                sb.Draw(Helper.GetExtraTexture("seamlessNoise"), Projectile.Center - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation(), Helper.GetExtraTexture("seamlessNoise").Size() / 2, (128f / Helper.GetExtraTexture("seamlessNoise").Size().Length()) * (1 + Projectile.ai[1]), SpriteEffects.None, 0);
-            sb.ApplySaved();
-
             sb.Reload(BlendState.Additive);
-            sb.Draw(Helper.GetExtraTexture("explosion"), Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.LawnGreen, 0.4f), Projectile.rotation, Helper.GetExtraTexture("explosion").Size() / 2, 128f / (float)Helper.GetExtraTexture("explosion").Size().Length() * 2 * (1 + Projectile.ai[1]), SpriteEffects.None, 0);
+
+            float fadeMult = 1f / Projectile.oldPos.Length;
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
+            {
+                float mult = (1f - fadeMult * i);
+                sb.Draw(Helper.GetExtraTexture("explosion"), Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.LawnGreen, 0.4f) * mult * 0.6f, Projectile.rotation, Helper.GetExtraTexture("explosion").Size() / 2, (32 / (float)Helper.GetExtraTexture("explosion").Size().Length() * 2 * (1 + Projectile.ai[1])) * mult, SpriteEffects.None, 0);
+            }
+
+            sb.Draw(Helper.GetExtraTexture("explosion"), Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.LawnGreen, 0.4f), Projectile.rotation, Helper.GetExtraTexture("explosion").Size() / 2, 32 / (float)Helper.GetExtraTexture("explosion").Size().Length() * 2.2f * (1 + Projectile.ai[1]), SpriteEffects.None, 0);
+            sb.Draw(Helper.GetExtraTexture("Extras2/circle_04"), Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.LawnGreen, 0.4f), Projectile.rotation, Helper.GetExtraTexture("Extras2/circle_04").Size() / 2, 32 / (float)Helper.GetExtraTexture("Extras2/circle_04").Size().Length() * 1.5f * (1 + Projectile.ai[1]), SpriteEffects.None, 0);
 
             sb.Reload(BlendState.AlphaBlend);
-            return false;
+            return true;
         }
     }
 }
