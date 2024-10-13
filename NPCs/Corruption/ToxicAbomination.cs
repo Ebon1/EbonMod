@@ -89,13 +89,14 @@ namespace EbonianMod.NPCs.Corruption
         {
             if (NPC.ai[3] == 0)
             {
-                NPC.scale = Main.rand.NextFloat(0.8f, 1.2f);
+                NPC.scale = Main.rand.NextFloat(0.9f, 1.05f);
                 NPC.velocity = Main.rand.NextVector2Unit();
             }
         }
         float AITimer;
         public override void PostAI()
         {
+            Lighting.AddLight(NPC.Center, TorchID.Cursed);
             NPC.TargetClosest(false);
             AITimer++;
             AIType = (AITimer < 400 ? 205 : -1);
@@ -124,7 +125,7 @@ namespace EbonianMod.NPCs.Corruption
                     Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0);
 
                 if (AITimer < 417 && AITimer > 410)
-                    NPC.velocity += Helper.FromAToB(NPC.Center, Main.player[NPC.target].Center) * 2;
+                    NPC.velocity += Helper.FromAToB(NPC.Center, Main.player[NPC.target].Center) * 2.4f;
 
                 if (AITimer > 455)
                     NPC.velocity *= 0.9f;
@@ -141,7 +142,7 @@ namespace EbonianMod.NPCs.Corruption
         public override bool? CanFallThroughPlatforms() => true;
         public override bool CheckDead()
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 8; i++)
             {
                 Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CorruptionBrickGibs0").Type, NPC.scale);
                 Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CorruptionBrickGibs2").Type, NPC.scale);

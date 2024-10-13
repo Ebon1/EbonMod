@@ -22,13 +22,13 @@ namespace EbonianMod.Items.Weapons.Magic
         public override void SetDefaults()
         {
             Item.DamageType = DamageClass.Magic;
-            Item.damage = 0;
+            Item.damage = 1;
             Item.useTime = 1;
+            Item.mana = 1;
             Item.useAnimation = 10;
             Item.shoot = ModContent.ProjectileType<VaccumWormP>();
             Item.shootSpeed = 1f;
-            Item.rare = 2;
-            Item.expert = true;
+            Item.rare = 5;
             Item.useStyle = 5;
             Item.autoReuse = false;
             Item.noUseGraphic = true;
@@ -119,13 +119,15 @@ namespace EbonianMod.Items.Weapons.Magic
                         continue;
                     if (npcs[i].knockBackResist > 0)
                     {
-                        npcs[i].velocity = Helper.FromAToB(npcs[i].Center, Projectile.Center + Projectile.velocity * 20, false) / 15 * npcs[i].knockBackResist;
+                        npcs[i].velocity = Helper.FromAToB(npcs[i].Center, Projectile.Center + Projectile.velocity * 20, false) / 10 * npcs[i].knockBackResist;
                     }
                     npcs[i].StrikeNPC(new NPC.HitInfo()
                     {
                         Damage = 1,
                         Crit = false
                     });
+                    if (Projectile.ai[2]++ % 2 == 0)
+                        player.CheckMana(1, true);
 
                     Vector2 _pos = npcs[i].Center + Main.rand.NextVector2Circular(npcs[i].width / 2, npcs[i].height / 2);
                     if (Main.rand.NextBool(4))
