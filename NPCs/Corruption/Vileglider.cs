@@ -43,7 +43,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.width = 56;
             NPC.height = 52;
             NPC.npcSlots = 0.1f;
-            NPC.lifeMax = 30;
+            NPC.lifeMax = 100;
             NPC.damage = 12;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
@@ -51,7 +51,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.buffImmune[24] = true;
             NPC.noTileCollide = false;
-            NPC.defense = 0;
+            NPC.defense = 5;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
