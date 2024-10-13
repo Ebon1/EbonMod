@@ -524,6 +524,8 @@ Items: {
 		Tooltip:
 			'''
 			Reduces defense by 5
+			Increases the max number of minions by 1
+			Increases summon damage by 5%
 			Summons a corrupted heart that follows you and shoots cursed flames at nearby enemies.
 			'''
 		DisplayName: Rotten Heart
@@ -532,8 +534,8 @@ Items: {
 	BrainAcc: {
 		Tooltip:
 			'''
-			While the brains are active, they slowly heal you.
-			Each individual brain can be destroyed by enemies but if the player gets hit, all the brains die.
+			Increases life regen
+			Summons multiple brains to act as a shield against most attacks.
 			'''
 		DisplayName: Seeping Brain
 	}
@@ -678,6 +680,16 @@ Items: {
 
 	Chainsword: {
 		DisplayName: Chainsword
+		Tooltip: ""
+	}
+
+	CecitiorClawSummon: {
+		DisplayName: Cecitior Claw Summon
+		Tooltip: ""
+	}
+
+	HotShield: {
+		DisplayName: Dumpster Lid
 		Tooltip: ""
 	}
 }

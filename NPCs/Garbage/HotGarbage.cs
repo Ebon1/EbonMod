@@ -354,13 +354,17 @@ namespace EbonianMod.NPCs.Garbage
                         NPC.Center -= Vector2.UnitY * 2;
                     else
                         NPC.Center += Vector2.UnitY * 2;
+
+                    NPC.Center += new Vector2(Helper.FromAToB(NPC.Center, player.Center).X * 2, 0);
                 }
+                else
+                    NPC.noTileCollide = false;
             }
-            else
-                NPC.noTileCollide = false;
         }
         public override void AI()
         {
+            if (AIState != Idle)
+                NPC.noTileCollide = false;
             Player player = Main.player[NPC.target];
             if (redFrames.Contains(new Vector2(NPC.frame.X, NPC.frame.Y)))
                 Lighting.AddLight(NPC.Center, TorchID.Red);

@@ -8,16 +8,13 @@ namespace EbonianMod.Items.Accessories
 {
     public class BrainAcc : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
         public override void SetDefaults()
         {
             Item.accessory = true;
             Item.rare = 4;
             Item.defense = 5;
         }
-        public int timering = 0;
+        public int timer = 0;
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             List<int> brains = new List<int>();
@@ -31,8 +28,8 @@ namespace EbonianMod.Items.Accessories
             }
             if (brains.Count <= 0)
             {
-                timering++;
-                if (timering >= 200)
+                timer++;
+                if (timer >= 300)
                 {
                     for (int k = 0; k < 8; k++)
                     {
@@ -42,12 +39,12 @@ namespace EbonianMod.Items.Accessories
                         Main.npc[npc].localAI[0] = k;
                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc);
                     }
-                    timering = 0;
+                    timer = 0;
                 }
             }
             else
             {
-                timering = 0;
+                timer = 0;
             }
             EbonianPlayer modPlayer = player.GetModPlayer<EbonianPlayer>();
             modPlayer.brainAcc = true;

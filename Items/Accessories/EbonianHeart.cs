@@ -14,9 +14,6 @@ namespace EbonianMod.Items.Accessories
     [AutoloadEquip(EquipType.Back)]
     public class EbonianHeart : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
         public override void SetDefaults()
         {
             Item.accessory = true;
@@ -29,6 +26,8 @@ namespace EbonianMod.Items.Accessories
             {
                 NPC.NewNPC(player.GetSource_Accessory(Item), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<EbonianHeartNPC>(), Target: player.whoAmI);
             }
+            player.GetDamage(DamageClass.Summon) += 0.05f;
+            player.maxMinions += 1;
             EbonianPlayer modPlayer = player.GetModPlayer<EbonianPlayer>();
             modPlayer.heartAcc = true;
         }

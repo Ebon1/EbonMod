@@ -140,7 +140,10 @@ namespace EbonianMod.NPCs.Terrortoma
             Vector2 fromTo = Helper.FromAToB(eyeOGPosition, player.Center);
             if (NPC.IsABestiaryIconDummy)
             {
-                spriteBatch.Draw(tex, eyeOGPosition - screenPos, null, Color.White, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
+                fromTo = Helper.FromAToB(eyeOGPosition, Main.MouseScreen);
+                float dist = MathHelper.Clamp(Helper.FromAToB(eyeOGPosition, Main.MouseScreen, false).Length() * 0.1f, 0, 5);
+                eyePosition += dist * fromTo;
+                spriteBatch.Draw(tex, eyePosition - screenPos, null, Color.White, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
             }
             if (AIState != -12124 && AIState != Intro && !isLaughing)
             {

@@ -21,6 +21,11 @@ namespace EbonianMod.NPCs.Terrortoma
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 4;
+            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
         }
         public override void SetDefaults()
         {

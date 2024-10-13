@@ -43,7 +43,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("Crimorrhages appear to be an evolution of an Ichor Sticker that had its limbs overtaken by the spread of the biome. They appear to have once had more, but lost them to travelers and other Crimson beasts. Their sporadic movement and violent calls suggests something resembling anger due to their current state."),
+                new FlavorTextBestiaryInfoElement("Crimorrhages appear to be an evolution of an Ichor Sticker that had its limbs overtaken by the spread of the biome. Their sporadic movement and violent calls suggests something resembling anger due to their current state."),
             });
         }
         public override void SetStaticDefaults()
@@ -132,7 +132,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
                     {
                         NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(player.Center - new Vector2(0, 100)) * 15, 0.01f);
                     }
-                    else NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(verlet[0].lastP.position - new Vector2(0, 100)) * 15, 0.01f);
+                    else NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(verlet[0].lastP.position - new Vector2(0, 100)) * 30, 0.01f);
                     if (AITimer >= 350)
                     {
                         AIState++;
@@ -144,12 +144,12 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
                     if (AITimer > 45)
                         AITimer2++;
                     NPC.velocity *= 0.9f;
-                    if (AITimer2 == 10)
+                    if (AITimer2 % 20 == 5)
                     {
                         SoundStyle sound = EbonianSounds.bloodSpit;
                         SoundEngine.PlaySound(sound, NPC.Center);
                     }
-                    if (AITimer2 == 30)
+                    if (AITimer2 % 20 == 15)
                     {
                         Vector2 vel = NPC.Center.FromAToB(player.Center).RotatedByRandom(0.2f);
                         for (int i = 0; i < 15; i++)
@@ -161,10 +161,6 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
                         a.hostile = true;
                         a.tileCollide = false;
 
-                    }
-                    if (AITimer2 >= 60)
-                    {
-                        AITimer2 = 0;
                     }
                     if (AITimer >= 160)
                     {

@@ -39,10 +39,6 @@ namespace EbonianMod
             reiBoostCool--;
             if (reiBoostCool > 0)
                 reiBoostT--;
-            /*if (--reiBoostT <= 0)
-                reiBoost = false;
-            else
-                reiBoost = true;*/
             rei = false;
             reiV = false;
             rolleg = false;
@@ -123,84 +119,9 @@ namespace EbonianMod
         public override void PostUpdateMiscEffects()
         {
             EbonianMod.sys.UpdateParticles();
-            //Player.ManageSpecialBiomeVisuals("EbonianMod:CorruptTint", Player.ZoneCorrupt && !Player.ZoneUnderworldHeight);
-            //Player.ManageSpecialBiomeVisuals("EbonianMod:CrimsonTint", Player.ZoneCrimson && !Player.ZoneUnderworldHeight);
             Player.ManageSpecialBiomeVisuals("EbonianMod:Conglomerate", NPC.AnyNPCs(ModContent.NPCType<Conglomerate>()));
             #region "hell stuff"
-            Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight);// || SubworldSystem.IsActive<IgnosSubworld>());
-            //Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint2", SubworldSystem.IsActive<Ignos>());
-            /*if (Player.ZoneUnderworldHeight && Main.BackgroundEnabled)
-            {
-                if (Main.rand.NextBool(SubworldSystem.IsActive<IgnosSubworld>() ? 15 : 13))
-                {
-                    EbonianMod.sys.CreateParticle((part) =>
-                    {
-                        if (part.ai[0] > 200)
-                        {
-                            part.dead = true;
-                        }
-                        part.rotation = part.velocity.ToRotation();
-                        part.ai[0]++;
-                        part.scale = (float)Math.Sin(part.ai[0] * Math.PI / 200) * part.ai[1];
-                        part.alpha = (float)Math.Sin(part.ai[0] * Math.PI / 200);
-                    },
-                    new[]
-                    {
-                        Helper.GetExtraTexture("cinder_old"),
-
-                    }, (part, spriteBatch, position) =>
-                    {
-                        spriteBatch.End();
-                        spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-                        spriteBatch.Draw(part.textures[0], part.position - Main.screenPosition, null, part.color, part.rotation, part.textures[0].Size() / 2, part.scale, SpriteEffects.None, 0);
-                        spriteBatch.End();
-                        spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-                    }
-                    , new(Main.windSpeedCurrent + Main.rand.NextFloat(-2, 2f), Main.rand.NextFloat(-5, -10)), part =>
-                    {
-                        part.color = Color.White;
-                        part.scale = Main.rand.NextFloat(0.05f, 0.15f);
-                        part.ai[1] = Main.rand.NextFloat(0.1f, 0.2f);
-                        part.rotation = Main.rand.NextFloat(-1, 1);
-                        part.position = new Vector2(Main.screenPosition.X - Main.screenWidth + Main.rand.NextFloat(Main.screenWidth * 2), Main.screenPosition.Y - Main.screenHeight + Main.screenHeight * 2 + 100);
-                    });
-                }
-                if (SubworldSystem.IsActive<IgnosSubworld>() && Main.rand.NextBool())
-                {
-                    EbonianMod.sys.CreateParticle((part) =>
-                    {
-                        if (part.ai[0] > 600)
-                        {
-                            part.dead = true;
-                        }
-                        part.velocity.X = (float)Math.Sin(part.ai[0] * Math.PI / 600);
-                        part.rotation = part.velocity.ToRotation();
-                        part.ai[0]++;
-                        part.scale = (float)Math.Sin(part.ai[0] * Math.PI / 600) * part.ai[1];
-                        part.alpha = (float)Math.Sin(part.ai[0] * Math.PI / 600);
-                    },
-                    new[]
-                    {
-                        Helper.GetExtraTexture("glow2"),
-
-                    }, (part, spriteBatch, position) =>
-                    {
-                        spriteBatch.End();
-                        spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-                        spriteBatch.Draw(part.textures[0], part.position - Main.screenPosition, null, part.color, part.rotation, part.textures[0].Size() / 2, part.scale, SpriteEffects.None, 0);
-                        spriteBatch.End();
-                        spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-                    }
-                    , new(Main.windSpeedCurrent + Main.rand.NextFloat(-2, 2f), Main.rand.NextFloat(-2, -4)), part =>
-                    {
-                        part.color = Color.Gray;
-                        part.scale = Main.rand.NextFloat(0.05f, 0.15f);
-                        part.ai[1] = Main.rand.NextFloat(0.025f, 0.05f);
-                        part.rotation = Main.rand.NextFloat(-1, 1);
-                        part.position = new Vector2(Main.screenPosition.X - Main.screenWidth * 2 + Main.rand.NextFloat(Main.screenWidth * 2), Main.screenPosition.Y - Main.screenHeight + Main.screenHeight * 2 + 100);
-                    });
-                }
-            }*/
+            Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight);
             #endregion
         }
 
@@ -218,6 +139,11 @@ namespace EbonianMod
             flashMaxTime = time;
             flashTime = time;
             flashPosition = pos;
+        }
+        public override void UpdateLifeRegen()
+        {
+            if (brainAcc)
+                Player.lifeRegen += 5;
         }
         public override void PostUpdateBuffs()
         {

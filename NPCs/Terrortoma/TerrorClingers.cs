@@ -619,7 +619,7 @@ namespace EbonianMod.NPCs.Terrortoma
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
-                new FlavorTextBestiaryInfoElement("These creatures were the heads of infected corpses, they connect to the Terrortoma with part of the Eater of World's spine."),
+                new FlavorTextBestiaryInfoElement("These creatures were the heads of infected corpses, they connect to the Terrortoma, creating a sort of small hive mind together."),
             });
         }
         public override void SetStaticDefaults()

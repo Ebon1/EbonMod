@@ -121,6 +121,11 @@ namespace EbonianMod.Items.Weapons.Magic
                     {
                         npcs[i].velocity = Helper.FromAToB(npcs[i].Center, Projectile.Center + Projectile.velocity * 20, false) / 15 * npcs[i].knockBackResist;
                     }
+                    npcs[i].StrikeNPC(new NPC.HitInfo()
+                    {
+                        Damage = 1,
+                        Crit = false
+                    });
 
                     Vector2 _pos = npcs[i].Center + Main.rand.NextVector2Circular(npcs[i].width / 2, npcs[i].height / 2);
                     if (Main.rand.NextBool(4))

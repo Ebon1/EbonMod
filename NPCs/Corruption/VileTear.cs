@@ -12,6 +12,7 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent.Bestiary;
 
 namespace EbonianMod.NPCs.Corruption
 {
@@ -22,6 +23,19 @@ namespace EbonianMod.NPCs.Corruption
             Main.npcFrameCount[Type] = 2;
             NPCID.Sets.TrailCacheLength[Type] = 5;
             NPCID.Sets.TrailingMode[Type] = 3;
+            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Rotation = -MathHelper.PiOver2
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
+                new FlavorTextBestiaryInfoElement("skibidi toilet"),
+            });
         }
         public override void SetDefaults()
         {

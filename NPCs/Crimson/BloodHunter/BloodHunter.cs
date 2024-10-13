@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -21,6 +22,14 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 CustomTexturePath = "EbonianMod/NPCs/Crimson/BloodHunter/BloodHunter_Bestiary"
+            });
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
+                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
+                new FlavorTextBestiaryInfoElement("A gruesome arachnid of the crimson. It prefers a less direct approach compared to its spider relatives, maintaining distance with its pincers, and a stinger tail producing a potent venom."),
             });
         }
         public override void SetDefaults()
@@ -110,6 +119,7 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
                         if (stingerTarget.Distance(player.Center) < 10)
                         {
                             player.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), 15, NPC.direction);
+                            player.AddBuff(BuffID.Ichor, 400);
                         }
                     }
                     else if (NPC.ai[0] < 40)

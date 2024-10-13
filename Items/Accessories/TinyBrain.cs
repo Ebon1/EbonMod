@@ -1,7 +1,10 @@
+using EbonianMod.Common.Systems.Misc;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.IO;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace EbonianMod.Items.Accessories
@@ -11,7 +14,7 @@ namespace EbonianMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 4;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Hide = true
             };
@@ -30,7 +33,7 @@ namespace EbonianMod.Items.Accessories
             NPC.aiStyle = 0;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
-            NPC.lifeMax = 150;
+            NPC.lifeMax = 400;
             NPC.friendly = true;
             NPC.dontTakeDamage = false;
         }
@@ -56,47 +59,41 @@ namespace EbonianMod.Items.Accessories
         {
             NPC.localAI[0] = reader.ReadSingle();
         }
+        public override void OnSpawn(IEntitySource source)
+        {
+            Player player = Main.player[NPC.target];
+            verlet = new Verlet(player.Center, 8, 14, stiffness: 20);
+        }
         public override void AI()
         {
             Player player = Main.player[NPC.target];
             NPC.timeLeft = 2;
-            NPC.ai[0] += 1;
-            if (NPC.ai[1] >= 100 * (NPC.localAI[0] + 1) && NPC.ai[1] % 30 == 0)
-            {
-                player.Heal((int)(player.statLifeMax * 0.01f));
-            }
-            if (++NPC.ai[1] >= 200 * (NPC.localAI[0] + 1))
-            {
-                player.Heal((int)(player.statLifeMax * 0.05f));
-                Helper.QuickDustLine(NPC.Center, player.Center, 100, Color.Green);
-                NPC.life = 0;
-                NPC.checkDead();
-            }
+            NPC.ai[0] += 4;
             switch (NPC.localAI[0])
             {
                 case 0:
-                    NPC.Center = player.Center + new Vector2(0, 60).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
+                    NPC.Center = player.Center + new Vector2(0, 60 + MathF.Sin(NPC.ai[0] * 0.05f) * 5).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
                     break;
                 case 1:
-                    NPC.Center = player.Center + new Vector2(0, -60).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
+                    NPC.Center = player.Center + new Vector2(0, -60 + MathF.Sin(NPC.ai[0] * 0.05f) * 5).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
                     break;
                 case 2:
-                    NPC.Center = player.Center + new Vector2(80, 0).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
+                    NPC.Center = player.Center + new Vector2(80 + MathF.Sin(NPC.ai[0] * 0.05f) * 5, 0).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
                     break;
                 case 3:
-                    NPC.Center = player.Center + new Vector2(-80, 0).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
+                    NPC.Center = player.Center + new Vector2(-80 + MathF.Sin(NPC.ai[0] * 0.05f) * 5, 0).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
                     break;
                 case 4:
-                    NPC.Center = player.Center + new Vector2(60, 40).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
+                    NPC.Center = player.Center + new Vector2(60 + MathF.Sin(NPC.ai[0] * 0.05f) * 5, 40 + MathF.Sin(NPC.ai[0] * 0.05f) * 5).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
                     break;
                 case 5:
-                    NPC.Center = player.Center + new Vector2(-60, 40).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
+                    NPC.Center = player.Center + new Vector2(-60 + MathF.Sin(NPC.ai[0] * 0.05f) * 5, 40 + MathF.Sin(NPC.ai[0] * 0.05f) * 5).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
                     break;
                 case 6:
-                    NPC.Center = player.Center + new Vector2(60, -40).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
+                    NPC.Center = player.Center + new Vector2(60 + MathF.Sin(NPC.ai[0] * 0.05f) * 5, -40 + MathF.Sin(NPC.ai[0] * 0.05f) * 5).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
                     break;
                 case 7:
-                    NPC.Center = player.Center + new Vector2(-60, -40).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
+                    NPC.Center = player.Center + new Vector2(-60 + MathF.Sin(NPC.ai[0] * 0.05f) * 5, -40 + MathF.Sin(NPC.ai[0] * 0.05f) * 5).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
                     break;
 
             }
@@ -132,35 +129,13 @@ namespace EbonianMod.Items.Accessories
                 NPC.frameCounter = 0;
             }
         }
+        Verlet verlet;
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
-            if (NPC.ai[0] != -1)
+            if (verlet != null)
             {
-                Player player = Main.player[NPC.target];
-
-                Vector2 neckOrigin = new Vector2(player.Center.X, player.Center.Y);
-                Vector2 center = NPC.Center;
-                Vector2 distToProj = neckOrigin - NPC.Center;
-                float projRotation = distToProj.ToRotation() - 1.57f;
-                float distance = distToProj.Length();
-                while (distance > 4 && !float.IsNaN(distance))
-                {
-                    distToProj.Normalize();
-                    distToProj *= 4;
-                    center += distToProj;
-                    distToProj = neckOrigin - center;
-                    distance = distToProj.Length();
-
-                    //Draw chain
-                    spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Accessories/BrainAcc_Chain").Value, center - pos,
-                        new Rectangle(0, 0, 8, 4), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
-                        new Vector2(8 * 0.5f, 4 * 0.5f), 1f, SpriteEffects.None, 0);
-                    if (NPC.ai[1] >= 100 * (NPC.localAI[0] + 1))
-                        spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Extras/Line").Value, center - pos,
-                        new Rectangle(0, 0, 8, 4), Color.Green * 0.25f, projRotation,
-                        new Vector2(8 * 0.5f, 4 * 0.5f), 1f, SpriteEffects.None, 0);
-
-                }
+                verlet.Update(Main.player[NPC.target].Center, NPC.Center);
+                verlet.Draw(spriteBatch, new VerletDrawData("Items/Accessories/BrainAcc_Chain"));
             }
             return true;
         }
