@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using ReLogic.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +18,8 @@ namespace EbonianMod.Common.Systems
             MaxInstances = 10,
             PitchVariance = 0.3f,
         };
+
+
         public const string ebonianSoundPath = "EbonianMod/Sounds/";
         public static SoundStyle
         None,
@@ -71,56 +75,336 @@ namespace EbonianMod.Common.Systems
         evilOutro;
         public static void LoadSounds()
         {
-            bloodSpit = Default with { SoundPath = ebonianSoundPath + "bloodSpit" };
-            bowPull = Default with { SoundPath = ebonianSoundPath + "bowPull" };
-            bowRelease = Default with { SoundPath = ebonianSoundPath + "bowRelease" };
-            chargedBeam = Default with { SoundPath = ebonianSoundPath + "chargedBeam" };
-            chargedBeamWindUp = Default with { SoundPath = ebonianSoundPath + "chargedBeamWindUp", PitchVariance = 0f };
-            chargedBeamImpactOnly = Default with { SoundPath = ebonianSoundPath + "chargedBeamImpactOnly", PitchVariance = 0f };
-            cursedToyCharge = Default with { SoundPath = ebonianSoundPath + "cursedToyCharge", PitchVariance = 0f };
-            chomp0 = Default with { SoundPath = ebonianSoundPath + "chomp0", Volume = 1.3f };
-            chomp1 = Default with { SoundPath = ebonianSoundPath + "chomp1", Volume = 1.3f };
-            chomp2 = Default with { SoundPath = ebonianSoundPath + "chomp2", MaxInstances = 1 };
-            eggplosion = Default with { SoundPath = ebonianSoundPath + "eggplosion" };
-            eruption = Default with { SoundPath = ebonianSoundPath + "eruption" };
-            exolDash = Default with { SoundPath = ebonianSoundPath + "exolDash" };
-            exolRoar = Default with { SoundPath = ebonianSoundPath + "exolRoar" };
-            exolSummon = Default with { SoundPath = ebonianSoundPath + "exolSummon" };
-            flesh0 = Default with { SoundPath = ebonianSoundPath + "flesh0" };
-            flesh1 = Default with { SoundPath = ebonianSoundPath + "flesh1" };
-            flesh2 = Default with { SoundPath = ebonianSoundPath + "flesh2" };
-            buildup = Default with { SoundPath = ebonianSoundPath + "buildup", PitchVariance = 0 };
-            garbageAwaken = Default with { SoundPath = ebonianSoundPath + "garbageAwaken", PitchVariance = 0 };
-            garbageSignal = Default with { SoundPath = ebonianSoundPath + "garbageSignal", PitchVariance = 0 };
-            genericExplosion = Default with { SoundPath = ebonianSoundPath + "genericExplosion" };
-            heartbeat = Default with { SoundPath = ebonianSoundPath + "heartbeat" };
-            nuke = Default with { SoundPath = ebonianSoundPath + "nuke" };
-            reiFail = Default with { SoundPath = ebonianSoundPath + "reiFail" };
-            reiFail2 = Default with { SoundPath = ebonianSoundPath + "reiFail2" };
-            reiTP = Default with { SoundPath = ebonianSoundPath + "reiTP" };
-            rolleg = Default with { SoundPath = ebonianSoundPath + "rolleg" };
-            terrortomaDash = Default with { SoundPath = ebonianSoundPath + "terrortomaDash" };
-            cecitiorDie = Default with { SoundPath = ebonianSoundPath + "NPCHit/cecitiorDie" };
-            fleshHit = Default with { SoundPath = ebonianSoundPath + "NPCHit/fleshHit" };
-            terrortomaFlesh = Default with { SoundPath = ebonianSoundPath + "terrortomaFlesh" };
-            cecitiorBurp = Default with { SoundPath = ebonianSoundPath + "cecitiorBurp" };
-            clawSwipe = Default with { SoundPath = ebonianSoundPath + "clawSwipe" };
-            BeamWindUp = Default with { SoundPath = ebonianSoundPath + "BeamWindUp", PitchVariance = 0 };
-            garbageLaser = Default with { SoundPath = ebonianSoundPath + "garbageLaser", PitchVariance = 0 };
-            trumpet = Default with { SoundPath = ebonianSoundPath + "trumpet", PitchVariance = 0.4f, Variants = new int[] { 0, 1 } };
-            terrortomaLaugh = Default with { SoundPath = ebonianSoundPath + "terrortomaLaugh", Variants = new int[] { 0, 1 }, PitchVariance = 0.25f, Volume = 1.1f };
-            HeavySwing = Default with { SoundPath = ebonianSoundPath + "HeavySwing", Variants = new int[] { 0, 1, 2 }, PitchVariance = 0.25f, Volume = 1.1f };
-            FleshImpact = Default with { SoundPath = ebonianSoundPath + "FleshImpact", Variants = new int[] { 0, 1, 2 }, PitchVariance = 0.25f, Volume = .7f };
-            blink = Default with { SoundPath = ebonianSoundPath + "blink" };
-            xSpirit = Default with { SoundPath = ebonianSoundPath + "xSpirit", Volume = 0.7f };
-            helicopter = Default with { SoundPath = ebonianSoundPath + "helicopter", PitchVariance = 0f };
-            firework = Default with { SoundPath = ebonianSoundPath + "firework" };
-            magicSlash = Default with { SoundPath = ebonianSoundPath + "magicSlash" };
-            sheep = Default with { SoundPath = ebonianSoundPath + "sheep" };
-            vaccum = Default with { SoundPath = ebonianSoundPath + "vaccum", IsLooped = true, PitchVariance = 0f };
-            ghizasWheel = Default with { SoundPath = ebonianSoundPath + "ghizasWheel", IsLooped = true, PitchVariance = 0f };
-            garbageDeath = Default with { SoundPath = ebonianSoundPath + "NPCHit/garbageDeath", PitchVariance = 0 };
-            evilOutro = Default with { SoundPath = ebonianSoundPath + "Music/Outros/evilOutro", PitchVariance = 0 };
+            bloodSpit = Default with
+            {
+                SoundPath = ebonianSoundPath + "bloodSpit"
+            };
+
+
+            bowPull = Default with
+            {
+                SoundPath = ebonianSoundPath + "bowPull"
+            };
+
+
+            bowRelease = Default with
+            {
+                SoundPath = ebonianSoundPath + "bowRelease"
+            };
+
+
+            chargedBeam = Default with
+            {
+                SoundPath = ebonianSoundPath + "chargedBeam"
+            };
+
+
+            chargedBeamWindUp = Default with
+            {
+                SoundPath = ebonianSoundPath + "chargedBeamWindUp",
+                PitchVariance = 0f
+            };
+
+
+            chargedBeamImpactOnly = Default with
+            {
+                SoundPath = ebonianSoundPath + "chargedBeamImpactOnly",
+                PitchVariance = 0f
+            };
+
+
+            cursedToyCharge = Default with
+            {
+                SoundPath = ebonianSoundPath + "cursedToyCharge",
+                PitchVariance = 0f
+            };
+
+
+            chomp0 = Default with
+            {
+                SoundPath = ebonianSoundPath + "chomp0",
+                Volume = 1.3f
+            };
+
+
+            chomp1 = Default with
+            {
+                SoundPath = ebonianSoundPath + "chomp1",
+                Volume = 1.3f
+            };
+
+
+            chomp2 = Default with
+            {
+                SoundPath = ebonianSoundPath + "chomp2",
+                MaxInstances = 1
+            };
+
+
+            eggplosion = Default with
+            {
+                SoundPath = ebonianSoundPath + "eggplosion"
+            };
+
+
+            eruption = Default with
+            {
+                SoundPath = ebonianSoundPath + "eruption"
+            };
+
+
+            exolDash = Default with
+            {
+                SoundPath = ebonianSoundPath + "exolDash"
+            };
+
+
+            exolRoar = Default with
+            {
+                SoundPath = ebonianSoundPath + "exolRoar"
+            };
+
+
+            exolSummon = Default with
+            {
+                SoundPath = ebonianSoundPath + "exolSummon"
+            };
+
+
+            flesh0 = Default with
+            {
+                SoundPath = ebonianSoundPath + "flesh0"
+            };
+
+
+            flesh1 = Default with
+            {
+                SoundPath = ebonianSoundPath + "flesh1"
+            };
+
+
+            flesh2 = Default with
+            {
+                SoundPath = ebonianSoundPath + "flesh2"
+            };
+
+
+            buildup = Default with
+            {
+                SoundPath = ebonianSoundPath + "buildup",
+                PitchVariance = 0
+            };
+
+
+            garbageAwaken = Default with
+            {
+                SoundPath = ebonianSoundPath + "garbageAwaken",
+                PitchVariance = 0
+            };
+
+
+            garbageSignal = Default with
+            {
+                SoundPath = ebonianSoundPath + "garbageSignal",
+                PitchVariance = 0
+            };
+
+
+            genericExplosion = Default with
+            {
+                SoundPath = ebonianSoundPath + "genericExplosion"
+            };
+
+
+            heartbeat = Default with
+            {
+                SoundPath = ebonianSoundPath + "heartbeat"
+            };
+
+
+            nuke = Default with
+            {
+                SoundPath = ebonianSoundPath + "nuke"
+            };
+
+
+            reiFail = Default with
+            {
+                SoundPath = ebonianSoundPath + "reiFail"
+            };
+
+
+            reiFail2 = Default with
+            {
+                SoundPath = ebonianSoundPath + "reiFail2"
+            };
+
+
+            reiTP = Default with
+            {
+                SoundPath = ebonianSoundPath + "reiTP"
+            };
+
+
+            rolleg = Default with
+            {
+                SoundPath = ebonianSoundPath + "rolleg"
+            };
+
+
+            terrortomaDash = Default with
+            {
+                SoundPath = ebonianSoundPath + "terrortomaDash"
+            };
+
+
+            cecitiorDie = Default with
+            {
+                SoundPath = ebonianSoundPath + "NPCHit/cecitiorDie"
+            };
+
+
+            fleshHit = Default with
+            {
+                SoundPath = ebonianSoundPath + "NPCHit/fleshHit"
+            };
+
+
+            terrortomaFlesh = Default with
+            {
+                SoundPath = ebonianSoundPath + "terrortomaFlesh"
+            };
+
+
+            cecitiorBurp = Default with
+            {
+                SoundPath = ebonianSoundPath + "cecitiorBurp"
+            };
+
+
+            clawSwipe = Default with
+            {
+                SoundPath = ebonianSoundPath + "clawSwipe"
+            };
+
+
+            BeamWindUp = Default with
+            {
+                SoundPath = ebonianSoundPath + "BeamWindUp",
+                PitchVariance = 0
+            };
+
+
+            garbageLaser = Default with
+            {
+                SoundPath = ebonianSoundPath + "garbageLaser",
+                PitchVariance = 0
+            };
+
+
+            trumpet = Default with
+            {
+                SoundPath = ebonianSoundPath + "trumpet",
+                PitchVariance = 0.4f,
+                Variants = new int[] { 0, 1 }
+            };
+
+
+            terrortomaLaugh = Default with
+            {
+                SoundPath = ebonianSoundPath + "terrortomaLaugh",
+                Variants = new int[] { 0, 1 },
+                PitchVariance = 0.25f,
+                Volume = 1.1f
+            };
+
+
+            HeavySwing = Default with
+            {
+                SoundPath = ebonianSoundPath + "HeavySwing",
+                Variants = new int[] { 0, 1, 2 },
+                PitchVariance = 0.25f,
+                Volume = 1.1f
+            };
+
+
+            FleshImpact = Default with
+            {
+                SoundPath = ebonianSoundPath + "FleshImpact",
+                Variants = new int[] { 0, 1, 2 },
+                PitchVariance = 0.25f,
+                Volume = .7f
+            };
+
+
+            blink = Default with
+            {
+                SoundPath = ebonianSoundPath + "blink"
+            };
+
+
+            xSpirit = Default with
+            {
+                SoundPath = ebonianSoundPath + "xSpirit",
+                Volume = 0.7f
+            };
+
+
+            helicopter = Default with
+            {
+                SoundPath = ebonianSoundPath + "helicopter",
+                PitchVariance = 0f
+            };
+
+
+            firework = Default with
+            {
+                SoundPath = ebonianSoundPath + "firework"
+            };
+
+
+            magicSlash = Default with
+            {
+                SoundPath = ebonianSoundPath + "magicSlash"
+            };
+
+
+            sheep = Default with
+            {
+                SoundPath = ebonianSoundPath + "sheep"
+            };
+
+
+            vaccum = Default with
+            {
+                SoundPath = ebonianSoundPath + "vaccum",
+                IsLooped = true,
+                PitchVariance = 0f
+            };
+
+
+            ghizasWheel = Default with
+            {
+                SoundPath = ebonianSoundPath + "ghizasWheel",
+                IsLooped = true,
+                PitchVariance = 0f
+            };
+
+
+            garbageDeath = Default with
+            {
+                SoundPath = ebonianSoundPath + "NPCHit/garbageDeath",
+                PitchVariance = 0
+            };
+
+
+            evilOutro = Default with
+            {
+                SoundPath = ebonianSoundPath + "Music/Outros/evilOutro",
+                PitchVariance = 0
+            };
+
+
         }
         public override void OnModLoad()
         {
