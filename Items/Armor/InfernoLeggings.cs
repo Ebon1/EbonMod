@@ -17,5 +17,6 @@ namespace EbonianMod.Items.Armor
             Item.rare = ItemRarityID.Yellow;
             Item.defense = 12;
         }
+        public override bool IsLoadingEnabled(Mod mod) => false;
     }
 }

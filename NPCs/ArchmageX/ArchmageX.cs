@@ -491,6 +491,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 1)
                         {
                             Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosionTiny>(), 0, 0);
+                            Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
                             //SoundEngine.PlaySound(SoundID.Item16, NPC.Center);
                         }
                         if (AITimer == 50)
@@ -1676,7 +1677,7 @@ namespace EbonianMod.NPCs.ArchmageX
         public override bool? CanFallThroughPlatforms()
         {
             Player player = Main.player[NPC.target];
-            return (player.Center.Y > NPC.Center.Y + 50 && (AIState == Idle || AIState == Spawn || AIState == Micolash)) || NPC.noGravity;
+            return (player.Center.Y > NPC.Center.Y + 50 && (AIState == Idle || AIState == Spawn || (AIState == Micolash && AITimer < 130))) || NPC.noGravity;
         }
         void Reset()
         {

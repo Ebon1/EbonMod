@@ -1195,16 +1195,10 @@ namespace EbonianMod.NPCs.Garbage
             Projectile.hostile = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 500;
-            Projectile.hide = true;
         }
         Vector2 targetPos;
         float waveTimer;
-        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
-        {
-            behindNPCs.Add(index);
-            behindProjectiles.Add(index);
-        }
-        public override void PostDraw(Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D pulse = Helper.GetExtraTexture("PulseCircle2");
             Texture2D ring = Helper.GetExtraTexture("speckle");
@@ -1270,6 +1264,10 @@ namespace EbonianMod.NPCs.Garbage
             DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, extraString + strin, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString((extraString + strin).ToString()).X / 2, Main.screenHeight * 0.05f), Color.Red);
 
             Main.spriteBatch.ApplySaved();
+            return true;
+        }
+        public override void PostDraw(Color lightColor)
+        {
         }
         string extraString = "NUKE DETONATION IN: ";
         public override void OnSpawn(IEntitySource source)

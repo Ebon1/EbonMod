@@ -62,6 +62,7 @@ namespace EbonianMod.Items.Accessories
         public override void OnSpawn(IEntitySource source)
         {
             Player player = Main.player[NPC.target];
+            NPC.Center = player.Center;
             verlet = new Verlet(player.Center, 8, 14, stiffness: 20);
         }
         public override void AI()

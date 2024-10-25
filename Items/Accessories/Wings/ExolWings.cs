@@ -17,6 +17,7 @@ namespace EbonianMod.Items.Accessories.Wings
         {
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(145, 9f, 1.5f);
         }
+        public override bool IsLoadingEnabled(Mod mod) => false;
         public override void SetDefaults()
         {
             Item.width = 22;

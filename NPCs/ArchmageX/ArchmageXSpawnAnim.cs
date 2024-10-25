@@ -58,17 +58,24 @@ namespace EbonianMod.NPCs.ArchmageX
         }
         public override void OnKill(int timeLeft)
         {
+            for (int i = 0; i < 15; i++)
+                Projectile.NewProjectile(null, Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(10, 20), ModContent.ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(0.1f, 0.3f));
+
             NPC.NewNPCDirect(null, Projectile.Center, ModContent.NPCType<ArchmageX>());
         }
         public override bool PreDraw(ref Color lightColor)
         {
             if (lightColor != Color.Transparent) return false;
-            Texture2D tex4 = Helper.GetExtraTexture("crosslight");
+            Texture2D tex3 = Helper.GetExtraTexture("crosslight");
+            Texture2D tex4 = Helper.GetExtraTexture("Extras2/twirl_02");
             Main.spriteBatch.Reload(BlendState.Additive);
             for (int i = 0; i < 4; i++)
             {
-                Main.spriteBatch.Draw(tex4, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha), Main.GameUpdateCount * -0.04f, tex4.Size() / 2, (glareAlpha) * 1.55f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(tex4, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha), Main.GameUpdateCount * 0.04f, tex4.Size() / 2, (glareAlpha) * 1.9f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex4, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha), MathHelper.Pi + Main.GameUpdateCount * 0.1f, tex4.Size() / 2, (glareAlpha) * .3f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex4, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha), Main.GameUpdateCount * 0.1f, tex4.Size() / 2, (glareAlpha) * .3f, SpriteEffects.None, 0);
+
+                Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha), MathHelper.PiOver2 + Main.GameUpdateCount * -0.06f, tex3.Size() / 2, (glareAlpha) * .6f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha * 0.5f), Main.GameUpdateCount * -0.06f, tex3.Size() / 2, (glareAlpha) * 1.6f, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
@@ -117,8 +124,17 @@ namespace EbonianMod.NPCs.ArchmageX
                 fac = 9;
             if (Projectile.timeLeft % fac == 0 && Projectile.timeLeft > 35)
             {
-                Projectile.NewProjectile(null, Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(2.5f, 4) * Projectile.scale, ModContent.ProjectileType<XCloudVFXExtra>(), 0, 0);
+                Projectile.NewProjectile(null, Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.5f, 2) * Projectile.scale, ModContent.ProjectileType<XCloudVFXExtra>(), 0, 0);
             }
+
+
+            if (fac < 9 && Projectile.timeLeft % fac == 0 && Projectile.timeLeft > 5)
+                for (int i = 0; i < 2; i++)
+                {
+                    Vector2 vel = Main.rand.NextVector2Unit() * Main.rand.NextFloat(2, MathHelper.Clamp(10 - fac, 3, 10)) * (Projectile.scale * 0.5f);
+                    Projectile.NewProjectile(null, Projectile.Center - vel * 2, vel, ModContent.ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(0.1f, 0.3f));
+                }
+
 
             if (Projectile.timeLeft < 300)
             {

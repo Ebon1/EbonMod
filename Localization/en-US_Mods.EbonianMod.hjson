@@ -224,6 +224,9 @@ Projectiles: {
 	ConglomerateScream.DisplayName: Conglomerate Scream
 	CFlesh.DisplayName: C Flesh
 	CIchorBomb.DisplayName: C Ichor Bomb
+	CecitiorClawMinion.DisplayName: Cecitior Claw Minion
+	AnimeSlash.DisplayName: Anime Slash
+	XAnimeSlash.DisplayName: X Anime Slash
 }
 
 NPCs: {
@@ -595,7 +598,7 @@ Items: {
 
 	Ostertagi: {
 		DisplayName: Ostertagi
-		Tooltip: Massively boosts damage and attacking speed, at a cost.
+		Tooltip: Greatly boosts damage and attacking speed, at a cost.
 	}
 
 	Potato: {
@@ -732,7 +735,7 @@ Buffs: {
 
 	OstertagiB: {
 		DisplayName: Infected
-		Description: Massively boosted damage and attacking speed.
+		Description: Greatly boosted damage and attacking speed.
 	}
 
 	Sheepened: {

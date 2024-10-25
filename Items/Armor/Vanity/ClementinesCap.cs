@@ -21,7 +21,7 @@ namespace EbonianMod.Items.Armor.Vanity
             Item.width = 18;
             Item.height = 24;
             Item.value = Item.sellPrice(gold: 1);
-            Item.rare = ItemRarityID.Pink;
+            Item.rare = ItemRarityID.Blue;
             Item.vanity = true;
         }
 
