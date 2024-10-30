@@ -31,7 +31,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.useAnimation = 40;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 2f;
-            Item.rare = ItemRarityID.Pink;
+            Item.rare = ItemRarityID.LightRed;
             Item.mana = 10;
             Item.noMelee = true;
             Item.staff[Item.type] = true;
