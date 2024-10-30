@@ -48,7 +48,7 @@ namespace EbonianMod.Common.Systems.Worldgen
                     }
                     if (Main.tile[chest.x, chest.y].TileFrameX == 3 * 36 || Main.tile[chest.x, chest.y].TileFrameX == 4 * 36)
                     {
-                        if (WorldGen.genRand.NextBool(5))
+                        if (WorldGen.genRand.NextBool(3))
                             chest.item[0].SetDefaults(Main.rand.Next(shadowChestMainLoot));
                     }
                 }

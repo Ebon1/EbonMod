@@ -41,7 +41,7 @@ namespace EbonianMod.Common.Systems.Worldgen
         public void GenHouse3(GenerationProgress progress, GameConfiguration _)
         {
 
-            int x = Main.maxTilesX / 2 + 140;
+            int x = Main.maxTilesX / 2 + 120;
             int _y = 0;
             for (int i = x; i < x + 400; i++)
             {
@@ -89,64 +89,102 @@ namespace EbonianMod.Common.Systems.Worldgen
         {
             List<int> tempHeightsL = new List<int>();
             List<int> tempHeightsR = new List<int>();
-            for (int i = Main.maxTilesX / 2 - 200; i < Main.maxTilesX / 2 + 200; i++)
+            for (int i = Main.maxTilesX / 2 - 440; i < Main.maxTilesX / 2 - 140; i++)
             {
-                int tempY = 0;
-                while (!Main.tile[i, tempY].HasTile)
+                int tempY = 110;
+                while (!Main.tile[i, tempY].HasTile || (Main.tile[i, tempY].HasTile && !Main.tileSolid[Main.tile[i, tempY].TileType]) || Main.tile[i, tempY].TileType == TileID.Cloud || Main.tile[i, tempY].TileType == TileID.Plants || Main.tile[i, tempY].TileType == TileID.Cactus || Main.tile[i, tempY].TileType == TileID.Trees || Main.tile[i, tempY].TileType == TileID.Sunplate)
                     tempY++;
-                if (i < Main.maxTilesX / 2)
-                    tempHeightsL.Add(tempY);
-                else
-                    tempHeightsR.Add(tempY);
+                tempHeightsL.Add(tempY);
             }
-            int side = (tempHeightsL.Max() - tempHeightsL.Min() > tempHeightsR.Max() - tempHeightsR.Min()) ? 1 : -1;
-            int sizeDiff = side == 1 ? tempHeightsR.Max() - tempHeightsR.Min() : tempHeightsL.Max() - tempHeightsL.Min();
-            if (sizeDiff > 6)
+            for (int i = Main.maxTilesX / 2 + 140; i < Main.maxTilesX / 2 + 440; i++)
             {
-                tempHeightsL.Clear();
-                tempHeightsR.Clear();
-                for (int i = Main.maxTilesX / 2 - 340; i < Main.maxTilesX / 2 + 340; i++)
-                {
-                    int tempY = 0;
-                    while (!Main.tile[i, tempY].HasTile)
-                        tempY++;
-                    if (i < Main.maxTilesX / 2)
-                        tempHeightsL.Add(tempY);
-                    else
-                        tempHeightsR.Add(tempY);
-                }
-                side = (tempHeightsL.Max() - tempHeightsL.Min() > tempHeightsR.Max() - tempHeightsR.Min()) ? 1 : -1;
+                int tempY = 110;
+                while (!Main.tile[i, tempY].HasTile || (Main.tile[i, tempY].HasTile && !Main.tileSolid[Main.tile[i, tempY].TileType]) || Main.tile[i, tempY].TileType == TileID.Cloud || Main.tile[i, tempY].TileType == TileID.Plants || Main.tile[i, tempY].TileType == TileID.Cactus || Main.tile[i, tempY].TileType == TileID.Trees || Main.tile[i, tempY].TileType == TileID.Sunplate)
+                    tempY++;
+                tempHeightsR.Add(tempY);
             }
+
+            var leftValues = tempHeightsL.GroupBy(x => x).Select(g => new { Value = g.Key, Count = g.Count() }).OrderByDescending(x => x.Count);
+            var rightValues = tempHeightsR.GroupBy(x => x).Select(g => new { Value = g.Key, Count = g.Count() }).OrderByDescending(x => x.Count);
+
+            int side = leftValues.Count() > rightValues.Count() ? 1 : -1;
+
+            //int side = ((tempHeightsL.Max() - tempHeightsL.Min()) > (tempHeightsR.Max() - tempHeightsR.Min())) ? 1 : -1;
+            int boundaries = 440 - 140;
             int x = Main.maxTilesX / 2 + 140 * side;
-            int _y = 0;
+            int _y = 110;
             int atts = 0;
-            while (atts < 200)
+            bool failed = false;
+            while (atts < boundaries)
             {
-                int y = 0;
-                for (int it = -1; it < 37; it++)
+                int y = 110;
+                List<int> _heights = new List<int>();
+                for (int it = -3; it < 39; it++)
                 {
-                    while (!Main.tile[x + it, y].HasTile || Main.tile[x + it, y].TileType == TileID.Cloud || Main.tile[x + it, y].TileType == TileID.Sunplate)
+                    while (!Main.tile[x + it, y].HasTile || (Main.tile[x + it, y].HasTile && !Main.tileSolid[Main.tile[x + it, y].TileType]) || Main.tile[x + it, y].TileType == TileID.Cloud || Main.tile[x + it, y].TileType == TileID.Plants || Main.tile[x + it, y].TileType == TileID.Cactus || Main.tile[x + it, y].TileType == TileID.Trees || Main.tile[x + it, y].TileType == TileID.Sunplate)
                         y++;
+                    _heights.Add(y);
                 }
                 List<int> heights = new List<int>();
-                for (int it = -2; it < 39; it++)
+                for (int it = -3; it < 39; it++)
                 {
-                    int tempY = 0;
-                    while (!Main.tile[x + it, tempY].HasTile)
+                    int tempY = _heights.Min() - 30;
+                    while (!Main.tile[x + it, tempY].HasTile || (Main.tile[x + it, tempY].HasTile && !Main.tileSolid[Main.tile[x + it, tempY].TileType]) || Main.tile[x + it, tempY].TileType == TileID.Cloud || Main.tile[x + it, tempY].TileType == TileID.Plants || Main.tile[x + it, tempY].TileType == TileID.Cactus || Main.tile[x + it, tempY].TileType == TileID.Trees || Main.tile[x + it, tempY].TileType == TileID.Sunplate)
                         tempY++;
                     heights.Add(tempY);
                 }
-                if (heights.Max() - heights.Min() > 4)
+                if ((heights.Max() - heights.Min()) > 5 || Main.tile[x, y].TileType == TileID.Sand || Main.tile[x, y].TileType == TileID.LivingWood)
                 {
                     x += side;
                     _y = y + 1;
                     atts++;
+                    if (atts >= boundaries)
+                        failed = true;
                     continue;
                 }
                 else
                 {
-                    _y = y + 1;
-                    atts = 400;
+                    _y = heights.Min() + (int)MathF.Round((heights.Max() - heights.Min()) / 2) + 1;
+                    atts = boundaries + 1;
+                    break;
+                }
+            }
+            if (failed)
+            {
+                atts = 0;
+                _y = 110;
+                x = Main.maxTilesX / 2 + 140 * -side;
+                while (atts < boundaries)
+                {
+                    int y = 110;
+                    List<int> _heights = new List<int>();
+                    for (int it = -3; it < 39; it++)
+                    {
+                        while (!Main.tile[x + it, y].HasTile || (Main.tile[x + it, y].HasTile && !Main.tileSolid[Main.tile[x + it, y].TileType]) || Main.tile[x + it, y].TileType == TileID.Cloud || Main.tile[x + it, y].TileType == TileID.Plants || Main.tile[x + it, y].TileType == TileID.Cactus || Main.tile[x + it, y].TileType == TileID.Trees || Main.tile[x + it, y].TileType == TileID.Sunplate)
+                            y++;
+                        _heights.Add(y);
+                    }
+                    List<int> heights = new List<int>();
+                    for (int it = -3; it < 39; it++)
+                    {
+                        int tempY = _heights.Min() - 30;
+                        while (!Main.tile[x + it, tempY].HasTile || (Main.tile[x + it, tempY].HasTile && !Main.tileSolid[Main.tile[x + it, tempY].TileType]) || Main.tile[x + it, tempY].TileType == TileID.Cloud || Main.tile[x + it, tempY].TileType == TileID.Plants || Main.tile[x + it, tempY].TileType == TileID.Cactus || Main.tile[x + it, tempY].TileType == TileID.Trees || Main.tile[x + it, tempY].TileType == TileID.Sunplate)
+                            tempY++;
+                        heights.Add(tempY);
+                    }
+                    if ((heights.Max() - heights.Min()) > 5 || Main.tile[x, y].TileType == TileID.Sand || Main.tile[x, y].TileType == TileID.LivingWood)
+                    {
+                        x += -side;
+                        _y = y + 1;
+                        atts++;
+                        continue;
+                    }
+                    else
+                    {
+                        _y = heights.Min() + (int)MathF.Round((heights.Max() - heights.Min()) / 2) + 1;
+                        atts = boundaries + 1;
+                        break;
+                    }
                 }
             }
             Point16 pos = new(x, _y - 31);
