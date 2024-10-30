@@ -470,7 +470,11 @@ Items: {
 	}
 
 	WaspPaintingI: {
-		Tooltip: By E. Fly
+		Tooltip:
+			'''
+			'Dedicated to a species long extinct'
+			By E. Fly
+			'''
 		DisplayName: The Wasp
 	}
 
@@ -663,7 +667,7 @@ Items: {
 
 	PhantasmalGreatsword: {
 		DisplayName: Archmage Xareus' Shadowflame Skysplitter
-		Tooltip: ""
+		Tooltip: Crafted by Archmage Xareus... As a wall decoration
 	}
 
 	GhizasWheel: {
@@ -674,11 +678,6 @@ Items: {
 	Equilibrium: {
 		Tooltip: ""
 		DisplayName: Equilibrium
-	}
-
-	XareusSummon: {
-		DisplayName: Xareus Summon
-		Tooltip: ""
 	}
 
 	Chainsword: {
@@ -693,6 +692,16 @@ Items: {
 
 	HotShield: {
 		DisplayName: Dumpster Lid
+		Tooltip: ""
+	}
+
+	CecitiorMaterial: {
+		Tooltip: ""
+		DisplayName: Fleshy Blob
+	}
+
+	TerrortomaMaterial: {
+		DisplayName: Cellular Matter
 		Tooltip: ""
 	}
 }

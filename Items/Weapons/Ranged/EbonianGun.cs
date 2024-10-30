@@ -41,7 +41,6 @@ namespace EbonianMod.Items.Weapons.Ranged
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, ai2: 1);
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback);
 
             return false;

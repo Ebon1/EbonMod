@@ -11,9 +11,7 @@ namespace EbonianMod.Items.Tiles
 {
     public class HorriblePainting : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-        }
+        public override bool IsLoadingEnabled(Mod mod) => false;
         public override void SetDefaults()
         {
             Item.width = 16;
@@ -21,7 +19,6 @@ namespace EbonianMod.Items.Tiles
             Item.maxStack = 999;
             Item.rare = 0;
             Item.useTurn = true;
-            Item.rare = 0;
             Item.autoReuse = true;
             Item.useAnimation = 15;
             Item.rare = ItemRarityID.Purple;

@@ -14,9 +14,7 @@ namespace EbonianMod.Items.Dev
     public class RollegItem : ModItem
     {
         public override string Texture => Helper.Placeholder;
-        public override void SetStaticDefaults()
-        {
-        }
+        public override bool IsLoadingEnabled(Mod mod) => false;
         public override void SetDefaults()
         {
             Item.damage = 80;

@@ -14,7 +14,7 @@ using EbonianMod.NPCs.ArchmageX;
 
 namespace EbonianMod.Items.Consumables.BossItems
 {
-    public class XareusSummon : ModItem
+    /*public class XareusSummon : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -44,7 +44,7 @@ namespace EbonianMod.Items.Consumables.BossItems
             return true;
         }
     }
-    /*public class TerrortomaSummon : ModItem
+    public class TerrortomaSummon : ModItem
     {
         public override void SetStaticDefaults()
         {

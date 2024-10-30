@@ -15,7 +15,7 @@ namespace EbonianMod.Items.Accessories
             Item.accessory = true;
             Item.rare = 2;
             Item.expert = true;
-            Item.defense = 35;
+            Item.defense = 20;
         }
     }
 }

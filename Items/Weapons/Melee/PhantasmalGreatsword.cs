@@ -70,12 +70,12 @@ namespace EbonianMod.Items.Weapons.Melee
         }
         public override void SetExtraDefaults()
         {
-            Projectile.width = 168;
-            Projectile.height = 178;
+            Projectile.width = 64;
+            Projectile.height = 64;
             useHeld = false;
-            swingTime = 190;
+            swingTime = 150;
             Projectile.extraUpdates = 4;
-            holdOffset = 130;
+            holdOffset = 25;
         }
         bool hit, summoned;
         public override void OnHit(NPC target, NPC.HitInfo hitinfo, int damage)
@@ -83,7 +83,8 @@ namespace EbonianMod.Items.Weapons.Melee
             Player player = Main.player[Projectile.owner];
             if (!hit)
             {
-                int b = (hitinfo.Crit ? 3 : 2);
+                Projectile.ai[0] += 0.1f;
+                /*int b = (hitinfo.Crit ? 3 : 2);
                 for (int i = 0; i < b; i++)
                 {
                     float angle = Helper.CircleDividedEqually(i, b) + MathHelper.PiOver2;
@@ -92,7 +93,7 @@ namespace EbonianMod.Items.Weapons.Melee
                         angle = Helper.CircleDividedEqually(i, b + 1) + MathHelper.Pi + MathHelper.PiOver2;
                     }
                     Projectile.NewProjectile(null, target.Center + Helper.FromAToB(player.Center, target.Center).RotatedBy(angle) * (target.Size.Length() + Projectile.Size.Length() / 2), -Projectile.velocity.RotatedBy(angle), ModContent.ProjectileType<PhantasmalGreatswordP2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, Projectile.ai[1]);
-                }
+                }*/
                 hit = true;
             }
         }
@@ -112,7 +113,7 @@ namespace EbonianMod.Items.Weapons.Melee
             float rotation = direction == 1 ? _start + MathHelper.Pi * 3 / 2 : _end - MathHelper.Pi * 3 / 2;
             Vector2 position = player.GetFrontHandPosition(stretch, rotation - MathHelper.PiOver2) +
                     rotation.ToRotationVector2() * holdOffset; //Final swing position
-
+            player.SetCompositeArmFront(true, stretch, rotation - MathHelper.PiOver2);
             if (swingProgress.CloseTo(0.5f, 0.35f))
             {
 
@@ -133,9 +134,16 @@ namespace EbonianMod.Items.Weapons.Melee
                     if (player.whoAmI == Main.myPlayer)
                     {
                         Vector2 dir = Vector2.Normalize(Main.MouseWorld - player.Center);
-                        Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, 0, (-Projectile.ai[1]));
+                        Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, MathHelper.Clamp(Projectile.ai[0], 0f, 0.5f), (-Projectile.ai[1]));
                         proj.rotation = Projectile.rotation;
                         proj.Center = Projectile.Center;
+
+                        if (hit)
+                        {
+                            Projectile proj2 = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, ModContent.ProjectileType<PhantasmalGreatswordP2>(), Projectile.damage, Projectile.knockBack, player.whoAmI, -.5f + Projectile.ai[0], (-Projectile.ai[1]));
+                            proj2.rotation = Projectile.rotation;
+                            proj2.Center = Projectile.Center;
+                        }
                     }
                     Projectile.active = false;
                 }
@@ -315,6 +323,7 @@ namespace EbonianMod.Items.Weapons.Melee
         Vector2 startP;
         public override void AI()
         {
+            Projectile.scale = 1 + Projectile.ai[0];
             if (startP == Vector2.Zero)
                 startP = Projectile.Center;
             float direction = Projectile.ai[1];
@@ -324,47 +333,15 @@ namespace EbonianMod.Items.Weapons.Melee
             float end = defRot + (MathHelper.PiOver2 + MathHelper.PiOver4);
             float rotation = direction == 1 ? start + MathHelper.Pi * 3 / 2 * swingProgress : end - MathHelper.Pi * 3 / 2 * swingProgress;
             Vector2 position = startP +
-                rotation.ToRotationVector2() * holdOffset * ScaleFunction(swingProgress);
+                rotation.ToRotationVector2() * holdOffset * Projectile.scale * ScaleFunction(swingProgress);
             Projectile.Center = position;
             Projectile.rotation = (position - startP).ToRotation() + MathHelper.PiOver4;
-
             Projectile.ai[2] = MathHelper.Clamp((float)Math.Sin(swingProgress * Math.PI) * 2f, 0, 1);
 
         }
         public override Color? GetAlpha(Color lightColor) => Color.White;
         public override bool PreDraw(ref Color lightColor)
         {
-            Player player = Main.player[Projectile.owner];
-
-            Main.spriteBatch.Reload(BlendState.Additive);
-
-
-            float swingProgress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
-            float s = 1;
-            if (Projectile.oldPos.Length > 2)
-            {
-                Texture2D tex2 = Helper.GetExtraTexture("fireball");
-                VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[(Projectile.oldPos.Length - 1) * 6];
-                for (int i = 1; i < Projectile.oldPos.Length - 3; i++)
-                {
-                    if (Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i + 1] != Vector2.Zero)
-                    {
-                        float rot1 = Projectile.oldRot[i] - MathHelper.PiOver4;
-                        float rot2 = Projectile.oldRot[i + 1] - MathHelper.PiOver4;
-                        Vector2 start = startP + rot1.ToRotationVector2() * (Projectile.height + holdOffset * 0.25f);
-                        Vector2 end = startP + rot2.ToRotationVector2() * (Projectile.height + holdOffset * 0.25f);
-                        for (int j = 0; j < 4; j++)
-                        {
-                            Vector2 pos = Vector2.Lerp(start, end, (float)j / 4);
-                            Main.spriteBatch.Draw(tex2, pos - Main.screenPosition, null, Color.Indigo * (Projectile.ai[2] * s * 0.13f), Helper.FromAToB(start, end).ToRotation() - MathHelper.PiOver2, tex2.Size() / 2, s * 0.5f, SpriteEffects.None, 0);
-                        }
-
-                        s -= i / (float)Projectile.oldPos.Length * 0.03f;
-                    }
-                }
-            }
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
-
             Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
             Main.spriteBatch.Reload(BlendState.Additive);
             Vector2 orig = texture.Size() / 2;
