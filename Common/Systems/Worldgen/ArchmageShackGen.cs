@@ -89,7 +89,7 @@ namespace EbonianMod.Common.Systems.Worldgen
         {
             List<int> tempHeightsL = new List<int>();
             List<int> tempHeightsR = new List<int>();
-            for (int i = Main.maxTilesX / 2 - 440; i < Main.maxTilesX / 2 + 440; i++)
+            for (int i = Main.maxTilesX / 2 - 200; i < Main.maxTilesX / 2 + 200; i++)
             {
                 int tempY = 0;
                 while (!Main.tile[i, tempY].HasTile)
@@ -100,10 +100,27 @@ namespace EbonianMod.Common.Systems.Worldgen
                     tempHeightsR.Add(tempY);
             }
             int side = (tempHeightsL.Max() - tempHeightsL.Min() > tempHeightsR.Max() - tempHeightsR.Min()) ? 1 : -1;
+            int sizeDiff = side == 1 ? tempHeightsR.Max() - tempHeightsR.Min() : tempHeightsL.Max() - tempHeightsL.Min();
+            if (sizeDiff > 6)
+            {
+                tempHeightsL.Clear();
+                tempHeightsR.Clear();
+                for (int i = Main.maxTilesX / 2 - 340; i < Main.maxTilesX / 2 + 340; i++)
+                {
+                    int tempY = 0;
+                    while (!Main.tile[i, tempY].HasTile)
+                        tempY++;
+                    if (i < Main.maxTilesX / 2)
+                        tempHeightsL.Add(tempY);
+                    else
+                        tempHeightsR.Add(tempY);
+                }
+                side = (tempHeightsL.Max() - tempHeightsL.Min() > tempHeightsR.Max() - tempHeightsR.Min()) ? 1 : -1;
+            }
             int x = Main.maxTilesX / 2 + 140 * side;
             int _y = 0;
             int atts = 0;
-            while (atts < 300)
+            while (atts < 200)
             {
                 int y = 0;
                 for (int it = -1; it < 37; it++)

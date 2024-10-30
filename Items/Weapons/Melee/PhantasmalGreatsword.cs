@@ -77,23 +77,13 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.extraUpdates = 4;
             holdOffset = 25;
         }
-        bool hit, summoned;
+        bool hit;
         public override void OnHit(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             Player player = Main.player[Projectile.owner];
             if (!hit)
             {
                 Projectile.ai[0] += 0.1f;
-                /*int b = (hitinfo.Crit ? 3 : 2);
-                for (int i = 0; i < b; i++)
-                {
-                    float angle = Helper.CircleDividedEqually(i, b) + MathHelper.PiOver2;
-                    if (b == 3)
-                    {
-                        angle = Helper.CircleDividedEqually(i, b + 1) + MathHelper.Pi + MathHelper.PiOver2;
-                    }
-                    Projectile.NewProjectile(null, target.Center + Helper.FromAToB(player.Center, target.Center).RotatedBy(angle) * (target.Size.Length() + Projectile.Size.Length() / 2), -Projectile.velocity.RotatedBy(angle), ModContent.ProjectileType<PhantasmalGreatswordP2>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, Projectile.ai[1]);
-                }*/
                 hit = true;
             }
         }
@@ -134,7 +124,7 @@ namespace EbonianMod.Items.Weapons.Melee
                     if (player.whoAmI == Main.myPlayer)
                     {
                         Vector2 dir = Vector2.Normalize(Main.MouseWorld - player.Center);
-                        Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, MathHelper.Clamp(Projectile.ai[0], 0f, 0.5f), (-Projectile.ai[1]));
+                        Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, hit ? MathHelper.Clamp(Projectile.ai[0], 0f, 0.5f) : 0, (-Projectile.ai[1]));
                         proj.rotation = Projectile.rotation;
                         proj.Center = Projectile.Center;
 
@@ -229,23 +219,6 @@ namespace EbonianMod.Items.Weapons.Melee
                     for (int i = 0; i < 3; i++)
                         Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, tex2, false);
                 }
-                /*for (int i = 1; i < Projectile.oldPos.Length - 3; i++)
-                {
-                    if (Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i + 1] != Vector2.Zero)
-                    {
-                        float rot1 = Projectile.oldRot[i] - MathHelper.PiOver4;
-                        float rot2 = Projectile.oldRot[i + 1] - MathHelper.PiOver4;
-                        Vector2 start = player.Center + rot1.ToRotationVector2() * (Projectile.height + holdOffset * 0.25f);
-                        Vector2 end = player.Center + rot2.ToRotationVector2() * (Projectile.height + holdOffset * 0.25f);
-                        for (int j = 0; j < 4; j++)
-                        {
-                            Vector2 pos = Vector2.Lerp(start, end, (float)j / 4);
-                            Main.spriteBatch.Draw(tex2, pos - Main.screenPosition, null, Color.Indigo * (alpha * s * 0.2f), Helper.FromAToB(start, end).ToRotation() - MathHelper.PiOver2, tex2.Size() / 2, s * 0.5f, SpriteEffects.None, 0);
-                        }
-
-                        s -= i / (float)Projectile.oldPos.Length * 0.03f;
-                    }
-                }*/
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
 

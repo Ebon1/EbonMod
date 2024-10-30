@@ -317,8 +317,8 @@ Items: {
 	RingOfFire: {
 		Tooltip:
 			'''
-			Ignores defense but never deals critical damage.
-			Can't pop purple balloons.
+			Ignores defense but never deals critical damage
+			Can't pop purple balloons
 			'''
 		DisplayName: Ring of Fire
 	}
@@ -326,7 +326,7 @@ Items: {
 	ToxicarpMKII: {
 		Tooltip:
 			'''
-			Shoots barrages of tiny fish, these fishes immediately realize they are not underwater and die.
+			Shoots barrages of tiny fish, these fishes immediately realize they are not underwater and die
 			Gnarwhal blast!
 			'''
 		DisplayName: Gnarwhal
@@ -344,31 +344,31 @@ Items: {
 
 	EbonianRocketLauncher: {
 		DisplayName: Mawzooka
-		Tooltip: Converts any rocket into a homing corrupted one.
+		Tooltip: Converts any rocket into a homing corrupted one
 	}
 
 	EbonianGun: {
-		Tooltip: Shoots cursed bullets.
+		Tooltip: Shoots cursed bullets
 		DisplayName: Cursed Firearm
 	}
 
 	EbonianGatling: {
-		Tooltip: Rapidly fires cursed bullets.
+		Tooltip: Rapidly fires cursed bullets
 		DisplayName: Corrupt Gatling
 	}
 
 	Corebreaker: {
 		DisplayName: Corebreaker
-		Tooltip: Half flamethrower, Half cannon, Complete madness.
+		Tooltip: ""
 	}
 
 	TerrorFlail: {
 		DisplayName: Flailotoma
-		Tooltip: Makes you wonder if there's an even smaller one inside.
+		Tooltip: Makes you wonder if there's an even smaller one inside
 	}
 
 	SanguineSlasher: {
-		Tooltip: Saw-shaped creature that doesn't mind losing its teeth, seemingly having an infinite supply anyways.
+		Tooltip: Saw-shaped creature that doesn't mind losing its teeth
 		DisplayName: Saw-nguine
 	}
 
@@ -383,7 +383,7 @@ Items: {
 	}
 
 	EbonianScythe: {
-		Tooltip: Increases maximum movement speed while used.
+		Tooltip: Increases maximum movement speed while used
 		DisplayName: Grimrot Cutter
 	}
 
@@ -391,8 +391,8 @@ Items: {
 		DisplayName: Nest Sceptre
 		Tooltip:
 			'''
-			Summons Bloated Ebonflies that explode on nearby enemies.
-			Does not consume minion slots.
+			Summons Bloated Ebonflies that explode on nearby enemies
+			Does not consume minion slots
 			'''
 	}
 
@@ -401,7 +401,7 @@ Items: {
 		Tooltip:
 			'''
 			Reels you into tiles and heavy enemies, reels light enemies towards you
-			Right click to cancel.
+			Right click to cancel
 			'''
 	}
 
@@ -414,7 +414,7 @@ Items: {
 		DisplayName: Defibrillator
 		Tooltip:
 			'''
-			Summons an electrified heart that shocks enemies.
+			Summons an electrified heart that shocks enemies
 			CLEAR!
 			'''
 	}
@@ -440,7 +440,7 @@ Items: {
 	}
 
 	IchorFlintlock: {
-		Tooltip: The 5th consecutive bullet gets replaced with a piercing Ichor orb.
+		Tooltip: The 5th consecutive bullet gets replaced with a piercing Ichor orb
 		DisplayName: Bloodcolt
 	}
 
@@ -450,7 +450,7 @@ Items: {
 	}
 
 	CrimCannon: {
-		Tooltip: Shoots out a gory set of teeth.
+		Tooltip: Shoots out a gory set of teeth
 		DisplayName: Bloodsoaked Dentures
 	}
 
@@ -516,7 +516,7 @@ Items: {
 	GarbageRemote: {
 		Tooltip:
 			'''
-			Allows communication with the only AI to ever reach singularity. 
+			Allows communication with the only AI to ever reach singularity 
 			Be warned.
 			'''
 		DisplayName: Dusty Quantum Computer
@@ -533,7 +533,7 @@ Items: {
 			Reduces defense by 5
 			Increases the max number of minions by 1
 			Increases summon damage by 5%
-			Summons a corrupted heart that follows you and shoots cursed flames at nearby enemies.
+			Summons a corrupted heart that follows you and shoots cursed flames at nearby enemies
 			'''
 		DisplayName: Rotten Heart
 	}
@@ -542,56 +542,56 @@ Items: {
 		Tooltip:
 			'''
 			Increases life regen
-			Summons multiple brains to act as a shield against most attacks.
+			Summons multiple brains to act as a shield against most attacks
 			'''
 		DisplayName: Seeping Brain
 	}
 
 	IchorGlobScepter: {
-		Tooltip: Shoots out an icky glob that splits into 3 exploding chunks of ichor.
+		Tooltip: Shoots out an icky glob that splits into 3 smaller chunks
 		DisplayName: Ichor Glob Sceptre
 	}
 
 	VileNoodleBox: {
 		Tooltip:
 			'''
-			Provides you 100% guaranteed literal heartburn.
-			The noodles seem to wiggle.
+			Provides you 100% guaranteed literal heartburn
+			The noodles seem to wiggle
 			'''
 		DisplayName: Vile Noodle Box
 	}
 
 	CorruptionStaff: {
-		Tooltip: Conjures homing vilethorns.
+		Tooltip: Conjures homing vilethorns
 		DisplayName: Thorn-A-Part
 	}
 
 	CrimsonSpear: {
 		DisplayName: Vitriolic Voulge
-		Tooltip: Gets more powerful with extended use.
+		Tooltip: Gets more powerful with extended use
 	}
 
 	Spinax: {
 		DisplayName: Spinax
-		Tooltip: An ancient dinosaur spine imbued with the power of the crimson.
+		Tooltip: An ancient dinosaur spine imbued with the power of the crimson
 	}
 
 	SelfStab: {
 		DisplayName: Sacrificial Dagger
-		Tooltip: Massively boosts all your damage, at a cost.
+		Tooltip: Massively boosts all your damage, at a cost
 	}
 
 	MagmaBow: {
 		DisplayName: Pentabow
-		Tooltip: Shoots 5 volcanic arrows.
+		Tooltip: Shoots 5 volcanic arrows
 	}
 
 	ReiMask: {
 		DisplayName: Voidrunner Mask
 		Tooltip:
 			'''
-			Slightly increases movement speed.
-			Allows teleportation by pressing {ReiM_Keybind} while hovering over an enemy.
+			Slightly increases movement speed
+			Allows teleportation by pressing {ReiM_Keybind} while hovering over an enemy
 			'''
 	}
 
@@ -602,7 +602,7 @@ Items: {
 
 	Ostertagi: {
 		DisplayName: Ostertagi
-		Tooltip: Greatly boosts damage and attacking speed, at a cost.
+		Tooltip: Greatly boosts damage and attacking speed, at a cost
 	}
 
 	Potato: {
@@ -612,7 +612,7 @@ Items: {
 
 	ClementinesCap: {
 		DisplayName: Bloody Ballcap
-		Tooltip: Definitely seen better days.
+		Tooltip: Definitely seen better days
 	}
 
 	InfernoBreastplate: {

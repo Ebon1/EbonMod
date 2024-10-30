@@ -12,6 +12,7 @@ namespace EbonianMod.Items.Accessories
         {
             Item.accessory = true;
             Item.rare = 4;
+            Item.expert = true;
             Item.defense = 10;
         }
         public int timer = 0;

@@ -18,6 +18,7 @@ using System;
 using System.Collections;
 using static tModPorter.ProgressUpdate;
 using EbonianMod.Common.Systems;
+using EbonianMod.Items.Consumables.Food;
 
 namespace EbonianMod.Items.Consumables.BossItems
 {
@@ -34,7 +35,7 @@ namespace EbonianMod.Items.Consumables.BossItems
             Item.height = 20;
             Item.maxStack = 1;
             Item.value = 1000000;
-            Item.rare = ItemRarityID.Red;
+            Item.rare = ItemRarityID.Blue;
             Item.useAnimation = 30;
             Item.useTime = 30;
             Item.noUseGraphic = true;
@@ -48,7 +49,7 @@ namespace EbonianMod.Items.Consumables.BossItems
         }
         public override void AddRecipes()
         {
-            CreateRecipe().Register();
+            CreateRecipe().AddIngredient(ModContent.ItemType<Potato>(), 5).AddIngredient(RecipeGroupID.IronBar, 20).AddIngredient(ItemID.Glass, 10).Register();
         }
 
         public override bool CanUseItem(Player player)

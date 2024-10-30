@@ -28,7 +28,11 @@ namespace EbonianMod.Items.Accessories
         public override void SetDefaults()
         {
             Item.accessory = true;
-            Item.rare = ItemRarityID.Lime;
+            Item.rare = ItemRarityID.LightPurple;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.NightVisionHelmet).AddIngredient(ItemID.Ectoplasm, 40).AddTile(ItemID.MythrilAnvil).Register();
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {

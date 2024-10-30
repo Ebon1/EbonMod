@@ -17,6 +17,7 @@ using Terraria.GameContent.Bestiary;
 using EbonianMod.NPCs.Garbage;
 using EbonianMod.Items.Weapons.Magic;
 using EbonianMod.NPCs.Cecitior;
+using EbonianMod.Items.Armor.Vanity;
 
 namespace EbonianMod.NPCs
 {
@@ -45,7 +46,11 @@ namespace EbonianMod.NPCs
     }
     public class NonInstancedGlobalNPC : GlobalNPC
     {
-
+        public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
+        {
+            if (npc.type == NPCID.Zombie)
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ClementinesCap>(), 300));
+        }
         public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
         {
             if (NPC.AnyNPCs(ModContent.NPCType<Terrortoma.Terrortoma>()) || NPC.AnyNPCs(ModContent.NPCType<Cecitior.Cecitior>()) || NPC.AnyNPCs(ModContent.NPCType<ArchmageX.ArchmageX>()) || NPC.AnyNPCs(ModContent.NPCType<HotGarbage>()))

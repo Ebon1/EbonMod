@@ -36,11 +36,9 @@ namespace EbonianMod.Items.Consumables.Food
             Item.maxStack = 9999;
             Item.useStyle = ItemUseStyleID.EatFood;
             Item.value = 2800;
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Blue;
             Item.consumable = true;
             Item.UseSound = SoundID.Item2;
-
-
         }
     }
 }
