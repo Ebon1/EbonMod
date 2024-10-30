@@ -704,6 +704,11 @@ Items: {
 		DisplayName: Cellular Matter
 		Tooltip: ""
 	}
+
+	ToothToothbrush: {
+		DisplayName: Tooth Toothbrush
+		Tooltip: ""
+	}
 }
 
 Buffs: {

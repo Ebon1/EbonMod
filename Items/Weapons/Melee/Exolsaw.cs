@@ -26,7 +26,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.damage = 60;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<ExolsawP>();
-            Item.rare = ItemRarityID.LightPurple;
+            Item.rare = ItemRarityID.Orange;
             Item.shootSpeed = 16f;
         }
         public override bool CanUseItem(Player player)

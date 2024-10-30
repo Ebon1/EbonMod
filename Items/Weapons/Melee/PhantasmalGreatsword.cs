@@ -42,7 +42,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.DamageType = DamageClass.Melee;
             //Item.UseSound = SoundID.Item1;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Orange;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<PhantasmalGreatswordP>();
         }

@@ -13,11 +13,16 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 
 namespace EbonianMod.NPCs.Corruption
 {
     public class VileTear : ModNPC
     {
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Melee.CorruptionClaw>(), 35));
+        }
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 2;

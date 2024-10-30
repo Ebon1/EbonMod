@@ -34,7 +34,7 @@ namespace EbonianMod.Items.Tiles
             Item.createTile = ModContent.TileType<ThisShitSomeHotGarbage>();
             Item.width = 24;
             Item.height = 24;
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Green;
             Item.value = 100000;
             Item.accessory = true;
         }

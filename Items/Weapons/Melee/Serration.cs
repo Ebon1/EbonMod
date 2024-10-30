@@ -13,6 +13,7 @@ using Terraria.ModLoader;
 using Terraria;
 using static EbonianMod.Helper;
 using EbonianMod.Projectiles.Friendly.Crimson;
+using EbonianMod.Items.Materials;
 
 namespace EbonianMod.Items.Weapons.Melee
 {
@@ -33,9 +34,14 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.DamageType = DamageClass.Melee;
             Item.UseSound = SoundID.Item1;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = 5;
+            Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<SerrationP>();
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ModContent.ItemType<ToothToothbrush>()).AddIngredient(ModContent.ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool? CanAutoReuseItem(Player player)
         {

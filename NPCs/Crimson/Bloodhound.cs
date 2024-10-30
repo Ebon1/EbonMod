@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
+using EbonianMod.Items.Weapons.Magic;
 namespace EbonianMod.NPCs.Crimson
 {
     public class Bloodhound : ModNPC
@@ -41,6 +42,10 @@ namespace EbonianMod.NPCs.Crimson
             NPC.noGravity = false;
             NPC.noTileCollide = false;
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrimCannon>(), 35));
+        }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.Player.ZoneCrimson && spawnInfo.Player.ZoneOverworldHeight)
@@ -61,10 +66,6 @@ namespace EbonianMod.NPCs.Crimson
                 NPC.direction = Main.player[NPC.target].Center.X > NPC.Center.X ? 1 : -1;
                 timer = 0;
             }
-        }
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Melee.SanguineSlasher>(), 20));
         }
         public override bool CheckDead()
         {

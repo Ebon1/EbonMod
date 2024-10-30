@@ -89,14 +89,14 @@ namespace EbonianMod.Common.Systems.Worldgen
         {
             List<int> tempHeightsL = new List<int>();
             List<int> tempHeightsR = new List<int>();
-            for (int i = Main.maxTilesX / 2 - 440; i < Main.maxTilesX / 2 - 140; i++)
+            for (int i = Main.maxTilesX / 2 - 440; i < Main.maxTilesX / 2 - 135; i++)
             {
                 int tempY = 110;
                 while (!Main.tile[i, tempY].HasTile || (Main.tile[i, tempY].HasTile && !Main.tileSolid[Main.tile[i, tempY].TileType]) || Main.tile[i, tempY].TileType == TileID.Cloud || Main.tile[i, tempY].TileType == TileID.Plants || Main.tile[i, tempY].TileType == TileID.Cactus || Main.tile[i, tempY].TileType == TileID.Trees || Main.tile[i, tempY].TileType == TileID.Sunplate)
                     tempY++;
                 tempHeightsL.Add(tempY);
             }
-            for (int i = Main.maxTilesX / 2 + 140; i < Main.maxTilesX / 2 + 440; i++)
+            for (int i = Main.maxTilesX / 2 + 135; i < Main.maxTilesX / 2 + 440; i++)
             {
                 int tempY = 110;
                 while (!Main.tile[i, tempY].HasTile || (Main.tile[i, tempY].HasTile && !Main.tileSolid[Main.tile[i, tempY].TileType]) || Main.tile[i, tempY].TileType == TileID.Cloud || Main.tile[i, tempY].TileType == TileID.Plants || Main.tile[i, tempY].TileType == TileID.Cactus || Main.tile[i, tempY].TileType == TileID.Trees || Main.tile[i, tempY].TileType == TileID.Sunplate)
@@ -110,8 +110,8 @@ namespace EbonianMod.Common.Systems.Worldgen
             int side = leftValues.Count() > rightValues.Count() ? 1 : -1;
 
             //int side = ((tempHeightsL.Max() - tempHeightsL.Min()) > (tempHeightsR.Max() - tempHeightsR.Min())) ? 1 : -1;
-            int boundaries = 440 - 140;
-            int x = Main.maxTilesX / 2 + 140 * side;
+            int boundaries = 440 - 135;
+            int x = Main.maxTilesX / 2 + 135 * side;
             int _y = 110;
             int atts = 0;
             bool failed = false;
@@ -153,7 +153,7 @@ namespace EbonianMod.Common.Systems.Worldgen
             {
                 atts = 0;
                 _y = 110;
-                x = Main.maxTilesX / 2 + 140 * -side;
+                x = Main.maxTilesX / 2 + 135 * -side;
                 while (atts < boundaries)
                 {
                     int y = 110;

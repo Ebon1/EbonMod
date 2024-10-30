@@ -18,6 +18,7 @@ using System.Xml.Serialization;
 using EbonianMod.Items.Misc;
 using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Common.Systems;
+using EbonianMod.Items.Materials;
 
 namespace EbonianMod.Items.Weapons.Melee
 {
@@ -37,7 +38,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.channel = true;
             Item.DamageType = DamageClass.Melee;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Lime;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<EquilibriumP>();
         }

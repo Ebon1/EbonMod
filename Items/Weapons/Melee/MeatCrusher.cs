@@ -13,6 +13,7 @@ using EbonianMod.Projectiles;
 using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Projectiles.Friendly.Corruption;
 using Terraria.Audio;
+using EbonianMod.Items.Materials;
 //using EbonianMod.Worldgen.Subworlds;
 //
 
@@ -35,9 +36,13 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.DamageType = DamageClass.Melee;
             Item.UseSound = SoundID.Item1;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = 5;
+            Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<MeatCrusherP>();
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.BreakerBlade).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool? CanAutoReuseItem(Player player)
         {

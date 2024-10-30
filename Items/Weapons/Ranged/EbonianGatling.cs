@@ -24,20 +24,20 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.useAnimation = 5;
             Item.shoot = ModContent.ProjectileType<WeakCursedBullet>();
             Item.shootSpeed = 8f;
-            Item.rare = 2;
+            Item.rare = ItemRarityID.Green;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item11;
             Item.useAmmo = AmmoID.Bullet;
             Item.useTurn = false;
             //Item.autoReuse = true;
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.ShadowScale, 20).AddIngredient(ItemID.Minishark).AddTile(TileID.Anvils).Register();
+        }
         public override bool? CanAutoReuseItem(Player player)
         {
             return true;
-        }
-        public override void AddRecipes()
-        {
-            CreateRecipe().AddIngredient(ItemID.DemoniteBar, 20).AddTile(TileID.Anvils).Register();
         }
         public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextBool(2);
         public override Vector2? HoldoutOffset() => new(-10, 0);

@@ -27,7 +27,7 @@ namespace EbonianMod.Items.Pets
         public override void SetDefaults()
         {
             Item.DefaultToVanitypet(ModContent.ProjectileType<PanopticonP>(), ModContent.BuffType<PanopticonB>());
-            Item.rare = ItemRarityID.Cyan;
+            Item.rare = ItemRarityID.LightRed;
             Item.useStyle = 10;
             Item.UseSound = SoundID.NPCHit54;
             Item.noUseGraphic = true;

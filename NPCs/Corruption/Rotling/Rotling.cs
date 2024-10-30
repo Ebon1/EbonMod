@@ -1,4 +1,5 @@
-﻿using EbonianMod.Projectiles.Terrortoma;
+﻿using EbonianMod.Items.Consumables.Food;
+using EbonianMod.Projectiles.Terrortoma;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -27,6 +29,10 @@ namespace EbonianMod.NPCs.Corruption.Rotling
                 PortraitPositionYOverride = 12f
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<VileNoodleBox>(), 50, 1, 3));
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {

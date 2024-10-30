@@ -28,7 +28,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.channel = true;
             Item.DamageType = DamageClass.Melee;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = 5;
+            Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<SpinaxP>();
         }

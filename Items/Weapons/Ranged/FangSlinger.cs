@@ -12,6 +12,7 @@ using EbonianMod.Common.Systems;
 using EbonianMod.Projectiles.Friendly.Underworld;
 using Terraria.Audio;
 using EbonianMod.Projectiles.Cecitior;
+using EbonianMod.Items.Materials;
 namespace EbonianMod.Items.Weapons.Ranged
 {
     public class FangSlinger : ModItem
@@ -30,7 +31,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.channel = true;
             Item.DamageType = DamageClass.Ranged;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Green;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<FangSlingerP>();
             Item.useAmmo = AmmoID.Arrow;
@@ -38,6 +39,10 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             return false;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.ShadewoodBow).AddIngredient(ItemID.ShadowScale, 20).AddTile(TileID.Anvils).Register();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

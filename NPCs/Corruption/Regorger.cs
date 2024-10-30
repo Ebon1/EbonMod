@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 using Terraria;
 using EbonianMod.Projectiles.Enemy.Corruption;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 
 namespace EbonianMod.NPCs.Corruption
 {
@@ -27,6 +28,10 @@ namespace EbonianMod.NPCs.Corruption
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
                 new FlavorTextBestiaryInfoElement("A tittering's laugh echoes from afar, often fueling campfire tales that portray it as a mysterious cryptid. It remains unclear whether the creature's laughter is from genuine amusement or merely a biological reflex after spewing a beam of cursed flames."),
             });
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Magic.CursedToy>(), 35));
         }
         public override bool? CanFallThroughPlatforms() => true;
         public override void SetDefaults()

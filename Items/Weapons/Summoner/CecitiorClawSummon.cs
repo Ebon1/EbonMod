@@ -32,7 +32,7 @@ namespace EbonianMod.Items.Weapons.Summoner
             Item.noMelee = true;
             Item.knockBack = 3;
             Item.value = Item.buyPrice(0, 30, 0, 0);
-            Item.rare = ItemRarityID.LightPurple;
+            Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.NPCHit1;
             Item.shoot = ModContent.ProjectileType<CecitiorClawMinion>();
         }

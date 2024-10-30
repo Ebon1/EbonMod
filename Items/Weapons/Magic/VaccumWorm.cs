@@ -14,6 +14,7 @@ using EbonianMod.Dusts;
 using Terraria.Audio;
 using EbonianMod.Common.Systems;
 using ReLogic.Utilities;
+using EbonianMod.Items.Materials;
 
 namespace EbonianMod.Items.Weapons.Magic
 {
@@ -28,12 +29,16 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.useAnimation = 10;
             Item.shoot = ModContent.ProjectileType<VaccumWormP>();
             Item.shootSpeed = 1f;
-            Item.rare = 5;
+            Item.rare = ItemRarityID.Green;
             Item.useStyle = 5;
             Item.autoReuse = false;
             Item.noUseGraphic = true;
             Item.noMelee = true;
             Item.channel = true;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.ShadowScale, 20).AddIngredient(ItemID.RottenChunk, 20).AddTile(TileID.Anvils).Register();
         }
         public override bool? CanAutoReuseItem(Player player) => false;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

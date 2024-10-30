@@ -11,6 +11,7 @@ using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.Audio;
 using EbonianMod.Common.Systems;
 using EbonianMod.Projectiles.Cecitior;
+using EbonianMod.Items.Materials;
 namespace EbonianMod.Items.Weapons.Ranged
 {
     public class ThornBow : ModItem
@@ -33,6 +34,10 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<ThornBowP>();
             Item.useAmmo = AmmoID.Arrow;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.EbonwoodBow).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool CanConsumeAmmo(Item ammo, Player player)
         {

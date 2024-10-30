@@ -34,7 +34,7 @@ namespace EbonianMod.Items.Misc
             Item.DamageType = DamageClass.Melee;
             Item.UseSound = SoundID.Item1;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = 5;
+            Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<OstertagiP>();
         }

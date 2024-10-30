@@ -11,6 +11,7 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent.Bestiary;
 using Terraria.Audio;
 using EbonianMod.Common.Systems;
+using Terraria.GameContent.ItemDropRules;
 
 namespace EbonianMod.NPCs.Crimson
 {
@@ -31,6 +32,10 @@ namespace EbonianMod.NPCs.Crimson
             NPC.noGravity = true;
             NPC.buffImmune[BuffID.Ichor] = true;
             NPC.noTileCollide = true;
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Melee.SanguineSlasher>(), 20));
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {

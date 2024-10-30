@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria.ID;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace EbonianMod.Items.Tiles
@@ -18,13 +19,13 @@ namespace EbonianMod.Items.Tiles
         {
             Item.width = 16;
             Item.height = 16;
-            Item.maxStack = 999;
+            Item.maxStack = Item.CommonMaxStack;
             Item.rare = 0;
             Item.useTurn = true;
             Item.rare = 0;
             Item.autoReuse = true;
             Item.useAnimation = 15;
-            Item.rare = ItemRarityID.Purple;
+            Item.rare = ItemRarityID.LightRed;
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;

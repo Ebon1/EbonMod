@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -91,6 +92,10 @@ namespace EbonianMod.NPCs.Crimson
         {
             get => NPC.ai[1];
             set => NPC.ai[1] = value;
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Magic.GoreSceptre>(), 35));
         }
         public override void FindFrame(int frameHeight)
         {

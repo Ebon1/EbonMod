@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
+using EbonianMod.Items.Materials;
 namespace EbonianMod.Items.Weapons.Melee
 {
     public class TerrorFlail : ModItem
@@ -18,7 +19,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.width = 22;
             Item.height = 20;
             Item.value = Item.sellPrice(silver: 5);
-            Item.rare = 4;
+            Item.rare = ItemRarityID.LightRed;
             Item.noMelee = true;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAnimation = 40;
@@ -32,6 +33,10 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.DamageType = DamageClass.Generic;
             Item.crit = 9;
             Item.channel = true;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.TheMeatball).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

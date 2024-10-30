@@ -9,6 +9,7 @@ using EbonianMod.Projectiles.Friendly.Crimson;
 using EbonianMod.Projectiles.Cecitior;
 using Mono.Cecil;
 using Terraria.Audio;
+using EbonianMod.Items.Materials;
 
 namespace EbonianMod.Items.Weapons.Ranged
 {
@@ -23,7 +24,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.reuseDelay = 25;
             Item.shoot = ModContent.ProjectileType<GutlingGunP>();
             Item.shootSpeed = 8f;
-            Item.rare = 2;
+            Item.rare = ItemRarityID.LightRed;
             Item.useStyle = 5;
             Item.useAmmo = AmmoID.Bullet;
             Item.autoReuse = false;
@@ -35,6 +36,10 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-10, 0);
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.TheUndertaker).AddIngredient(ModContent.ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

@@ -10,6 +10,7 @@ using Terraria.Audio;
 using System.Collections.Generic;
 using EbonianMod.Projectiles.Friendly.Crimson;
 using EbonianMod.Common.Systems.Misc.Dialogue;
+using EbonianMod.Items.Materials;
 
 namespace EbonianMod.Items.Weapons.Melee
 {
@@ -36,6 +37,10 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<CrimsonSpearP>();
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.TheRottedFork).AddIngredient(ModContent.ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         int dir = -1;
         public override bool? CanAutoReuseItem(Player player)

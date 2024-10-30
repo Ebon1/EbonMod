@@ -37,7 +37,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.useStyle = 5;
             Item.knockBack = 10;
             Item.value = 1000;
-            Item.rare = 2;
+            Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item8;
             Item.channel = true;
             Item.noMelee = true;

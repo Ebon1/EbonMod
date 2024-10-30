@@ -30,7 +30,7 @@ namespace EbonianMod.Items.Weapons.Summoner
             Item.noMelee = true;
             Item.knockBack = 3;
             Item.value = Item.buyPrice(0, 30, 0, 0);
-            Item.rare = ItemRarityID.Cyan;
+            Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item44;
             //Item.shoot = ModContent.ProjectileType<DoomsdayDrone>();
             //Item.buffType = ModContent.BuffType<Buffs.DoomsdayBuff>();

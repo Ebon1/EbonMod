@@ -13,6 +13,7 @@ using EbonianMod.Projectiles;
 using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Projectiles.Friendly.Corruption;
 using EbonianMod.Projectiles.Friendly;
+using EbonianMod.Items.Materials;
 
 namespace EbonianMod.Items.Weapons.Ranged
 {
@@ -30,7 +31,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.shoot = ModContent.ProjectileType<TinyFish>();
             Item.shootSpeed = 8f;
             Item.rare = 2;
-            Item.useStyle = 5;
+            Item.useStyle = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item11;
             Item.useAmmo = AmmoID.Bullet;
             Item.autoReuse = true;
@@ -42,6 +43,10 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override bool CanConsumeAmmo(Item ammo, Player player)
         {
             return (player.itemAnimation > 21);
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.Toxikarp).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

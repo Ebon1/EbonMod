@@ -34,7 +34,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.DamageType = DamageClass.Melee;
             //Item.UseSound = SoundID.Item1;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Green;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<SanguineSlasherP>();
         }

@@ -31,20 +31,20 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.DamageType = DamageClass.Melee;
             //Item.UseSound = SoundID.Item1;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Green;
             Item.shootSpeed = 1;
             Item.shoot = ModContent.ProjectileType<EbonianScytheP>();
         }
         int dir = 1;
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.DemoniteBar, 10).AddIngredient(ItemID.RottenChunk, 20).AddTile(TileID.Anvils).Register();
+        }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             dir = -dir;
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0, dir, 1);
             return false;
-        }
-        public override void AddRecipes()
-        {
-            CreateRecipe().AddIngredient(ItemID.DemoniteBar, 20).AddTile(TileID.Anvils).Register();
         }
     }
     public class EbonianScytheP : HeldSword

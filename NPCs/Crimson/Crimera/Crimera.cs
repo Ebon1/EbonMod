@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,6 +19,10 @@ namespace EbonianMod.NPCs.Crimson.Crimera
 {
     public class CrimeraHead : WormHead
     {
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Melee.Spinax>(), 35));
+        }
 
         //public override bool HasCustomBodySegments => true;
         public override void HitEffect(NPC.HitInfo hit)

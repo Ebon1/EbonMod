@@ -27,12 +27,16 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useAnimation = 5;
             Item.shoot = ModContent.ProjectileType<GhizasWheelP>();
             Item.shootSpeed = 1f;
-            Item.rare = 2;
+            Item.rare = ItemRarityID.LightRed;
             Item.useStyle = 5;
             Item.autoReuse = false;
             Item.noUseGraphic = true;
             Item.noMelee = true;
             Item.channel = true;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.CursedFlame, 20).AddIngredient(ItemID.SoulofNight, 10).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool? CanAutoReuseItem(Player player) => false;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -63,6 +67,7 @@ namespace EbonianMod.Items.Weapons.Melee
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
             Projectile.ai[2] = 16;
+            target.AddBuff(BuffID.CursedInferno, 500);
 
             Vector2 pos = Projectile.Center + new Vector2(22, -16).RotatedBy(Projectile.rotation);
 

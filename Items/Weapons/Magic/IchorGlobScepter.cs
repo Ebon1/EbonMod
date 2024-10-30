@@ -1,4 +1,5 @@
-﻿using EbonianMod.Projectiles.VFXProjectiles;
+﻿using EbonianMod.Items.Materials;
+using EbonianMod.Projectiles.VFXProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -41,6 +42,10 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.DamageType = DamageClass.Magic;
 
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.CrimsonRod).AddIngredient(ModContent.ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+        }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Texture2D texture = Request<Texture2D>("EbonianMod/Items/Weapons/Magic/IchorGlobScepter_Glow", AssetRequestMode.ImmediateLoad).Value;
@@ -79,7 +84,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Projectile.hostile = false;
             Projectile.DamageType = DamageClass.Magic;
 
-            Projectile.timeLeft = 160;
+            Projectile.timeLeft = 90;
             Projectile.scale = 1f;
         }
 

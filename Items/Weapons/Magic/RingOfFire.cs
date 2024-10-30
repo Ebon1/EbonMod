@@ -32,7 +32,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.autoReuse = true;
             Item.noMelee = true;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Orange;
             Item.shootSpeed = 15f;
             Item.shoot = ModContent.ProjectileType<RingOfFireP>();
         }

@@ -31,13 +31,13 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             //Item.UseSound = SoundID.Item1;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Green;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<EbonianGunP>();
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.DemoniteBar, 20).AddTile(TileID.Anvils).Register();
+            CreateRecipe().AddIngredient(ItemID.ShadowScale, 15).AddIngredient(ItemID.FlintlockPistol).AddTile(TileID.Anvils).Register();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

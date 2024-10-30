@@ -24,6 +24,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<LatcherP>();
             Item.DamageType = DamageClass.Magic;
             Item.noUseGraphic = true;
+            Item.rare = ItemRarityID.Green;
             Item.mana = 25;
             Item.shootSpeed = 20;
         }

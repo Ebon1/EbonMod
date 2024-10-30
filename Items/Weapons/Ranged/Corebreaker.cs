@@ -30,7 +30,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.useStyle = 5;
             Item.knockBack = 10;
             Item.value = 1000;
-            Item.rare = 8;
+            Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item14;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<CorebreakerP>();

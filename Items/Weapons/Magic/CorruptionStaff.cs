@@ -1,4 +1,5 @@
-﻿using EbonianMod.Projectiles.Friendly.Corruption;
+﻿using EbonianMod.Items.Materials;
+using EbonianMod.Projectiles.Friendly.Corruption;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.useStyle = 5;
             Item.knockBack = 10;
             Item.value = 1000;
-            Item.rare = 2;
+            Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<VilethornF1>();
@@ -45,6 +46,10 @@ namespace EbonianMod.Items.Weapons.Magic
                 Projectile.NewProjectile(source, position + velocity, velocity.RotatedBy(i), type, damage, knockback, ai2: i * -0.1f);
             }
             return false;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.Vilethorn).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }
