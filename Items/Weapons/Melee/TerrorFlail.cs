@@ -36,7 +36,7 @@ namespace EbonianMod.Items.Weapons.Melee
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.TheMeatball).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.BallOHurt).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

@@ -29,7 +29,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             //Item.UseSound = SoundID.Item1;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<IchorFlintlockP>();
 
@@ -37,7 +37,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.TheUndertaker).AddIngredient(ItemID.ShadowScale, 20).AddTile(TileID.Anvils).Register();
+            CreateRecipe().AddIngredient(ItemID.TheUndertaker).AddIngredient(ItemID.TissueSample, 20).AddIngredient(ItemID.Ichor, 15).AddTile(TileID.Anvils).Register();
         }
     }
     public class IchorFlintlockP : ModProjectile

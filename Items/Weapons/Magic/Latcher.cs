@@ -28,6 +28,10 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.mana = 25;
             Item.shootSpeed = 20;
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.Vertebrae, 20).AddIngredient(ItemID.Hook).AddTile(TileID.Anvils).Register();
+        }
         public override bool CanUseItem(Player player)
         {
             return player.ownedProjectileCounts[ModContent.ProjectileType<LatcherP>()] < 1;

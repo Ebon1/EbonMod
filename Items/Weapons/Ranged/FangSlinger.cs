@@ -42,7 +42,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.ShadewoodBow).AddIngredient(ItemID.ShadowScale, 20).AddTile(TileID.Anvils).Register();
+            CreateRecipe().AddIngredient(ItemID.ShadewoodBow).AddIngredient(ItemID.TissueSample, 20).AddTile(TileID.Anvils).Register();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

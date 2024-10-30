@@ -38,7 +38,7 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.ShadowScale, 20).AddIngredient(ItemID.RottenChunk, 20).AddTile(TileID.Anvils).Register();
+            CreateRecipe().AddIngredient(ItemID.ShadowScale, 20).AddIngredient(ItemID.WormTooth, 5).AddTile(TileID.Anvils).Register();
         }
         public override bool? CanAutoReuseItem(Player player) => false;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
