@@ -440,11 +440,11 @@ Items: {
 	}
 
 	IchorFlintlock: {
-		Tooltip: 
-		'''
-		Shoots Ichor bullets
-		The 5th consecutive bullet gets replaced with a piercing Ichor orb
-		''
+		Tooltip:
+			'''
+			Shoots Ichor bullets
+			The 5th consecutive bullet gets replaced with a piercing Ichor orb
+			'''
 		DisplayName: Bloodcolt
 	}
 
