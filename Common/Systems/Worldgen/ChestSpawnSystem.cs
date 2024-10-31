@@ -20,7 +20,7 @@ namespace EbonianMod.Common.Systems.Worldgen
     {
         void FillChests()
         {
-            int[] goldChestMainLoot = { ModContent.ItemType<GarbageRemote>() };
+            int[] goldChestMainLoot = { ModContent.ItemType<GarbageRemote>(), ModContent.ItemType<SpudCannon>() };
 
             int[] goldChestSecondaryLoot = { ModContent.ItemType<WaspPaintingI>(), ModContent.ItemType<DjungelskogI>(), ModContent.ItemType<Potato>() };
 
@@ -37,6 +37,8 @@ namespace EbonianMod.Common.Systems.Worldgen
                         {
                             int type = Main.rand.Next(goldChestMainLoot);
                             chest.item[0].SetDefaults(type);
+                            if (type == ModContent.ItemType<SpudCannon>())
+                                goldChestSecondaryLoot = [ModContent.ItemType<Potato>()];
                         }
                         if (WorldGen.genRand.NextBool(5))
                         {

@@ -206,7 +206,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Projectile.friendly = false;
             Projectile.hostile = true;
 
-            Projectile.Size = new Vector2(100);
+            Projectile.Size = new Vector2(150);
             //Projectile.scale = 0.2f;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
@@ -217,7 +217,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override void OnSpawn(IEntitySource source)
         {
             seed = Main.rand.Next(int.MaxValue / 2);
-            EbonianSystem.ScreenShakeAmount = 5;
+            EbonianSystem.ScreenShakeAmount = 4;
 
             SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
 

@@ -1,19 +1,29 @@
 ﻿using EbonianMod.Projectiles.VFXProjectiles;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace EbonianMod.Projectiles.Garbage
+namespace EbonianMod.Items.Weapons.Ranged
 {
-    public class Pipebomb : ModProjectile
+    public class PipebombI : ModItem
     {
+        public override void SetDefaults()
+        {
+            Item.CloneDefaults(ItemID.Grenade);
+            Item.rare = ItemRarityID.Blue;
+            Item.shoot = ModContent.ProjectileType<PipebombP>();
+        }
+    }
+    public class PipebombP : ModProjectile
+    {
+        public override string Texture => "EbonianMod/Projectiles/Garbage/Pipebomb";
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 25;
@@ -22,11 +32,14 @@ namespace EbonianMod.Projectiles.Garbage
         public override void SetDefaults()
         {
             Projectile.aiStyle = 14;
-            AIType = ProjectileID.StickyGlowstick;
+            AIType = ProjectileID.BouncyGlowstick;
             Projectile.width = 18;
-            Projectile.timeLeft = 100;
+            Projectile.timeLeft = 300;
             Projectile.height = 36;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
         }
+
         float savedP;
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
@@ -34,6 +47,7 @@ namespace EbonianMod.Projectiles.Garbage
                 fallThrough = false;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
+
         public override bool PreDraw(ref Color lightColor)
         {
             lightColor = Color.White;
@@ -43,10 +57,8 @@ namespace EbonianMod.Projectiles.Garbage
             for (int i = 0; i < Projectile.oldPos.Count(); i++)
             {
                 float mult = (1 - i * fadeMult);
-                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.Maroon * (mult * 0.8f), Projectile.oldRot[i], tex.Size() / 2, Projectile.scale * 1.1f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.Maroon * (mult * 0.4f), Projectile.oldRot[i], tex.Size() / 2, Projectile.scale * 1.1f, SpriteEffects.None, 0);
             }
-
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Maroon * (0.5f), Projectile.rotation, tex.Size() / 2, Projectile.scale * (1 + (MathF.Sin(Main.GlobalTimeWrappedHourly * 3f) + 1) * 0.5f), SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return true;
         }
@@ -57,18 +69,15 @@ namespace EbonianMod.Projectiles.Garbage
         public override void AI()
         {
             if (savedP == 0)
-                savedP = Main.LocalPlayer.Center.Y;
+                savedP = Main.player[Projectile.owner].Center.Y;
             Dust.NewDustPerfect(Projectile.Center - new Vector2(-8, 15).RotatedBy(Projectile.rotation), DustID.Torch);
-            if (Projectile.timeLeft == 30)
-            {
-                Projectile.NewProjectileDirect(NPC.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CircleTelegraph>(), 0, 0);
-                Projectile.velocity = Vector2.Zero;
-                Projectile.aiStyle = 0;
-            }
         }
-        public override void Kill(int timeLeft)
+        public override void OnKill(int timeLeft)
         {
-            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), Projectile.damage, 0, Projectile.owner);
+            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), Projectile.damage / 3, 0, Projectile.owner);
+            a.friendly = true;
+            a.hostile = Projectile.ai[2] == 0;
         }
     }
 }
+

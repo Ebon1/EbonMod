@@ -227,6 +227,8 @@ Projectiles: {
 	CecitiorClawMinion.DisplayName: Cecitior Claw Minion
 	AnimeSlash.DisplayName: Anime Slash
 	XAnimeSlash.DisplayName: X Anime Slash
+	PipebombP.DisplayName: Pipebomb P
+	PotatoP.DisplayName: Potato P
 }
 
 NPCs: {
@@ -711,6 +713,16 @@ Items: {
 
 	ToothToothbrush: {
 		DisplayName: Tooth Toothbrush
+		Tooltip: ""
+	}
+
+	PipebombI: {
+		DisplayName: Pipebomb
+		Tooltip: "'I wonder what happens if I-'"
+	}
+
+	SpudCannon: {
+		DisplayName: Spud Cannon
 		Tooltip: ""
 	}
 }

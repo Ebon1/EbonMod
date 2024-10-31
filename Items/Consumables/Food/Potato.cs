@@ -30,7 +30,6 @@ namespace EbonianMod.Items.Consumables.Food
         public override void SetDefaults()
         {
             Item.DefaultToFood(14, 20, BuffID.WellFed3, 60 * 60);
-
             Item.useTime = 17;
             Item.useAnimation = 17;
             Item.maxStack = Item.CommonMaxStack;
@@ -39,6 +38,8 @@ namespace EbonianMod.Items.Consumables.Food
             Item.rare = ItemRarityID.Blue;
             Item.consumable = true;
             Item.UseSound = SoundID.Item2;
+
+            Item.ammo = Item.type;
         }
     }
 }
