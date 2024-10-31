@@ -46,7 +46,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             //   for (int i = 0; i < 2; i++)
             //     Helper.DustExplosion(position + velocity, Vector2.One, 2, Color.White, false, false, 0.6f, 0.5f, new(velocity.X / 2, Main.rand.NextFloat(-5, -3)));
-            Projectile.NewProjectile(source, position, velocity * 2, ModContent.ProjectileType<CorebreakerP>(), damage * 2, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity * 2, ModContent.ProjectileType<CorebreakerP>(), damage, knockback, player.whoAmI);
             /*for (int i = -1; i < 2; i++)
             {
                 if (i == 0)
@@ -58,7 +58,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                 a.scale = 1;
 
             }*/
-            Projectile a = Projectile.NewProjectileDirect(Terraria.Entity.InheritSource(Item), position, velocity, ModContent.ProjectileType<EFireBreath2>(), damage, knockback, player.whoAmI);
+            Projectile a = Projectile.NewProjectileDirect(Terraria.Entity.InheritSource(Item), position, velocity, ModContent.ProjectileType<EFireBreath2>(), damage / 3, knockback, player.whoAmI);
             a.friendly = true;
             a.hostile = false;
             a.localAI[0] = 400;

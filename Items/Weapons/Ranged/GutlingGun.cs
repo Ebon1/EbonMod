@@ -18,7 +18,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             Item.DamageType = DamageClass.Ranged;
-            Item.damage = 3;
+            Item.damage = 20;
             Item.useTime = 1;
             Item.useAnimation = 10;
             Item.reuseDelay = 25;
@@ -90,7 +90,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.Center = pos;
             Projectile.rotation = Projectile.velocity.ToRotation();
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2);
-            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(player.Center, Main.MouseWorld), 0.1f - MathHelper.Lerp(0.09f, 0f, Projectile.ai[0] / 4)).SafeNormalize(Vector2.UnitX);
+            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(player.Center, Main.MouseWorld), 0.15f - MathHelper.Lerp(0.09f, 0f, Projectile.ai[0] / 4)).SafeNormalize(Vector2.UnitX);
             if (Projectile.ai[0] > 2)
                 Projectile.ai[0] -= 0.1f;
             if (++Projectile.ai[1] > Projectile.ai[0])

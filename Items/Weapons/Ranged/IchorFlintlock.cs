@@ -20,7 +20,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.width = 48;
             Item.height = 66;
             Item.crit = 45;
-            Item.damage = 10;
+            Item.damage = 28;
             Item.useAnimation = 32;
             Item.useTime = 32;
             Item.noUseGraphic = true;
@@ -90,7 +90,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                 else
                 {
                     SoundEngine.PlaySound(SoundID.Item11);
-                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity * 20, ModContent.ProjectileType<BloodBullet>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity * 20, ProjectileID.IchorBullet, Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
             if (Projectile.timeLeft > 15)

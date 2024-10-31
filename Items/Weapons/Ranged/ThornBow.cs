@@ -21,7 +21,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.width = 26;
             Item.height = 60;
             Item.crit = 10;
-            Item.damage = 20;
+            Item.damage = 28;
             Item.useAnimation = 40;
             Item.useTime = 40;
             Item.noUseGraphic = true;
@@ -162,7 +162,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                 if (Projectile.timeLeft == 24)
                 {
                     SoundEngine.PlaySound(release, Projectile.Center);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 20, ModContent.ProjectileType<CorruptArrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 20, ModContent.ProjectileType<CorruptArrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
 
                     alpha = 0;
                 }

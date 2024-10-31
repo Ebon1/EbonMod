@@ -11,6 +11,7 @@ using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.Audio;
 using EbonianMod.Projectiles.Terrortoma;
 using Terraria.GameContent;
+using Terraria.Map;
 
 namespace EbonianMod.Projectiles.Friendly.Corruption
 {

@@ -22,7 +22,7 @@ namespace EbonianMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.DamageType = DamageClass.Melee;
-            Item.damage = 10;
+            Item.damage = 40;
             Item.useTime = 5;
             Item.useAnimation = 5;
             Item.shoot = ModContent.ProjectileType<GhizasWheelP>();
