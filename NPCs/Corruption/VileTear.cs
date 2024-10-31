@@ -39,7 +39,7 @@ namespace EbonianMod.NPCs.Corruption
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("skibidi toilet"),
+                new FlavorTextBestiaryInfoElement("The Grinner is a rare sight, but its imposing size and ever-present smile strikes fear into those encountering it. It takes as much pleasure in scaring its victims as it does in devouring them whole."),
             });
         }
         public override void SetDefaults()

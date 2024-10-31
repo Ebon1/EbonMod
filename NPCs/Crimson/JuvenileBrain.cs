@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,6 +21,14 @@ namespace EbonianMod.NPCs.Crimson
             Main.npcFrameCount[NPC.type] = 6;
         }
 
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
+                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
+                new FlavorTextBestiaryInfoElement("It uses a primitive form of neurokinesis to trick its prey into seeing mirror images of itself. This confusion allows the Neuromaw to strike while its target is vulnerable to attack."),
+            });
+        }
         public override void HitEffect(NPC.HitInfo hit)
         {
             if ((hit.Damage >= NPC.life && NPC.life <= 0))

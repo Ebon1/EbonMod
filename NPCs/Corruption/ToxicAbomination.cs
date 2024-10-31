@@ -16,13 +16,14 @@ namespace EbonianMod.NPCs.Corruption
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 10;
+
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("big boy ebonfly"),
+                new FlavorTextBestiaryInfoElement("It stores toxic gases from the carrion it consumes, using this buildup to launch itself at great speeds toward its next target, creating an explosion-like burst of force in the process."),
             });
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

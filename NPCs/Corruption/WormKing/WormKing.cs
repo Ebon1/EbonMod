@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,6 +34,14 @@ namespace EbonianMod.NPCs.Corruption.WormKing
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
             Main.npcFrameCount[Type] = 8;
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
+                new FlavorTextBestiaryInfoElement("The Worm King is the result of a Rolypoly left to grow unchecked. Acting as a hive mind, it controls the worm-like creatures of the corruption, with many adventurers mistaking it for a strange tree before meeting their end."),
+            });
         }
         public override void SetDefaults()
         {

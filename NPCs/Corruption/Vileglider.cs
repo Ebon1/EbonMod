@@ -20,7 +20,7 @@ namespace EbonianMod.NPCs.Corruption
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("big boy ebonfly"),
+                new FlavorTextBestiaryInfoElement("Vilegliders strike when least expected, diving from above to swarm their prey. Their attacks are viciously precise, often leaving no trace of their victims behind."),
             });
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -89,7 +89,7 @@ namespace EbonianMod.NPCs.Corruption
                 {
                     if (npc.Center.Distance(NPC.Center) < npc.width * npc.scale)
                     {
-                        NPC.velocity += NPC.Center.FromAToB(npc.Center, true, true) * 0.5f;
+                        NPC.velocity += NPC.Center.FromAToB(npc.Center, true, true) * 0.1f;
                     }
                     if (npc.Center == NPC.Center)
                     {
@@ -97,7 +97,7 @@ namespace EbonianMod.NPCs.Corruption
                     }
                 }
             }
-            NPC.position += NPC.velocity * 0.2f;
+            NPC.position += NPC.velocity * 0.5f;
         }
         public override bool CheckDead()
         {
