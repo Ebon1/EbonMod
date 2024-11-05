@@ -188,7 +188,7 @@ namespace EbonianMod.Items.Weapons.Magic
         public override void AI()
         {
             if (Main.myPlayer == Projectile.owner)
-                Projectile.Center = Vector2.Lerp(Projectile.Center, Main.MouseWorld, (Projectile.ai[2]));
+                Projectile.Center = Vector2.Lerp(Projectile.Center, Main.MouseWorld, (Projectile.ai[2] * 0.05f));
             if (Projectile.timeLeft < 40)
                 Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 1, 0.007f);
             if (Projectile.timeLeft < 30)
