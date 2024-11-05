@@ -30,8 +30,8 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.useAnimation = 30;
             Item.shoot = ModContent.ProjectileType<TinyFish>();
             Item.shootSpeed = 8f;
-            Item.rare = 2;
-            Item.useStyle = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.LightRed;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item11;
             Item.useAmmo = AmmoID.Bullet;
             Item.autoReuse = true;

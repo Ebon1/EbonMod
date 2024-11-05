@@ -760,7 +760,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
 
 
-                        if (AITimer >= 45 + (NPC.life * 0.01f))
+                        if (AITimer >= 40 + (NPC.life * 0.0075f))
                         {
                             Reset();
                             AIState = Next;
@@ -1379,6 +1379,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         }
                         if (AITimer > 80 && AITimer < 170 && AITimer % 15 == 0)
                         {
+                            FacePlayer();
                             AITimer2 += 0.1f;
                             headFrame.Y = ShockedFace;
                             SoundEngine.PlaySound(EbonianSounds.xSpirit, NPC.Center);

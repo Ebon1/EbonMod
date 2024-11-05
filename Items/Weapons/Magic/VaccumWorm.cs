@@ -126,11 +126,12 @@ namespace EbonianMod.Items.Weapons.Magic
                     {
                         npcs[i].velocity = Helper.FromAToB(npcs[i].Center, Projectile.Center + Projectile.velocity * 20, false) / 10 * npcs[i].knockBackResist;
                     }
-                    npcs[i].StrikeNPC(new NPC.HitInfo()
-                    {
-                        Damage = 1,
-                        Crit = false
-                    });
+                    for (int j = 0; j < 2; j++)
+                        npcs[i].StrikeNPC(new NPC.HitInfo()
+                        {
+                            Damage = 1,
+                            Crit = false
+                        });
                     if (Projectile.ai[2]++ % 2 == 0)
                         player.CheckMana(1, true);
 

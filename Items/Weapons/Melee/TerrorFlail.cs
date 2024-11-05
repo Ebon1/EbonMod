@@ -30,7 +30,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.shoot = ModContent.ProjectileType<TerrortomaFlail>();
             Item.shootSpeed = 15.1f;
             Item.UseSound = SoundID.Item1;
-            Item.DamageType = DamageClass.Generic;
+            Item.DamageType = DamageClass.Melee;
             Item.crit = 9;
             Item.channel = true;
         }

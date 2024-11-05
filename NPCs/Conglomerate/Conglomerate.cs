@@ -423,13 +423,13 @@ namespace EbonianMod.NPCs.Conglomerate
 
                                 for (int i = 0; i <= 5 + (Main.expertMode ? 5 : 0); i++)
                                 {
-                                    Projectile projectile = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-10f, 10f), -6), ProjectileID.GoldenShowerHostile, 30, 1f, Main.myPlayer)];
+                                    Projectile projectile = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-10f, 10f), -6), ModContent.ProjectileType<CIchor>(), 30, 1f, Main.myPlayer)];
                                     projectile.tileCollide = false;
                                     projectile.hostile = true;
                                     projectile.friendly = false;
                                     projectile.timeLeft = 230;
                                 }
-                                Projectile projectilec = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -6), ProjectileID.GoldenShowerHostile, 30, 1f, Main.myPlayer)];
+                                Projectile projectilec = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -6), ModContent.ProjectileType<CIchor>(), 30, 1f, Main.myPlayer)];
                                 projectilec.tileCollide = false;
                                 projectilec.hostile = true;
                                 projectilec.friendly = false;

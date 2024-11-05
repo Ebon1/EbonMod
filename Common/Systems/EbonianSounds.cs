@@ -80,10 +80,10 @@ namespace EbonianMod.Common.Systems
                 SoundPath = ebonianSoundPath + "bloodSpit"
             };
 
-
             bowPull = Default with
             {
-                SoundPath = ebonianSoundPath + "bowPull"
+                SoundPath = ebonianSoundPath + "bowPull",
+                Volume = ModContent.GetInstance<EbonianClientConfig>().BowPullVolume
             };
 
 

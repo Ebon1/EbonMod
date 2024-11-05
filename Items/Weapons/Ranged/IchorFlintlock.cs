@@ -20,7 +20,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.width = 48;
             Item.height = 66;
             Item.crit = 45;
-            Item.damage = 28;
+            Item.damage = 33;
             Item.useAnimation = 32;
             Item.useTime = 32;
             Item.noUseGraphic = true;

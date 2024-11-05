@@ -13,6 +13,7 @@ using EbonianMod.Projectiles.Friendly.Underworld;
 using Terraria.Audio;
 using EbonianMod.Projectiles.Cecitior;
 using EbonianMod.Items.Materials;
+using EbonianMod.Projectiles.Friendly.Crimson;
 namespace EbonianMod.Items.Weapons.Ranged
 {
     public class FangSlinger : ModItem
@@ -102,17 +103,18 @@ namespace EbonianMod.Items.Weapons.Ranged
         };
         public override void PostDraw(Color lightColor)
         {
-            Texture2D tex = Helper.GetTexture("Projectiles/Cecitior/CecitiorTeeth");
+            Texture2D tex = Helper.GetTexture("Projectiles/Friendly/Crimson/CrimsonArrow");
             for (int i = -1; i < 2; i++)
             {
                 if (i == 0)
                     continue;
-                Main.spriteBatch.Draw(tex, Projectile.Center + Vector2.Lerp(new Vector2(20, 0).RotatedBy(Projectile.rotation), Vector2.Zero, alpha[i + 1]) - Main.screenPosition, null, Color.White * alpha[i + 1], Projectile.rotation + (i * 0.25f) - MathHelper.PiOver2, tex.Size() / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center + Vector2.Lerp(new Vector2(20, 0).RotatedBy(Projectile.rotation), Vector2.Zero, alpha[i + 1]) - Main.screenPosition, null, lightColor * alpha[i + 1], Projectile.rotation + (i * 0.25f) + MathHelper.PiOver2, tex.Size() / 2, 1, SpriteEffects.None, 0);
             }
-            Main.spriteBatch.Draw(tex, Projectile.Center + Vector2.Lerp(new Vector2(20, 0).RotatedBy(Projectile.rotation), Vector2.Zero, alpha[2]) - Main.screenPosition, null, Color.White * alpha[2], Projectile.rotation - MathHelper.PiOver2, tex.Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center + Vector2.Lerp(new Vector2(20, 0).RotatedBy(Projectile.rotation), Vector2.Zero, alpha[2]) - Main.screenPosition, null, lightColor * alpha[2], Projectile.rotation + MathHelper.PiOver2, tex.Size() / 2, 1, SpriteEffects.None, 0);
         }
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, 0.25f, 0, 0);
             Player player = Main.player[Projectile.owner];
             if (!player.active || player.dead || player.CCed || player.noItems)
             {
@@ -174,7 +176,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                     SoundEngine.PlaySound(release, Projectile.Center);
                     for (int i = -2; i < 4; i++)
                     {
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedByRandom(i * 0.25f) * 20, ModContent.ProjectileType<CecitiorTeethFriendly>(), Projectile.damage, Projectile.knockBack, Projectile.owner, -i);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedByRandom(i * 0.25f) * 20, ModContent.ProjectileType<CrimsonArrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner, -i);
                     }
                     for (int i = 0; i < 3; i++)
                         alpha[i] = 0;

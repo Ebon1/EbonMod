@@ -148,7 +148,7 @@ namespace EbonianMod.NPCs.Cecitior
                     }
                     verlet[i].Update(NPC.Center + offset2 - openOffset, NPC.Center + openOffset + new Vector2(30, 4) + offset);
                     if (verlet[i].segments[10].cut)
-                        verlet[i].Draw(spriteBatch, "Extras/Line", useColor: true, color: Color.Maroon * 0.25f * VerletAlpha, scale: scale);
+                        verlet[i].Draw(spriteBatch, "Extras/maroon", scale: scale);
                 }
             }
             if (claw[0].verlet != null && phase2)
@@ -210,8 +210,8 @@ namespace EbonianMod.NPCs.Cecitior
                 Texture2D tex = TextureAssets.Npc[Type].Value;
                 Texture2D teeth = Helper.GetTexture("NPCs/Cecitior/CecitiorTeeth");
                 Texture2D partTeeth = Helper.GetTexture("NPCs/Cecitior/CecitiorTeeth2");
-                spriteBatch.Draw(teeth, NPC.Center - openOffset - new Vector2(0, -2) - screenPos, null, drawColor, NPC.rotation, teeth.Size() / 2, NPC.scale, SpriteEffects.None, 0);
-                spriteBatch.Draw(partTeeth, NPC.Center + new Vector2(30, 4) + openOffset - screenPos, null, drawColor, openRotation, partTeeth.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(teeth, NPC.Center - openOffset - new Vector2(0, -2) - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center + new Vector2(30, 4) + openOffset)), NPC.rotation, teeth.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(partTeeth, NPC.Center + new Vector2(30, 4) + openOffset - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center - openOffset)), openRotation, partTeeth.Size() / 2, NPC.scale, SpriteEffects.None, 0);
                 if (verlet[0] != null)
                 {
                     for (int i = 0; i < 5; i++)
@@ -244,12 +244,12 @@ namespace EbonianMod.NPCs.Cecitior
                         }
                         //verlet[i].Update(NPC.Center + offset2, NPC.Center + openOffset + new Vector2(30, 4) + offset);
                         if (!verlet[i].segments[10].cut)
-                            verlet[i].Draw(spriteBatch, "Extras/Line", useColor: true, color: Color.Maroon * 0.25f * VerletAlpha, scale: scale);
+                            verlet[i].Draw(spriteBatch, "Extras/maroon", scale: scale);
                     }
                 }
                 Texture2D part = Helper.GetTexture("NPCs/Cecitior/Cecitior_Part");
-                spriteBatch.Draw(part, NPC.Center + new Vector2(30, 4) + openOffset - screenPos, null, drawColor, openRotation, part.Size() / 2, NPC.scale, SpriteEffects.None, 0);
-                spriteBatch.Draw(tex, NPC.Center - openOffset - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(part, NPC.Center + new Vector2(30, 4) + openOffset - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center + new Vector2(30, 4) + openOffset)), openRotation, part.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(tex, NPC.Center - openOffset - screenPos, NPC.frame, new Color(Lighting.GetSubLight(NPC.Center - openOffset)), NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
                 return false;
             }
             return true;
@@ -1151,7 +1151,7 @@ namespace EbonianMod.NPCs.Cecitior
                     AITimer2 -= 4;
                     NPC.velocity = Vector2.Zero;
                     if (halfEyesPhase2)
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 0.5f, -6), ProjectileID.GoldenShowerHostile, 15, 0);
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 0.5f, -6), ModContent.ProjectileType<CIchor>(), 15, 0);
                     Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 2, -5), ModContent.ProjectileType<HeadGoreSceptreEVILSOBBINGRN>(), 15, 0);
                     a.friendly = false;
                     a.hostile = true;

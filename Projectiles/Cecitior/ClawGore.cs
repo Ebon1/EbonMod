@@ -55,7 +55,7 @@ namespace EbonianMod.Projectiles.Cecitior
                 {
                     claw[i].verlet.Update(claw[i].position, Projectile.Center);
 
-                    claw[i].verlet.Draw(Main.spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_8", useColor: true, color: Color.White * Projectile.Opacity);
+                    claw[i].verlet.Draw(Main.spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_8", useColor: true, color: lightColor * Projectile.Opacity);
                 }
             }
             return false;

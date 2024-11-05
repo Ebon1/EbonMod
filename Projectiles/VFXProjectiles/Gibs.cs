@@ -79,6 +79,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         }
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, 0.25f, 0, 0);
             if (Projectile.ai[1] == 1)
             {
                 AIType = -1;

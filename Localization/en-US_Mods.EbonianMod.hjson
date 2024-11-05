@@ -224,11 +224,13 @@ Projectiles: {
 	ConglomerateScream.DisplayName: Conglomerate Scream
 	CFlesh.DisplayName: C Flesh
 	CIchorBomb.DisplayName: C Ichor Bomb
+	CIchor.DisplayName: C Ichor
 	CecitiorClawMinion.DisplayName: Cecitior Claw Minion
 	AnimeSlash.DisplayName: Anime Slash
 	XAnimeSlash.DisplayName: X Anime Slash
 	PipebombP.DisplayName: Pipebomb P
 	PotatoP.DisplayName: Potato P
+	CrimsonArrow.DisplayName: Crimson Arrow
 }
 
 NPCs: {
@@ -783,5 +785,21 @@ Biomes: {
 	SpawnAnimMusic: {
 		DisplayName: Spawn Anim Music
 		TownNPCDialogueName: the Spawn Anim Music
+	}
+}
+
+Configs: {
+	EbonianClientConfig: {
+		DisplayName: Client Config
+
+		MuteBowPull: {
+			Label: Mute the Bow Pull SFX
+			Tooltip: Mutes the sound when using some bows added by the Ebonian Mod.
+		}
+
+		BowPullVolume: {
+			Label: Bow Pull Volume
+			Tooltip: ""
+		}
 	}
 }

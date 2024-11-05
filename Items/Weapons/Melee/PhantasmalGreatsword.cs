@@ -76,6 +76,8 @@ namespace EbonianMod.Items.Weapons.Melee
             swingTime = 150;
             Projectile.extraUpdates = 4;
             holdOffset = 25;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = swingTime;
         }
         bool hit;
         public override void OnHit(NPC target, NPC.HitInfo hitinfo, int damage)

@@ -26,7 +26,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.knockBack = 10f;
             Item.width = Item.height = 80;
             Item.crit = 30;
-            Item.damage = 150;
+            Item.damage = 210;
             Item.useAnimation = 40;
             Item.useTime = 40;
             Item.noUseGraphic = true;
@@ -74,6 +74,12 @@ namespace EbonianMod.Items.Weapons.Melee
     : x < 0.5 ? MathF.Pow(2, 20 * x - 10) / 2
     : (2 - MathF.Pow(2, -20 * x + 10)) / 2;
         }
+        public override void OnKill(int timeLeft)
+        {
+            Player player = Main.player[Projectile.owner];
+            if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems)
+                Projectile.NewProjectile(null, Projectile.Center, Vector2.UnitX * player.direction, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, 0, -player.direction, 1);
+        }
         float lerpProg = 1, swingProgress, rotation;
         public override void ExtraAI()
         {
@@ -85,7 +91,7 @@ namespace EbonianMod.Items.Weapons.Melee
             //lerpProg += 0.025f;
             //if (lerpProg < 1)
             //  lerpProg -= 0.2f;
-            if (swingProgress > 0.35f && swingProgress < 0.75f)
+            if (swingProgress > 0.25f && swingProgress < 0.85f)
                 if (Projectile.ai[0] == 0 && Helper.TRay.CastLength(Projectile.Center, Vector2.UnitY, 100) < 15)
                 {
                     Projectile.ai[0] = 1;
@@ -120,10 +126,15 @@ namespace EbonianMod.Items.Weapons.Melee
         {
             return Projectile.ai[0] < 1 && swingProgress > 0.35f && swingProgress < 0.65f;
         }
+        bool _hit;
         public override void OnHit(NPC target, NPC.HitInfo hit, int damageDone)
         {
             EbonianSystem.ScreenShakeAmount = 2;
-            lerpProg = -.25f;
+            if (!_hit)
+            {
+                lerpProg = -.25f;
+                _hit = true;
+            }
         }
     }
 }

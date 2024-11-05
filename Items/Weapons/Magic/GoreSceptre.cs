@@ -74,7 +74,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Projectile.timeLeft = MAX_TIME;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 15;
+            Projectile.localNPCHitCooldown = 9;
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers hit)
         {

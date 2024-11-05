@@ -153,7 +153,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.scale = MathHelper.Clamp(MathF.Sin(swingProgress * MathF.PI) * 0.1f + 1, 0.975f, 1.05f);
             float angle = MathHelper.Lerp(-MathHelper.PiOver2 - MathHelper.PiOver4 * 0.5f, MathHelper.Pi + MathHelper.PiOver4 * 0.5f, -swingProgress + 1);
             float rot = angle + (Projectile.ai[1] == 1 ? 0 : MathHelper.Pi) + MathHelper.PiOver2;
-            if (swingProgress.CloseTo(0.5f, 0.45f) && swingProgress < 0.85f)
+            if (swingProgress.CloseTo(0.5f, 0.45f) && swingProgress < 0.85f && Projectile.timeLeft % 2 == 0)
                 oldP.Add(rot);
         }
         List<float> oldP = new List<float>(30);

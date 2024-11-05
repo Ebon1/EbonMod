@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -30,6 +31,10 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override Vector2? HoldoutOffset()
         {
             return Vector2.UnitX * -16;
+        }
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            velocity *= Main.rand.NextFloat(0.6f, 1.2f);
         }
     }
 }

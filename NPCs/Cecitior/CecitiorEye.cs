@@ -38,7 +38,7 @@ namespace EbonianMod.NPCs.Cecitior
         {
             NPC.aiStyle = -1;
             NPC.lifeMax = 2000;
-            NPC.dontTakeDamage = false;
+            NPC.dontTakeDamage = true;
             NPC.damage = 0;
             NPC.noTileCollide = true;
             NPC.defense = 15;
@@ -223,6 +223,7 @@ namespace EbonianMod.NPCs.Cecitior
                         focalPoint = Vector2.Lerp(focalPoint, player.Center, 0.45f);
                     break;
                 case 1:
+                    NPC.dontTakeDamage = false;
                     NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle + (center.ai[1] < 0 ? MathHelper.ToRadians(timer) : MathHelper.ToRadians(Main.GameUpdateCount))), false) / 10f;
                     focalPoint = player.Center;
                     AITimer = 0;

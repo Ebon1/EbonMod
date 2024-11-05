@@ -84,7 +84,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Projectile.hostile = false;
             Projectile.DamageType = DamageClass.Magic;
 
-            Projectile.timeLeft = 90;
+            Projectile.timeLeft = 55;
             Projectile.scale = 1f;
         }
 
@@ -166,15 +166,13 @@ namespace EbonianMod.Items.Weapons.Magic
             Player player = Main.player[Projectile.owner];
             //Screenshake system
             //  player.GetModPlayer<Screenshake>().SmallScreenshake = true;
-            for (int i = 0; i < 3; i++)
-            {
-                float speedX = Projectile.velocity.X * Main.rand.NextFloat(.46f, .8f) + Main.rand.NextFloat(-7f, 8f);
-                float speedY = Projectile.velocity.Y * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
-
-                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Helper.FromAToB(player.Center, Projectile.Center).RotatedBy(0) * 4, ModContent.ProjectileType<IchorGlobSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Helper.FromAToB(player.Center, Projectile.Center).RotatedBy(MathHelper.PiOver4) * 4, ModContent.ProjectileType<IchorGlobSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Helper.FromAToB(player.Center, Projectile.Center).RotatedBy(-MathHelper.PiOver4) * 4, ModContent.ProjectileType<IchorGlobSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-            }
+            if (Main.myPlayer == Projectile.owner)
+                for (int i = 0; i < 3; i++)
+                {
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Helper.FromAToB(Projectile.Center, Main.MouseWorld).RotatedBy(0) * 4, ModContent.ProjectileType<IchorGlobSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Helper.FromAToB(Projectile.Center, Main.MouseWorld).RotatedBy(MathHelper.PiOver4) * 4, ModContent.ProjectileType<IchorGlobSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Helper.FromAToB(Projectile.Center, Main.MouseWorld).RotatedBy(-MathHelper.PiOver4) * 4, ModContent.ProjectileType<IchorGlobSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                }
 
             Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BloodExplosionWSprite>(), 0, 0);
         }
@@ -189,6 +187,8 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override void AI()
         {
+            if (Main.myPlayer == Projectile.owner)
+                Projectile.Center = Vector2.Lerp(Projectile.Center, Main.MouseWorld, (Projectile.ai[2]));
             if (Projectile.timeLeft < 40)
                 Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 1, 0.007f);
             if (Projectile.timeLeft < 30)

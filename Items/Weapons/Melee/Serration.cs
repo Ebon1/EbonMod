@@ -76,6 +76,12 @@ namespace EbonianMod.Items.Weapons.Melee
   : (2 - MathF.Pow(2, -20 * x + 10)) / 2;
         }
         float lerpProg = 1, swingProgress, rotation;
+        public override void OnKill(int timeLeft)
+        {
+            Player player = Main.player[Projectile.owner];
+            if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems)
+                Projectile.NewProjectile(null, Projectile.Center, Vector2.UnitX * player.direction, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, 0, -player.direction, 1);
+        }
         public override void ExtraAI()
         {
             Player player = Main.player[Projectile.owner];
@@ -88,7 +94,7 @@ namespace EbonianMod.Items.Weapons.Melee
                     EbonianSystem.ScreenShakeAmount = 5;
                     Projectile.timeLeft = 15;
                     SoundEngine.PlaySound(SoundID.Item70, Projectile.Center);
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 30, Vector2.UnitY, 500, true), new Vector2((float)player.direction, 0), ModContent.ProjectileType<SerrationSpike>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 30, Vector2.UnitY, 500, true), new Vector2((float)player.direction, 0), ModContent.ProjectileType<SerrationSpike>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
 
                     lerpProg = -1;
                 }

@@ -34,6 +34,10 @@ namespace EbonianMod.Projectiles.Friendly.Generic
                 Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
             }
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.OnFire, 400);
+        }
         public override void AI()
         {
             Dust.NewDustPerfect(Projectile.Center, DustID.Torch);

@@ -18,7 +18,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             Item.DamageType = DamageClass.Ranged;
-            Item.damage = 20;
+            Item.damage = 30;
             Item.useTime = 1;
             Item.useAnimation = 10;
             Item.reuseDelay = 25;

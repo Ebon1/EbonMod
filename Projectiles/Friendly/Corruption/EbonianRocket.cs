@@ -113,7 +113,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
             {
                 AdjustMagnitude(ref move);
                 float thing = Utils.GetLerpValue(0, 400, Projectile.timeLeft);
-                float vel = MathHelper.Lerp(33, 11, thing);
+                float vel = MathHelper.Lerp(25, 8, thing);
                 Projectile.velocity = (vel * Projectile.velocity + move) / vel;
                 AdjustMagnitude(ref Projectile.velocity);
             }
@@ -127,7 +127,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
         {
             float magnitude = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
             float thing = Utils.GetLerpValue(0, 400, Projectile.timeLeft);
-            float target = MathHelper.Lerp(33, 11, thing);
+            float target = MathHelper.Lerp(25, 8, thing);
             if (magnitude > target)
             {
                 vector *= target / magnitude;

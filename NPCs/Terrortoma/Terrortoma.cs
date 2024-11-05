@@ -88,6 +88,7 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.buffImmune[24] = true;
             NPC.netAlways = true;
             NPC.behindTiles = true;
+            NPC.dontTakeDamage = true;
         }
         Rectangle introFrame = new Rectangle(0, 0, 118, 108), laughFrame = new Rectangle(0, 0, 118, 108);
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color lightColor)
@@ -518,6 +519,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 {
                     SwitchToRandom();
                     AIState = Idle;
+                    NPC.dontTakeDamage = false;
                     AITimer = 100;
                 }
             }
