@@ -23,7 +23,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.crit = 20;
             Item.useTime = 17;
             Item.DamageType = DamageClass.Melee;
-            Item.damage = 27;
+            Item.damage = 19;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<ExolsawP>();
             Item.rare = ItemRarityID.Orange;
