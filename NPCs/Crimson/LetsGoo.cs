@@ -22,12 +22,12 @@ namespace EbonianMod.NPCs.Crimson
             NPC.width = 72;
             NPC.height = 78;
             NPC.damage = 40;
-            NPC.defense = 1;
-            NPC.lifeMax = 60;
+            NPC.defense = 8;
+            NPC.lifeMax = 120;
             NPC.aiStyle = -1;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath2;
-            NPC.value = 60f;
+            NPC.value = 100f;
             NPC.knockBackResist = 0.5f;
             NPC.noGravity = true;
             NPC.buffImmune[BuffID.Ichor] = true;
@@ -36,6 +36,10 @@ namespace EbonianMod.NPCs.Crimson
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Melee.SanguineSlasher>(), 20));
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCrimson ? 0.25f : 0;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {

@@ -53,17 +53,21 @@ namespace EbonianMod.NPCs.Crimson
             NPC.aiStyle = 5;
             AIType = 205;
             NPC.damage = 20;
-            NPC.defense = 1;
-            NPC.lifeMax = 80;
+            NPC.defense = 7;
+            NPC.lifeMax = 100;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath2;
-            NPC.value = 60f;
+            NPC.value = 200f;
             NPC.knockBackResist = 0.5f;
             NPC.noGravity = true;
             NPC.noTileCollide = false;
         }
 
 
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCrimson ? 0.15f : 0;
+        }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
             Microsoft.Xna.Framework.Color color9 = Lighting.GetColor((int)((double)NPC.position.X + (double)NPC.width * 0.5) / 16, (int)(((double)NPC.position.Y + (double)NPC.height * 0.5) / 16.0));

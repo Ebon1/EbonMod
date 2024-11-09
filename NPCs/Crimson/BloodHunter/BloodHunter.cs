@@ -25,6 +25,10 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
                 CustomTexturePath = "EbonianMod/NPCs/Crimson/BloodHunter/BloodHunter_Bestiary"
             });
         }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCrimson && spawnInfo.Player.ZoneOverworldHeight ? 0.15f : 0;
+        }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
@@ -38,7 +42,8 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
             NPC.Size = new Vector2(94, 80);
             NPC.damage = 0;
             NPC.defense = 5;
-            NPC.lifeMax = 400;
+            NPC.lifeMax = 200;
+            NPC.value = 200;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.knockBackResist = 0.45f;
             NPC.DeathSound = SoundID.NPCDeath1;
@@ -108,7 +113,7 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
             JumpCheck();
             if (NPC.Grounded())
             {
-                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, MathHelper.Clamp(Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * (60 + NPC.ai[1]), false).X * 0.03f, -8, 8), 0.1f);
+                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, MathHelper.Clamp(Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * (60 + NPC.ai[1]), false).X * 0.03f, -8, 8), 0.05f);
                 if (NPC.Distance(player.Center) < 100)
                 {
                     NPC.ai[0]++;

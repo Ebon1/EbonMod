@@ -25,6 +25,10 @@ namespace EbonianMod.Projectiles.Friendly.Underworld
         {
             return Color.White;
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.OnFire, 100);
+        }
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);

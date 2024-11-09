@@ -16,6 +16,8 @@ using System.Text;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
+using EbonianMod.Items.Materials;
+using Terraria.GameContent.ItemDropRules;
 
 namespace EbonianMod.NPCs.Crimson.CrimsonWorm
 {
@@ -55,10 +57,19 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             // Head is 10 defence, body 20, tail 30.
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.lifeMax = 11;
+            NPC.value = Item.buyPrice(0, 20);
             NPC.dontTakeDamage = true;
             NPC.Size = new Vector2(72, 64);
             NPC.aiStyle = -1;
 
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CecitiorMaterial>(), 2, 1, 3));
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCrimson && spawnInfo.Player.ZoneOverworldHeight && Main.hardMode ? 0.01f : 0;
         }
         public override void ExtraAI()
         {

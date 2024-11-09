@@ -34,7 +34,7 @@ namespace EbonianMod.NPCs.Crimson
             AIType = 47;
             NPC.damage = 0;
             NPC.defense = 1;
-            NPC.lifeMax = 40;
+            NPC.lifeMax = 80;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath2;
             NPC.value = 60f;
@@ -54,7 +54,7 @@ namespace EbonianMod.NPCs.Crimson
         {
             if (spawnInfo.Player.ZoneCrimson && spawnInfo.Player.ZoneOverworldHeight)
             {
-                return .35f;
+                return .5f;
             }
             else
             {

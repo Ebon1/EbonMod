@@ -28,16 +28,20 @@ namespace EbonianMod.NPCs.Crimson.Fleshformator
             NPC.width = 58;
             NPC.height = 42;
             NPC.damage = 0;
-            NPC.defense = 3;
-            NPC.lifeMax = 800;
+            NPC.defense = 10;
+            NPC.lifeMax = 2800;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = EbonianSounds.fleshHit;
-            NPC.value = 60f;
+            NPC.value = 500f;
             NPC.aiStyle = -1;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.knockBackResist = 0f;
             NPC.buffImmune[BuffID.Ichor] = true;
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCrimson && spawnInfo.Player.ZoneRockLayerHeight && Main.hardMode ? 0.25f : 0;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {

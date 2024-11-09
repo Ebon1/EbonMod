@@ -31,8 +31,8 @@ namespace EbonianMod.NPCs.Crimson
             NPC.width = 50;
             NPC.height = 38;
             NPC.damage = 20;
-            NPC.defense = 1;
-            NPC.lifeMax = 80;
+            NPC.defense = 8;
+            NPC.lifeMax = 300;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.knockBackResist = 0.5f;

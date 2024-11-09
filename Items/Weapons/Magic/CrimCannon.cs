@@ -34,6 +34,10 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.shoot = ModContent.ProjectileType<CrimCannonP>();
             Item.shootSpeed = 20;
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.CrimtaneBar, 20).AddIngredient(ItemID.Vertebrae, 20).AddTile(TileID.Anvils).Register();
+        }
         public override Vector2? HoldoutOffset()
         {
             return (new Vector2(-3, 0));

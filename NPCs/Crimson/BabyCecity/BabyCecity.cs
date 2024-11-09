@@ -1,5 +1,6 @@
 ﻿using EbonianMod.Common.Systems;
 using EbonianMod.Common.Systems.Misc;
+using EbonianMod.Items.Materials;
 using EbonianMod.NPCs.Corruption;
 using EbonianMod.Projectiles.Terrortoma;
 using Microsoft.Xna.Framework;
@@ -16,6 +17,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -28,8 +30,8 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
             NPC.width = 68;
             NPC.height = 76;
             NPC.damage = 15;
-            NPC.defense = 2;
-            NPC.lifeMax = 55;
+            NPC.defense = 25;
+            NPC.lifeMax = 1000;
             NPC.HitSound = EbonianSounds.fleshHit;
             NPC.value = 60f;
             NPC.knockBackResist = 0.5f;
@@ -37,6 +39,14 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.buffImmune[BuffID.Ichor] = true;
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCrimson && Main.hardMode ? 0.025f : 0;
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CecitiorMaterial>(), 2, 1, 3));
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -133,7 +143,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
                         NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(player.Center - new Vector2(0, 100)) * 15, 0.01f);
                     }
                     else NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(verlet[0].lastP.position - new Vector2(0, 100)) * 30, 0.01f);
-                    if (AITimer >= 350)
+                    if (AITimer >= 150)
                     {
                         AIState++;
                         AITimer = 0;

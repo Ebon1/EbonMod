@@ -91,6 +91,10 @@ namespace EbonianMod.Items.Weapons.Ranged
             }
             return false;
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.OnFire, 300);
+        }
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(Projectile.localAI[0]);
