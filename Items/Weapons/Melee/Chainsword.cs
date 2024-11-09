@@ -83,7 +83,7 @@ namespace EbonianMod.Items.Weapons.Melee
             player.ChangeDir(Projectile.velocity.X < 0 ? -1 : 1);
             player.heldProj = Projectile.whoAmI;
             player.SetCompositeArmFront(true, stretch, rotation - MathHelper.PiOver2);
-            if (Projectile.timeLeft == 139)
+            if (Projectile.timeLeft == swingTime - 11)
                 SoundEngine.PlaySound(SoundID.Item22, Projectile.Center);
             if (lerpProg < 0.9f && lerpProg != -1)
             {

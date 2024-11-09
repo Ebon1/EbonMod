@@ -242,13 +242,13 @@ namespace EbonianMod.NPCs.Cecitior
                         if ((AITimer == 30 || (halfEyesPhase2 && AITimer == 15)) && leftie)
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center), ModContent.ProjectileType<EyeVFX>(), 0, 0);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center) * 3, ModContent.ProjectileType<CecitiorEyeP>(), 15, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center) * 3, ModContent.ProjectileType<CecitiorEyeP>(), 30, 0);
                         }
 
                         if ((AITimer == 60 || (halfEyesPhase2 && AITimer == 45)) && !leftie)
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center), ModContent.ProjectileType<EyeVFX>(), 0, 0);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center) * 3, ModContent.ProjectileType<CecitiorEyeP>(), 15, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center) * 3, ModContent.ProjectileType<CecitiorEyeP>(), 30, 0);
                         }
 
                     }
@@ -316,7 +316,7 @@ namespace EbonianMod.NPCs.Cecitior
                     NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + new Vector2(200).RotatedBy(angle + MathHelper.ToRadians(timer * (halfEyesPhase2 ? 3 : 1))), false) / 3;
                     focalPoint = player.Center;
                     if (center.ai[1] % (halfEyesPhase2 ? 20 : 50) == 0 && center.ai[1] > 1)
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 0.5f, ModContent.ProjectileType<CecitiorTeeth>(), 15, 0);
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 0.5f, ModContent.ProjectileType<CecitiorTeeth>(), 30, 0);
                     break;
                 case 6:
                     NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 10f;

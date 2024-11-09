@@ -719,7 +719,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             }
                             currentDialogue = DialogueSystem.NewDialogueBox(160, NPC.Center - new Vector2(0, 80), chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                         }
-                        if (AITimer >= 100 + (NPC.life * 0.01f))
+                        if (AITimer >= 160 + (NPC.life * 0.01f))
                         {
                             Reset();
                             AIState = Next;

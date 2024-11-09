@@ -62,6 +62,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.width = 60;
             Projectile.height = 60;
             swingTime = 60;
+            minSwingTime = 52;
             holdOffset = 50;
             Projectile.tileCollide = false;
         }
@@ -100,7 +101,7 @@ namespace EbonianMod.Items.Weapons.Melee
                     SoundEngine.PlaySound(SoundID.Item70, Projectile.Center);
                     for (int i = 0; i < 5; i++)
                     {
-                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center - new Vector2(0, 20), new Vector2(Main.rand.NextFloat(-4.5f, 4.5f), Main.rand.NextFloat(-2, -3)), ModContent.ProjectileType<VileMeatChunk>(), Projectile.damage, 0, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center - new Vector2(0, 20), new Vector2(Main.rand.NextFloat(-4.5f, 4.5f), Main.rand.NextFloat(-2, -3)), ModContent.ProjectileType<VileMeatChunk>(), Projectile.damage / 2, 0, Projectile.owner);
                     }
 
                     lerpProg = -1;

@@ -643,7 +643,7 @@ namespace EbonianMod.NPCs.Cecitior
                     {
                         for (int i = 0; i < claw.Length; i++)
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), claw[i].position + Vector2.UnitY.RotatedBy(AITimer2) * 110, -Vector2.UnitY.RotatedBy(AITimer2), ModContent.ProjectileType<CecitiorClawSlash>(), 15, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), claw[i].position + Vector2.UnitY.RotatedBy(AITimer2) * 110, -Vector2.UnitY.RotatedBy(AITimer2), ModContent.ProjectileType<CecitiorClawSlash>(), 30, 0);
                         }
                     }
                     if (AITimer >= 20)
@@ -957,12 +957,12 @@ namespace EbonianMod.NPCs.Cecitior
                     for (int i = 0; i < 6; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 12);
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + openOffset, new Vector2(5 + (i * 0.1f)).RotatedBy(angle), ModContent.ProjectileType<CecitiorTeeth>(), 15, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + openOffset, new Vector2(5 + (i * 0.1f)).RotatedBy(angle), ModContent.ProjectileType<CecitiorTeeth>(), 30, 0);
                     }
                     for (int i = 8; i < 12; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 12);
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center - openOffset, new Vector2(5 + (i * 0.1f)).RotatedBy(angle), ModContent.ProjectileType<CecitiorTeeth>(), 15, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center - openOffset, new Vector2(5 + (i * 0.1f)).RotatedBy(angle), ModContent.ProjectileType<CecitiorTeeth>(), 30, 0);
                     }
                 }
                 if (AITimer == 50 && halfEyesPhase2)
@@ -971,12 +971,12 @@ namespace EbonianMod.NPCs.Cecitior
                     for (int i = 0; i < 6; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 12);
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + openOffset, new Vector2(5 + (i * 0.1f)).RotatedBy(angle - MathHelper.PiOver4 / 2), ModContent.ProjectileType<CecitiorTeeth>(), 15, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + openOffset, new Vector2(5 + (i * 0.1f)).RotatedBy(angle - MathHelper.PiOver4 / 2), ModContent.ProjectileType<CecitiorTeeth>(), 30, 0);
                     }
                     for (int i = 8; i < 12; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 12);
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center - openOffset, new Vector2(5 + (i * 0.1f)).RotatedBy(angle + MathHelper.PiOver4 / 2), ModContent.ProjectileType<CecitiorTeeth>(), 15, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center - openOffset, new Vector2(5 + (i * 0.1f)).RotatedBy(angle + MathHelper.PiOver4 / 2), ModContent.ProjectileType<CecitiorTeeth>(), 30, 0);
                     }
                 }
                 if (AITimer == 60 && phase2)
@@ -984,12 +984,12 @@ namespace EbonianMod.NPCs.Cecitior
                     for (int i = 0; i < 6; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 12);
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + openOffset, new Vector2(5 + (i * 0.1f)).RotatedBy(angle - MathHelper.PiOver4), ModContent.ProjectileType<CecitiorTeeth>(), 15, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + openOffset, new Vector2(5 + (i * 0.1f)).RotatedBy(angle - MathHelper.PiOver4), ModContent.ProjectileType<CecitiorTeeth>(), 30, 0);
                     }
                     for (int i = 8; i < 12; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 12);
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center - openOffset, new Vector2(5 + (i * 0.1f)).RotatedBy(angle + MathHelper.PiOver4), ModContent.ProjectileType<CecitiorTeeth>(), 15, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center - openOffset, new Vector2(5 + (i * 0.1f)).RotatedBy(angle + MathHelper.PiOver4), ModContent.ProjectileType<CecitiorTeeth>(), 30, 0);
                     }
                 }
                 if (AITimer == 60)
@@ -1110,7 +1110,7 @@ namespace EbonianMod.NPCs.Cecitior
                     {
                         if (i == 0)
                             continue;
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(i * AITimer2, 5), ModContent.ProjectileType<CecitiorTeeth>(), 15, 0);
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(i * AITimer2, 5), ModContent.ProjectileType<CecitiorTeeth>(), 30, 0);
                     }
                 }
                 if (AITimer >= 65)
@@ -1151,8 +1151,8 @@ namespace EbonianMod.NPCs.Cecitior
                     AITimer2 -= 4;
                     NPC.velocity = Vector2.Zero;
                     if (halfEyesPhase2)
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 0.5f, -6), ModContent.ProjectileType<CIchor>(), 15, 0);
-                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 2, -5), ModContent.ProjectileType<HeadGoreSceptreEVILSOBBINGRN>(), 15, 0);
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 0.5f, -6), ModContent.ProjectileType<CIchor>(), 30, 0);
+                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 2, -5), ModContent.ProjectileType<CHeart>(), 30, 0);
                     a.friendly = false;
                     a.hostile = true;
 
@@ -1197,7 +1197,7 @@ namespace EbonianMod.NPCs.Cecitior
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2CircularEdge(30, 30), Main.rand.NextVector2Unit(), ModContent.ProjectileType<EyeVFX>(), 0, 0);
                 if (AITimer >= 30 && AITimer <= 80 && AITimer % 5 == 0)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2CircularEdge(30, 30), Main.rand.NextVector2Unit() * 2, ModContent.ProjectileType<CecitiorEyeP>(), 20, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2CircularEdge(30, 30), Main.rand.NextVector2Unit() * 2, ModContent.ProjectileType<CecitiorEyeP>(), 30, 0);
                 }
                 if (AITimer >= 80)
                 {
@@ -1234,7 +1234,7 @@ namespace EbonianMod.NPCs.Cecitior
                     {
                         for (int i = 0; i < claw.Length; i++)
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), claw[i].position + Vector2.UnitY.RotatedBy(AITimer2) * 110, -Vector2.UnitY.RotatedBy(AITimer2), ModContent.ProjectileType<CecitiorClawSlash>(), 15, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), claw[i].position + Vector2.UnitY.RotatedBy(AITimer2) * 110, -Vector2.UnitY.RotatedBy(AITimer2), ModContent.ProjectileType<CecitiorClawSlash>(), 30, 0);
                         }
                     }
                     if (AITimer >= 45)
@@ -1407,7 +1407,7 @@ namespace EbonianMod.NPCs.Cecitior
                         for (int i = 0; i < claw.Length; i++)
                         {
                             if (i == AITimer3)
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), claw[i].position + Vector2.UnitY.RotatedBy(AITimer2) * 110, -Vector2.UnitY.RotatedBy(AITimer2), ModContent.ProjectileType<CecitiorClawSlash>(), 15, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), claw[i].position + Vector2.UnitY.RotatedBy(AITimer2) * 110, -Vector2.UnitY.RotatedBy(AITimer2), ModContent.ProjectileType<CecitiorClawSlash>(), 30, 0);
                         }
                     }
                     if (AITimer % 50 >= 40)

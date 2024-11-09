@@ -276,8 +276,11 @@ namespace EbonianMod.Common.Achievements
             };
             uITextPanel2.OnLeftClick += delegate (UIMouseEvent evt, UIElement listeningElement)
             {
-                SoundEngine.PlaySound(SoundID.MenuTick);
-                IngameFancyUI.OpenUIState(EbonianAchievementSystem.achievementUIState);
+                if (Main.playerInventory && !(Main.LocalPlayer.chest != -1 || Main.npcShop != 0))
+                {
+                    SoundEngine.PlaySound(SoundID.MenuTick);
+                    IngameFancyUI.OpenUIState(EbonianAchievementSystem.achievementUIState);
+                }
             };
             uITextPanel2.Append(hover);
             uiOutline.Append(uITextPanel2);

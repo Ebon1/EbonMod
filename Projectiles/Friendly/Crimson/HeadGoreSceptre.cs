@@ -61,7 +61,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             Projectile.velocity *= 0.95f;
         }
     }
-    public class HeadGoreSceptreEVILSOBBINGRN : ModProjectile
+    public class CHeart : ModProjectile
     {
         public override string Texture => "EbonianMod/Projectiles/Friendly/Crimson/HeadGoreSceptre";
         public override void SetStaticDefaults()

@@ -61,6 +61,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.width = 60;
             Projectile.height = 60;
             swingTime = 65;
+            minSwingTime = 57;
             holdOffset = 30;
             Projectile.tileCollide = false;
             modifyCooldown = true;
@@ -87,14 +88,14 @@ namespace EbonianMod.Items.Weapons.Melee
             Player player = Main.player[Projectile.owner];
             if (lerpProg != 1 && lerpProg != -1)
                 lerpProg = MathHelper.SmoothStep(lerpProg, 1, 0.1f);
-            if (swingProgress > 0.35f && swingProgress < 0.75f)
+            if (swingProgress > 0.25f && swingProgress < 0.85f)
                 if (Projectile.ai[0] == 0 && Helper.TRay.CastLength(Projectile.Center, Vector2.UnitY, 100) < 15)
                 {
                     Projectile.ai[0] = 1;
                     EbonianSystem.ScreenShakeAmount = 5;
                     Projectile.timeLeft = 15;
                     SoundEngine.PlaySound(SoundID.Item70, Projectile.Center);
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 30, Vector2.UnitY, 500, true), new Vector2((float)player.direction, 0), ModContent.ProjectileType<SerrationSpike>(), Projectile.damage / 3, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 30, Vector2.UnitY, 500, true), new Vector2((float)player.direction, 0), ModContent.ProjectileType<SerrationSpike>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 
                     lerpProg = -1;
                 }
@@ -119,10 +120,15 @@ namespace EbonianMod.Items.Weapons.Melee
         {
             return Projectile.ai[0] < 1 && swingProgress > 0.35f && swingProgress < 0.65f;
         }
+        bool _hit = false;
         public override void OnHit(NPC target, NPC.HitInfo hit, int damageDone)
         {
             EbonianSystem.ScreenShakeAmount = 2;
-            lerpProg = -.1f;
+            if (!_hit)
+            {
+                lerpProg = -.25f;
+                _hit = true;
+            }
         }
     }
 }

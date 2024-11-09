@@ -48,13 +48,13 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
         Verlet verlet;
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            if (ChannelCheck < 10)
+            if (ChannelCheck < 30)
                 ChannelCheck++;
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            if (ChannelCheck <= 10)
-                modifiers.FinalDamage.Base -= ChannelCheck;
+            if (ChannelCheck <= 30)
+                modifiers.FinalDamage.Base -= ChannelCheck / 3;
         }
         public override void AI()
         {
@@ -70,7 +70,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                 return;
             }
             if (!player.channel)
-                ChannelCheck = 15;
+                ChannelCheck = 35;
             AITimer++;
             if (AITimer == 1)
             {
@@ -83,7 +83,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                 summoner.frame = 1;
             }
 
-            if (ChannelCheck < 10)
+            if (ChannelCheck < 30)
             {
                 Vector2 moveTo = (player.Center + new Vector2(150, 0).RotatedBy(MathHelper.ToRadians(AITimer * 7))) - Projectile.Center;
                 Projectile.velocity = (moveTo) * 0.15f;
@@ -95,11 +95,11 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                     Projectile.velocity *= 0.96f;
                 if (AITimer2 == 10)
                     Projectile.velocity = Helper.FromAToB(Projectile.Center, Main.MouseWorld) * 20;
-                if (AITimer2 > 30 && AITimer2 < 50)
-                    Projectile.velocity *= 0.86f;
-                if (AITimer2 > 50)
-                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, player.Center) * 30f, 0.1f);
-                if (AITimer2 > 50 && Projectile.Center.Distance(player.Center) < 50)
+                if (AITimer2 > 30 && AITimer2 < 40)
+                    Projectile.velocity *= 0.76f;
+                if (AITimer2 > 40)
+                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, player.Center) * 40f, 0.15f);
+                if (AITimer2 > 40 && Projectile.Center.Distance(player.Center) < 50)
                     Projectile.Kill();
             }
 

@@ -15,6 +15,7 @@ namespace EbonianMod.Projectiles
     public abstract class HeldSword : ModProjectile
     {
         public int swingTime = 20;
+        public int minSwingTime = 5;
         public bool modifyCooldown;
         public float holdOffset = 50f;
         public float baseHoldOffset = 50f;
@@ -40,7 +41,8 @@ namespace EbonianMod.Projectiles
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             SetExtraDefaults();
-            swingTime = (int)(swingTime / Main.LocalPlayer.GetAttackSpeed(DamageClass.Melee));
+
+            swingTime = (int)MathHelper.Clamp((swingTime / (1 + (Main.LocalPlayer.GetAttackSpeed(DamageClass.Melee) - 1) / 3)), minSwingTime, int.MaxValue);
             if (!modifyCooldown)
                 Projectile.localNPCHitCooldown = swingTime;
             Projectile.timeLeft = swingTime;
