@@ -24,7 +24,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.knockBack = 10f;
             Item.width = Item.height = 80;
             Item.crit = 30;
-            Item.damage = 120;
+            Item.damage = 100;
             Item.useAnimation = 40;
             Item.useTime = 40;
             Item.noUseGraphic = true;
@@ -60,7 +60,7 @@ namespace EbonianMod.Items.Weapons.Melee
         {
             Projectile.width = 60;
             Projectile.height = 60;
-            swingTime = 65;
+            swingTime = 70;
             minSwingTime = 57;
             holdOffset = 30;
             Projectile.tileCollide = false;
