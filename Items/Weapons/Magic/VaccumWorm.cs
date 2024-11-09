@@ -137,7 +137,10 @@ namespace EbonianMod.Items.Weapons.Magic
                             Crit = false
                         });
                     if (Projectile.ai[2]++ % 2 == 0)
+                    {
                         player.CheckMana(1, true);
+                        player.manaRegenDelay = (int)player.maxRegenDelay;
+                    }
 
                     Vector2 _pos = npcs[i].Center + Main.rand.NextVector2Circular(npcs[i].width / 2, npcs[i].height / 2);
                     if (Main.rand.NextBool(4))
