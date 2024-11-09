@@ -31,7 +31,7 @@ namespace EbonianMod.Items.Weapons.Summoner
             Item.useAnimation = 30;
             Item.DamageType = DamageClass.Summon;
             Item.useStyle = 5;
-            Item.knockBack = 10; Item.rare = 8;
+            Item.knockBack = 10;
             Item.value = 1000;
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;

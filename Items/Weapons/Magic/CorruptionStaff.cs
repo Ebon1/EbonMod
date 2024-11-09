@@ -22,7 +22,7 @@ namespace EbonianMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 40;
+            Item.damage = 31;
             Item.width = 40;
             Item.height = 40;
             Item.mana = 5;
