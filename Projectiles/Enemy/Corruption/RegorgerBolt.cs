@@ -19,9 +19,9 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
         public override string Texture => Helper.Placeholder;
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 500;
+            ProjectileID.Sets.TrailCacheLength[Type] = 50;
             ProjectileID.Sets.TrailingMode[Type] = 2;
-            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 3000;
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 2000;
         }
         public override void SetDefaults()
         {
@@ -30,7 +30,7 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
             Projectile.tileCollide = true;
             Projectile.aiStyle = 0;
             Projectile.extraUpdates = 4;
-            Projectile.timeLeft = 400;
+            Projectile.timeLeft = 1000;
             Projectile.Size = new(5, 5);
         }
         public override bool PreDraw(ref Color lightColor)

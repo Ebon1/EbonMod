@@ -28,6 +28,10 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
         }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCorrupt ? 0.08f : 0;
+        }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
@@ -47,6 +51,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
             NPC.aiStyle = -1;
             NPC.damage = 30;
             NPC.behindTiles = true;
+            NPC.value = Item.buyPrice(0, 0, 40);
         }
         Verlet verlet;
         Verlet[] extraVerlets = new Verlet[7];
@@ -81,6 +86,8 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
 
             for (int i = 0; i < 7; i++)
                 extraVerlets[i] = new Verlet(NPC.Center, 16, amount - 3, 3f, true, true, 20, true, 8);
+
+            NPC.value = Item.buyPrice(0, 0, (int)(40 * NPC.scale));
         }
         public override bool CheckDead()
         {

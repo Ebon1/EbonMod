@@ -28,9 +28,9 @@ namespace EbonianMod.NPCs.Corruption
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.ZoneCorrupt)
+            if (spawnInfo.Player.ZoneCorrupt && Main.hardMode)
             {
-                return .5f;
+                return .32f;
             }
             else
             {
@@ -45,15 +45,16 @@ namespace EbonianMod.NPCs.Corruption
             NPC.width = 84;
             NPC.height = 82;
             NPC.npcSlots = 0.1f;
-            NPC.lifeMax = 200;
-            NPC.damage = 12;
+            NPC.lifeMax = 450;
+            NPC.damage = 70;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.buffImmune[24] = true;
             NPC.noTileCollide = false;
-            NPC.defense = 6;
+            NPC.value = Item.buyPrice(0, 0, 20);
+            NPC.defense = 25;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {

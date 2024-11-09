@@ -85,6 +85,7 @@ namespace EbonianMod.Projectiles.Friendly
             Projectile.aiStyle = 0;
             Projectile.timeLeft = 500;
             Projectile.tileCollide = true;
+            Projectile.extraUpdates = 2;
             Projectile.penetrate = -1;
             Projectile.Size = new(48, 48);
             Projectile.scale = 0.5f;

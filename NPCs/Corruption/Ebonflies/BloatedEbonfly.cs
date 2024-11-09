@@ -43,7 +43,7 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
         {
             if (spawnInfo.Player.ZoneCorrupt)
             {
-                return .1f;
+                return .4f;
             }
             else
             {

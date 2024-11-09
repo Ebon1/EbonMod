@@ -33,16 +33,20 @@ namespace EbonianMod.NPCs.Corruption
             NPC.height = 32;
             NPC.aiStyle = 0;
             NPC.damage = 7;
-            NPC.defense = 5;
-            NPC.lifeMax = 75;
+            NPC.defense = 30;
+            NPC.lifeMax = 300;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            NPC.value = 25f;
+            NPC.value = Item.buyPrice(0, 0, 10);
             NPC.buffImmune[BuffID.Poisoned] = true;
             NPC.buffImmune[BuffID.Confused] = false;
 
         }
 
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCorrupt && spawnInfo.Player.ZoneOverworldHeight && Main.hardMode ? 0.3f : 0;
+        }
 
         /// <summary>
         /// Whether to target the player and jump towards it. Defaults to how most slimes aggro (when its night time, or if it has taken damage, if its underground, or its a slime rain)
@@ -98,17 +102,6 @@ namespace EbonianMod.NPCs.Corruption
             Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/VileSlimeGore3").Type, NPC.scale);
             Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/VileSlimeGore4").Type, NPC.scale);
             return true;
-        }
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            if (spawnInfo.Player.ZoneCorrupt)
-            {
-                return .35f;
-            }
-            else
-            {
-                return 0;
-            }
         }
         public float AITimer
         {
@@ -275,8 +268,7 @@ namespace EbonianMod.NPCs.Corruption
                 {
                     if (velocity.Length() < 3) velocity = Vector2.Normalize(velocity) * 3f;
                     {
-                        int damage = ((Main.expertMode) ? 5 : 7);
-                        int projInt = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, ModContent.ProjectileType<TFlameThrower2>(), damage, 0, 0, 1);
+                        int projInt = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, ModContent.ProjectileType<TFlameThrower2>(), 30, 0, 0, 1);
                         Main.projectile[projInt].tileCollide = true;
                         Main.projectile[projInt].friendly = false;
                         Main.projectile[projInt].hostile = true;

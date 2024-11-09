@@ -56,7 +56,7 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.CrimtaneBar, 35).AddTile(TileID.Anvils).Register();
+            CreateRecipe().AddIngredient(ItemID.CrimsonHeart).AddIngredient(ItemID.CrimtaneBar, 35).AddTile(TileID.Anvils).Register();
         }
     }
     public class GoreBeam : ModProjectile

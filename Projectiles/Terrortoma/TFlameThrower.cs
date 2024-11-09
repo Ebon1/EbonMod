@@ -17,6 +17,10 @@ namespace EbonianMod.Projectiles.Terrortoma
             ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.CursedInferno, Main.rand.Next(60, 200));
+        }
         public override bool PreDraw(ref Color lightColor)
         {
             var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
@@ -62,6 +66,10 @@ namespace EbonianMod.Projectiles.Terrortoma
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.CursedInferno, Main.rand.Next(60, 200));
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -125,6 +133,10 @@ namespace EbonianMod.Projectiles.Terrortoma
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.CursedInferno, Main.rand.Next(60, 200));
+        }
         public override string Texture => "EbonianMod/Extras/Empty";
         public override void SetDefaults()
         {
@@ -146,6 +158,10 @@ namespace EbonianMod.Projectiles.Terrortoma
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.CursedInferno, Main.rand.Next(60, 200));
         }
         public override bool PreDraw(ref Color lightColor)
         {

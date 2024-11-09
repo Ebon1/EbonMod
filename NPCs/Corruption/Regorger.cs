@@ -29,18 +29,19 @@ namespace EbonianMod.NPCs.Corruption
                 new FlavorTextBestiaryInfoElement("A tittering's laugh echoes from afar, often fueling campfire tales that portray it as a mysterious cryptid. It remains unclear whether the creature's laughter is from genuine amusement or merely a biological reflex after spewing a beam of cursed flames."),
             });
         }
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Magic.CursedToy>(), 35));
-        }
         public override bool? CanFallThroughPlatforms() => true;
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCorrupt ? 0.25f : 0;
+        }
         public override void SetDefaults()
         {
             NPC.width = 76;
             NPC.height = 50;
             NPC.damage = 0;
-            NPC.defense = 1;
-            NPC.lifeMax = 60;
+            NPC.defense = 10;
+            NPC.lifeMax = 100;
             NPC.aiStyle = -1;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath2;
@@ -48,6 +49,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.knockBackResist = 0.5f;
             NPC.noGravity = true;
             NPC.buffImmune[BuffID.CursedInferno] = true;
+            NPC.value = Item.buyPrice(0, 0, 1);
             NPC.noTileCollide = true;
         }
         public override void FindFrame(int frameHeight)
@@ -135,7 +137,7 @@ namespace EbonianMod.NPCs.Corruption
                     {
                         NPC.velocity = Vector2.Zero;
                         p = player.Center;
-                        Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center), ModContent.ProjectileType<RegorgerTelegraph>(), 0, 0);
+                        //Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center), ModContent.ProjectileType<RegorgerTelegraph>(), 0, 0);
                         SoundEngine.PlaySound(EbonianSounds.bloodSpit.WithPitchOffset(0.25f), NPC.Center);
                     }
 
@@ -144,7 +146,7 @@ namespace EbonianMod.NPCs.Corruption
                         NPC.velocity = -Helper.FromAToB(NPC.Center, p) * 4;
                         for (int i = 0; i < 15; i++)
                             Dust.NewDustPerfect(NPC.Center, DustID.CursedTorch, Helper.FromAToB(NPC.Center, p).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(3, 6));
-                        Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, p), ModContent.ProjectileType<RegorgerBolt>(), 10, 0);
+                        Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, p), ModContent.ProjectileType<RegorgerBolt>(), 20, 0);
                     }
                     if (AITimer > 90)
                         NPC.velocity *= 0.9f;

@@ -21,7 +21,7 @@ namespace EbonianMod.NPCs.Corruption.Rotling
         public override void SetStaticDefaults()
         {
 
-            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 CustomTexturePath = "EbonianMod/NPCs/Corruption/Rotling/Rotling",
                 Position = new Vector2(7f, 24f),
@@ -33,6 +33,10 @@ namespace EbonianMod.NPCs.Corruption.Rotling
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<VileNoodleBox>(), 50, 1, 3));
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCorrupt ? 0.25f : 0;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -55,6 +59,7 @@ namespace EbonianMod.NPCs.Corruption.Rotling
             NPC.damage = 0;
             NPC.aiStyle = -1;
             NPC.lifeMax = 15;
+            NPC.value = Item.buyPrice(0, 0, 0, 1);
         }
         public override void ExtraAI()
         {

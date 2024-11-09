@@ -21,7 +21,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         public override void SetStaticDefaults()
         {
 
-            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 CustomTexturePath = "EbonianMod/NPCs/Corruption/RottenSpine/RottenSpine",
                 Position = new Vector2(7f, 24f),
@@ -32,7 +32,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.ZoneCorrupt && Main.hardMode)
+            if (spawnInfo.Player.ZoneCorrupt && spawnInfo.Player.ZoneRockLayerHeight && Main.hardMode)
             {
                 return .15f;
             }

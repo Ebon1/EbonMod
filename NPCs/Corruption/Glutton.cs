@@ -18,6 +18,7 @@ using EbonianMod.Projectiles.Terrortoma;
 using System.Net.Sockets;
 using EbonianMod.Common.Systems;
 using EbonianMod.Projectiles.Enemy.Corruption;
+using EbonianMod.Items.Materials;
 
 namespace EbonianMod.NPCs.Corruption
 {
@@ -30,7 +31,7 @@ namespace EbonianMod.NPCs.Corruption
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 9;
-            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Position = new Vector2(50f, 70),
                 PortraitPositionXOverride = 0f,
@@ -60,6 +61,11 @@ namespace EbonianMod.NPCs.Corruption
             NPC.aiStyle = -1;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
+            NPC.value = Item.buyPrice(0, 15);
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCorrupt && Main.hardMode ? 0.01f : 0;
         }
         public const int ActualWidth = 170;
         public override void FindFrame(int frameHeight)
@@ -114,16 +120,9 @@ namespace EbonianMod.NPCs.Corruption
                 }
             }
         }
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            if (spawnInfo.Player.ZoneCorrupt)
-            {
-                return .05f;
-            }
-            else
-            {
-                return 0;
-            }
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<TerrortomaMaterial>(), 2, 1, 3));
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color lightColor)
         {

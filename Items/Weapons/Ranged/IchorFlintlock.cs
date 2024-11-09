@@ -20,7 +20,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.width = 48;
             Item.height = 66;
             Item.crit = 45;
-            Item.damage = 33;
+            Item.damage = 45;
             Item.useAnimation = 32;
             Item.useTime = 32;
             Item.noUseGraphic = true;
@@ -28,12 +28,16 @@ namespace EbonianMod.Items.Weapons.Ranged
             //Item.reuseDelay = 45;
             Item.DamageType = DamageClass.Ranged;
             //Item.UseSound = SoundID.Item1;
-            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
             Item.shoot = ModContent.ProjectileType<IchorFlintlockP>();
 
             Item.channel = true;
+        }
+        public override bool CanUseItem(Player player)
+        {
+            return player.ownedProjectileCounts[Item.shoot] <= 0;
         }
         public override void AddRecipes()
         {
@@ -66,7 +70,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.timeLeft = 20;
+            Projectile.timeLeft = 16;
             holdOffset = 22;
         }
         public override bool ShouldUpdatePosition()
@@ -77,7 +81,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             Player player = Main.player[Projectile.owner];
             float progress = Ease(Utils.GetLerpValue(0f, 15, Projectile.timeLeft));
-            if (Projectile.timeLeft == 19)
+            if (Projectile.timeLeft == 15)
             {
                 if (Projectile.ai[2] >= 5)
                 {
@@ -93,27 +97,27 @@ namespace EbonianMod.Items.Weapons.Ranged
                     Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity * 20, ProjectileID.IchorBullet, Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
-            if (Projectile.timeLeft > 15)
+            if (Projectile.timeLeft > 10)
             {
                 holdOffset--;
                 if (Projectile.direction == -1)
                 {
-                    Projectile.ai[0] += MathHelper.ToRadians(4.5f / 2);
+                    Projectile.ai[0] += MathHelper.ToRadians(4.5f);
                 }
                 else
                 {
-                    Projectile.ai[0] -= MathHelper.ToRadians(4.5f / 2);
+                    Projectile.ai[0] -= MathHelper.ToRadians(4.5f);
                 }
             }
             else
             {
                 if (Projectile.direction == -1)
                 {
-                    Projectile.ai[0] -= MathHelper.ToRadians(.9f);
+                    Projectile.ai[0] -= MathHelper.ToRadians(.9f * 1.5f);
                 }
                 else
                 {
-                    Projectile.ai[0] += MathHelper.ToRadians(.9f);
+                    Projectile.ai[0] += MathHelper.ToRadians(.9f * 1.5f);
                 }
             }
             Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;

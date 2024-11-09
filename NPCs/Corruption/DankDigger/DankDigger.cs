@@ -38,6 +38,10 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
                 new FlavorTextBestiaryInfoElement("The Dank Diggers are a sign you are in the Eater of Worlds' destructive wake- whenever a shadow scale breaks, the remnant regenerates as best as it can and makes a Dank Digger."),
             });
         }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCorrupt && spawnInfo.Player.ZoneDirtLayerHeight ? 0.15f : 0;
+        }
         public override bool byHeight => true;
         public override int BodyType => ModContent.NPCType<DankDiggerBody>();
         public override int TailType => ModContent.NPCType<DankDiggerTail>();

@@ -184,10 +184,12 @@ namespace EbonianMod.Common.Achievements
             };
             uITextPanel2.OnLeftClick += delegate (UIMouseEvent evt, UIElement listeningElement)
             {
-                if (timer > 30)
+                if (timer > 30 && Main.inFancyUI)
                 {
-                    Main.menuMode = 0;
+                    timer = 0;
+                    Main.menuMode = -1;
                     IngameFancyUI.Close();
+                    Main.playerInventory = false;
                 }
             };
             uITextPanel2.BackgroundColor = new Color(17, 17, 17) * 0.75f;

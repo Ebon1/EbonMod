@@ -14,15 +14,12 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
+using EbonianMod.Items.Materials;
 
 namespace EbonianMod.NPCs.Corruption
 {
     public class VileTear : ModNPC
     {
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Melee.CorruptionClaw>(), 35));
-        }
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 2;
@@ -47,8 +44,8 @@ namespace EbonianMod.NPCs.Corruption
             NPC.width = 136;
             NPC.height = 136;
             NPC.damage = 10;
-            NPC.defense = 1;
-            NPC.lifeMax = 1000;
+            NPC.defense = 30;
+            NPC.lifeMax = 3000;
             NPC.aiStyle = -1;
             NPC.HitSound = SoundID.DD2_DrakinHurt;
             NPC.DeathSound = SoundID.DD2_DrakinDeath;
@@ -57,6 +54,16 @@ namespace EbonianMod.NPCs.Corruption
             NPC.noGravity = true;
             NPC.buffImmune[BuffID.CursedInferno] = true;
             NPC.noTileCollide = true;
+            NPC.value = Item.buyPrice(0, 25);
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCorrupt && Main.hardMode ? 0.01f : 0;
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Melee.CorruptionClaw>(), 3));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<TerrortomaMaterial>(), 2, 1, 3));
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {

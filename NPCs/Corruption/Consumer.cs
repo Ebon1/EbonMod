@@ -27,23 +27,27 @@ namespace EbonianMod.NPCs.Corruption
                 new FlavorTextBestiaryInfoElement("Rotjaws are relentless and will dive towards their prey in the blink of an eye. Their bites can shatter large bones and durable shells effortlessly, and they often leave no scraps behind when devouring their prey."),
             });
         }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCorrupt ? 0.2f : 0;
+        }
         public override void SetDefaults()
         {
             NPC.width = 72;
             NPC.height = 48;
-            NPC.damage = 20;
-            NPC.defense = 1;
-            NPC.lifeMax = 60;
+            NPC.damage = 50;
+            NPC.defense = 14;
+            NPC.lifeMax = 130;
             NPC.aiStyle = -1;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath2;
-            NPC.value = 60f;
             NPC.knockBackResist = 0.5f;
             NPC.noGravity = true;
             NPC.buffImmune[BuffID.CursedInferno] = true;
             NPC.noTileCollide = true;
             NPC.behindTiles = true;
             NPC.hide = true;
+            NPC.value = Item.buyPrice(0, 0, 2);
         }
         public override void DrawBehind(int index)
         {

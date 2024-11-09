@@ -40,9 +40,14 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            NPC.defense = 10;
+            NPC.defense = 30;
             NPC.lifeMax = 350;
             NPC.damage = 50;
+            NPC.value = Item.buyPrice(0, 0, 6);
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCorrupt ? 0.05f : 0;
         }
         public override void FindFrame(int frameHeight)
         {

@@ -50,6 +50,11 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
             NPC.lifeMax = 250;
             NPC.damage = 30;
             NPC.ai[3] = Main.rand.Next(2);
+            NPC.value = Item.buyPrice(0, 0, 3);
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCorrupt ? 0.1f : 0;
         }
         public override void FindFrame(int frameHeight)
         {

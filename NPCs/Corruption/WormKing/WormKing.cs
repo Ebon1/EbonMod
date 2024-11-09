@@ -1,5 +1,6 @@
 ﻿using EbonianMod.Common.Systems;
 using EbonianMod.Common.Systems.Misc;
+using EbonianMod.Items.Materials;
 using EbonianMod.Items.Misc;
 using EbonianMod.NPCs.Corruption.Ebonflies;
 using EbonianMod.NPCs.Corruption.Trumpet;
@@ -16,6 +17,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -46,10 +48,10 @@ namespace EbonianMod.NPCs.Corruption.WormKing
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.lifeMax = 2000;
+            NPC.lifeMax = 2500;
             NPC.damage = 0;
             NPC.noTileCollide = true;
-            NPC.defense = 10;
+            NPC.defense = 20;
             NPC.knockBackResist = 0;
             NPC.width = 114;
             NPC.height = 116;
@@ -59,6 +61,16 @@ namespace EbonianMod.NPCs.Corruption.WormKing
             NPC.HitSound = SoundID.NPCHit1;
             NPC.netAlways = true;
             NPC.hide = true;
+            NPC.value = Item.buyPrice(0, 20);
+        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCorrupt && spawnInfo.Player.ZoneOverworldHeight ? 0.01f : 0;
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.WormTooth, 1, 15, 50));
+            npcLoot.Add(ItemDropRule.Common(ItemID.RottenChunk, 1, 15, 30));
         }
         public override void FindFrame(int frameHeight)
         {
@@ -133,7 +145,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
             {
                 Vector2 direction = Vector2.UnitY;
                 int attempts = 0;
-                stalkBase = Helper.TRay.Cast(NPC.Center, direction, 200) + new Vector2(0, 100);
+                stalkBase = Helper.TRay.Cast(NPC.Center, direction, 2000) + new Vector2(0, 100);
             }
             if (verlet != null)
                 verlet.Update(stalkBase, NPC.Center);

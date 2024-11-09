@@ -38,7 +38,7 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.ShadowScale, 20).AddIngredient(ItemID.WormTooth, 5).AddTile(TileID.Anvils).Register();
+            CreateRecipe().AddIngredient(ItemID.DemoniteBar, 20).AddIngredient(ItemID.WormTooth, 5).AddTile(TileID.Anvils).Register();
         }
         public override bool? CanAutoReuseItem(Player player) => false;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -80,6 +80,10 @@ namespace EbonianMod.Items.Weapons.Magic
                 sound.Stop();
             }
         }
+        List<int> restrictedTypes = new List<int>()
+        {
+            NPCID.EaterofWorldsBody, NPCID.EaterofWorldsTail, NPCID.TheDestroyerBody, NPCID.TheDestroyerTail
+        };
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
@@ -107,7 +111,7 @@ namespace EbonianMod.Items.Weapons.Magic
             List<NPC> npcs = new List<NPC>();
             foreach (NPC npc in Main.npc)
             {
-                if (npc.active && npc.CanBeChasedBy(Projectile) && !npc.boss && !NPCID.Sets.ShouldBeCountedAsBoss[npc.type])
+                if (npc.active && npc.CanBeChasedBy(Projectile) && !npc.boss && !NPCID.Sets.ShouldBeCountedAsBoss[npc.type] && !restrictedTypes.Contains(npc.type))
                 {
                     if (npc.Center.Distance(player.Center) < 330)
                     {

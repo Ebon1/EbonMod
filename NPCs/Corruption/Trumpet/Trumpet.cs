@@ -80,6 +80,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
             NPC.defense = 20;
             NPC.Size = new Vector2(58, 78);
             NPC.aiStyle = -1;
+            NPC.value = Item.buyPrice(0, 0, 70);
         }
         public override void Init()
         {
@@ -91,7 +92,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneCorrupt ? 0.05f : 0;
+            return spawnInfo.Player.ZoneCorrupt ? 0.02f : 0;
         }
     }
     public class TrumpetBody : WormBody

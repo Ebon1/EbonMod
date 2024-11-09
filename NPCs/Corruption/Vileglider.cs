@@ -51,7 +51,8 @@ namespace EbonianMod.NPCs.Corruption
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.buffImmune[24] = true;
             NPC.noTileCollide = false;
-            NPC.defense = 5;
+            NPC.defense = 10;
+            NPC.value = Item.buyPrice(0, 0, 10);
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
