@@ -136,11 +136,15 @@ namespace EbonianMod.Items.Weapons.Melee
                 }
             }
         }
+        bool _hit;
         public override void OnHit(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             Player player = Main.player[Projectile.owner];
-            if (Projectile.ai[0] % 3 == 0)
+            if (Projectile.ai[0] % 3 == 0 && !_hit)
+            {
                 player.Heal(25);
+                _hit = true;
+            }
         }
         float jawRotation;
         public override void PostDraw(Color lightColor)
