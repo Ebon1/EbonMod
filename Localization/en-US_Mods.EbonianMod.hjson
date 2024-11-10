@@ -35,7 +35,7 @@ Projectiles: {
 	EbonianGunP.DisplayName: Demonite Blaster
 	BloodOrb.DisplayName: Blood Orb
 	VileBladeP.DisplayName: Vile Blade
-	SanguineSlasherP.DisplayName: Sawnguine
+	SanguineSlasherP.DisplayName: Fleshfang
 	IgnosP.DisplayName: Exol
 	ExolsawP.DisplayName: Infernal Disc
 	EbonianScytheP.DisplayName: Ebonian Scythe
@@ -369,12 +369,12 @@ Items: {
 
 	TerrorFlail: {
 		DisplayName: Flailotoma
-		Tooltip: Makes you wonder if there's an even smaller one inside
+		Tooltip: ""
 	}
 
 	SanguineSlasher: {
-		Tooltip: Saw-shaped creature that doesn't mind losing its teeth
-		DisplayName: Saw-nguine
+		Tooltip: Restores 25 health when biting an enemy
+		DisplayName: Fleshfang
 	}
 
 	MeatCrusher: {
