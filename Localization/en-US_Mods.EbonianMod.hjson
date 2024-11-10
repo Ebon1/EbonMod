@@ -215,7 +215,7 @@ Projectiles: {
 	ArchmageChargeUp.DisplayName: Archmage Charge Up
 	FangSlingerP.DisplayName: Fang Slinger P
 	ThornBowP.DisplayName: Thorn Bow P
-	ChainswordP.DisplayName: Chainsword P
+	ChainswordP.DisplayName: Junkyard Chainsword
 	CBeam.DisplayName: C Beam
 	FlareExplosion.DisplayName: Flare Explosion
 	CFlareExplosion.DisplayName: C Flare Explosion
@@ -316,6 +316,8 @@ NPCs: {
 	BloodHunter.DisplayName: Blood Hunter
 	ArchmageXDeathAnim.DisplayName: Archmage X Death Anim
 	Conglomerate.DisplayName: Conglomerate
+	Mosquito.DisplayName: Bloodsucker
+	Screecher.DisplayName: Screecher
 }
 
 Items: {
@@ -690,7 +692,7 @@ Items: {
 	}
 
 	Chainsword: {
-		DisplayName: Chainsword
+		DisplayName: Junkyard Chainsword
 		Tooltip: ""
 	}
 

@@ -41,7 +41,7 @@ namespace EbonianMod.NPCs.Crimson.Crimera
         public override void SetStaticDefaults()
         {
 
-            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 CustomTexturePath = "EbonianMod/NPCs/Crimson/Crimera/Crimera",
                 Position = new Vector2(7f, 24f),
@@ -83,8 +83,8 @@ namespace EbonianMod.NPCs.Crimson.Crimera
                 Vector2 pos = player.Center + new Vector2(300, 0).RotatedBy(MathHelper.ToRadians(NPC.ai[2] * offset));
                 NPC.velocity = NPC.Center.FromAToB(pos, false) * 0.025f;
                 NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
-                if (NPC.ai[2] % 5 == 0 && NPC.ai[2] > 340)
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(1.5f, 4f), ProjectileID.BloodShot, 10, 0);
+                if (NPC.ai[2] % 4 == 0 && NPC.ai[2] > 340)
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.RotatedByRandom(MathHelper.PiOver4 * 1.5f) * Main.rand.NextFloat(.5f, 2f), ProjectileID.BloodShot, 10, 0);
                 //NPC.rotation = MathHelper.Lerp(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2, 0.3f);
                 //NPC.rotation = MathHelper.Lerp(NPC.rotation, MathHelper.Clamp(Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.PiOver2, FollowerNPC.rotation - MathHelper.ToRadians(30), FollowerNPC.rotation + MathHelper.ToRadians(30)), 0.5f);
             }
