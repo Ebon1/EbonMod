@@ -17,7 +17,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hit)
         {
             target.AddBuff(BuffID.CursedInferno, Main.rand.Next(60, 200));
         }
@@ -67,7 +67,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hit)
         {
             target.AddBuff(BuffID.CursedInferno, Main.rand.Next(60, 200));
         }
@@ -133,7 +133,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hit)
         {
             target.AddBuff(BuffID.CursedInferno, Main.rand.Next(60, 200));
         }
@@ -159,7 +159,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        public override void OnHitPlayer(Player target, Player.HurtInfo hit)
         {
             target.AddBuff(BuffID.CursedInferno, Main.rand.Next(60, 200));
         }
