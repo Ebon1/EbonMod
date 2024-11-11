@@ -89,7 +89,7 @@ namespace EbonianMod.Projectiles.ArchmageX
 
             Main.spriteBatch.SaveCurrent();
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
             List<VertexPositionColorTexture> verticesMain1 = new List<VertexPositionColorTexture>();
             List<VertexPositionColorTexture> verticesMain2 = new List<VertexPositionColorTexture>();
@@ -154,7 +154,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             }
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (verticesMain1.Count >= 3 && verticesMain2.Count >= 3)
             {
                 for (int i = 0; i < 6; i++)

@@ -23,7 +23,7 @@ namespace EbonianMod.Projectiles.Friendly.Generic
         {
             Projectile.CloneDefaults(ProjectileID.WoodenArrowFriendly);
             Projectile.Size = new Vector2(14, 20);
-            Projectile.extraUpdates = 1;
+            Projectile.extraUpdates = Main.rand.NextBool(3) ? 2 : 1;
         }
         public override void OnKill(int timeLeft)
         {
@@ -31,22 +31,33 @@ namespace EbonianMod.Projectiles.Friendly.Generic
             for (int i = 0; i < 10; i++)
             {
                 Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Dirt, Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
-                Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
+                if (Projectile.extraUpdates > 1)
+                    Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
             }
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.OnFire, 400);
+            if (Projectile.extraUpdates > 1)
+                target.AddBuff(BuffID.OnFire, 400);
         }
         public override void AI()
         {
-            Dust.NewDustPerfect(Projectile.Center, DustID.Torch);
-            Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
+            if (Projectile.extraUpdates > 1)
+            {
+                Dust.NewDustPerfect(Projectile.Center, DustID.Torch);
+                Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Torch, Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
+            }
+            else
+            {
+                if (Main.rand.NextBool())
+                    Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Dirt, Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f), 0, default, Main.rand.NextFloat(0.25f, 1));
+            }
         }
         float animationOffset;
         public override bool PreDraw(ref Color lightColor)
         {
-            lightColor = Color.White;
+            if (Projectile.extraUpdates > 1)
+                lightColor = Color.White;
             animationOffset -= 0.05f;
             if (animationOffset <= 0)
                 animationOffset = 1;
@@ -61,17 +72,17 @@ namespace EbonianMod.Projectiles.Friendly.Generic
                 float __off = animationOffset;
                 if (__off > 1) __off = -__off + 1;
                 float _off = __off + (float)i / Projectile.oldPos.Length;
-
+                Color color = Color.OrangeRed;
                 if (mult > 0)
                 {
-                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 6 - Main.screenPosition + Projectile.Size / 2 + new Vector2(10 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i], Projectile.oldPos[i + 1]).ToRotation() + MathHelper.PiOver2), Color.OrangeRed * mult, new Vector2(_off, 0)));
-                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 6 - Main.screenPosition + Projectile.Size / 2 + new Vector2(10 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i], Projectile.oldPos[i + 1]).ToRotation() - MathHelper.PiOver2), Color.OrangeRed * mult, new Vector2(_off, 1)));
+                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 6 - Main.screenPosition + Projectile.Size / 2 + new Vector2(10 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i], Projectile.oldPos[i + 1]).ToRotation() + MathHelper.PiOver2), color * mult, new Vector2(_off, 0)));
+                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 6 - Main.screenPosition + Projectile.Size / 2 + new Vector2(10 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i], Projectile.oldPos[i + 1]).ToRotation() - MathHelper.PiOver2), color * mult, new Vector2(_off, 1)));
                 }
             }
             Main.spriteBatch.SaveCurrent();
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-            if (vertices.Count > 2)
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            if (vertices.Count > 2 && Projectile.extraUpdates > 1)
             {
                 for (int i = 0; i < 2; i++)
                 {
@@ -86,7 +97,8 @@ namespace EbonianMod.Projectiles.Friendly.Generic
         {
             Texture2D tex = Helper.GetExtraTexture("fireball");
             Main.spriteBatch.Reload(BlendState.Additive);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Projectile.velocity.ToRotation().ToRotationVector2() * 14 - Main.screenPosition, null, Color.OrangeRed, Projectile.rotation, tex.Size() / 2, 0.55f, SpriteEffects.None, 0);
+            if (Projectile.extraUpdates > 1)
+                Main.spriteBatch.Draw(tex, Projectile.Center - Projectile.velocity.ToRotation().ToRotationVector2() * 14 - Main.screenPosition, null, Color.OrangeRed, Projectile.rotation, tex.Size() / 2, 0.55f, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
         }
     }

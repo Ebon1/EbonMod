@@ -106,7 +106,7 @@ namespace EbonianMod.Projectiles.Garbage
             //Main.graphics.GraphicsDevice.Textures[0] = texture;
             Main.spriteBatch.SaveCurrent();
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (vertices.Count >= 3 && vertices2.Count >= 3)
             {
                 for (int i = 0; i < 4; i++)
@@ -207,7 +207,7 @@ namespace EbonianMod.Projectiles.Garbage
             //Main.graphics.GraphicsDevice.Textures[0] = texture;
             Main.spriteBatch.SaveCurrent();
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (vertices.Count >= 3 && vertices2.Count >= 3)
             {
                 for (int i = 0; i < 4; i++)
@@ -310,7 +310,7 @@ namespace EbonianMod.Projectiles.Garbage
             //Main.graphics.GraphicsDevice.Textures[0] = texture;
             Main.spriteBatch.SaveCurrent();
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (vertices.Count >= 3 && vertices2.Count >= 3)
             {
                 for (int i = 0; i < 4; i++)

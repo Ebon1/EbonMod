@@ -105,7 +105,7 @@
             <code>
             PlayerInput.SetZoom_Unscaled();
             Main.instance.GraphicsDevice.Clear(Color.Black);
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.UIScaleMatrix);
             DrawMenu(gameTime);
             Main.DrawCursor(Main.DrawThickCursor());
             Main.spriteBatch.End();

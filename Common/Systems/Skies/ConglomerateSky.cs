@@ -41,7 +41,7 @@ namespace EbonianMod.Common.Systems.Skies
                     sb.Draw(Helper.GetExtraTexture("black"), rect, Color.White * intensity);
                     Main.spriteBatch.SaveCurrent();
                     Main.spriteBatch.End();
-                    sb.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, Main.Rasterizer);
+                    sb.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone);
                     EbonianMod.waterEffect.CurrentTechnique.Passes[0].Apply();
                     gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
                     gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/waterNoise", (AssetRequestMode)1).Value;
@@ -63,7 +63,7 @@ namespace EbonianMod.Common.Systems.Skies
                 }
                 Main.spriteBatch.SaveCurrent();
                 Main.spriteBatch.End();
-                sb.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, Main.Rasterizer);
+                sb.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone);
                 EbonianMod.waterEffect.CurrentTechnique.Passes[0].Apply();
                 gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/vein", (AssetRequestMode)1).Value;
                 gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/waterNoise", (AssetRequestMode)1).Value;

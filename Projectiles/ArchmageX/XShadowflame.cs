@@ -89,7 +89,7 @@ namespace EbonianMod.Projectiles.ArchmageX
 
             Main.spriteBatch.SaveCurrent();
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, Main.Rasterizer, EbonianMod.SpriteRotation, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone, EbonianMod.SpriteRotation, Main.GameViewMatrix.TransformationMatrix);
 
             Vector2 scale = new Vector2(0.65f, 0.25f);
             float alpha = riftAlpha;
