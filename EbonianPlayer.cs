@@ -120,6 +120,7 @@ namespace EbonianMod
         public override void PostUpdateMiscEffects()
         {
             EbonianMod.sys.UpdateParticles();
+            Player.ManageSpecialBiomeVisuals("EbonianMod:XMartian", NPC.AnyNPCs(ModContent.NPCType<ArchmageCutsceneMartian>()));
             Player.ManageSpecialBiomeVisuals("EbonianMod:Conglomerate", NPC.AnyNPCs(ModContent.NPCType<Conglomerate>()));
             #region "hell stuff"
             Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight);

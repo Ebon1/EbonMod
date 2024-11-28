@@ -65,6 +65,7 @@ namespace EbonianMod.Common.Systems
         FleshImpact,
         blink,
         xSpirit,
+        xDeath,
         helicopter,
         firework,
         magicSlash,
@@ -347,6 +348,12 @@ namespace EbonianMod.Common.Systems
             {
                 SoundPath = ebonianSoundPath + "xSpirit",
                 Volume = 0.7f
+            };
+
+            xDeath = Default with
+            {
+                SoundPath = ebonianSoundPath + "xDeath",
+                PitchVariance = 0.05f
             };
 
 

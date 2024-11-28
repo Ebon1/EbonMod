@@ -318,6 +318,7 @@ NPCs: {
 	Conglomerate.DisplayName: Conglomerate
 	Mosquito.DisplayName: Bloodsucker
 	Screecher.DisplayName: Screecher
+	ArchmageCutsceneMartian.DisplayName: Archmage Cutscene Martian
 }
 
 Items: {

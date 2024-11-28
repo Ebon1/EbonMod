@@ -113,9 +113,9 @@ namespace EbonianMod
             {
                 if (CameraChangeLength > 0)
                 {
-                    if (zoomAmount != 1 && zoomAmount > zoomBefore)
+                    if (zoomAmount != 1)
                     {
-                        Main.GameZoomTarget = Utils.Clamp(Main.GameZoomTarget + 0.05f, 1f, zoomAmount);
+                        Main.GameZoomTarget = MathHelper.SmoothStep(Main.GameZoomTarget, zoomAmount, CameraChangeTransition);
                     }
                     if (CameraChangeTransition <= 1f)
                     {

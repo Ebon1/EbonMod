@@ -14,6 +14,8 @@ using Terraria.DataStructures;
 using Terraria.Utilities;
 using EbonianMod.Common.Systems.Misc.Dialogue;
 using Terraria.Audio;
+using EbonianMod.Common.Systems;
+using ReLogic.Utilities;
 
 namespace EbonianMod.NPCs.ArchmageX
 {
@@ -75,10 +77,21 @@ namespace EbonianMod.NPCs.ArchmageX
             Projectile.velocity = new Vector2(Main.rand.NextFloat(-10f, 10f), -12f);
         }
         FloatingDialogueBox d = null;
+        SlotId id;
         public override void AI()
         {
             if (Projectile.timeLeft == 250)
-                d = DialogueSystem.NewDialogueBox(250, Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!").X * -0.5f, 7), "DAMN YOU!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 5f, true, DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+            {
+                id = SoundEngine.PlaySound(EbonianSounds.xDeath, Projectile.Center);
+                d = DialogueSystem.NewDialogueBox(250, Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!").X * -0.5f, 7), "DAMN YOU!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 5f, true, DialogueAnimationIDs.ColorWhite);
+            }
+            if (id.IsValid)
+            {
+                if (SoundEngine.TryGetActiveSound(id, out var activeSound))
+                {
+                    activeSound.Position = Projectile.Center;
+                }
+            }
             if (d != null)
             {
                 d.Center = Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!").X * -0.5f, 7);
