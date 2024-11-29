@@ -226,6 +226,8 @@ namespace EbonianMod.Common.Achievements
         }
         public override void Update(GameTime gameTime)
         {
+            if (!Main.inFancyUI)
+                return;
             base.Update(gameTime);
             if (timer > 0)
                 timer++;
@@ -290,6 +292,8 @@ namespace EbonianMod.Common.Achievements
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if (!(Main.playerInventory && !(Main.LocalPlayer.chest != -1 || Main.npcShop != 0)))
+                return;
             base.Draw(spriteBatch);
             if (Hovering)
             {
@@ -299,6 +303,8 @@ namespace EbonianMod.Common.Achievements
         }
         public override void Update(GameTime gameTime)
         {
+            if (!(Main.playerInventory && !(Main.LocalPlayer.chest != -1 || Main.npcShop != 0)))
+                return;
             base.Update(gameTime);
             if (Hovering)
             {
