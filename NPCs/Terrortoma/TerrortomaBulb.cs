@@ -27,6 +27,10 @@ namespace EbonianMod.NPCs.Terrortoma
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
         }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return (spawnInfo.Player.ZoneCorrupt && Main.hardMode && !NPC.AnyNPCs(Type)) ? 0.5f : 0;
+        }
         public override void SetDefaults()
         {
             NPC.Size = new Vector2(116, 104);
@@ -39,15 +43,17 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.knockBackResist = 0f;
-            NPC.behindTiles = true;
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+            int atts = 0;
+            while (Main.tile[NPC.Center.ToTileCoordinates().X, NPC.Center.ToTileCoordinates().Y].HasTile && ++atts < 300)
+                NPC.Center -= Vector2.UnitY * 16;
+            NPC.Center = Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 1500) - new Vector2(0, 35);
         }
         public override void DrawBehind(int index)
         {
             NPC.behindTiles = true;
-        }
-        public override void OnSpawn(IEntitySource source)
-        {
-            NPC.Center = Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 1500) - new Vector2(0, 35);
         }
         public override void HitEffect(NPC.HitInfo hit)
         {
@@ -81,6 +87,8 @@ namespace EbonianMod.NPCs.Terrortoma
         SlotId cachedSound;
         public override void AI()
         {
+            NPC.timeLeft = 10;
+            NPC.despawnEncouraged = false;
             SoundStyle selected = EbonianSounds.flesh0;
             switch (Main.rand.Next(3))
             {

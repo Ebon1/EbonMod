@@ -34,6 +34,10 @@ namespace EbonianMod.NPCs.Crimson.Spectators
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
         }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return (spawnInfo.Player.ZoneCrimson && Main.hardMode && !NPC.AnyNPCs(Type)) ? 0.5f : 0;
+        }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
@@ -108,6 +112,8 @@ namespace EbonianMod.NPCs.Crimson.Spectators
         }
         public override void AI()
         {
+            NPC.timeLeft = 10;
+            NPC.despawnEncouraged = false;
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
             if (stalkBase == Vector2.Zero)

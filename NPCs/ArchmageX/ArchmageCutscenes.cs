@@ -134,8 +134,8 @@ namespace EbonianMod.NPCs.ArchmageX
                     float _off = __off + i;
                     float alphaMult = beamAlpha;
                     Color c = new Color(255, 255, 210);
-                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep(100, 5, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(MathHelper.PiOver2 + rot), new Vector2(_off, 0), c * alphaMult));
-                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep(100, 5, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(-MathHelper.PiOver2 + rot), new Vector2(_off, 1), c * alphaMult));
+                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep((100 + MathF.Sin(i) * 10 + MathF.Cos((Main.GlobalTimeWrappedHourly + i * 0.3f) * 100) * 4) * beamAlpha, 5 * beamAlpha, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(MathHelper.PiOver2 + rot), new Vector2(_off, 0), c * alphaMult));
+                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep((100 + MathF.Sin(i) * 10 + MathF.Cos((Main.GlobalTimeWrappedHourly + i * 0.3f) * 100) * 4) * beamAlpha, 5 * beamAlpha, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(-MathHelper.PiOver2 + rot), new Vector2(_off, 1), c * alphaMult));
                 }
                 Main.spriteBatch.SaveCurrent();
                 Main.spriteBatch.End();
@@ -155,8 +155,8 @@ namespace EbonianMod.NPCs.ArchmageX
                     float _off = __off + i;
                     float alphaMult = beamAlpha * 5;
                     Color c = Color.White;
-                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep(100, 5, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(MathHelper.PiOver2 + rot), new Vector2(_off, 0), c * alphaMult));
-                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep(100, 5, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(-MathHelper.PiOver2 + rot), new Vector2(_off, 1), c * alphaMult));
+                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep((100 + MathF.Cos((Main.GlobalTimeWrappedHourly + i * 0.3f) * 100) * 2) * beamAlpha, 5 * beamAlpha, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(MathHelper.PiOver2 + rot), new Vector2(_off, 0), c * alphaMult));
+                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep((100 + MathF.Cos((Main.GlobalTimeWrappedHourly + i * 0.3f) * 100) * 2) * beamAlpha, 5 * beamAlpha, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(-MathHelper.PiOver2 + rot), new Vector2(_off, 1), c * alphaMult));
                 }
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -203,6 +203,9 @@ namespace EbonianMod.NPCs.ArchmageX
         Vector2 startP;
         public override void OnSpawn(IEntitySource source)
         {
+            int atts = 0;
+            while (atts++ < 400 && (Main.tile[NPC.Center.ToTileCoordinates().X, NPC.Center.ToTileCoordinates().Y].HasTile || Helper.TRay.CastLength(NPC.Center, Vector2.UnitY, 700) < 650))
+                NPC.Center -= Vector2.UnitY * 8;
             startP = NPC.Center;
             foreach (NPC npc in Main.npc)
             {
@@ -306,7 +309,7 @@ namespace EbonianMod.NPCs.ArchmageX
             if (AITimer == 100)
             {
                 headFrame.Y = BlinkingFace;
-                DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "WHILE YOU'VE BEEN FOOLING AROUND...", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 8);
+                DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "WHILE YOU'VE BEEN FOOLING AROUND...", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 6);
             }
             if (AITimer == 180)
             {
@@ -326,9 +329,10 @@ namespace EbonianMod.NPCs.ArchmageX
                 EbonianSystem.ChangeCameraPos(NPC.Center, 300, 1.05f);
                 DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "You....", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
             }
+            if (AITimer == 410)
+                EbonianSystem.ChangeCameraPos(NPC.Center - new Vector2(0, 200), 300, 1.05f);
             if (AITimer == 460)
             {
-                EbonianSystem.ChangeCameraPos(NPC.Center - new Vector2(0, 200), 300, 1.05f);
                 DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "Will....", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
             }
             if (AITimer == 680)
@@ -343,13 +347,15 @@ namespace EbonianMod.NPCs.ArchmageX
             }
             if (AITimer > 800)
             {
+                if (NPC.Grounded()) AITimer = 1900;
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 25, MathHelper.Lerp(0, 0.2f, (AITimer - 800) / 300));
                 NPC.rotation += MathHelper.ToRadians((AITimer - 650) / 300);
             }
-            if (AITimer == 900)
+            if (AITimer == 1900)
             {
                 Main.musicVolume = vol;
                 NPC.life = 0;
+                Projectile.NewProjectile(null, NPC.Center, Main.rand.NextVector2CircularEdge(7, 7), ProjectileID.CrossGraveMarker, 0, 0, -1);
                 NPC.checkDead();
             }
             // VFX
@@ -371,7 +377,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     Dust.NewDustPerfect(lPos, DustID.WhiteTorch, Main.rand.NextVector2Circular(5, 5), newColor: Color.Black);
                 }
             }
-            if (AITimer == 420)
+            if (AITimer == 390)
                 AITimer3 = 1;
             if (AITimer > 420 && AITimer < 500)
                 AITimer3 = MathHelper.Lerp(AITimer3, 300, 0.001f);

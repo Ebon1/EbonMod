@@ -1368,7 +1368,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosionInvis>(), 0, 0);
                         }
 
-                        if (AITimer < 145 && AITimer > 50) rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, player.Center, reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
+                        if (AITimer < 205 && AITimer > 50) rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, player.Center, reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
                         else rightArmRot = Helper.LerpAngle(rightArmRot, 0, 0.2f);
 
                         if (AITimer > 80 && AITimer < 140 && AITimer % 20 < 10)
@@ -1490,7 +1490,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             Projectile.NewProjectile(null, disposablePos[1], Helper.FromAToB(disposablePos[1], player.Center), ModContent.ProjectileType<XRift>(), 15, 0);
                         }
 
-                        if (AITimer == 160 && phase2)
+                        if (AITimer == 200 && phase2)
                         {
                             Projectile.NewProjectile(null, disposablePos[1], Helper.FromAToB(disposablePos[1], player.Center), ModContent.ProjectileType<XRift>(), 15, 0);
                         }

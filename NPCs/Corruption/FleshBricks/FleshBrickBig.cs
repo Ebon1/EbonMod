@@ -35,7 +35,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
         {
             NPC.Size = new(98, 100);
             NPC.noGravity = true;
-            NPC.knockBackResist = 0f;
+            NPC.knockBackResist = 0.5f;
             NPC.aiStyle = -1;
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit1;
@@ -108,9 +108,9 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                     }
                     widthMod = MathHelper.Lerp(widthMod, 1, 0.1f);
                     heightMod = MathHelper.Lerp(heightMod, 1, 0.1f);
-                    if (NPC.Center.X - player.Center.X < 100 && NPC.Center.X - player.Center.X > -100)
+                    if (NPC.Center.X - player.Center.X < NPC.width / 2 && NPC.Center.X - player.Center.X > -NPC.width / 2)
                         NextState = Y;
-                    else if (NPC.Center.Y - player.Center.Y < 100 && NPC.Center.Y - player.Center.Y > -100)
+                    else if (NPC.Center.Y - player.Center.Y < NPC.height / 2 && NPC.Center.Y - player.Center.Y > -NPC.height / 2)
                         NextState = X;
                     else
                         NextState = Main.rand.Next(1, 3);
@@ -130,6 +130,8 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                     widthMod = 1f + (NPC.velocity.Length() * 0.02f);
                     if (NPC.velocity.Length() < 7)
                         NPC.velocity.X += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).X * 0.003f;
+                    if (NPC.Center.X.CloseTo(player.Center.X, NPC.height / 2) && AITimer > 3)
+                        AITimer = 31;
                     if (AITimer > 30)
                     {
                         AIState = Halt;
@@ -141,6 +143,8 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                     widthMod = 1f - (NPC.velocity.Length() * 0.02f);
                     if (NPC.velocity.Length() < 7)
                         NPC.velocity.Y += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).Y * 0.003f;
+                    if (NPC.Center.Y.CloseTo(player.Center.Y, NPC.width / 2) && AITimer > 3)
+                        AITimer = 31;
                     if (AITimer > 30)
                     {
                         AIState = Halt;

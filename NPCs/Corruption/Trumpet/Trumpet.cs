@@ -92,7 +92,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneCorrupt ? 0.02f : 0;
+            return spawnInfo.Player.ZoneCorrupt && !NPC.AnyNPCs(Type) ? 0.04f : 0;
         }
     }
     public class TrumpetBody : WormBody
@@ -129,7 +129,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
         {
             NPC.timeLeft = 10;
             NPC.direction = NPC.spriteDirection = HeadSegment.ai[2] < 0 ? 1 : -1;
-            if (++NPC.ai[2] % 200 == 100 + NPC.ai[3] * 2)
+            if (++NPC.ai[2] % 200 == 100 + NPC.ai[3])
             {
                 if (NPC.ai[3] == 0)
                 {
