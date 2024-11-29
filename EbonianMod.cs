@@ -163,6 +163,7 @@ namespace EbonianMod
             On_Player.Update_NPCCollision -= SolidTopCollision;
             On_Main.DrawPlayers_AfterProjectiles -= PreDraw;
             On_VanillaPlayerDrawLayer.Draw -= DrawPlayer;
+            On_NPC.SetEventFlagCleared -= EventClear;
         }
         public override void Load()
         {
@@ -221,7 +222,16 @@ namespace EbonianMod
             Terraria.On_Player.Update_NPCCollision += SolidTopCollision;
             On_Main.DrawPlayers_AfterProjectiles += PreDraw;
             On_VanillaPlayerDrawLayer.Draw += DrawPlayer;
+            On_NPC.SetEventFlagCleared += EventClear;
             CreateRender();
+        }
+        void EventClear(On_NPC.orig_SetEventFlagCleared orig, ref bool eventFlag, int gameEventId)
+        {
+            if (gameEventId == 3 && !eventFlag)
+            {
+                NPC.NewNPCDirect(null, Main.player[0].Center, ModContent.NPCType<ArchmageCutsceneMartian>(), 0, -1);
+            }
+            orig(ref eventFlag, gameEventId);
         }
         void DrawPlayer(On_VanillaPlayerDrawLayer.orig_Draw orig, PlayerDrawLayer self, ref PlayerDrawSet drawInfo)
         {

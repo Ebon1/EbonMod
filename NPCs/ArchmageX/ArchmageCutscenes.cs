@@ -13,6 +13,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Skies;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -63,7 +64,7 @@ namespace EbonianMod.NPCs.ArchmageX
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (NPC.IsABestiaryIconDummy) return false;
+            if (NPC.IsABestiaryIconDummy || AITimer < 1) return false;
             Texture2D tex = Helper.GetTexture(Texture);
             Texture2D burnt = Helper.GetTexture(Texture + "_Burnt");
             Texture2D singularArm = Helper.GetTexture(Texture + "_Arm");
@@ -76,20 +77,20 @@ namespace EbonianMod.NPCs.ArchmageX
             Texture2D martian = TextureAssets.Npc[NPCID.MartianSaucer].Value;
             Texture2D staff = Helper.GetTexture("Items/Weapons/Magic/StaffOfXItem");
 
-            Main.spriteBatch.Reload(BlendState.Additive);
-
-            spriteBatch.Draw(headBloom, NPC.Center + new Vector2(NPC.direction == -1 ? 6 : 12, -38 + headYOff * 0.5f).RotatedBy(NPC.rotation) - screenPos, null, Color.White * 0.2f, headRotation, headBloom.Size() / 2, NPC.scale + headYOff * 0.05f, NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
-            Vector2 staffP = NPC.Center + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.Pi - MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * 0.25f;
-            if (NPC.direction == 1)
-                staffP = NPC.Center + new Vector2(NPC.width / 2 - 4, -10) + (rightArmRot + (MathHelper.ToRadians((headYOff + 2) * 5) * NPC.direction)).ToRotationVector2().RotatedBy(MathHelper.Pi + MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * -.25f;
-            float staffRot = rightArmRot + (MathHelper.ToRadians((headYOff + 2) * 5) * NPC.direction) + MathHelper.Pi * (NPC.direction == 1 ? .5f : 1f);
-
-            //spriteBatch.Draw(staff, staffP - screenPos, null, Color.White * staffAlpha, staffRot, new Vector2(0, staff.Height), NPC.scale, SpriteEffects.None, 0f);
-
             if (AITimer < 550)
             {
+                Main.spriteBatch.Reload(BlendState.Additive);
+
+                spriteBatch.Draw(headBloom, NPC.Center + new Vector2(NPC.direction == -1 ? 6 : 12, -38 + headYOff * 0.5f).RotatedBy(NPC.rotation) - screenPos, null, Color.White * 0.2f, headRotation, headBloom.Size() / 2, NPC.scale + headYOff * 0.05f, NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+
+                Main.spriteBatch.Reload(BlendState.AlphaBlend);
+                Vector2 staffP = NPC.Center + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.Pi - MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * 0.25f;
+                if (NPC.direction == 1)
+                    staffP = NPC.Center + new Vector2(NPC.width / 2 - 4, -10) + (rightArmRot + (MathHelper.ToRadians((headYOff + 2) * 5) * NPC.direction)).ToRotationVector2().RotatedBy(MathHelper.Pi + MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * -.25f;
+                float staffRot = rightArmRot + (MathHelper.ToRadians((headYOff + 2) * 5) * NPC.direction) + MathHelper.Pi * (NPC.direction == 1 ? .5f : 1f);
+
+                //spriteBatch.Draw(staff, staffP - screenPos, null, Color.White * staffAlpha, staffRot, new Vector2(0, staff.Height), NPC.scale, SpriteEffects.None, 0f);
+
                 spriteBatch.Draw(singularArm, NPC.Center - new Vector2(NPC.direction == -1 ? -14 : -6, 18).RotatedBy(NPC.rotation) - screenPos, null, drawColor, leftArmRot + (MathHelper.ToRadians((headYOff + 2) * 5) * -NPC.direction), new Vector2(NPC.direction == 1 ? singularArm.Width : 0, 0), NPC.scale, NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
 
                 spriteBatch.Draw(singularArm, NPC.Center - new Vector2(singularArm.Width - 2 + (NPC.direction == -1 ? 4 : 0), 0) - new Vector2(NPC.direction == 1 ? -42 : -24, 18).RotatedBy(NPC.rotation) - screenPos, null, drawColor, rightArmRot + (NPC.direction == -1 ? MathHelper.ToRadians(15) : 0) + (MathHelper.ToRadians((headYOff + 2) * 5) * NPC.direction) - (NPC.direction == -1 ? MathHelper.PiOver4 * 0.5f : 0), new Vector2(NPC.direction == -1 ? singularArm.Width : 0, 0), NPC.scale, NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
@@ -203,201 +204,228 @@ namespace EbonianMod.NPCs.ArchmageX
         Vector2 startP;
         public override void OnSpawn(IEntitySource source)
         {
-            int atts = 0;
-            while (atts++ < 400 && (Main.tile[NPC.Center.ToTileCoordinates().X, NPC.Center.ToTileCoordinates().Y].HasTile || Helper.TRay.CastLength(NPC.Center, Vector2.UnitY, 700) < 650))
-                NPC.Center -= Vector2.UnitY * 8;
-            startP = NPC.Center;
-            foreach (NPC npc in Main.npc)
+            if (NPC.ai[0] != -1)
             {
-                if (npc.active && !npc.friendly && npc.type != Type)
-                    npc.active = false;
+                NPC.active = false;
+                return;
             }
-            EbonianSystem.ChangeCameraPos(NPC.Center, 500, 1.2f);
-            Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
-            Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosionTiny>(), 0, 0);
-            for (int i = 0; i < 20; i++)
-                Projectile.NewProjectile(null, NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(10, 20), ModContent.ProjectileType<XCloudVFXExtra>(), 0, 0);
-            for (int i = 0; i < 15; i++)
-                Projectile.NewProjectile(null, NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(10, 20), ModContent.ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(0.1f, 0.3f));
         }
         public override void AI()
         {
-            if (AITimer % 5 == 0)
+            if (!NPC.AnyNPCs(NPCID.MartianSaucer))
             {
-                if (flameFrame > 34 * 2)
-                    flameFrame = 0;
-                else
-                    flameFrame += 34;
-            }
-            EbonianSystem.xareusFightCooldown = 500;
-            if (AITimer > 180 || AITimer < 100)
-            {
-                blinkInterval++;
-                if (blinkInterval >= 170 && blinkInterval < 175)
+                if (AITimer == 0)
                 {
-                    if (headFrame.Y != BlinkingFace)
+                    int atts = 0;
+                    foreach (Player _player in Main.player)
                     {
-                        frameBeforeBlink = headFrame.Y;
+                        if (_player.active && !_player.dead)
+                            _player.statLife = _player.statLifeMax2;
                     }
-                    headFrame.Y = BlinkingFace;
+                    while (atts++ < 400 && (Main.tile[NPC.Center.ToTileCoordinates().X, NPC.Center.ToTileCoordinates().Y].HasTile || Helper.TRay.CastLength(NPC.Center, Vector2.UnitY, 700) < 650))
+                        NPC.Center -= Vector2.UnitY * 8;
+                    startP = NPC.Center;
+                    foreach (NPC npc in Main.npc)
+                    {
+                        if (npc.active && npc.type == NPCID.MartianSaucer)
+                        {
+                            npc.life = 0;
+                            npc.checkDead();
+                        }
+                        if (npc.active && !npc.friendly && npc.type != Type)
+                            npc.active = false;
+                    }
+                    foreach (Projectile p in Main.projectile)
+                    {
+                        if (p.active && !p.friendly)
+                            p.active = false;
+                    }
+                    EbonianSystem.ChangeCameraPos(NPC.Center, 500, 1.2f);
+                    Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
+                    Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosionTiny>(), 0, 0);
+                    for (int i = 0; i < 20; i++)
+                        Projectile.NewProjectile(null, NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(10, 20), ModContent.ProjectileType<XCloudVFXExtra>(), 0, 0);
+                    for (int i = 0; i < 15; i++)
+                        Projectile.NewProjectile(null, NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(10, 20), ModContent.ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(0.1f, 0.3f));
                 }
-                if (blinkInterval == 176)
+                foreach (NPC npc in Main.ActiveNPCs)
                 {
-                    headFrame.Y = frameBeforeBlink;
-                    blinkInterval = Main.rand.Next(-250, 10);
+                    if (!npc.friendly && npc.type != Type)
+                        npc.active = false;
                 }
-            }
-            Player player = Main.player[NPC.target];
-            if (!player.active || player.dead)
-            {
+                if (AITimer % 5 == 0)
+                {
+                    if (flameFrame > 34 * 2)
+                        flameFrame = 0;
+                    else
+                        flameFrame += 34;
+                }
+                NPC.DiscourageDespawn(10);
+                EbonianSystem.xareusFightCooldown = 500;
+                if (AITimer > 180 || AITimer < 100)
+                {
+                    blinkInterval++;
+                    if (blinkInterval >= 170 && blinkInterval < 175)
+                    {
+                        if (headFrame.Y != BlinkingFace)
+                        {
+                            frameBeforeBlink = headFrame.Y;
+                        }
+                        headFrame.Y = BlinkingFace;
+                    }
+                    if (blinkInterval == 176)
+                    {
+                        headFrame.Y = frameBeforeBlink;
+                        blinkInterval = Main.rand.Next(-250, 10);
+                    }
+                }
+                Player player = Main.player[NPC.target];
                 NPC.TargetClosest(false);
-                player = Main.player[NPC.target];
-                if (!player.active || player.dead)
+                if (NPC.direction != NPC.oldDirection)
                 {
-                    NPC.active = false;
+                    rightArmRot = 0;
                 }
-            }
-            if (NPC.direction != NPC.oldDirection)
-            {
-                rightArmRot = 0;
-            }
-            if (AITimer < 550)
-                NPC.Center = startP + new Vector2(0, MathF.Sin(AITimer * 0.005f) * 25);
+                if (AITimer < 550)
+                    NPC.Center = startP + new Vector2(0, MathF.Sin(AITimer * 0.005f) * 25);
 
-            float rightHandOffsetRot = MathHelper.Pi - (NPC.direction == 1 ? MathHelper.PiOver4 : MathHelper.PiOver2);
-            float leftHandOffsetRot = MathHelper.Pi - (NPC.direction == 1 ? MathHelper.PiOver2 : MathHelper.PiOver4);
-            Vector2 staffP = NPC.Center + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.Pi - MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * 6;
-            if (NPC.direction == 1)
-                staffP = NPC.Center + new Vector2(NPC.width / 2 - 4, -2) + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.Pi + MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * -6;
+                float rightHandOffsetRot = MathHelper.Pi - (NPC.direction == 1 ? MathHelper.PiOver4 : MathHelper.PiOver2);
+                float leftHandOffsetRot = MathHelper.Pi - (NPC.direction == 1 ? MathHelper.PiOver2 : MathHelper.PiOver4);
+                Vector2 staffP = NPC.Center + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.Pi - MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * 6;
+                if (NPC.direction == 1)
+                    staffP = NPC.Center + new Vector2(NPC.width / 2 - 4, -2) + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.Pi + MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * -6;
 
-            float staffRot = rightArmRot + MathHelper.Pi * (NPC.direction == 1 ? .5f : 1f);
-            Vector2 staffTip = staffP + staffRot.ToRotationVector2().RotatedBy(-MathHelper.PiOver4) * 48;
-            headYOff = MathHelper.Lerp(headYOff, MathF.Sin((AITimer + headOffIncrementOffset) * 0.05f) * 2, 0.2f);
+                float staffRot = rightArmRot + MathHelper.Pi * (NPC.direction == 1 ? .5f : 1f);
+                Vector2 staffTip = staffP + staffRot.ToRotationVector2().RotatedBy(-MathHelper.PiOver4) * 48;
+                headYOff = MathHelper.Lerp(headYOff, MathF.Sin((AITimer + headOffIncrementOffset) * 0.05f) * 2, 0.2f);
 
-            Lighting.AddLight(staffTip, TorchID.Purple);
+                Lighting.AddLight(staffTip, TorchID.Purple);
 
-            AITimer++;
+                AITimer++;
 
-            FacePlayer();
-            // ARMS
-            if (AITimer < 100)
-            {
-                rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction * 0.25f + MathHelper.ToRadians(-5f - AITimer * 0.1f) * NPC.direction, 0.3f);
-                leftArmRot = Helper.LerpAngle(leftArmRot, NPC.direction * 0.25f + MathHelper.ToRadians(5f + AITimer * 0.1f) * NPC.direction, 0.3f);
-            }
-            if (AITimer > 100 && AITimer < 180)
-            {
-                rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction * 0.15f + MathHelper.ToRadians(-5f) * NPC.direction, 0.3f);
-                leftArmRot = Helper.LerpAngle(leftArmRot, NPC.direction * 0.15f + MathHelper.ToRadians(5f) * NPC.direction, 0.3f);
-            }
-            if (AITimer > 180 && AITimer < 265)
-            {
-                float fac = MathHelper.Lerp(0.2f, 1, (AITimer - 180) / 85f);
-                rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction * 0.5f + (MathHelper.ToRadians(-5f) - MathF.Sin(AITimer * 0.35f * fac) * .6f) * NPC.direction, 0.2f);
-                leftArmRot = Helper.LerpAngle(leftArmRot, NPC.direction * 0.5f + (MathHelper.ToRadians(5f) + MathF.Sin(AITimer * 0.35f * fac) * .6f) * NPC.direction, 0.2f);
-            }
-            if (AITimer >= 265)
-            {
-                rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction * 0.65f + MathHelper.ToRadians(-5f) * NPC.direction, 0.2f);
-                leftArmRot = Helper.LerpAngle(leftArmRot, NPC.direction * 0.65f + MathHelper.ToRadians(5f) * NPC.direction, 0.2f);
-            }
-            // DIALOGUE
-            if (AITimer == 1)
-            {
-                DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "SURPRISE ATTACK!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 8);
-            }
-            if (AITimer == 100)
-            {
-                headFrame.Y = BlinkingFace;
-                DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "WHILE YOU'VE BEEN FOOLING AROUND...", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 6);
-            }
-            if (AITimer == 180)
-            {
-                NPC.boss = true;
-                EbonianSystem.ChangeCameraPos(NPC.Center, 120, 1.5f);
-                headFrame.Y = SmirkFace;
-                DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "I'VE AWOKEN MY TRUE POWER!!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
-            }
-            if (AITimer == 300)
-            {
-                EbonianSystem.ChangeCameraPos(NPC.Center, 300, 1.05f);
-                headFrame.Y = DisappointedFace;
-                DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "And with this power....", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
-            }
-            if (AITimer == 380)
-            {
-                EbonianSystem.ChangeCameraPos(NPC.Center, 300, 1.05f);
-                DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "You....", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
-            }
-            if (AITimer == 410)
-                EbonianSystem.ChangeCameraPos(NPC.Center - new Vector2(0, 200), 300, 1.05f);
-            if (AITimer == 460)
-            {
-                DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "Will....", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
-            }
-            if (AITimer == 680)
-            {
-                EbonianSystem.ChangeCameraPos(NPC.Center, 300, 1.05f);
-                DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "...", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
-            }
-            if (AITimer == 750)
-            {
-                EbonianSystem.ChangeCameraPos(NPC.Center, 100, 1.05f);
-                DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "Ow.", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
-            }
-            if (AITimer > 800)
-            {
-                if (NPC.Grounded()) AITimer = 1900;
-                NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 25, MathHelper.Lerp(0, 0.2f, (AITimer - 800) / 300));
-                NPC.rotation += MathHelper.ToRadians((AITimer - 650) / 300);
-            }
-            if (AITimer == 1900)
-            {
-                Main.musicVolume = vol;
-                NPC.life = 0;
-                Projectile.NewProjectile(null, NPC.Center, Main.rand.NextVector2CircularEdge(7, 7), ProjectileID.CrossGraveMarker, 0, 0, -1);
-                NPC.checkDead();
-            }
-            // VFX
-
-            if (AITimer > 265 && AITimer < 270)
-                AITimer2 = MathHelper.Lerp(AITimer2, 1, 0.35f);
-            if (AITimer == 270)
-                AITimer2 = 1;
-            if (AITimer == 265)
-            {
-                vol = Main.musicVolume;
-                Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
-                SoundEngine.PlaySound(SoundID.Item103, NPC.Center);
-                Vector2 rPos = NPC.Center - new Vector2(NPC.direction == -1 ? -44 : 20, 24 - headYOff * 2).RotatedBy(NPC.rotation);
-                Vector2 lPos = NPC.Center - new Vector2(26 - 2 + (NPC.direction == -1 ? 4 : 0), 0) - new Vector2(NPC.direction == 1 ? -70 : 4, 24 - headYOff * 2).RotatedBy(NPC.rotation);
-                for (int i = 0; i < 30; i++)
+                FacePlayer();
+                // ARMS
+                if (AITimer < 100)
                 {
-                    Dust.NewDustPerfect(rPos, DustID.DemonTorch, Main.rand.NextVector2Circular(5, 5));
-                    Dust.NewDustPerfect(lPos, DustID.WhiteTorch, Main.rand.NextVector2Circular(5, 5), newColor: Color.Black);
+                    rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction * 0.25f + MathHelper.ToRadians(-5f - AITimer * 0.1f) * NPC.direction, 0.3f);
+                    leftArmRot = Helper.LerpAngle(leftArmRot, NPC.direction * 0.25f + MathHelper.ToRadians(5f + AITimer * 0.1f) * NPC.direction, 0.3f);
                 }
-            }
-            if (AITimer == 390)
-                AITimer3 = 1;
-            if (AITimer > 420 && AITimer < 500)
-                AITimer3 = MathHelper.Lerp(AITimer3, 300, 0.001f);
-            if (AITimer > 650)
-            {
-                beamAlpha = 0;
-                AITimer3 = MathHelper.Lerp(AITimer3, -2000, MathHelper.Lerp(0, 0.01f, (AITimer - 650) / 100));
-            }
+                if (AITimer > 100 && AITimer < 180)
+                {
+                    rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction * 0.15f + MathHelper.ToRadians(-5f) * NPC.direction, 0.3f);
+                    leftArmRot = Helper.LerpAngle(leftArmRot, NPC.direction * 0.15f + MathHelper.ToRadians(5f) * NPC.direction, 0.3f);
+                }
+                if (AITimer > 180 && AITimer < 265)
+                {
+                    float fac = MathHelper.Lerp(0.2f, 1, (AITimer - 180) / 85f);
+                    rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction * 0.5f + (MathHelper.ToRadians(-5f) - MathF.Sin(AITimer * 0.35f * fac) * .6f) * NPC.direction, 0.2f);
+                    leftArmRot = Helper.LerpAngle(leftArmRot, NPC.direction * 0.5f + (MathHelper.ToRadians(5f) + MathF.Sin(AITimer * 0.35f * fac) * .6f) * NPC.direction, 0.2f);
+                }
+                if (AITimer >= 265)
+                {
+                    rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction * 0.65f + MathHelper.ToRadians(-5f) * NPC.direction, 0.2f);
+                    leftArmRot = Helper.LerpAngle(leftArmRot, NPC.direction * 0.65f + MathHelper.ToRadians(5f) * NPC.direction, 0.2f);
+                }
+                // DIALOGUE
+                if (AITimer == 1)
+                {
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "SURPRISE ATTACK!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 8);
+                }
+                if (AITimer == 100)
+                {
+                    headFrame.Y = BlinkingFace;
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "WHILE YOU'VE BEEN FOOLING AROUND...", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 6);
+                }
+                if (AITimer == 180)
+                {
+                    NPC.boss = true;
+                    EbonianSystem.ChangeCameraPos(NPC.Center, 120, 1.5f);
+                    headFrame.Y = SmirkFace;
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "I'VE AWOKEN MY TRUE POWER!!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                }
+                if (AITimer == 300)
+                {
+                    EbonianSystem.ChangeCameraPos(NPC.Center, 300, 1.05f);
+                    headFrame.Y = DisappointedFace;
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "And with this power....", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                }
+                if (AITimer == 380)
+                {
+                    EbonianSystem.ChangeCameraPos(NPC.Center, 300, 1.05f);
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "You....", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
+                }
+                if (AITimer == 410)
+                    EbonianSystem.ChangeCameraPos(NPC.Center - new Vector2(0, 200), 300, 1.05f);
+                if (AITimer == 460)
+                {
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "Will....", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
+                }
+                if (AITimer == 680)
+                {
+                    EbonianSystem.ChangeCameraPos(NPC.Center, 300, 1.05f);
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "...", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
+                }
+                if (AITimer == 750)
+                {
+                    EbonianSystem.ChangeCameraPos(NPC.Center, 100, 1.05f);
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "Ow.", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
+                }
+                if (AITimer > 800)
+                {
+                    if (NPC.Grounded()) AITimer = 1900;
+                    NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 25, MathHelper.Lerp(0, 0.2f, (AITimer - 800) / 300));
+                    NPC.rotation += MathHelper.ToRadians((AITimer - 650) / 300);
+                }
+                if (AITimer == 1900)
+                {
+                    Main.musicVolume = vol;
+                    NPC.life = 0; for (int i = 0; i < 80; i++)
+                    {
+                        Dust.NewDustPerfect(NPC.Center, DustID.Ash, Main.rand.NextVector2Circular(10, 10), newColor: Color.Black);
+                    }
+                    Projectile.NewProjectile(null, NPC.Center, Main.rand.NextVector2CircularEdge(7, 7), ProjectileID.CrossGraveMarker, 0, 0, -1);
+                    NPC.checkDead();
+                }
+                // VFX
 
-            if (AITimer == 520)
-            {
-                Main.musicVolume = 0;
-                beamAlpha = 1f;
-                AITimer2 = 0;
-                SoundEngine.PlaySound(SoundID.Zombie104, NPC.Center);
-                EbonianSystem.ScreenShakeAmount = 15;
-            }
-            if (AITimer > 600)
-                beamAlpha = MathHelper.Lerp(beamAlpha, 0, 0.3f);
+                if (AITimer > 265 && AITimer < 270)
+                    AITimer2 = MathHelper.Lerp(AITimer2, 1, 0.35f);
+                if (AITimer == 270)
+                    AITimer2 = 1;
+                if (AITimer == 265)
+                {
+                    vol = Main.musicVolume;
+                    Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
+                    SoundEngine.PlaySound(SoundID.Item103, NPC.Center);
+                    Vector2 rPos = NPC.Center - new Vector2(NPC.direction == -1 ? -44 : 20, 24 - headYOff * 2).RotatedBy(NPC.rotation);
+                    Vector2 lPos = NPC.Center - new Vector2(26 - 2 + (NPC.direction == -1 ? 4 : 0), 0) - new Vector2(NPC.direction == 1 ? -70 : 4, 24 - headYOff * 2).RotatedBy(NPC.rotation);
+                    for (int i = 0; i < 30; i++)
+                    {
+                        Dust.NewDustPerfect(rPos, DustID.DemonTorch, Main.rand.NextVector2Circular(5, 5));
+                        Dust.NewDustPerfect(lPos, DustID.WhiteTorch, Main.rand.NextVector2Circular(5, 5), newColor: Color.Black);
+                    }
+                }
+                if (AITimer == 390)
+                    AITimer3 = 1;
+                if (AITimer > 420 && AITimer < 500)
+                    AITimer3 = MathHelper.Lerp(AITimer3, 300, 0.001f);
+                if (AITimer > 650)
+                {
+                    beamAlpha = 0;
+                    AITimer3 = MathHelper.Lerp(AITimer3, -2000, MathHelper.Lerp(0, 0.01f, (AITimer - 650) / 100));
+                }
 
+                if (AITimer == 520)
+                {
+                    Main.musicVolume = 0;
+                    beamAlpha = 1f;
+                    AITimer2 = 0;
+                    SoundEngine.PlaySound(SoundID.Zombie104, NPC.Center);
+                    EbonianSystem.ScreenShakeAmount = 15;
+                }
+                if (AITimer > 600)
+                    beamAlpha = MathHelper.Lerp(beamAlpha, 0, 0.3f);
+
+            }
         }
         float vol;
     }

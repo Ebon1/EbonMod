@@ -23,6 +23,7 @@ using Terraria.GameContent.Skies;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.IO;
 using static Terraria.ModLoader.ModContent;
+using EbonianMod.NPCs.ArchmageX;
 
 namespace EbonianMod
 {
