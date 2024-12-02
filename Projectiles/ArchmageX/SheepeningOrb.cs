@@ -46,7 +46,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         }
         public override void AI()
         {
-            if (Projectile.timeLeft > 70)
+            if (Projectile.timeLeft > 70 && Projectile.localAI[0] == 0)
                 Projectile.velocity = Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center);
             Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 0, 0.1f);
             if (Projectile.timeLeft < 31 && Projectile.timeLeft > 10)

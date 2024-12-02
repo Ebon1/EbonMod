@@ -36,6 +36,8 @@ namespace EbonianMod
         public bool rolleg, brainAcc, heartAcc, ToxicGland, doomMinion, rei, reiV, sheep;
         public override void ResetEffects()
         {
+            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ModContent.ProjectileType<ArchmageXSpawnAnim>()] > 0)
+                Player.noBuilding = true;
             reiBoostCool--;
             if (reiBoostCool > 0)
                 reiBoostT--;
@@ -78,6 +80,8 @@ namespace EbonianMod
         }
         public override void PostUpdateRunSpeeds()
         {
+            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ModContent.ProjectileType<ArchmageXSpawnAnim>()] > 0)
+                Player.noBuilding = true;
             if (Player.HeldItem.type == ModContent.ItemType<EbonianScythe>() && !Player.ItemTimeIsZero)
             {
                 Player.maxRunSpeed += 2;
@@ -149,7 +153,7 @@ namespace EbonianMod
         }
         public override void PostUpdateBuffs()
         {
-            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()))
+            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ModContent.ProjectileType<ArchmageXSpawnAnim>()] > 0)
                 Player.noBuilding = true;
             if (sheep)
             {
@@ -164,6 +168,8 @@ namespace EbonianMod
         }
         public override void PostUpdate()
         {
+            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ModContent.ProjectileType<ArchmageXSpawnAnim>()] > 0)
+                Player.noBuilding = true;
             for (int i = (int)Player.Center.X / 16 - 3; i < (int)Player.Center.X / 16 + 3; i++)
             {
                 for (int j = (int)Player.Center.Y / 16 - 3; j < (int)Player.Center.Y / 16 + 3; j++)
@@ -172,15 +178,8 @@ namespace EbonianMod
                     {
                         if (EbonianSystem.xareusFightCooldown <= 0)
                         {
-                            Projectile.NewProjectile(null, new Vector2(i * 16, j * 16 - 100), Vector2.Zero, ModContent.ProjectileType<ArchmageXSpawnAnim>(), 0, 0);
+                            Projectile.NewProjectile(null, new Vector2(i * 16, j * 16 - 100), Vector2.Zero, ModContent.ProjectileType<ArchmageXSpawnAnim>(), 0, 0, Player.whoAmI);
 
-                            for (int k = -31; k < 31; k++)
-                            {
-                                for (int l = -21; l < 6; l++)
-                                    if (Main.tile[i + k, j + l].HasTile && Main.tileSolid[Main.tile[i + k, j + l].TileType] && !Main.tileSolidTop[Main.tile[i + k, j + l].TileType] &&
-                                        Main.tile[i + k, j + l].TileType != ModContent.TileType<XHouseBrick>() && Main.tile[i + k, j + l].TileType != TileID.Platforms)
-                                        Main.tile[i + k, j + l].ClearTile();
-                            }
                             for (int k = -23; k < 6; k++)
                             {
                                 Main.tile[i - 31, j + k].TileType = ((ushort)ModContent.TileType<XHouseBrick>());
@@ -193,8 +192,8 @@ namespace EbonianMod
                                 Tile tile2 = Main.tile[i - 31, j + k];
                                 tile2.HasTile = true;
 
-                                WorldGen.TileFrame(i + 31, j + k);
-                                WorldGen.TileFrame(i - 31, j + k);
+                                WorldGen.TileFrame(i + 31, j + k, noBreak: true);
+                                WorldGen.TileFrame(i - 31, j + k, noBreak: true);
                             }
                             for (int k = -31; k < 31; k++)
                             {
@@ -207,13 +206,22 @@ namespace EbonianMod
                                 tile2.HasTile = true;
                             }
 
+                            for (int k = -31; k < 31; k++)
+                            {
+                                for (int l = -21; l < 6; l++)
+                                    if (Main.tile[i + k, j + l].HasTile && Main.tileSolid[Main.tile[i + k, j + l].TileType] && !Main.tileSolidTop[Main.tile[i + k, j + l].TileType] &&
+                                        Main.tile[i + k, j + l].TileType != ModContent.TileType<XHouseBrick>() && Main.tile[i + k, j + l].TileType != TileID.Platforms)
+                                        Main.tile[i + k, j + l].ClearTile();
+                            }
+
                             for (int k = -33; k < 33; k++)
                             {
                                 for (int l = -25; l < 8; l++)
                                 {
-                                    WorldGen.TileFrame(i + k, j + l);
+                                    WorldGen.TileFrame(i + k, j + l, noBreak: true);
                                 }
                             }
+
                             break;
                         }
                     }

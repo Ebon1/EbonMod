@@ -94,11 +94,15 @@ namespace EbonianMod.Projectiles.ArchmageX
             if (Projectile.ai[0] == 20)
             {
                 savedDir = Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center);
-                Projectile.NewProjectile(null, Projectile.Center, savedDir, ModContent.ProjectileType<XTelegraphLine>(), 0, 0);
+                if (Projectile.ai[1] != 1)
+                    Projectile.NewProjectile(null, Projectile.Center, savedDir, ModContent.ProjectileType<XTelegraphLine>(), 0, 0);
+                else
+                    Projectile.NewProjectile(null, Projectile.Center, savedDir, ModContent.ProjectileType<SheepeningOrb>(), 20, 0, Projectile.owner);
             }
-            if (Projectile.ai[0] > 55)
+            if (Projectile.ai[0] > (Projectile.ai[1] != 1 ? 55 : 70))
             {
-                Projectile.NewProjectile(null, Projectile.Center, savedDir, ModContent.ProjectileType<XLightningBolt>(), 20, 0);
+                if (Projectile.ai[1] != 1)
+                    Projectile.NewProjectile(null, Projectile.Center, savedDir, ModContent.ProjectileType<XLightningBolt>(), 20, 0);
                 Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
                 Projectile.ai[0] = 0;
             }

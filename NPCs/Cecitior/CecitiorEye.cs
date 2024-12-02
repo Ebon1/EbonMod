@@ -214,6 +214,8 @@ namespace EbonianMod.NPCs.Cecitior
                 //NPC.velocity = Vector2.Zero; // REMOVE LATER    
                 NPC.rotation = Helper.FromAToB(NPC.Center, focalPoint).ToRotation() + MathHelper.Pi;
             }
+            if (center.ai[0] != 0)
+                NPC.dontTakeDamage = player.shieldParryTimeLeft <= 0;
             switch (center.ai[0])
             {
                 case 0:
@@ -223,7 +225,6 @@ namespace EbonianMod.NPCs.Cecitior
                         focalPoint = Vector2.Lerp(focalPoint, player.Center, 0.45f);
                     break;
                 case 1:
-                    NPC.dontTakeDamage = false;
                     NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle + (center.ai[1] < 0 ? MathHelper.ToRadians(timer) : MathHelper.ToRadians(Main.GameUpdateCount))), false) / 10f;
                     focalPoint = player.Center;
                     AITimer = 0;
