@@ -75,7 +75,7 @@ namespace EbonianMod.Projectiles.Garbage
             Projectile.friendly = false;
             Projectile.tileCollide = true;
             Projectile.hostile = true;
-            Projectile.timeLeft = 350;
+            Projectile.timeLeft = 240;
         }
         float savedP;
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
@@ -86,6 +86,7 @@ namespace EbonianMod.Projectiles.Garbage
         }
         public override void AI()
         {
+            Projectile.timeLeft--;
             Lighting.AddLight(Projectile.Center, TorchID.Torch);
             if (savedP == 0)
                 savedP = Main.LocalPlayer.Center.Y;

@@ -51,6 +51,8 @@ namespace EbonianMod.Common.Achievements
         public string TexturePath;
         public override void Update(GameTime gameTime)
         {
+            if (!Main.inFancyUI)
+                return;
             locked = !EbonianAchievementSystem.acquiredAchievement[Index];
             base.Update(gameTime);
         }
@@ -173,6 +175,8 @@ namespace EbonianMod.Common.Achievements
             uITextPanel2.Top.Set(-45f, 0f);
             uITextPanel2.OnMouseOver += delegate (UIMouseEvent evt, UIElement listeningElement)
             {
+                if (!Main.inFancyUI)
+                    return;
                 SoundEngine.PlaySound(SoundID.MenuTick);
                 ((UIPanel)evt.Target).BackgroundColor = new Color(17, 17, 17);
                 ((UIPanel)evt.Target).BorderColor = Colors.FancyUIFatButtonMouseOver;
@@ -184,6 +188,8 @@ namespace EbonianMod.Common.Achievements
             };
             uITextPanel2.OnLeftClick += delegate (UIMouseEvent evt, UIElement listeningElement)
             {
+                if (!Main.inFancyUI)
+                    return;
                 if (timer > 30 && Main.inFancyUI)
                 {
                     timer = 0;
@@ -216,8 +222,9 @@ namespace EbonianMod.Common.Achievements
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (!Main.inFancyUI)
+            {
                 return;
-            Main.player[Main.myPlayer].mouseInterface = true;
+            }
             base.Draw(spriteBatch);
         }
         public override void OnActivate()
@@ -227,7 +234,11 @@ namespace EbonianMod.Common.Achievements
         public override void Update(GameTime gameTime)
         {
             if (!Main.inFancyUI)
+            {
+                timer = 0;
                 return;
+            }
+            Main.player[Main.myPlayer].mouseInterface = true;
             base.Update(gameTime);
             if (timer > 0)
                 timer++;
@@ -269,6 +280,7 @@ namespace EbonianMod.Common.Achievements
             uITextPanel2.Top.Set(3, 0);
             uITextPanel2.OnMouseOver += delegate (UIMouseEvent evt, UIElement listeningElement)
             {
+                if (!Main.playerInventory) return;
                 Main.hoverItemName = "Ebonian Mod Achievements";
                 hover.Color = Color.White;
                 Hovering = true;

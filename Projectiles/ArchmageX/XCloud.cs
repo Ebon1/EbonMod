@@ -102,6 +102,26 @@ namespace EbonianMod.Projectiles.ArchmageX
                 Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
                 Projectile.ai[0] = 0;
             }
+
+            /*if (Projectile.ai[1] != 0)
+            {
+                if (Projectile.timeLeft == 260)
+                {
+                    savedP = Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center);
+                    for (int i = -2; i < 2; i++)
+                    {
+                        Projectile.NewProjectile(null, Projectile.Center, savedDir.RotatedBy(MathHelper.ToRadians(i * 30)), ModContent.ProjectileType<XTelegraphLine>(), 0, 0);
+                    }
+                }
+                if (Projectile.timeLeft == 225)
+                {
+                    Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
+                    for (int i = -2; i < 2; i++)
+                    {
+                        Projectile.NewProjectile(null, Projectile.Center, savedDir.RotatedBy(MathHelper.ToRadians(i * 30)), ModContent.ProjectileType<XLightningBolt>(), 20, 0);
+                    }
+                }
+            }*/
         }
     }
     public class XCloudVFXExtra : ModProjectile

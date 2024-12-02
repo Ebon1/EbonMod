@@ -21,7 +21,7 @@ namespace EbonianMod.NPCs.Crimson
         {
             NPC.width = 72;
             NPC.height = 78;
-            NPC.damage = 40;
+            NPC.damage = 0;
             NPC.defense = 8;
             NPC.lifeMax = 120;
             NPC.aiStyle = -1;
@@ -109,6 +109,7 @@ namespace EbonianMod.NPCs.Crimson
             switch (AIState)
             {
                 case 0:
+                    NPC.damage = 0;
                     NPC.rotation = NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0);
                     AITimer++;
                     if (AITimer < 300)
@@ -123,6 +124,7 @@ namespace EbonianMod.NPCs.Crimson
                     break;
                 case 1:
                     AITimer++;
+                    NPC.damage = 40;
                     if (AITimer < 10)
                         NPC.rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0);
                     else
@@ -137,6 +139,7 @@ namespace EbonianMod.NPCs.Crimson
                     }
                     break;
                 case 2:
+                    NPC.damage = 0;
                     NPC.velocity *= 0.95f;
                     AITimer++;
                     if (AITimer > 25)

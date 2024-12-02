@@ -23,7 +23,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.hostile = true;
             Projectile.tileCollide = true;
             Projectile.aiStyle = 2;
-            Projectile.timeLeft = 600;
+            Projectile.timeLeft = 450;
             Projectile.Size = new(10, 10);
         }
         public override void OnKill(int timeLeft)

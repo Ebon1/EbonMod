@@ -63,6 +63,8 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
 
             Player player = Main.player[Projectile.owner];
 
+            if (verlet != null)
+                verlet.Update(player.Center, Projectile.Center);
             Projectile.timeLeft = 2;
             if (player.dead)
             {

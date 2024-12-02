@@ -33,19 +33,23 @@ namespace EbonianMod.Common.Systems.Worldgen
                 {
                     if (Main.tile[chest.x, chest.y].TileFrameX == 1 * 36)
                     {
-                        if (WorldGen.genRand.NextBool(5))
+                        if (WorldGen.genRand.NextBool(5)) //secondary
+                        {
+                            int type = Main.rand.Next(goldChestSecondaryLoot);
+                            chest.item[1].SetDefaults(type);
+                            if (chest.item[1].type == ModContent.ItemType<Potato>())
+                                chest.item[1].stack = Main.rand.Next(2, 20);
+                        }
+                        if (WorldGen.genRand.NextBool(5)) //primary
                         {
                             int type = Main.rand.Next(goldChestMainLoot);
                             chest.item[0].SetDefaults(type);
-                            if (type == ModContent.ItemType<SpudCannon>())
-                                goldChestSecondaryLoot = [ModContent.ItemType<Potato>()];
-                        }
-                        if (WorldGen.genRand.NextBool(5))
-                        {
-                            int type = Main.rand.Next(goldChestSecondaryLoot);
-                            chest.item[1].SetDefaults(Main.rand.Next(type));
-                            if (type == ModContent.ItemType<Potato>())
-                                chest.item[0].stack = Main.rand.Next(2, 20);
+                            if (chest.item[0].type == ModContent.ItemType<SpudCannon>())
+                            {
+                                chest.item[1].SetDefaults(ModContent.ItemType<Potato>());
+                                chest.item[1].stack = Main.rand.Next(2, 20);
+                            }
+
                         }
                     }
                     if (Main.tile[chest.x, chest.y].TileFrameX == 3 * 36 || Main.tile[chest.x, chest.y].TileFrameX == 4 * 36)

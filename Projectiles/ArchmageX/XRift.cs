@@ -44,7 +44,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             if (Projectile.ai[0] > 100 && Projectile.ai[0] < 200 && Projectile.ai[0] % 10 == 0 && Projectile.damage != 0)
             {
                 Vector2 pos = Projectile.Center - new Vector2(2, Main.rand.NextFloat(-15, 15)).RotatedBy(Projectile.velocity.ToRotation());
-                Vector2 vel = Projectile.velocity.RotatedByRandom(MathHelper.PiOver4);
+                Vector2 vel = Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.7f);
                 SoundEngine.PlaySound(EbonianSounds.xSpirit, Projectile.Center);
                 for (int i = 0; i < 10; i++)
                 {

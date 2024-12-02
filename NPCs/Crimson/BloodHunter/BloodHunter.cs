@@ -113,7 +113,10 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
             JumpCheck();
             if (NPC.Grounded())
             {
-                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, MathHelper.Clamp(Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * (60 + NPC.ai[1]), false).X * 0.02f, -8, 8), (NPC.direction != NPC.oldDirection ? 1 : 0.035f));
+                float speed = 7;
+                if (!NPC.Center.X.CloseTo(player.Center.X, 1200))
+                    speed = 5;
+                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, MathHelper.Clamp(Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * (60 + NPC.ai[1]), false).X * 0.02f, -speed, speed), (NPC.direction != NPC.oldDirection ? 1 : 0.035f));
                 if (NPC.Distance(player.Center) < 100)
                 {
                     NPC.ai[0]++;

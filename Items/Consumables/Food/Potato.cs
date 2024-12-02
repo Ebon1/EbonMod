@@ -29,7 +29,7 @@ namespace EbonianMod.Items.Consumables.Food
         }
         public override void SetDefaults()
         {
-            Item.DefaultToFood(14, 20, BuffID.WellFed3, 60 * 60);
+            Item.DefaultToFood(14, 20, BuffID.WellFed, 60 * 60);
             Item.useTime = 17;
             Item.useAnimation = 17;
             Item.maxStack = Item.CommonMaxStack;
