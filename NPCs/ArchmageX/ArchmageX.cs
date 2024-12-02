@@ -1,4 +1,5 @@
 ﻿using EbonianMod.Buffs;
+using EbonianMod.Common;
 using EbonianMod.Common.Systems;
 using EbonianMod.Common.Systems.Misc.Dialogue;
 using EbonianMod.Dusts;
@@ -340,7 +341,7 @@ namespace EbonianMod.NPCs.ArchmageX
         FloatingDialogueBox currentDialogue;
         public override bool CheckDead()
         {
-            EbonianSystem.xareusFightCooldown = 3600 * 12;
+            EbonianSystem.xareusFightCooldown = (int)ModContent.GetInstance<EbonianServerConfig>().XareusDelay;
             Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<ArchmageDeath>(), 0, 0);
             if (SoundEngine.TryGetActiveSound(helicopterSlot, out var sound))
             {

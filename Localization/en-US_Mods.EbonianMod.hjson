@@ -806,4 +806,13 @@ Configs: {
 			Tooltip: ""
 		}
 	}
+
+	EbonianServerConfig: {
+		DisplayName: Ebonian Server Config
+
+		XareusDelay: {
+			Label: Xareus Delay in frames (60 frames = 1 second)
+			Tooltip: The delay before Xareus can be summoned again
+		}
+	}
 }
