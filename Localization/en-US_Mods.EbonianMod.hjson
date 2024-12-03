@@ -233,6 +233,7 @@ Projectiles: {
 	CrimsonArrow.DisplayName: Crimson Arrow
 	CHeart.DisplayName: C Heart
 	EHeartP.DisplayName: E Heart P
+	CBeamInstant.DisplayName: C Beam Instant
 }
 
 NPCs: {

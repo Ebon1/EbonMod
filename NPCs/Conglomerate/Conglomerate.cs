@@ -284,7 +284,7 @@ namespace EbonianMod.NPCs.Conglomerate
                     {
                         if (AITimer >= 10)
                         {
-                            AIState = BothHalvesRainCloseIn;
+                            AIState = LastPrismLaser;
                             Reset();
                         }
                     }
@@ -873,7 +873,40 @@ namespace EbonianMod.NPCs.Conglomerate
                     break;
                 case LastPrismLaser:
                     {
-                        if (AITimer >= 20)
+                        if (AITimer < 25)
+                        {
+                            open = true;
+                            openOffset += Vector2.UnitX * 8;
+                            NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 160), false) / 10f;
+                        }
+                        else NPC.velocity = Vector2.Zero;
+                        if (AITimer == 60)
+                        {
+                            for (int i = -2; i < 2; i++)
+                            {
+                                Projectile.NewProjectile(null, NPC.Center + openOffset, Helper.FromAToB(NPC.Center, player.Center).RotatedBy(i * 0.5f), ModContent.ProjectileType<CBeamInstant>(), 30, 0);
+                                Projectile.NewProjectile(null, NPC.Center - openOffset, Helper.FromAToB(NPC.Center, player.Center).RotatedBy(i * 0.5f), ModContent.ProjectileType<CBeamInstant>(), 30, 0);
+                            }
+                        }
+                        if (AITimer < 100)
+                        {
+                            openRotation = Helper.LerpAngle(openRotation, -MathHelper.PiOver4, 0.25f);
+                            NPC.rotation = Helper.LerpAngle(NPC.rotation, MathHelper.PiOver4, 0.25f);
+                        }
+                        if (AITimer >= 110)
+                        {
+                            openOffset.X = MathHelper.SmoothStep(8 * 25f, 0, (AITimer - 110) / 40);
+                            openRotation = Helper.LerpAngle(openRotation, 0, 0.25f);
+                            NPC.rotation = Helper.LerpAngle(NPC.rotation, 0, 0.25f);
+                            rotation = Helper.LerpAngle(rotation, 0, 0.25f);
+                        }
+                        if (AITimer >= 150)
+                        {
+                            openOffset = Vector2.Zero;
+                            open = false;
+                        }
+
+                        if (AITimer >= 170)
                         {
                             AIState = BloodAndWormSpit;
                             Reset();
