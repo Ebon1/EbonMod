@@ -32,7 +32,7 @@ namespace EbonianMod.Items.Accessories
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.NightVisionHelmet).AddIngredient(ItemID.Ectoplasm, 40).AddTile(ItemID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.NightVisionHelmet).AddIngredient(ItemID.Ectoplasm, 40).AddTile(TileID.MythrilAnvil).Register();
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {

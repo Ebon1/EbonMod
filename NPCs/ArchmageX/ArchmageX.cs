@@ -34,8 +34,8 @@ namespace EbonianMod.NPCs.ArchmageX
         public override void SetDefaults()
         {
             NPC.Size = new Vector2(50, 78);
-            NPC.lifeMax = 11500;
-            NPC.defense = 18;
+            NPC.lifeMax = 13000;
+            NPC.defense = 20;
             NPC.damage = 0;
             NPC.boss = true;
             NPC.aiStyle = -1;
@@ -748,6 +748,8 @@ namespace EbonianMod.NPCs.ArchmageX
                                         chat.Add("You fool! I am bulletproof!");
                                     if (player.HeldItem.useAmmo == AmmoID.Arrow)
                                         chat.Add("I would make a better archer than you!");
+                                    if (player.HeldItem.useAmmo == AmmoID.Rocket && player.ChooseAmmo(player.HeldItem).type == ItemID.MiniNukeI)
+                                        chat.Add("WHAT THE FUCK?!");
                                     if (phase2)
                                         chat.Add("STOP GOING FOR CHEAP SHOTS, YOU LITTLE BANDIT!");
                                 }

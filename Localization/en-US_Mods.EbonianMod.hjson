@@ -232,6 +232,7 @@ Projectiles: {
 	PotatoP.DisplayName: Potato P
 	CrimsonArrow.DisplayName: Crimson Arrow
 	CHeart.DisplayName: C Heart
+	EHeartP.DisplayName: E Heart P
 }
 
 NPCs: {
