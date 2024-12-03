@@ -19,7 +19,7 @@ namespace EbonianMod.Projectiles.Terrortoma
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo hit)
         {
-            target.AddBuff(BuffID.CursedInferno, Main.rand.Next(60, 200));
+            target.AddBuff(BuffID.CursedInferno, Main.rand.Next(20, 100));
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -69,7 +69,7 @@ namespace EbonianMod.Projectiles.Terrortoma
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo hit)
         {
-            target.AddBuff(BuffID.CursedInferno, Main.rand.Next(60, 200));
+            target.AddBuff(BuffID.CursedInferno, Main.rand.Next(20, 100));
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -135,7 +135,7 @@ namespace EbonianMod.Projectiles.Terrortoma
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo hit)
         {
-            target.AddBuff(BuffID.CursedInferno, Main.rand.Next(60, 200));
+            target.AddBuff(BuffID.CursedInferno, Main.rand.Next(20, 100));
         }
         public override string Texture => "EbonianMod/Extras/Empty";
         public override void SetDefaults()
@@ -161,7 +161,7 @@ namespace EbonianMod.Projectiles.Terrortoma
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo hit)
         {
-            target.AddBuff(BuffID.CursedInferno, Main.rand.Next(60, 200));
+            target.AddBuff(BuffID.CursedInferno, Main.rand.Next(20, 100));
         }
         public override bool PreDraw(ref Color lightColor)
         {

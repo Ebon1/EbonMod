@@ -20,7 +20,7 @@ namespace EbonianMod.Projectiles.ArchmageX
     public class XSineLaser : ModProjectile
     {
         public override string Texture => "EbonianMod/Extras/Empty";
-        int MAX_TIME = 300;
+        int MAX_TIME = 80;
         public override void SetDefaults()
         {
             Projectile.width = 25;

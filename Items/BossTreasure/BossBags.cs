@@ -11,6 +11,8 @@ using EbonianMod.NPCs.Cecitior;
 using EbonianMod.Items.Weapons.Melee;
 using EbonianMod.NPCs.Terrortoma;
 using EbonianMod.Items.Weapons.Summoner;
+using EbonianMod.Items.Materials;
+using EbonianMod.Items.Accessories;
 
 namespace EbonianMod.Items.BossTreasure
 {
@@ -42,7 +44,8 @@ namespace EbonianMod.Items.BossTreasure
     {
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<Serration>(), 1));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<CecitiorMaterial>(), 1, 40, 60));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<BrainAcc>(), 1));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Cecitior>()));
         }
     }
@@ -50,7 +53,8 @@ namespace EbonianMod.Items.BossTreasure
     {
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<TerrorStaff>(), 1));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<TerrortomaMaterial>(), 1, 40, 60));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<EbonianHeart>(), 1));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Terrortoma>()));
         }
     }

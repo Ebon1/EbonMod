@@ -200,7 +200,7 @@ namespace EbonianMod.NPCs.Cecitior
                     eyeCount++;
             }
             bool halfEyesPhase2 = eyeCount <= 3;
-            if (!center.active || center.type != ModContent.NPCType<Cecitior>())
+            if (!center.active || center.type != ModContent.NPCType<Cecitior>() || center.ai[0] == -12124)
             {
                 NPC.life = 0;
                 return;
@@ -215,7 +215,7 @@ namespace EbonianMod.NPCs.Cecitior
                 NPC.rotation = Helper.FromAToB(NPC.Center, focalPoint).ToRotation() + MathHelper.Pi;
             }
             if (center.ai[0] != 0)
-                NPC.dontTakeDamage = player.shieldParryTimeLeft <= 0;
+                NPC.dontTakeDamage = false;
             switch (center.ai[0])
             {
                 case 0:

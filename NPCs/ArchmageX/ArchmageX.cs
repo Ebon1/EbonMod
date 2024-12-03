@@ -34,13 +34,14 @@ namespace EbonianMod.NPCs.ArchmageX
         public override void SetDefaults()
         {
             NPC.Size = new Vector2(50, 78);
-            NPC.lifeMax = 11000;
-            NPC.defense = 14;
+            NPC.lifeMax = 11500;
+            NPC.defense = 18;
             NPC.damage = 0;
             NPC.boss = true;
             NPC.aiStyle = -1;
             NPC.knockBackResist = 0;
             NPC.lavaImmune = true;
+            NPC.dontTakeDamage = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             Music = 0;
@@ -268,7 +269,6 @@ namespace EbonianMod.NPCs.ArchmageX
         {
             ManaPotion,
             PhantasmalSpirit,
-            SineLaser,
             MagnificentFireballs,
             GiantAmethyst,
             AmethystStorm,
@@ -351,7 +351,7 @@ namespace EbonianMod.NPCs.ArchmageX
         }
         public override void AI()
         {
-            if (NPC.life < NPC.lifeMax * 0.3f)
+            if (NPC.life < NPC.lifeMax * 0.4f)
             {
                 if (phaseMult != 3)
                 {
@@ -359,6 +359,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     {
                         doneAttacksBefore = false;
                         Next = PhantasmalSpirit;
+                        NPC.defense += 4;
                         phaseMult = 3;
                     }
                 }
@@ -432,7 +433,7 @@ namespace EbonianMod.NPCs.ArchmageX
             }
 
 
-            if (NPC.life < NPC.lifeMax / 2 + 700)
+            if (NPC.life < NPC.lifeMax / 2 + 1300)
             {
                 NPC.defense = 13;
                 if (!phase2 && AIState != Taunt)
@@ -1084,9 +1085,9 @@ namespace EbonianMod.NPCs.ArchmageX
                             if (phaseMult == 3)
                                 Projectile.NewProjectile(null, staffTip, vel, ModContent.ProjectileType<XSineLaser>(), 0, 0);
                         }
-                        if (AITimer == 145)
+                        if (AITimer == 135)
                         {
-                            SoundStyle s = EbonianSounds.eruption;
+                            SoundStyle s = EbonianSounds.exolDash;
                             SoundEngine.PlaySound(s, NPC.Center);
 
                             Projectile.NewProjectile(null, staffTip, vel, ModContent.ProjectileType<XSineLaser>(), 15, 0, ai1: (phaseMult == 3 ? 55 : 70));
@@ -1095,7 +1096,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             if (phaseMult == 3)
                                 Projectile.NewProjectile(null, staffTip, vel, ModContent.ProjectileType<XSineLaser>(), 15, 0);
                         }
-                        if (AITimer >= 300)
+                        if (AITimer >= 180)
                         {
                             Reset();
                             PickAttack();
@@ -1346,7 +1347,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             chat.Add("'Baa! Baa!'... That's you!");
                             chat.Add("The Sheepening!");
                             chat.Add("To the slaughter with you!");
-                            chat.Add("Have you any wool?");
+                            chat.Add("Polymorph!");
                             if (oldAttack != AIState)
                                 currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                             else

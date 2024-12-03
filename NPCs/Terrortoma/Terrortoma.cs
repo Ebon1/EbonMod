@@ -29,6 +29,8 @@ using EbonianMod.NPCs.Corruption.Ebonflies;
 using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Projectiles.Enemy.Corruption;
 using EbonianMod.Items.Weapons.Summoner;
+using EbonianMod.Items.Materials;
+using EbonianMod.Items.BossTreasure;
 
 namespace EbonianMod.NPCs.Terrortoma
 {
@@ -49,8 +51,10 @@ namespace EbonianMod.NPCs.Terrortoma
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<TerrorStaff>()));
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<TerrorFlail>()));
+            if (!Main.expertMode)
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<TerrortomaMaterial>(), 1, 40, 60));
+            else
+                npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<TerrortomaBag>()));
         }
         public override void SetStaticDefaults()
         {
@@ -71,9 +75,10 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.aiStyle = -1;
             NPC.lifeMax = 14000;
             NPC.boss = true;
-            NPC.damage = 100;
+            NPC.damage = 0;
             NPC.noTileCollide = true;
             NPC.defense = 20;
+            NPC.value = Item.buyPrice(0, 10);
             NPC.knockBackResist = 0;
             NPC.width = 118;
             NPC.height = 106;
@@ -110,7 +115,7 @@ namespace EbonianMod.NPCs.Terrortoma
 
                     spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value, NPC.Center - pos, NPC.frame, NPC.IsABestiaryIconDummy ? Color.White : lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
                 }
-                if (isLaughing)
+                if (isLaughing || AIState == -12124)
                 {
                     if (AITimer % 5 == 0)
                     {
@@ -405,7 +410,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             if (AIState == -12124)
             {
-
+                isLaughing = true;
                 NPC.velocity = new Vector2(0, 10f);
                 if (player.ZoneCorrupt)
                 {
@@ -429,7 +434,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 {
                     if (AITimer % 10 == 0)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, (rotation + MathHelper.PiOver2).ToRotationVector2().RotatedByRandom(MathHelper.PiOver2) * 0.5f, ModContent.ProjectileType<TerrorVilethorn1>(), 35, 0, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, (rotation + MathHelper.PiOver2).ToRotationVector2().RotatedByRandom(MathHelper.PiOver2) * 0.5f, ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
 
                     }
                     if (AITimer % 25 == 0)
@@ -437,7 +442,7 @@ namespace EbonianMod.NPCs.Terrortoma
                         for (int i = -1; i < 2; i++)
                         {
                             if (i == 0) continue;
-                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, (rotation + MathHelper.PiOver2).ToRotationVector2().RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(4, 6), ModContent.ProjectileType<OstertagiWorm>(), 30, 0, 0, i * Main.rand.NextFloat(0.15f, 0.5f));
+                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, (rotation + MathHelper.PiOver2).ToRotationVector2().RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(4, 6), ModContent.ProjectileType<OstertagiWorm>(), 24, 0, 0, i * Main.rand.NextFloat(0.15f, 0.5f));
                             a.friendly = false;
                             a.hostile = true;
                         }
@@ -539,14 +544,14 @@ namespace EbonianMod.NPCs.Terrortoma
                             if (Main.rand.NextBool(5))
                             {
                                 if (Main.rand.NextBool())
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, new Vector2(0, -10), ModContent.ProjectileType<TerrorVilethorn1>(), 35, 0, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, new Vector2(0, -10), ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                                 else
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, new Vector2(0, 10), ModContent.ProjectileType<TerrorVilethorn1>(), 35, 0, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, new Vector2(0, 10), ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
 
                                 if (Main.rand.NextBool())
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos3, new Vector2(10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 35, 0, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos3, new Vector2(10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                                 else
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos4, new Vector2(-10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 35, 0, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos4, new Vector2(-10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                             }
                         }
                     SoundEngine.PlaySound(EbonianSounds.terrortomaLaugh, NPC.Center);
@@ -581,7 +586,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 SelectedClinger = 4;
                 if (AITimer == 1)
                     bloomAlpha = 1f;
-                NPC.damage = 100;
+                NPC.damage = 65;
                 NPC.localAI[0] = 100;
                 if (AITimer < 250 && AITimer >= 50)
                 {
@@ -592,9 +597,9 @@ namespace EbonianMod.NPCs.Terrortoma
                             Vector2 rainPos = new Vector2(player.Center.X + 1920 * Main.rand.NextFloat(-0.5f, 0.5f), player.Center.Y + 1300);
                             Vector2 rainPos2 = new Vector2(player.Center.X + 1920 * Main.rand.NextFloat(-0.5f, 0.5f), player.Center.Y - 600);
                             if (Main.rand.NextBool())
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, new Vector2(0, -10), ModContent.ProjectileType<TerrorVilethorn1>(), 35, 0, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, new Vector2(0, -10), ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                             else
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, new Vector2(0, 10), ModContent.ProjectileType<TerrorVilethorn1>(), 35, 0, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, new Vector2(0, 10), ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                         }
                     }
                     else
@@ -606,16 +611,16 @@ namespace EbonianMod.NPCs.Terrortoma
                             Vector2 rainPos3 = new Vector2(player.Center.X - 300 / 2, player.Center.Y + 1080 * Main.rand.NextFloat(-.5f, .5f));
                             Vector2 rainPos4 = new Vector2(player.Center.X + 1920 / 2 + 300, player.Center.Y + 1080 * Main.rand.NextFloat(-.5f, .5f));
                             if (Main.rand.NextBool())
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, new Vector2(0, -10), ModContent.ProjectileType<TerrorVilethorn1>(), 35, 0, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, new Vector2(0, -10), ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                             else
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, new Vector2(0, 10), ModContent.ProjectileType<TerrorVilethorn1>(), 35, 0, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, new Vector2(0, 10), ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
 
                             if (Main.rand.NextBool(5))
                             {
                                 if (Main.rand.NextBool())
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos3, new Vector2(10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 35, 0, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos3, new Vector2(10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                                 else
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos4, new Vector2(-10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 35, 0, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos4, new Vector2(-10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                             }
                         }
                     }
@@ -693,13 +698,13 @@ namespace EbonianMod.NPCs.Terrortoma
                     {
                         for (int i = 0; i <= 5 + (Main.expertMode ? 5 : 0); i++)
                         {
-                            Projectile projectile = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-10f, 10f), -10), ModContent.ProjectileType<TFlameThrower2>(), 30, 1f, Main.myPlayer)];
+                            Projectile projectile = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-10f, 10f), -10), ModContent.ProjectileType<TFlameThrower2>(), 20, 1f, Main.myPlayer)];
                             projectile.tileCollide = false;
                             projectile.hostile = true;
                             projectile.friendly = false;
                             projectile.timeLeft = 230;
                         }
-                        Projectile projectileb = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -10), ModContent.ProjectileType<TFlameThrower2>(), 30, 1f, Main.myPlayer)];
+                        Projectile projectileb = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(0, -10), ModContent.ProjectileType<TFlameThrower2>(), 20, 1f, Main.myPlayer)];
                         projectileb.tileCollide = false;
                         projectileb.hostile = true;
                         projectileb.friendly = false;
@@ -707,7 +712,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     }
                     if (hasDonePhase2ApeShitMode)
                         if (AITimer2 % 20 == 0)
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-7f, 7f), -10), ModContent.ProjectileType<TerrorStaffPEvil>(), 30, 1f, NPC.target);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-7f, 7f), -10), ModContent.ProjectileType<TerrorStaffPEvil>(), 24, 1f, NPC.target);
                 }
                 else NPC.velocity *= 0.9f;
                 if (AITimer >= 270 - (hasDonePhase2ApeShitMode ? 100 : 0))
@@ -727,9 +732,9 @@ namespace EbonianMod.NPCs.Terrortoma
                     if (Main.rand.NextBool(5))
                     {
                         if (Main.rand.NextBool())
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos3, new Vector2(10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 35, 0, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos3, new Vector2(10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                         else
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos4, new Vector2(-10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 35, 0, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos4, new Vector2(-10, 0), ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                     }
                 }
                 Vector2 toPlayer = player.Center - NPC.Center;
@@ -751,7 +756,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2;
                 if (AITimer > 30 && AITimer % 7 == 0 && AITimer <= (hasDonePhase2ApeShitMode ? 100 : 75))
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, (NPC.rotation + MathHelper.PiOver2).ToRotationVector2().RotatedByRandom(MathHelper.PiOver2) * 0.5f, ModContent.ProjectileType<TerrorVilethorn1>(), 35, 0, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, (NPC.rotation + MathHelper.PiOver2).ToRotationVector2().RotatedByRandom(MathHelper.PiOver2) * 0.5f, ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                 }
                 if (AITimer >= 100)
                 {
@@ -794,7 +799,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 if (AITimer >= 170) { NPC.velocity *= 0.1f; }
 
-                NPC.damage = 100;
+                NPC.damage = 65;
                 if (AITimer >= 200)
                 {
                     ResetState();
@@ -814,7 +819,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     for (int i = 0; i < 10; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 10);
-                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, angle.ToRotationVector2() * Main.rand.NextFloat(5, 7), ModContent.ProjectileType<OstertagiWorm>(), 30, 0, 0);
+                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, angle.ToRotationVector2() * Main.rand.NextFloat(5, 7), ModContent.ProjectileType<OstertagiWorm>(), 24, 0, 0);
                         a.friendly = false;
                         a.hostile = true;
                     }
@@ -825,7 +830,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     for (int i = 0; i < 10; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 10) + MathHelper.PiOver4;
-                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, angle.ToRotationVector2() * Main.rand.NextFloat(5, 7), ModContent.ProjectileType<OstertagiWorm>(), 30, 0, 0);
+                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, angle.ToRotationVector2() * Main.rand.NextFloat(5, 7), ModContent.ProjectileType<OstertagiWorm>(), 24, 0, 0);
                         a.friendly = false;
                         a.hostile = true;
                     }
@@ -837,7 +842,7 @@ namespace EbonianMod.NPCs.Terrortoma
                         for (int i = 0; i < 10; i++)
                         {
                             float angle = Helper.CircleDividedEqually(i, 10) + MathHelper.PiOver2;
-                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, angle.ToRotationVector2() * Main.rand.NextFloat(5, 7), ModContent.ProjectileType<OstertagiWorm>(), 30, 0, 0);
+                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, angle.ToRotationVector2() * Main.rand.NextFloat(5, 7), ModContent.ProjectileType<OstertagiWorm>(), 24, 0, 0);
                             a.friendly = false;
                             a.hostile = true;
                         }

@@ -25,6 +25,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
             Projectile.friendly = true;
             Projectile.hostile = false;
             Projectile.aiStyle = 2;
+            Projectile.DamageType = DamageClass.Summon;
         }
         /*public override bool PreDraw(ref Color lightColor)
         {
@@ -37,17 +38,17 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
         {
             //Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.Green);
 
-            Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Main.rand.NextVector2Unit() * 10, ModContent.ProjectileType<EbonFlyMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Main.rand.NextVector2Unit() * 10, ModContent.ProjectileType<EbonFlyMinion>(), Projectile.damage / 4, Projectile.knockBack, Projectile.owner);
 
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (Helper.TRay.CastLength(Projectile.Center, -Vector2.UnitY, 1000) < Projectile.height)
+            if (Helper.TRay.CastLength(Projectile.Center, -Vector2.UnitY, Projectile.height * 1.5f) < Projectile.height)
             {
                 Projectile.velocity.Y = 0;
                 return false;
             }
-            if ((Helper.TRay.CastLength(Projectile.Center, Vector2.UnitX, 1000) < Projectile.width || Helper.TRay.CastLength(Projectile.Center, -Vector2.UnitX, 1000) < Projectile.width) && Helper.TRay.CastLength(Projectile.Center, Vector2.UnitY, 1000) > Projectile.height)
+            if ((Helper.TRay.CastLength(Projectile.Center, Vector2.UnitX, Projectile.height * 1.5f) < Projectile.width || Helper.TRay.CastLength(Projectile.Center, -Vector2.UnitX, Projectile.height * 1.5f) < Projectile.width) && Helper.TRay.CastLength(Projectile.Center, Vector2.UnitY, Projectile.height * 1.5f) > Projectile.height)
             {
                 Projectile.velocity.X = 0;
                 return false;
@@ -97,12 +98,12 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (Helper.TRay.CastLength(Projectile.Center, -Vector2.UnitY, 1000) < Projectile.height)
+            if (Helper.TRay.CastLength(Projectile.Center, -Vector2.UnitY, Projectile.height * 1.5f) < Projectile.height)
             {
                 Projectile.velocity.Y = 0;
                 return false;
             }
-            if ((Helper.TRay.CastLength(Projectile.Center, Vector2.UnitX, 1000) < Projectile.width || Helper.TRay.CastLength(Projectile.Center, -Vector2.UnitX, 1000) < Projectile.width) && Helper.TRay.CastLength(Projectile.Center, Vector2.UnitY, 1000) > Projectile.height)
+            if ((Helper.TRay.CastLength(Projectile.Center, Vector2.UnitX, Projectile.height * 1.5f) < Projectile.width || Helper.TRay.CastLength(Projectile.Center, -Vector2.UnitX, Projectile.height * 1.5f) < Projectile.width) && Helper.TRay.CastLength(Projectile.Center, Vector2.UnitY, Projectile.height * 1.5f) > Projectile.height)
             {
                 Projectile.velocity.X = 0;
                 return false;

@@ -32,6 +32,9 @@ using Terraria.GameContent.UI.Elements;
 using EbonianMod.NPCs.Corruption;
 using static EbonianMod.Helper;
 using EbonianMod.Common.Systems.Misc;
+using EbonianMod.Items.BossTreasure;
+using EbonianMod.Items.Materials;
+using Terraria.GameContent.ItemDropRules;
 
 namespace EbonianMod.NPCs.Cecitior
 {
@@ -55,6 +58,13 @@ namespace EbonianMod.NPCs.Cecitior
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.ShouldBeCountedAsBoss[Type] = true;
             Main.npcFrameCount[NPC.type] = 7;
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            if (!Main.expertMode)
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CecitiorMaterial>(), 1, 40, 60));
+            else
+                npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<CecitiorBag>()));
         }
         public override void SetDefaults()
         {
@@ -80,6 +90,7 @@ namespace EbonianMod.NPCs.Cecitior
             NPC.netAlways = true;
             NPC.BossBar = Main.BigBossProgressBar.NeverValid;
             NPC.hide = true;
+            NPC.value = Item.buyPrice(0, 10);
             //NPC.alpha = 255;
         }
         public override void DrawBehind(int index)
