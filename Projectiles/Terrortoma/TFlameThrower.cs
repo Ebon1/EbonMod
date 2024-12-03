@@ -144,6 +144,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.tileCollide = false;
+            Projectile.timeLeft = 400;
             AIType = 96;
         }
 

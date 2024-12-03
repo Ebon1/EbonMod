@@ -51,10 +51,11 @@ namespace EbonianMod.NPCs.Terrortoma
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            if (!Main.expertMode)
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<TerrortomaMaterial>(), 1, 40, 60));
-            else
-                npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<TerrortomaBag>()));
+            LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+            notExpertRule.OnSuccess(new CommonDrop(ModContent.ItemType<TerrortomaMaterial>(), 1, 40, 60));
+            npcLoot.Add(notExpertRule);
+
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<TerrortomaBag>()));
         }
         public override void SetStaticDefaults()
         {

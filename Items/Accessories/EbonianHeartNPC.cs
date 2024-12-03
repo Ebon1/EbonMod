@@ -10,6 +10,8 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 using EbonianMod.Projectiles.Terrortoma;
 using EbonianMod.Common.Systems.Misc;
+using EbonianMod.Projectiles.VFXProjectiles;
+using Terraria.GameContent;
 
 namespace EbonianMod.Items.Accessories
 {
@@ -70,15 +72,16 @@ namespace EbonianMod.Items.Accessories
                             NPC.ai[0] = -450;
                             break;
                         }
-                        Projectile p = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Helper.FromAToB(NPC.Center, npc.Center) * 10, ModContent.ProjectileType<TFlameThrower3>(), 30, 0, player.whoAmI);
+                        Projectile p = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Helper.FromAToB(NPC.Center, npc.Center) * 10, ModContent.ProjectileType<EHeartP>(), 26, 0, player.whoAmI);
                         p.friendly = true;
                         p.hostile = false;
+                        break;
                     }
                 }
             NPC.ai[1] = 0;
 
             EbonianPlayer modPlayer = player.GetModPlayer<EbonianPlayer>();
-            if (!modPlayer.heartAcc)
+            if (!modPlayer.heartAcc || player.dead || !player.active)
             {
                 NPC.life = 0;
             }
@@ -141,6 +144,55 @@ namespace EbonianMod.Items.Accessories
                 }
             }
             return false;
+        }
+    }
+    public class EHeartP : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 30;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
+            Main.spriteBatch.Reload(BlendState.Additive);
+            float alpha = 1f;
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
+            {
+                float mult = (1f - fadeMult * i) * alpha;
+                if (i > 0)
+                    for (float j = 0; j < 3; j++)
+                    {
+                        Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 3));
+                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.LawnGreen * mult, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.02f * mult, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.LawnGreen * mult, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.035f * mult, SpriteEffects.None, 0);
+                    }
+            }
+            Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, Projectile.Center - Main.screenPosition, null, Color.LawnGreen * alpha, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.02f, SpriteEffects.None, 0);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return false;
+        }
+        public override void OnHitPlayer(Player target, Player.HurtInfo hit)
+        {
+            target.AddBuff(BuffID.CursedInferno, Main.rand.Next(20, 100));
+        }
+        public override string Texture => "EbonianMod/Extras/Empty";
+        public override void SetDefaults()
+        {
+            Projectile.CloneDefaults(96);
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 350;
+            Projectile.DamageType = DamageClass.Summon;
+            Projectile.extraUpdates = 2;
+            AIType = 96;
+        }
+
+        public override void PostAI()
+        {
+            Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.LawnGreen, false, false, 0.04f);
         }
     }
 }
