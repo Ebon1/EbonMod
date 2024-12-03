@@ -325,7 +325,7 @@ namespace EbonianMod.NPCs.ArchmageX
             }
             AIState = Idle;
             AITimer = Main.rand.Next(-40, 20);
-            if (Main.rand.NextBool((int)(8 + phaseMult * 2)) && oldAttack != Spawn)
+            if (Main.rand.NextBool((int)(6 + phaseMult * 3)) && oldAttack != Spawn)
             {
                 AIState = Taunt;
                 AITimer = 0;
@@ -719,55 +719,55 @@ namespace EbonianMod.NPCs.ArchmageX
                             {
                                 if (player.HeldItem.DamageType == DamageClass.Magic)
                                 {
-                                    chat.Add("I remember a RAT that was better with magic!");
-                                    chat.Add("Even a bunny outmatches you in magic prowess!");
-                                    chat.Add("Maybe hone your spells before facing the Grand Archmage!");
-                                    chat.Add("You call THAT magic?! How pitiful!");
+                                    chat.Add("I remember a RAT that was better with magic!", 1.5);
+                                    chat.Add("Even a bunny outmatches you in magic prowess!", 1.5);
+                                    chat.Add("Maybe hone your spells before facing the Grand Archmage!", 1.5);
+                                    chat.Add("You call THAT magic?! How pitiful!", 1.5);
                                     if (Item.staff[player.HeldItem.type])
                                     {
-                                        chat.Add("My staff is bigger than yours!");
-                                        chat.Add("You'd be better off using that staff to club me!");
+                                        chat.Add("My staff is bigger than yours!", 1.5);
+                                        chat.Add("You'd be better off using that staff to club me!", 1.5);
                                     }
-                                    chat.Add("For a sorcerer, your power disappoints me...");
+                                    chat.Add("For a sorcerer, your power disappoints me...", 1.5);
                                 }
                                 if (player.HeldItem.DamageType == DamageClass.Melee)
                                 {
-                                    chat.Add("A brute like you is unworthy to face someone like me!");
-                                    chat.Add("Your strikes are but empty threats to one such as myself!");
-                                    chat.Add("A measly blade is all you'll ever be good for!");
+                                    chat.Add("A brute like you is unworthy to face someone like me!", 1.5);
+                                    chat.Add("Your strikes are but empty threats to one such as myself!", 1.5);
+                                    chat.Add("A measly blade is all you'll ever be good for!", 1.5);
                                     if (phase2)
-                                        chat.Add("Oh, WHAT?! Is the sword too heavy for your flabby noodle arms?!?");
+                                        chat.Add("Oh, WHAT?! Is the sword too heavy for your flabby noodle arms?!?", 1.5);
                                 }
                                 if (player.HeldItem.DamageType == DamageClass.Ranged)
                                 {
-                                    chat.Add("Stay true to your aim, then maybe you'll stand a chance!");
-                                    chat.Add("Your firepower is nothing compared to the might of my magic!");
-                                    chat.Add("Your aim is a disgrace to a disgrace!");
-                                    chat.Add("Are you TRYING to hit the wall? Or just blinded by my glory?");
+                                    chat.Add("Stay true to your aim, then maybe you'll stand a chance!", 1.5);
+                                    chat.Add("Your firepower is nothing compared to the might of my magic!", 1.5);
+                                    chat.Add("Your aim is a disgrace to a disgrace!", 1.5);
+                                    chat.Add("Are you TRYING to hit the wall? Or just blinded by my glory?", 1.5);
                                     if (player.HeldItem.useAmmo == AmmoID.Bullet)
-                                        chat.Add("You fool! I am bulletproof!");
+                                        chat.Add("You fool! I am bulletproof!", 1.5);
                                     if (player.HeldItem.useAmmo == AmmoID.Arrow)
-                                        chat.Add("I would make a better archer than you!");
+                                        chat.Add("I would make a better archer than you!", 1.5);
                                     if (player.HeldItem.useAmmo == AmmoID.Rocket && player.ChooseAmmo(player.HeldItem).type == ItemID.MiniNukeI)
-                                        chat.Add("WHAT THE FUCK?!");
+                                        chat.Add("WHAT THE FUCK?!", 3);
                                     if (phase2)
-                                        chat.Add("STOP GOING FOR CHEAP SHOTS, YOU LITTLE BANDIT!");
+                                        chat.Add("STOP GOING FOR CHEAP SHOTS, YOU LITTLE BANDIT!", 1.5);
                                 }
                                 if (player.HeldItem.DamageType == DamageClass.SummonMeleeSpeed)
-                                    chat.Add("How about I whip YOU into shape?!");
+                                    chat.Add("How about I whip YOU into shape?!", 1.5);
                             }
                             if (player.numMinions > 0)
                             {
-                                chat.Add("Coward! Strength in numbers is futile against ME!!!");
-                                chat.Add("You dare face me with your sinister spawns?!");
-                                chat.Add("You attack me with MINIONS? AT LEAST FACE ME YOURSELF!");
-                                chat.Add("How actually DARE you! WOULD YOU LIKE IT IF I SWARMED YOU WITH MINIONS?!");
+                                chat.Add("Coward! Strength in numbers is futile against ME!!!", 1.5);
+                                chat.Add("You dare face me with your sinister spawns?!", 1.5);
+                                chat.Add("You attack me with MINIONS? AT LEAST FACE ME YOURSELF!", 1.5);
+                                chat.Add("How actually DARE you! WOULD YOU LIKE IT IF I SWARMED YOU WITH MINIONS?!", 1.5);
                                 if (player.ownedProjectileCounts[ProjectileID.BabySlime] > 1)
-                                    chat.Add("Hold up, slimes?! You're THAT ill-prepared?!");
+                                    chat.Add("Hold up, slimes?! You're THAT ill-prepared?!", 1.5);
                             }
                             currentDialogue = DialogueSystem.NewDialogueBox(160, NPC.Center - new Vector2(0, 80), chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                         }
-                        if (AITimer >= 160 + (NPC.life * 0.01f))
+                        if (AITimer >= 120 + (NPC.life * 0.01f))
                         {
                             Reset();
                             AIState = Next;
