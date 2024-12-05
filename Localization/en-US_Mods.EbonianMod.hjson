@@ -234,6 +234,8 @@ Projectiles: {
 	CHeart.DisplayName: C Heart
 	EHeartP.DisplayName: E Heart P
 	CBeamInstant.DisplayName: C Beam Instant
+	CursedScourgePro.DisplayName: Cursed Scourge Pro
+	BloodlashPro.DisplayName: Bloodlash Pro
 }
 
 NPCs: {
@@ -731,6 +733,16 @@ Items: {
 
 	SpudCannon: {
 		DisplayName: Spud Cannon
+		Tooltip: ""
+	}
+
+	CursedScourge: {
+		DisplayName: Cursed Scourge
+		Tooltip: ""
+	}
+
+	Bloodlash: {
+		DisplayName: Bloodlash
 		Tooltip: ""
 	}
 }
