@@ -51,7 +51,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         public override void OnSpawn(IEntitySource source)
         {
             SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(-0.5f), Projectile.Center);
-            Projectile.NewProjectile(null, Projectile.Center, new Vector2(5.5f, 5.5f).RotatedByRandom(MathHelper.Pi), ModContent.ProjectileType<XExplosionInvisMask>(), 0, 0, ai2: Projectile.whoAmI);
+            //Projectile.NewProjectile(null, Projectile.Center, new Vector2(5.5f, 5.5f).RotatedByRandom(MathHelper.Pi), ModContent.ProjectileType<XExplosionInvisMask>(), 0, 0, ai2: Projectile.whoAmI);
             for (int i = 0; i < 20; i++)
             {
                 Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(15, 15), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));

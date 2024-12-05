@@ -24,6 +24,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.IO;
 using static Terraria.ModLoader.ModContent;
 using EbonianMod.NPCs.ArchmageX;
+using EbonianMod.Tiles;
 
 namespace EbonianMod
 {
@@ -45,6 +46,17 @@ namespace EbonianMod
         public override void PostUpdateEverything()
         {
             xareusFightCooldown--;
+
+            if (!NPC.AnyNPCs(ModContent.NPCType<ArchmageStaffNPC>()))
+            {
+                for (int i = 0; i < Main.maxTilesX; i++)
+                    for (int j = 0; j < Main.maxTilesY; j++)
+                        if (Main.tile[i, j].HasTile && Main.tile[i, j].TileType == (ushort)ModContent.TileType<ArchmageStaffTile>())
+                        {
+                            NPC.NewNPCDirect(null, new Vector2(i * 16 + 20, j * 16 + 40), ModContent.NPCType<ArchmageStaffNPC>(), ai3: 1);
+                            break;
+                        }
+            }
         }
         public override void OnWorldLoad()
         {
@@ -134,7 +146,7 @@ namespace EbonianMod
                     {
                         Main.GameZoomTarget -= 0.05f;
                     }
-                    Main.screenPosition = Vector2.SmoothStep(player.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), CameraChangePos, CameraChangeTransition -= 0.05f);
+                    Main.screenPosition = Vector2.SmoothStep((stickZoomLerpVal > 0 ? cameraChangeStartPoint : player.Center - Main.ScreenSize.ToVector2() / 2), CameraChangePos, CameraChangeTransition -= 0.05f);
                 }
                 else
                     isChangingCameraPos = false;
@@ -160,7 +172,30 @@ namespace EbonianMod
                 ScreenShakeAmount = 0;
                 ShakeTimer = 0;
             }
+
+            if (NPC.AnyNPCs(NPCType<ArchmageStaffNPC>()) && !isChangingCameraPos)
+            {
+                foreach (NPC npc in Main.npc)
+                {
+                    if (npc.active && npc.type == NPCType<ArchmageStaffNPC>())
+                    {
+                        if (npc.Center.Distance(player.Center) < 800 && !NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) && stickZoomLerpVal > 0)
+                        {
+                            Main.screenPosition = Vector2.SmoothStep(player.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), npc.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), stickZoomLerpVal);
+                        }
+                        break;
+                    }
+                }
+            }
+
+            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0)
+            {
+                stickZoomLerpVal = MathHelper.Lerp(stickZoomLerpVal, 0, 0.1f);
+                if (stickZoomLerpVal < 0.01f)
+                    stickZoomLerpVal = 0;
+            }
         }
+        public static float stickZoomLerpVal;
         float zoomBefore;
         public static float zoomAmount;
         public static Vector2 cameraChangeStartPoint;

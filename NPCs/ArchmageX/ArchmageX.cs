@@ -65,15 +65,22 @@ namespace EbonianMod.NPCs.ArchmageX
             Texture2D head = Helper.GetTexture(Texture + "_Head");
             Texture2D headGlow = Helper.GetTexture(Texture + "_HeadGlow");
             Texture2D manaPot = TextureAssets.Projectile[ModContent.ProjectileType<XManaPotion>()].Value;
-            Texture2D staff = Helper.GetTexture("Items/Weapons/Magic/StaffOfXLiteEdition");
+            Texture2D staff = Helper.GetTexture("Items/Weapons/Magic/StaffOfXItem");
             Texture2D heli = Helper.GetExtraTexture("Sprites/ArchmageXHeli");
             Texture2D heliGlow = Helper.GetExtraTexture("Sprites/ArchmageXHeli_Glow");
 
+            /*
             Vector2 staffP = NPC.Center + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.Pi - MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * 6;
             if (NPC.direction == 1)
                 staffP = NPC.Center + new Vector2(NPC.width / 2 - 4, -2) + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.Pi + MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * -6;
             float staffRot = rightArmRot + MathHelper.Pi * (NPC.direction == 1 ? .5f : AIState == HelicopterBlades ? .8f : 1f);
-            //Helper.FromAToB(NPC.Center, staffP).ToRotation() + (NPC.direction == -1 ? -MathHelper.PiOver2 * 1.65f : 0) + MathHelper.PiOver4 * (NPC.direction == -1 ? 1.2f : 0.8f);
+            */
+
+            Vector2 staffP = NPC.Center + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.Pi - MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * 0.25f;
+            if (NPC.direction == 1)
+                staffP = NPC.Center + new Vector2(NPC.width / 2 - 4, -10) + (rightArmRot + (MathHelper.ToRadians((headYOff + 2) * 5) * NPC.direction)).ToRotationVector2().RotatedBy(MathHelper.Pi + MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * -.25f;
+            float staffRot = rightArmRot + (MathHelper.ToRadians((headYOff + 2) * 5) * NPC.direction) + MathHelper.Pi * (NPC.direction == 1 ? .5f : AIState == HelicopterBlades ? .8f : 1f);
+
 
             Vector2 heliP = NPC.Center - new Vector2(singularArm.Width + (NPC.direction == -1 ? 36 : 46), 0).RotatedBy(NPC.direction == -1 ? (rightArmRot - MathHelper.PiOver2 * .87f - MathHelper.PiOver4 * 0.1f) : (rightArmRot - (MathHelper.Pi - MathHelper.PiOver4) + MathHelper.PiOver4 * 0.5f)) - new Vector2(0, NPC.direction == 1 ? 18 : 12);
             float heliR = Helper.FromAToB(NPC.Center, heliP).ToRotation() + MathHelper.PiOver2 * (NPC.direction == -1 ? 1.1f : 0.8f);
@@ -359,7 +366,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     {
                         doneAttacksBefore = false;
                         Next = PhantasmalSpirit;
-                        NPC.defense += 4;
+                        NPC.defense += 5;
                         phaseMult = 3;
                     }
                 }
@@ -396,6 +403,10 @@ namespace EbonianMod.NPCs.ArchmageX
                 {
                     AIState = Despawn;
                 }
+            }
+            if (player.GetModPlayer<EbonianPlayer>().timesDiedToXareus <= 0)
+            {
+                player.GetModPlayer<EbonianPlayer>().timesDiedToXareus = 1;
             }
             if (GetArenaRect().Size().Length() > 100)
             {
@@ -450,12 +461,18 @@ namespace EbonianMod.NPCs.ArchmageX
                 rightArmRot = 0;
             float rightHandOffsetRot = MathHelper.Pi - (NPC.direction == 1 ? MathHelper.PiOver4 : MathHelper.PiOver2);
             float leftHandOffsetRot = MathHelper.Pi - (NPC.direction == 1 ? MathHelper.PiOver2 : MathHelper.PiOver4);
-            Vector2 staffP = NPC.Center + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.Pi - MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * 6;
+            /*Vector2 staffP = NPC.Center + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.Pi - MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * 6;
             if (NPC.direction == 1)
                 staffP = NPC.Center + new Vector2(NPC.width / 2 - 4, -2) + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.Pi + MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * -6;
 
-            float staffRot = rightArmRot + MathHelper.Pi * (NPC.direction == 1 ? .5f : AIState == HelicopterBlades ? .8f : 1f);
-            Vector2 staffTip = staffP + staffRot.ToRotationVector2().RotatedBy(-MathHelper.PiOver4) * 48;
+            float staffRot = rightArmRot + MathHelper.Pi * (NPC.direction == 1 ? .5f : AIState == HelicopterBlades ? .8f : 1f);*/
+
+            Vector2 staffP = NPC.Center + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.Pi - MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * 0.25f;
+            if (NPC.direction == 1)
+                staffP = NPC.Center + new Vector2(NPC.width / 2 - 4, -10) + (rightArmRot + (MathHelper.ToRadians((headYOff + 2) * 5) * NPC.direction)).ToRotationVector2().RotatedBy(MathHelper.Pi + MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * -.25f;
+            float staffRot = rightArmRot + (MathHelper.ToRadians((headYOff + 2) * 5) * NPC.direction) + MathHelper.Pi * (NPC.direction == 1 ? .5f : AIState == HelicopterBlades ? .8f : 1f);
+
+            Vector2 staffTip = staffP + staffRot.ToRotationVector2().RotatedBy(-MathHelper.PiOver4) * 58;
 
             Lighting.AddLight(staffTip, TorchID.Purple);
             AITimer++;
@@ -535,9 +552,16 @@ namespace EbonianMod.NPCs.ArchmageX
                             {
                                 WeightedRandom<string> chat = new WeightedRandom<string>();
                                 chat.Add("Would you PLEASE stop that!?");
-                                chat.Add("I thought the first time taught you a proper lesson!");
                                 chat.Add("STOP TOUCHING THE STAFF!");
                                 chat.Add("You again?!");
+                                if (!Main.dayTime)
+                                {
+                                    chat.Add("Dude, please, it's like midnight, I'm so tired of winning...");
+                                }
+                                else
+                                {
+                                    chat.Add("I thought the first time taught you a proper lesson!");
+                                }
                                 currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                             }
                         }
@@ -765,9 +789,9 @@ namespace EbonianMod.NPCs.ArchmageX
                                 if (player.ownedProjectileCounts[ProjectileID.BabySlime] > 1)
                                     chat.Add("Hold up, slimes?! You're THAT ill-prepared?!", 1.5);
                             }
-                            currentDialogue = DialogueSystem.NewDialogueBox(160, NPC.Center - new Vector2(0, 80), chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                            currentDialogue = DialogueSystem.NewDialogueBox(120, NPC.Center - new Vector2(0, 80), chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                         }
-                        if (AITimer >= 120 + (NPC.life * 0.01f))
+                        if (AITimer >= 80 + (NPC.life * 0.01f))
                         {
                             Reset();
                             AIState = Next;
@@ -808,7 +832,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
 
 
-                        if (AITimer >= 40 + (NPC.life * 0.0065f))
+                        if (AITimer >= 35 + (NPC.life * 0.0035f))
                         {
                             Reset();
                             AIState = Next;
@@ -1286,15 +1310,31 @@ namespace EbonianMod.NPCs.ArchmageX
                             NPC.velocity.X *= 0.7f;
                         }
                         if (AITimer == 130)
-                            Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosionInvis>(), 0, 0);
+                        {
+                            SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(-0.5f), NPC.Center);
+                            for (int i = 0; i < 20; i++)
+                            {
+                                Dust.NewDustPerfect(staffTip, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(5, 5), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                                Dust.NewDustPerfect(staffTip, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(7, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
+                            }
+                        }
+                        if (AITimer == 140)
+                            Projectile.NewProjectile(null, NPC.Center + Helper.FromAToB(NPC.Center, disposablePos[0]) * 25, Helper.FromAToB(NPC.Center, disposablePos[0]), ModContent.ProjectileType<XRiftSmall>(), 0, 0);
                         if (AITimer == 150)
-                            Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
+                        {
+                            SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(-0.5f), NPC.Center);
+                            for (int i = 0; i < 20; i++)
+                            {
+                                Dust.NewDustPerfect(staffTip, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(15, 15), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                                Dust.NewDustPerfect(staffTip, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(20, 20), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
+                            }
+                        }
                         if (AITimer < 130)
                             disposablePos[0] = player.Center;
                         if (AITimer > 150 && AITimer < 202 && AITimer % 4 == 0)
                         {
                             headFrame.Y = VeryShockedFace;
-                            Projectile a = Projectile.NewProjectileDirect(null, NPC.Center - new Vector2(0, 6), Helper.FromAToB(NPC.Center, disposablePos[0]).RotatedByRandom(MathHelper.PiOver4 * 0.5f), ModContent.ProjectileType<XTentacle>(), 15, 0);
+                            Projectile a = Projectile.NewProjectileDirect(null, NPC.Center - new Vector2(0, 6) + Helper.FromAToB(NPC.Center, disposablePos[0]) * 20, Helper.FromAToB(NPC.Center, disposablePos[0]).RotatedByRandom(MathHelper.PiOver4 * 0.5f), ModContent.ProjectileType<XTentacle>(), 15, 0);
                             a.ai[0] = Main.rand.Next(50, 90);
                             a.ai[1] = Main.rand.NextFloat(2.5f, 5f);
                         }

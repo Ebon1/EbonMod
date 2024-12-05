@@ -18,7 +18,7 @@ using EbonianMod.NPCs;
 using EbonianMod.Projectiles;
 using EbonianMod.Tiles;
 using EbonianMod.NPCs.ArchmageX;
-using EbonianMod.NPCs.Conglomerate;
+
 
 namespace EbonianMod
 {
@@ -32,7 +32,7 @@ namespace EbonianMod
         public Color bossColor, dialogueColor;
         public static EbonianPlayer Instance;
         public Vector2 stabDirection;
-        public int reiBoostCool, reiBoostT;
+        public int reiBoostCool, reiBoostT, timesDiedToXareus;
         public bool rolleg, brainAcc, heartAcc, ToxicGland, doomMinion, rei, reiV, sheep;
         public override void ResetEffects()
         {
@@ -58,7 +58,14 @@ namespace EbonianMod
         public int platformDropTimer = 0;
 
         public Projectile Platform => Main.projectile[platformWhoAmI];
-
+        public override void SaveData(TagCompound tag)
+        {
+            tag.Set("XarusDeath", timesDiedToXareus);
+        }
+        public override void LoadData(TagCompound tag)
+        {
+            timesDiedToXareus = tag.GetInt("XarusDeath");
+        }
         public override void PreUpdateMovement()
         {
             if (platformWhoAmI != -1)
@@ -125,7 +132,7 @@ namespace EbonianMod
         {
             EbonianMod.sys.UpdateParticles();
             Player.ManageSpecialBiomeVisuals("EbonianMod:XMartian", NPC.AnyNPCs(ModContent.NPCType<ArchmageCutsceneMartian>()));
-            Player.ManageSpecialBiomeVisuals("EbonianMod:Conglomerate", NPC.AnyNPCs(ModContent.NPCType<Conglomerate>()));
+            //Player.ManageSpecialBiomeVisuals("EbonianMod:Conglomerate", NPC.AnyNPCs(ModContent.NPCType<Conglomerate>()));
             #region "hell stuff"
             Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight);
             #endregion
@@ -170,63 +177,6 @@ namespace EbonianMod
         {
             if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ModContent.ProjectileType<ArchmageXSpawnAnim>()] > 0)
                 Player.noBuilding = true;
-            for (int i = (int)Player.Center.X / 16 - 3; i < (int)Player.Center.X / 16 + 3; i++)
-            {
-                for (int j = (int)Player.Center.Y / 16 - 3; j < (int)Player.Center.Y / 16 + 3; j++)
-                {
-                    if (Main.tile[i, j].TileType == (ushort)ModContent.TileType<ArchmageStaffTile>())
-                    {
-                        if (EbonianSystem.xareusFightCooldown <= 0)
-                        {
-                            Projectile.NewProjectile(null, new Vector2(i * 16, j * 16 - 100), Vector2.Zero, ModContent.ProjectileType<ArchmageXSpawnAnim>(), 0, 0, Player.whoAmI);
-
-                            for (int k = -23; k < 6; k++)
-                            {
-                                Main.tile[i - 31, j + k].TileType = ((ushort)ModContent.TileType<XHouseBrick>());
-                                if (Main.tile[i + 31, j + k].TileType != TileID.TallGateClosed && Main.tile[i + 31, j + k].TileType != TileID.TallGateOpen)
-                                {
-                                    Main.tile[i + 31, j + k].TileType = ((ushort)ModContent.TileType<XHouseBrick>());
-                                    Tile tile = Main.tile[i + 31, j + k];
-                                    tile.HasTile = true;
-                                }
-                                Tile tile2 = Main.tile[i - 31, j + k];
-                                tile2.HasTile = true;
-
-                                WorldGen.TileFrame(i + 31, j + k, noBreak: true);
-                                WorldGen.TileFrame(i - 31, j + k, noBreak: true);
-                            }
-                            for (int k = -31; k < 31; k++)
-                            {
-                                Main.tile[i + k, j + 5].TileType = ((ushort)ModContent.TileType<XHouseBrick>());
-                                Main.tile[i + k, j - 23].TileType = ((ushort)ModContent.TileType<XHouseBrick>());
-
-                                Tile tile = Main.tile[i + k, j - 23];
-                                tile.HasTile = true;
-                                Tile tile2 = Main.tile[i + k, j + 5];
-                                tile2.HasTile = true;
-                            }
-
-                            for (int k = -31; k < 31; k++)
-                            {
-                                for (int l = -21; l < 6; l++)
-                                    if (Main.tile[i + k, j + l].HasTile && Main.tileSolid[Main.tile[i + k, j + l].TileType] && !Main.tileSolidTop[Main.tile[i + k, j + l].TileType] &&
-                                        Main.tile[i + k, j + l].TileType != ModContent.TileType<XHouseBrick>() && Main.tile[i + k, j + l].TileType != TileID.Platforms)
-                                        Main.tile[i + k, j + l].ClearTile();
-                            }
-
-                            for (int k = -33; k < 33; k++)
-                            {
-                                for (int l = -25; l < 8; l++)
-                                {
-                                    WorldGen.TileFrame(i + k, j + l, noBreak: true);
-                                }
-                            }
-
-                            break;
-                        }
-                    }
-                }
-            }
             if (flashTime > 0)
             {
                 flashTime--;

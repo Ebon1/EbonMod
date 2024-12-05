@@ -18,7 +18,7 @@ namespace EbonianMod.Tiles
 {
     public class ArchmageStaffTile : ModTile
     {
-        public float[,] staffAlpha = new float[Main.maxTilesX, Main.maxTilesY];
+        //public float[,] staffAlpha = new float[Main.maxTilesX, Main.maxTilesY];
         public override void SetStaticDefaults()
         {
             Main.tileSolid[Type] = false;
@@ -42,7 +42,7 @@ namespace EbonianMod.Tiles
         {
             return false;
         }
-        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
+        /*public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0)
                 staffAlpha[i, j] = MathHelper.Lerp(staffAlpha[i, j], .1f, 0.1f);
@@ -78,7 +78,7 @@ namespace EbonianMod.Tiles
 
             Main.spriteBatch.Draw(tex, position, null, Color.White * staffAlpha[i, j], MathHelper.PiOver4, tex.Size() / 2, 1, SpriteEffects.None, 0);
             return false;
-        }
+        }*/
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)
         {
             blockDamaged = false;

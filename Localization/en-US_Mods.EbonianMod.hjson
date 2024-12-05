@@ -236,6 +236,7 @@ Projectiles: {
 	CBeamInstant.DisplayName: C Beam Instant
 	CursedScourgePro.DisplayName: Cursed Scourge Pro
 	BloodlashPro.DisplayName: Bloodlash Pro
+	XRiftSmall.DisplayName: X Rift Small
 }
 
 NPCs: {
@@ -323,6 +324,7 @@ NPCs: {
 	Mosquito.DisplayName: Bloodsucker
 	Screecher.DisplayName: Screecher
 	ArchmageCutsceneMartian.DisplayName: Archmage Xareus
+	ArchmageStaffNPC.DisplayName: " "
 }
 
 Items: {
