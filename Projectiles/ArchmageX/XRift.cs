@@ -110,7 +110,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 350;
             Projectile.extraUpdates = 2;
         }
         public override bool ShouldUpdatePosition()
@@ -121,28 +121,11 @@ namespace EbonianMod.Projectiles.ArchmageX
         public override void AI()
         {
             Projectile.velocity.SafeNormalize(Vector2.UnitX);
-            if (Projectile.ai[0] > 100 && Projectile.ai[0] < 200 && Projectile.ai[0] % 10 == 0 && Projectile.damage != 0)
-            {
-                Vector2 pos = Projectile.Center - new Vector2(2, Main.rand.NextFloat(-15, 15)).RotatedBy(Projectile.velocity.ToRotation());
-                Vector2 vel = Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.7f);
-                SoundEngine.PlaySound(EbonianSounds.xSpirit, Projectile.Center);
-                for (int i = 0; i < 10; i++)
-                {
-                    if (i % 2 == 0)
-                        Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), vel.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(2, 5), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
-                    else
-                        Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), vel.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(2, 5), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
-                }
-                pos = Projectile.Center - new Vector2(10, Main.rand.NextFloat(-15, 15)).RotatedBy(Projectile.velocity.ToRotation());
-                Projectile a = Projectile.NewProjectileDirect(null, pos, vel, ModContent.ProjectileType<XTentacle>(), Projectile.damage, 0);
-                a.ai[0] = Main.rand.Next(50, 90);
-                a.ai[1] = Main.rand.NextFloat(0.5f, 2f);
-            }
             Projectile.ai[0]++;
             if (Projectile.ai[0] < 60)
                 Projectile.ai[2] = MathHelper.SmoothStep(0, 1, Projectile.ai[0] / 60);
-            else if (Projectile.ai[0] > 300 - 60)
-                Projectile.ai[2] = MathHelper.SmoothStep(1, 0, (Projectile.ai[0] - (300 - 60)) / 60);
+            else if (Projectile.ai[0] > 350 - 60)
+                Projectile.ai[2] = MathHelper.SmoothStep(1, 0, (Projectile.ai[0] - (350 - 60)) / 60);
 
             if (Projectile.ai[0] == 25)
                 SoundEngine.PlaySound(EbonianSounds.cursedToyCharge.WithPitchOffset(-0.1f), Projectile.Center);

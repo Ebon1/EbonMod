@@ -43,14 +43,23 @@ namespace EbonianMod
                 Lighting.Mode = Terraria.Graphics.Light.LightMode.Color;
             }
         }
+        public bool downedXareus = false;
+        public override void SaveWorldData(TagCompound tag)
+        {
+            tag.Set("XarusDown", downedXareus);
+        }
+        public override void LoadWorldData(TagCompound tag)
+        {
+            downedXareus = tag.GetBool("XarusDown");
+        }
         public override void PostUpdateEverything()
         {
             xareusFightCooldown--;
 
             if (!NPC.AnyNPCs(ModContent.NPCType<ArchmageStaffNPC>()))
             {
-                for (int i = 0; i < Main.maxTilesX; i++)
-                    for (int j = 0; j < Main.maxTilesY; j++)
+                for (int i = 200; i < Main.maxTilesX - 200; i++)
+                    for (int j = 200; j < Main.maxTilesY - 200; j++)
                         if (Main.tile[i, j].HasTile && Main.tile[i, j].TileType == (ushort)ModContent.TileType<ArchmageStaffTile>())
                         {
                             NPC.NewNPCDirect(null, new Vector2(i * 16 + 20, j * 16 + 40), ModContent.NPCType<ArchmageStaffNPC>(), ai3: 1);
