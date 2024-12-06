@@ -109,8 +109,8 @@ namespace EbonianMod
                 Player.gravity = Player.defaultGravity;
                 Player.maxRunSpeed = 4.2f;
                 Player.accRunSpeed = 4.2f;
-                Player.jumpSpeed = 5.31f;
-                Player.jumpHeight = 23;
+                Player.jumpSpeed = 6.1f;
+                Player.jumpHeight = 26;
                 Player.dashType = 0;
                 Player.channel = false;
                 Player.blockExtraJumps = true;

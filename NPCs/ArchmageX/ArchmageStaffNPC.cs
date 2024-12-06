@@ -266,7 +266,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             chat.Add("Why does he even throw his potions like that?");
                             chat.Add("He's eventually going to run out of amethysts... I think");
                         }
-                        DialogueSystem.NewDialogueBox(120, NPC.Center - new Vector2(0, 60), chat, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 2, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
+                        DialogueSystem.NewDialogueBox(180, NPC.Center - new Vector2(0, 60), chat, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 3, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
                         NPC.ai[2] = 51;
                     }
 
