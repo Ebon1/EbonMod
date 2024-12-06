@@ -58,7 +58,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     {
                         if (EbonianSystem.xareusFightCooldown <= 0)
                         {
-                            Projectile.NewProjectile(null, new Vector2(i * 16, j * 16 - 100), Vector2.Zero, ModContent.ProjectileType<ArchmageXSpawnAnim>(), 0, 0, NPC.whoAmI);
+                            Projectile.NewProjectile(null, new Vector2(i * 16, j * 16 - 100), Vector2.Zero, ModContent.ProjectileType<ArchmageXSpawnAnim>(), 0, 0);
 
                             for (int k = -23; k < 6; k++)
                             {

@@ -28,6 +28,7 @@ namespace EbonianMod.NPCs.ArchmageX
         {
             Projectile.Size = new Vector2(2, 2);
             Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
             Projectile.aiStyle = -1;
             Projectile.timeLeft = 400;
         }
