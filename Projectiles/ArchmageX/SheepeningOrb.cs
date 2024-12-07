@@ -38,7 +38,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         }
         float alpha;
         public override bool ShouldUpdatePosition() => false;
-        public override bool? CanDamage() => Projectile.ai[1] > 0.1f;
+        public override bool? CanDamage() => Projectile.ai[1] > 0.1f && Projectile.timeLeft > 10;
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0f;

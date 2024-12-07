@@ -919,6 +919,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             else
                                 headFrame.Y = phase2 ? DisappointedFace : NeutralFace;
                             SoundEngine.PlaySound(EbonianSounds.xSpirit, staffTip);
+                            NPC.damage = 30;
                             EbonianSystem.ScreenShakeAmount = 6;
                             for (int i = 0; i < 20; i++)
                             {
@@ -933,6 +934,8 @@ namespace EbonianMod.NPCs.ArchmageX
                             else
                                 Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(staffTip, player.Center).RotatedByRandom(MathHelper.PiOver4 * 0.5f) * 6f, ModContent.ProjectileType<XSpirit>(), 15, 0);
                         }
+                        else
+                            NPC.damage = 0;
                         if (AITimer == 95 && phaseMult == 3)
                             Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center + player.velocity), ModContent.ProjectileType<SheepeningOrb>(), 1, 0, player.whoAmI);
                         if (AITimer >= 150)
@@ -1119,6 +1122,23 @@ namespace EbonianMod.NPCs.ArchmageX
                             FacePlayer();
                             rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, player.Center, reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
                         }
+                        if (AITimer == 150 || AITimer == 220)
+                        {
+                            Vector2 pos = NPC.Center;
+                            int attempts = 0;
+                            Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosionInvis>(), 0, 0);
+                            while (++attempts < 100 && (pos.Distance(NPC.Center) < 100 || pos.Distance(player.Center) < 250 || !Collision.CanHit(NPC.position, NPC.width, NPC.height, pos - NPC.Size / 2, NPC.width, NPC.height)))
+                            {
+                                Rectangle rect = GetArenaRect();
+                                rect.Width -= 80;
+                                rect.X += 40;
+                                rect.Height -= 32;
+                                rect.Y += 16;
+                                pos = Main.rand.NextVector2FromRectangle(rect);
+                            }
+                            Projectile.NewProjectile(null, pos, Vector2.Zero, ModContent.ProjectileType<XExplosionInvis>(), 0, 0);
+                            NPC.Center = pos;
+                        }
                         if ((AITimer <= 120 && AITimer >= 110) || AITimer == 160 || (AITimer <= 190 && AITimer >= 170) || (AITimer <= 250 && AITimer >= 240))
                         {
                             if (AITimer % (AITimer > 229 ? (phase2 ? (phaseMult == 3 ? 4 : 5) : (phaseMult == 1 ? 5 : 10)) : (phase2 ? (phaseMult == 3 ? 4 : 6) : 10)) == 0)
@@ -1129,7 +1149,12 @@ namespace EbonianMod.NPCs.ArchmageX
                                 Vector2 vel = Helper.FromAToB(staffTip, player.Center).RotatedByRandom(MathHelper.PiOver4 * MathHelper.Lerp(1.25f + phaseMult * 0.05f, 0.65f, AITimer / 300) * (AITimer == 110 ? 0 : (AITimer > 229 ? 1.2f : 0.65f)));
                                 Projectile.NewProjectile(null, staffTip, vel * 7f, ModContent.ProjectileType<XBolt>(), 15, 0);
                             }
+
+                            NPC.damage = 30;
+
                         }
+                        else
+                            NPC.damage = 0;
 
                         if (phaseMult == 3 && AITimer == 270)
                         {
@@ -1444,6 +1469,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             disposablePos[0] = player.Center;
                         if (AITimer > 150 && AITimer < 202 && AITimer % 4 == 0)
                         {
+                            NPC.damage = 30;
                             if (phaseMult == 3)
                                 headFrame.Y = AngryFace;
                             else
@@ -1452,6 +1478,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             a.ai[0] = Main.rand.Next(50, 90);
                             a.ai[1] = Main.rand.NextFloat(2.5f, 5f);
                         }
+                        else NPC.damage = 0;
 
                         if (AITimer >= (phaseMult == 3 ? 220 : 250))
                         {
