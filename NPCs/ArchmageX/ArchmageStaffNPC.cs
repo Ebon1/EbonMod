@@ -3,11 +3,6 @@ using EbonianMod.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -58,7 +53,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     {
                         if (EbonianSystem.xareusFightCooldown <= 0)
                         {
-                            Projectile.NewProjectile(null, new Vector2(i * 16, j * 16 - 100), Vector2.Zero, ModContent.ProjectileType<ArchmageXSpawnAnim>(), 0, 0);
+                            Projectile.NewProjectile(null, new Vector2(i * 16 + 88, j * 16 + MathF.Sin(Main.GlobalTimeWrappedHourly * .15f) * 16), Vector2.Zero, ModContent.ProjectileType<ArchmageXSpawnAnim>(), 0, 0);
 
                             for (int k = -23; k < 6; k++)
                             {
@@ -185,9 +180,9 @@ namespace EbonianMod.NPCs.ArchmageX
                     if (NPC.ai[1] == 100)
                         DialogueSystem.NewDialogueBox(60, NPC.Center - new Vector2(0, 60), "Hmm..", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.75f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                     if (NPC.ai[1] == 190)
-                        DialogueSystem.NewDialogueBox(140, NPC.Center - new Vector2(0, 60), "I can sense your power...", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.75f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+                        DialogueSystem.NewDialogueBox(140, NPC.Center - new Vector2(0, 60), "You seem.. capable..", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.75f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                     if (NPC.ai[1] == 340)
-                        DialogueSystem.NewDialogueBox(140, NPC.Center - new Vector2(0, 60), "Yes, Yes! Finally!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.75f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+                        DialogueSystem.NewDialogueBox(140, NPC.Center - new Vector2(0, 60), "Yes, Yes, Finally! A new wielder!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.75f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                     if (NPC.ai[1] == 490)
                         DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 60), "...", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.75f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                     if (NPC.ai[1] == 600)
@@ -199,7 +194,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     if (NPC.ai[1] == 1060)
                         DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 60), "Idiot!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 5, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                     if (NPC.ai[1] == 1180)
-                        DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 60), "'Archmage', pfft.", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+                        DialogueSystem.NewDialogueBox(110, NPC.Center - new Vector2(0, 60), "'Archmage', pfft.", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.25f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
 
                     if (NPC.ai[1] == 1300)
                         DialogueSystem.NewDialogueBox(150, NPC.Center - new Vector2(0, 60), "I was forged from pure powdered lightning, the finest amethysts from the realm of crystals,", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
@@ -219,7 +214,10 @@ namespace EbonianMod.NPCs.ArchmageX
                         DialogueSystem.NewDialogueBox(120, NPC.Center - new Vector2(0, 60), "Because he's scared of me scratching!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
 
                     if (NPC.ai[1] == 2490)
-                        DialogueSystem.NewDialogueBox(150, NPC.Center - new Vector2(0, 60), "I'M A WEAPON! I AM MEANT TO SCRARCH! I'M NOT A DISPLAY PIECE", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+                    {
+                        EbonianSystem.ScreenShakeAmount = 6;
+                        DialogueSystem.NewDialogueBox(150, NPC.Center - new Vector2(0, 60), "I'M A WEAPON! I AM MEANT TO SCRATCH! I'M NOT A DISPLAY PIECE", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+                    }
 
                     if (NPC.ai[1] == 2630)
                         DialogueSystem.NewDialogueBox(150, NPC.Center - new Vector2(0, 60), "MY PURPOSE IS TO BE USED IN BATTLE BY THE GREATEST WIZARDS OF ALL TIME FOR GENERATIONS TO COME", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
@@ -234,7 +232,10 @@ namespace EbonianMod.NPCs.ArchmageX
                     if (NPC.ai[1] == 3370)
                         DialogueSystem.NewDialogueBox(200, NPC.Center - new Vector2(0, 60), "You! Please.. Please take me! My master REFUSES to utilize my grandeur!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
                     if (NPC.ai[1] == 3600)
+                    {
+                        Main.LocalPlayer.GetModPlayer<EbonianPlayer>().timesDiedToXareus = 1;
                         DialogueSystem.NewDialogueBox(140, NPC.Center - new Vector2(0, 60), "He's not here! He won't even notice!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.75f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+                    }
                 }
             }
             else
@@ -275,22 +276,24 @@ namespace EbonianMod.NPCs.ArchmageX
                 {
                     NPC.ai[2]--;
                     if (NPC.ai[2] == 2000)
-                        DialogueSystem.NewDialogueBox(180, NPC.Center - new Vector2(0, 60), "Woah... I had never seen this side of him...", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
+                        DialogueSystem.NewDialogueBox(180, NPC.Center - new Vector2(0, 60), "Woah... He actually... Used me!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
 
                     if (NPC.ai[2] == 1770)
-                        DialogueSystem.NewDialogueBox(180, NPC.Center - new Vector2(0, 60), "Perhaps... I wish to remain here with Master Xareus", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
+                        DialogueSystem.NewDialogueBox(200, NPC.Center - new Vector2(0, 60), "What a spectacular fight! And, And I was the heart of it all! The Grand Archstaff!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 2, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
 
                     if (NPC.ai[2] == 1580)
-                        DialogueSystem.NewDialogueBox(180, NPC.Center - new Vector2(0, 60), "It had been so long since I'd seen him display his power with such.. glory!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
+                        DialogueSystem.NewDialogueBox(180, NPC.Center - new Vector2(0, 60), "I can't remember the last time he actually used me to my full potential!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 2, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
 
                     if (NPC.ai[2] == 1390)
-                        DialogueSystem.NewDialogueBox(180, NPC.Center - new Vector2(0, 60), "I suppose I have to thank you for this unforgettable battle!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
+                        DialogueSystem.NewDialogueBox(180, NPC.Center - new Vector2(0, 60), "I suppose I have to thank you for this unforgettable battle!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 2, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
 
                     if (NPC.ai[2] == 1200)
-                        DialogueSystem.NewDialogueBox(180, NPC.Center - new Vector2(0, 60), "If you wish to have a glorious clash with Master Xareus and I... You know where to find me!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
+                        DialogueSystem.NewDialogueBox(180, NPC.Center - new Vector2(0, 60), "The chaos! The bloodshed! The, the amethysts!! I will always be here if you wish for more!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 2, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
+
 
                     if (NPC.ai[2] == 1000)
                     {
+                        DialogueSystem.NewDialogueBox(180, NPC.Center - new Vector2(0, 60), "Farewell!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 2, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
                         EbonianSystem.xareusFightCooldown = 3600 * 12;
                         NPC.ai[2] = 0;
                     }
@@ -367,7 +370,9 @@ namespace EbonianMod.NPCs.ArchmageX
                     EbonianSystem.stickZoomLerpVal = MathHelper.SmoothStep(EbonianSystem.stickZoomLerpVal, MathHelper.SmoothStep(1f, 0, Main.LocalPlayer.Center.Distance(NPC.Center) / 800f), 0.2f);
             }
             if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0)
-                staffAlpha = MathHelper.Lerp(staffAlpha, 0f, 0.1f);
+            {
+                staffAlpha = MathHelper.Lerp(staffAlpha, 0f, 0.02f);
+            }
             else
                 staffAlpha = MathHelper.Lerp(staffAlpha, 1f, 0.2f);
             Vector2 position = NPC.Center + new Vector2(0, MathF.Sin(Main.GlobalTimeWrappedHourly * .15f) * 16) - Main.screenPosition;

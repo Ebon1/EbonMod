@@ -43,8 +43,17 @@ namespace EbonianMod.NPCs.ArchmageX
             Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<XExplosionTiny>(), 0, 0);
 
             Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ArchmageHead>(), 0, 0);
+            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ArchmageStaffGore>(), 0, 0);
             for (int i = 0; i < 2; i++)
                 Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ArchmageArm>(), 0, 0);
+
+            for (int i = 0; i < 15; i++)
+                Gore.NewGore(null, Projectile.Center, Main.rand.NextVector2Circular(13, 13), ModContent.Find<ModGore>("EbonianMod/XFlesh" + Main.rand.Next(2).ToString()).Type);
+
+            for (int i = 0; i < 5; i++)
+                Gore.NewGore(null, Projectile.Center + Main.rand.NextVector2Circular(30, 30), new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-2, -1)), ModContent.Find<ModGore>("EbonianMod/XCloth" + i).Type);
+
+
         }
     }
     public class ArchmageHead : ModProjectile
@@ -122,6 +131,38 @@ namespace EbonianMod.NPCs.ArchmageX
         public override void OnSpawn(IEntitySource source)
         {
             Projectile.velocity = new Vector2(Main.rand.NextFloat(-11f, 11f), -5f * Main.rand.NextFloat(1, 1.5f));
+        }
+    }
+    public class ArchmageStaffGore : ModProjectile
+    {
+        public override string Texture => "EbonianMod/Items/Weapons/Magic/StaffOfXItem";
+        public override void SetStaticDefaults()
+        {
+            EbonianMod.projectileFinalDrawList.Add(Type);
+        }
+        public override void SetDefaults()
+        {
+            Projectile.Size = new Vector2(26, 30);
+            Projectile.tileCollide = false;
+            Projectile.aiStyle = 2;
+            Projectile.timeLeft = 300;
+        }
+        public override Color? GetAlpha(Color lightColor) => Color.White;
+        float alpha;
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = Helper.GetTexture(Texture);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, lightColor * MathHelper.SmoothStep(1, 0, alpha), Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+            return false;
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+            Lighting.AddLight(Projectile.Center, TorchID.Purple);
+            Projectile.velocity = new Vector2(Main.rand.NextFloat(-11f, 11f), -5f * Main.rand.NextFloat(1, 1.5f));
+        }
+        public override void AI()
+        {
+            alpha = MathHelper.SmoothStep(alpha, 1, 0.09f);
         }
     }
 }

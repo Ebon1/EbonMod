@@ -18,6 +18,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             Item.CloneDefaults(ItemID.Grenade);
             Item.rare = ItemRarityID.Blue;
+            Item.shootSpeed = 9;
             Item.shoot = ModContent.ProjectileType<PipebombP>();
         }
     }
@@ -43,8 +44,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         float savedP;
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
-            if (Projectile.Center.Y >= savedP - 100)
-                fallThrough = false;
+            fallThrough = true;
             return base.TileCollideStyle(ref width, ref height, ref fallThrough, ref hitboxCenterFrac);
         }
 

@@ -237,6 +237,9 @@ Projectiles: {
 	CursedScourgePro.DisplayName: Cursed Scourge Pro
 	BloodlashPro.DisplayName: Bloodlash Pro
 	XRiftSmall.DisplayName: X Rift Small
+	ArchmageMartianProjectile.DisplayName: Archmage Martian Projectile
+	SpawnTheThing.DisplayName: Spawn The Thing
+	ArchmageStaffGore.DisplayName: Archmage Staff Gore
 }
 
 NPCs: {

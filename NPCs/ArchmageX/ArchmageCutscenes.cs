@@ -135,8 +135,8 @@ namespace EbonianMod.NPCs.ArchmageX
                     float _off = __off + i;
                     float alphaMult = beamAlpha;
                     Color c = new Color(255, 255, 210);
-                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep((100 + MathF.Sin(i) * 10 + MathF.Cos((Main.GlobalTimeWrappedHourly + i * 0.3f) * 100) * 4) * beamAlpha, 5 * beamAlpha, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(MathHelper.PiOver2 + rot), new Vector2(_off, 0), c * alphaMult));
-                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep((100 + MathF.Sin(i) * 10 + MathF.Cos((Main.GlobalTimeWrappedHourly + i * 0.3f) * 100) * 4) * beamAlpha, 5 * beamAlpha, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(-MathHelper.PiOver2 + rot), new Vector2(_off, 1), c * alphaMult));
+                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep((100 + MathF.Cos((Main.GlobalTimeWrappedHourly) * 100) * 4) * beamAlpha, 5 * beamAlpha, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(MathHelper.PiOver2 + rot), new Vector2(_off, 0), c * alphaMult));
+                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep((100 + MathF.Cos((Main.GlobalTimeWrappedHourly) * 100) * 4) * beamAlpha, 5 * beamAlpha, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(-MathHelper.PiOver2 + rot), new Vector2(_off, 1), c * alphaMult));
                 }
                 Main.spriteBatch.SaveCurrent();
                 Main.spriteBatch.End();
@@ -156,8 +156,8 @@ namespace EbonianMod.NPCs.ArchmageX
                     float _off = __off + i;
                     float alphaMult = beamAlpha * 5;
                     Color c = Color.White;
-                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep((100 + MathF.Cos((Main.GlobalTimeWrappedHourly + i * 0.3f) * 100) * 2) * beamAlpha, 5 * beamAlpha, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(MathHelper.PiOver2 + rot), new Vector2(_off, 0), c * alphaMult));
-                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep((100 + MathF.Cos((Main.GlobalTimeWrappedHourly + i * 0.3f) * 100) * 2) * beamAlpha, 5 * beamAlpha, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(-MathHelper.PiOver2 + rot), new Vector2(_off, 1), c * alphaMult));
+                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep((100 + MathF.Cos((Main.GlobalTimeWrappedHourly) * 100) * 2) * beamAlpha, 5 * beamAlpha, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(MathHelper.PiOver2 + rot), new Vector2(_off, 0), c * alphaMult));
+                    vertices.Add(Helper.AsVertex(pos + new Vector2(MathHelper.SmoothStep((100 + MathF.Cos((Main.GlobalTimeWrappedHourly) * 100) * 2) * beamAlpha, 5 * beamAlpha, MathHelper.Lerp(1, 0, MathHelper.Clamp(i * 10, 0, 1))), 0).RotatedBy(-MathHelper.PiOver2 + rot), new Vector2(_off, 1), c * alphaMult));
                 }
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -428,5 +428,19 @@ namespace EbonianMod.NPCs.ArchmageX
             }
         }
         float vol;
+    }
+    public class SpawnTheThing : ModProjectile
+    {
+        public override string Texture => "EbonianMod/Items/Weapons/Magic/IchorGlobSmall";
+        public override void SetDefaults()
+        {
+            Projectile.CloneDefaults(ProjectileID.Bullet);
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+
+            NPC.NewNPCDirect(null, Main.player[0].Center, ModContent.NPCType<ArchmageCutsceneMartian>(), 0, -1);
+            Projectile.Kill();
+        }
     }
 }

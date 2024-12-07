@@ -33,7 +33,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             float a = 0f;
             Vector2 vel = Projectile.velocity;
             vel.SafeNormalize(-Vector2.UnitY);
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + vel * 220, 20, ref a);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + vel * 200, 10, ref a);
         }
         public override bool ShouldUpdatePosition() => false;
         public override bool? CanDamage() => Projectile.ai[2] >= 1f;
@@ -68,7 +68,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                 riftAlpha = MathHelper.Lerp(riftAlpha, 0, 0.015f);
 
             if (Projectile.timeLeft % 3 == 0)
-                if (Projectile.localAI[1] >= 0.25f && Projectile.timeLeft > 100)
+                if (Projectile.localAI[1] >= 0.1f && Projectile.timeLeft > 100)
                 {
                     if (Projectile.localAI[1] >= 0.99f)
                     {
@@ -91,7 +91,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone, EbonianMod.SpriteRotation, Main.GameViewMatrix.TransformationMatrix);
 
-            Vector2 scale = new Vector2(0.65f, 0.25f);
+            Vector2 scale = new Vector2(0.65f, 0.25f) * 1.6f;
             float alpha = riftAlpha;
             float i = 1;
             Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
@@ -100,6 +100,9 @@ namespace EbonianMod.Projectiles.ArchmageX
             EbonianMod.SpriteRotation.Parameters["uColor"].SetValue(new Color(60, 2, 113).ToVector4() * alpha * alpha * 0.8f);
             Main.spriteBatch.Draw(tex, Projectile.Center - Vector2.UnitY * riftAlpha * i * 2 * -Projectile.velocity.Y - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, riftAlpha / 4, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(bloom, Projectile.Center - Vector2.UnitY * riftAlpha * i * 2 * -Projectile.velocity.Y - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, riftAlpha / 4, SpriteEffects.None, 0);
+
+            Main.spriteBatch.Draw(tex, Projectile.Center - Vector2.UnitY * riftAlpha - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, riftAlpha / 4, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(bloom, Projectile.Center - Vector2.UnitY * riftAlpha - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, riftAlpha / 4, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(effect: null);
 
             Main.spriteBatch.ApplySaved();
