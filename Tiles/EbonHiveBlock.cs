@@ -26,7 +26,7 @@ namespace EbonianMod.Tiles
             DustType = DustID.GreenBlood;
             RegisterItemDrop(ModContent.ItemType<Items.Tiles.EbonHiveI>());
 
-            AddMapEntry(Color.LawnGreen);
+            AddMapEntry(Color.Brown);
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

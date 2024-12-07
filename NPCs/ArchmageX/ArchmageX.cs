@@ -36,8 +36,8 @@ namespace EbonianMod.NPCs.ArchmageX
         public override void SetDefaults()
         {
             NPC.Size = new Vector2(50, 78);
-            NPC.lifeMax = 12000;
-            NPC.defense = 18;
+            NPC.lifeMax = 13000;
+            NPC.defense = 7;
             NPC.damage = 0;
             NPC.boss = true;
             NPC.aiStyle = -1;
@@ -348,6 +348,16 @@ namespace EbonianMod.NPCs.ArchmageX
         int frameBeforeBlink;
         SlotId helicopterSlot;
         FloatingDialogueBox currentDialogue;
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
+        {
+            if (ProjectileID.Sets.CultistIsResistantTo[projectile.type])
+                modifiers.FinalDamage *= .7f;
+        }
+        public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
+        {
+            modifiers.CritDamage -= 0.4f;
+            modifiers.FinalDamage *= (phaseMult == 3 ? .65f : .83f);
+        }
         public override bool CheckDead()
         {
             Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<ArchmageDeath>(), 0, 0);
@@ -373,7 +383,7 @@ namespace EbonianMod.NPCs.ArchmageX
         }
         public override void AI()
         {
-            if (NPC.life < NPC.lifeMax * 0.37f && Main.expertMode)
+            if (NPC.life < NPC.lifeMax * 0.28f && Main.expertMode)
             {
                 if (phaseMult != 3)
                 {
@@ -381,7 +391,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     {
                         doneAttacksBefore = false;
                         Next = PhantasmalSpirit;
-                        NPC.defense += 6;
+                        NPC.defense += 7;
                         phaseMult = 3;
                     }
                 }
@@ -461,14 +471,14 @@ namespace EbonianMod.NPCs.ArchmageX
             }
 
 
-            if (NPC.life < NPC.lifeMax / 2 + 1700)
+            if (NPC.life < NPC.lifeMax / 2)
             {
                 if (!phase2 && AIState != Taunt)
                 {
                     Next = 1;
                     oldAttack = 0;
                     Reset();
-                    NPC.defense += 3;
+                    NPC.defense += 8;
                     AIState = Phase2Transition; //change to a transition attack later
                     doneAttacksBefore = false;
                     phase2 = true;
@@ -668,8 +678,10 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             SoundEngine.PlaySound(SoundID.Item73.WithPitchOffset(-0.2f), staffTip);
                             Vector2 vel = Helper.FromAToB(staffTip, player.Center).RotatedByRandom(MathHelper.PiOver4 * 0.2f);
+                            NPC.damage = 30;
                             Projectile.NewProjectile(null, staffTip + vel * 15f, vel * 7f, ModContent.ProjectileType<XBolt>(), 15, 0);
                         }
+                        else NPC.damage = 0;
                         if (AITimer == 570)
                         {
                             SoundEngine.PlaySound(EbonianSounds.xSpirit, NPC.Center);
@@ -932,12 +944,20 @@ namespace EbonianMod.NPCs.ArchmageX
                             if (!phase2)
                                 Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(staffTip, player.Center).RotatedByRandom(MathHelper.PiOver4) * (phaseMult == 3 ? 4 : 5f), ModContent.ProjectileType<XSpirit>(), 15, 0);
                             else
-                                Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(staffTip, player.Center).RotatedByRandom(MathHelper.PiOver4 * 0.5f) * 6f, ModContent.ProjectileType<XSpirit>(), 15, 0);
+                                Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(staffTip, player.Center).RotatedByRandom(MathHelper.PiOver4 * 0.25f) * 6f, ModContent.ProjectileType<XSpirit>(), 15, 0);
+
                         }
                         else
                             NPC.damage = 0;
-                        if (AITimer == 95 && phaseMult == 3)
-                            Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center + player.velocity), ModContent.ProjectileType<SheepeningOrb>(), 1, 0, player.whoAmI);
+
+                        if (phaseMult == 3 && AITimer % 30 == 0)
+                        {
+                            for (int i = -1; i < 2; i++)
+                            {
+                                if (i == 0) continue;
+                                Projectile.NewProjectile(null, staffTip, Helper.FromAToB(staffTip, player.Center).RotatedBy(i * 0.3f), ModContent.ProjectileType<XBolt>(), 15, 0);
+                            }
+                        }
                         if (AITimer >= 150)
                         {
                             Reset();
@@ -1130,10 +1150,10 @@ namespace EbonianMod.NPCs.ArchmageX
                             while (++attempts < 100 && (pos.Distance(NPC.Center) < 100 || pos.Distance(player.Center) < 250 || !Collision.CanHit(NPC.position, NPC.width, NPC.height, pos - NPC.Size / 2, NPC.width, NPC.height)))
                             {
                                 Rectangle rect = GetArenaRect();
-                                rect.Width -= 80;
-                                rect.X += 40;
-                                rect.Height -= 32;
-                                rect.Y += 16;
+                                rect.Width -= 120;
+                                rect.X += 60;
+                                rect.Height -= 120;
+                                rect.Y += 60;
                                 pos = Main.rand.NextVector2FromRectangle(rect);
                             }
                             Projectile.NewProjectile(null, pos, Vector2.Zero, ModContent.ProjectileType<XExplosionInvis>(), 0, 0);

@@ -19,6 +19,10 @@ namespace EbonianMod.Buffs
         }
         public override void Update(Player player, ref int buffIndex)
         {
+            for (int i = 1; i < BuffID.Count; i++)
+            {
+                player.ClearBuff(i);
+            }
             player.GetModPlayer<EbonianPlayer>().sheep = true;
             if (player.ownedProjectileCounts[ModContent.ProjectileType<player_sheep>()] < 1)
                 Projectile.NewProjectile(null, player.Center, Vector2.Zero, ModContent.ProjectileType<player_sheep>(), 0, 0, player.whoAmI);

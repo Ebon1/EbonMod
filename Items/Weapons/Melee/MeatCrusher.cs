@@ -62,6 +62,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.width = 60;
             Projectile.height = 60;
             swingTime = 60;
+            Projectile.ignoreWater = true;
             minSwingTime = 52;
             holdOffset = 50;
             Projectile.tileCollide = false;

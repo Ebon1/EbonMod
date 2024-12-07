@@ -74,7 +74,7 @@ namespace EbonianMod.NPCs.Cecitior
             NPC.damage = 40;
             NPC.noTileCollide = true;
             NPC.dontTakeDamage = true;
-            NPC.defense = 23;
+            NPC.defense = 27;
             NPC.knockBackResist = 0;
             NPC.width = 118;
             NPC.height = 100;

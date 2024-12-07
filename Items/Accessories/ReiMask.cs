@@ -39,7 +39,10 @@ namespace EbonianMod.Items.Accessories
             TooltipLine line = tooltips.FirstOrDefault(x => x.Text.Contains("{ReiM_Keybind}"));
             if (line != null)
             {
-                line.Text = line.Text.Replace("{ReiM_Keybind}", "[" + EbonianKeybinds.ReiDash.GetAssignedKeys()[0] + "]");
+                if (EbonianKeybinds.ReiDash != null)
+                    line.Text = line.Text.Replace("{ReiM_Keybind}", "[" + EbonianKeybinds.ReiDash.GetAssignedKeys()[0] + "]");
+                else
+                    line.Text = line.Text.Replace("{ReiM_Keybind}", "[Unbound]");
             }
         }
         public override void UpdateVanity(Player player)
