@@ -101,8 +101,6 @@ namespace EbonianMod.Projectiles.ArchmageX
         public override void AI()
         {
 
-            if (Projectile.timeLeft < 500 * 5 - 30)
-                Projectile.friendly = true;
             Lighting.AddLight(Projectile.Center, TorchID.Purple);
             Player player = Main.player[Projectile.owner];
             if (Projectile.timeLeft % 2 == 0)

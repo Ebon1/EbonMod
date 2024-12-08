@@ -99,7 +99,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                 else
                     Projectile.NewProjectile(null, Projectile.Center, savedDir, ModContent.ProjectileType<SheepeningOrb>(), 20, 0, Projectile.owner);
             }
-            if (Projectile.ai[0] > (Projectile.ai[1] != 1 ? 55 : 80))
+            if (Projectile.ai[0] > (Projectile.ai[1] != 1 ? 55 : 100))
             {
                 if (Projectile.ai[1] != 1)
                     Projectile.NewProjectile(null, Projectile.Center, savedDir, ModContent.ProjectileType<XLightningBolt>(), 20, 0);

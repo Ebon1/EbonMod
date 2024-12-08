@@ -174,9 +174,9 @@ namespace EbonianMod.Projectiles.ArchmageX
                 Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("laser2"), false);
             }
             Main.spriteBatch.ApplySaved();
-            Main.EntitySpriteDraw(glow, Projectile.Center - Projectile.velocity - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(glow, Projectile.Center - Projectile.velocity * .5f - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
-            Main.EntitySpriteDraw(tex, Projectile.Center - Projectile.velocity - Main.screenPosition, null, Color.White * alpha, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Projectile.velocity * .5f - Main.screenPosition, null, Color.White * alpha, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
 
             return false;
         }
