@@ -53,25 +53,41 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
             return base.PreKill(timeLeft);
         }
+        float vfxOffset;
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = TextureAssets.Projectile[Type].Value;
             Texture2D glow = Helper.GetTexture(Texture + "_Glow");
             Texture2D fireball = Helper.GetExtraTexture("fireball");
             Main.spriteBatch.Reload(BlendState.Additive);
+            vfxOffset -= 0.015f;
+            if (vfxOffset <= 0)
+                vfxOffset = 1;
+            vfxOffset = MathHelper.Clamp(vfxOffset, float.Epsilon, 1 - float.Epsilon);
             var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
+            List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 float mult = (1f - fadeMult * i);
-                if (i > 0)
-                    for (float j = 0; j < 10; j++)
-                    {
-                        Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 10));
-                        Color col = Color.Lerp(Color.Indigo * 0.5f, Color.Gray, (float)(i / Projectile.oldPos.Length));
-                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, col * (0.35f + Projectile.ai[1]), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f * mult + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 3) + 1) / 2) * 0.005f), SpriteEffects.None, 0);
-                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, col * (0.25f + Projectile.ai[1]), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.05f * mult, SpriteEffects.None, 0);
-                    }
+                if (i > 0 && Projectile.oldPos[i] != Vector2.Zero)
+                {
+                    Color col = Color.Lerp(Color.Indigo * 0.5f, Color.Gray, (float)(i / Projectile.oldPos.Length)) * 2;
+
+                    float __off = vfxOffset;
+                    if (__off > 1) __off = -__off + 1;
+                    float _off = __off + mult;
+                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(20 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i - 1], Projectile.oldPos[i]).ToRotation() + MathHelper.PiOver2), col, new Vector2(_off, 0)));
+                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(20 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i - 1], Projectile.oldPos[i]).ToRotation() - MathHelper.PiOver2), col, new Vector2(_off, 1)));
+                }
             }
+            Main.spriteBatch.SaveCurrent();
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            if (vertices.Count > 2)
+            {
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("wavyLaser2"), false);
+            }
+            Main.spriteBatch.ApplySaved();
             Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.Indigo * 0.5f, Projectile.rotation + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 5) + 1) / 2) * 0.4f), SpriteEffects.None, 0);
             Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.Indigo * 0.5f, Projectile.rotation + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f, SpriteEffects.None, 0);
             //Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -85,6 +101,8 @@ namespace EbonianMod.Projectiles.ArchmageX
         public override void AI()
         {
 
+            if (Projectile.timeLeft < 500 * 5 - 30)
+                Projectile.friendly = true;
             Lighting.AddLight(Projectile.Center, TorchID.Purple);
             Player player = Main.player[Projectile.owner];
             if (Projectile.timeLeft % 2 == 0)
@@ -132,25 +150,41 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
             return base.PreKill(timeLeft);
         }
+        float vfxOffset;
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = TextureAssets.Projectile[Type].Value;
             Texture2D glow = Helper.GetTexture(Texture + "_Glow");
             Texture2D fireball = Helper.GetExtraTexture("fireball");
             Main.spriteBatch.Reload(BlendState.Additive);
+            vfxOffset += 0.05f;
+            if (vfxOffset >= 1)
+                vfxOffset = 0;
+            vfxOffset = MathHelper.Clamp(vfxOffset, float.Epsilon, 1 - float.Epsilon);
             var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
+            List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 float mult = (1f - fadeMult * i);
-                if (i > 0)
-                    for (float j = 0; j < 10; j++)
-                    {
-                        Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 10));
-                        Color col = Color.Lerp(Color.Indigo * 0.5f, Color.Gray, (float)(i / Projectile.oldPos.Length));
-                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, col * (0.35f), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f * mult + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 3) + 1) / 2) * 0.005f), SpriteEffects.None, 0);
-                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, col * (0.25f), 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.05f * mult, SpriteEffects.None, 0);
-                    }
+                if (i > 0 && Projectile.oldPos[i] != Vector2.Zero)
+                {
+                    Color col = Color.Lerp(Color.Indigo * 0.5f, Color.Gray, (float)(i / Projectile.oldPos.Length)) * 2;
+
+                    float __off = vfxOffset;
+                    if (__off > 1) __off = -__off + 1;
+                    float _off = __off + mult;
+                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(25 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i - 1], Projectile.oldPos[i]).ToRotation() + MathHelper.PiOver2), col, new Vector2(_off, 0)));
+                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(25 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i - 1], Projectile.oldPos[i]).ToRotation() - MathHelper.PiOver2), col, new Vector2(_off, 1)));
+                }
             }
+            Main.spriteBatch.SaveCurrent();
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            if (vertices.Count > 2)
+            {
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("LintyTrail"), false);
+            }
+            Main.spriteBatch.ApplySaved();
             Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.Indigo * 0.5f, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 5) + 1) / 2) * 0.4f), SpriteEffects.None, 0);
             Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.Indigo * 0.5f, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f, SpriteEffects.None, 0);
             //Main.spriteBatch.Reload(BlendState.AlphaBlend);

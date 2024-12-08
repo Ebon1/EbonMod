@@ -21,7 +21,8 @@ namespace EbonianMod.Buffs
         {
             for (int i = 1; i < BuffID.Count; i++)
             {
-                player.ClearBuff(i);
+                if (!Main.buffNoSave[i] && !Main.buffNoTimeDisplay[i] && !Main.debuff[i])
+                    player.ClearBuff(i);
             }
             player.GetModPlayer<EbonianPlayer>().sheep = true;
             if (player.ownedProjectileCounts[ModContent.ProjectileType<player_sheep>()] < 1)

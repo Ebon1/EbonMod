@@ -37,6 +37,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.Green;
             Item.shootSpeed = 1f;
+            Item.ArmorPenetration = 3;
             Item.shoot = ModContent.ProjectileType<ChainswordP>();
         }
         public override bool? CanAutoReuseItem(Player player)

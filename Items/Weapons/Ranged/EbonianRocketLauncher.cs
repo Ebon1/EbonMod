@@ -20,8 +20,8 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.damage = 18;
             Item.width = 40;
             Item.height = 40;
-            Item.reuseDelay = 25;
-            Item.useTime = 10;
+            Item.reuseDelay = 10;
+            Item.useTime = 20;
             Item.useAnimation = 20;
             Item.DamageType = DamageClass.Ranged;
             Item.useStyle = 5;

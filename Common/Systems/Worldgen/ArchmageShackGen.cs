@@ -107,7 +107,7 @@ namespace EbonianMod.Common.Systems.Worldgen
             List<int> tempHeightsR = new List<int>();
             for (int i = Main.maxTilesX / 2 - 440; i < Main.maxTilesX / 2 - 145; i++)
             {
-                int tempY = 110;
+                int tempY = 135;
                 while (!Main.tile[i, tempY].HasTile || (Main.tile[i, tempY].HasTile && !Main.tileSolid[Main.tile[i, tempY].TileType]) || Main.tile[i, tempY].TileType == TileID.Cloud || Main.tile[i, tempY].TileType == TileID.Plants || Main.tile[i, tempY].TileType == TileID.Cactus || Main.tile[i, tempY].TileType == TileID.Trees || Main.tile[i, tempY].TileType == TileID.Sunplate)
                     tempY++;
                 while (Main.tile[i, tempY + 1].TileType == TileID.Cloud || Main.tile[i, tempY + 2].TileType == TileID.Cloud || Main.tile[i, tempY + 3].TileType == TileID.Cloud || Main.tile[i, tempY + 4].TileType == TileID.Cloud || Main.tile[i, tempY + 5].TileType == TileID.Cloud || Main.tile[i, tempY + 6].TileType == TileID.Cloud)
@@ -116,7 +116,7 @@ namespace EbonianMod.Common.Systems.Worldgen
             }
             for (int i = Main.maxTilesX / 2 + 145; i < Main.maxTilesX / 2 + 440; i++)
             {
-                int tempY = 110;
+                int tempY = 135;
                 while (!Main.tile[i, tempY].HasTile || (Main.tile[i, tempY].HasTile && !Main.tileSolid[Main.tile[i, tempY].TileType]) || Main.tile[i, tempY].TileType == TileID.Cloud || Main.tile[i, tempY].TileType == TileID.Plants || Main.tile[i, tempY].TileType == TileID.Cactus || Main.tile[i, tempY].TileType == TileID.Trees || Main.tile[i, tempY].TileType == TileID.Sunplate)
                     tempY++;
                 while (Main.tile[i, tempY + 1].TileType == TileID.Cloud || Main.tile[i, tempY + 2].TileType == TileID.Cloud || Main.tile[i, tempY + 3].TileType == TileID.Cloud || Main.tile[i, tempY + 4].TileType == TileID.Cloud || Main.tile[i, tempY + 5].TileType == TileID.Cloud || Main.tile[i, tempY + 6].TileType == TileID.Cloud)

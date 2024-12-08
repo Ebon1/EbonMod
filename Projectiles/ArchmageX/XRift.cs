@@ -134,6 +134,13 @@ namespace EbonianMod.Projectiles.ArchmageX
                 SoundEngine.PlaySound(EbonianSounds.cursedToyCharge.WithPitchOffset(-0.1f), Projectile.Center);
 
             Projectile.ai[1] = MathHelper.Lerp(Projectile.ai[1], MathF.Sin(Projectile.ai[0] * .05f) * 0.05f, 0.25f);
+
+            if (Projectile.timeLeft % 16 == 0 && Projectile.timeLeft < 280 && Projectile.timeLeft > 140)
+            {
+                Projectile a = Projectile.NewProjectileDirect(null, Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f), ModContent.ProjectileType<XTentacle>(), 15, 0);
+                a.ai[0] = Main.rand.Next(50, 90);
+                a.ai[1] = Main.rand.NextFloat(2.5f, 5f);
+            }
         }
         public override bool PreDraw(ref Color lightColor)
         {

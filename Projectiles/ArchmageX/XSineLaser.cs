@@ -23,8 +23,8 @@ namespace EbonianMod.Projectiles.ArchmageX
         int MAX_TIME = 80;
         public override void SetDefaults()
         {
-            Projectile.width = 25;
-            Projectile.height = 25;
+            Projectile.width = 1;
+            Projectile.height = 1;
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.ignoreWater = true;

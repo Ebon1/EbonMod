@@ -33,23 +33,45 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
             Projectile.timeLeft = 1000;
             Projectile.Size = new(5, 5);
         }
+        float vfxOffset;
         public override bool PreDraw(ref Color lightColor)
         {
-            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             Main.spriteBatch.Reload(BlendState.Additive);
-            float alpha = MathHelper.Lerp(1, 0, Projectile.ai[1]);
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
+            vfxOffset -= 0.015f;
+            if (vfxOffset <= 0)
+                vfxOffset = 1;
+            vfxOffset = MathHelper.Clamp(vfxOffset, float.Epsilon, 1 - float.Epsilon);
+            List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
+            float s = 0;
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                float mult = (1f - fadeMult * i) * alpha;
-                if (i > 0 && Projectile.oldPos[i] != Projectile.position)
-                    for (float j = 0; j < 3; j++)
-                    {
-                        Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 3));
-                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.LawnGreen * (0.85f + Projectile.ai[1]) * mult, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.01f * mult, SpriteEffects.None, 0);
-                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.LawnGreen * (0.75f + Projectile.ai[1]) * mult, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f * mult, SpriteEffects.None, 0);
-                    }
+                float mult = (1f - fadeMult * i);
+
+                if (mult < 0.5f)
+                    s = MathHelper.Clamp(mult * 3.5f, 0, 0.5f) * 3;
+                else
+                    s = MathHelper.Clamp((-mult + 1) * 2, 0, 0.5f) * 3;
+
+                if (i > 0 && Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i] != Projectile.position)
+                {
+                    Color col = Color.LawnGreen * mult * 2 * s;
+
+                    float __off = vfxOffset;
+                    if (__off > 1) __off = -__off + 1;
+                    float _off = __off + mult;
+                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(40 * mult, 0).RotatedBy(Projectile.velocity.ToRotation() + MathHelper.PiOver2), col, new Vector2(_off, 0)));
+                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(40 * mult, 0).RotatedBy(Projectile.velocity.ToRotation() - MathHelper.PiOver2), col, new Vector2(_off, 1)));
+                }
             }
-            Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, Projectile.Center - Main.screenPosition, null, Color.LawnGreen * (1 - Projectile.ai[1]) * alpha, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.01f, SpriteEffects.None, 0);
+            Main.spriteBatch.SaveCurrent();
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            if (vertices.Count > 2)
+            {
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("laser2"), false);
+            }
+            Main.spriteBatch.ApplySaved();
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
@@ -68,7 +90,7 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
         public override void AI()
         {
             if (Projectile.timeLeft % 5 == 0)
-                Dust.NewDustPerfect(Projectile.Center, DustID.CursedTorch, Projectile.velocity).noGravity = true;
+                Dust.NewDustPerfect(Projectile.Center, DustID.CursedTorch, Projectile.velocity * Main.rand.NextFloat(), Scale: 2).noGravity = true;
             if (Projectile.ai[2] > 0)
             {
                 Projectile.ai[1] = MathHelper.Lerp(Projectile.ai[1], 1, 0.001f);

@@ -108,7 +108,7 @@ namespace EbonianMod.Projectiles.ArchmageX
 
             float s = 0f;
             float sLin = 0f;
-            for (float i = 0; i < 1; i += 0.001f)
+            for (float i = 0; i < 1; i += 0.002f)
             {
                 if (i < 0.5f)
                     s = MathHelper.Clamp(i * 3.5f, 0, 0.5f);

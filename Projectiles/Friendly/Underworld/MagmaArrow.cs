@@ -20,22 +20,44 @@ namespace EbonianMod.Projectiles.Friendly.Underworld
             ProjectileID.Sets.TrailCacheLength[Type] = 35;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
+        float vfxOffset;
         public override bool PreDraw(ref Color lightColor)
         {
             var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
-            Main.spriteBatch.Reload(BlendState.Additive);
+            vfxOffset -= 0.015f;
+            if (vfxOffset <= 0)
+                vfxOffset = 1;
+            vfxOffset = MathHelper.Clamp(vfxOffset, float.Epsilon, 1 - float.Epsilon);
+            List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
+            float s = 0;
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 float mult = (1f - fadeMult * i);
-                if (i > 0)
-                    for (float j = 0; j < 10; j++)
-                    {
-                        Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 10));
-                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.OrangeRed * 0.25f, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f * mult, SpriteEffects.None, 0);
-                    }
+
+                if (mult < 0.5f)
+                    s = MathHelper.Clamp(mult * 3.5f, 0, 0.5f) * 3;
+                else
+                    s = MathHelper.Clamp((-mult + 1) * 2, 0, 0.5f) * 3;
+
+                if (i > 0 && Projectile.oldPos[i] != Vector2.Zero)
+                {
+                    Color col = Color.Red * mult * 3;
+
+                    float __off = vfxOffset;
+                    if (__off > 1) __off = -__off + 1;
+                    float _off = __off + mult;
+                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(15 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i - 1], Projectile.oldPos[i]).ToRotation() + MathHelper.PiOver2), col, new Vector2(_off, 0)));
+                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(15 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i - 1], Projectile.oldPos[i]).ToRotation() - MathHelper.PiOver2), col, new Vector2(_off, 1)));
+                }
             }
-            Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, Projectile.Center - Main.screenPosition, null, Color.OrangeRed, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f, SpriteEffects.None, 0);
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            Main.spriteBatch.SaveCurrent();
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            if (vertices.Count > 2)
+            {
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("FlamesSeamless"), false);
+            }
+            Main.spriteBatch.ApplySaved();
             return true;
         }
         public override void SetDefaults()
@@ -91,22 +113,44 @@ namespace EbonianMod.Projectiles.Friendly.Underworld
             ProjectileID.Sets.TrailCacheLength[Type] = 35;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
+        float vfxOffset;
         public override bool PreDraw(ref Color lightColor)
         {
             var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
-            Main.spriteBatch.Reload(BlendState.Additive);
+            vfxOffset -= 0.015f;
+            if (vfxOffset <= 0)
+                vfxOffset = 1;
+            vfxOffset = MathHelper.Clamp(vfxOffset, float.Epsilon, 1 - float.Epsilon);
+            List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
+            float s = 0;
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 float mult = (1f - fadeMult * i);
-                if (i > 0)
-                    for (float j = 0; j < 10; j++)
-                    {
-                        Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 10));
-                        Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, pos + Projectile.Size / 2 - Main.screenPosition, null, Color.OrangeRed * 0.25f, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f * mult, SpriteEffects.None, 0);
-                    }
+
+                if (mult < 0.5f)
+                    s = MathHelper.Clamp(mult * 3.5f, 0, 0.5f) * 3;
+                else
+                    s = MathHelper.Clamp((-mult + 1) * 2, 0, 0.5f) * 3;
+
+                if (i > 0 && Projectile.oldPos[i] != Vector2.Zero)
+                {
+                    Color col = Color.Red * mult * 3;
+
+                    float __off = vfxOffset;
+                    if (__off > 1) __off = -__off + 1;
+                    float _off = __off + mult;
+                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(15 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i - 1], Projectile.oldPos[i]).ToRotation() + MathHelper.PiOver2), col, new Vector2(_off, 0)));
+                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(15 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i - 1], Projectile.oldPos[i]).ToRotation() - MathHelper.PiOver2), col, new Vector2(_off, 1)));
+                }
             }
-            Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, Projectile.Center - Main.screenPosition, null, Color.OrangeRed, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.025f, SpriteEffects.None, 0);
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            Main.spriteBatch.SaveCurrent();
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            if (vertices.Count > 2)
+            {
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("FlamesSeamless"), false);
+            }
+            Main.spriteBatch.ApplySaved();
             return true;
         }
         public override void SetDefaults()

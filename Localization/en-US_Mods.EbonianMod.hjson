@@ -703,7 +703,7 @@ Items: {
 
 	Chainsword: {
 		DisplayName: Junkyard Chainsword
-		Tooltip: ""
+		Tooltip: Has 3 armor penetration
 	}
 
 	CecitiorClawSummon: {

@@ -112,10 +112,10 @@ namespace EbonianMod.Items.Weapons.Ranged
             float num216 = num215 * 2f;
             float num217 = (float)proj.frameCounter / num215;
             Texture2D value40 = TextureAssets.Projectile[proj.type].Value;
-            Microsoft.Xna.Framework.Color transparent = Microsoft.Xna.Framework.Color.Transparent;
-            Microsoft.Xna.Framework.Color color60 = new Microsoft.Xna.Framework.Color(255, 255, 255, 0);
-            Microsoft.Xna.Framework.Color color61 = new Microsoft.Xna.Framework.Color(180, 30, 30, 200);
-            Microsoft.Xna.Framework.Color color62 = new Microsoft.Xna.Framework.Color(0, 0, 0, 30);
+            Color transparent = Microsoft.Xna.Framework.Color.Transparent;
+            Color color60 = new Microsoft.Xna.Framework.Color(255, 255, 255, 0);
+            Color color61 = new Microsoft.Xna.Framework.Color(180, 30, 30, 200);
+            Color color62 = new Microsoft.Xna.Framework.Color(0, 0, 0, 30);
             ulong seed = 1uL;
             for (float num218 = 0f; num218 < 15f; num218 += 1f)
             {
@@ -166,11 +166,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.Center = Main.player[Projectile.owner].Center;
             if (Projectile.ai[1] != 0)
                 Projectile.scale = Projectile.ai[1];
-            //NPC nPC = Main.npc[(int)Projectile.ai[1]];
-            float num = -8f;
-            //Vector2 vector2 = (Projectile.Center = nPC.Center + new Vector2((110f + num) * (float)nPC.spriteDirection, 30f).RotatedBy(nPC.rotation));
             Projectile.rotation = Projectile.velocity.ToRotation();
-            DelegateMethods.v3_1 = new Vector3(1.2f, 1f, 0.3f);
             float num2 = Projectile.ai[0] / 40f;
             if (num2 > 1f)
             {
@@ -181,9 +177,6 @@ namespace EbonianMod.Items.Weapons.Ranged
             {
                 num3 = 0f;
             }
-            Utils.PlotTileLine(Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.localAI[0] * num3, Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.localAI[0] * num2, 16f, DelegateMethods.CastLight);
-            Utils.PlotTileLine(Projectile.Center + Projectile.rotation.ToRotationVector2().RotatedBy(0.19634954631328583) * Projectile.localAI[0] * num3, Projectile.Center + Projectile.rotation.ToRotationVector2().RotatedBy(0.19634954631328583) * Projectile.localAI[0] * num2, 16f, DelegateMethods.CastLight);
-            Utils.PlotTileLine(Projectile.Center + Projectile.rotation.ToRotationVector2().RotatedBy(-0.19634954631328583) * Projectile.localAI[0] * num3, Projectile.Center + Projectile.rotation.ToRotationVector2().RotatedBy(-0.19634954631328583) * Projectile.localAI[0] * num2, 16f, DelegateMethods.CastLight);
             if (num3 == 0f && num2 > 0.1f && Projectile.ai[0] > 300)
             {
                 for (int i = 0; i < 3; i++)
@@ -196,26 +189,6 @@ namespace EbonianMod.Items.Weapons.Ranged
                     dust.alpha = 200;
                 }
             }
-            if (Main.rand.Next(5) == 0 && Projectile.ai[0] >= 15f)
-            {
-                Gore gore = Gore.NewGoreDirect(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.rotation.ToRotationVector2() * 300f - Utils.RandomVector2(Main.rand, -20f, 20f), Vector2.Zero, 61 + Main.rand.Next(3), 0.5f);
-                gore.velocity *= 0.3f;
-                gore.velocity += Projectile.rotation.ToRotationVector2() * 4f;
-            }
-            /*for (int j = 0; j < 1; j++)
-            {
-                Dust dust2 = Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, 31);
-                dust2.fadeIn = 1.5f;
-                dust2.scale = 0.4f;
-                dust2.velocity = Projectile.rotation.ToRotationVector2().RotatedBy(Main.rand.NextFloatDirection() * ((float)Math.PI / 12f)) * (0.5f + Main.rand.NextFloat() * 2.5f) * 15f;
-                dust2.velocity += nPC.velocity * 2f;
-                dust2.velocity *= 0.3f;
-                dust2.noLight = true;
-                dust2.noGravity = true;
-                float num4 = Main.rand.NextFloat();
-                dust2.position = Vector2.Lerp(Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.localAI[0] * num3, Projectile.Center + Projectile.rotation.ToRotationVector2() * Projectile.localAI[0] * num2, num4);
-                dust2.position += Projectile.rotation.ToRotationVector2().RotatedBy(1.5707963705062866) * (20f + 100f * (num4 - 0.5f));
-            }*/
             Projectile.frameCounter += (int)Projectile.localAI[1];
             Projectile.ai[0] += Projectile.localAI[1];
             if (Projectile.ai[0] >= 78f)
