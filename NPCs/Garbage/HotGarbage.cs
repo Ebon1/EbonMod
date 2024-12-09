@@ -1315,15 +1315,12 @@ namespace EbonianMod.NPCs.Garbage
         {
             SoundEngine.PlaySound(EbonianSounds.nuke);
             SoundEngine.PlaySound(EbonianSounds.garbageDeath);
-            int aliveCounter = 0;
             foreach (Player player in Main.player)
             {
                 if (player.active)
                 {
                     if (player.Center.Distance(targetPos) < 4500 / 2)
                         player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " advocated for the legalization of nuclear bombs."), 999999, 0);
-                    else
-                        aliveCounter++;
                 }
 
             }
@@ -1334,7 +1331,7 @@ namespace EbonianMod.NPCs.Garbage
                     npc.life = 0;
                     npc.checkDead();
                 }
-                if (npc.active && npc.type == ModContent.NPCType<HotGarbage>() && aliveCounter > 0)
+                if (npc.active && npc.type == ModContent.NPCType<HotGarbage>())
                 {
                     npc.immortal = false;
                     npc.dontTakeDamage = false;

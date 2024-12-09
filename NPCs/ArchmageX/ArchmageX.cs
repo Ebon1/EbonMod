@@ -923,7 +923,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         }
                         NPC.velocity.X += -NPC.direction * .05f;
                         NPC.velocity.X *= 0.95f;
-                        if (phase2 ? (AITimer >= 75 && AITimer % 15 == 0 && (phaseMult == 3 ? true : AITimer != 105)) : (AITimer == 75 || AITimer == 95 || AITimer == 135 || (phaseMult == 1 ? AITimer == 160 : false)))
+                        if (phase2 ? (AITimer >= 75 && AITimer % 20 == 0 && (phaseMult == 3 ? true : AITimer != 105)) : (AITimer == 75 || AITimer == 95 || AITimer == 135 || (phaseMult == 1 ? AITimer == 160 : false)))
                         {
                             NPC.velocity.X += -NPC.direction * 5;
                             if (phaseMult == 3)
@@ -950,7 +950,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         else
                             NPC.damage = 0;
 
-                        if (phaseMult == 3 && AITimer % 30 == 0)
+                        if (phaseMult == 3 && AITimer % 40 == 0)
                         {
                             for (int i = -1; i < 2; i++)
                             {

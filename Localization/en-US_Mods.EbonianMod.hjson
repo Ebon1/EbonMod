@@ -328,6 +328,7 @@ NPCs: {
 	Screecher.DisplayName: Screecher
 	ArchmageCutsceneMartian.DisplayName: Archmage Xareus
 	ArchmageStaffNPC.DisplayName: " "
+	FleshDice.DisplayName: Flesh Dice
 }
 
 Items: {
