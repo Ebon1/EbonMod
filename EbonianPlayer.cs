@@ -33,7 +33,8 @@ namespace EbonianMod
         public static EbonianPlayer Instance;
         public Vector2 stabDirection;
         public int reiBoostCool, reiBoostT, timesDiedToXareus;
-        public bool rolleg, brainAcc, heartAcc, ToxicGland, doomMinion, rei, reiV, sheep;
+        public bool rolleg, brainAcc, heartAcc, ToxicGland, rei, reiV, sheep;
+        public bool doomMinion, xMinion;
         public override void ResetEffects()
         {
             if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ModContent.ProjectileType<ArchmageXSpawnAnim>()] > 0)
@@ -45,6 +46,7 @@ namespace EbonianMod
             reiV = false;
             rolleg = false;
             doomMinion = false;
+            xMinion = false;
             brainAcc = false;
             heartAcc = false;
             if (!NPC.AnyNPCs(ModContent.NPCType<Fleshformator>()))

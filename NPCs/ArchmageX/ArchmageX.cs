@@ -36,7 +36,7 @@ namespace EbonianMod.NPCs.ArchmageX
         public override void SetDefaults()
         {
             NPC.Size = new Vector2(50, 78);
-            NPC.lifeMax = 13000;
+            NPC.lifeMax = 11000;
             NPC.defense = 7;
             NPC.damage = 0;
             NPC.boss = true;
@@ -465,7 +465,7 @@ namespace EbonianMod.NPCs.ArchmageX
             }
 
 
-            if (NPC.life < NPC.lifeMax / 2)
+            if (NPC.life < NPC.lifeMax / 2 + 2000)
             {
                 if (!phase2 && AIState != Taunt)
                 {

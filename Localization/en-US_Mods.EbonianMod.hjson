@@ -240,6 +240,8 @@ Projectiles: {
 	ArchmageMartianProjectile.DisplayName: Archmage Martian Projectile
 	SpawnTheThing.DisplayName: Spawn The Thing
 	ArchmageStaffGore.DisplayName: Archmage Staff Gore
+	XTomeP.DisplayName: X Tome P
+	XTomeSummon.DisplayName: X Tome Summon
 }
 
 NPCs: {
@@ -751,6 +753,11 @@ Items: {
 		DisplayName: Bloodlash
 		Tooltip: ""
 	}
+
+	ArchmageXTome: {
+		DisplayName: Archmage X Tome
+		Tooltip: ""
+	}
 }
 
 Buffs: {
@@ -797,6 +804,11 @@ Buffs: {
 	Sheepened: {
 		DisplayName: Sheepened
 		Description: This is baad!
+	}
+
+	XTomeBuff: {
+		DisplayName: X Tome Buff
+		Description: Mods.EbonianMod.Buffs.XTomeBuff.Description
 	}
 }
 

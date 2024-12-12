@@ -347,7 +347,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     break;
                 }
             }
-            return !NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0 && !projExists && !(p.timesDiedToXareus <= 0 && NPC.ai[1] < 3700) && NPC.ai[2] < 1001;
+            return !NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0 && !projExists && !(p.timesDiedToXareus == 0 && NPC.ai[1] < 3700) && NPC.ai[2] < 1001;
         }
         public override void SetChatButtons(ref string button, ref string button2)
         {
