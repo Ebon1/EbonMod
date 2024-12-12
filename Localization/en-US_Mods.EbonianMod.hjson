@@ -240,8 +240,8 @@ Projectiles: {
 	ArchmageMartianProjectile.DisplayName: Archmage Martian Projectile
 	SpawnTheThing.DisplayName: Spawn The Thing
 	ArchmageStaffGore.DisplayName: Archmage Staff Gore
-	XTomeP.DisplayName: X Tome P
-	XTomeSummon.DisplayName: X Tome Summon
+	XTomeP.DisplayName: Amethyst Energy
+	XTomeSummon.DisplayName: Phantasmal Spirit
 }
 
 NPCs: {
@@ -755,8 +755,8 @@ Items: {
 	}
 
 	ArchmageXTome: {
-		DisplayName: Archmage X Tome
-		Tooltip: ""
+		DisplayName: Tome of the Grand Archmage's Infinite Wisdom
+		Tooltip: Conjures Amethyst Energy to summon Phantasmal Spirits for you.
 	}
 }
 
@@ -807,8 +807,8 @@ Buffs: {
 	}
 
 	XTomeBuff: {
-		DisplayName: X Tome Buff
-		Description: Mods.EbonianMod.Buffs.XTomeBuff.Description
+		DisplayName: Phantasmal Spirits
+		Description: You radiate amethyst energy that will fight for you
 	}
 }
 

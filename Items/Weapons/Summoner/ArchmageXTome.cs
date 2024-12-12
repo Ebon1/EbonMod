@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;
 using Terraria.DataStructures;
+using EbonianMod.Projectiles.VFXProjectiles;
 
 namespace EbonianMod.Items.Weapons.Summoner
 {
@@ -25,7 +26,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
         public override void SetDefaults()
         {
-            Item.damage = 25;
+            Item.damage = 23;
             Item.DamageType = DamageClass.Summon;
             Item.mana = 10;
             Item.width = 26;
@@ -87,6 +88,10 @@ namespace EbonianMod.Items.Weapons.Summoner
             {
                 Projectile.timeLeft = 2;
             }
+            if (++Projectile.ai[1] % 100 == 0)
+            {
+                Projectile.NewProjectile(null, player.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ModContent.ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.2f, 0.2f), Main.rand.NextFloat(0.1f, 0.3f));
+            }
             Vector2 targetPos = Projectile.position;
             Vector2 targetVel = Projectile.velocity;
             int index = -1;
@@ -106,7 +111,7 @@ namespace EbonianMod.Items.Weapons.Summoner
             }
             else
             {
-                for (int k = 0; k < 200; k++)
+                for (int k = 0; k < Main.maxNPCs; k++)
                 {
                     NPC npc = Main.npc[k];
                     if (npc.CanBeChasedBy(this, false))
@@ -130,10 +135,14 @@ namespace EbonianMod.Items.Weapons.Summoner
                 if (vel.Length() > 0)
                     vel.Normalize();
                 int atts = 0;
-                Projectile.Center = targetPos + vel.RotatedByRandom(MathHelper.PiOver4) * 150;
+                Projectile.ai[0]++;
+                if (vel.Length() > 0)
+                    Projectile.Center = targetPos + vel.RotatedByRandom(MathHelper.PiOver4) * 150;
+                else
+                    Projectile.Center = targetPos + Main.rand.NextVector2Unit() * 150;
                 while (++atts < 200 && !Collision.CanHit(Projectile, player))
                     Projectile.Center = targetPos + Main.rand.NextVector2Unit() * 150;
-                if (++Projectile.ai[0] % 30 == 0)
+                if ((Projectile.ai[0] + Projectile.minionPos * 7) % 30 == 0)
                 {
                     Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center + targetVel * 2, Helper.FromAToB(Projectile.Center + targetVel * 2, targetPos + targetVel) * 13, ModContent.ProjectileType<XTomeP>(), Projectile.damage, 0f, player.whoAmI, index);
                 }
