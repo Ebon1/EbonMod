@@ -44,6 +44,7 @@ namespace EbonianMod
             }
         }
         public bool downedXareus = false;
+        public int constantTimer;
         public override void SaveWorldData(TagCompound tag)
         {
             tag.Set("XarusDown", downedXareus);
@@ -55,17 +56,21 @@ namespace EbonianMod
         public override void PostUpdateEverything()
         {
             xareusFightCooldown--;
+            constantTimer++;
 
-            if (!NPC.AnyNPCs(ModContent.NPCType<ArchmageStaffNPC>()))
-            {
-                for (int i = 200; i < Main.maxTilesX - 200; i++)
-                    for (int j = 200; j < Main.maxTilesY - 200; j++)
-                        if (Main.tile[i, j].HasTile && Main.tile[i, j].TileType == (ushort)ModContent.TileType<ArchmageStaffTile>())
+            if (constantTimer % 600 == 0)
+                if (!NPC.AnyNPCs(ModContent.NPCType<ArchmageStaffNPC>()))
+                {
+                    for (int i = Main.maxTilesX / 2 - 440; i < Main.maxTilesX / 2 + 440; i++)
+                        for (int j = 135; j < Main.maxTilesY / 2; j++)
                         {
-                            NPC.NewNPCDirect(null, new Vector2(i * 16 + 20, j * 16 + 40), ModContent.NPCType<ArchmageStaffNPC>(), ai3: 1);
-                            break;
+                            if (Main.tile[i, j].HasTile && Main.tile[i, j].TileType == (ushort)ModContent.TileType<ArchmageStaffTile>())
+                            {
+                                NPC.NewNPCDirect(null, new Vector2(i * 16 + 20, j * 16 + 40), ModContent.NPCType<ArchmageStaffNPC>(), ai3: 1);
+                                break;
+                            }
                         }
-            }
+                }
         }
         public override void OnWorldLoad()
         {

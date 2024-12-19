@@ -204,7 +204,7 @@ namespace EbonianMod
             Filters.Scene["EbonianMod:XMartian"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(0, 0, 0).UseOpacity(0), EffectPriority.High);
             SkyManager.Instance["EbonianMod:XMartian"] = new MartianSky();
 
-            Filters.Scene["EbonianMod:CrimsonTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.75f, 0f, 0f).UseOpacity(0.45f), EffectPriority.Medium);
+            Filters.Scene["EbonianMod:CrimsonTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.75f, 0f, 0f).UseOpacity(0.35f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:CrimsonTint"] = new BasicTint();
 
             Filters.Scene["EbonianMod:Conglomerate"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.25f, .1f, 0f).UseOpacity(0.45f), EffectPriority.Medium);

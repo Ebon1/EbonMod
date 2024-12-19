@@ -36,8 +36,8 @@ namespace EbonianMod.NPCs.ArchmageX
         public override void SetDefaults()
         {
             NPC.Size = new Vector2(50, 78);
-            NPC.lifeMax = 11000;
-            NPC.defense = 7;
+            NPC.lifeMax = 9500;
+            NPC.defense = 4;
             NPC.damage = 0;
             NPC.boss = true;
             NPC.aiStyle = -1;
@@ -377,7 +377,7 @@ namespace EbonianMod.NPCs.ArchmageX
         }
         public override void AI()
         {
-            if (NPC.life < NPC.lifeMax * 0.28f && Main.expertMode)
+            if (NPC.life < NPC.lifeMax / 3 - 1000 && Main.expertMode)
             {
                 if (phaseMult != 3)
                 {
@@ -1684,7 +1684,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Reset();
                             NPC.ai[3]++;
-                            if (Main.rand.Next((phaseMult == 3 ? ((doneAttacksBefore ? 20 : 15) - (int)NPC.ai[3]) : 18)) > 4)
+                            if (Main.rand.Next((int)MathHelper.Clamp(phaseMult == 3 ? ((doneAttacksBefore ? 8 : 15) - (int)NPC.ai[3]) : 18, 1, 20)) > 4)
                             {
                                 NPC.ai[3] = 0;
                                 PickAttack();

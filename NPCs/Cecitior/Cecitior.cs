@@ -70,7 +70,7 @@ namespace EbonianMod.NPCs.Cecitior
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.lifeMax = 13000;
+            NPC.lifeMax = 11000;
             NPC.damage = 40;
             NPC.noTileCollide = true;
             NPC.dontTakeDamage = true;
@@ -89,7 +89,6 @@ namespace EbonianMod.NPCs.Cecitior
             NPC.buffImmune[24] = true;
             NPC.buffImmune[BuffID.Ichor] = true;
             NPC.netAlways = true;
-            NPC.BossBar = Main.BigBossProgressBar.NeverValid;
             NPC.hide = true;
             NPC.value = Item.buyPrice(0, 10);
             //NPC.alpha = 255;
@@ -647,6 +646,7 @@ namespace EbonianMod.NPCs.Cecitior
                         AITimer2 = Main.rand.NextFloat(MathHelper.Pi * 2);
                     if (AITimer < 20)
                     {
+                        NPC.velocity *= 0.9f;
                         claw[0].position = Vector2.Lerp(claw[0].position, NPC.Center + new Vector2(45, -185).RotatedBy(AITimer2), 0.3f);
                         claw[1].position = Vector2.Lerp(claw[1].position, NPC.Center + new Vector2(0, -200).RotatedBy(AITimer2), 0.3f);
                         claw[2].position = Vector2.Lerp(claw[2].position, NPC.Center + new Vector2(-45, -185).RotatedBy(AITimer2), 0.3f);
@@ -660,7 +660,7 @@ namespace EbonianMod.NPCs.Cecitior
                     }
                     if (AITimer >= 20)
                     {
-                        NPC.velocity *= 0.9f;
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center) * 10, 0.05f);
                         for (int i = 0; i < claw.Length; i++)
                         {
                             claw[0].position = Vector2.Lerp(claw[0].position, NPC.Center - new Vector2(45, -170).RotatedBy(AITimer2), 0.05f);
@@ -680,7 +680,6 @@ namespace EbonianMod.NPCs.Cecitior
                             AITimer = 0;
                             AITimer3++;
                             savedPos = NPC.Center;
-                            NPC.velocity = Vector2.Zero;
                         }
                         else
                         {
@@ -689,7 +688,6 @@ namespace EbonianMod.NPCs.Cecitior
                             AITimer3 = 0;
                             AITimer2 = 0;
                             AIState = Death;
-                            NPC.velocity = Vector2.Zero;
                             AITimer = 0;
                         }
                     }
@@ -823,21 +821,8 @@ namespace EbonianMod.NPCs.Cecitior
                         NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 100) * 2;
                     else NPC.velocity *= 0.9f;
                 }
-                if (AITimer >= 60)
+                if (AITimer >= NPC.life / 260 + 10)
                 {
-                    /*if (NPC.ai[2] == 1)
-                    {
-                        int rand = Main.rand.Next(2, 9);
-                        int attempts = 0;
-                        while (rand == lastAi && attempts < 75)
-                        {
-                            rand = Main.rand.Next(2, 9);
-                            attempts++;
-                        }
-                        AIState = rand;
-                    }
-                    else
-                        AIState = EyeBehaviour;*/
                     AIState = Next;
                     NPC.velocity = Vector2.Zero;
                     AITimer = 0;
@@ -1384,7 +1369,7 @@ namespace EbonianMod.NPCs.Cecitior
             }
             else if (AIState == Phase2ClawMultiple)
             {
-                AITimer += 0.5f;
+                AITimer++;
                 if (AITimer % 50 == 1)
                     AITimer3 = Main.rand.Next(3);
 

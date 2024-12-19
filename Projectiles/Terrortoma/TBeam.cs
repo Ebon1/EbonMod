@@ -87,7 +87,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             float progress = Utils.GetLerpValue(0, 165, Projectile.timeLeft);
             float i_progress = MathHelper.Clamp(MathHelper.SmoothStep(1, 0.2f, progress) * 50, 0, 1 / MathHelper.Clamp(startSize, 1, 2));
 
-            DrawVertices(Projectile.velocity.ToRotation(), texture, texture2, i_progress, 1);
+            DrawVertices(Projectile.velocity.ToRotation(), texture, texture2, i_progress, 3);
             return false;
         }
         void DrawVertices(float rotation, Texture2D texture, Texture2D texture2, float i_progress, float alphaOffset)
@@ -116,13 +116,13 @@ namespace EbonianMod.Projectiles.Terrortoma
                 if (__off2 > 1) __off = -__off + 1;
                 float _off2 = __off + i;
 
-                Color col = Color.Lerp(Color.LimeGreen, Color.LimeGreen * 1.2f, i) * (s * s * 2f * alphaOffset);
-                vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(MathHelper.Lerp(60, 100, i) * startSize, MathHelper.SmoothStep(120, 300, i), i * 3) * MathHelper.Clamp(startSize, 1, 2), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
-                vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(MathHelper.Lerp(60, 100, i) * startSize, MathHelper.SmoothStep(120, 300, i), i * 3) * MathHelper.Clamp(startSize, 1, 2), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
+                Color col = Color.Lerp(Color.LawnGreen, Color.LawnGreen * 1.2f, i) * (s * s * 2f * alphaOffset);
+                vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(MathHelper.Lerp(60, 100, i) * startSize, MathHelper.SmoothStep(120, 400, i), i * 3) * MathHelper.Clamp(startSize, 1, 2), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
+                vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(MathHelper.Lerp(60, 100, i) * startSize, MathHelper.SmoothStep(120, 400, i), i * 3) * MathHelper.Clamp(startSize, 1, 2), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off, 0), col * Projectile.scale));
 
                 col = Color.White * (s * s * 1.5f * alphaOffset);
-                vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(MathHelper.Lerp(0, 30, i) * startSize, MathHelper.SmoothStep(100, 250, i), i * 2) * MathHelper.Clamp(startSize, 1, 2), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off2, 1), col * Projectile.scale));
-                vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(MathHelper.Lerp(0, 30, i) * startSize, MathHelper.SmoothStep(100, 250, i), i * 2) * MathHelper.Clamp(startSize, 1, 2), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off2, 0), col * Projectile.scale));
+                vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(MathHelper.Lerp(0, 30, i) * startSize, MathHelper.SmoothStep(100, 350, i), i * 2) * MathHelper.Clamp(startSize, 1, 2), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off2, 1), col * Projectile.scale));
+                vertices2.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.Lerp(MathHelper.Lerp(0, 30, i) * startSize, MathHelper.SmoothStep(100, 350, i), i * 2) * MathHelper.Clamp(startSize, 1, 2), 0).RotatedBy(rot - MathHelper.PiOver2) * i_progress, new Vector2(_off2, 0), col * Projectile.scale));
             }
 
             Main.spriteBatch.End();
