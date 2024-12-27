@@ -12,6 +12,8 @@
 		<None Remove="effects\fx\spriteRotation.fx" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Remove="Projectiles\ArchmageX\XBolt - Copy.png" />
+	  <None Remove="Projectiles\ArchmageX\XBolt_Glow - Copy.png" />
 	</ItemGroup>
 	<ItemGroup>
 		<Reference Include="StructureHelper">

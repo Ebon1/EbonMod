@@ -13,6 +13,9 @@ using EbonianMod.NPCs.Terrortoma;
 using EbonianMod.Items.Weapons.Summoner;
 using EbonianMod.Items.Materials;
 using EbonianMod.Items.Accessories;
+using EbonianMod.NPCs.Garbage;
+using EbonianMod.Projectiles.Garbage;
+using EbonianMod.Items.Weapons.Ranged;
 
 namespace EbonianMod.Items.BossTreasure
 {
@@ -29,8 +32,8 @@ namespace EbonianMod.Items.BossTreasure
         {
             Item.maxStack = Item.CommonMaxStack;
             Item.consumable = true;
-            Item.width = 24;
-            Item.height = 24;
+            Item.width = 16;
+            Item.height = 16;
             Item.rare = ItemRarityID.Purple;
             Item.expert = true;
         }
@@ -56,6 +59,23 @@ namespace EbonianMod.Items.BossTreasure
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<TerrortomaMaterial>(), 1, 40, 60));
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<EbonianHeart>(), 1));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Terrortoma>()));
+        }
+    }
+    public class GarbageBag : BossBags
+    {
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.PreHardmodeLikeBossBag[Type] = true;
+            ItemID.Sets.BossBag[Type] = true;
+        }
+        public override void ModifyItemLoot(ItemLoot itemLoot)
+        {
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<HotShield>(), 1));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<Chainsword>(), 4));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<DoomsdayRemote>(), 4));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<DoomsdayRemote>(), 4));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<PipebombI>(), 1, 20, 100));
+            itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<HotGarbage>()));
         }
     }
 }

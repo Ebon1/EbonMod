@@ -242,6 +242,8 @@ Projectiles: {
 	ArchmageStaffGore.DisplayName: Archmage Staff Gore
 	XTomeP.DisplayName: Amethyst Energy
 	XTomeSummon.DisplayName: Phantasmal Spirit
+	XBoltFriendly.DisplayName: X Bolt Friendly
+	CursedFireball.DisplayName: Cursed Fireball
 }
 
 NPCs: {
@@ -666,12 +668,12 @@ Items: {
 
 	CecitiorBag: {
 		DisplayName: Treasure Bag (Cecitior)
-		Tooltip: ""
+		Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
 	}
 
 	TerrortomaBag: {
 		DisplayName: Treasure Bag (Terrortoma)
-		Tooltip: ""
+		Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
 	}
 
 	CursedToy: {
@@ -757,6 +759,21 @@ Items: {
 	ArchmageXTome: {
 		DisplayName: Tome of the Grand Archmage's Infinite Wisdom
 		Tooltip: Conjures Amethyst Energy to summon Phantasmal Spirits for you.
+	}
+
+	StaffOfXItem: {
+		DisplayName: Staff Of X Item
+		Tooltip: ""
+	}
+
+	StaffofXWeapon: {
+		DisplayName: Staff of Xareus
+		Tooltip: ""
+	}
+
+	GarbageBag: {
+		DisplayName: Treasure Bag ({$Mods.EbonianMod.NPCs.HotGarbage.DisplayName})
+		Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
 	}
 }
 
