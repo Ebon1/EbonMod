@@ -16,6 +16,8 @@ using EbonianMod.Items.Accessories;
 using EbonianMod.NPCs.Garbage;
 using EbonianMod.Projectiles.Garbage;
 using EbonianMod.Items.Weapons.Ranged;
+using EbonianMod.Items.Weapons.Magic;
+using EbonianMod.NPCs.ArchmageX;
 
 namespace EbonianMod.Items.BossTreasure
 {
@@ -61,6 +63,7 @@ namespace EbonianMod.Items.BossTreasure
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<Terrortoma>()));
         }
     }
+
     public class GarbageBag : BossBags
     {
         public override void SetStaticDefaults()
@@ -76,6 +79,24 @@ namespace EbonianMod.Items.BossTreasure
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<DoomsdayRemote>(), 4));
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<PipebombI>(), 1, 20, 100));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<HotGarbage>()));
+        }
+    }
+
+    public class ArchmageBag : BossBags
+    {
+        public override void SetStaticDefaults()
+        {
+            ItemID.Sets.PreHardmodeLikeBossBag[Type] = true;
+            ItemID.Sets.BossBag[Type] = true;
+        }
+        public override void ModifyItemLoot(ItemLoot itemLoot)
+        {
+            //itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<>(), 1)); *for expert
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<PhantasmalGreatsword>(), 4));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<XareusPotion>(), 4));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<StaffofXWeapon>(), 4));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<ArchmageXTome>(), 4));
+            itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<ArchmageX>()));
         }
     }
 }
