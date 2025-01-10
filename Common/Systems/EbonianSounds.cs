@@ -144,7 +144,7 @@ namespace EbonianMod.Common.Systems
 
             eggplosion = Default with
             {
-                SoundPath = ebonianSoundPath + "Eggplosion"
+                SoundPath = ebonianSoundPath + "eggplosion"
             };
 
 
@@ -156,7 +156,7 @@ namespace EbonianMod.Common.Systems
 
             exolDash = Default with
             {
-                SoundPath = ebonianSoundPath + "ExolDash"
+                SoundPath = ebonianSoundPath + "exolDash"
             };
 
 
@@ -199,14 +199,14 @@ namespace EbonianMod.Common.Systems
 
             garbageAwaken = Default with
             {
-                SoundPath = ebonianSoundPath + "GarbageAwaken",
+                SoundPath = ebonianSoundPath + "garbageAwaken",
                 PitchVariance = 0
             };
 
 
             garbageSignal = Default with
             {
-                SoundPath = ebonianSoundPath + "GarbageSignal",
+                SoundPath = ebonianSoundPath + "garbageSignal",
                 PitchVariance = 0
             };
 
@@ -225,7 +225,7 @@ namespace EbonianMod.Common.Systems
 
             nuke = Default with
             {
-                SoundPath = ebonianSoundPath + "Nuke"
+                SoundPath = ebonianSoundPath + "nuke"
             };
 
 
@@ -400,7 +400,7 @@ namespace EbonianMod.Common.Systems
 
             garbageDeath = Default with
             {
-                SoundPath = ebonianSoundPath + "NPCHit/GarbageDeath",
+                SoundPath = ebonianSoundPath + "NPCHit/garbageDeath",
                 PitchVariance = 0
             };
 
