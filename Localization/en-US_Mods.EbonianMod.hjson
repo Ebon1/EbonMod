@@ -244,6 +244,8 @@ Projectiles: {
 	XTomeSummon.DisplayName: Phantasmal Spirit
 	XBoltFriendly.DisplayName: X Bolt Friendly
 	CursedFireball.DisplayName: Cursed Fireball
+	XareusPotionExplosion.DisplayName: Xareus Potion Explosion
+	XareusPotionPro.DisplayName: Xareus Potion Pro
 }
 
 NPCs: {
@@ -667,12 +669,12 @@ Items: {
 	}
 
 	CecitiorBag: {
-		DisplayName: Treasure Bag (Cecitior)
+		DisplayName: Treasure Bag ({$Mods.EbonianMod.NPCs.Cecitior.DisplayName})
 		Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
 	}
 
 	TerrortomaBag: {
-		DisplayName: Treasure Bag (Terrortoma)
+		DisplayName: Treasure Bag ({$Mods.EbonianMod.NPCs.Terrortoma.DisplayName})
 		Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
 	}
 
@@ -774,6 +776,21 @@ Items: {
 	GarbageBag: {
 		DisplayName: Treasure Bag ({$Mods.EbonianMod.NPCs.HotGarbage.DisplayName})
 		Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
+	}
+
+	XareusPotion: {
+		DisplayName: Xareus Potion
+		Tooltip: ""
+	}
+
+	ArchmageBag: {
+		DisplayName: Treasure Bag ({$Mods.EbonianMod.NPCs.ArchmageX.DisplayName})
+		Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
+	}
+
+	TerrortomaTrophy: {
+		DisplayName: Terrortoma Trophy
+		Tooltip: ""
 	}
 }
 
