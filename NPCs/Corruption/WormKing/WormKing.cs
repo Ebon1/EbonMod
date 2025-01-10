@@ -103,7 +103,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
         }
         public override void HitEffect(NPC.HitInfo hitinfo)
         {
-            if (hitinfo.Damage > NPC.life)
+            if (hitinfo.Damage > NPC.life && NPC.life <= 0)
             {
                 Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                 for (int i = 0; i < 18; i++)

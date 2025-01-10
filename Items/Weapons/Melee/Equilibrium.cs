@@ -29,7 +29,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.knockBack = 10f;
             Item.width = 100;
             Item.height = 100;
-            Item.damage = 25;
+            Item.damage = 65;
             Item.useAnimation = 32;
             Item.useTime = 32;
             Item.noUseGraphic = true;
@@ -46,6 +46,10 @@ namespace EbonianMod.Items.Weapons.Melee
         public override bool? CanAutoReuseItem(Player player)
         {
             return false;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ModContent.ItemType<Serration>()).AddIngredient(ModContent.ItemType<MeatCrusher>()).AddIngredient(ItemID.BrokenHeroSword).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -130,12 +134,11 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.Center = player.GetFrontHandPosition(stretch, rotation - MathHelper.PiOver2) + Projectile.velocity.ToRotation().ToRotationVector2() * holdOffset;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
             player.ChangeDir(Projectile.velocity.X < 0 ? -1 : 1);
-            player.SetCompositeArmFront(true, stretch, rotation - MathHelper.PiOver2);
 
             if (Projectile.timeLeft == swingTime - 25 * 5)
                 SoundEngine.PlaySound(EbonianSounds.HeavySwing, Projectile.Center);
 
-            if (Projectile.timeLeft <= 15 * 5)
+            if (Projectile.timeLeft <= 18 * 5)
             {
                 if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems)
                 {
@@ -145,7 +148,7 @@ namespace EbonianMod.Items.Weapons.Melee
                         Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, (Projectile.ai[0] > 3 ? 0 : Projectile.ai[0] + 1), (-Projectile.ai[1]));
                         proj.rotation = Projectile.rotation;
                         proj.Center = Projectile.Center;
-                        proj.timeLeft = swingTime - 15 * 5;
+                        proj.timeLeft = swingTime - 18 * 5;
                         Projectile.active = false;
                     }
                 }
@@ -153,8 +156,21 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.scale = MathHelper.Clamp(MathF.Sin(swingProgress * MathF.PI) * 0.1f + 1, 0.975f, 1.05f);
             float angle = MathHelper.Lerp(-MathHelper.PiOver2 - MathHelper.PiOver4 * 0.5f, MathHelper.Pi + MathHelper.PiOver4 * 0.5f, -swingProgress + 1);
             float rot = angle + (Projectile.ai[1] == 1 ? 0 : MathHelper.Pi) + MathHelper.PiOver2;
+
+            Arm(player);
             if (swingProgress.CloseTo(0.5f, 0.45f) && swingProgress < 0.85f && Projectile.timeLeft % 2 == 0)
                 oldP.Add(rot);
+        }
+        void Arm(Player player)
+        {
+
+            int direction = (int)Projectile.ai[1];
+            float swingProgress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
+            float defRot = Projectile.velocity.ToRotation();
+            float start = defRot - (MathHelper.PiOver2 + MathHelper.PiOver4);
+            float end = defRot + (MathHelper.PiOver2 + MathHelper.PiOver4);
+            float rot = direction == 1 ? start + MathHelper.Pi * 3 / 2 * swingProgress : end - MathHelper.Pi * 3 / 2 * swingProgress;
+            player.SetCompositeArmFront(true, stretch, rot - MathHelper.PiOver2);
         }
         List<float> oldP = new List<float>(30);
         public override bool PreDraw(ref Color lightColor)

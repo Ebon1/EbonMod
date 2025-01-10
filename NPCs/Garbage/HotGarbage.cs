@@ -198,7 +198,7 @@ namespace EbonianMod.NPCs.Garbage
                     }
                 }
             }
-            else if (AIState == WarningForDash || AIState == SlamPreperation || AIState == WarningForBigDash || (AIState == PipeBombAirstrike && AITimer <= 25) || (AIState == MassiveLaser && AITimer <= 25))
+            else if (AIState == WarningForDash || (AIState == Dash && (AITimer3 >= 22)) || AIState == SlamPreperation || AIState == WarningForBigDash || (AIState == PipeBombAirstrike && AITimer <= 25) || (AIState == MassiveLaser && AITimer <= 25))
             {
                 NPC.frame.X = 80;
                 if (NPC.frameCounter % 5 == 0)
@@ -213,7 +213,7 @@ namespace EbonianMod.NPCs.Garbage
                     }
                 }
             }
-            else if ((AIState == Death && AITimer > 40) || AIState == SlamSlamSlam || AIState == Dash || AIState == BigDash || (AIState == PipeBombAirstrike && AITimer > 25) || (AIState == MassiveLaser && AITimer > 25))
+            else if ((AIState == Death && AITimer > 40) || AIState == SlamSlamSlam || (AIState == Dash && !(AITimer3 >= 22)) || AIState == BigDash || (AIState == PipeBombAirstrike && AITimer > 25) || (AIState == MassiveLaser && AITimer > 25))
             {
                 NPC.frame.X = 80;
                 if (NPC.frameCounter % 5 == 0)

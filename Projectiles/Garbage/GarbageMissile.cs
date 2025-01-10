@@ -10,6 +10,7 @@ using Terraria.Audio;
 using EbonianMod.Common.Systems;
 using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.DataStructures;
+using Terraria.ID;
 
 namespace EbonianMod.Projectiles.Garbage
 {
@@ -28,7 +29,7 @@ namespace EbonianMod.Projectiles.Garbage
         Color col = Color.Transparent;
         public override void OnSpawn(IEntitySource source)
         {
-            col = new Color(Main.rand.Next(25, 100), Main.rand.Next(25, 100), 0);
+            col = new Color(Main.rand.Next(100, 255), Main.rand.Next(100, 255), 0);
         }
         public override bool? CanDamage() => Projectile.timeLeft < 300;
         public override Color? GetAlpha(Color lightColor) => col;
@@ -39,6 +40,8 @@ namespace EbonianMod.Projectiles.Garbage
                 Projectile.velocity = Projectile.velocity.RotatedBy(Projectile.ai[0]) * 0.99f;
             else
             {
+                if (Main.rand.NextBool())
+                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.RainCloud);
                 if (Projectile.velocity.Length() < 16)
                     Projectile.velocity *= 1.025f;
             }
