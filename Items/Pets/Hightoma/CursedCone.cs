@@ -64,7 +64,7 @@ namespace EbonianMod.Items.Pets.Hightoma
                 //  float rando = rand.NextFloat(MathHelper.Pi * 2);
                 Texture2D clinger = Helper.GetTexture("Items/Pets/Hightoma/Hightoma_Clinger" + (i + 2));
                 Vector2 neckOrigin = Projectile.Center;
-                Vector2 center = Projectile.Center - new Vector2(i * 30, -45).RotatedBy(Projectile.rotation);
+                Vector2 center = Projectile.Center - new Vector2(i * 30, -45) - Projectile.velocity * i;
                 Vector2 distToProj = neckOrigin - center;
                 float projRotation = distToProj.ToRotation() - 1.57f;
                 float distance = distToProj.Length();

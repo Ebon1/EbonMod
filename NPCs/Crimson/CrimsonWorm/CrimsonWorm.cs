@@ -18,6 +18,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using EbonianMod.Items.Materials;
 using Terraria.GameContent.ItemDropRules;
+using EbonianMod.Items.Weapons.Magic;
 
 namespace EbonianMod.NPCs.Crimson.CrimsonWorm
 {
@@ -32,7 +33,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         public override void SetStaticDefaults()
         {
 
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Hide = true // Hides this NPC from the Bestiary, useful for multi-part NPCs whom you only want one entry.
             };
@@ -85,6 +86,9 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
                 NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 13f;
                 NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
                 SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center);
+                for (int i = 0; i < 3; i++)
+                    Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f, 2), ModContent.ProjectileType<HostileGibs>(), 10, 0).tileCollide = false;
+
             }
             if (NPC.life > 4)
             {
@@ -111,10 +115,14 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             }
             else
             {
-                if (NPC.ai[3] >= 400)
+                if (NPC.ai[3] >= 200 && NPC.ai[3] % 30 == 0)
                 {
+                    SoundEngine.PlaySound(SoundID.NPCHit1, NPC.Center);
+                    for (int i = 0; i < 5; i++)
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f, 2), ModContent.ProjectileType<HostileGibs>(), 10, 0).tileCollide = false;
 
-                    NPC.ai[3] = -2000;
+                    if (NPC.ai[3] > 250)
+                        NPC.ai[3] = 0;
                 }
             }
 
@@ -162,8 +170,8 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             if (hitinfo.Damage > NPC.life)
             {
                 EbonianSystem.ScreenShakeAmount = 5;
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimsonWormSkull").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimsonWormJaw").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 0.05f, ModContent.Find<ModGore>("EbonianMod/CrimsonWormSkull").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 0.05f, ModContent.Find<ModGore>("EbonianMod/CrimsonWormJaw").Type, NPC.scale);
             }
         }
     }
@@ -201,6 +209,10 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             return null;
         }
         public override bool byHeight => true;
+        public override void DrawBehind(int index)
+        {
+            Main.instance.DrawCacheProjsBehindNPCs.Add(index);
+        }
         public override void SetStaticDefaults()
         {
 
@@ -220,14 +232,33 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
                     tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody2");
                 if (NPC.ai[2] > 6)
                     tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody3");
-                spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+
+                spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowingNPC.Center, 0.5f) - screenPos, NPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowingNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+
+                //if (FollowerNPC.type == ModContent.NPCType<CrimsonWormTail>())
+                //  spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowerNPC.Center, 0.5f) - screenPos, NPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowerNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
             }
             else
             {
                 Texture2D tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody_Destroyed");
-                spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+
+                spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowingNPC.Center, 0.5f) - screenPos, NPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowingNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+
+                //if (FollowerNPC.type == ModContent.NPCType<CrimsonWormTail>())
+                //  spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowerNPC.Center, 0.5f) - screenPos, NPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowerNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+
             }
             return false;
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            Texture2D tex = TextureAssets.Npc[Type].Value;
+            if (NPC.ai[2] <= 6 && NPC.ai[2] > 3)
+                tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody2");
+            if (NPC.ai[2] > 6)
+                tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody3");
+            if (isDed) tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody_Destroyed");
+            spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
         }
         public override void ExtraAI()
         {
@@ -383,13 +414,18 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            return false;
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
             Texture2D tex = TextureAssets.Npc[Type].Value;
             spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2 + new Vector2(0, 4), NPC.scale, SpriteEffects.None, 0);
-            return false;
         }
         public override void ExtraAI()
         {
             NPC.realLife = -1;
+            NPC.rotation = FollowingNPC.rotation;
+            NPC.Center = FollowingNPC.Center - NPC.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2) * (FollowingNPC.height + 6);
         }
         public override void FindFrame(int frameHeight)
         {

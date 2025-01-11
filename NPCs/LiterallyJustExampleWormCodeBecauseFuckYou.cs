@@ -82,6 +82,7 @@ namespace EbonianMod.NPCs
 
         private bool startDespawning;
         public virtual void ExtraAI() { }
+        public virtual void Despawn() { }
 
         public sealed override bool PreAI()
         {
@@ -304,6 +305,7 @@ namespace EbonianMod.NPCs
 
                             if (n.active && (n.type == Type || n.type == BodyType || n.type == TailType) && n.realLife == NPC.whoAmI)
                             {
+                                this.Despawn();
                                 n.active = false;
                                 n.netUpdate = true;
                             }
@@ -630,8 +632,10 @@ namespace EbonianMod.NPCs
                 // Kill the segment if the segment NPC it's following is no longer valid
                 if (following is null || !following.active || following.friendly || following.townNPC || following.lifeMax <= 5)
                 {
+                    worm.Despawn();
                     worm.NPC.life = 0;
                     worm.NPC.HitEffect(0, 10);
+                    following.HitEffect(0, 10);
                     worm.NPC.active = false;
                 }
             }

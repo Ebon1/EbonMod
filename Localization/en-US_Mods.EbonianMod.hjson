@@ -246,6 +246,7 @@ Projectiles: {
 	CursedFireball.DisplayName: Cursed Fireball
 	XareusPotionExplosion.DisplayName: Xareus Potion Explosion
 	XareusPotionPro.DisplayName: Xareus Potion Pro
+	HostileGibs.DisplayName: Hostile Gibs
 }
 
 NPCs: {
