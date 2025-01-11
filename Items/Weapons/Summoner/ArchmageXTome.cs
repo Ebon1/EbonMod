@@ -37,7 +37,7 @@ namespace EbonianMod.Items.Weapons.Summoner
             Item.noMelee = true;
             Item.knockBack = 3;
             Item.value = Item.buyPrice(0, 30, 0, 0);
-            Item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item44;
             Item.shoot = ModContent.ProjectileType<XTomeSummon>();
             Item.buffType = ModContent.BuffType<Buffs.XTomeBuff>();

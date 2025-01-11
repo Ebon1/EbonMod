@@ -140,6 +140,7 @@ namespace EbonianMod.Projectiles.Garbage
                 Projectile p = Projectile.NewProjectileDirect(null, Projectile.Center, Vector2.UnitY, ModContent.ProjectileType<GarbageLightning>(), Projectile.damage, 0);
                 p.friendly = true;
                 p.hostile = false;
+                p.DamageType = DamageClass.Magic;
             }
             if (Projectile.ai[0] == 130)
             {

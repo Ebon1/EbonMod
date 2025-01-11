@@ -24,7 +24,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.useStyle = 5;
             Item.knockBack = 10;
             Item.value = 1000;
-            Item.rare = ItemRarityID.LightRed;
+            Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item43;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<XBoltFriendly>();

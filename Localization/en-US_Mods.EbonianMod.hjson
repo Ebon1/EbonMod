@@ -847,6 +847,11 @@ Buffs: {
 		DisplayName: Phantasmal Spirits
 		Description: You radiate amethyst energy that will fight for you
 	}
+
+	CecitiorClawBuff: {
+		DisplayName: Cecitior Claw Buff
+		Description: Mods.EbonianMod.Buffs.CecitiorClawBuff.Description
+	}
 }
 
 Keybinds: {

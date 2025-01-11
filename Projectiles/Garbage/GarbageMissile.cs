@@ -16,6 +16,10 @@ namespace EbonianMod.Projectiles.Garbage
 {
     public class GarbageMissile : ModProjectile
     {
+        public override void SetStaticDefaults()
+        {
+            Main.projFrames[Type] = 6;
+        }
         public override void SetDefaults()
         {
             Projectile.width = 5;
@@ -29,10 +33,10 @@ namespace EbonianMod.Projectiles.Garbage
         Color col = Color.Transparent;
         public override void OnSpawn(IEntitySource source)
         {
-            col = new Color(Main.rand.Next(100, 255), Main.rand.Next(100, 255), 0);
+            Projectile.frame = Main.rand.Next(6);
         }
         public override bool? CanDamage() => Projectile.timeLeft < 300;
-        public override Color? GetAlpha(Color lightColor) => col;
+        public override Color? GetAlpha(Color lightColor) => Color.White;
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
