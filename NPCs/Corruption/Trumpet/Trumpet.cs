@@ -1,5 +1,6 @@
 ﻿using EbonianMod.Common.Systems;
 using EbonianMod.NPCs.Crimson.CrimsonWorm;
+using EbonianMod.Projectiles.Terrortoma;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -129,13 +130,13 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
         {
             NPC.timeLeft = 10;
             NPC.direction = NPC.spriteDirection = HeadSegment.ai[2] < 0 ? 1 : -1;
-            if (++NPC.ai[2] % 200 == 100 + NPC.ai[3])
+            if (++NPC.ai[2] % 150 == 50 + NPC.ai[3] * Main.rand.Next(1, 6))
             {
                 if (NPC.ai[3] == 0)
                 {
                     SoundEngine.PlaySound(EbonianSounds.trumpet, NPC.Center);
                 }
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.UnitY * 5, ProjectileID.CursedFlameHostile, 30, 0);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.UnitY * Main.rand.NextFloat(5, 15), ModContent.ProjectileType<TFlameThrower2>(), 30, 0);
             }
         }
         public override void Init()

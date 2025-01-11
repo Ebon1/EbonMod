@@ -84,7 +84,7 @@ namespace EbonianMod.NPCs.Corruption
         }
         public override void HitEffect(NPC.HitInfo hitinfo)
         {
-            if (hitinfo.Damage > NPC.life)
+            if (hitinfo.Damage > NPC.life && NPC.life <= 0)
             {
                 for (int j = 0; j < 3; j++)
                 {

@@ -93,7 +93,7 @@ namespace EbonianMod.NPCs.Corruption
         }
         public override void HitEffect(NPC.HitInfo hitinfo)
         {
-            if (hitinfo.Damage > NPC.life)
+            if (hitinfo.Damage > NPC.life && NPC.life <= 0)
             {
                 for (int i = 0; i < 5; i++)
                     Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);

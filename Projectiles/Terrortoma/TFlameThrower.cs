@@ -148,11 +148,13 @@ namespace EbonianMod.Projectiles.Terrortoma
             Projectile.hostile = true;
             Projectile.tileCollide = false;
             AIType = -1;
+            Projectile.timeLeft = 200;
             Projectile.aiStyle = 2;
         }
 
         public override void PostAI()
         {
+            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.CursedTorch, Projectile.velocity.X, Projectile.velocity.Y);
             //Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.LawnGreen, false, false, 0.04f);
         }
     }

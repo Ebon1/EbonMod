@@ -74,7 +74,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         }
         public override void ExtraAI()
         {
-            if (NPC.lifeMax < 11)
+            if (NPC.lifeMax != 11)
             {
                 NPC.lifeMax = 11;
                 NPC.life = 11;
@@ -179,7 +179,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         }
         public override void HitEffect(NPC.HitInfo hitinfo)
         {
-            if (hitinfo.Damage > NPC.life)
+            if (hitinfo.Damage > NPC.life && NPC.life <= 0)
             {
                 EbonianSystem.ScreenShakeAmount = 5;
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 0.05f, ModContent.Find<ModGore>("EbonianMod/CrimsonWormSkull").Type, NPC.scale);
@@ -223,7 +223,10 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         public override bool byHeight => true;
         public override void DrawBehind(int index)
         {
-            Main.instance.DrawCacheProjsBehindNPCs.Add(index);
+            if (isDed)
+                Main.instance.DrawCacheNPCsMoonMoon.Add(index);
+            else
+                Main.instance.DrawCacheProjsBehindNPCs.Add(index);
         }
         public override void SetStaticDefaults()
         {
@@ -237,28 +240,17 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (!isDed)
-            {
-                Texture2D tex = TextureAssets.Npc[Type].Value;
-                if (NPC.ai[2] <= 6 && NPC.ai[2] > 3)
-                    tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody2");
-                if (NPC.ai[2] > 6)
-                    tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody3");
-
-                spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowingNPC.Center, 0.5f) - screenPos, NPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowingNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
-
-                //if (FollowerNPC.type == ModContent.NPCType<CrimsonWormTail>())
-                //  spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowerNPC.Center, 0.5f) - screenPos, NPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowerNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
-            }
-            else
+            if (isDed)
             {
                 Texture2D tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody_Destroyed");
 
-                spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowingNPC.Center, 0.5f) - screenPos, NPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowingNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowingNPC.Center, 0.5f) - screenPos, FollowingNPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowingNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+
+                spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+
 
                 //if (FollowerNPC.type == ModContent.NPCType<CrimsonWormTail>())
                 //  spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowerNPC.Center, 0.5f) - screenPos, NPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowerNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
-
             }
             return false;
         }
@@ -269,7 +261,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
                 tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody2");
             if (NPC.ai[2] > 6)
                 tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody3");
-            if (isDed) tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody_Destroyed");
+            if (isDed) return;
             scale = MathHelper.Lerp(scale, 1, 0.1f);
             if (timer2++ % 4 == 0)
             {
@@ -279,6 +271,8 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
                 if (timer >= 13)
                     timer = 0;
             }
+            spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowingNPC.Center, 0.5f) - screenPos, FollowingNPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowingNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+
             spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale * scale, SpriteEffects.None, 0);
         }
         float scale = 1, timer, timer2;
@@ -295,6 +289,8 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             }
             if (head.ai[3] == 198 || head.ai[3] == 800)
                 Init();
+
+            NPC.hide = isDed;
 
             NPC.realLife = -1;
         }
@@ -408,7 +404,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
     {
         public override void HitEffect(NPC.HitInfo hitinfo)
         {
-            if (hitinfo.Damage > NPC.life)
+            if (hitinfo.Damage > NPC.life && NPC.life <= 0)
             {
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk7").Type, NPC.scale);
             }
