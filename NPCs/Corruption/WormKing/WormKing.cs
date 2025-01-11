@@ -3,8 +3,10 @@ using EbonianMod.Common.Systems.Misc;
 using EbonianMod.Items.Materials;
 using EbonianMod.Items.Misc;
 using EbonianMod.NPCs.Corruption.Ebonflies;
+using EbonianMod.NPCs.Corruption.Rotling;
 using EbonianMod.NPCs.Corruption.Trumpet;
 using EbonianMod.Projectiles.Friendly.Corruption;
+using EbonianMod.Projectiles.VFXProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -152,7 +154,6 @@ namespace EbonianMod.NPCs.Corruption.WormKing
 
             scaleX = MathHelper.Lerp(scaleX, 1, 0.1f);
             scaleY = MathHelper.Lerp(scaleY, 1, 0.1f);
-
             AITimer++;
             switch (AIState)
             {
@@ -165,11 +166,14 @@ namespace EbonianMod.NPCs.Corruption.WormKing
                         {
                             if (player.Distance(NPC.Center) > 400)
                             {
-                                AIState = Main.rand.Next(0, 4);
+                                if (Main.rand.NextBool(2))
+                                    AIState = Ostertagi;
+                                else
+                                    AIState = Main.rand.Next(0, 4);
                             }
                             else
                             {
-                                if (Main.rand.NextBool(4))
+                                if (Main.rand.NextBool(2))
                                     AIState = Slam;
                                 else
                                 {
@@ -241,7 +245,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
                         NPC.ai[3]++;
                         NPC.Center = Vector2.Lerp(NPC.Center, stalkBase - new Vector2(MathF.Sin(NPC.ai[3] * 0.02f) * 200, 300 + (MathF.Cos(NPC.ai[3] * 0.02f) * 50)), 0.1f);
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, MathF.Sin(NPC.ai[3] * 0.02f), 0.1f);
-                        if (AITimer % 15 == 0 && AITimer > 30)
+                        if (AITimer % 10 == 0 && AITimer > 30)
                         {
                             if (Main.rand.NextBool())
                             {
@@ -254,7 +258,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
                                 scaleY = 1.1f;
                             }
 
-                            NPC.NewNPCDirect(null, NPC.Center, ModContent.NPCType<Consumer>(), ai1: Main.rand.Next(30, 130));
+                            NPC.NewNPCDirect(null, NPC.Center, ModContent.NPCType<RotlingHead>());
                         }
                         if (AITimer > 60)
                         {
@@ -285,6 +289,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
                             scaleY = 0.8f;
 
                             Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FatSmash>(), 0, 0, 0, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<GluttonImpact>(), 0, 0, 0, 0);
                             SoundEngine.PlaySound(EbonianSounds.terrortomaFlesh, NPC.Center);
                             SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, NPC.Center);
                         }

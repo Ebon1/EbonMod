@@ -225,7 +225,7 @@ namespace EbonianMod.NPCs.Corruption
                 }
                 if (AITimer >= 85)
                 {
-                    AITimer = 0;
+                    AITimer = 160;
                     NPC.frame.Y = 0;
                     AIState = Walk;
                     NPC.velocity = Vector2.Zero;
@@ -285,7 +285,7 @@ namespace EbonianMod.NPCs.Corruption
                     {
                         EbonianSystem.ScreenShakeAmount = 5;
                         SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(0.4f).WithVolumeScale(1.2f), NPC.Center);
-                        Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Helper.FromAToB(NPC.Center + new Vector2(56 * NPC.direction, 22), storedPlayerPos).RotatedByRandom(MathHelper.PiOver4 * 0.35f) * Main.rand.NextFloat(0.4f, 0.8f), ModContent.ProjectileType<RegorgerBolt>(), 10, 0);
+                        Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Helper.FromAToB(NPC.Center + new Vector2(56 * NPC.direction, 22), storedPlayerPos).RotatedByRandom(MathHelper.PiOver4 * 0.35f) * Main.rand.NextFloat(2, 13), ModContent.ProjectileType<TFlameThrower>(), 10, 0);
                     }
                     eyeBeamAlpha = MathHelper.Lerp(eyeBeamAlpha, 0, 0.2f);
                 }
