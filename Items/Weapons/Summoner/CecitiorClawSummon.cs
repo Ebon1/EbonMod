@@ -10,6 +10,8 @@ using EbonianMod.Projectiles.Minions;
 using EbonianMod.Buffs;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
+using EbonianMod.Items.Materials;
+using EbonianMod.Items.Weapons.Melee;
 
 namespace EbonianMod.Items.Weapons.Summoner
 {
@@ -49,6 +51,11 @@ namespace EbonianMod.Items.Weapons.Summoner
             projectile.originalDamage = Item.damage;
 
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.Smolstar).AddIngredient(ModContent.ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }
