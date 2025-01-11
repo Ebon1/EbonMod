@@ -17,6 +17,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
     public class RottenSpineHead : WormHead
     {
         public override bool byHeight => false;
+        public override bool extraAiAsIndex => true;
         //public override bool HasCustomBodySegments => true;
         public override void SetStaticDefaults()
         {
@@ -41,17 +42,26 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
                 return 0;
             }
         }
-
+        public override bool useNormalMovement => true;
         public override void OnKill()
         {
             Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/RottenSpineGore1").Type, NPC.scale);
         }
         public override void ExtraAI()
         {
-            if (++NPC.ai[2] % 200 == 0)
+            Player player = Main.player[NPC.target];
+
+            if (++NPC.ai[2] % 35 == 0 && NPC.ai[2] % 450 > 200)
             {
-                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, -Vector2.UnitY.RotatedBy(NPC.rotation) * 4, ModContent.ProjectileType<TFlameThrower>(), 10, 0);
+                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + NPC.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2) * NPC.height, -Vector2.UnitY.RotatedBy(NPC.rotation) * 10, ModContent.ProjectileType<TFlameThrower>(), 10, 0);
             }
+
+            if (NPC.ai[2] % 450 < 200)
+            {
+                ForcedTargetPosition = player.Center + Helper.FromAToB(player.Center, NPC.Center) * 1000;
+            }
+            else
+                ForcedTargetPosition = null;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -89,10 +99,10 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         public override void Init()
         {
 
-            MinSegmentLength = 5;
-            MaxSegmentLength = 5;
+            MinSegmentLength = 9;
+            MaxSegmentLength = 9;
             MoveSpeed = 5.5f;
-            Acceleration = 0.045f;
+            Acceleration = 0.07f;
             CanFly = true;
         }
     }
@@ -101,8 +111,8 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         public override bool byHeight => false;
         public override void HitEffect(NPC.HitInfo hitinfo)
         {
-            if (hitinfo.Damage > NPC.life)
-                if (FollowingNPC.type == ModContent.NPCType<RottenSpineBody>() && FollowerNPC.type == ModContent.NPCType<RottenSpineBody>())
+            if (hitinfo.Damage > NPC.life && NPC.life <= 0)
+                if (NPC.ai[3] == 3)
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/RottenSpineGore3").Type, NPC.scale);
                 else
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/RottenSpineGore2").Type, NPC.scale);
@@ -118,9 +128,14 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy) return false;
             Texture2D main = Helper.GetTexture("NPCs/Corruption/RottenSpine/RottenSpineBody");
             Texture2D alt = Helper.GetTexture("NPCs/Corruption/RottenSpine/RottenSpineCoupling");
-            Texture2D tex = FollowingNPC.type == ModContent.NPCType<RottenSpineBody>() && FollowerNPC.type == ModContent.NPCType<RottenSpineBody>() ? alt : main; // god bless this code
+            Texture2D tex = NPC.ai[3] == 3 ? alt : main; // god bless this code
+
+            if (FollowingNPC == HeadSegment)
+                spriteBatch.Draw(main, Vector2.Lerp(NPC.Center, FollowingNPC.Center, 0.5f) - screenPos, null, drawColor, Helper.LerpAngle(NPC.rotation, FollowingNPC.rotation, 0.5f), tex.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+
             spriteBatch.Draw(tex, NPC.Center - screenPos, null, drawColor, NPC.rotation, tex.Size() / 2, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
@@ -134,7 +149,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         public override void Init()
         {
             MoveSpeed = 5.5f;
-            Acceleration = 0.045f;
+            Acceleration = 0.07f;
 
         }
     }
@@ -143,7 +158,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         public override bool byHeight => false;
         public override void HitEffect(NPC.HitInfo hitinfo)
         {
-            if (hitinfo.Damage > NPC.life)
+            if (hitinfo.Damage > NPC.life && NPC.life <= 0)
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/RottenSpineGore1").Type, NPC.scale);
         }
         public override void SetStaticDefaults()
@@ -170,15 +185,17 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         }
         public override void ExtraAI()
         {
-            if (++NPC.ai[2] % 50 == 0)
+            NPC.rotation = FollowingNPC.rotation;
+            NPC.Center = FollowingNPC.Center - NPC.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2) * (FollowingNPC.height + 6);
+            if (++NPC.ai[2] % 35 == 0 && HeadSegment.ai[2] % 450 < 200)
             {
-                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.UnitY.RotatedBy(NPC.rotation) * 4, ModContent.ProjectileType<TFlameThrower>(), 10, 0);
+                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + NPC.velocity, Vector2.UnitY.RotatedBy(NPC.rotation) * 10, ModContent.ProjectileType<TFlameThrower>(), 10, 0);
             }
         }
         public override void Init()
         {
             MoveSpeed = 5.5f;
-            Acceleration = 0.045f;
+            Acceleration = 0.07f;
 
         }
     }

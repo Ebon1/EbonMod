@@ -2,10 +2,12 @@
 using EbonianMod.Common.Systems.Misc;
 using EbonianMod.Items.Materials;
 using EbonianMod.NPCs.Corruption;
+using EbonianMod.Projectiles.Cecitior;
 using EbonianMod.Projectiles.Terrortoma;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Steamworks;
+using StructureHelper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,6 +22,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 
 namespace EbonianMod.NPCs.Crimson.BabyCecity
 {
@@ -42,7 +45,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneCrimson && Main.hardMode ? 0.025f : 0;
+            return spawnInfo.Player.ZoneCrimson && Main.hardMode && spawnInfo.Player.ZoneOverworldHeight ? 0.025f : 0;
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
@@ -125,6 +128,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
                 }
             }
         }
+        int seed = 55;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
@@ -138,47 +142,156 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
                 case 0:
                     if (player.Center.Distance(NPC.Center) < 1300)
                         AITimer++;
-                    if (NPC.Center.Distance(verlet[0].lastP.position) < 370 && NPC.Center.Distance(verlet[1].lastP.position) < 370)
+
+                    if (NPC.ai[3] == 0)
+                        NPC.ai[3] = 1;
+
+                    UnifiedRandom rand = new(seed);
+                    if (++AITimer2 < 80)
                     {
-                        NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(player.Center - new Vector2(0, 100)) * 15, 0.01f);
+                        if (NPC.ai[3] == 1)
+                        {
+                            if (Helper.FromAToB(ogPos[0], player.Center).X != 0)
+                            {
+                                if (AITimer2 < 30 && NPC.velocity.Length() > 2)
+                                    ogPos[0] += new Vector2(NPC.velocity.X * rand.NextFloat(2.5f, 4) + Helper.FromAToB(ogPos[0], player.Center).X, -MathHelper.SmoothStep(8, 1, AITimer2 / 50));
+                                else
+                                {
+                                    if (NPC.velocity.Length() > 2 && !ogPos[0].Y.CloseTo(Helper.TRay.Cast(ogPos[0] - new Vector2(0, 100), Vector2.UnitY, 1200).Y + 16, 32))
+                                        ogPos[0].X += NPC.velocity.X * rand.NextFloat(1.8f, 3f);
+                                    ogPos[0].Y = MathHelper.Lerp(ogPos[0].Y, Helper.TRay.Cast(new Vector2(ogPos[0].X, NPC.Center.Y) - new Vector2(0, 100), Vector2.UnitY, 1200).Y + 16, MathHelper.SmoothStep(0.05f, 0.2f, (AITimer2 - 50) / 50));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (Helper.FromAToB(ogPos[1], player.Center).X != 0)
+                            {
+                                if (AITimer2 < 30 && NPC.velocity.Length() > 2)
+                                    ogPos[1] += new Vector2(NPC.velocity.X * rand.NextFloat(2.5f, 4f) + Helper.FromAToB(ogPos[1], player.Center).X, -MathHelper.SmoothStep(8, 1, AITimer2 / 50));
+                                else
+                                {
+                                    if (NPC.velocity.Length() > 2 && !ogPos[1].Y.CloseTo(Helper.TRay.Cast(ogPos[1] - new Vector2(0, 100), Vector2.UnitY, 1200).Y + 16, 32))
+                                        ogPos[1].X += NPC.velocity.X * rand.NextFloat(1.8f, 3f);
+                                    ogPos[1].Y = MathHelper.Lerp(ogPos[1].Y, Helper.TRay.Cast(new Vector2(ogPos[1].X, NPC.Center.Y) - new Vector2(0, 100), Vector2.UnitY, 1200).Y + 16, MathHelper.SmoothStep(0.05f, 0.2f, (AITimer2 - 50) / 50));
+                                }
+                            }
+                        }
                     }
-                    else NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(verlet[0].lastP.position - new Vector2(0, 100)) * 30, 0.01f);
-                    if (AITimer >= 150)
+                    else
+                    {
+                        AITimer2 = 0;
+                        NPC.ai[3] = -NPC.ai[3];
+                    }
+                    if (AITimer2 % 80 == 0)
+                        seed = Main.rand.Next(9999999);
+
+                    if (AITimer % 10 == 0)
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.Center.FromAToB(Helper.TRay.Cast(player.Center + new Vector2(0, -200), Vector2.UnitY, 800) - new Vector2(0, 100)) * 7, 0.1f);
+                    if (verlet[0].lastP.position.Distance(NPC.Center) > 600)
+                    {
+                        ogPos[0] = Vector2.Lerp(ogPos[0], new Vector2(NPC.Center.X, Helper.TRay.Cast(ogPos[0], Vector2.UnitY, 800).Y + 16), 0.01f);
+                    }
+                    if (verlet[1].lastP.position.Distance(NPC.Center) > 600)
+                    {
+                        ogPos[1] = Vector2.Lerp(ogPos[1], new Vector2(NPC.Center.X, Helper.TRay.Cast(ogPos[1], Vector2.UnitY, 800).Y + 16), 0.01f);
+                    }
+                    if (AITimer >= 400)
                     {
                         AIState++;
                         AITimer = 0;
+                        AITimer2 = 0;
+                        if (player.Center.Distance(NPC.Center) < 500)
+                            seed = Main.rand.Next(2);
+                        else seed = 0;
                     }
                     break;
                 case 1:
                     AITimer++;
-                    if (AITimer > 45)
-                        AITimer2++;
-                    NPC.velocity *= 0.9f;
-                    if (AITimer2 % 20 == 5)
-                    {
-                        SoundStyle sound = EbonianSounds.bloodSpit;
-                        SoundEngine.PlaySound(sound, NPC.Center);
-                    }
-                    if (AITimer2 % 20 == 15)
-                    {
-                        Vector2 vel = NPC.Center.FromAToB(player.Center).RotatedByRandom(0.2f);
-                        for (int i = 0; i < 15; i++)
-                        {
-                            Dust.NewDustDirect(NPC.Center, NPC.width / 2, NPC.height / 2, DustID.IchorTorch, vel.X * Main.rand.NextFloat(5, 8), vel.Y * Main.rand.NextFloat(5, 8));
-                        }
-                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, vel * 7, ProjectileID.GoldenShowerHostile, 20, 0);
-                        a.friendly = false;
-                        a.hostile = true;
-                        a.tileCollide = false;
 
+                    if (verlet[0].lastP.position.Distance(NPC.Center) > 600)
+                    {
+                        ogPos[0] = Vector2.Lerp(ogPos[0], new Vector2(NPC.Center.X, Helper.TRay.Cast(ogPos[0], Vector2.UnitY, 800).Y + 16), 0.01f);
+                    }
+                    else
+                        ogPos[0].Y = MathHelper.Lerp(ogPos[0].Y, Helper.TRay.Cast(ogPos[0] - new Vector2(0, 100), Vector2.UnitY, 800).Y + 16, 0.1f);
+
+                    NPC.velocity *= 0.9f;
+                    if (seed == 0)
+                    {
+                        if (verlet[1].lastP.position.Distance(NPC.Center) > 600)
+                        {
+                            ogPos[1] = Vector2.Lerp(ogPos[1], new Vector2(NPC.Center.X, Helper.TRay.Cast(ogPos[1], Vector2.UnitY, 800).Y + 16), 0.01f);
+                        }
+                        else
+                            ogPos[1].Y = MathHelper.Lerp(ogPos[1].Y, Helper.TRay.Cast(ogPos[1] - new Vector2(0, 100), Vector2.UnitY, 800).Y + 16, 0.1f);
+
+                        if (AITimer > 45)
+                            AITimer2++;
+                        if (AITimer2 % 20 == 5)
+                        {
+                            SoundStyle sound = EbonianSounds.bloodSpit;
+                            SoundEngine.PlaySound(sound, NPC.Center);
+                        }
+                        if (AITimer2 % 15 == 10)
+                        {
+                            Vector2 vel = NPC.Center.FromAToB(player.Center - new Vector2(0, Main.rand.NextFloat(100))).RotatedByRandom(0.3f);
+                            for (int i = 0; i < 15; i++)
+                            {
+                                Dust.NewDustDirect(NPC.Center, NPC.width / 2, NPC.height / 2, DustID.IchorTorch, vel.X * Main.rand.NextFloat(5, 8), vel.Y * Main.rand.NextFloat(5, 8));
+                            }
+                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, vel * Main.rand.NextFloat(10, 15), ModContent.ProjectileType<CIchor>(), 20, 0);
+                            a.friendly = false;
+                            a.hostile = true;
+                            a.tileCollide = false;
+
+                        }
+                    }
+                    else
+                    {
+                        if (AITimer < 20)
+                        {
+                            savedP = ogPos[1];
+                            savedP2 = player.Center;
+                            ogPos[1] = Vector2.Lerp(ogPos[1], player.Center - new Vector2(0, 200), 0.1f);
+                        }
+                        if (AITimer == 40)
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), savedP + Helper.FromAToB(savedP, savedP2) * 110, Helper.FromAToB(savedP, savedP2), ModContent.ProjectileType<CecitiorClawSlash>(), 30, 0);
+
+                        if (AITimer > 40 && AITimer < 65)
+                        {
+                            ogPos[1] = Vector2.Lerp(ogPos[1], savedP2 + Helper.FromAToB(savedP, savedP2) * 200, 0.1f);
+                        }
+                        if (AITimer > 65)
+                        {
+
+                            if (verlet[1].lastP.position.Distance(NPC.Center) > 600)
+                            {
+                                ogPos[1] = Vector2.Lerp(ogPos[1], new Vector2(NPC.Center.X, Helper.TRay.Cast(ogPos[1], Vector2.UnitY, 800).Y + 16), 0.01f);
+                            }
+                            else
+                                ogPos[1].Y = MathHelper.Lerp(ogPos[1].Y, Helper.TRay.Cast(ogPos[1] - new Vector2(0, 100), Vector2.UnitY, 800).Y + 16, 0.1f);
+                        }
+
+                        if (AITimer >= 70)
+                        {
+                            AIState = 0;
+                            AITimer = 0;
+                            AITimer2 = 0;
+                            NPC.ai[3] = -NPC.ai[3];
+                        }
                     }
                     if (AITimer >= 160)
                     {
                         AIState = 0;
                         AITimer = 0;
+                        AITimer2 = 0;
+                        NPC.ai[3] = -NPC.ai[3];
                     }
                     break;
             }
         }
+        Vector2 savedP;
+        Vector2 savedP2;
     }
 }
