@@ -46,6 +46,13 @@ namespace EbonianMod.NPCs.Crimson
         {
             npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrimCannon>(), 35));
         }
+        public override void OnSpawn(IEntitySource source)
+        {
+            if (NPC.ai[3] == 0)
+                for (int i = 0; i < Main.rand.Next(5); i++)
+                    NPC.NewNPCDirect(NPC.InheritSource(NPC), NPC.Center, NPC.type, ai3: 1);
+            off = Main.rand.NextFloat(0.3f);
+        }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.Player.ZoneCrimson && spawnInfo.Player.ZoneOverworldHeight)
@@ -58,8 +65,11 @@ namespace EbonianMod.NPCs.Crimson
             }
         }
         public int timer = 0;
+        public float off = 0;
         public override void AI()
         {
+            NPC.ai[0] = 2;
+            NPC.position.X += NPC.velocity.X * off;
             if (++timer >= 35)
             {
                 NPC.spriteDirection = Main.player[NPC.target].Center.X > NPC.Center.X ? 1 : -1;
@@ -69,8 +79,11 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override bool CheckDead()
         {
-            Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
-            Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+            for (int i = 0; i < 2; i++)
+            {
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+            }
             return base.CheckDead();
         }
         public override void FindFrame(int frameHeight)
@@ -103,6 +116,12 @@ namespace EbonianMod.NPCs.Crimson
             else
             {
                 NPC.frameCounter = 0;
+            }
+
+            if (!NPC.velocity.Y.CloseTo(0, 0.3f))
+            {
+                NPC.frameCounter = 0;
+                NPC.frame.Y = 5 * frameHeight;
             }
         }
     }

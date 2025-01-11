@@ -12,6 +12,7 @@ using Terraria;
 using EbonianMod.Projectiles.Enemy.Corruption;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
+using EbonianMod.Projectiles.Terrortoma;
 
 namespace EbonianMod.NPCs.Corruption
 {
@@ -147,7 +148,13 @@ namespace EbonianMod.NPCs.Corruption
                         for (int i = 0; i < 15; i++)
                             Dust.NewDustPerfect(NPC.Center, DustID.CursedTorch, Helper.FromAToB(NPC.Center, p).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(3, 6));
                         Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, p), ModContent.ProjectileType<RegorgerBolt>(), 20, 0);
+
+                        for (int i = -1; i < 2; i++)
+                        {
+                            Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, p).RotatedBy(i * .3f) * 2, ModContent.ProjectileType<TFlameThrower>(), 20, 0);
+                        }
                     }
+
                     if (AITimer > 90)
                         NPC.velocity *= 0.9f;
 

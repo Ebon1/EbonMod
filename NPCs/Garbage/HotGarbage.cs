@@ -536,7 +536,7 @@ namespace EbonianMod.NPCs.Garbage
                         NPC.position.Y -= NPC.velocity.Y;
                         player.JumpMovement();
                         player.velocity.Y = -10;
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(0, 0), ModContent.ProjectileType<FatSmash>(), 0, 0, 0, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + NPC.height * 0.5f * Vector2.UnitY, new Vector2(0, 0), ModContent.ProjectileType<GarbageImpact>(), 0, 0, 0, 0);
                         EbonianSystem.ChangeCameraPos(NPC.Center, 70, 1f);
                     }
                     if (AITimer == 15)

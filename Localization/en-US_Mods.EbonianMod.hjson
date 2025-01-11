@@ -247,6 +247,7 @@ Projectiles: {
 	XareusPotionExplosion.DisplayName: Xareus Potion Explosion
 	XareusPotionPro.DisplayName: Xareus Potion Pro
 	HostileGibs.DisplayName: Hostile Gibs
+	GarbageImpact.DisplayName: Garbage Impact
 }
 
 NPCs: {

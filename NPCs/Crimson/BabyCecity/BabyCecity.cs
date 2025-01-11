@@ -34,7 +34,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
             NPC.height = 76;
             NPC.damage = 15;
             NPC.defense = 25;
-            NPC.lifeMax = 1000;
+            NPC.lifeMax = 1200;
             NPC.HitSound = EbonianSounds.fleshHit;
             NPC.value = 60f;
             NPC.knockBackResist = 0.5f;
