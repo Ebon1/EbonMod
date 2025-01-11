@@ -1595,20 +1595,20 @@ namespace EbonianMod.NPCs.Cecitior
                 {
                     AITimer++;
                     if (AITimer < 20)
-                        NPC.velocity = Helper.FromAToB(NPC.Center, Helper.TRay.Cast(player.Center, Vector2.UnitY, 1200) - new Vector2(0, 200), false) / 10f;
+                        NPC.velocity = Helper.FromAToB(NPC.Center, Helper.TRay.Cast(player.Center, Vector2.UnitY, 1200, true) - new Vector2(0, 200), false) / 10f;
                     if (AITimer > 20 && AITimer < 45)
                     {
                         NPC.velocity *= 0.8f;
-                        claw[0].position = Vector2.Lerp(claw[0].position, Helper.TRay.Cast(NPC.Center + new Vector2(70, 0), new Vector2(0.2f, 1), 400) + new Vector2(0, 25), 0.1f);
-                        claw[1].position = Vector2.Lerp(claw[1].position, Helper.TRay.Cast(NPC.Center, new Vector2(-0.05f, 1), 400) + new Vector2(0, 25), 0.1f);
-                        claw[2].position = Vector2.Lerp(claw[2].position, Helper.TRay.Cast(NPC.Center + new Vector2(-75, 0), new Vector2(-0.25f, 1), 400) + new Vector2(0, 25), 0.1f);
+                        claw[0].position = Vector2.Lerp(claw[0].position, Helper.TRay.Cast(NPC.Center + new Vector2(70, 0), new Vector2(0.2f, 1), 400, true) + new Vector2(0, 25), 0.1f);
+                        claw[1].position = Vector2.Lerp(claw[1].position, Helper.TRay.Cast(NPC.Center, new Vector2(-0.05f, 1), 400, true) + new Vector2(0, 25), 0.1f);
+                        claw[2].position = Vector2.Lerp(claw[2].position, Helper.TRay.Cast(NPC.Center + new Vector2(-75, 0), new Vector2(-0.25f, 1), 400, true) + new Vector2(0, 25), 0.1f);
                     }
                     if (AITimer <= 60 && AITimer >= 50)
                     {
                         NPC.velocity.Y += 3;
                         NPC.damage = 100;
                     }
-                    if (Helper.TRay.CastLength(NPC.Center, -Vector2.UnitY, NPC.height * 2) < NPC.height && AITimer2 == 0)
+                    if (Helper.TRay.CastLength(NPC.Center, -Vector2.UnitY, NPC.height * 2, true) < NPC.height && AITimer2 == 0)
                     {
                         if (AITimer < 60)
                             AITimer = 61;
@@ -1650,7 +1650,7 @@ namespace EbonianMod.NPCs.Cecitior
                             NPC.damage = 100;
                             NPC.velocity.Y += 3;
                         }
-                        if (Helper.TRay.CastLength(NPC.Center, -Vector2.UnitY, NPC.height * 2) < NPC.height && AITimer2 == 2)
+                        if (Helper.TRay.CastLength(NPC.Center, -Vector2.UnitY, NPC.height * 2, true) < NPC.height && AITimer2 == 2)
                         {
                             if (AITimer < 80)
                                 AITimer = 81;

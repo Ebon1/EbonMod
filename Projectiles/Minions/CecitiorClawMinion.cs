@@ -125,7 +125,6 @@ namespace EbonianMod.Projectiles.Minions
                 Projectile.ai[2] = -Projectile.minionPos * 20;
                 Projectile.Center = Vector2.Lerp(Projectile.Center, player.Center + new Vector2(100, 0).RotatedBy(player.ownedProjectileCounts[Type] > 1 ? Helper.CircleDividedEqually(Projectile.minionPos, player.ownedProjectileCounts[Type]) : -1), 0.2f);
             }
-            Main.NewText("raagh");
         }
         public override bool PreDraw(ref Color lightColor)
         {

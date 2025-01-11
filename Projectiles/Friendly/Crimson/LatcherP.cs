@@ -176,6 +176,15 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
         }
         public override void AI()
         {
+            if (Helper.TRay.CastLength(Projectile.Center, Vector2.UnitY, 30, true) < 20)
+            {
+                Projectile.velocity = Vector2.Zero;
+                if (Projectile.localAI[0] == 0)
+                {
+                    Projectile.timeLeft = 200;
+                    Projectile.ai[1] = 1;
+                }
+            }
             if (Projectile.ai[1] == 0)
                 Projectile.rotation = Projectile.velocity.ToRotation();
             NPC player = Main.npc[(int)Projectile.ai[0]];
