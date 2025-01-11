@@ -37,6 +37,7 @@ namespace EbonianMod.NPCs.Crimson.Fleshformator
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.knockBackResist = 0f;
+            NPC.behindTiles = true;
             NPC.buffImmune[BuffID.Ichor] = true;
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -163,14 +164,14 @@ namespace EbonianMod.NPCs.Crimson.Fleshformator
         }
         bool currentControl;
         float alpha;
+        Vector2 offset;
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Player player = Main.player[NPC.target];
-            Vector2 offset = Vector2.Zero;
             Texture2D tex = Helper.GetExtraTexture("Sprites/arrow");
             if (player.whoAmI == Main.myPlayer)
             {
-                if (currentControl) offset += Main.rand.NextVector2Unit() * Main.rand.NextFloat(1, 5);
+                offset = Vector2.Lerp(offset, Vector2.Zero, 0.1f);
                 if (AITimer2 > 50)
                 {
                     if (NPC.rotation == MathHelper.ToRadians(90))
@@ -246,19 +247,30 @@ namespace EbonianMod.NPCs.Crimson.Fleshformator
                 else
                     currentControl = player.controlLeft;
             }
-            if (currentControl)
+            if (!player.controlLeft && !player.controlRight)
+                controlTimer--;
+
+            if (controlTimer < -30 && AITimer2 > 10 && alpha > 0)
             {
-                AITimer2--;
-                alpha -= 0.02f;
+                if (AITimer2 < 49)
+                    AITimer2++;
+                alpha = MathHelper.Clamp(alpha + 0.02f, 0, 1);
             }
-            if (AITimer2 == 1)
+            if (currentControl && controlTimer <= 0)
+            {
+                offset += Main.rand.NextVector2Unit() * Main.rand.NextFloat(2, 20);
+                controlTimer = 2;
+                AITimer2 -= 5;
+                alpha -= 0.1f;
+            }
+            if (AITimer2 <= 10 && AITimer2 > 0)
             {
                 if (NPC.rotation == MathHelper.ToRadians(90))
                     player.velocity = Vector2.UnitX * 15;
                 else
                     player.velocity = -Vector2.UnitX * 15;
                 player.GetModPlayer<EbonianPlayer>().fleshformators--;
-                AITimer2--;
+                AITimer2 -= 10;
             }
             if (AITimer2 > 0)
             {
@@ -286,7 +298,9 @@ namespace EbonianMod.NPCs.Crimson.Fleshformator
                 alpha = 1;
                 AITimer2--;
                 alpha = 0;
+                controlTimer = 0;
             }
         }
+        float controlTimer;
     }
 }

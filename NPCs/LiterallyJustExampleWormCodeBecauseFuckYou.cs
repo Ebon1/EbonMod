@@ -635,7 +635,8 @@ namespace EbonianMod.NPCs
                     worm.Despawn();
                     worm.NPC.life = 0;
                     worm.NPC.HitEffect(0, 10);
-                    following.HitEffect(0, 10);
+                    if (following.type == ModContent.NPCType<CrimsonWormHead>())
+                        following.HitEffect(0, 0);
                     worm.NPC.active = false;
                 }
             }

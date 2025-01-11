@@ -1,4 +1,5 @@
-﻿using EbonianMod.Projectiles.Terrortoma;
+﻿using EbonianMod.Common.Systems;
+using EbonianMod.Projectiles.Terrortoma;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,6 +9,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -51,12 +53,13 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         {
             Player player = Main.player[NPC.target];
 
-            if (++NPC.ai[2] % 35 == 0 && NPC.ai[2] % 450 > 200)
+            if (++NPC.ai[2] % 35 == 0 && NPC.ai[2] % 550 > 200)
             {
+                SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
                 Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + NPC.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2) * NPC.height, -Vector2.UnitY.RotatedBy(NPC.rotation) * 10, ModContent.ProjectileType<TFlameThrower>(), 10, 0);
             }
 
-            if (NPC.ai[2] % 450 < 200)
+            if (NPC.ai[2] % 550 < 200)
             {
                 ForcedTargetPosition = player.Center + Helper.FromAToB(player.Center, NPC.Center) * 1000;
             }
@@ -103,7 +106,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
             MaxSegmentLength = 9;
             MoveSpeed = 5.5f;
             Acceleration = 0.07f;
-            CanFly = true;
+            CanFly = false;
         }
     }
     public class RottenSpineBody : WormBody
@@ -187,8 +190,9 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         {
             NPC.rotation = FollowingNPC.rotation;
             NPC.Center = FollowingNPC.Center - NPC.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2) * (FollowingNPC.height + 6);
-            if (++NPC.ai[2] % 35 == 0 && HeadSegment.ai[2] % 450 < 200)
+            if (++NPC.ai[2] % 35 == 0 && HeadSegment.ai[2] % 550 < 200)
             {
+                SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
                 Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + NPC.velocity, Vector2.UnitY.RotatedBy(NPC.rotation) * 10, ModContent.ProjectileType<TFlameThrower>(), 10, 0);
             }
         }

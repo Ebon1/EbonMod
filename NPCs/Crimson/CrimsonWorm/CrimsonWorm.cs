@@ -29,7 +29,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         public override int TailType => ModContent.NPCType<CrimsonWormTail>();
         public override int BodyType => ModContent.NPCType<CrimsonWormBody>();
         public override bool byHeight => true;
-        public override bool useNormalMovement => !(NPC.ai[3] < 402 && NPC.ai[3] > 198) && !(NPC.ai[3] > 800);
+        public override bool useNormalMovement => !(NPC.ai[3] < 302 && NPC.ai[3] > 198) && !(NPC.ai[3] > 800);
         public override void SetStaticDefaults()
         {
 
@@ -74,18 +74,24 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         }
         public override void ExtraAI()
         {
+            if (NPC.lifeMax < 11)
+            {
+                NPC.lifeMax = 11;
+                NPC.life = 11;
+            }
             if (NPC.life > NPC.lifeMax)
                 NPC.life = NPC.lifeMax;
-            NPC.lifeMax = 11;
             Player player = Main.player[NPC.target];
             NPC.ai[3]++;
             if (NPC.ai[3] < 200 && NPC.ai[3] > 180)
                 NPC.velocity *= 0.9f;
-            if (NPC.ai[3] >= 200 && NPC.ai[3] <= 400 && NPC.ai[3] % 100 == 0)
+            if (NPC.ai[3] >= 200 && NPC.ai[3] <= 300 && NPC.ai[3] % 50 == 0)
             {
-                NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 13f;
+                NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 8f;
                 NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
-                SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center);
+                SoundStyle sound = SoundID.ForceRoar;
+                sound.MaxInstances = 3;
+                SoundEngine.PlaySound(sound, NPC.Center);
                 for (int i = 0; i < 3; i++)
                     Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f, 2), ModContent.ProjectileType<HostileGibs>(), 10, 0).tileCollide = false;
 
@@ -136,7 +142,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         }
         public override void FindFrame(int frameHeight)
         {
-            if (NPC.ai[3] < 462 && NPC.ai[3] > 198 || NPC.ai[3] > 800 || NPC.ai[3] < -900 || NPC.IsABestiaryIconDummy)
+            if (NPC.ai[3] < 362 && NPC.ai[3] > 198 || NPC.ai[3] > 800 || NPC.ai[3] < -900 || NPC.IsABestiaryIconDummy)
             {
                 if (NPC.frameCounter++ % 2 == 0)
                 {
@@ -161,9 +167,15 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         {
             MinSegmentLength = 13;
             MaxSegmentLength = 13;
-            CanFly = true;
-            MoveSpeed = 5.5f;
-            Acceleration = 0.15f;
+            CanFly = false;
+            MoveSpeed = 7.5f;
+            Acceleration = 0.1f;
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            Texture2D tex = TextureAssets.Npc[Type].Value;
+            spriteBatch.Draw(tex, NPC.Center + new Vector2(0, 2).RotatedBy(NPC.rotation) - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+            return false;
         }
         public override void HitEffect(NPC.HitInfo hitinfo)
         {
@@ -258,8 +270,18 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             if (NPC.ai[2] > 6)
                 tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody3");
             if (isDed) tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody_Destroyed");
-            spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+            scale = MathHelper.Lerp(scale, 1, 0.1f);
+            if (timer2++ % 4 == 0)
+            {
+                timer++;
+                if (timer == NPC.ai[2])
+                    scale = 1.15f;
+                if (timer >= 13)
+                    timer = 0;
+            }
+            spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale * scale, SpriteEffects.None, 0);
         }
+        float scale = 1, timer, timer2;
         public override void ExtraAI()
         {
             NPC head = Main.npc[(int)NPC.ai[3]];
