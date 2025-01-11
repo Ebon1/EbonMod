@@ -244,7 +244,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             {
                 Texture2D tex = Helper.GetTexture("NPCs/Crimson/CrimsonWorm/CrimsonWormBody_Destroyed");
 
-                spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowingNPC.Center, 0.5f) - screenPos, FollowingNPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowingNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowingNPC.Center, 0.5f) - screenPos, NPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowingNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
 
                 spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
 
@@ -271,7 +271,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
                 if (timer >= 13)
                     timer = 0;
             }
-            spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowingNPC.Center, 0.5f) - screenPos, FollowingNPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowingNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowingNPC.Center, 0.5f) - screenPos, NPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowingNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
 
             spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale * scale, SpriteEffects.None, 0);
         }
