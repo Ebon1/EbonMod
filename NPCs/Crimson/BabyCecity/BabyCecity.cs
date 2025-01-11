@@ -35,7 +35,8 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
             NPC.damage = 15;
             NPC.defense = 25;
             NPC.lifeMax = 1200;
-            NPC.HitSound = EbonianSounds.fleshHit;
+            NPC.HitSound = SoundID.NPCHit1;
+            NPC.DeathSound = EbonianSounds.fleshHit;
             NPC.value = 60f;
             NPC.knockBackResist = 0.5f;
             NPC.aiStyle = -1;

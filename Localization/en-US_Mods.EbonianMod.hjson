@@ -248,6 +248,7 @@ Projectiles: {
 	XareusPotionPro.DisplayName: Xareus Potion Pro
 	HostileGibs.DisplayName: Hostile Gibs
 	GarbageImpact.DisplayName: Garbage Impact
+	GarbageDroneF.DisplayName: Garbage Drone F
 }
 
 NPCs: {
@@ -461,7 +462,7 @@ Items: {
 	}
 
 	DoomsdayRemote: {
-		DisplayName: The Red Button
+		DisplayName: Red Button
 		Tooltip: ""
 	}
 

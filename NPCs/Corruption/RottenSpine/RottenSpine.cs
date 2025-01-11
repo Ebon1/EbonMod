@@ -56,7 +56,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
             if (++NPC.ai[2] % 35 == 0 && NPC.ai[2] % 550 > 200)
             {
                 SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
-                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + NPC.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2) * NPC.height, -Vector2.UnitY.RotatedBy(NPC.rotation) * 10, ModContent.ProjectileType<TFlameThrower>(), 10, 0);
+                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + NPC.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2) * NPC.height, -Vector2.UnitY.RotatedBy(NPC.rotation) * 10, ModContent.ProjectileType<TFlameThrower>(), 10, 0).tileCollide = true; ;
             }
 
             if (NPC.ai[2] % 550 < 200)
@@ -193,7 +193,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
             if (++NPC.ai[2] % 35 == 0 && HeadSegment.ai[2] % 550 < 200)
             {
                 SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
-                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + NPC.velocity, Vector2.UnitY.RotatedBy(NPC.rotation) * 10, ModContent.ProjectileType<TFlameThrower>(), 10, 0);
+                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + NPC.velocity, Vector2.UnitY.RotatedBy(NPC.rotation) * 10, ModContent.ProjectileType<TFlameThrower>(), 10, 0).tileCollide = true; ;
             }
         }
         public override void Init()

@@ -83,6 +83,71 @@ namespace EbonianMod.Projectiles.Garbage
             }
         }
     }
+    public class GarbageDroneF : ModProjectile
+    {
+        public override string Texture => "EbonianMod/Projectiles/Garbage/GarbageDrone";
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 25;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+        }
+        public override bool? CanDamage()
+        {
+            return false;
+        }
+        public override void SetDefaults()
+        {
+            Projectile.width = 32;
+            Projectile.height = 20;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.hostile = false;
+            Projectile.timeLeft = 400;
+            Projectile.Opacity = 0;
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            lightColor = Color.White * Projectile.Opacity;
+            Texture2D tex = Helper.GetTexture(Texture + "_Bloom");
+            Main.spriteBatch.Reload(BlendState.Additive);
+            var fadeMult = 1f / Projectile.oldPos.Count();
+            for (int i = 0; i < Projectile.oldPos.Count(); i++)
+            {
+                float mult = (1 - i * fadeMult);
+                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.Cyan * (Projectile.Opacity * mult * 0.8f), Projectile.rotation, tex.Size() / 2, Projectile.scale * 1.1f, SpriteEffects.None, 0);
+            }
+
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Cyan * (0.5f * Projectile.Opacity), Projectile.rotation, tex.Size() / 2, Projectile.scale * (1 + (MathF.Sin(Main.GlobalTimeWrappedHourly * 3f) + 1) * 0.5f), SpriteEffects.None, 0);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return true;
+        }
+        Vector2 startP;
+        public override void AI()
+        {
+            if (startP == Vector2.Zero)
+                startP = Projectile.Center;
+            Player player = Main.player[Projectile.owner];
+            Vector2 pos = Main.MouseWorld - new Vector2(0, 200);
+            Projectile.Opacity = MathHelper.Lerp(Projectile.Opacity, 1, 0.025f);
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] < 80 && Projectile.timeLeft % 5 == 0)
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, pos, false) * 0.05f, 0.2f);
+            if (Projectile.ai[0] > 80)
+                Projectile.velocity *= 0.9f;
+            if (Projectile.ai[0] >= 100 && Projectile.ai[0] % 5 == 0 && Projectile.ai[0] < 120)
+            {
+                Projectile p = Projectile.NewProjectileDirect(null, Projectile.Center, Vector2.UnitY, ModContent.ProjectileType<GarbageLightning>(), Projectile.damage, 0);
+                p.friendly = true;
+                p.hostile = false;
+            }
+            if (Projectile.ai[0] == 130)
+            {
+                Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), 0, 0);
+                Projectile.Kill();
+            }
+        }
+    }
     public class GarbageLightning : ModProjectile
     {
         public override string Texture => "EbonianMod/Extras/Empty";
