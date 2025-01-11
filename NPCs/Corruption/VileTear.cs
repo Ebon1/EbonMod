@@ -15,6 +15,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using EbonianMod.Items.Materials;
+using EbonianMod.Projectiles.Terrortoma;
+using Terraria.Utilities;
 
 namespace EbonianMod.NPCs.Corruption
 {
@@ -74,10 +76,10 @@ namespace EbonianMod.NPCs.Corruption
             if (AIState == 1)
                 for (int i = 0; i < NPC.oldPos.Length; i++)
                 {
-                    Main.EntitySpriteDraw(tex, NPC.oldPos[i] + NPC.Size / 2 - screenPos, NPC.frame, drawColor * NPC.ai[3] * (1f - fadeMult * i), NPC.oldRot[i], NPC.Size / 2, NPC.scale, effects, 0);
+                    Main.EntitySpriteDraw(tex, NPC.oldPos[i] + NPC.Size / 2 - screenPos, NPC.frame, drawColor * NPC.ai[3] * (1f - fadeMult * i), NPC.oldRot[i], NPC.Size / 2, (Vector2.One + scaleOffset) * NPC.scale, effects, 0);
                 }
-            Main.EntitySpriteDraw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, effects, 0);
-            Main.EntitySpriteDraw(tex2, NPC.Center - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, effects, 0);
+            Main.EntitySpriteDraw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, (Vector2.One + scaleOffset) * NPC.scale, effects, 0);
+            Main.EntitySpriteDraw(tex2, NPC.Center - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, (Vector2.One + scaleOffset) * NPC.scale, effects, 0);
             return false;
         }
         public override void HitEffect(NPC.HitInfo hitinfo)
@@ -109,11 +111,13 @@ namespace EbonianMod.NPCs.Corruption
             get => NPC.ai[2];
             set => NPC.ai[2] = value;
         }
+        public float AITimer3;
         public override void FindFrame(int frameHeight)
         {
             //NPC.frame.Y = frameHeight * (AIState == 1 && AITimer > 90 && AITimer < 150 ? 0 : 1);
         }
         Vector2 p;
+        Vector2 scaleOffset;
         public override void AI()
         {
             Player player = Main.player[NPC.target];
@@ -143,7 +147,7 @@ namespace EbonianMod.NPCs.Corruption
                     if (AITimer < 70)
                     {
                         p = NPC.Center + Helper.FromAToB(NPC.Center, player.Center) * 1000;
-                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center + new Vector2(0, -200).RotatedBy(MathF.Sin(AITimer + Main.GlobalTimeWrappedHourly * 3) * 1.5f), true) * 20, 0.025f);
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center + new Vector2(0, -300).RotatedBy(MathF.Sin(AITimer + Main.GlobalTimeWrappedHourly * 3) * 1.5f), true) * 20, 0.025f);
                         NPC.rotation = Helper.LerpAngle(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + MathHelper.Pi, 0.25f);
                     }
                     if (AITimer > 50 && AITimer < 70)
@@ -163,14 +167,26 @@ namespace EbonianMod.NPCs.Corruption
                     {
                         NPC.velocity = Vector2.Zero;
                         SoundEngine.PlaySound(EbonianSounds.terrortomaDash.WithPitchOffset(-0.25f), NPC.Center);
+                        scaleOffset = new Vector2(0.3f, -0.3f);
+                        if (AITimer3 == 0)
+                        {
+                            for (int i = 0; i < 15; i++)
+                                Dust.NewDustPerfect(NPC.Center, DustID.CursedTorch, Helper.FromAToB(NPC.Center + new Vector2(32, 0).RotatedBy(NPC.rotation), p).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(3, 6));
+                            for (int i = -1; i < 2; i++)
+                                Projectile.NewProjectile(null, NPC.Center - new Vector2(32, -40 * i).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center + new Vector2(32, 50 * i).RotatedBy(NPC.rotation), p), ModContent.ProjectileType<RegorgerBolt>(), 20, 0);
+                        }
                     }
 
-                    if (AITimer >= 70 && AITimer < 92)
+                    if (AITimer >= 70 && AITimer < 89)
                     {
-                        NPC.velocity += Helper.FromAToB(NPC.Center, p) * 2;
+                        scaleOffset = Vector2.Lerp(scaleOffset, Vector2.Zero, 0.1f);
+                        NPC.velocity += Helper.FromAToB(NPC.Center, p) * 1.4f;
                     }
+                    if (AITimer > 70 && AITimer < 100 && AITimer3 == 1)
+                        Projectile.NewProjectile(null, NPC.Center + Main.rand.NextVector2Circular(30, 30) + new Vector2(NPC.width / 3, 0).RotatedBy(NPC.rotation).RotatedByRandom(MathHelper.PiOver2), -NPC.velocity.RotatedByRandom(MathHelper.PiOver4) * 0.2f, ModContent.ProjectileType<TFlameThrower>(), 20, 0);
                     if (AITimer > 100)
                     {
+                        scaleOffset = Vector2.Zero;
                         NPC.ai[3] = MathHelper.Lerp(NPC.ai[3], 0, 0.1f);
                         NPC.damage = 10;
                         NPC.velocity *= 0.9f;
@@ -180,6 +196,7 @@ namespace EbonianMod.NPCs.Corruption
                     {
                         NPC.velocity = Vector2.Zero;
                         AITimer = 0;
+                        AITimer3 = (AITimer3 == 0 ? 1 : 0);
                         AIState++;
                     }
                     break;
