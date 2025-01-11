@@ -1666,7 +1666,7 @@ namespace EbonianMod.NPCs.Cecitior
                                     Projectile p = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(7, 7), ModContent.ProjectileType<Gibs>(), 40, 0, 0, 0);
                                     p.friendly = false;
                                     p.hostile = true;
-                                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(7, 7), ModContent.ProjectileType<CecitiorEyeP>(), 40, 0, 0, 0);
+                                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(4, 4), ModContent.ProjectileType<CecitiorEyeP>(), 40, 0, 0, 0);
                                 }
                             }
                             if (AITimer3 == 1)
@@ -1678,7 +1678,7 @@ namespace EbonianMod.NPCs.Cecitior
                                     Projectile p = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(14, 14), ModContent.ProjectileType<Gibs>(), 40, 0, 0, 0);
                                     p.friendly = false;
                                     p.hostile = true;
-                                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(7, 7), ModContent.ProjectileType<CecitiorEyeP>(), 40, 0, 0, 0);
+                                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(4, 4), ModContent.ProjectileType<CecitiorEyeP>(), 40, 0, 0, 0);
                                 }
                             }
                             SoundEngine.PlaySound(Main.rand.NextBool() ? EbonianSounds.chomp0 : EbonianSounds.chomp1, NPC.Center);

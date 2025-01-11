@@ -16,6 +16,7 @@ namespace EbonianMod.NPCs.Crimson.FleshDice
 {
     public class FleshDice : ModNPC
     {
+        public override bool IsLoadingEnabled(Mod mod) => false;
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 23;
