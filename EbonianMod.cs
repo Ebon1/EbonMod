@@ -45,8 +45,6 @@ namespace EbonianMod
     };
         public static List<int> projectileFinalDrawList = new List<int>();
         public static List<int> climbableProj = new List<int>();
-        public static List<int> projectileAffectedByInvisibleMaskList = new List<int>();
-        public static List<int> projectileInvisibleMaskList = new List<int>();
         public RenderTarget2D blurrender, invisRender, affectedByInvisRender;
         public RenderTarget2D[] renders = new RenderTarget2D[7];
         public static DynamicSpriteFont lcd;
@@ -148,6 +146,9 @@ namespace EbonianMod
             sys.DrawParticles();
 
         }
+        public static List<Action> invisibleMaskCache = [];
+        public static List<Action> affectedByInvisibleMaskCache = [];
+        public static List<Action> blurDrawCache = [];
         public override void Unload()
         {
             sys = null;
@@ -156,18 +157,15 @@ namespace EbonianMod
                 if (effect != null && !effect.IsDisposed)
                     effect.Dispose();
             }
-            //On_FilterManager.EndCapture -= FilterManager_EndCapture;
-            Main.OnResolutionChanged -= Main_OnResolutionChanged;
-            On_Main.DrawBG -= DrawBehindTilesAndWalls;
-            On_Main.DrawNPC -= DrawNPC;
-            On_Player.Update_NPCCollision -= SolidTopCollision;
-            On_Main.DrawPlayers_AfterProjectiles -= PreDraw;
-            On_VanillaPlayerDrawLayer.Draw -= DrawPlayer;
-            On_NPC.SetEventFlagCleared -= EventClear;
+            invisibleMaskCache.Clear();
+            invisibleMaskCache = [];
+            affectedByInvisibleMaskCache.Clear();
+            affectedByInvisibleMaskCache = [];
+            blurDrawCache.Clear();
+            blurDrawCache = [];
         }
         public override void Load()
         {
-
             sys = new();
             Instance = this;
             Test1 = ModContent.Request<Effect>("EbonianMod/Effects/Test1", (AssetRequestMode)1).Value;
@@ -225,6 +223,10 @@ namespace EbonianMod
             On_VanillaPlayerDrawLayer.Draw += DrawPlayer;
             On_NPC.SetEventFlagCleared += EventClear;
             CreateRender();
+
+            invisibleMaskCache ??= [];
+            affectedByInvisibleMaskCache ??= [];
+            blurDrawCache ??= [];
         }
         void EventClear(On_NPC.orig_SetEventFlagCleared orig, ref bool eventFlag, int gameEventId)
         {
@@ -244,160 +246,40 @@ namespace EbonianMod
         {
             GraphicsDevice gd = Main.instance.GraphicsDevice;
             SpriteBatch sb = Main.spriteBatch;
-
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-            for (int i = 0; i < S_VerletSystem.verlets.Count; i++)
-            {
-                if (S_VerletSystem.verlets[i].timeLeft > 0 && S_VerletSystem.verlets[i].verlet != null)
-                {
-                    float alpha = MathHelper.Clamp(MathHelper.Lerp(0, 2, (float)S_VerletSystem.verlets[i].timeLeft / S_VerletSystem.verlets[i].maxTime), 0, 1);
-                    VerletDrawData verletDrawData = S_VerletSystem.verlets[i].drawData;
-                    verletDrawData.useColor = true;
-                    verletDrawData.color = Lighting.GetColor(S_VerletSystem.verlets[i].verlet.lastP.position.ToTileCoordinates()) * alpha;
-                    S_VerletSystem.verlets[i].verlet.Draw(Main.spriteBatch, verletDrawData);
-                }
-            }
+            DrawVerlets(sb, gd);
             Main.spriteBatch.End();
 
             var old = gd.GetRenderTargets();
             if (!Main.gameMenu && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro) && gd.GetRenderTargets().Contains(Main.screenTarget))
             {
-
-                /*if (!gd.GetRenderTargets().Contains(Main.screenTarget))
-                {
-                    gd.Textures[1] = null;
-                    gd.SetRenderTarget(Main.screenTarget);
-                    gd.Clear(Color.Transparent);
-                }
-
-                */
                 gd.SetRenderTarget(Main.screenTargetSwap);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
                 sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
                 sb.End();
 
-                gd.SetRenderTarget(renders[0]);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                foreach (Projectile proj in Main.projectile)
-                {
-                    if (proj.active && proj.timeLeft > 0 && proj.type == ModContent.ProjectileType<ReiCapeP>())
-                    {
-                        Color color = Color.White;
-                        proj.ModProjectile.PreDraw(ref color);
-                    }
-                }
-                sb.End();
+                DrawRei(false, sb, gd);
 
-                gd.SetRenderTarget(renders[1]);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                BlackWhiteDust.DrawAll(sb);
-                sb.End();
+                DrawXareusGoop(false, sb, gd);
 
-                gd.SetRenderTarget(renders[2]);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                XGoopDust.DrawAll(sb);
-                foreach (Projectile proj in Main.projectile)
-                {
-                    if (proj.active && proj.timeLeft > 0 && proj.type == ModContent.ProjectileType<ArchmageChargeUp>())
-                    {
-                        Color color = Color.Transparent;
-                        proj.ModProjectile.PreDraw(ref color);
-                    }
-                }
-                sb.End();
+                DrawGarbageFlame(false, sb, gd);
 
-
-                gd.SetRenderTarget(renders[3]);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                foreach (Projectile proj in Main.projectile)
-                {
-                    if (proj.active && proj.timeLeft > 0 && (proj.type == ModContent.ProjectileType<GarbageFlame>() || proj.type == ModContent.ProjectileType<GarbageGiantFlame>()))
-                    {
-                        Color color = Color.Transparent;
-                        proj.ModProjectile.PreDraw(ref color);
-                    }
-                }
-                sb.End();
-
-                gd.SetRenderTarget(renders[4]);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                foreach (Projectile proj in Main.projectile)
-                {
-                    if (proj.active && proj.timeLeft > 0 && proj.type == ModContent.ProjectileType<ArchmageXSpawnAnim>())
-                    {
-                        Color color = Color.Transparent;
-                        proj.ModProjectile.PreDraw(ref color);
-                    }
-                }
-                sb.End();
-
+                DrawXareusSpawn(false, sb, gd);
 
                 gd.SetRenderTarget(Main.screenTarget);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
                 sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
                 sb.End();
-                sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/space", (AssetRequestMode)1).Value;
-                RTOutline.CurrentTechnique.Passes[0].Apply();
-                RTOutline.Parameters["m"].SetValue(0.62f);
-                RTOutline.Parameters["n"].SetValue(0.01f);
-                RTOutline.Parameters["offset"].SetValue(new Vector2(Main.GlobalTimeWrappedHourly * 0.005f, 0));
-                sb.Draw(renders[0], Vector2.Zero, Color.White);
 
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/black", (AssetRequestMode)1).Value;
-                RTOutline.CurrentTechnique.Passes[0].Apply();
-                RTOutline.Parameters["m"].SetValue(0.22f);
-                RTOutline.Parameters["n"].SetValue(0.1f);
-                sb.Draw(renders[1], Vector2.Zero, Color.White);
+                DrawRei(true, sb, gd);
 
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/darkShadowflameGradient", (AssetRequestMode)1).Value;
-                gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/space_full", (AssetRequestMode)1).Value;
-                gd.Textures[3] = ModContent.Request<Texture2D>("EbonianMod/Extras/seamlessNoiseHighContrast", (AssetRequestMode)1).Value;
-                gd.Textures[4] = ModContent.Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
-                metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
-                metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.2f);
-                metaballGradientNoiseTex.Parameters["offsetX"].SetValue(1f);
-                metaballGradientNoiseTex.Parameters["offsetY"].SetValue(1f);
-                sb.Draw(renders[2], Vector2.Zero, Color.White);
+                DrawXareusGoop(true, sb, gd);
 
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/coherentNoise", (AssetRequestMode)1).Value;
-                displacementMap.CurrentTechnique.Passes[0].Apply();
-                displacementMap.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.75f);
-                displacementMap.Parameters["offsetY"].SetValue(Main.GlobalTimeWrappedHourly * 0.25f);
-                displacementMap.Parameters["offsetX"].SetValue(Main.GlobalTimeWrappedHourly * 0.5f);
-                displacementMap.Parameters["offset"].SetValue(0.0075f);
-                displacementMap.Parameters["alpha"].SetValue(0.1f);
-                sb.Draw(renders[3], Vector2.Zero, Color.White * 0.25f);
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
-                displacementMap.Parameters["offsetY"].SetValue(Main.GlobalTimeWrappedHourly * 0.34f);
-                sb.Draw(renders[3], Vector2.Zero, Color.White * 0.25f);
+                DrawGarbageFlame(true, sb, gd);
 
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/coherentNoise", (AssetRequestMode)1).Value;
-                displacementMap.Parameters["offsetY"].SetValue(0);
-                displacementMap.Parameters["offsetX"].SetValue(Main.GlobalTimeWrappedHourly * 0.5f);
-                displacementMap.Parameters["offset"].SetValue(0.0075f);
-                displacementMap.Parameters["alpha"].SetValue(0.1f);
-                sb.Draw(renders[3], Vector2.Zero, Color.White * 0.25f);
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
-                displacementMap.Parameters["offsetX"].SetValue(Main.GlobalTimeWrappedHourly * 0.74f);
-                sb.Draw(renders[3], Vector2.Zero, Color.White * 0.25f);
-
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/shadowflameGradient", (AssetRequestMode)1).Value;
-                gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/space_full", (AssetRequestMode)1).Value;
-                gd.Textures[3] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
-                gd.Textures[4] = ModContent.Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
-                metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
-                metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.1f);
-                metaballGradientNoiseTex.Parameters["offsetX"].SetValue(1f);
-                metaballGradientNoiseTex.Parameters["offsetY"].SetValue(1f);
-                sb.Draw(renders[4], Vector2.Zero, Color.White);
+                DrawXareusSpawn(true, sb, gd);
 
                 gd.Textures[1] = null;
                 gd.Textures[2] = null;
@@ -424,91 +306,178 @@ namespace EbonianMod
 
             if (!Main.gameMenu && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro) && gd.GetRenderTargets().Contains(Main.screenTarget))
             {
-                gd.SetRenderTarget(blurrender);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
-                sb.End();
-                gd.SetRenderTarget(Main.screenTargetSwap);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                foreach (Projectile projectile in Main.projectile)
-                {
-                    if (projectile.active && projectile.type == ModContent.ProjectileType<Noise>())
-                    {
-                        Color color = Color.Transparent;
-                        projectile.ModProjectile.PreDraw(ref color);
-                    }
-                    if (projectile.active && (projectile.type == ModContent.ProjectileType<Projectiles.Ripple>()))
-                    {
-                        Texture2D a = TextureAssets.Projectile[projectile.type].Value;
-                        Main.spriteBatch.Draw(a, projectile.Center - Main.screenPosition, null, Color.White, 0, a.Size() / 2, projectile.ai[0], SpriteEffects.None, 0f);
-                    }
-                }
-                sb.End();
-                gd.SetRenderTarget(Main.screenTarget);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                Test2.CurrentTechnique.Passes[0].Apply();
-                Test2.Parameters["tex0"].SetValue(Main.screenTargetSwap);
-                Test2.Parameters["i"].SetValue(0.02f);
-                sb.Draw(blurrender, Vector2.Zero, Color.White);
-                sb.End();
+                DrawBlurredContent(sb, gd);
 
-
-
-                gd.SetRenderTarget(Main.screenTargetSwap);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
-                sb.End();
-
-                gd.SetRenderTarget(affectedByInvisRender);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                foreach (Projectile projectile in Main.projectile)
-                {
-                    if (projectile.active && (projectileAffectedByInvisibleMaskList.Contains(projectile.type)))
-                    {
-                        Color color = Color.Transparent;
-                        projectile.ModProjectile.PreDraw(ref color);
-                    }
-                }
-                sb.End();
-
-                gd.SetRenderTarget(invisRender);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                foreach (Projectile projectile in Main.projectile)
-                {
-                    if (projectile.active && (projectileInvisibleMaskList.Contains(projectile.type)))
-                    {
-                        Color color = Color.Transparent;
-                        projectile.ModProjectile.PreDraw(ref color);
-                    }
-                }
-                sb.End();
-                gd.SetRenderTarget(Main.screenTarget);
-                gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-                sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
-                sb.End();
-                sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                invisibleMask.CurrentTechnique.Passes[0].Apply();
-                gd.Textures[1] = invisRender;
-                sb.Draw(affectedByInvisRender, Vector2.Zero, Color.White);
-                sb.End();
-                gd.Textures[1] = null;
+                DrawInvisMasks(sb, gd);
             }
+            DrawAdditiveDusts(sb, gd);
+
+            DrawGenericPostScreen(sb, gd);
+        }
+        public static void DrawVerlets(SpriteBatch sb, GraphicsDevice gd)
+        {
+            for (int i = 0; i < S_VerletSystem.verlets.Count; i++)
+            {
+                if (S_VerletSystem.verlets[i].timeLeft > 0 && S_VerletSystem.verlets[i].verlet != null)
+                {
+                    float alpha = MathHelper.Clamp(MathHelper.Lerp(0, 2, (float)S_VerletSystem.verlets[i].timeLeft / S_VerletSystem.verlets[i].maxTime), 0, 1);
+                    VerletDrawData verletDrawData = S_VerletSystem.verlets[i].drawData;
+                    verletDrawData.useColor = true;
+                    verletDrawData.color = Lighting.GetColor(S_VerletSystem.verlets[i].verlet.lastP.position.ToTileCoordinates()) * alpha;
+                    S_VerletSystem.verlets[i].verlet.Draw(Main.spriteBatch, verletDrawData);
+                }
+            }
+        }
+        public static void DrawRei(bool secondPart, SpriteBatch sb, GraphicsDevice gd)
+        {
+
+            if (secondPart)
+            {
+                sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/space", (AssetRequestMode)1).Value;
+                RTOutline.CurrentTechnique.Passes[0].Apply();
+                RTOutline.Parameters["m"].SetValue(0.62f);
+                RTOutline.Parameters["n"].SetValue(0.01f);
+                RTOutline.Parameters["offset"].SetValue(new Vector2(Main.GlobalTimeWrappedHourly * 0.005f, 0));
+                sb.Draw(Instance.renders[0], Vector2.Zero, Color.White);
+            }
+            else
+            {
+                gd.SetRenderTarget(Instance.renders[0]);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                foreach (Projectile proj in Main.projectile)
+                {
+                    if (proj.active && proj.timeLeft > 0 && proj.type == ModContent.ProjectileType<ReiCapeP>())
+                    {
+                        Color color = Color.White;
+                        proj.ModProjectile.PreDraw(ref color);
+                    }
+                }
+                sb.End();
+            }
+        }
+        public static void DrawXareusGoop(bool secondPart, SpriteBatch sb, GraphicsDevice gd)
+        {
+
+            if (secondPart)
+            {
+                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/darkShadowflameGradient", (AssetRequestMode)1).Value;
+                gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/space_full", (AssetRequestMode)1).Value;
+                gd.Textures[3] = ModContent.Request<Texture2D>("EbonianMod/Extras/seamlessNoiseHighContrast", (AssetRequestMode)1).Value;
+                gd.Textures[4] = ModContent.Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
+                metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
+                metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.2f);
+                metaballGradientNoiseTex.Parameters["offsetX"].SetValue(1f);
+                metaballGradientNoiseTex.Parameters["offsetY"].SetValue(1f);
+                sb.Draw(Instance.renders[2], Vector2.Zero, Color.White);
+            }
+            else
+            {
+                gd.SetRenderTarget(Instance.renders[2]);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                XGoopDust.DrawAll(sb);
+                foreach (Projectile proj in Main.projectile)
+                {
+                    if (proj.active && proj.timeLeft > 0 && proj.type == ModContent.ProjectileType<ArchmageChargeUp>())
+                    {
+                        Color color = Color.Transparent;
+                        proj.ModProjectile.PreDraw(ref color);
+                    }
+                }
+                sb.End();
+            }
+        }
+        public static void DrawGarbageFlame(bool secondPart, SpriteBatch sb, GraphicsDevice gd)
+        {
+
+            if (secondPart)
+            {
+                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/coherentNoise", (AssetRequestMode)1).Value;
+                displacementMap.CurrentTechnique.Passes[0].Apply();
+                displacementMap.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.75f);
+                displacementMap.Parameters["offsetY"].SetValue(Main.GlobalTimeWrappedHourly * 0.25f);
+                displacementMap.Parameters["offsetX"].SetValue(Main.GlobalTimeWrappedHourly * 0.5f);
+                displacementMap.Parameters["offset"].SetValue(0.0075f);
+                displacementMap.Parameters["alpha"].SetValue(0.1f);
+                sb.Draw(Instance.renders[3], Vector2.Zero, Color.White * 0.25f);
+                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
+                displacementMap.Parameters["offsetY"].SetValue(Main.GlobalTimeWrappedHourly * 0.34f);
+                sb.Draw(Instance.renders[3], Vector2.Zero, Color.White * 0.25f);
+
+                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/coherentNoise", (AssetRequestMode)1).Value;
+                displacementMap.Parameters["offsetY"].SetValue(0);
+                displacementMap.Parameters["offsetX"].SetValue(Main.GlobalTimeWrappedHourly * 0.5f);
+                displacementMap.Parameters["offset"].SetValue(0.0075f);
+                displacementMap.Parameters["alpha"].SetValue(0.1f);
+                sb.Draw(Instance.renders[3], Vector2.Zero, Color.White * 0.25f);
+                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
+                displacementMap.Parameters["offsetX"].SetValue(Main.GlobalTimeWrappedHourly * 0.74f);
+                sb.Draw(Instance.renders[3], Vector2.Zero, Color.White * 0.25f);
+
+            }
+            else
+            {
+                gd.SetRenderTarget(Instance.renders[3]);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                foreach (Projectile proj in Main.projectile)
+                {
+                    if (proj.active && proj.timeLeft > 0 && (proj.type == ModContent.ProjectileType<GarbageFlame>() || proj.type == ModContent.ProjectileType<GarbageGiantFlame>()))
+                    {
+                        Color color = Color.Transparent;
+                        proj.ModProjectile.PreDraw(ref color);
+                    }
+                }
+                sb.End();
+            }
+        }
+        public static void DrawXareusSpawn(bool secondPart, SpriteBatch sb, GraphicsDevice gd)
+        {
+
+            if (secondPart)
+            {
+                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/shadowflameGradient", (AssetRequestMode)1).Value;
+                gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/space_full", (AssetRequestMode)1).Value;
+                gd.Textures[3] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
+                gd.Textures[4] = ModContent.Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
+                metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
+                metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.1f);
+                metaballGradientNoiseTex.Parameters["offsetX"].SetValue(1f);
+                metaballGradientNoiseTex.Parameters["offsetY"].SetValue(1f);
+                sb.Draw(Instance.renders[4], Vector2.Zero, Color.White);
+            }
+            else
+            {
+                gd.SetRenderTarget(Instance.renders[4]);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                foreach (Projectile proj in Main.projectile)
+                {
+                    if (proj.active && proj.timeLeft > 0 && proj.type == ModContent.ProjectileType<ArchmageXSpawnAnim>())
+                    {
+                        Color color = Color.Transparent;
+                        proj.ModProjectile.PreDraw(ref color);
+                    }
+                }
+                sb.End();
+            }
+        }
+        public static void DrawAdditiveDusts(SpriteBatch sb, GraphicsDevice gd)
+        {
+
             sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             FireDust.DrawAll(sb);
             ColoredFireDust.DrawAll(sb);
             GenericAdditiveDust.DrawAll(sb);
             SparkleDust.DrawAll(sb);
             LineDustFollowPoint.DrawAll(sb);
-            //if (!NPC.AnyNPCs(ModContent.NPCType<Exol>()))
-            //  SmokeDustAkaFireDustButNoGlow.DrawAll(Main.spriteBatch);
             sb.End();
+        }
+        public static void DrawGenericPostScreen(SpriteBatch sb, GraphicsDevice gd)
+        {
+
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (FlashAlpha > 0)
             {
@@ -524,6 +493,73 @@ namespace EbonianMod
             }
             sb.End();
         }
+        public static void DrawBlurredContent(SpriteBatch sb, GraphicsDevice gd)
+        {
+
+            gd.SetRenderTarget(Instance.blurrender);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
+            sb.End();
+            gd.SetRenderTarget(Main.screenTargetSwap);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            foreach (Action draw in blurDrawCache)
+            {
+                draw?.Invoke();
+            }
+            blurDrawCache.Clear();
+            sb.End();
+            gd.SetRenderTarget(Main.screenTarget);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            Test2.CurrentTechnique.Passes[0].Apply();
+            Test2.Parameters["tex0"].SetValue(Main.screenTargetSwap);
+            Test2.Parameters["i"].SetValue(0.02f);
+            sb.Draw(Instance.blurrender, Vector2.Zero, Color.White);
+            sb.End();
+        }
+        public static void DrawInvisMasks(SpriteBatch sb, GraphicsDevice gd)
+        {
+
+            gd.SetRenderTarget(Main.screenTargetSwap);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
+            sb.End();
+
+            gd.SetRenderTarget(Instance.affectedByInvisRender);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            foreach (Action draw in affectedByInvisibleMaskCache)
+            {
+                draw?.Invoke();
+            }
+            affectedByInvisibleMaskCache.Clear();
+            sb.End();
+
+            gd.SetRenderTarget(Instance.invisRender);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            foreach (Action draw in invisibleMaskCache)
+            {
+                draw?.Invoke();
+            }
+            invisibleMaskCache.Clear();
+            sb.End();
+            gd.SetRenderTarget(Main.screenTarget);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
+            sb.End();
+            sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            invisibleMask.CurrentTechnique.Passes[0].Apply();
+            gd.Textures[1] = Instance.invisRender;
+            sb.Draw(Instance.affectedByInvisRender, Vector2.Zero, Color.White);
+            sb.End();
+            gd.Textures[1] = null;
+        }
+
         private void Main_OnResolutionChanged(Vector2 obj)
         {
             CreateRender();

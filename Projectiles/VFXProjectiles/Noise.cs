@@ -27,13 +27,14 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            if (lightColor != Color.Transparent) return false;
-            Texture2D tex = Helper.GetExtraTexture("seamlessNoise2");
-            Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.ai[2] > 0)
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[0] * Projectile.ai[2] * 0.6f, Main.GameUpdateCount * 0.1f * Projectile.ai[0], tex.Size() / 2, Projectile.ai[2] * 0.5f, SpriteEffects.None, 0);
-            //Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[0], -Main.GameUpdateCount * 0.1f * Projectile.ai[0], tex.Size() / 2, 1.65f, SpriteEffects.None, 0);
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+                EbonianMod.blurDrawCache.Add(() =>
+                {
+                    Texture2D tex = Helper.GetExtraTexture("seamlessNoise2");
+                    Main.spriteBatch.Reload(BlendState.Additive);
+                    Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[0] * Projectile.ai[2] * 0.6f, Main.GameUpdateCount * 0.1f * Projectile.ai[0], tex.Size() / 2, Projectile.ai[2] * 0.5f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Reload(BlendState.AlphaBlend);
+                });
             return false;
         }
         public override void AI()

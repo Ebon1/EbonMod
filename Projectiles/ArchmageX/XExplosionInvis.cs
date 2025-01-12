@@ -17,10 +17,6 @@ namespace EbonianMod.Projectiles.ArchmageX
     public class XExplosionInvis : ModProjectile
     {
         public override string Texture => Helper.Placeholder;
-        public override void SetStaticDefaults()
-        {
-            EbonianMod.projectileAffectedByInvisibleMaskList.Add(Type);
-        }
         public override void SetDefaults()
         {
             Projectile.height = 200;
@@ -31,21 +27,24 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 200;
+            Projectile.extraUpdates = 2;
         }
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            if (lightColor != Color.Transparent) return false;
-            float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
-            Texture2D explosion = Helper.GetExtraTexture("explosion");
-            Texture2D ring = Helper.GetExtraTexture("ring");
-            Main.spriteBatch.Reload(BlendState.Additive);
-            for (int i = 0; i < 3; i++)
+            //EbonianMod.affectedByInvisibleMaskCache.Add(() =>
             {
-                Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0] * 0.9f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 0.95f, SpriteEffects.None, 0);
-            }
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+                float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
+                Texture2D explosion = Helper.GetExtraTexture("explosion");
+                Texture2D ring = Helper.GetExtraTexture("ring");
+                Main.spriteBatch.Reload(BlendState.Additive);
+                for (int i = 0; i < 3; i++)
+                {
+                    Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0] * 0.9f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 0.95f, SpriteEffects.None, 0);
+                }
+                Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            }//);
             return false;
         }
         public override void OnSpawn(IEntitySource source)
@@ -68,10 +67,6 @@ namespace EbonianMod.Projectiles.ArchmageX
     public class XExplosionInvisMask : ModProjectile
     {
         public override string Texture => Helper.Placeholder;
-        public override void SetStaticDefaults()
-        {
-            EbonianMod.projectileInvisibleMaskList.Add(Type);
-        }
         public override void SetDefaults()
         {
             Projectile.height = 200;
@@ -85,11 +80,13 @@ namespace EbonianMod.Projectiles.ArchmageX
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            if (lightColor != Color.Transparent) return false;
-            Texture2D explosion = Helper.GetExtraTexture("explosion");
-            Main.spriteBatch.Reload(BlendState.Additive);
-            Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            EbonianMod.invisibleMaskCache.Add(() =>
+            {
+                Texture2D explosion = Helper.GetExtraTexture("explosion");
+                Main.spriteBatch.Reload(BlendState.Additive);
+                Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
+                Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            });
             return false;
         }
         public override void AI()
@@ -97,7 +94,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Projectile.ai[0] += 0.05f;
 
             Projectile proj = Main.projectile[(int)Projectile.ai[2]];
-            if (proj.active && EbonianMod.projectileAffectedByInvisibleMaskList.Contains(proj.type) && proj.whoAmI == Projectile.ai[2])
+            if (proj.active && proj.whoAmI == Projectile.ai[2])
             {
                 //Projectile.Center = Vector2.Lerp(Projectile.Center, proj.Center, 0.1f);
             }
