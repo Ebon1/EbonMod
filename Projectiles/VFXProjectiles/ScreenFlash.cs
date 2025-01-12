@@ -22,6 +22,10 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Projectile.friendly = false;
             Projectile.penetrate = -1;
         }
+        public override void SetStaticDefaults()
+        {
+            EbonianMod.projectileFinalDrawList.Add(Type);
+        }
         public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {
             Projectile.ai[1] = 1;

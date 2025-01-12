@@ -92,7 +92,6 @@ namespace EbonianMod.Items.Consumables.BossItems
         {
             Player player = Main.player[Projectile.owner];
             EbonianSystem.ScreenShakeAmount = 10;
-            //Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosion>(), 50, 0);
             for (int i = 0; i < 3; i++)
                 Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Main.rand.NextVector2FromRectangle(Projectile.getRect()), Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), 50, 0);
             Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileID.DaybreakExplosion, 50, 0);

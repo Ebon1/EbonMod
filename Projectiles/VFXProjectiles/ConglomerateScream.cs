@@ -34,6 +34,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         {
             return false;
         }
+        public override bool IsLoadingEnabled(Mod mod) => false;
         int seed;
         public override void OnSpawn(IEntitySource source)
         {
