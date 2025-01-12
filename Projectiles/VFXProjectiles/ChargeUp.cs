@@ -44,7 +44,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                     float angle = Helper.CircleDividedEqually(i, max) + Main.GameUpdateCount * 0.01f * rand.NextFloat(0.1f, 2f);
                     float scale = rand.NextFloat(0.1f, .5f);
                     Vector2 offset = new Vector2(rand2.NextFloat(300, 400) * (ringScale + rand2.NextFloat(-0.2f, 0.5f)) * scale, 0).RotatedBy(angle);
-                    Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Lerp(Color.DarkRed, Color.Maroon, Projectile.ai[2] * 2) * ringScale, angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[2] * 6.5f, 0, 1), ringScale) * scale * 0.2f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Lerp(Color.DarkRed, Color.Maroon, Projectile.ai[2] * 2) * ringScale, angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[2] * 6.5f, 0, 1), ringScale) * scale * 0.2f * 4, SpriteEffects.None, 0);
                 }
             }
             rand = new UnifiedRandom(seed + 1);
@@ -58,7 +58,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                     float scale = rand.NextFloat(0.1f, .5f);
                     Vector2 offset = new Vector2(rand2.NextFloat(400, 600) * (ringScale + rand2.NextFloat(-0.2f, 0.5f)) * scale, 0).RotatedBy(angle);
                     for (float j = 0; j < 2; j++)
-                        Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.Red, Projectile.ai[1] * 2) * (ringScale * 0.7f), angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[1] * 6.5f, 0, 1.1f), ringScale) * scale * 0.3f, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.Red, Projectile.ai[1] * 2) * (ringScale * 0.7f), angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[1] * 6.5f, 0, 1.1f), ringScale) * scale * 0.3f * 4, SpriteEffects.None, 0);
                 }
             }
             rand = new UnifiedRandom(seed + 1);
@@ -72,7 +72,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                     float scale = rand.NextFloat(0.1f, .5f);
                     Vector2 offset = new Vector2(rand2.NextFloat(350, 500) * (ringScale + rand2.NextFloat(-0.2f, 0.5f)) * scale, 0).RotatedBy(angle);
                     for (float j = 0; j < 2; j++)
-                        Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Lerp(Color.Red, Color.White, Projectile.ai[0] * 2) * ringScale, angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[0] * 6.5f, 0, 1.2f), ringScale) * scale * 0.3f, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Lerp(Color.Red, Color.White, Projectile.ai[0] * 2) * ringScale, angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[0] * 6.5f, 0, 1.2f), ringScale) * scale * 0.3f * 4, SpriteEffects.None, 0);
                 }
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -121,7 +121,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                     float angle = Helper.CircleDividedEqually(i, max) + Main.GameUpdateCount * 0.03f * rand.NextFloat(0.1f, 2f);
                     float scale = rand.NextFloat(0.1f, .5f);
                     Vector2 offset = new Vector2(rand2.NextFloat(300, 400) * (ringScale + rand2.NextFloat(-0.2f, 0.5f)) * scale, 0).RotatedBy(angle);
-                    Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Lerp(Color.Olive, Color.Green, Projectile.ai[2] * 2) * ringScale, angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[2] * 6.5f, 0, 1), ringScale) * scale * 0.2f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Lerp(Color.Olive, Color.Green, Projectile.ai[2] * 2) * ringScale, angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[2] * 6.5f, 0, 1), ringScale) * scale * 0.2f * 4, SpriteEffects.None, 0);
                 }
             }
             rand = new UnifiedRandom(seed + 1);
@@ -135,7 +135,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                     float scale = rand.NextFloat(0.1f, .5f);
                     Vector2 offset = new Vector2(rand2.NextFloat(400, 600) * (ringScale + rand2.NextFloat(-0.2f, 0.5f)) * scale, 0).RotatedBy(angle);
                     for (float j = 0; j < 2; j++)
-                        Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Lerp(Color.Green, Color.LawnGreen, Projectile.ai[1] * 2) * (ringScale * 0.7f), angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[1] * 6.5f, 0, 1.1f), ringScale) * scale * 0.3f, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Lerp(Color.Green, Color.LawnGreen, Projectile.ai[1] * 2) * (ringScale * 0.7f), angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[1] * 6.5f, 0, 1.1f), ringScale) * scale * 0.3f * 4, SpriteEffects.None, 0);
                 }
             }
             rand = new UnifiedRandom(seed + 1);
@@ -149,7 +149,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                     float scale = rand.NextFloat(0.1f, .5f);
                     Vector2 offset = new Vector2(rand2.NextFloat(350, 500) * (ringScale + rand2.NextFloat(-0.2f, 0.5f)) * scale, 0).RotatedBy(angle);
                     for (float j = 0; j < 2; j++)
-                        Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Lerp(Color.LawnGreen, Color.White, Projectile.ai[0] * 2) * ringScale, angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[0] * 6.5f, 0, 1.2f), ringScale) * scale * 0.3f, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Lerp(Color.LawnGreen, Color.White, Projectile.ai[0] * 2) * ringScale, angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[0] * 6.5f, 0, 1.2f), ringScale) * scale * 0.3f * 4, SpriteEffects.None, 0);
                 }
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -198,7 +198,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                     float angle = Helper.CircleDividedEqually(i, max) + Main.GameUpdateCount * 0.03f * rand.NextFloat(0.1f, 2f);
                     float scale = rand.NextFloat(0.1f, .5f) * 2;
                     Vector2 offset = new Vector2(rand2.NextFloat(500, 600) * (ringScale + rand2.NextFloat(-0.2f, 0.5f)) * scale, 0).RotatedBy(angle);
-                    Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.White * ringScale, angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[2] * 6.5f, 0, 1), ringScale) * scale * 0.2f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.White * ringScale, angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[2] * 6.5f, 0, 1), ringScale) * scale * 0.2f * 4, SpriteEffects.None, 0);
                 }
             }
             rand = new UnifiedRandom(seed + 1);
@@ -212,7 +212,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                     float scale = rand.NextFloat(0.1f, .5f) * 2;
                     Vector2 offset = new Vector2(rand2.NextFloat(500, 650) * (ringScale + rand2.NextFloat(-0.2f, 0.5f)) * scale, 0).RotatedBy(angle);
                     for (float j = 0; j < 2; j++)
-                        Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.White * (ringScale * 0.7f), angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[1] * 6.5f, 0, 1.1f), ringScale) * scale * 0.3f, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.White * (ringScale * 0.7f), angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[1] * 6.5f, 0, 1.1f), ringScale) * scale * 0.3f * 4, SpriteEffects.None, 0);
                 }
             }
             rand = new UnifiedRandom(seed + 1);
@@ -226,7 +226,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                     float scale = rand.NextFloat(0.1f, .5f) * 2;
                     Vector2 offset = new Vector2(rand2.NextFloat(450, 700) * (ringScale + rand2.NextFloat(-0.2f, 0.5f)) * scale, 0).RotatedBy(angle);
                     for (float j = 0; j < 2; j++)
-                        Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.White * ringScale, angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[0] * 6.5f, 0, 1.2f), ringScale) * scale * 0.3f, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.White * ringScale, angle, tex.Size() / 2, new Vector2(MathHelper.Clamp(Projectile.ai[0] * 6.5f, 0, 1.2f), ringScale) * scale * 0.3f * 4, SpriteEffects.None, 0);
                 }
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);

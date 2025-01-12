@@ -72,11 +72,11 @@ namespace EbonianMod.NPCs.ArchmageX
             Main.spriteBatch.Reload(BlendState.Additive);
             for (int i = 0; i < 4; i++)
             {
-                Main.spriteBatch.Draw(tex4, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha), MathHelper.Pi + Main.GameUpdateCount * 0.1f, tex4.Size() / 2, (glareAlpha) * .3f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(tex4, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha), Main.GameUpdateCount * 0.1f, tex4.Size() / 2, (glareAlpha) * .3f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex4, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha), MathHelper.Pi + Main.GameUpdateCount * 0.1f, tex4.Size() / 2, (glareAlpha) * .3f * 2, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex4, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha), Main.GameUpdateCount * 0.1f, tex4.Size() / 2, (glareAlpha) * .3f * 2, SpriteEffects.None, 0);
 
-                Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha), MathHelper.PiOver2 + Main.GameUpdateCount * -0.06f, tex3.Size() / 2, (glareAlpha) * .6f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha * 0.5f), Main.GameUpdateCount * -0.06f, tex3.Size() / 2, (glareAlpha) * 1.6f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha), MathHelper.PiOver2 + Main.GameUpdateCount * -0.06f, tex3.Size() / 2, (glareAlpha) * .6f * 2, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha * 0.5f), Main.GameUpdateCount * -0.06f, tex3.Size() / 2, (glareAlpha) * 1.6f * 2, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;

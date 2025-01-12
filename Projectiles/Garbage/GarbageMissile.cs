@@ -35,6 +35,10 @@ namespace EbonianMod.Projectiles.Garbage
         {
             Projectile.frame = Main.rand.Next(6);
         }
+        public override void OnKill(int timeLeft)
+        {
+            Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+        }
         public override bool? CanDamage() => Projectile.timeLeft < 300;
         public override Color? GetAlpha(Color lightColor) => Color.White;
         public override void AI()
@@ -44,8 +48,8 @@ namespace EbonianMod.Projectiles.Garbage
                 Projectile.velocity = Projectile.velocity.RotatedBy(Projectile.ai[0]) * 0.99f;
             else
             {
-                if (Main.rand.NextBool())
-                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.RainCloud);
+                for (int i = 0; i < 5; i++)
+                    Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.RainCloud);
                 if (Projectile.velocity.Length() < 16)
                     Projectile.velocity *= 1.025f;
             }

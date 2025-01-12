@@ -40,8 +40,8 @@ namespace EbonianMod.Projectiles.ArchmageX
                 Main.spriteBatch.Reload(BlendState.Additive);
                 for (int i = 0; i < 3; i++)
                 {
-                    Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0] * 0.9f, SpriteEffects.None, 0);
-                    Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 0.95f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0] * 0.9f * 2, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 0.95f * 2, SpriteEffects.None, 0);
                 }
                 Main.spriteBatch.Reload(BlendState.AlphaBlend);
             }//);

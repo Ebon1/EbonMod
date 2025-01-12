@@ -88,7 +88,6 @@ namespace EbonianMod.Projectiles.Friendly
             Projectile.extraUpdates = 2;
             Projectile.penetrate = -1;
             Projectile.Size = new(48, 48);
-            Projectile.scale = 0.5f;
         }
         public override bool PreDraw(ref Color lightColor)
         {

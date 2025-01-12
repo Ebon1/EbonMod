@@ -50,10 +50,10 @@ namespace EbonianMod.Projectiles.Garbage
                 for (float j = 0; j < 5; j++)
                 {
                     Vector2 pos = Vector2.Lerp(oldpos, olderpos, (float)(j / 5));
-                    Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + new Vector2(5, 10 / Main.GameZoomTarget) + Projectile.Size / 2 - Main.screenPosition, null, Color.Lerp(Color.DarkOrange, Color.OrangeRed, mult) * mult * 0.4f, Main.GameUpdateCount * 0.03f * i, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f * mult, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + new Vector2(5, 10 / Main.GameZoomTarget) + Projectile.Size / 2 - Main.screenPosition, null, Color.Lerp(Color.DarkOrange, Color.OrangeRed, mult) * mult * 0.4f, Main.GameUpdateCount * 0.03f * i, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f * mult * 2, SpriteEffects.None, 0);
                 }
             }
-            Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center + new Vector2(5, 10 / Main.GameZoomTarget) - Main.screenPosition, null, Color.Yellow, Main.GameUpdateCount * 0.03f, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center + new Vector2(5, 10 / Main.GameZoomTarget) - Main.screenPosition, null, Color.Yellow, Main.GameUpdateCount * 0.03f, TextureAssets.Projectile[Type].Value.Size() / 2, 0.035f * 2, SpriteEffects.None, 0);
             return false;
         }
         public override void PostDraw(Color lightColor)

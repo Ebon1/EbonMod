@@ -30,14 +30,14 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Texture2D tex = Helper.GetExtraTexture("Extras2/circle_02");
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[1]);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * 0.5f * Projectile.ai[0], Main.GameUpdateCount * 0.1f, tex.Size() / 2, 1.65f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * 0.5f * Projectile.ai[0], Main.GameUpdateCount * 0.1f, tex.Size() / 2, 1.65f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * 0.5f * Projectile.ai[0], Main.GameUpdateCount * 0.1f, tex.Size() / 2, 1.65f * 2, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * 0.5f * Projectile.ai[0], Main.GameUpdateCount * 0.1f, tex.Size() / 2, 1.65f * 2, SpriteEffects.None, 0);
             tex = Helper.GetExtraTexture("Extras2/circle_02");
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * 0.5f * alpha * Projectile.ai[0], Projectile.rotation, tex.Size() / 2, Projectile.ai[1] * Projectile.ai[0], SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * 0.5f * alpha * Projectile.ai[0], Projectile.rotation, tex.Size() / 2, Projectile.ai[1] * Projectile.ai[0], SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * 0.5f * alpha * Projectile.ai[0], Projectile.rotation, tex.Size() / 2, Projectile.ai[1] * Projectile.ai[0] * 2, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * 0.5f * alpha * Projectile.ai[0], Projectile.rotation, tex.Size() / 2, Projectile.ai[1] * Projectile.ai[0] * 2, SpriteEffects.None, 0);
             tex = Helper.GetExtraTexture("Extras2/flare_01");
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * 0.5f * Projectile.ai[0], 0, tex.Size() / 2, 1.65f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[0], 0, tex.Size() / 2, 1.65f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * 0.5f * Projectile.ai[0], 0, tex.Size() / 2, 1.65f * 2, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[0], 0, tex.Size() / 2, 1.65f * 2, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

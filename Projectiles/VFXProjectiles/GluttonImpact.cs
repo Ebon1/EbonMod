@@ -59,7 +59,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                 float scale = rand.NextFloat(0.15f, .6f);
                 Vector2 offset = new Vector2(Main.rand.NextFloat(-10, 20) * Projectile.ai[1] * scale, 0).RotatedBy(angle);
                 for (float j = 0; j < 2; j++)
-                    Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.LawnGreen * alpha * 0.5f, angle, new Vector2(0, tex.Height / 2), new Vector2(Projectile.ai[1], alpha) * scale * 0.6f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.LawnGreen * alpha * 0.5f, angle, new Vector2(0, tex.Height / 2), new Vector2(Projectile.ai[1], alpha) * scale * 0.6f * 4, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Reload(effect: null);
             for (float i = 0; i < max; i++)
@@ -68,7 +68,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                 float scale = rand.NextFloat(0.3f, .8f);
                 Vector2 offset = new Vector2(Main.rand.NextFloat(-10, 20) * Projectile.ai[1] * scale, 0).RotatedBy(angle);
                 for (float j = 0; j < 2; j++)
-                    Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.LawnGreen * alpha * 0.5f, angle, new Vector2(0, tex.Height / 2), new Vector2(Projectile.ai[1], alpha) * scale * 0.6f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.LawnGreen * alpha * 0.5f, angle, new Vector2(0, tex.Height / 2), new Vector2(Projectile.ai[1], alpha) * scale * 0.6f * 4, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;

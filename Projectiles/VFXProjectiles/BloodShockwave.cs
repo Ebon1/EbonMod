@@ -37,7 +37,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Texture2D tex = Helper.GetExtraTexture("explosion");
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Maroon * alpha, Projectile.rotation, tex.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Maroon * alpha, Projectile.rotation, tex.Size() / 2, Projectile.ai[0] * 2, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
@@ -75,7 +75,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Texture2D tex = Helper.GetExtraTexture("Extras2/circle_02");
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Maroon * alpha, Projectile.rotation, tex.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Maroon * alpha, Projectile.rotation, tex.Size() / 2, Projectile.ai[0] * 2, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
@@ -115,7 +115,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0] / 2);
             Color color = Color.Lerp(Color.OrangeRed, Color.Yellow, alpha);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, color * alpha, Projectile.rotation, tex.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, color * alpha, Projectile.rotation, tex.Size() / 2, Projectile.ai[0] * 2, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
@@ -154,7 +154,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0] * 2);
             Color color = Color.Lerp(Color.OrangeRed, Color.Yellow, alpha);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, color * alpha, Projectile.rotation, tex.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, color * alpha, Projectile.rotation, tex.Size() / 2, Projectile.ai[0] * 2, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

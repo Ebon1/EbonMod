@@ -25,7 +25,9 @@ namespace EbonianMod.Projectiles.Garbage
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.height = 24;
+            Projectile.Opacity = 1;
         }
+        public override bool? CanDamage() => Projectile.Opacity > 0.5f;
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)
         {
             if (Projectile.Center.Y >= Main.LocalPlayer.Center.Y - 100)
@@ -45,7 +47,7 @@ namespace EbonianMod.Projectiles.Garbage
         }
         public override Color? GetAlpha(Color lightColor)
         {
-            return Color.White;
+            return Color.White * Projectile.Opacity;
         }
         public override void AI()
         {
@@ -55,7 +57,11 @@ namespace EbonianMod.Projectiles.Garbage
             if (Projectile.frame == 0)
                 Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
             else
+            {
                 Projectile.rotation = 0;
+                if (Projectile.timeLeft < 40)
+                    Projectile.Opacity -= 0.03f;
+            }
 
         }
     }

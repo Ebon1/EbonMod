@@ -39,8 +39,8 @@ namespace EbonianMod.Projectiles.ArchmageX
             Texture2D tex = Helper.GetExtraTexture("flare");
             float alpha = Projectile.ai[2];
             Main.spriteBatch.Reload(BlendState.Additive);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.Indigo, Color.MediumSlateBlue * 0.7f, alpha) * alpha * 0.75f, Main.GameUpdateCount * 0.04f, tex.Size() / 2, alpha * 0.25f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.MediumSlateBlue * 0.7f, Color.Indigo, alpha) * alpha * 0.75f, -Main.GameUpdateCount * 0.04f, tex.Size() / 2, alpha * 0.25f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.Indigo, Color.MediumSlateBlue * 0.7f, alpha) * alpha * 0.75f, Main.GameUpdateCount * 0.04f, tex.Size() / 2, alpha, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.MediumSlateBlue * 0.7f, Color.Indigo, alpha) * alpha * 0.75f, -Main.GameUpdateCount * 0.04f, tex.Size() / 2, alpha, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

@@ -175,9 +175,9 @@ namespace EbonianMod.NPCs.Terrortoma
                 {
                     Texture2D tex3 = Helper.GetExtraTexture("Extras2/flare_01");
                     Texture2D tex4 = Helper.GetExtraTexture("Extras2/star_02");
-                    Main.spriteBatch.Draw(tex2, eyePosition - Main.screenPosition, null, Color.Olive * (glareAlpha - 1), Main.GameUpdateCount * 0.03f, tex2.Size() / 2, (glareAlpha - 1) * 0.25f, SpriteEffects.None, 0);
-                    Main.spriteBatch.Draw(tex3, eyePosition - Main.screenPosition, null, Color.Green * (glareAlpha - 2), Main.GameUpdateCount * -0.03f, tex3.Size() / 2, (glareAlpha - 2) * 0.45f, SpriteEffects.None, 0);
-                    Main.spriteBatch.Draw(tex4, eyePosition - Main.screenPosition, null, Color.Green * (glareAlpha - 3), Main.GameUpdateCount * -0.03f, tex4.Size() / 2, (glareAlpha - 3) * 0.75f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex2, eyePosition - Main.screenPosition, null, Color.Olive * (glareAlpha - 1), Main.GameUpdateCount * 0.03f, tex2.Size() / 2, (glareAlpha - 1) * 0.5f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex3, eyePosition - Main.screenPosition, null, Color.Green * (glareAlpha - 2), Main.GameUpdateCount * -0.03f, tex3.Size() / 2, (glareAlpha - 2) * 0.45f * 2, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex4, eyePosition - Main.screenPosition, null, Color.Green * (glareAlpha - 3), Main.GameUpdateCount * -0.03f, tex4.Size() / 2, (glareAlpha - 3) * 0.75f * 2, SpriteEffects.None, 0);
                 }
                 Main.spriteBatch.Reload(BlendState.AlphaBlend);
 

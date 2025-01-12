@@ -1247,7 +1247,7 @@ namespace EbonianMod.NPCs.Garbage
                 Main.spriteBatch.Reload(BlendState.Additive);
                 Main.spriteBatch.Draw(pulse, targetPos - Main.screenPosition, null, Color.DarkRed * Projectile.ai[2], 0, pulse.Size() / 2, 4.5f, SpriteEffects.None, 0);
 
-                Main.spriteBatch.Draw(ring, targetPos - Main.screenPosition, null, Color.DarkRed * (alpha2 * 0.25f), Main.GlobalTimeWrappedHourly * 0.03f, ring.Size() / 2, alpha * 18, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ring, targetPos - Main.screenPosition, null, Color.DarkRed * (alpha2 * 0.25f), Main.GlobalTimeWrappedHourly * 0.03f, ring.Size() / 2, alpha * 18 * 2, SpriteEffects.None, 0);
                 //Main.spriteBatch.Draw(pulse, targetPos - Main.screenPosition, null, Color.Maroon * alpha2, 0, pulse.Size() / 2, waveTimer * 2, SpriteEffects.None, 0);
                 for (int i = 0; i < 16; i++)
                 {

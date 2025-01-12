@@ -83,7 +83,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             {
                 Smoke d = smoke[i];
                 Texture2D tex = ModContent.Request<Texture2D>("EbonianMod/Extras/explosion").Value;
-                sb.Draw(tex, player.RotatedRelativePoint(player.MountedCenter) - d.position - Main.screenPosition, null, Color.White * d.scale * 10, 0, tex.Size() / 2, d.scale, SpriteEffects.None, 0);
+                sb.Draw(tex, player.RotatedRelativePoint(player.MountedCenter) - d.position - Main.screenPosition, null, Color.White * d.scale * 10, 0, tex.Size() / 2, d.scale * 2, SpriteEffects.None, 0);
             }
             //sb.Reload(BlendState.AlphaBlend);
         }
@@ -240,9 +240,9 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                 float angle = Helper.CircleDividedEqually(i, max);
                 float scale = rand.NextFloat(0.2f, 1f);
                 Vector2 offset = new Vector2(Main.rand.NextFloat(50) * Projectile.ai[1] * scale, 0).RotatedBy(angle);
-                Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Cyan * (alpha * 0.5f), angle, new Vector2(0, tex.Height / 2), new Vector2(Projectile.ai[1], alpha) * scale * 0.7f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Cyan * (alpha * 0.5f), angle, new Vector2(0, tex.Height / 2), new Vector2(Projectile.ai[1], alpha) * scale * 0.7f * 4, SpriteEffects.None, 0);
                 for (float j = 0; j < 3; j++)
-                    Main.spriteBatch.Draw(tex2, Projectile.Center + offset - Main.screenPosition, null, Color.Cyan * alpha, angle + MathHelper.PiOver2, new Vector2(tex2.Width / 2, 0), new Vector2(alpha, Projectile.ai[1]) * scale * 1.2f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex2, Projectile.Center + offset - Main.screenPosition, null, Color.Cyan * alpha, angle + MathHelper.PiOver2, new Vector2(tex2.Width / 2, 0), new Vector2(alpha, Projectile.ai[1]) * scale * 1.2f * 2, SpriteEffects.None, 0);
             }
 
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -280,8 +280,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
 
             for (int i = 0; i < 2; i++)
             {
-                Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.Cyan * 0.5f * alpha, Projectile.rotation, tex2.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Cyan * 0.5f * alpha, Projectile.rotation, tex2.Size() / 2, Projectile.ai[0] * 0.3f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.Cyan * 0.5f * alpha, Projectile.rotation, tex2.Size() / 2, Projectile.ai[0] * 2, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Cyan * 0.5f * alpha, Projectile.rotation, tex2.Size() / 2, Projectile.ai[0] * 0.3f * 2, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;

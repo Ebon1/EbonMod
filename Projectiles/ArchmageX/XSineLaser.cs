@@ -167,14 +167,14 @@ namespace EbonianMod.Projectiles.ArchmageX
             if (!RunOnce || points.Count < 2 || Projectile.damage != 0) return false;
             Main.spriteBatch.Reload(SpriteSortMode.Immediate);
 
-            float scale = Projectile.scale * (Projectile.damage == 0 ? 2 : 4);
+            float scale = Projectile.scale * (Projectile.damage == 0 ? 4 : 8);
             Texture2D tex = Helper.GetExtraTexture("Extras2/star_09");
             Texture2D bolt = Helper.GetExtraTexture("laser_purple");
             if (Projectile.damage == 0)
                 bolt = Helper.GetExtraTexture("laser3");
             Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.damage != 0)
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Indigo * Projectile.scale, Main.GameUpdateCount * -0.003f, tex.Size() / 2, 0.2f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Indigo * Projectile.scale, Main.GameUpdateCount * -0.003f, tex.Size() / 2, 0.2f * 2, SpriteEffects.None, 0);
             float s = 1;
             if (points.Count > 2)
             {
@@ -190,7 +190,7 @@ namespace EbonianMod.Projectiles.ArchmageX
 
                     Color color = Color.Indigo * (s * Projectile.scale);
                     if (Projectile.damage == 0)
-                        color = Color.White * (s * Projectile.scale * 0.5f);
+                        color = Color.White * (s * Projectile.scale);
 
                     if (!Collision.CanHitLine(Projectile.Center, 1, 1, points[i], 1, 1))
                         color = Color.Transparent;

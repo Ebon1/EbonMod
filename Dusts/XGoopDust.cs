@@ -40,8 +40,8 @@ namespace EbonianMod.Dusts
                 if (d.type == ModContent.DustType<XGoopDust>() && d.active)
                 {
                     Texture2D tex = ModContent.Request<Texture2D>("EbonianMod/Extras/Extras2/fire_01").Value;
-                    sb.Draw(tex, d.position - Main.screenPosition, null, (d.customData == null ? Color.White : d.color) * MathHelper.Clamp(d.scale * 2, 0, 0.5f), d.rotation, tex.Size() / 2, d.scale * 0.1f, SpriteEffects.None, 0);
-                    sb.Draw(tex, d.position - Main.screenPosition, null, (d.customData == null ? Color.White : d.color) * MathHelper.Clamp(d.scale * 2, 0, 0.5f), -d.rotation, tex.Size() / 2, d.scale * 0.1f, SpriteEffects.None, 0);
+                    sb.Draw(tex, d.position - Main.screenPosition, null, (d.customData == null ? Color.White : d.color) * MathHelper.Clamp(d.scale * 2, 0, 0.5f), d.rotation, tex.Size() / 2, d.scale * 0.2f, SpriteEffects.None, 0);
+                    sb.Draw(tex, d.position - Main.screenPosition, null, (d.customData == null ? Color.White : d.color) * MathHelper.Clamp(d.scale * 2, 0, 0.5f), -d.rotation, tex.Size() / 2, d.scale * 0.2f, SpriteEffects.None, 0);
                 }
             }
         }

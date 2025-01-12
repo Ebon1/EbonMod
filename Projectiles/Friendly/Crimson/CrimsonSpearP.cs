@@ -49,13 +49,13 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                 if (Projectile.ai[2] == 0)
                 {
                     if (Projectile.ai[1] == 0)
-                        Main.spriteBatch.Draw(stab, Projectile.Center + new Vector2(0, 40).RotatedBy(Projectile.rotation + MathHelper.PiOver4) - Main.screenPosition, null, Color.Gold * alpha, Projectile.rotation + MathHelper.PiOver4, stab.Size() / 2, Projectile.scale * (Projectile.localAI[0] != 21 ? 0.75f : 1.2f), SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(stab, Projectile.Center + new Vector2(0, 40).RotatedBy(Projectile.rotation + MathHelper.PiOver4) - Main.screenPosition, null, Color.Gold * alpha, Projectile.rotation + MathHelper.PiOver4, stab.Size() / 2, Projectile.scale * (Projectile.localAI[0] != 21 ? 0.75f : 1.2f) * 2, SpriteEffects.None, 0);
                     else
-                        Main.spriteBatch.Draw(slash, pos - Main.screenPosition, null, Color.Gold * alpha, Projectile.velocity.ToRotation() - MathHelper.PiOver2, slash.Size() / 2, Projectile.scale * 0.43f, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                        Main.spriteBatch.Draw(slash, pos - Main.screenPosition, null, Color.Gold * alpha, Projectile.velocity.ToRotation() - MathHelper.PiOver2, slash.Size() / 2, Projectile.scale * 0.43f * 2, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
                 }
                 else
                 {
-                    Main.spriteBatch.Draw(spin, Projectile.Center - Main.screenPosition, null, Color.Gold * Projectile.localAI[1], Projectile.rotation * 0.95f, spin.Size() / 2, Projectile.scale * 0.43f, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                    Main.spriteBatch.Draw(spin, Projectile.Center - Main.screenPosition, null, Color.Gold * Projectile.localAI[1], Projectile.rotation * 0.95f, spin.Size() / 2, Projectile.scale * 0.43f * 2, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
                 }
                 Main.spriteBatch.Reload(BlendState.AlphaBlend);
             }

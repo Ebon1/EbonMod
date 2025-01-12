@@ -179,7 +179,7 @@ namespace EbonianMod.Items.Weapons.Magic
                 Vector4 col = (Color.Lerp(Color.PaleGreen, Color.Lime, windAlpha[i])).ToVector4();
                 EbonianMod.SpriteRotation.Parameters["uColor"].SetValue(col);
                 Texture2D tex = texture[rand.Next(texture.Length)];
-                Main.spriteBatch.Draw(tex, Projectile.Center + Main.rand.NextVector2Circular(3, 3) + Projectile.velocity * (20 + (rand.NextFloat(65) + (windAlpha[i] * 30)) * windAlpha[i]) - Main.screenPosition, null, Color.White * 0.5f * windAlpha[i], Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, windAlpha[i] * rand.NextFloat(0.9f, 1f), SpriteEffects.FlipVertically, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center + Main.rand.NextVector2Circular(3, 3) + Projectile.velocity * (20 + (rand.NextFloat(65) + (windAlpha[i] * 30)) * windAlpha[i]) - Main.screenPosition, null, Color.White * 0.5f * windAlpha[i], Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, windAlpha[i] * rand.NextFloat(0.9f, 1f) * 2, SpriteEffects.FlipVertically, 0);
             }
             Main.spriteBatch.Reload(effect: null);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);

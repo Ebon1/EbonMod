@@ -138,7 +138,7 @@ namespace EbonianMod.Projectiles.Garbage
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2() * 600, 50, ref a) && Projectile.scale > 0.5f;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2() * 800, 50, ref a) && Projectile.scale > 0.5f;
         }
         public override bool ShouldUpdatePosition() => false;
         public override bool? CanDamage() => false;
@@ -179,7 +179,7 @@ namespace EbonianMod.Projectiles.Garbage
             float i_progress = MathHelper.Clamp(MathHelper.SmoothStep(1, 0, progress) * 50, 0, 1);
             Vector2 start = Projectile.Center - Main.screenPosition;
             float factor = MathHelper.Lerp(MathF.Sin(Main.GlobalTimeWrappedHourly * 2), MathF.Cos(Main.GlobalTimeWrappedHourly * 2), (MathF.Sin(Main.GlobalTimeWrappedHourly) + 1) * 0.5f);
-            Vector2 off = (Projectile.velocity.ToRotation().ToRotationVector2() * (600 + (factor * 30)));
+            Vector2 off = (Projectile.velocity.ToRotation().ToRotationVector2() * (800 + (factor * 30)));
             Vector2 end = start + off;
             float rot = Helper.FromAToB(start, end).ToRotation();
 
@@ -238,7 +238,7 @@ namespace EbonianMod.Projectiles.Garbage
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2() * 900, 100, ref a) && Projectile.scale > 0.5f;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity.ToRotation().ToRotationVector2() * 1000, 100, ref a) && Projectile.scale > 0.5f;
         }
         public override bool ShouldUpdatePosition() => false;
         public override bool? CanDamage() => false;
@@ -280,7 +280,7 @@ namespace EbonianMod.Projectiles.Garbage
             float i_progress = MathHelper.Clamp(MathHelper.SmoothStep(1, 0, progress) * 50, 0, 1);
             Vector2 start = Projectile.Center - Main.screenPosition;
             float factor = MathHelper.Lerp(MathF.Sin(Main.GlobalTimeWrappedHourly * 2), MathF.Cos(Main.GlobalTimeWrappedHourly * 2), (MathF.Sin(Main.GlobalTimeWrappedHourly) + 1) * 0.5f);
-            Vector2 off = (Projectile.velocity.ToRotation().ToRotationVector2() * (900 + (factor * 30)));
+            Vector2 off = (Projectile.velocity.ToRotation().ToRotationVector2() * (1000 + (factor * 30)));
             Vector2 end = start + off;
             float rot = Helper.FromAToB(start, end).ToRotation();
 

@@ -130,9 +130,9 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                 float angle = Helper.CircleDividedEqually(i, max);
                 float scale = rand.NextFloat(0.2f, 1f) * Projectile.ai[2];
                 Vector2 offset = new Vector2(rand.NextFloat(50) * Projectile.ai[1] * scale, 0).RotatedBy(angle);
-                Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Red * (alpha * 0.5f), angle, new Vector2(0, tex.Height / 2), new Vector2(alpha, Projectile.ai[1] * 2) * scale * 0.5f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Red * (alpha * 0.5f), angle, new Vector2(0, tex.Height / 2), new Vector2(alpha, Projectile.ai[1] * 2) * scale, SpriteEffects.None, 0);
                 for (float j = 0; j < 3; j++)
-                    Main.spriteBatch.Draw(tex2, Projectile.Center + offset - Main.screenPosition, null, Color.OrangeRed * alpha, angle + MathHelper.PiOver2, new Vector2(tex2.Width / 2, 0), new Vector2(alpha, Projectile.ai[1]) * scale * .7f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex2, Projectile.Center + offset - Main.screenPosition, null, Color.OrangeRed * alpha, angle + MathHelper.PiOver2, new Vector2(tex2.Width / 2, 0), new Vector2(alpha, Projectile.ai[1]) * scale * .7f * 2, SpriteEffects.None, 0);
             }
 
 
@@ -273,13 +273,13 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Texture2D tex = Helper.GetExtraTexture("Extras2/star_08");
             float scale = MathHelper.Lerp(1, 0, Projectile.ai[0]);
 
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Black * (Projectile.ai[0] * 0.5f), Main.GameUpdateCount * 0.02f, tex.Size() / 2, scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Black * (Projectile.ai[0] * 0.5f), Main.GameUpdateCount * 0.02f, tex.Size() / 2, scale * 2, SpriteEffects.None, 0);
 
             Main.spriteBatch.Reload(BlendState.Additive);
             for (int i = 0; i < 3; i++)
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Red * Projectile.ai[0], Main.GameUpdateCount * 0.02f, tex.Size() / 2, scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Red * Projectile.ai[0], Main.GameUpdateCount * 0.02f, tex.Size() / 2, scale * 2, SpriteEffects.None, 0);
             tex = Helper.GetExtraTexture("Extras2/star_03");
-            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Red * Projectile.ai[0], Main.GameUpdateCount * -0.01f, tex.Size() / 2, scale * 2, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Red * Projectile.ai[0], Main.GameUpdateCount * -0.01f, tex.Size() / 2, scale * 4, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

@@ -308,10 +308,10 @@ namespace EbonianMod.Items.Consumables.BossItems
             var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
-                Main.spriteBatch.Draw(a, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.LawnGreen * 0.5f * alpha * (1f - fadeMult * i), 0, a.Size() / 2, 0.1f * (1f - fadeMult * i), SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(a, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.LawnGreen * 0.5f * alpha * (1f - fadeMult * i), 0, a.Size() / 2, 0.1f * (1f - fadeMult * i) * 2, SpriteEffects.None, 0);
             }
             for (int i = 0; i < 3; i++)
-                Main.spriteBatch.Draw(a, Projectile.Center - Main.screenPosition, null, Color.LawnGreen * 0.5f * alpha, 0, a.Size() / 2, 0.1f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(a, Projectile.Center - Main.screenPosition, null, Color.LawnGreen * 0.5f * alpha, 0, a.Size() / 2, 0.2f, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

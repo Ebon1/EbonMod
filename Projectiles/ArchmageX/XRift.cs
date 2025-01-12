@@ -75,7 +75,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Texture2D s_tex2 = Helper.GetExtraTexture("cone7");
 
             Main.spriteBatch.Reload(BlendState.Additive);
-            Main.spriteBatch.Draw(s_tex2, Projectile.Center - Projectile.velocity * 30 - Main.screenPosition, null, Color.Indigo * Projectile.ai[2] * 0.5f, Projectile.velocity.ToRotation(), new Vector2(0, s_tex2.Height / 2), new Vector2(1, 2) * Projectile.ai[2], SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(s_tex2, Projectile.Center - Projectile.velocity * 30 - Main.screenPosition, null, Color.Indigo * Projectile.ai[2] * 0.5f, Projectile.velocity.ToRotation(), new Vector2(0, s_tex2.Height / 2), new Vector2(1, 2) * Projectile.ai[2] * 2, SpriteEffects.None, 0);
             Vector2 scale = new Vector2(1f + Projectile.ai[1], 0.25f - Projectile.ai[1] * 0.5f);
             Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
             EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(MathHelper.ToRadians(Main.GlobalTimeWrappedHourly * 125));

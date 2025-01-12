@@ -76,8 +76,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.ai[2] > 0)
             {
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * Projectile.ai[2] * Projectile.ai[0], Main.GameUpdateCount * 0.1f, OrigTex.Size() / 2, Projectile.ai[2] * 1.3f * 0.5f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * Projectile.ai[2] * Projectile.ai[0], Main.GameUpdateCount * -0.1f, OrigTex.Size() / 2, Projectile.ai[2] * 1.3f * 0.5f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * Projectile.ai[2] * Projectile.ai[0], Main.GameUpdateCount * 0.1f, OrigTex.Size() / 2, Projectile.ai[2] * 1.3f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.OrangeRed * Projectile.ai[2] * Projectile.ai[0], Main.GameUpdateCount * -0.1f, OrigTex.Size() / 2, Projectile.ai[2] * 1.3f, SpriteEffects.None, 0);
                 //Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[0], -Main.GameUpdateCount * 0.1f * Projectile.ai[0], tex.Size() / 2, 1.65f, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);

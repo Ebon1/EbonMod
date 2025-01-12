@@ -658,7 +658,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 Texture2D tex = Helper.GetExtraTexture("Extras2/magic_03");
                 spriteBatch.Reload(BlendState.Additive);
                 alpha = MathHelper.Clamp(alpha, 0, 1f);
-                spriteBatch.Draw(tex, lastPos - screenPos, null, Color.LawnGreen * 0.65f * alpha, Main.GameUpdateCount * 0.02f, tex.Size() / 2, 0.3f * alpha, SpriteEffects.None, 0);
+                spriteBatch.Draw(tex, lastPos - screenPos, null, Color.LawnGreen * 0.65f * alpha, Main.GameUpdateCount * 0.02f, tex.Size() / 2, 0.3f * alpha * 2, SpriteEffects.None, 0);
                 spriteBatch.Reload(BlendState.AlphaBlend);
             }
         }

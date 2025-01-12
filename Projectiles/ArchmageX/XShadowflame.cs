@@ -98,8 +98,8 @@ namespace EbonianMod.Projectiles.ArchmageX
             EbonianMod.SpriteRotation.Parameters["scale"].SetValue(new Vector2(scale.X * 0.75f, scale.Y / alpha.Safe() * 0.5f));
             EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(-Main.GameUpdateCount * 0.035f * alpha);
             EbonianMod.SpriteRotation.Parameters["uColor"].SetValue(new Color(60, 2, 113).ToVector4() * alpha * alpha * 0.8f);
-            Main.spriteBatch.Draw(tex, Projectile.Center - Vector2.UnitY * riftAlpha * i * 2 * -Projectile.velocity.Y - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, riftAlpha / 4, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(bloom, Projectile.Center - Vector2.UnitY * riftAlpha * i * 2 * -Projectile.velocity.Y - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, riftAlpha / 4, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(tex, Projectile.Center - Vector2.UnitY * riftAlpha * i * 2 * -Projectile.velocity.Y - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, riftAlpha, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(bloom, Projectile.Center - Vector2.UnitY * riftAlpha * i * 2 * -Projectile.velocity.Y - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation() + MathHelper.PiOver2, tex.Size() / 2, riftAlpha, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(effect: null);
 
             Main.spriteBatch.ApplySaved();

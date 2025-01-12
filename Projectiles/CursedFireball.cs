@@ -108,7 +108,7 @@ namespace EbonianMod.Projectiles
 
             SpriteEffects spriteEffects = SpriteEffects.None;
 
-            Main.EntitySpriteDraw(texture, drawPosition, sourceRectangle, color, Projectile.rotation, drawOrigin, Projectile.scale * 0.08f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPosition, sourceRectangle, color, Projectile.rotation, drawOrigin, Projectile.scale * 0.08f * 2, spriteEffects, 0);
         }
 
         void DrawTrail()

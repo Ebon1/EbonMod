@@ -398,7 +398,7 @@ namespace EbonianMod.NPCs.ArchmageX
                 float scale = rand.NextFloat(0.5f, 1.5f) * factor;
                 Vector2 offset = new Vector2(rand.NextFloat(50) * factor * scale, 0).RotatedBy(angle);
                 for (int l = 0; l < 2; l++)
-                    Main.spriteBatch.Draw(streak, position + new Vector2(rand.NextFloat(-80, 80), rand.NextFloat(-20, 20)) + offset, null, Color.Violet * (alpha * staffAlpha), angle, new Vector2(0, streak.Height / 2), new Vector2(alpha, factor * 2) * scale * 0.5f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(streak, position + new Vector2(rand.NextFloat(-80, 80), rand.NextFloat(-20, 20)) + offset, null, Color.Violet * (alpha * staffAlpha), angle, new Vector2(0, streak.Height / 2), new Vector2(alpha, factor * 2) * scale, SpriteEffects.None, 0);
             }
 
             Main.spriteBatch.Draw(bloom, position, null, Color.Violet * ((0.5f + MathHelper.Clamp(MathF.Sin(Main.GlobalTimeWrappedHourly * .5f), 0, 0.4f)) * staffAlpha), MathHelper.PiOver4, bloom.Size() / 2, 1, SpriteEffects.None, 0);

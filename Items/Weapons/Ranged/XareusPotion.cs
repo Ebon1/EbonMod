@@ -92,9 +92,9 @@ namespace EbonianMod.Items.Weapons.Ranged
             Texture2D explosion = Helper.GetExtraTexture("explosion");
             Texture2D flameEye2 = Helper.GetExtraTexture("flameEye2");
             Main.spriteBatch.Reload(BlendState.Additive);
-            Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha2 * 2, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0], SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 1.1f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha * 0.5f, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 2f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha2 * 2, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0] * 2, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 1.1f * 2, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha * 0.5f, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 4f, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

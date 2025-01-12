@@ -53,7 +53,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                 float scale = rand.NextFloat(0.2f, 1f);
                 Vector2 offset = new Vector2(Main.rand.NextFloat(150, 300) * Projectile.ai[1] * scale, 0).RotatedBy(angle);
                 for (float j = 0; j < 2; j++)
-                    Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Lerp(Color.LawnGreen, Color.Maroon, rand.NextFloat()) * alpha * 0.5f, angle, new Vector2(0, tex.Height / 2), new Vector2(Projectile.ai[1], alpha) * scale, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex, Projectile.Center + offset - Main.screenPosition, null, Color.Lerp(Color.LawnGreen, Color.Maroon, rand.NextFloat()) * alpha * 0.5f, angle, new Vector2(0, tex.Height / 2), new Vector2(Projectile.ai[1], alpha) * scale * 2, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;

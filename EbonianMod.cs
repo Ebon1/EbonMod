@@ -359,7 +359,6 @@ namespace EbonianMod
         }
         public static void DrawXareusGoop(bool secondPart, SpriteBatch sb, GraphicsDevice gd)
         {
-
             if (secondPart)
             {
                 gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/darkShadowflameGradient", (AssetRequestMode)1).Value;
