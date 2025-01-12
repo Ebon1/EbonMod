@@ -46,7 +46,7 @@ namespace EbonianMod
         public static List<int> projectileFinalDrawList = new List<int>();
         public static List<int> climbableProj = new List<int>();
         public RenderTarget2D blurrender, invisRender, affectedByInvisRender;
-        public RenderTarget2D[] renders = new RenderTarget2D[7];
+        public RenderTarget2D[] renders = new RenderTarget2D[8];
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
         internal static void SolidTopCollision(Terraria.On_Player.orig_Update_NPCCollision orig, Player self) //https://discord.com/channels/103110554649894912/711551818194485259/998428409455714397
@@ -149,6 +149,8 @@ namespace EbonianMod
         public static List<Action> invisibleMaskCache = [];
         public static List<Action> affectedByInvisibleMaskCache = [];
         public static List<Action> blurDrawCache = [];
+        public static List<Action> pixelationDrawCachePre = [];
+        public static List<Action> pixelationDrawCachePost = [];
         public override void Unload()
         {
             sys = null;
@@ -163,6 +165,10 @@ namespace EbonianMod
             affectedByInvisibleMaskCache = [];
             blurDrawCache.Clear();
             blurDrawCache = [];
+            pixelationDrawCachePre.Clear();
+            pixelationDrawCachePre = [];
+            pixelationDrawCachePost.Clear();
+            pixelationDrawCachePost = [];
         }
         public override void Load()
         {
@@ -227,6 +233,8 @@ namespace EbonianMod
             invisibleMaskCache ??= [];
             affectedByInvisibleMaskCache ??= [];
             blurDrawCache ??= [];
+            pixelationDrawCachePre ??= [];
+            pixelationDrawCachePost ??= [];
         }
         void EventClear(On_NPC.orig_SetEventFlagCleared orig, ref bool eventFlag, int gameEventId)
         {
@@ -276,8 +284,8 @@ namespace EbonianMod
                 DrawRei(true, sb, gd);
 
                 DrawXareusGoop(true, sb, gd);
-
-                DrawGarbageFlame(true, sb, gd);
+                for (int i = 0; i < 3; i++)
+                    pixelationDrawCachePost.Add(() => DrawGarbageFlame(true, sb, gd));
 
                 DrawXareusSpawn(true, sb, gd);
 
@@ -302,6 +310,7 @@ namespace EbonianMod
             }
             sb.End();
 
+            DrawPixelatedContent(false, sb, gd);
             orig(self);
 
             if (!Main.gameMenu && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro) && gd.GetRenderTargets().Contains(Main.screenTarget))
@@ -310,6 +319,8 @@ namespace EbonianMod
 
                 DrawInvisMasks(sb, gd);
             }
+            DrawPixelatedContent(true, sb, gd);
+
             DrawAdditiveDusts(sb, gd);
 
             DrawGenericPostScreen(sb, gd);
@@ -423,7 +434,7 @@ namespace EbonianMod
                 sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 foreach (Projectile proj in Main.projectile)
                 {
-                    if (proj.active && proj.timeLeft > 0 && (proj.type == ModContent.ProjectileType<GarbageFlame>() || proj.type == ModContent.ProjectileType<GarbageGiantFlame>()))
+                    if (proj.active && proj.timeLeft > 0 && (proj.type == ModContent.ProjectileType<GarbageFlame>() || proj.type == ModContent.ProjectileType<GarbageGiantFlame>() || proj.type == ModContent.ProjectileType<GarbageLaserSmall3>() || proj.type == ModContent.ProjectileType<GarbageLaserSmall2>() || proj.type == ModContent.ProjectileType<GarbageLaserSmall1>()))
                     {
                         Color color = Color.Transparent;
                         proj.ModProjectile.PreDraw(ref color);
@@ -558,7 +569,46 @@ namespace EbonianMod
             sb.End();
             gd.Textures[1] = null;
         }
+        public static void DrawPixelatedContent(bool afterEverything, SpriteBatch sb, GraphicsDevice gd)
+        {
+            gd.SetRenderTarget(Main.screenTargetSwap);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
+            sb.End();
 
+            gd.SetRenderTarget(Instance.renders[5]);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null);
+            foreach (Action draw in (afterEverything ? pixelationDrawCachePost : pixelationDrawCachePre))
+            {
+                draw?.Invoke();
+            }
+            if (afterEverything)
+                pixelationDrawCachePost.Clear();
+            else
+                pixelationDrawCachePre.Clear();
+            sb.End();
+
+            gd.SetRenderTarget(Instance.renders[1]);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null);
+            sb.Draw(Instance.renders[5], Vector2.Zero, null, Color.White, 0, Vector2.Zero, .5f, SpriteEffects.None, 0);
+            sb.End();
+
+            gd.SetRenderTarget(Main.screenTarget);
+            gd.Clear(Color.Transparent);
+
+
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White); //Draw Screen
+            sb.End();
+
+
+            sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null);
+            sb.Draw(Instance.renders[1], Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, 0);
+            sb.End();
+        }
         private void Main_OnResolutionChanged(Vector2 obj)
         {
             CreateRender();
