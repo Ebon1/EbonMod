@@ -249,6 +249,8 @@ Projectiles: {
 	HostileGibs.DisplayName: Hostile Gibs
 	GarbageImpact.DisplayName: Garbage Impact
 	GarbageDroneF.DisplayName: Garbage Drone F
+	GarbageFlailP.DisplayName: Garbage Flail P
+	TitteringMinion.DisplayName: Tittering Minion
 }
 
 NPCs: {
@@ -795,6 +797,21 @@ Items: {
 		DisplayName: Terrortoma Trophy
 		Tooltip: ""
 	}
+
+	XTentacleAcc: {
+		DisplayName: X Tentacle Acc
+		Tooltip: ""
+	}
+
+	GarbageFlail: {
+		DisplayName: Peculiar Angle Grinder
+		Tooltip: ""
+	}
+
+	TitteringStaff: {
+		DisplayName: Tittering Staff
+		Tooltip: ""
+	}
 }
 
 Buffs: {
@@ -851,6 +868,11 @@ Buffs: {
 	CecitiorClawBuff: {
 		DisplayName: Cecitior Claw Buff
 		Description: Mods.EbonianMod.Buffs.CecitiorClawBuff.Description
+	}
+
+	TitteringB: {
+		DisplayName: Tittering B
+		Description: Mods.EbonianMod.Buffs.TitteringB.Description
 	}
 }
 

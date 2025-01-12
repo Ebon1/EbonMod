@@ -23,6 +23,10 @@ using System.Security.Cryptography.X509Certificates;
 using ReLogic.Utilities;
 using EbonianMod.Dusts;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using EbonianMod.Items.Weapons.Magic;
+using EbonianMod.Items.Weapons.Melee;
+using EbonianMod.Items.Weapons.Ranged;
+using Terraria.GameContent.ItemDropRules;
 
 namespace EbonianMod.NPCs.Garbage
 {
@@ -54,6 +58,14 @@ namespace EbonianMod.NPCs.Garbage
             {
                 Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Garbage");
             }
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Chainsword>(), 4));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DoomsdayRemote>(), 4));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DoomsdayRemote>(), 4));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GarbageFlail>(), 4));
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PipebombI>(), 1, 20, 100));
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {

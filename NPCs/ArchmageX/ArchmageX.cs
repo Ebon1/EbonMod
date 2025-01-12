@@ -391,7 +391,7 @@ namespace EbonianMod.NPCs.ArchmageX
             arenaFlash = MathHelper.Lerp(arenaFlash, 0, 0.05f);
             if (arenaFlash.CloseTo(0, 0.01f))
                 arenaFlash = 0;
-            if (NPC.life < NPC.lifeMax / 3 - 1000 && Main.expertMode)
+            if (NPC.life < NPC.lifeMax / 3 - 1000)
             {
                 if (phaseMult != 3)
                 {
@@ -1483,10 +1483,15 @@ namespace EbonianMod.NPCs.ArchmageX
                             if (oldAttack != AIState && AITimer3 == 0)
                                 currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? "DIE!!" : "Shadowflame Tendrils!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "DIEEE!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "just DIEEE!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
 
                         if (phaseMult == 3 && AITimer3 > 0 && AITimer == 121)
-                            currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "DIEEE!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                        {
+                            string dialogue = "stupid HUMAN!!!!";
+                            if (AITimer3 == 2)
+                                dialogue = "dumb ENEMY!!!!";
+                            currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), dialogue, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                        }
                         if (AITimer < 130)
                         {
                             if (phaseMult == 3)

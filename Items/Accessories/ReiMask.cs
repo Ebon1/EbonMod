@@ -98,6 +98,8 @@ namespace EbonianMod.Items.Accessories
                             EbonianSystem.ScreenShakeAmount = 5;
                             SoundEngine.PlaySound(EbonianSounds.reiTP, Main.MouseWorld);
                             modPlayer.reiBoostCool = 60;
+                            player.AddImmuneTime(ImmunityCooldownID.General, 30);
+                            player.AddImmuneTime(ImmunityCooldownID.Bosses, 30);
                             break;
                         }
                     }

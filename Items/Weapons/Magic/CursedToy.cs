@@ -23,75 +23,123 @@ namespace EbonianMod.Items.Weapons.Magic
         public override void SetDefaults()
         {
             Item.DamageType = DamageClass.Magic;
-            Item.damage = 500;
+            Item.damage = 30;
             Item.useTime = 1;
             Item.useAnimation = 10;
             Item.reuseDelay = 25;
             Item.shoot = ModContent.ProjectileType<CursedToyP>();
-            Item.shootSpeed = 1f;
-            Item.rare = ItemRarityID.Green;
-            Item.useStyle = 5;
-            Item.autoReuse = false;
-            Item.noUseGraphic = true;
+            Item.shootSpeed = 4f;
+            Item.rare = ItemRarityID.LightRed;
+            Item.useStyle = ItemUseStyleID.HoldUp;
+            Item.autoReuse = true;
             Item.noMelee = true;
-            Item.channel = true;
         }
-        public override bool? CanAutoReuseItem(Player player) => false;
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-5, 2);
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.ShadowFlameHexDoll).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+        }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            velocity.Normalize();
-            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 350);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
             return false;
+        }
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            position = new Vector2(Main.MouseWorld.X - Main.rand.NextFloat(-150, 150), player.Center.Y - 900);
+            velocity = Helper.FromAToB(position, Main.MouseWorld).RotatedByRandom(MathHelper.PiOver4 * 0.1f) * Item.shootSpeed * 4;
         }
     }
     public class CursedToyP : ModProjectile
     {
-        public override string Texture => "EbonianMod/Items/Weapons/Magic/CursedToy";
-        float holdOffset = 20;
+        public override string Texture => Helper.Placeholder;
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 50;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+        }
         public override void SetDefaults()
         {
             Projectile.friendly = true;
-            Projectile.tileCollide = false;
-            Projectile.ignoreWater = true;
+            Projectile.hostile = false;
             Projectile.DamageType = DamageClass.Magic;
+            Projectile.tileCollide = true;
+            Projectile.aiStyle = 0;
+            Projectile.extraUpdates = 4;
             Projectile.penetrate = -1;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.Size = new Vector2(52, 30);
+            Projectile.timeLeft = 1000;
+            Projectile.Size = new(5, 5);
         }
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.DontCancelChannelOnKill[Type] = true;
-        }
-        public override bool? CanDamage() => false;
-        public override void AI()
-        {
-            Player player = Main.player[Projectile.owner];
-            if (!player.active || player.dead || player.CCed || player.noItems || !player.channel)
-            {
-                Projectile.Kill();
-                return;
-            }
-            if (player.itemTime < 2)
-            {
-                player.itemTime = 2;
-                player.itemAnimation = 2;
-            }
-            Projectile.timeLeft = 10;
-            Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
-            Vector2 pos = player.RotatedRelativePoint(player.MountedCenter);
-            player.ChangeDir(Projectile.velocity.X < 0 ? -1 : 1);
-            player.itemRotation = (Projectile.velocity.ToRotation() + Projectile.ai[0]) * player.direction;
-            pos += (Projectile.velocity.ToRotation()).ToRotationVector2() * holdOffset;
-            Projectile.Center = pos;
-            Projectile.rotation = Projectile.velocity.ToRotation();
-            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2);
-            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(player.Center, Main.MouseWorld), 0.1f - MathHelper.Lerp(0.09f, 0f, Projectile.ai[0] / 350)).SafeNormalize(Vector2.UnitX);
-
-
-        }
+        float vfxOffset;
         public override bool PreDraw(ref Color lightColor)
         {
+            Main.spriteBatch.Reload(BlendState.Additive);
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
+            vfxOffset -= 0.015f;
+            if (vfxOffset <= 0)
+                vfxOffset = 1;
+            vfxOffset = MathHelper.Clamp(vfxOffset, float.Epsilon, 1 - float.Epsilon);
+            List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
+            float s = 0;
+            for (int i = 1; i < Projectile.oldPos.Length; i++)
+            {
+                float mult = (1f - fadeMult * i);
+
+                if (mult < 0.5f)
+                    s = MathHelper.Clamp(mult * 3.5f, 0, 0.5f) * 3;
+                else
+                    s = MathHelper.Clamp((-mult + 1) * 2, 0, 0.5f) * 3;
+
+                if (i > 0 && Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i] != Projectile.position)
+                {
+                    Color col = Color.LawnGreen * mult * 2 * s;
+
+                    float __off = vfxOffset;
+                    if (__off > 1) __off = -__off + 1;
+                    float _off = __off + mult;
+                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(40 * mult, 0).RotatedBy(Projectile.rotation + MathHelper.PiOver2), col, new Vector2(_off, 0)));
+                    vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(40 * mult, 0).RotatedBy(Projectile.rotation - MathHelper.PiOver2), col, new Vector2(_off, 1)));
+                }
+            }
+            Main.spriteBatch.SaveCurrent();
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            if (vertices.Count > 2)
+            {
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("laser2"), false);
+            }
+            Main.spriteBatch.ApplySaved();
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (Projectile.ai[2]++ == 0)
+                Projectile.timeLeft = 40 * 4;
+            Projectile.velocity *= 0.5f;
+            Projectile.tileCollide = false;
+            return false;
+        }
+        public override bool? CanDamage() => Projectile.ai[2] <= 0;
+        public override void AI()
+        {
+            if (Projectile.ai[2] > 0)
+            {
+                Projectile.velocity *= 0.98f;
+                Projectile.ai[1] = MathHelper.Lerp(Projectile.ai[1], 1, 0.001f);
+            }
+            else if (Projectile.velocity.Length() > 0)
+            {
+                Projectile.rotation = Projectile.velocity.ToRotation();
+                if (Projectile.timeLeft % 5 == 0 && Projectile.velocity.Length() > 0)
+                    Dust.NewDustPerfect(Projectile.Center, DustID.CursedTorch, Projectile.velocity * Main.rand.NextFloat(), Scale: 2).noGravity = true;
+            }
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] > 550)
+                Projectile.ai[0] = 0;
         }
     }
 }

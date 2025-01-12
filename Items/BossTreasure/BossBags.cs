@@ -77,6 +77,7 @@ namespace EbonianMod.Items.BossTreasure
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<Chainsword>(), 4));
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<DoomsdayRemote>(), 4));
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<DoomsdayRemote>(), 4));
+            itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<GarbageFlail>(), 4));
             itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<PipebombI>(), 1, 20, 100));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(ModContent.NPCType<HotGarbage>()));
         }

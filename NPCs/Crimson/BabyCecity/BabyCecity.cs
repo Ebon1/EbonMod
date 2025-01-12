@@ -80,7 +80,8 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
                 for (int i = 0; i < 2; i++)
                 {
                     if (!Main.gamePaused)
-                        verlet[i].Update(NPC.Center, ogPos[i]);
+                        for (int j = 0; j < 2; j++)
+                            verlet[i].Update(NPC.Center, ogPos[i]);
                     verlet[i].Draw(spriteBatch, "NPCs/Crimson/BabyCecity/BabyCecity_Hook0", endTex: "NPCs/Crimson/BabyCecity/BabyCecity_Hook2");
                 }
             return true;
@@ -109,7 +110,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
             NPC.Center = Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 1000) - Vector2.UnitY * Main.rand.NextFloat(200, 300);
             for (int i = 0; i < 2; i++)
             {
-                verlet[i] = new Verlet(NPC.Center, 20, 22, gravity: -10f, lastPointLocked: true, stiffness: 70);
+                verlet[i] = new Verlet(NPC.Center, 10, 42, gravity: -5f, lastPointLocked: true, stiffness: 70);
                 dir[i] = -Helper.CircleDividedEqually(i + 1, 6).ToRotationVector2().RotatedBy(MathHelper.Pi);
                 ogPos[i] = Helper.TRay.Cast(NPC.Center, dir[i], 350) + Vector2.UnitY * 30;
             }
@@ -137,6 +138,12 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
             NPC.direction = NPC.velocity.X < 0 ? -1 : 1;
             if (verlet[0] == null)
                 return;
+            if (Helper.TRay.CastLength(NPC.Center, Vector2.UnitY, 600) >= 580)
+            {
+                NPC.velocity.Y += 2;
+                ogPos[0].Y = MathHelper.Lerp(ogPos[0].Y, Helper.TRay.Cast(new Vector2(ogPos[0].X, NPC.Center.Y) - new Vector2(0, 100), Vector2.UnitY, 600).Y + 16, MathHelper.SmoothStep(0.05f, 0.15f, (AITimer2 - 40) / 40));
+                ogPos[1].Y = MathHelper.Lerp(ogPos[1].Y, Helper.TRay.Cast(new Vector2(ogPos[1].X, NPC.Center.Y) - new Vector2(0, 100), Vector2.UnitY, 600).Y + 16, MathHelper.SmoothStep(0.05f, 0.15f, (AITimer2 - 40) / 40));
+            }
             NPC.rotation = NPC.Center.FromAToB(player.Center).ToRotation() - MathHelper.PiOver2;
             switch (AIState)
             {
@@ -159,9 +166,9 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
                         if (NPC.ai[3] == 1)
                         {
                             if (NPC.velocity.X > 0 && ogPos[1].X > NPC.Center.X + 30)
-                                legOffset = 0.7f;
+                                legOffset = 0.6f;
                             else if (NPC.velocity.X < 0 && ogPos[1].X < NPC.Center.X - 30)
-                                legOffset = 0.7f;
+                                legOffset = 0.6f;
                             else if (NPC.velocity.X > 0 && ogPos[1].X < NPC.Center.X - 30 && ogPos[0].X < NPC.Center.X - 30)
                                 legOffset = 1.4f;
                             else if (NPC.velocity.X < 0 && ogPos[1].X > NPC.Center.X + 30 && ogPos[0].X > NPC.Center.X + 30)
@@ -172,19 +179,19 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
                                     ogPos[0] += new Vector2(NPC.velocity.X * rand.NextFloat(4, 5) * legOffset + Helper.FromAToB(ogPos[0], player.Center).X, -MathHelper.SmoothStep(5, 2, AITimer2 / 50));
                                 else
                                 {
+                                    if (AITimer2 < 60)
+                                        ogPos[0] += new Vector2((NPC.velocity.X * rand.NextFloat(4, 5) * legOffset + Helper.FromAToB(ogPos[0], player.Center).X) * MathHelper.SmoothStep(1, 0, (AITimer2 - 40) * 20 / 40), 0);
 
-                                    ogPos[0] += new Vector2(NPC.velocity.X * rand.NextFloat(4, 5) * legOffset * 0.2f, 0);
-
-                                    ogPos[0].Y = MathHelper.Lerp(ogPos[0].Y, Helper.TRay.Cast(new Vector2(ogPos[0].X, NPC.Center.Y) - new Vector2(0, 100), Vector2.UnitY, 1200).Y + 16, MathHelper.SmoothStep(0.05f, 0.15f, (AITimer2 - 40) / 40));
+                                    ogPos[0].Y = MathHelper.Lerp(ogPos[0].Y, Helper.TRay.Cast(new Vector2(ogPos[0].X, NPC.Center.Y) - new Vector2(0, 100), Vector2.UnitY, 600).Y + 16, MathHelper.SmoothStep(0.05f, 0.15f, (AITimer2 - 40) / 40));
                                 }
                             }
                         }
                         else
                         {
                             if (NPC.velocity.X > 0 && ogPos[0].X > NPC.Center.X + 30)
-                                legOffset = 0.7f;
+                                legOffset = 0.6f;
                             else if (NPC.velocity.X < 0 && ogPos[0].X < NPC.Center.X - 30)
-                                legOffset = 0.7f;
+                                legOffset = 0.6f;
                             else if (NPC.velocity.X > 0 && ogPos[1].X < NPC.Center.X - 30 && ogPos[0].X < NPC.Center.X - 30)
                                 legOffset = 1.4f;
                             else if (NPC.velocity.X < 0 && ogPos[1].X > NPC.Center.X + 30 && ogPos[0].X > NPC.Center.X + 30)
@@ -195,9 +202,10 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
                                     ogPos[1] += new Vector2(NPC.velocity.X * rand.NextFloat(4, 5) * legOffset + Helper.FromAToB(ogPos[1], player.Center).X, -MathHelper.SmoothStep(5, 2, AITimer2 / 50));
                                 else
                                 {
-                                    ogPos[1] += new Vector2(NPC.velocity.X * rand.NextFloat(4, 5) * legOffset * 0.2f, 0);
+                                    if (AITimer2 < 60)
+                                        ogPos[1] += new Vector2((NPC.velocity.X * rand.NextFloat(4, 5) * legOffset + Helper.FromAToB(ogPos[1], player.Center).X) * MathHelper.SmoothStep(1, 0, (AITimer2 - 40) * 2 / 40), 0);
 
-                                    ogPos[1].Y = MathHelper.Lerp(ogPos[1].Y, Helper.TRay.Cast(new Vector2(ogPos[1].X, NPC.Center.Y) - new Vector2(0, 100), Vector2.UnitY, 1200).Y + 16, MathHelper.SmoothStep(0.05f, 0.15f, (AITimer2 - 40) / 40));
+                                    ogPos[1].Y = MathHelper.Lerp(ogPos[1].Y, Helper.TRay.Cast(new Vector2(ogPos[1].X, NPC.Center.Y) - new Vector2(0, 100), Vector2.UnitY, 600).Y + 16, MathHelper.SmoothStep(0.05f, 0.15f, (AITimer2 - 40) / 40));
                                 }
                             }
                         }

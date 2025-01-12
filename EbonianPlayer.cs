@@ -18,6 +18,7 @@ using EbonianMod.NPCs;
 using EbonianMod.Projectiles;
 using EbonianMod.Tiles;
 using EbonianMod.NPCs.ArchmageX;
+using EbonianMod.Projectiles.ArchmageX;
 
 
 namespace EbonianMod
@@ -32,14 +33,27 @@ namespace EbonianMod
         public Color bossColor, dialogueColor;
         public static EbonianPlayer Instance;
         public Vector2 stabDirection;
-        public int reiBoostCool, reiBoostT, timesDiedToXareus;
-        public bool rolleg, brainAcc, heartAcc, ToxicGland, rei, reiV, sheep;
-        public bool doomMinion, xMinion, cClawMinion;
+        public int reiBoostCool, reiBoostT, timesDiedToXareus, xTentCool;
+        public bool rolleg, brainAcc, heartAcc, ToxicGland, rei, reiV, sheep, xTent;
+        public bool doomMinion, xMinion, cClawMinion, titteringMinion;
+        public override bool Shoot(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            if (item.DamageType == DamageClass.Magic && xTent && xTentCool <= 0)
+            {
+                Projectile p = Projectile.NewProjectileDirect(source, position, Helper.FromAToB(position, Main.MouseWorld) * 8, ModContent.ProjectileType<XAmethyst>(), 50, 0);
+                p.DamageType = DamageClass.Magic;
+                p.friendly = true;
+                p.hostile = false;
+                xTentCool = 60;
+            }
+            return base.Shoot(item, source, position, velocity, type, damage, knockback);
+        }
         public override void ResetEffects()
         {
             if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ModContent.ProjectileType<ArchmageXSpawnAnim>()] > 0)
                 Player.noBuilding = true;
             reiBoostCool--;
+            xTentCool--;
             if (reiBoostCool > 0)
                 reiBoostT--;
             rei = false;
@@ -47,8 +61,10 @@ namespace EbonianMod
             rolleg = false;
             doomMinion = false;
             xMinion = false;
+            titteringMinion = false;
             cClawMinion = false;
             brainAcc = false;
+            xTent = false;
             heartAcc = false;
             if (!NPC.AnyNPCs(ModContent.NPCType<Fleshformator>()))
                 fleshformators = 0;
