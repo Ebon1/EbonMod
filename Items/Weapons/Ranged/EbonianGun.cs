@@ -105,7 +105,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             if (Projectile.timeLeft == 15)
             {
                 SoundEngine.PlaySound(SoundID.Item11);
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity * 20, ProjectileID.CursedBullet, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center - Projectile.velocity * 15, Projectile.velocity * 20, ProjectileID.CursedBullet, Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             if (Projectile.timeLeft > 10 && Projectile.timeLeft < 15)
             {
