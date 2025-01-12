@@ -21,7 +21,7 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
         public override void SetStaticDefaults()
         {
 
-            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 CustomTexturePath = "EbonianMod/NPCs/Corruption/DankDigger/DankDigger",
                 Position = new Vector2(7f, 24f),
