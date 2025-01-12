@@ -62,42 +62,17 @@ namespace EbonianMod.Items.Accessories
         public override void OnSpawn(IEntitySource source)
         {
             Player player = Main.player[NPC.target];
-            NPC.Center = player.Center;
-            verlet = new Verlet(player.Center, 8, 14, stiffness: 20);
+            NPC.TargetClosest(false);
+            verlet = new Verlet(NPC.Center, 8, 14, stiffness: 200);
         }
         public override void AI()
         {
             Player player = Main.player[NPC.target];
+            NPC.TargetClosest(false);
             NPC.timeLeft = 2;
             NPC.ai[0] += 4;
-            switch (NPC.localAI[0])
-            {
-                case 0:
-                    NPC.Center = player.Center + new Vector2(0, 60 + MathF.Sin(NPC.ai[0] * 0.05f) * 5).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
-                    break;
-                case 1:
-                    NPC.Center = player.Center + new Vector2(0, -60 + MathF.Sin(NPC.ai[0] * 0.05f) * 5).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
-                    break;
-                case 2:
-                    NPC.Center = player.Center + new Vector2(80 + MathF.Sin(NPC.ai[0] * 0.05f) * 5, 0).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
-                    break;
-                case 3:
-                    NPC.Center = player.Center + new Vector2(-80 + MathF.Sin(NPC.ai[0] * 0.05f) * 5, 0).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
-                    break;
-                case 4:
-                    NPC.Center = player.Center + new Vector2(60 + MathF.Sin(NPC.ai[0] * 0.05f) * 5, 40 + MathF.Sin(NPC.ai[0] * 0.05f) * 5).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
-                    break;
-                case 5:
-                    NPC.Center = player.Center + new Vector2(-60 + MathF.Sin(NPC.ai[0] * 0.05f) * 5, 40 + MathF.Sin(NPC.ai[0] * 0.05f) * 5).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
-                    break;
-                case 6:
-                    NPC.Center = player.Center + new Vector2(60 + MathF.Sin(NPC.ai[0] * 0.05f) * 5, -40 + MathF.Sin(NPC.ai[0] * 0.05f) * 5).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
-                    break;
-                case 7:
-                    NPC.Center = player.Center + new Vector2(-60 + MathF.Sin(NPC.ai[0] * 0.05f) * 5, -40 + MathF.Sin(NPC.ai[0] * 0.05f) * 5).RotatedBy(MathHelper.ToRadians(NPC.ai[0]));
-                    break;
-
-            }
+            NPC.ai[3] = MathHelper.Lerp(NPC.ai[3], 1, 0.1f);
+            NPC.Center = player.Center + new Vector2(90 + MathF.Sin(NPC.ai[0] * 0.01f) * 20, 0).RotatedBy(Helper.CircleDividedEqually(NPC.localAI[0], 8) + MathHelper.ToRadians(NPC.ai[0] + MathF.Sin(NPC.ai[0])) * 0.7f) * NPC.ai[3];
             EbonianPlayer modPlayer = player.GetModPlayer<EbonianPlayer>();
             if (!modPlayer.brainAcc)
             {

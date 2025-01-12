@@ -35,10 +35,9 @@ namespace EbonianMod.Items.Accessories
                     for (int k = 0; k < 8; k++)
                     {
                         float angle = 2f * (float)Math.PI / 8f * k;
-                        Vector2 pos = player.Center + 60 * new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
-                        int npc = NPC.NewNPC(player.GetSource_Accessory(Item), (int)pos.X, (int)pos.Y, ModContent.NPCType<TinyBrain>());
-                        Main.npc[npc].localAI[0] = k;
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc);
+                        NPC npc = NPC.NewNPCDirect(player.GetSource_Accessory(Item), player.Center, ModContent.NPCType<TinyBrain>(), target: player.whoAmI);
+                        npc.localAI[0] = k;
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
                     }
                     timer = 0;
                 }

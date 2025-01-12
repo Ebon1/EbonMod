@@ -14,6 +14,7 @@ using System.IO;
 using System.Collections.Generic;
 using EbonianMod.NPCs.Corruption;
 using EbonianMod.Common.Systems;
+using EbonianMod.NPCs.Cecitior;
 
 namespace EbonianMod.Projectiles.Friendly.Crimson
 {
@@ -187,6 +188,8 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             }
             if (Projectile.ai[1] == 0)
                 Projectile.rotation = Projectile.velocity.ToRotation();
+            if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.Cecitior.Cecitior>()))
+                Projectile.Kill();
             NPC player = Main.npc[(int)Projectile.ai[0]];
             if (player.ai[0] != 8)
                 Projectile.Kill();
