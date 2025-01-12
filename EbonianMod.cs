@@ -151,6 +151,8 @@ namespace EbonianMod
         public static List<Action> blurDrawCache = [];
         public static List<Action> pixelationDrawCachePre = [];
         public static List<Action> pixelationDrawCachePost = [];
+        public static List<Action> addPixelationDrawCachePre = [];
+        public static List<Action> addPixelationDrawCachePost = [];
         public override void Unload()
         {
             sys = null;
@@ -161,14 +163,24 @@ namespace EbonianMod
             }
             invisibleMaskCache.Clear();
             invisibleMaskCache = [];
+
             affectedByInvisibleMaskCache.Clear();
             affectedByInvisibleMaskCache = [];
+
             blurDrawCache.Clear();
             blurDrawCache = [];
+
             pixelationDrawCachePre.Clear();
             pixelationDrawCachePre = [];
+
             pixelationDrawCachePost.Clear();
             pixelationDrawCachePost = [];
+
+            addPixelationDrawCachePre.Clear();
+            addPixelationDrawCachePre = [];
+
+            addPixelationDrawCachePost.Clear();
+            addPixelationDrawCachePost = [];
         }
         public override void Load()
         {
@@ -235,6 +247,8 @@ namespace EbonianMod
             blurDrawCache ??= [];
             pixelationDrawCachePre ??= [];
             pixelationDrawCachePost ??= [];
+            addPixelationDrawCachePre ??= [];
+            addPixelationDrawCachePost ??= [];
         }
         void EventClear(On_NPC.orig_SetEventFlagCleared orig, ref bool eventFlag, int gameEventId)
         {
@@ -310,7 +324,8 @@ namespace EbonianMod
             }
             sb.End();
 
-            DrawPixelatedContent(false, sb, gd);
+            DrawPixelatedContent(false, false, sb, gd);
+            DrawPixelatedContent(false, true, sb, gd);
             orig(self);
 
             if (!Main.gameMenu && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro) && gd.GetRenderTargets().Contains(Main.screenTarget))
@@ -319,7 +334,8 @@ namespace EbonianMod
 
                 DrawInvisMasks(sb, gd);
             }
-            DrawPixelatedContent(true, sb, gd);
+            DrawPixelatedContent(true, false, sb, gd);
+            DrawPixelatedContent(true, true, sb, gd);
 
             DrawAdditiveDusts(sb, gd);
 
@@ -569,7 +585,7 @@ namespace EbonianMod
             sb.End();
             gd.Textures[1] = null;
         }
-        public static void DrawPixelatedContent(bool afterEverything, SpriteBatch sb, GraphicsDevice gd)
+        public static void DrawPixelatedContent(bool afterEverything, bool additive, SpriteBatch sb, GraphicsDevice gd)
         {
             gd.SetRenderTarget(Main.screenTargetSwap);
             gd.Clear(Color.Transparent);
@@ -580,14 +596,27 @@ namespace EbonianMod
             gd.SetRenderTarget(Instance.renders[5]);
             gd.Clear(Color.Transparent);
             sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null);
-            foreach (Action draw in (afterEverything ? pixelationDrawCachePost : pixelationDrawCachePre))
+
+            var list = (afterEverything ? pixelationDrawCachePost : pixelationDrawCachePre);
+            if (additive) list = (afterEverything ? addPixelationDrawCachePost : addPixelationDrawCachePre);
+            foreach (Action draw in list)
             {
                 draw?.Invoke();
             }
-            if (afterEverything)
-                pixelationDrawCachePost.Clear();
+            if (additive)
+            {
+                if (afterEverything)
+                    addPixelationDrawCachePost.Clear();
+                else
+                    addPixelationDrawCachePre.Clear();
+            }
             else
-                pixelationDrawCachePre.Clear();
+            {
+                if (afterEverything)
+                    pixelationDrawCachePost.Clear();
+                else
+                    pixelationDrawCachePre.Clear();
+            }
             sb.End();
 
             gd.SetRenderTarget(Instance.renders[1]);
@@ -605,7 +634,7 @@ namespace EbonianMod
             sb.End();
 
 
-            sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null);
+            sb.Begin(SpriteSortMode.Immediate, additive ? BlendState.Additive : BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null);
             sb.Draw(Instance.renders[1], Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, 0);
             sb.End();
         }

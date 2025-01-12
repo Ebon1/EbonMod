@@ -178,7 +178,12 @@ namespace EbonianMod.NPCs.ArchmageX
             {
                 Helper.DrawTexturedPrimitives(verticesR.ToArray(), PrimitiveType.TriangleStrip, texture, false);
             }
+            Rectangle rect = new Rectangle(GetArenaRect().X - (int)Main.screenPosition.X, GetArenaRect().Y - (int)Main.screenPosition.Y, GetArenaRect().Width, GetArenaRect().Height);
+
+            for (int i = 0; i < 5; i++)
+                Main.spriteBatch.Draw(Helper.GetExtraTexture("pixel"), rect, Color.Indigo * arenaFlash);
             Main.spriteBatch.ApplySaved();
+
         }
         float leftArmRot, rightArmRot;
         float headRotation, headYOff, headOffIncrementOffset;
@@ -283,6 +288,7 @@ namespace EbonianMod.NPCs.ArchmageX
             AmethystCloseIn,
         };
         float Next = 1;
+        float arenaFlash;
         void IdleAnimation()
         {
             if (NPC.collideY || NPC.velocity.Y.CloseTo(0))
@@ -377,6 +383,14 @@ namespace EbonianMod.NPCs.ArchmageX
         }
         public override void AI()
         {
+            if (currentDialogue != null)
+            {
+                currentDialogue.Center = NPC.Center - new Vector2(0, 80);
+                currentDialogue.VisibleCenter = NPC.Center - new Vector2(0, 80);
+            }
+            arenaFlash = MathHelper.Lerp(arenaFlash, 0, 0.05f);
+            if (arenaFlash.CloseTo(0, 0.01f))
+                arenaFlash = 0;
             if (NPC.life < NPC.lifeMax / 3 - 1000 && Main.expertMode)
             {
                 if (phaseMult != 3)
@@ -614,7 +628,9 @@ namespace EbonianMod.NPCs.ArchmageX
                 case Phase2Transition:
                     {
                         if (AITimer == 1)
+                        {
                             disposablePos[9] = GetArenaRect().Center();
+                        }
                         if (AITimer < 340 || AITimer > 551)
                         {
                             if (AITimer == 1 || AITimer > 300)
@@ -651,12 +667,25 @@ namespace EbonianMod.NPCs.ArchmageX
                         }
                         if (AITimer == 100)
                         {
+                            //arenaFlash = 1;
                             float off = Main.rand.NextFloat(MathHelper.TwoPi);
                             for (int i = 0; i < 4; i++)
                             {
                                 float angle = Helper.CircleDividedEqually(i, 4) + off;
                                 Vector2 vel = angle.ToRotationVector2();
                                 Projectile.NewProjectile(null, NPC.Center - new Vector2(0, 130), vel, ModContent.ProjectileType<XRift>(), 15, 0);
+                            }
+                        }
+                        if (AITimer == 150)
+                        {
+                            foreach (Player _player in Main.ActivePlayers)
+                            {
+                                _player.AddBuff(ModContent.BuffType<Sheepened>(), 1150);
+                                for (float i = 0; i < 1; i += 0.1f)
+                                {
+                                    Projectile.NewProjectile(null, Vector2.Lerp(NPC.Center - new Vector2(0, 130), _player.Center, i), Vector2.Zero, ModContent.ProjectileType<XExplosionTiny>(), 0, 0);
+                                }
+                                Projectile.NewProjectile(null, _player.Center, Vector2.Zero, ModContent.ProjectileType<XExplosionInvis>(), 0, 0);
                             }
                         }
                         if (AITimer == 300)
@@ -1180,17 +1209,18 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             disposablePos[0] = NPC.Center;
                             disposablePos[1] = player.Center + player.velocity;
-                            for (int i = -3; i < 4; i++)
+                            for (int i = -2; i < 3; i++)
                             {
-                                Projectile.NewProjectileDirect(null, disposablePos[0], Helper.FromAToB(disposablePos[0], disposablePos[1]).RotatedBy(i * 0.45f), ModContent.ProjectileType<XSineLaser>(), 0, 0);
+                                disposablePos[i + 6] = Helper.FromAToB(disposablePos[0], disposablePos[1]).RotatedByRandom(MathF.Abs(i) * 0.75f);
+                                Projectile.NewProjectileDirect(null, disposablePos[0], disposablePos[i + 6], ModContent.ProjectileType<XSineLaser>(), 0, 0);
                             }
                         }
 
-                        if (phaseMult == 3 && AITimer == 290)
+                        if (phaseMult == 3 && AITimer == 298)
                         {
-                            for (int i = -3; i < 4; i++)
+                            for (int i = -2; i < 3; i++)
                             {
-                                Projectile.NewProjectileDirect(null, disposablePos[0], Helper.FromAToB(disposablePos[0], disposablePos[1]).RotatedBy(i * 0.45f), ModContent.ProjectileType<XSineLaser>(), 15, 0);
+                                Projectile.NewProjectileDirect(null, disposablePos[0], disposablePos[i + 6], ModContent.ProjectileType<XSineLaser>(), 15, 0);
                             }
                         }
 
@@ -1298,7 +1328,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             for (int i = 0; i < 5; i++)
                             {
                                 float angle = Helper.CircleDividedEqually(i, 5) + off;
-                                Vector2 pos = NPC.Center + new Vector2(phase2 ? 450 : 300, 0).RotatedBy(angle);
+                                Vector2 pos = NPC.Center + new Vector2(phase2 ? 225 * phaseMult : 300, 0).RotatedBy(angle);
                                 Projectile p = Projectile.NewProjectileDirect(null, pos, Helper.FromAToB(pos, NPC.Center) * 0.1f, ModContent.ProjectileType<XAmethystCloseIn>(), 15, 0);
                                 p.ai[0] = NPC.Center.X;
                                 p.ai[1] = NPC.Center.Y;
@@ -1455,7 +1485,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             else
                                 currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "DIEEE!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
 
-                        if (phaseMult == 3 && AITimer3 > 0 && AITimer == 111)
+                        if (phaseMult == 3 && AITimer3 > 0 && AITimer == 121)
                             currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "DIEEE!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         if (AITimer < 130)
                         {
@@ -1683,8 +1713,8 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer >= 100)
                         {
                             Reset();
-                            NPC.ai[3]++;
-                            if (Main.rand.Next((int)MathHelper.Clamp(phaseMult == 3 ? ((doneAttacksBefore ? 8 : 15) - (int)NPC.ai[3]) : 18, 1, 20)) > 4)
+                            NPC.ai[3] = MathHelper.Clamp(NPC.ai[3] + 1, 0, 20);
+                            if (Main.rand.Next((int)MathHelper.Clamp(phaseMult == 3 ? ((doneAttacksBefore ? 8 : 15) - (int)NPC.ai[3]) : 18, 1, 20)) < 4)
                             {
                                 NPC.ai[3] = 0;
                                 PickAttack();
@@ -1758,6 +1788,8 @@ namespace EbonianMod.NPCs.ArchmageX
                                 Projectile.NewProjectile(null, NPC.Center + vel * 15, vel, ModContent.ProjectileType<XSineLaser>(), 0, 0, ai1: -7.5f);
                             }
                         }
+                        if (AITimer > 160 && AITimer < 200 && AITimer % 10 == 0 && phaseMult == 3)
+                            Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center + player.velocity), ModContent.ProjectileType<SheepeningOrb>(), 1, 0, player.whoAmI);
                         if (AITimer == 170 && phaseMult != 3)
                         {
                             headFrame.Y = ShockedFace;
@@ -1872,10 +1904,11 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             disposablePos[1] = player.Center;
 
+                            float off = Main.rand.NextFloat(MathHelper.Pi);
                             for (int i = 0; i < 4; i++)
                             {
-                                float angle = Helper.CircleDividedEqually(i, 4);
-                                Vector2 pos = disposablePos[1] + angle.ToRotationVector2() * 170;
+                                float angle = Helper.CircleDividedEqually(i, 4) + off;
+                                Vector2 pos = disposablePos[1] + angle.ToRotationVector2() * Main.rand.NextFloat(200, 400);
                                 Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, disposablePos[1]), ModContent.ProjectileType<XRift>(), 15, 0);
                             }
                         }
@@ -2107,7 +2140,7 @@ namespace EbonianMod.NPCs.ArchmageX
             rect.Y += (int)offset.Y / 2;
             return rect;
         }
-        Vector2[] disposablePos = new Vector2[10];
+        Vector2[] disposablePos = new Vector2[15];
         public override bool? CanFallThroughPlatforms()
         {
             Player player = Main.player[NPC.target];

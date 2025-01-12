@@ -215,16 +215,34 @@ namespace EbonianMod.NPCs.Garbage
             }
             else if ((AIState == Death && AITimer > 40) || AIState == SlamSlamSlam || (AIState == Dash && !(AITimer3 >= 22)) || AIState == BigDash || (AIState == PipeBombAirstrike && AITimer > 25) || (AIState == MassiveLaser && AITimer > 25))
             {
-                NPC.frame.X = 80;
-                if (NPC.frameCounter % 5 == 0)
+                if (NPC.velocity.Length() > 1)
                 {
-                    if (NPC.frame.Y < 9 * frameHeight)
+                    NPC.frame.X = 80;
+                    if (NPC.frameCounter % 5 == 0)
                     {
-                        NPC.frame.Y += frameHeight;
+                        if (NPC.frame.Y < 9 * frameHeight)
+                        {
+                            NPC.frame.Y += frameHeight;
+                        }
+                        else if (NPC.frame.Y >= 9 * frameHeight || NPC.frame.Y < 6 * frameHeight)
+                        {
+                            NPC.frame.Y = 6 * frameHeight;
+                        }
                     }
-                    else if (NPC.frame.Y >= 9 * frameHeight || NPC.frame.Y < 6 * frameHeight)
+                }
+                else
+                {
+                    NPC.frame.X = 80;
+                    if (NPC.frameCounter % 5 == 0)
                     {
-                        NPC.frame.Y = 6 * frameHeight;
+                        if (NPC.frame.Y < 5 * frameHeight)
+                        {
+                            NPC.frame.Y += frameHeight;
+                        }
+                        else if (NPC.frame.Y >= 5 * frameHeight || NPC.frame.Y < 3 * frameHeight)
+                        {
+                            NPC.frame.Y = 3 * frameHeight;
+                        }
                     }
                 }
             }
