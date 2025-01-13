@@ -640,7 +640,7 @@ Items: {
 
 	Potato: {
 		DisplayName: Potato
-		Tooltip: '''"So, how are you holding up?"'''
+		Tooltip: So, how are you holding up?
 	}
 
 	ClementinesCap: {
@@ -720,7 +720,7 @@ Items: {
 
 	CecitiorClawSummon: {
 		DisplayName: Backscratcher
-		Tooltip: ""
+		Tooltip: Hello, Peter
 	}
 
 	HotShield: {
@@ -729,13 +729,13 @@ Items: {
 	}
 
 	CecitiorMaterial: {
-		Tooltip: ""
 		DisplayName: Fleshy Blob
+		Tooltip: Writhing pieces of Crimson flesh
 	}
 
 	TerrortomaMaterial: {
 		DisplayName: Cellular Matter
-		Tooltip: ""
+		Tooltip: Writhing pieces of Corrupt matter
 	}
 
 	ToothToothbrush: {
@@ -750,7 +750,7 @@ Items: {
 
 	SpudCannon: {
 		DisplayName: Spud Cannon
-		Tooltip: ""
+		Tooltip: Uses potatoes as ammo
 	}
 
 	CursedScourge: {
@@ -774,7 +774,7 @@ Items: {
 	}
 
 	StaffofXWeapon: {
-		DisplayName: Staff of Xareus
+		DisplayName: Shrunken Variant of Xareus' Archstaff
 		Tooltip: ""
 	}
 
@@ -810,7 +810,7 @@ Items: {
 
 	TitteringStaff: {
 		DisplayName: Tittering Staff
-		Tooltip: ""
+		Tooltip: Summons miniscule titterings that fire bolts of Cursed Inferno at nearby enemies
 	}
 }
 
@@ -826,7 +826,7 @@ Buffs: {
 	}
 
 	HightomaB: {
-		Description: Not entirely lucid enough to try attacking you.
+		Description: Not entirely lucid enough to try attacking you
 		DisplayName: Tinytoma
 	}
 
@@ -842,17 +842,17 @@ Buffs: {
 
 	SelfStabB: {
 		DisplayName: Sacrificed
-		Description: Massively boosted damage.
+		Description: Massively boosted damage
 	}
 
 	DjungelskogB: {
 		DisplayName: Djungelskog
-		Description: Dumb teddy bear.
+		Description: Dumb teddy bear
 	}
 
 	OstertagiB: {
 		DisplayName: Infected
-		Description: Greatly boosted damage and attacking speed.
+		Description: Greatly boosted damage and attacking speed
 	}
 
 	Sheepened: {
@@ -867,12 +867,12 @@ Buffs: {
 
 	CecitiorClawBuff: {
 		DisplayName: Cecitior Claw Buff
-		Description: Mods.EbonianMod.Buffs.CecitiorClawBuff.Description
+		Description: Crimson Claws sprout out of your back and fight for you
 	}
 
 	TitteringB: {
 		DisplayName: Tittering B
-		Description: Mods.EbonianMod.Buffs.TitteringB.Description
+		Description: Small titterings fight for you
 	}
 }
 

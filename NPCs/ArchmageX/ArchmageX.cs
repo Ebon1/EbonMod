@@ -391,7 +391,7 @@ namespace EbonianMod.NPCs.ArchmageX
             arenaFlash = MathHelper.Lerp(arenaFlash, 0, 0.05f);
             if (arenaFlash.CloseTo(0, 0.01f))
                 arenaFlash = 0;
-            if (NPC.life < NPC.lifeMax / 3 - 1000)
+            if (NPC.life < NPC.lifeMax / 3 + 700)
             {
                 if (phaseMult != 3)
                 {
