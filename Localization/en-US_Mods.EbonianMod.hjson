@@ -251,6 +251,9 @@ Projectiles: {
 	GarbageDroneF.DisplayName: Garbage Drone F
 	GarbageFlailP.DisplayName: Garbage Flail P
 	TitteringMinion.DisplayName: Tittering Minion
+	StaffOfXP.DisplayName: Staff Of X P
+	XImpact.DisplayName: X Impact
+	XImpact2.DisplayName: X Impact2
 }
 
 NPCs: {
@@ -770,6 +773,11 @@ Items: {
 
 	StaffOfXItem: {
 		DisplayName: Staff Of X Item
+		Tooltip: ""
+	}
+
+	StaffOfX: {
+		DisplayName: Archstaff of the Tragically Deceased Archmage Xareus
 		Tooltip: ""
 	}
 
