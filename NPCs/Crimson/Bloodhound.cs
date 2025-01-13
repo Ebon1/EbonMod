@@ -69,7 +69,8 @@ namespace EbonianMod.NPCs.Crimson
         public override void AI()
         {
             NPC.ai[0] = 2;
-            NPC.position.X += NPC.velocity.X * off;
+            if (Helper.TRay.CastLength(NPC.position + NPC.velocity * off, NPC.velocity, 60) > 50)
+                NPC.position.X += NPC.velocity.X * off;
             if (++timer >= 35)
             {
                 NPC.spriteDirection = Main.player[NPC.target].Center.X > NPC.Center.X ? 1 : -1;

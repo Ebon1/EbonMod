@@ -287,9 +287,11 @@ namespace EbonianMod.NPCs.Terrortoma
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
+            NPC _center = Main.npc[(int)NPC.ai[0]];
+            if (_center.Distance(NPC.Center) > 2000 || (_center.ai[0] == 0 && _center.ai[1] < 2)) return true;
             Player player = Main.player[NPC.target];
 
-            if (NPC.IsABestiaryIconDummy)
+            if (NPC.IsABestiaryIconDummy || NPC.Center == Vector2.Zero)
                 return true;
             Vector2 neckOrigin = terrortomaCenter;
             Vector2 center = NPC.Center;
@@ -572,10 +574,12 @@ namespace EbonianMod.NPCs.Terrortoma
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
+            NPC _center = Main.npc[(int)NPC.ai[0]];
+            if (_center.Distance(NPC.Center) > 2000 || (_center.ai[0] == 0 && _center.ai[1] < 2)) return true;
             Player player = Main.player[NPC.target];
 
 
-            if (NPC.IsABestiaryIconDummy)
+            if (NPC.IsABestiaryIconDummy || NPC.Center == Vector2.Zero)
                 return true;
             Vector2 neckOrigin = terrortomaCenter;
             Vector2 center = NPC.Center;
@@ -890,9 +894,11 @@ namespace EbonianMod.NPCs.Terrortoma
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
+            NPC _center = Main.npc[(int)NPC.ai[0]];
+            if (_center.Distance(NPC.Center) > 2000 || (_center.ai[0] == 0 && _center.ai[1] < 2)) return true;
             Player player = Main.player[NPC.target];
 
-            if (NPC.IsABestiaryIconDummy)
+            if (NPC.IsABestiaryIconDummy || NPC.Center == Vector2.Zero)
                 return true;
             Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrorClingerMelee").Value.Width * 0.5f, NPC.height * 0.5f);
             if (IsDashing)

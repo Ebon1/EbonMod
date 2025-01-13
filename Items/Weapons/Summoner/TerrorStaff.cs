@@ -22,7 +22,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
         public override void SetDefaults()
         {
-            Item.damage = 19;
+            Item.damage = 40;
             Item.width = 40;
             Item.height = 40;
             Item.mana = 10;

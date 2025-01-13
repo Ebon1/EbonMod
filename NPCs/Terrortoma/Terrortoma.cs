@@ -349,7 +349,7 @@ namespace EbonianMod.NPCs.Terrortoma
             if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
             NPC.rotation = rotation - NPC.rotation > MathHelper.Pi || rotation - NPC.rotation < -MathHelper.Pi ? rotation : MathHelper.SmoothStep(NPC.rotation, rotation, 0.25f);
             Player player = Main.player[NPC.target];
-            if (!player.active || player.dead)//|| !player.ZoneCorrupt)
+            if (!player.active || player.dead && AIState != Death)//|| !player.ZoneCorrupt)
             {
                 NPC.TargetClosest(false);
                 player = Main.player[NPC.target];
@@ -358,8 +358,9 @@ namespace EbonianMod.NPCs.Terrortoma
                     AIState = Intro;
                     AITimer = 0;
                 }
-                if (!player.active || player.dead)//|| !player.ZoneCorrupt)
+                if (!player.active || player.dead && AIState != Death)//|| !player.ZoneCorrupt)
                 {
+
                     AIState = -12124;
                     NPC.velocity = new Vector2(0, 10f);
                     if (NPC.timeLeft > 60)

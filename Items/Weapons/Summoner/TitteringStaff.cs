@@ -25,7 +25,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
         public override void SetDefaults()
         {
-            Item.damage = 23;
+            Item.damage = 48;
             Item.DamageType = DamageClass.Summon;
             Item.mana = 10;
             Item.width = 26;
