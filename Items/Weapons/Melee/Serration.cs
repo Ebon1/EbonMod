@@ -80,6 +80,7 @@ namespace EbonianMod.Items.Weapons.Melee
         public override void OnKill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
+            player.ChangeDir(Main.MouseWorld.X < player.Center.X ? -1 : 1);
             if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems)
                 Projectile.NewProjectile(null, Projectile.Center, Vector2.UnitX * player.direction, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, 0, -player.direction, 1);
         }
