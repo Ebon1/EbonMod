@@ -41,7 +41,7 @@ namespace EbonianMod.Projectiles.Minions
             Projectile.ignoreWater = true;
         }
         public override bool? CanDamage() => false;
-        public override bool ShouldUpdatePosition() => true;
+        public override bool ShouldUpdatePosition() => false;
         public override void OnSpawn(IEntitySource source)
         {
             Player player = Main.player[Projectile.owner];
