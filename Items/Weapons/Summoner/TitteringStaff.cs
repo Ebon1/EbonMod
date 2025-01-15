@@ -25,7 +25,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
         public override void SetDefaults()
         {
-            Item.damage = 48;
+            Item.damage = 68;
             Item.DamageType = DamageClass.Summon;
             Item.mana = 10;
             Item.width = 26;
@@ -54,7 +54,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.SanguineStaff).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.HornetStaff).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

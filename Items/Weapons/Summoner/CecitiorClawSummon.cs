@@ -26,7 +26,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
         public override void SetDefaults()
         {
-            Item.damage = 23;
+            Item.damage = 73;
             Item.DamageType = DamageClass.Summon;
             Item.mana = 10;
             Item.width = 26;
@@ -55,7 +55,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.Smolstar).AddIngredient(ModContent.ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.Hook).AddIngredient(ModContent.ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }
