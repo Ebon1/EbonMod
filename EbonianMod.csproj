@@ -1,5 +1,4 @@
-
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="..\tModLoader.targets" />
 	<PropertyGroup>
 		<AssemblyName>EbonianMod</AssemblyName>
@@ -9,11 +8,12 @@
 		<None Remove="Effects\FX\invisibleMask.fx" />
 		<None Remove="effects\fx\metaballGradient.fx" />
 		<None Remove="Effects\FX\metaballGradientNoiseTex.fx" />
+		<None Remove="Effects\FX\ps3Test.fx" />
 		<None Remove="effects\fx\spriteRotation.fx" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Remove="Projectiles\ArchmageX\XBolt - Copy.png" />
-	  <None Remove="Projectiles\ArchmageX\XBolt_Glow - Copy.png" />
+		<None Remove="Projectiles\ArchmageX\XBolt - Copy.png" />
+		<None Remove="Projectiles\ArchmageX\XBolt_Glow - Copy.png" />
 	</ItemGroup>
 	<ItemGroup>
 		<Reference Include="StructureHelper">
@@ -27,6 +27,12 @@
 		<Folder Include="NPCs\Misc\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Update="tModLoader.CodeAssist" Version="0.1.5" />
+		<PackageReference Update="tModLoader.CodeAssist" Version="0.1.5" />
 	</ItemGroup>
+	<ItemGroup>
+		<EffectFiles Include="**/*.fx" />
+	</ItemGroup>
+	<Target Name="BuildEffects" BeforeTargets="BuildMod" Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+		<Exec Command="@(EffectFiles->'&quot;./Effects/Compiler/fxc.exe&quot; &quot;%(RecursiveDir)%(FileName)%(Extension)&quot; /T fx_2_0 /nologo /Fo &quot;%(RecursiveDir)%(FileName).fxc&quot; &#xA;&#xD;')" IgnoreExitCode="true" />
+	</Target>
 </Project>
