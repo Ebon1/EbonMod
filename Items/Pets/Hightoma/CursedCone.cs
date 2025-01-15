@@ -60,10 +60,11 @@ namespace EbonianMod.Items.Pets.Hightoma
                 //  float rando = rand.NextFloat(MathHelper.Pi * 2);
                 Texture2D clinger = Helper.GetTexture("Items/Pets/Hightoma/Hightoma_Clinger" + (i + 2));
                 Vector2 neckOrigin = Projectile.Center;
-                Vector2 center = Projectile.Center - new Vector2(i * 30, -45) - Projectile.velocity * i;
+                Vector2 center = Projectile.Center - new Vector2(i * 30, -45) - Projectile.velocity * MathF.Abs(i);
                 Vector2 distToProj = neckOrigin - center;
                 float projRotation = distToProj.ToRotation() - 1.57f;
                 float distance = distToProj.Length();
+                Vector2 _center = center;
                 while (distance > chain.Height && !float.IsNaN(distance))
                 {
                     distToProj.Normalize();
@@ -77,8 +78,8 @@ namespace EbonianMod.Items.Pets.Hightoma
                         null, Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
                         chain.Size() / 2, 1f, SpriteEffects.None, 0);
                 }
-                Main.spriteBatch.Draw(clinger, Projectile.Center - new Vector2(i * 30, -45) - Main.screenPosition,
-                    null, Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), 0,
+                Main.spriteBatch.Draw(clinger, _center - Main.screenPosition,
+                    null, Lighting.GetColor((int)_center.X / 16, (int)_center.Y / 16), 0,
                     clinger.Size() / 2, 1f, SpriteEffects.None, 0);
             }
             return true;

@@ -30,6 +30,7 @@ using Terraria.GameContent.ItemDropRules;
 using EbonianMod.Items.BossTreasure;
 using EbonianMod.Items.Tiles;
 using EbonianMod.Items.Pets.Hightoma;
+using EbonianMod.Items.Pets;
 
 namespace EbonianMod.NPCs.Garbage
 {
@@ -74,7 +75,7 @@ namespace EbonianMod.NPCs.Garbage
             npcLoot.Add(notExpertRule);
 
             npcLoot.Add(ItemDropRule.Common(ItemType<GarbageTrophy>(), 4));
-            //npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ItemType<GarbagePet>(), 4));
+            npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ItemType<GarbagePet>(), 4));
 
             npcLoot.Add(ItemDropRule.BossBag(ItemType<GarbageBagI>()));
         }

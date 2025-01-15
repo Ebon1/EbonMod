@@ -1,39 +1,28 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using Terraria.DataStructures;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.GameContent.Bestiary;
-using Terraria.Map;
+ï»¿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace EbonianMod.Items.Pets
 {
-    public class DjungelskogI : ModItem
+    public class SheepPet : ModItem
     {
-        public override void SetStaticDefaults()
-        {
-            //DisplayName.SetDefault("Strange looking teddy bear");
-            //Tooltip.SetDefault("Summons a djungelskog.\n\"Den här stora brunbjörnen möter dig alltid med en öppen famn. Kramgo som få och med en härlig jättemage där du kan vila tryggt. En riktig mjukis med andra ord.\"");
-        }
-
         public override void SetDefaults()
         {
             Item.damage = 0;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.shoot = ProjectileType<Djungelskog>();
+            Item.shoot = ProjectileType<SheepPetP>();
             Item.width = 16;
             Item.height = 30;
             Item.UseSound = SoundID.Item2;
             Item.useAnimation = 20;
             Item.useTime = 20;
             Item.rare = ItemRarityID.Green;
+            Item.master = true;
             Item.noMelee = true;
             Item.value = Item.sellPrice(0, 5, 50, 0);
-            Item.buffType = BuffType<DjungelskogB>();
+            Item.buffType = BuffType<SheepPetB>();
         }
 
         public override void UseStyle(Player player, Rectangle rec)
@@ -44,7 +33,7 @@ namespace EbonianMod.Items.Pets
             }
         }
     }
-    public class Djungelskog : ModProjectile
+    public class SheepPetP : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -69,12 +58,12 @@ namespace EbonianMod.Items.Pets
         public override bool PreDraw(ref Color lightColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
-            if (Projectile.spriteDirection == -1)
+            if (Projectile.spriteDirection == 1)
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Texture2D texture = Request<Texture2D>("EbonianMod/Items/Pets/Djungelskog").Value;
-            int frameHeight = Request<Texture2D>("EbonianMod/Items/Pets/Djungelskog").Value.Height / 17;
+            Texture2D texture = Request<Texture2D>("EbonianMod/Items/Pets/SheepPetP").Value;
+            int frameHeight = Request<Texture2D>("EbonianMod/Items/Pets/SheepPetP").Value.Height / 9;
             int startY = frameHeight * currentframe;
             Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
             Vector2 origin = sourceRectangle.Size() / 2f;
@@ -82,7 +71,7 @@ namespace EbonianMod.Items.Pets
 
             Color drawColor = Projectile.GetAlpha(lightColor);
             Main.EntitySpriteDraw(texture,
-                Projectile.Center - Main.screenPosition + new Vector2(0, Projectile.gfxOffY),
+                Projectile.Center + new Vector2(0, 4) - Main.screenPosition + new Vector2(0, Projectile.gfxOffY),
                 sourceRectangle, drawColor, 0, origin, Projectile.scale, spriteEffects, 0);
 
             return false;
@@ -93,28 +82,26 @@ namespace EbonianMod.Items.Pets
             Projectile.rotation = 0;
             if (Projectile.frame == 0 || Projectile.frame == 1)
             {
-                frametimer++;
-                if (frametimer >= 5)
-                {
-                    currentframe++;
-                    frametimer = 0;
-                }
-                if (currentframe > 2)
-                {
-                    currentframe = 0;
-                }
+                currentframe = 0;
             }
             else if (Projectile.frame > 1 && Projectile.frame < 8)
             {
                 frametimer++;
-                if (frametimer >= 5)
+                if (!Projectile.velocity.Y.CloseTo(0, 0.5f))
                 {
-                    currentframe++;
-                    frametimer = 0;
+                    currentframe = 4;
                 }
-                if (currentframe > 6 || currentframe < 3)
+                else
                 {
-                    currentframe = 3;
+                    if (frametimer >= 5)
+                    {
+                        currentframe++;
+                        frametimer = 0;
+                    }
+                    if (currentframe > 3)
+                    {
+                        currentframe = 0;
+                    }
                 }
             }
             else if (Projectile.ai[0] != 0)
@@ -125,23 +112,21 @@ namespace EbonianMod.Items.Pets
                     currentframe++;
                     frametimer = 0;
                 }
-                if (currentframe > 16 || currentframe < 7)
+                if (currentframe > 8 || currentframe < 5)
                 {
-                    currentframe = 7;
+                    currentframe = 5;
                 }
             }
-            if (player.HasBuff(BuffType<DjungelskogB>()))
+            if (player.HasBuff(BuffType<SheepPetB>()))
             {
                 Projectile.timeLeft = 2;
             }
         }
     }
-    public class DjungelskogB : ModBuff
+    public class SheepPetB : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            //DisplayName.SetDefault("Djungelskog");
-            //Description.SetDefault("Alla mjukdjur är bra på att kramas, trösta, busa och lyssna. Dessutom är de pålitliga och säkerhetstestade.");
             Main.buffNoSave[Type] = true;
             Main.buffNoTimeDisplay[Type] = true;
 
@@ -150,9 +135,9 @@ namespace EbonianMod.Items.Pets
 
         public override void Update(Player player, ref int buffIndex)
         {
-            if (player.ownedProjectileCounts[ProjectileType<Djungelskog>()] < 1)
+            if (player.ownedProjectileCounts[ProjectileType<SheepPetP>()] < 1)
             {
-                Projectile.NewProjectile(player.GetSource_Buff(buffIndex), player.Center, Vector2.Zero, ProjectileType<Djungelskog>(), 0, 0, 0);
+                Projectile.NewProjectile(player.GetSource_Buff(buffIndex), player.Center, Vector2.Zero, ProjectileType<SheepPetP>(), 0, 0, 0);
             }
             else
                 player.buffTime[buffIndex] = 18000;

@@ -378,7 +378,8 @@ namespace EbonianMod.Common.Systems
 
             sheep = Default with
             {
-                SoundPath = ebonianSoundPath + "sheep"
+                SoundPath = ebonianSoundPath + "sheep",
+                PitchVariance = 0.5f
             };
 
 

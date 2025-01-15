@@ -255,6 +255,9 @@ Projectiles: {
 	XImpact.DisplayName: X Impact
 	XImpact2.DisplayName: X Impact2
 	ToothToothbrushP.DisplayName: Tooth Toothbrush P
+	CecitiorPetP.DisplayName: Cecitior Pet P
+	GarbagePetP.DisplayName: Garbage Pet P
+	SheepPetP.DisplayName: Sheep Pet P
 }
 
 NPCs: {
@@ -344,6 +347,7 @@ NPCs: {
 	ArchmageCutsceneMartian.DisplayName: Archmage Xareus
 	ArchmageStaffNPC.DisplayName: " "
 	FleshDice.DisplayName: Flesh Dice
+	Sheep.DisplayName: Sheep
 }
 
 Items: {
@@ -821,6 +825,46 @@ Items: {
 		DisplayName: Tittering Staff
 		Tooltip: Summons miniscule titterings that fire bolts of Cursed Inferno at nearby enemies
 	}
+
+	GarbageBagI: {
+		DisplayName: Garbage Bag I
+		Tooltip: ""
+	}
+
+	CecitiorPet: {
+		DisplayName: Cecitior Pet
+		Tooltip: ""
+	}
+
+	GarbagePet: {
+		DisplayName: Garbage Pet
+		Tooltip: ""
+	}
+
+	SheepPet: {
+		DisplayName: Sheep Pet
+		Tooltip: ""
+	}
+
+	CecitiorTrophy: {
+		DisplayName: Cecitior Trophy
+		Tooltip: ""
+	}
+
+	GarbageTrophy: {
+		DisplayName: Garbage Trophy
+		Tooltip: ""
+	}
+
+	XMusicI: {
+		DisplayName: X Music I
+		Tooltip: ""
+	}
+
+	XTrophy: {
+		DisplayName: X Trophy
+		Tooltip: ""
+	}
 }
 
 Buffs: {
@@ -882,6 +926,21 @@ Buffs: {
 	TitteringB: {
 		DisplayName: Tittering B
 		Description: Small titterings fight for you
+	}
+
+	CecitiorPetB: {
+		DisplayName: Cecitior Pet B
+		Description: Mods.EbonianMod.Buffs.CecitiorPetB.Description
+	}
+
+	GarbagePetB: {
+		DisplayName: Garbage Pet B
+		Description: Mods.EbonianMod.Buffs.GarbagePetB.Description
+	}
+
+	SheepPetB: {
+		DisplayName: Sheep Pet B
+		Description: Mods.EbonianMod.Buffs.SheepPetB.Description
 	}
 }
 

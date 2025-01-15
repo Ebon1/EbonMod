@@ -37,6 +37,7 @@ using EbonianMod.Items.Materials;
 using Terraria.GameContent.ItemDropRules;
 using EbonianMod.Items.Pets.Hightoma;
 using EbonianMod.Items.Tiles;
+using EbonianMod.Items.Pets;
 
 namespace EbonianMod.NPCs.Cecitior
 {
@@ -68,7 +69,7 @@ namespace EbonianMod.NPCs.Cecitior
             npcLoot.Add(notExpertRule);
 
             npcLoot.Add(ItemDropRule.Common(ItemType<CecitiorTrophy>(), 4));
-            //npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ItemType<CecitiorPet>(), 4));
+            npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ItemType<CecitiorPet>(), 4));
 
             npcLoot.Add(ItemDropRule.BossBag(ItemType<CecitiorBag>()));
         }
