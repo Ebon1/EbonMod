@@ -1483,16 +1483,16 @@ namespace EbonianMod.NPCs.ArchmageX
                             if (oldAttack != AIState && AITimer3 == 0)
                                 currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? "DIE!!" : "Shadowflame Tendrils!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "just DIEEE!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "Just DIEEE!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
 
                         if (phaseMult == 3 && AITimer3 > 0 && AITimer == 121)
                         {
-                            string dialogue = "stupid HUMAN!!!!";
+                            string dialogue = "You stupid HUMAN!!!!";
                             if (AITimer3 == 2)
-                                dialogue = "dumb ENEMY!!!!";
+                                dialogue = "I never leave an ENEMY alive!!!!";
                             currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), dialogue, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         }
-                        if (AITimer < 130)
+                        if (AITimer < 110)
                         {
                             if (phaseMult == 3)
                                 headFrame.Y = AngryFace;
@@ -1793,7 +1793,7 @@ namespace EbonianMod.NPCs.ArchmageX
                                 Projectile.NewProjectile(null, NPC.Center + vel * 15, vel, ModContent.ProjectileType<XSineLaser>(), 0, 0, ai1: -7.5f);
                             }
                         }
-                        if (AITimer > 160 && AITimer < 200 && AITimer % 10 == 0 && phaseMult == 3)
+                        if (AITimer > 160 && AITimer < 200 && AITimer % 15 == 0 && phaseMult == 3)
                             Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center + player.velocity), ModContent.ProjectileType<SheepeningOrb>(), 1, 0, player.whoAmI);
                         if (AITimer == 170 && phaseMult != 3)
                         {
@@ -1913,7 +1913,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             for (int i = 0; i < 4; i++)
                             {
                                 float angle = Helper.CircleDividedEqually(i, 4) + off;
-                                Vector2 pos = disposablePos[1] + angle.ToRotationVector2() * Main.rand.NextFloat(200, 400);
+                                Vector2 pos = disposablePos[1] + angle.ToRotationVector2() * Main.rand.NextFloat(100, 600);
                                 Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, disposablePos[1]), ModContent.ProjectileType<XRift>(), 15, 0);
                             }
                         }
@@ -2011,11 +2011,11 @@ namespace EbonianMod.NPCs.ArchmageX
                                 if (oldAttack != AIState)
                                     currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "JUST LEAVE ME ALONE!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             }
-                            if (AITimer == 500)
+                            if (AITimer == 520)
                             {
-                                for (int i = 0; i < 16; i++)
+                                for (int i = 0; i < 14; i++)
                                 {
-                                    float angle = Helper.CircleDividedEqually(i, 16);
+                                    float angle = Helper.CircleDividedEqually(i, 14);
                                     if (i % 2 == 0)
                                         Projectile.NewProjectileDirect(null, staffTip, angle.ToRotationVector2(), ModContent.ProjectileType<XBolt>(), 15, 0);
                                     else

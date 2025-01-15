@@ -81,8 +81,8 @@ namespace EbonianMod.Items.Pets.Hightoma
                         null, Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
                         chain.Size() / 2, 1f, SpriteEffects.None, 0);
                 }
-                Main.spriteBatch.Draw(clinger, Projectile.Center - new Vector2(i * 30, -45).RotatedBy(Projectile.rotation) - Main.screenPosition,
-                    null, Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
+                Main.spriteBatch.Draw(clinger, Projectile.Center - new Vector2(i * 30, -45) - Main.screenPosition,
+                    null, Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), 0,
                     clinger.Size() / 2, 1f, SpriteEffects.None, 0);
             }
             return true;

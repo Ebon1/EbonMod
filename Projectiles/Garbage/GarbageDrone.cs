@@ -20,7 +20,7 @@ namespace EbonianMod.Projectiles.Garbage
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 25;
+            ProjectileID.Sets.TrailCacheLength[Type] = 10;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
         public override bool? CanDamage()
@@ -88,7 +88,7 @@ namespace EbonianMod.Projectiles.Garbage
         public override string Texture => "EbonianMod/Projectiles/Garbage/GarbageDrone";
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.TrailCacheLength[Type] = 25;
+            ProjectileID.Sets.TrailCacheLength[Type] = 10;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
         public override bool? CanDamage()
@@ -234,7 +234,7 @@ namespace EbonianMod.Projectiles.Garbage
             {
                 Projectile.ai[0]++;
 
-                if (Projectile.ai[0] % 3 == 0)
+                if (Projectile.ai[0] % 5 == 0)
                 {
                     float s = 1;
                     for (int i = 0; i < points.Count; i++)
@@ -263,54 +263,6 @@ namespace EbonianMod.Projectiles.Garbage
             points[0] = Projectile.Center;
             points[points.Count - 1] = end;
 
-        }
-        public override bool PreDraw(ref Color lightColor)
-        {
-            if (!RunOnce || points.Count < 2) return false;
-            Main.spriteBatch.Reload(SpriteSortMode.Immediate);
-
-            float scale = Projectile.scale * 4;
-            Texture2D bolt = Helper.GetExtraTexture("laser_purple");
-            Main.spriteBatch.Reload(BlendState.Additive);
-            float s = 1;
-            if (points.Count > 2)
-            {
-                VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[(points.Count - 1) * 6];
-                for (int i = 0; i < points.Count - 1; i++)
-                {
-                    Vector2 start = points[i];
-                    Vector2 end = points[i + 1];
-                    float num = Vector2.Distance(points[i], points[i + 1]);
-                    Vector2 vector = (end - start) / num;
-                    Vector2 vector2 = start;
-                    float rotation = vector.ToRotation();
-
-                    Color color = Color.Cyan * (s * Projectile.scale);
-
-                    Vector2 pos1 = points[i] - Main.screenPosition;
-                    Vector2 pos2 = points[i + 1] - Main.screenPosition;
-                    Vector2 dir1 = Helper.GetRotation(points, i) * 3 * scale * s;
-                    Vector2 dir2 = Helper.GetRotation(points, i + 1) * 3 * scale * (s + i / (float)points.Count * 0.03f);
-                    Vector2 v1 = pos1 + dir1;
-                    Vector2 v2 = pos1 - dir1;
-                    Vector2 v3 = pos2 + dir2;
-                    Vector2 v4 = pos2 - dir2;
-                    float p1 = i / (float)points.Count;
-                    float p2 = (i + 1) / (float)points.Count;
-                    vertices[i * 6] = Helper.AsVertex(v1, color, new Vector2(p1, 0));
-                    vertices[i * 6 + 1] = Helper.AsVertex(v3, color, new Vector2(p2, 0));
-                    vertices[i * 6 + 2] = Helper.AsVertex(v4, color, new Vector2(p2, 1));
-
-                    vertices[i * 6 + 3] = Helper.AsVertex(v4, color, new Vector2(p2, 1));
-                    vertices[i * 6 + 4] = Helper.AsVertex(v2, color, new Vector2(p1, 1));
-                    vertices[i * 6 + 5] = Helper.AsVertex(v1, color, new Vector2(p1, 0));
-
-                    s -= i / (float)points.Count * 0.01f;
-                }
-                Helper.DrawTexturedPrimitives(vertices, PrimitiveType.TriangleList, bolt);
-            }
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
-            return false;
         }
     }
 }
