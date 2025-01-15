@@ -35,7 +35,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.mana = 10;
             Item.noMelee = true;
             Item.staff[Item.type] = true;
-            Item.shoot = ModContent.ProjectileType<IchorGlob>();
+            Item.shoot = ProjectileType<IchorGlob>();
             Item.UseSound = SoundID.Item8;
             Item.shootSpeed = 3f;
             Item.autoReuse = true;
@@ -44,7 +44,7 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.CrimsonRod).AddIngredient(ModContent.ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.CrimsonRod).AddIngredient(ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
@@ -169,12 +169,12 @@ namespace EbonianMod.Items.Weapons.Magic
             if (Main.myPlayer == Projectile.owner)
                 for (int i = 0; i < 3; i++)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Helper.FromAToB(Projectile.Center, Main.MouseWorld).RotatedBy(0) * 4, ModContent.ProjectileType<IchorGlobSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Helper.FromAToB(Projectile.Center, Main.MouseWorld).RotatedBy(MathHelper.PiOver4) * 4, ModContent.ProjectileType<IchorGlobSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Helper.FromAToB(Projectile.Center, Main.MouseWorld).RotatedBy(-MathHelper.PiOver4) * 4, ModContent.ProjectileType<IchorGlobSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Helper.FromAToB(Projectile.Center, Main.MouseWorld).RotatedBy(0) * 4, ProjectileType<IchorGlobSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Helper.FromAToB(Projectile.Center, Main.MouseWorld).RotatedBy(MathHelper.PiOver4) * 4, ProjectileType<IchorGlobSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_Death(), Projectile.Center, Helper.FromAToB(Projectile.Center, Main.MouseWorld).RotatedBy(-MathHelper.PiOver4) * 4, ProjectileType<IchorGlobSmall>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
 
-            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BloodExplosionWSprite>(), 0, 0);
+            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<BloodExplosionWSprite>(), 0, 0);
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
@@ -256,7 +256,7 @@ namespace EbonianMod.Items.Weapons.Magic
 
             //   Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Vector2.Zero, Mod.Find<ModGore>("LightbulbBulletGore1").Type, 1f);
 
-            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BloodExplosionWSprite>(), 0, 0);
+            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<BloodExplosionWSprite>(), 0, 0);
             SoundEngine.PlaySound(SoundID.NPCDeath11);
         }
     }

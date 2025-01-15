@@ -20,7 +20,7 @@ namespace EbonianMod.Items.Tiles
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
-            MusicLoader.AddMusicBox(Mod, MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Garbage"), ModContent.ItemType<HotMusic>(), ModContent.TileType<ThisShitSomeHotGarbage>());
+            MusicLoader.AddMusicBox(Mod, MusicLoader.GetMusicSlot(Mod, "Sounds/Music/Garbage"), ItemType<HotMusic>(), TileType<ThisShitSomeHotGarbage>());
         }
 
         public override void SetDefaults()
@@ -31,7 +31,7 @@ namespace EbonianMod.Items.Tiles
             Item.useTime = 10;
             Item.autoReuse = true;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<ThisShitSomeHotGarbage>();
+            Item.createTile = TileType<ThisShitSomeHotGarbage>();
             Item.width = 24;
             Item.height = 24;
             Item.rare = ItemRarityID.Green;

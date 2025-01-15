@@ -49,18 +49,18 @@ namespace EbonianMod.NPCs.ArchmageX
             {
                 for (int j = (int)NPC.Center.Y / 16 - 3; j < (int)NPC.Center.Y / 16 + 3; j++)
                 {
-                    if (Main.tile[i, j].TileType == (ushort)ModContent.TileType<ArchmageStaffTile>())
+                    if (Main.tile[i, j].TileType == (ushort)TileType<ArchmageStaffTile>())
                     {
                         if (EbonianSystem.xareusFightCooldown <= 0)
                         {
-                            Projectile.NewProjectile(null, new Vector2(i * 16 + 88, j * 16 + MathF.Sin(Main.GlobalTimeWrappedHourly * .15f) * 16), Vector2.Zero, ModContent.ProjectileType<ArchmageXSpawnAnim>(), 0, 0);
+                            Projectile.NewProjectile(null, new Vector2(i * 16 + 88, j * 16 + MathF.Sin(Main.GlobalTimeWrappedHourly * .15f) * 16), Vector2.Zero, ProjectileType<ArchmageXSpawnAnim>(), 0, 0);
 
                             for (int k = -23; k < 6; k++)
                             {
-                                Main.tile[i - 31, j + k].TileType = ((ushort)ModContent.TileType<XHouseBrick>());
+                                Main.tile[i - 31, j + k].TileType = ((ushort)TileType<XHouseBrick>());
                                 if (Main.tile[i + 31, j + k].TileType != TileID.TallGateClosed && Main.tile[i + 31, j + k].TileType != TileID.TallGateOpen)
                                 {
-                                    Main.tile[i + 31, j + k].TileType = ((ushort)ModContent.TileType<XHouseBrick>());
+                                    Main.tile[i + 31, j + k].TileType = ((ushort)TileType<XHouseBrick>());
                                     Tile tile = Main.tile[i + 31, j + k];
                                     tile.HasTile = true;
                                 }
@@ -72,8 +72,8 @@ namespace EbonianMod.NPCs.ArchmageX
                             }
                             for (int k = -31; k < 31; k++)
                             {
-                                Main.tile[i + k, j + 5].TileType = ((ushort)ModContent.TileType<XHouseBrick>());
-                                Main.tile[i + k, j - 23].TileType = ((ushort)ModContent.TileType<XHouseBrick>());
+                                Main.tile[i + k, j + 5].TileType = ((ushort)TileType<XHouseBrick>());
+                                Main.tile[i + k, j - 23].TileType = ((ushort)TileType<XHouseBrick>());
 
                                 Tile tile = Main.tile[i + k, j - 23];
                                 tile.HasTile = true;
@@ -85,7 +85,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             {
                                 for (int l = -21; l < 6; l++)
                                     if (Main.tile[i + k, j + l].HasTile && Main.tileSolid[Main.tile[i + k, j + l].TileType] && !Main.tileSolidTop[Main.tile[i + k, j + l].TileType] &&
-                                        Main.tile[i + k, j + l].TileType != ModContent.TileType<XHouseBrick>() && Main.tile[i + k, j + l].TileType != TileID.Platforms)
+                                        Main.tile[i + k, j + l].TileType != TileType<XHouseBrick>() && Main.tile[i + k, j + l].TileType != TileID.Platforms)
                                         Main.tile[i + k, j + l].ClearTile();
                             }
 
@@ -114,7 +114,7 @@ namespace EbonianMod.NPCs.ArchmageX
                 {
                     for (int j = (int)NPC.Center.Y / 16 - 3; j < (int)NPC.Center.Y / 16 + 3; j++)
                     {
-                        if (Main.tile[i, j].TileType == (ushort)ModContent.TileType<ArchmageStaffTile>())
+                        if (Main.tile[i, j].TileType == (ushort)TileType<ArchmageStaffTile>())
                         {
                             hasTile = true;
                         }
@@ -253,7 +253,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     if (NPC.ai[2] == 50)
                     {
                         WeightedRandom<string> chat = new WeightedRandom<string>();
-                        if (ModContent.GetInstance<EbonianSystem>().downedXareus)
+                        if (GetInstance<EbonianSystem>().downedXareus)
                         {
                             chat.Add("Hahaha! Back for another GLORIOUS battle!? He's easily aggravated!");
                             chat.Add("Fighting you is most pleasing!");
@@ -341,13 +341,13 @@ namespace EbonianMod.NPCs.ArchmageX
             EbonianPlayer p = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
             foreach (Projectile proj in Main.projectile)
             {
-                if (proj.active && proj.type == ModContent.ProjectileType<ArchmageXSpawnAnim>())
+                if (proj.active && proj.type == ProjectileType<ArchmageXSpawnAnim>())
                 {
                     projExists = true;
                     break;
                 }
             }
-            return !NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0 && !projExists && !(p.timesDiedToXareus == 0 && NPC.ai[1] < 3700) && NPC.ai[2] < 1001;
+            return !NPC.AnyNPCs(NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0 && !projExists && !(p.timesDiedToXareus == 0 && NPC.ai[1] < 3700) && NPC.ai[2] < 1001;
         }
         public override void SetChatButtons(ref string button, ref string button2)
         {
@@ -369,10 +369,10 @@ namespace EbonianMod.NPCs.ArchmageX
         {
             if (Main.LocalPlayer.Center.Distance(NPC.Center) < 700)
             {
-                if (!NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0)
+                if (!NPC.AnyNPCs(NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0)
                     EbonianSystem.stickZoomLerpVal = MathHelper.SmoothStep(EbonianSystem.stickZoomLerpVal, MathHelper.SmoothStep(1f, 0, Main.LocalPlayer.Center.Distance(NPC.Center) / 800f), 0.2f);
             }
-            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0)
+            if (NPC.AnyNPCs(NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0)
             {
                 staffAlpha = MathHelper.Lerp(staffAlpha, 0f, 0.02f);
             }

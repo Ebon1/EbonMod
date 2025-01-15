@@ -113,14 +113,14 @@ namespace EbonianMod
             SpriteBatch sb = Main.spriteBatch;
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-            //if (NPC.AnyNPCs(ModContent.NPCType<Exol>()))
+            //if (NPC.AnyNPCs(NPCType<Exol>()))
             SmokeDustAkaFireDustButNoGlow.DrawAll(Main.spriteBatch);
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             orig(self, iNPCIndex, behindTiles);
             foreach (Projectile projectile in Main.projectile)
             {
-                if (projectile.active && (projectile.type == ModContent.ProjectileType<TExplosion>()/* || projectile.type == ModContent.ProjectileType<ScreenFlash>()*/))
+                if (projectile.active && (projectile.type == ProjectileType<TExplosion>()/* || projectile.type == ProjectileType<ScreenFlash>()*/))
                 {
                     Color color = Color.White;
                     projectile.ModProjectile.PreDraw(ref color);
@@ -133,7 +133,7 @@ namespace EbonianMod
             orig(self);
             /*foreach (Projectile projectile in Main.projectile)
             {
-                if (projectile.active && (projectile.type == ModContent.ProjectileType<EBoulder>() || projectile.type == ModContent.ProjectileType<EBoulder2>()))
+                if (projectile.active && (projectile.type == ProjectileType<EBoulder>() || projectile.type == ProjectileType<EBoulder2>()))
                 {
                     Color color = Color.White;
                     projectile.ModProjectile.PreDraw(ref color);
@@ -182,34 +182,34 @@ namespace EbonianMod
         {
             sys = new();
             Instance = this;
-            Test1 = ModContent.Request<Effect>("EbonianMod/Effects/Test1", (AssetRequestMode)1).Value;
-            HorizBlur = ModContent.Request<Effect>("EbonianMod/Effects/horizBlur", (AssetRequestMode)1).Value;
-            Blur = ModContent.Request<Effect>("EbonianMod/Effects/Blur", (AssetRequestMode)1).Value;
-            Crack = ModContent.Request<Effect>("EbonianMod/Effects/crackTest", (AssetRequestMode)1).Value;
-            RTAlpha = ModContent.Request<Effect>("EbonianMod/Effects/RTAlpha", (AssetRequestMode)1).Value;
-            RTOutline = ModContent.Request<Effect>("EbonianMod/Effects/RTOutline", (AssetRequestMode)1).Value;
-            CrystalShine = ModContent.Request<Effect>("EbonianMod/Effects/CrystalShine", (AssetRequestMode)1).Value;
-            TextGradient = ModContent.Request<Effect>("EbonianMod/Effects/TextGradient", (AssetRequestMode)1).Value;
-            TextGradient2 = ModContent.Request<Effect>("EbonianMod/Effects/TextGradient2", (AssetRequestMode)1).Value;
-            TextGradientY = ModContent.Request<Effect>("EbonianMod/Effects/TextGradientY", (AssetRequestMode)1).Value;
-            Test2 = ModContent.Request<Effect>("EbonianMod/Effects/Test2", (AssetRequestMode)1).Value;
-            Galaxy = ModContent.Request<Effect>("EbonianMod/Effects/Galaxy", (AssetRequestMode)1).Value;
-            LavaRT = ModContent.Request<Effect>("EbonianMod/Effects/LavaRT", (AssetRequestMode)1).Value;
-            SpriteRotation = ModContent.Request<Effect>("EbonianMod/Effects/spriteRotation", (AssetRequestMode)1).Value;
-            BeamShader = ModContent.Request<Effect>("EbonianMod/Effects/Beam", (AssetRequestMode)1).Value;
-            Lens = ModContent.Request<Effect>("EbonianMod/Effects/Lens", (AssetRequestMode)1).Value;
-            Tentacle = ModContent.Request<Effect>("EbonianMod/Effects/Tentacle", (AssetRequestMode)1).Value;
-            TentacleRT = ModContent.Request<Effect>("EbonianMod/Effects/TentacleRT", (AssetRequestMode)1).Value;
-            ScreenDistort = ModContent.Request<Effect>("EbonianMod/Effects/DistortMove", (AssetRequestMode)1).Value;
-            TentacleBlack = ModContent.Request<Effect>("EbonianMod/Effects/TentacleBlack", (AssetRequestMode)1).Value;
-            TrailShader = ModContent.Request<Effect>("EbonianMod/Effects/TrailShader", (AssetRequestMode)1).Value;
-            metaballGradient = ModContent.Request<Effect>("EbonianMod/Effects/metaballGradient", (AssetRequestMode)1).Value;
-            metaballGradientNoiseTex = ModContent.Request<Effect>("EbonianMod/Effects/metaballGradientNoiseTex", (AssetRequestMode)1).Value;
-            invisibleMask = ModContent.Request<Effect>("EbonianMod/Effects/invisibleMask", (AssetRequestMode)1).Value;
-            PullingForce = ModContent.Request<Effect>("EbonianMod/Effects/PullingForce", (AssetRequestMode)1).Value;
-            displacementMap = ModContent.Request<Effect>("EbonianMod/Effects/displacementMap", (AssetRequestMode)1).Value;
-            waterEffect = ModContent.Request<Effect>("EbonianMod/Effects/waterEffect", (AssetRequestMode)1).Value;
-            spherize = ModContent.Request<Effect>("EbonianMod/Effects/spherize", (AssetRequestMode)1).Value;
+            Test1 = Request<Effect>("EbonianMod/Effects/Test1", (AssetRequestMode)1).Value;
+            HorizBlur = Request<Effect>("EbonianMod/Effects/horizBlur", (AssetRequestMode)1).Value;
+            Blur = Request<Effect>("EbonianMod/Effects/Blur", (AssetRequestMode)1).Value;
+            Crack = Request<Effect>("EbonianMod/Effects/crackTest", (AssetRequestMode)1).Value;
+            RTAlpha = Request<Effect>("EbonianMod/Effects/RTAlpha", (AssetRequestMode)1).Value;
+            RTOutline = Request<Effect>("EbonianMod/Effects/RTOutline", (AssetRequestMode)1).Value;
+            CrystalShine = Request<Effect>("EbonianMod/Effects/CrystalShine", (AssetRequestMode)1).Value;
+            TextGradient = Request<Effect>("EbonianMod/Effects/TextGradient", (AssetRequestMode)1).Value;
+            TextGradient2 = Request<Effect>("EbonianMod/Effects/TextGradient2", (AssetRequestMode)1).Value;
+            TextGradientY = Request<Effect>("EbonianMod/Effects/TextGradientY", (AssetRequestMode)1).Value;
+            Test2 = Request<Effect>("EbonianMod/Effects/Test2", (AssetRequestMode)1).Value;
+            Galaxy = Request<Effect>("EbonianMod/Effects/Galaxy", (AssetRequestMode)1).Value;
+            LavaRT = Request<Effect>("EbonianMod/Effects/LavaRT", (AssetRequestMode)1).Value;
+            SpriteRotation = Request<Effect>("EbonianMod/Effects/spriteRotation", (AssetRequestMode)1).Value;
+            BeamShader = Request<Effect>("EbonianMod/Effects/Beam", (AssetRequestMode)1).Value;
+            Lens = Request<Effect>("EbonianMod/Effects/Lens", (AssetRequestMode)1).Value;
+            Tentacle = Request<Effect>("EbonianMod/Effects/Tentacle", (AssetRequestMode)1).Value;
+            TentacleRT = Request<Effect>("EbonianMod/Effects/TentacleRT", (AssetRequestMode)1).Value;
+            ScreenDistort = Request<Effect>("EbonianMod/Effects/DistortMove", (AssetRequestMode)1).Value;
+            TentacleBlack = Request<Effect>("EbonianMod/Effects/TentacleBlack", (AssetRequestMode)1).Value;
+            TrailShader = Request<Effect>("EbonianMod/Effects/TrailShader", (AssetRequestMode)1).Value;
+            metaballGradient = Request<Effect>("EbonianMod/Effects/metaballGradient", (AssetRequestMode)1).Value;
+            metaballGradientNoiseTex = Request<Effect>("EbonianMod/Effects/metaballGradientNoiseTex", (AssetRequestMode)1).Value;
+            invisibleMask = Request<Effect>("EbonianMod/Effects/invisibleMask", (AssetRequestMode)1).Value;
+            PullingForce = Request<Effect>("EbonianMod/Effects/PullingForce", (AssetRequestMode)1).Value;
+            displacementMap = Request<Effect>("EbonianMod/Effects/displacementMap", (AssetRequestMode)1).Value;
+            waterEffect = Request<Effect>("EbonianMod/Effects/waterEffect", (AssetRequestMode)1).Value;
+            spherize = Request<Effect>("EbonianMod/Effects/spherize", (AssetRequestMode)1).Value;
             Filters.Scene["EbonianMod:CorruptTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.68f, .56f, .73f).UseOpacity(0.35f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:CorruptTint"] = new BasicTint();
 
@@ -227,7 +227,7 @@ namespace EbonianMod
             SkyManager.Instance["EbonianMod:HellTint"] = new BasicTint();
             Filters.Scene["EbonianMod:HellTint2"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(0.03f, 0f, .18f).UseOpacity(0.425f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:HellTint2"] = new BasicTint();
-            Filters.Scene["EbonianMod:ScreenFlash"] = new Filter(new ScreenShaderData(ModContent.Request<Effect>("EbonianMod/Effects/ScreenFlash", (AssetRequestMode)1), "Flash"), EffectPriority.VeryHigh);
+            Filters.Scene["EbonianMod:ScreenFlash"] = new Filter(new ScreenShaderData(Request<Effect>("EbonianMod/Effects/ScreenFlash", (AssetRequestMode)1), "Flash"), EffectPriority.VeryHigh);
             Terraria.Graphics.Effects.On_FilterManager.EndCapture += FilterManager_EndCapture;
             Main.OnResolutionChanged += Main_OnResolutionChanged;
             Terraria.On_Main.DrawBG += DrawBehindTilesAndWalls;
@@ -250,7 +250,7 @@ namespace EbonianMod
         {
             if (gameEventId == 3 && !eventFlag)
             {
-                NPC.NewNPCDirect(null, Main.player[0].Center, ModContent.NPCType<ArchmageCutsceneMartian>(), 0, -1);
+                NPC.NewNPCDirect(null, Main.player[0].Center, NPCType<ArchmageCutsceneMartian>(), 0, -1);
             }
             orig(ref eventFlag, gameEventId);
         }
@@ -326,7 +326,7 @@ namespace EbonianMod
             sb.Begin(SpriteSortMode.Deferred, MiscDrawingMethods.Subtractive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             foreach (Projectile proj in Main.projectile)
             {
-                if (proj.active && proj.timeLeft > 1 && proj.type == ModContent.ProjectileType<ReiCapeP>())
+                if (proj.active && proj.timeLeft > 1 && proj.type == ProjectileType<ReiCapeP>())
                 {
                     Color color = new Color(69, 420, 0, 1);
                     proj.ModProjectile.PostDraw(color);
@@ -371,7 +371,7 @@ namespace EbonianMod
             if (secondPart)
             {
                 sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/space", (AssetRequestMode)1).Value;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/space", (AssetRequestMode)1).Value;
                 RTOutline.CurrentTechnique.Passes[0].Apply();
                 RTOutline.Parameters["m"].SetValue(0.62f);
                 RTOutline.Parameters["n"].SetValue(0.01f);
@@ -385,7 +385,7 @@ namespace EbonianMod
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 foreach (Projectile proj in Main.projectile)
                 {
-                    if (proj.active && proj.timeLeft > 0 && proj.type == ModContent.ProjectileType<ReiCapeP>())
+                    if (proj.active && proj.timeLeft > 0 && proj.type == ProjectileType<ReiCapeP>())
                     {
                         Color color = Color.White;
                         proj.ModProjectile.PreDraw(ref color);
@@ -398,10 +398,10 @@ namespace EbonianMod
         {
             if (secondPart)
             {
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/darkShadowflameGradient", (AssetRequestMode)1).Value;
-                gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/space_full", (AssetRequestMode)1).Value;
-                gd.Textures[3] = ModContent.Request<Texture2D>("EbonianMod/Extras/seamlessNoiseHighContrast", (AssetRequestMode)1).Value;
-                gd.Textures[4] = ModContent.Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/darkShadowflameGradient", (AssetRequestMode)1).Value;
+                gd.Textures[2] = Request<Texture2D>("EbonianMod/Extras/space_full", (AssetRequestMode)1).Value;
+                gd.Textures[3] = Request<Texture2D>("EbonianMod/Extras/seamlessNoiseHighContrast", (AssetRequestMode)1).Value;
+                gd.Textures[4] = Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
                 metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
                 metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.2f);
                 metaballGradientNoiseTex.Parameters["offsetX"].SetValue(1f);
@@ -416,7 +416,7 @@ namespace EbonianMod
                 XGoopDust.DrawAll(sb);
                 foreach (Projectile proj in Main.projectile)
                 {
-                    if (proj.active && proj.timeLeft > 0 && proj.type == ModContent.ProjectileType<ArchmageChargeUp>())
+                    if (proj.active && proj.timeLeft > 0 && proj.type == ProjectileType<ArchmageChargeUp>())
                     {
                         Color color = Color.Transparent;
                         proj.ModProjectile.PreDraw(ref color);
@@ -430,7 +430,7 @@ namespace EbonianMod
 
             if (secondPart)
             {
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/coherentNoise", (AssetRequestMode)1).Value;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/coherentNoise", (AssetRequestMode)1).Value;
                 displacementMap.CurrentTechnique.Passes[0].Apply();
                 displacementMap.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.75f);
                 displacementMap.Parameters["offsetY"].SetValue(Main.GlobalTimeWrappedHourly * 0.25f);
@@ -438,17 +438,17 @@ namespace EbonianMod
                 displacementMap.Parameters["offset"].SetValue(0.0075f);
                 displacementMap.Parameters["alpha"].SetValue(0.1f);
                 sb.Draw(Instance.renders[3], Vector2.Zero, Color.White * 0.25f);
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
                 displacementMap.Parameters["offsetY"].SetValue(Main.GlobalTimeWrappedHourly * 0.34f);
                 sb.Draw(Instance.renders[3], Vector2.Zero, Color.White * 0.25f);
 
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/coherentNoise", (AssetRequestMode)1).Value;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/coherentNoise", (AssetRequestMode)1).Value;
                 displacementMap.Parameters["offsetY"].SetValue(0);
                 displacementMap.Parameters["offsetX"].SetValue(Main.GlobalTimeWrappedHourly * 0.5f);
                 displacementMap.Parameters["offset"].SetValue(0.0075f);
                 displacementMap.Parameters["alpha"].SetValue(0.1f);
                 sb.Draw(Instance.renders[3], Vector2.Zero, Color.White * 0.25f);
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
                 displacementMap.Parameters["offsetX"].SetValue(Main.GlobalTimeWrappedHourly * 0.74f);
                 sb.Draw(Instance.renders[3], Vector2.Zero, Color.White * 0.25f);
 
@@ -460,7 +460,7 @@ namespace EbonianMod
                 sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 foreach (Projectile proj in Main.projectile)
                 {
-                    if (proj.active && proj.timeLeft > 0 && (proj.type == ModContent.ProjectileType<GarbageFlame>() || proj.type == ModContent.ProjectileType<GarbageGiantFlame>() || proj.type == ModContent.ProjectileType<GarbageLaserSmall3>() || proj.type == ModContent.ProjectileType<GarbageLaserSmall2>() || proj.type == ModContent.ProjectileType<GarbageLaserSmall1>()))
+                    if (proj.active && proj.timeLeft > 0 && (proj.type == ProjectileType<GarbageFlame>() || proj.type == ProjectileType<GarbageGiantFlame>() || proj.type == ProjectileType<GarbageLaserSmall3>() || proj.type == ProjectileType<GarbageLaserSmall2>() || proj.type == ProjectileType<GarbageLaserSmall1>()))
                     {
                         Color color = Color.Transparent;
                         proj.ModProjectile.PreDraw(ref color);
@@ -474,10 +474,10 @@ namespace EbonianMod
 
             if (secondPart)
             {
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/shadowflameGradient", (AssetRequestMode)1).Value;
-                gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/space_full", (AssetRequestMode)1).Value;
-                gd.Textures[3] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
-                gd.Textures[4] = ModContent.Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/shadowflameGradient", (AssetRequestMode)1).Value;
+                gd.Textures[2] = Request<Texture2D>("EbonianMod/Extras/space_full", (AssetRequestMode)1).Value;
+                gd.Textures[3] = Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
+                gd.Textures[4] = Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
                 metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
                 metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.1f);
                 metaballGradientNoiseTex.Parameters["offsetX"].SetValue(1f);
@@ -491,7 +491,7 @@ namespace EbonianMod
                 sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 foreach (Projectile proj in Main.projectile)
                 {
-                    if (proj.active && proj.timeLeft > 0 && proj.type == ModContent.ProjectileType<ArchmageXSpawnAnim>())
+                    if (proj.active && proj.timeLeft > 0 && proj.type == ProjectileType<ArchmageXSpawnAnim>())
                     {
                         Color color = Color.Transparent;
                         proj.ModProjectile.PreDraw(ref color);

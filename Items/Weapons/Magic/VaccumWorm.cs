@@ -27,7 +27,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.useTime = 1;
             Item.mana = 1;
             Item.useAnimation = 10;
-            Item.shoot = ModContent.ProjectileType<VaccumWormP>();
+            Item.shoot = ProjectileType<VaccumWormP>();
             Item.shootSpeed = 1f;
             Item.rare = ItemRarityID.Green;
             Item.useStyle = 5;
@@ -145,7 +145,7 @@ namespace EbonianMod.Items.Weapons.Magic
                     Vector2 _pos = npcs[i].Center + Main.rand.NextVector2Circular(npcs[i].width / 2, npcs[i].height / 2);
                     if (Main.rand.NextBool(4))
                     {
-                        Dust d = Dust.NewDustPerfect(_pos, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(_pos, Projectile.Center) * Main.rand.NextFloat(3, 7), 0, Color.LawnGreen, Main.rand.NextFloat(0.06f, .2f));
+                        Dust d = Dust.NewDustPerfect(_pos, DustType<LineDustFollowPoint>(), Helper.FromAToB(_pos, Projectile.Center) * Main.rand.NextFloat(3, 7), 0, Color.LawnGreen, Main.rand.NextFloat(0.06f, .2f));
                         d.noGravity = true;
                         d.customData = Projectile.Center + Projectile.velocity * 20;
                     }
@@ -157,7 +157,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Vector2 d_pos = Projectile.Center + Projectile.velocity * 20 + (Projectile.velocity * Main.rand.NextFloat(30, 100)).RotatedByRandom(MathHelper.PiOver2);
             if (Main.rand.NextBool(4))
             {
-                Dust d = Dust.NewDustPerfect(d_pos, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(d_pos, Projectile.Center) * Main.rand.NextFloat(3, 7), 0, Color.LawnGreen, Main.rand.NextFloat(0.06f, .2f));
+                Dust d = Dust.NewDustPerfect(d_pos, DustType<LineDustFollowPoint>(), Helper.FromAToB(d_pos, Projectile.Center) * Main.rand.NextFloat(3, 7), 0, Color.LawnGreen, Main.rand.NextFloat(0.06f, .2f));
                 d.noGravity = true;
                 d.customData = Projectile.Center + Projectile.velocity * 20;
             }

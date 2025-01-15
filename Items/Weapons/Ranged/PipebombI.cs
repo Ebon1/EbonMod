@@ -19,7 +19,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.CloneDefaults(ItemID.Grenade);
             Item.rare = ItemRarityID.Blue;
             Item.shootSpeed = 9;
-            Item.shoot = ModContent.ProjectileType<PipebombP>();
+            Item.shoot = ProjectileType<PipebombP>();
         }
     }
     public class PipebombP : ModProjectile
@@ -74,7 +74,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         }
         public override void OnKill(int timeLeft)
         {
-            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), Projectile.damage / 3, 0, Projectile.owner);
+            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<FlameExplosionWSprite>(), Projectile.damage / 3, 0, Projectile.owner);
             a.friendly = true;
             a.hostile = Projectile.ai[2] == 0;
         }

@@ -241,12 +241,12 @@ namespace EbonianMod.NPCs.ArchmageX
                             p.active = false;
                     }
                     EbonianSystem.ChangeCameraPos(NPC.Center, 500, 1.2f);
-                    Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
-                    Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosionTiny>(), 0, 0);
+                    Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<XExplosion>(), 0, 0);
+                    Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<XExplosionTiny>(), 0, 0);
                     for (int i = 0; i < 20; i++)
-                        Projectile.NewProjectile(null, NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(10, 20), ModContent.ProjectileType<XCloudVFXExtra>(), 0, 0);
+                        Projectile.NewProjectile(null, NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(10, 20), ProjectileType<XCloudVFXExtra>(), 0, 0);
                     for (int i = 0; i < 15; i++)
-                        Projectile.NewProjectile(null, NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(10, 20), ModContent.ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(0.1f, 0.3f));
+                        Projectile.NewProjectile(null, NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(10, 20), ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(0.1f, 0.3f));
                 }
                 foreach (NPC npc in Main.ActiveNPCs)
                 {
@@ -394,7 +394,7 @@ namespace EbonianMod.NPCs.ArchmageX
                 if (AITimer == 265)
                 {
                     vol = Main.musicVolume;
-                    Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
+                    Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<XExplosion>(), 0, 0);
                     SoundEngine.PlaySound(SoundID.Item103, NPC.Center);
                     Vector2 rPos = NPC.Center - new Vector2(NPC.direction == -1 ? -44 : 20, 24 - headYOff * 2).RotatedBy(NPC.rotation);
                     Vector2 lPos = NPC.Center - new Vector2(26 - 2 + (NPC.direction == -1 ? 4 : 0), 0) - new Vector2(NPC.direction == 1 ? -70 : 4, 24 - headYOff * 2).RotatedBy(NPC.rotation);
@@ -439,7 +439,7 @@ namespace EbonianMod.NPCs.ArchmageX
         public override void OnSpawn(IEntitySource source)
         {
 
-            NPC.NewNPCDirect(null, Main.player[0].Center, ModContent.NPCType<ArchmageCutsceneMartian>(), 0, -1);
+            NPC.NewNPCDirect(null, Main.player[0].Center, NPCType<ArchmageCutsceneMartian>(), 0, -1);
             Projectile.Kill();
         }
     }

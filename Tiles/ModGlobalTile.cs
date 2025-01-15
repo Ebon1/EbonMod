@@ -19,7 +19,7 @@ namespace EbonianMod.Tiles
             if (type == TileID.Dirt)
             {
                 if (Main.rand.NextBool(200))
-                    Item.NewItem(Item.GetSource_NaturalSpawn(), new Vector2(i * 16, j * 16), ModContent.ItemType<Potato>(), Main.rand.Next(1, 10));
+                    Item.NewItem(Item.GetSource_NaturalSpawn(), new Vector2(i * 16, j * 16), ItemType<Potato>(), Main.rand.Next(1, 10));
             }
         }
     }

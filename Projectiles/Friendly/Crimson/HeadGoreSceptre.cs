@@ -19,7 +19,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
         }
         public override void Kill(int timeLeft)
         {
-            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BloodShockwave>(), Projectile.damage, 0, Projectile.owner);
+            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<BloodShockwave>(), Projectile.damage, 0, Projectile.owner);
             a.hostile = false;
             a.friendly = true;
             for (int i = 0; i < 3; i++)
@@ -69,7 +69,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
         }
         public override void Kill(int timeLeft)
         {
-            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BloodShockwave>(), Projectile.damage, 0, Projectile.owner);
+            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<BloodShockwave>(), Projectile.damage, 0, Projectile.owner);
             a.hostile = true;
             a.friendly = false;
             float speedY = Projectile.velocity.Y * -10;

@@ -30,8 +30,8 @@ namespace EbonianMod.Projectiles.ArchmageX
         {
             for (int i = 0; i < 5; i++)
             {
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(5, 5), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
+                Dust.NewDustPerfect(Projectile.Center, DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                Dust.NewDustPerfect(Projectile.Center, DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(5, 5), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
             }
             SoundEngine.PlaySound(SoundID.Shatter, Projectile.Center);
         }

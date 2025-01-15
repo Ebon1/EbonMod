@@ -122,7 +122,7 @@ namespace EbonianMod.NPCs.Corruption
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<TerrortomaMaterial>(), 2, 1, 3));
+            npcLoot.Add(ItemDropRule.Common(ItemType<TerrortomaMaterial>(), 2, 1, 3));
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color lightColor)
         {
@@ -166,14 +166,14 @@ namespace EbonianMod.NPCs.Corruption
         {
             if ((hit.Damage >= NPC.life && NPC.life <= 0))
             {
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center - new Vector2(0, 25), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/GluttonGore1").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center - new Vector2(0, 25), Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/GluttonGore1").Type, NPC.scale);
                 for (int i = 0; i < 2; i++)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/GluttonGore5").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/GluttonGore2").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/GluttonGore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/GluttonGore5").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/GluttonGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/GluttonGore3").Type, NPC.scale);
                     for (int j = 0; j < 2; j++)
-                        Gore.NewGore(NPC.GetSource_Death(), NPC.Center + new Vector2(0, 25), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/GluttonGore4").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.Center + new Vector2(0, 25), Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/GluttonGore4").Type, NPC.scale);
                 }
             }
         }
@@ -219,7 +219,7 @@ namespace EbonianMod.NPCs.Corruption
                 {
                     EbonianSystem.ScreenShakeAmount = 5;
                     SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
-                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ModContent.ProjectileType<GluttonImpact>(), 20, 2.5f, 0, 0);
+                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ProjectileType<GluttonImpact>(), 20, 2.5f, 0, 0);
                     a.friendly = false;
                     a.hostile = true;
                 }
@@ -239,11 +239,11 @@ namespace EbonianMod.NPCs.Corruption
                     for (int i = 0; i < 12; i++)
                     {
                         Vector2 pos = NPC.Bottom + new Vector2(NPC.direction * Main.rand.NextFloat(-30, 30), 0);
-                        Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, player.Center).RotatedBy(-MathHelper.PiOver4 * 0.3f).RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(5, 10), ModContent.ProjectileType<TerrorVilethorn1>(), 20, 0);
+                        Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, player.Center).RotatedBy(-MathHelper.PiOver4 * 0.3f).RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(5, 10), ProjectileType<TerrorVilethorn1>(), 20, 0);
                     }
                     EbonianSystem.ScreenShakeAmount = 5;
                     SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
-                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ModContent.ProjectileType<GluttonImpact>(), 20, 2.5f, 0, 0);
+                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ProjectileType<GluttonImpact>(), 20, 2.5f, 0, 0);
                     a.friendly = false;
                     a.hostile = true;
                 }
@@ -264,7 +264,7 @@ namespace EbonianMod.NPCs.Corruption
                 {
                     EbonianSystem.ScreenShakeAmount = 5;
                     SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
-                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ModContent.ProjectileType<GluttonImpact>(), 20, 2.5f, 0, 0);
+                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ProjectileType<GluttonImpact>(), 20, 2.5f, 0, 0);
                     a.friendly = false;
                     a.hostile = true;
                 }
@@ -273,19 +273,19 @@ namespace EbonianMod.NPCs.Corruption
                 if (AITimer == 100)
                 {
                     storedPlayerPos = player.Center;
-                    Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Vector2.Zero, ModContent.ProjectileType<GreenChargeUp>(), 0, 0);
+                    Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Vector2.Zero, ProjectileType<GreenChargeUp>(), 0, 0);
                 }
                 if (AITimer == 90)
-                    Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Vector2.Zero, ModContent.ProjectileType<GreenChargeUp>(), 0, 0);
+                    Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Vector2.Zero, ProjectileType<GreenChargeUp>(), 0, 0);
                 if (AITimer == 155)
-                    Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0);
+                    Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0);
                 if (AITimer > 155 && AITimer <= 174)
                 {
                     if (AITimer % 2 == 0)
                     {
                         EbonianSystem.ScreenShakeAmount = 5;
                         SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(0.4f).WithVolumeScale(1.2f), NPC.Center);
-                        Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Helper.FromAToB(NPC.Center + new Vector2(56 * NPC.direction, 22), storedPlayerPos).RotatedByRandom(MathHelper.PiOver4 * 0.35f) * Main.rand.NextFloat(2, 13), ModContent.ProjectileType<TFlameThrower>(), 10, 0);
+                        Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Helper.FromAToB(NPC.Center + new Vector2(56 * NPC.direction, 22), storedPlayerPos).RotatedByRandom(MathHelper.PiOver4 * 0.35f) * Main.rand.NextFloat(2, 13), ProjectileType<TFlameThrower>(), 10, 0);
                     }
                     eyeBeamAlpha = MathHelper.Lerp(eyeBeamAlpha, 0, 0.2f);
                 }

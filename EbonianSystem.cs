@@ -59,14 +59,14 @@ namespace EbonianMod
             constantTimer++;
 
             if (constantTimer % 600 == 0)
-                if (!NPC.AnyNPCs(ModContent.NPCType<ArchmageStaffNPC>()))
+                if (!NPC.AnyNPCs(NPCType<ArchmageStaffNPC>()))
                 {
                     for (int i = Main.maxTilesX / 2 - 440; i < Main.maxTilesX / 2 + 440; i++)
                         for (int j = 135; j < Main.maxTilesY / 2; j++)
                         {
-                            if (Main.tile[i, j].HasTile && Main.tile[i, j].TileType == (ushort)ModContent.TileType<ArchmageStaffTile>())
+                            if (Main.tile[i, j].HasTile && Main.tile[i, j].TileType == (ushort)TileType<ArchmageStaffTile>())
                             {
-                                NPC.NewNPCDirect(null, new Vector2(i * 16 + 20, j * 16 + 40), ModContent.NPCType<ArchmageStaffNPC>(), ai3: 1);
+                                NPC.NewNPCDirect(null, new Vector2(i * 16 + 20, j * 16 + 40), NPCType<ArchmageStaffNPC>(), ai3: 1);
                                 break;
                             }
                         }
@@ -193,7 +193,7 @@ namespace EbonianMod
                 {
                     if (npc.active && npc.type == NPCType<ArchmageStaffNPC>())
                     {
-                        if (npc.Center.Distance(player.Center) < 800 && !NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) && stickZoomLerpVal > 0)
+                        if (npc.Center.Distance(player.Center) < 800 && !NPC.AnyNPCs(NPCType<ArchmageX>()) && stickZoomLerpVal > 0)
                         {
                             Main.screenPosition = Vector2.SmoothStep(player.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), npc.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), stickZoomLerpVal) + new Vector2(ScreenShakeAmount * Main.rand.NextFloat(), ScreenShakeAmount * Main.rand.NextFloat());
                         }
@@ -202,7 +202,7 @@ namespace EbonianMod
                 }
             }
 
-            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0)
+            if (NPC.AnyNPCs(NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0)
             {
                 stickZoomLerpVal = MathHelper.Lerp(stickZoomLerpVal, 0, 0.1f);
                 if (stickZoomLerpVal < 0.01f)

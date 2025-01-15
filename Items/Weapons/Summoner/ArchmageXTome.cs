@@ -39,8 +39,8 @@ namespace EbonianMod.Items.Weapons.Summoner
             Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item44;
-            Item.shoot = ModContent.ProjectileType<XTomeSummon>();
-            Item.buffType = ModContent.BuffType<Buffs.XTomeBuff>();
+            Item.shoot = ProjectileType<XTomeSummon>();
+            Item.buffType = BuffType<Buffs.XTomeBuff>();
             Item.buffTime = 100;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -90,7 +90,7 @@ namespace EbonianMod.Items.Weapons.Summoner
             }
             if (++Projectile.ai[1] % 100 == 0)
             {
-                Projectile.NewProjectile(null, player.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ModContent.ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.2f, 0.2f), Main.rand.NextFloat(0.1f, 0.3f));
+                Projectile.NewProjectile(null, player.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.2f, 0.2f), Main.rand.NextFloat(0.1f, 0.3f));
             }
             Vector2 targetPos = Projectile.position;
             Vector2 targetVel = Projectile.velocity;
@@ -144,7 +144,7 @@ namespace EbonianMod.Items.Weapons.Summoner
                     Projectile.Center = targetPos + Main.rand.NextVector2Unit() * 150;
                 if ((Projectile.ai[0] + Projectile.minionPos * 7) % 30 == 0)
                 {
-                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center + targetVel * 2, Helper.FromAToB(Projectile.Center + targetVel * 2, targetPos + targetVel) * 13, ModContent.ProjectileType<XTomeP>(), Projectile.damage, 0f, player.whoAmI, index);
+                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center + targetVel * 2, Helper.FromAToB(Projectile.Center + targetVel * 2, targetPos + targetVel) * 13, ProjectileType<XTomeP>(), Projectile.damage, 0f, player.whoAmI, index);
                 }
             }
             else

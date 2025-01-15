@@ -23,9 +23,9 @@ namespace EbonianMod.Items.Accessories
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (!NPC.AnyNPCs(ModContent.NPCType<EbonianHeartNPC>()))
+            if (!NPC.AnyNPCs(NPCType<EbonianHeartNPC>()))
             {
-                NPC.NewNPC(player.GetSource_Accessory(Item), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<EbonianHeartNPC>(), Target: player.whoAmI);
+                NPC.NewNPC(player.GetSource_Accessory(Item), (int)player.Center.X, (int)player.Center.Y, NPCType<EbonianHeartNPC>(), Target: player.whoAmI);
             }
             player.GetDamage(DamageClass.Summon) += 0.05f;
             player.maxMinions += 1;

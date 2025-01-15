@@ -36,12 +36,12 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<SerrationP>();
+            Item.shoot = ProjectileType<SerrationP>();
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ModContent.ItemType<ToothToothbrush>()).AddIngredient(ModContent.ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemType<ToothToothbrush>()).AddIngredient(ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool? CanAutoReuseItem(Player player)
         {
@@ -96,7 +96,7 @@ namespace EbonianMod.Items.Weapons.Melee
                     EbonianSystem.ScreenShakeAmount = 5;
                     Projectile.timeLeft = 15;
                     SoundEngine.PlaySound(SoundID.Item70, Projectile.Center);
-                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 30, Vector2.UnitY, 500, true), new Vector2((float)player.direction, 0), ModContent.ProjectileType<SerrationSpike>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromAI(), TRay.Cast(Projectile.Center - Vector2.UnitY * 30, Vector2.UnitY, 500, true), new Vector2((float)player.direction, 0), ProjectileType<SerrationSpike>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 
                     lerpProg = -1;
                 }

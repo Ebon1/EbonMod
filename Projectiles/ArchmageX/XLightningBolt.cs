@@ -98,8 +98,8 @@ namespace EbonianMod.Projectiles.ArchmageX
                         a = 0;
                     Vector2 point = Vector2.SmoothStep(start, end, i / (float)n) + dir * a;
                     points.Add(point);
-                    //Dust.NewDustPerfect(point, ModContent.DustType<XGoopDustDark>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, default, 0.35f);
-                    Dust.NewDustPerfect(point, ModContent.DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, Color.White * 0.7f, 0.25f).customData = 1;
+                    //Dust.NewDustPerfect(point, DustType<XGoopDustDark>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, default, 0.35f);
+                    Dust.NewDustPerfect(point, DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, Color.White * 0.7f, 0.25f).customData = 1;
                     x -= i / (float)n;
                     last = a;
                 }
@@ -122,11 +122,11 @@ namespace EbonianMod.Projectiles.ArchmageX
                                 if (Main.rand.NextBool())
                                 {
                                     float velF = Main.rand.NextFloat(1, 5);
-                                    //Dust.NewDustPerfect(pos, ModContent.DustType<XGoopDustDark>(), Helper.FromAToB(pos, points[i]) * velF, 0, default, 0.5f * s);
-                                    //Dust.NewDustPerfect(pos, ModContent.DustType<XGoopDust>(), Helper.FromAToB(pos, points[i]).RotatedByRandom(MathHelper.PiOver4) * velF, 0, Color.White * 0.7f, 0.4f * s).customData = 1;
+                                    //Dust.NewDustPerfect(pos, DustType<XGoopDustDark>(), Helper.FromAToB(pos, points[i]) * velF, 0, default, 0.5f * s);
+                                    //Dust.NewDustPerfect(pos, DustType<XGoopDust>(), Helper.FromAToB(pos, points[i]).RotatedByRandom(MathHelper.PiOver4) * velF, 0, Color.White * 0.7f, 0.4f * s).customData = 1;
                                 }
                                 //if (Main.rand.NextBool(4) && j % 6 == 0 && Projectile.ai[0] < 7)
-                                //       Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Unit(), 0, Color.Indigo * s, Main.rand.NextFloat(0.1f, 0.15f) * s);
+                                //       Dust.NewDustPerfect(pos, DustType<SparkleDust>(), Main.rand.NextVector2Unit(), 0, Color.Indigo * s, Main.rand.NextFloat(0.1f, 0.15f) * s);
                             }
                         }
                         s -= i / (float)points.Count * 0.01f;

@@ -31,7 +31,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<IchorFlintlockP>();
+            Item.shoot = ProjectileType<IchorFlintlockP>();
 
             Item.channel = true;
         }
@@ -89,7 +89,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                     for (int i = 0; i < 15; i++)
                         Dust.NewDustPerfect(Projectile.Center, DustID.IchorTorch, Projectile.velocity.RotatedByRandom(1) * Main.rand.NextFloat(1, 5f));
                     SoundEngine.PlaySound(SoundID.Item92);
-                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity * 10, ModContent.ProjectileType<IchorBlast>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity * 10, ProjectileType<IchorBlast>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
                 }
                 else
                 {

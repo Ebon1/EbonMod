@@ -19,7 +19,7 @@ namespace EbonianMod.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             EbonianPlayer modPlayer = player.GetModPlayer<EbonianPlayer>();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<CecitiorClawMinion>()] > 0)
+            if (player.ownedProjectileCounts[ProjectileType<CecitiorClawMinion>()] > 0)
             {
                 modPlayer.cClawMinion = true;
             }

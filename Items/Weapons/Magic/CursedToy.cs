@@ -27,7 +27,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.useTime = 1;
             Item.useAnimation = 10;
             Item.reuseDelay = 25;
-            Item.shoot = ModContent.ProjectileType<CursedToyP>();
+            Item.shoot = ProjectileType<CursedToyP>();
             Item.shootSpeed = 4f;
             Item.rare = ItemRarityID.LightRed;
             Item.useStyle = ItemUseStyleID.HoldUp;
@@ -40,7 +40,7 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.ShadowFlameHexDoll).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.ShadowFlameHexDoll).AddIngredient(ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

@@ -77,9 +77,9 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
             if (AITimer == 1)
             {
                 verlet = new Verlet(Projectile.Center, 8, 15, stiffness: 30);
-                Projectile eater = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TerrortomaFlail_Clingers>(), Projectile.damage, 0, player.whoAmI, Projectile.whoAmI)];
-                Projectile smasher = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TerrortomaFlail_Clingers>(), Projectile.damage, 0, player.whoAmI, Projectile.whoAmI)];
-                Projectile summoner = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TerrortomaFlail_Clingers>(), Projectile.damage, 0, player.whoAmI, Projectile.whoAmI)];
+                Projectile eater = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<TerrortomaFlail_Clingers>(), Projectile.damage, 0, player.whoAmI, Projectile.whoAmI)];
+                Projectile smasher = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<TerrortomaFlail_Clingers>(), Projectile.damage, 0, player.whoAmI, Projectile.whoAmI)];
+                Projectile summoner = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<TerrortomaFlail_Clingers>(), Projectile.damage, 0, player.whoAmI, Projectile.whoAmI)];
                 eater.frame = 2;
                 smasher.frame = 0;
                 summoner.frame = 1;

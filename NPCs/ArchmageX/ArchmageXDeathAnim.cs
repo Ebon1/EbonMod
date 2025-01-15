@@ -39,19 +39,19 @@ namespace EbonianMod.NPCs.ArchmageX
             SoundEngine.PlaySound(SoundID.DD2_KoboldExplosion, Projectile.Center);
             Projectile.velocity = new Vector2(Main.rand.NextFloat(-15f, 15f), -12f);
 
-            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
-            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<XExplosionTiny>(), 0, 0);
+            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<XExplosion>(), 0, 0);
+            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<XExplosionTiny>(), 0, 0);
 
-            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ArchmageHead>(), 0, 0);
-            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ArchmageStaffGore>(), 0, 0);
+            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<ArchmageHead>(), 0, 0);
+            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<ArchmageStaffGore>(), 0, 0);
             for (int i = 0; i < 2; i++)
-                Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ArchmageArm>(), 0, 0);
+                Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<ArchmageArm>(), 0, 0);
 
             for (int i = 0; i < 15; i++)
-                Gore.NewGore(null, Projectile.Center, Main.rand.NextVector2Circular(13, 13), ModContent.Find<ModGore>("EbonianMod/XFlesh" + Main.rand.Next(2).ToString()).Type);
+                Gore.NewGore(null, Projectile.Center, Main.rand.NextVector2Circular(13, 13), Find<ModGore>("EbonianMod/XFlesh" + Main.rand.Next(2).ToString()).Type);
 
             for (int i = 0; i < 5; i++)
-                Gore.NewGore(null, Projectile.Center + Main.rand.NextVector2Circular(30, 30), new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-2, -1)), ModContent.Find<ModGore>("EbonianMod/XCloth" + i).Type);
+                Gore.NewGore(null, Projectile.Center + Main.rand.NextVector2Circular(30, 30), new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-2, -1)), Find<ModGore>("EbonianMod/XCloth" + i).Type);
 
 
         }

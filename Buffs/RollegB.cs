@@ -19,7 +19,7 @@ namespace EbonianMod.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             player.GetModPlayer<EbonianPlayer>().rolleg = true;
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Rolleg>()] > 0)
+            if (player.ownedProjectileCounts[ProjectileType<Rolleg>()] > 0)
                 player.buffTime[buffIndex] = 2;
         }
     }

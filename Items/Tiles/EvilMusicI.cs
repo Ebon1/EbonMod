@@ -20,7 +20,7 @@ namespace EbonianMod.Items.Tiles
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
-            MusicLoader.AddMusicBox(Mod, MusicLoader.GetMusicSlot(Mod, "Sounds/Music/EvilMiniboss"), ModContent.ItemType<EvilMusicI>(), ModContent.TileType<EvilMusic>());
+            MusicLoader.AddMusicBox(Mod, MusicLoader.GetMusicSlot(Mod, "Sounds/Music/EvilMiniboss"), ItemType<EvilMusicI>(), TileType<EvilMusic>());
         }
 
         public override void SetDefaults()
@@ -31,7 +31,7 @@ namespace EbonianMod.Items.Tiles
             Item.useTime = 10;
             Item.autoReuse = true;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<EvilMusic>();
+            Item.createTile = TileType<EvilMusic>();
             Item.width = 24;
             Item.height = 24;
             Item.rare = ItemRarityID.LightRed;

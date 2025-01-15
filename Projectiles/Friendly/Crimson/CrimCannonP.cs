@@ -45,7 +45,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                 SoundEngine.PlaySound(SoundID.NPCHit1 with { PitchVariance = 0.2f }, Projectile.Center);
                 for (int i = 0; i < 7; i++)
                 {
-                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, new Vector2(Main.rand.NextFloat(5, 10), 0).RotatedBy(Projectile.velocity.RotatedByRandom(MathHelper.PiOver2).ToRotation()), ModContent.ProjectileType<Gibs>(), Projectile.damage / 2, 0, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, new Vector2(Main.rand.NextFloat(5, 10), 0).RotatedBy(Projectile.velocity.RotatedByRandom(MathHelper.PiOver2).ToRotation()), ProjectileType<Gibs>(), Projectile.damage / 2, 0, Projectile.owner);
                 }
             }
         }
@@ -59,7 +59,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             {
                 for (int i = 0; i < 7; i++)
                 {
-                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, new Vector2(Main.rand.NextFloat(-10, 10), Main.rand.NextFloat(-10, -2)), ModContent.ProjectileType<Gibs>(), Projectile.damage / 2, 0, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, new Vector2(Main.rand.NextFloat(-10, 10), Main.rand.NextFloat(-10, -2)), ProjectileType<Gibs>(), Projectile.damage / 2, 0, Projectile.owner);
                 }
                 Projectile.velocity = Vector2.Zero;
                 Projectile.Center += oldVelocity;

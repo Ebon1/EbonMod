@@ -105,10 +105,10 @@ namespace EbonianMod.NPCs.Corruption
         {
             for (int i = 0; i < 2; i++)
             {
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CorruptionBrickGibs0").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CorruptionBrickGibs2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, Find<ModGore>("EbonianMod/CorruptionBrickGibs0").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, Find<ModGore>("EbonianMod/CorruptionBrickGibs2").Type, NPC.scale);
                 for (int j = 0; j < 3; j++)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
             }
             return true;
         }

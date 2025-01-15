@@ -75,7 +75,7 @@ namespace EbonianMod.Projectiles
             DrawGlow();
             DrawTrail();
 
-            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D texture = Request<Texture2D>(Texture).Value;
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
 
@@ -96,7 +96,7 @@ namespace EbonianMod.Projectiles
 
         void DrawGlow()
         {
-            Texture2D texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Bloom").Value;
+            Texture2D texture = Request<Texture2D>("EbonianMod/Extras/Bloom").Value;
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
 
@@ -113,7 +113,7 @@ namespace EbonianMod.Projectiles
 
         void DrawTrail()
         {
-            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D texture = Request<Texture2D>(Texture).Value;
 
             int frameHeight = texture.Height / Main.projFrames[Projectile.type];
             int startY = frameHeight * Projectile.frame;

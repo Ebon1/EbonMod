@@ -27,6 +27,9 @@ using EbonianMod.Items.Weapons.Magic;
 using EbonianMod.Items.Weapons.Melee;
 using EbonianMod.Items.Weapons.Ranged;
 using Terraria.GameContent.ItemDropRules;
+using EbonianMod.Items.BossTreasure;
+using EbonianMod.Items.Tiles;
+using EbonianMod.Items.Pets.Hightoma;
 
 namespace EbonianMod.NPCs.Garbage
 {
@@ -61,11 +64,19 @@ namespace EbonianMod.NPCs.Garbage
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Chainsword>(), 4));
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DoomsdayRemote>(), 4));
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<DoomsdayRemote>(), 4));
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<GarbageFlail>(), 4));
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PipebombI>(), 1, 20, 100));
+
+            LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
+            notExpertRule.OnSuccess(new CommonDrop(ItemType<Chainsword>(), 4));
+            notExpertRule.OnSuccess(new CommonDrop(ItemType<DoomsdayRemote>(), 4));
+            notExpertRule.OnSuccess(new CommonDrop(ItemType<DoomsdayRemote>(), 4));
+            notExpertRule.OnSuccess(new CommonDrop(ItemType<GarbageFlail>(), 4));
+            notExpertRule.OnSuccess(new CommonDrop(ItemType<PipebombI>(), 1, 20, 100));
+            npcLoot.Add(notExpertRule);
+
+            npcLoot.Add(ItemDropRule.Common(ItemType<GarbageTrophy>(), 4));
+            //npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ItemType<GarbagePet>(), 4));
+
+            npcLoot.Add(ItemDropRule.BossBag(ItemType<GarbageBagI>()));
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -456,7 +467,7 @@ namespace EbonianMod.NPCs.Garbage
                         EbonianSystem.ChangeCameraPos(NPC.Center, 100, 1.7f);
                     }
                     if (AITimer == -30)
-                        Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<ChargeUp>(), 0, 0);
+                        Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<ChargeUp>(), 0, 0);
                     if (AITimer > -30)
                         AITimer2++;
                 }
@@ -484,7 +495,7 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer == 20)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<HotGarbageNuke>(), 0, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ProjectileType<HotGarbageNuke>(), 0, 0);
                 }
                 if (AITimer == 654)
                     Music = 0;
@@ -519,7 +530,7 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     for (int i = -1; i < 1; i++)
                     {
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(2, 4) * i, NPC.height / 2 - 8), new Vector2(-NPC.direction * Main.rand.NextFloat(1, 3), Main.rand.NextFloat(-5, -1)), ModContent.ProjectileType<GarbageFlame>(), 15, 0).timeLeft = 170;
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(2, 4) * i, NPC.height / 2 - 8), new Vector2(-NPC.direction * Main.rand.NextFloat(1, 3), Main.rand.NextFloat(-5, -1)), ProjectileType<GarbageFlame>(), 15, 0).timeLeft = 170;
                     }
                 }
                 if (AITimer2 == 40 || AITimer2 < 0)
@@ -543,7 +554,7 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     for (int i = -1; i < 2; i++)
                     {
-                        Projectile fire = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), pos - Vector2.UnitY * 1000, new Vector2(i * Main.rand.NextFloat(2, 30) * Main.rand.NextFloat(1f, 2f), Main.rand.NextFloat(-5, 1)), ModContent.ProjectileType<GarbageGiantFlame>(), 15, 0);
+                        Projectile fire = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), pos - Vector2.UnitY * 1000, new Vector2(i * Main.rand.NextFloat(2, 30) * Main.rand.NextFloat(1f, 2f), Main.rand.NextFloat(-5, 1)), ProjectileType<GarbageGiantFlame>(), 15, 0);
                         fire.timeLeft = 200;
                     }
                 }
@@ -566,7 +577,7 @@ namespace EbonianMod.NPCs.Garbage
                         NPC.position.Y -= NPC.velocity.Y;
                         player.JumpMovement();
                         player.velocity.Y = -10;
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + NPC.height * 0.5f * Vector2.UnitY, new Vector2(0, 0), ModContent.ProjectileType<GarbageImpact>(), 0, 0, 0, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + NPC.height * 0.5f * Vector2.UnitY, new Vector2(0, 0), ProjectileType<GarbageImpact>(), 0, 0, 0, 0);
                         EbonianSystem.ChangeCameraPos(NPC.Center, 70, 1f);
                     }
                     if (AITimer == 15)
@@ -577,7 +588,7 @@ namespace EbonianMod.NPCs.Garbage
                     {
                         EbonianSystem.ChangeCameraPos(NPC.Center, 40, 2f);
                         for (int i = 0; i < 3; i++)
-                            Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<BloodShockwave2>(), 0, 0);
+                            Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0);
                     }
                     if (AITimer < 30)
                     {
@@ -596,7 +607,7 @@ namespace EbonianMod.NPCs.Garbage
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
                 JumpCheck();
                 if (AITimer == 50 && Main.rand.NextBool() && NextAttack2 != SpewFire)
-                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), Helper.TRay.Cast(NPC.Center - new Vector2(Main.rand.NextFloat(-500, 500), 200), Vector2.UnitY, 600, true), Vector2.Zero, ModContent.ProjectileType<Mailbox>(), 15, 0, player.whoAmI);
+                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), Helper.TRay.Cast(NPC.Center - new Vector2(Main.rand.NextFloat(-500, 500), 200), Vector2.UnitY, 600, true), Vector2.Zero, ProjectileType<Mailbox>(), 15, 0, player.whoAmI);
                 NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 70, false).X * 0.043f, 0.12f);
                 if (player.Distance(NPC.Center) < 70)
                     AITimer += 1;
@@ -630,7 +641,7 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer == 20)
                 {
                     SoundEngine.PlaySound(SoundID.Zombie66, NPC.Center);
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CircleTelegraph>(), 0, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ProjectileType<CircleTelegraph>(), 0, 0);
                 }
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
                 if (AITimer >= 55)
@@ -668,7 +679,7 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     for (int i = -1; i < 1; i++)
                     {
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(2, 4) * i, NPC.height / 2 - 8), new Vector2(-NPC.direction * Main.rand.NextFloat(1, 3), Main.rand.NextFloat(-5, -1)), ModContent.ProjectileType<GarbageFlame>(), 15, 0).timeLeft = 170;
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(2, 4) * i, NPC.height / 2 - 8), new Vector2(-NPC.direction * Main.rand.NextFloat(1, 3), Main.rand.NextFloat(-5, -1)), ProjectileType<GarbageFlame>(), 15, 0).timeLeft = 170;
                     }
                 }
                 if (AITimer3 >= 40 && AITimer % 5 == 0)
@@ -725,14 +736,14 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer == 2)
                     SoundEngine.PlaySound(SoundID.Zombie67, NPC.Center);
                 if (AITimer == 181)
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.UnitY, ModContent.ProjectileType<GarbageTelegraph>(), 0, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.UnitY, ProjectileType<GarbageTelegraph>(), 0, 0);
                 if (AITimer == 200)
                 {
                     NPC.noTileCollide = false;
                     SoundEngine.PlaySound(EbonianSounds.exolDash, NPC.Center);
                     for (int i = -4; i < 4; i++)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(6 * i * Main.rand.NextFloat(0.7f, 1.2f), 3), ModContent.ProjectileType<GarbageGiantFlame>(), 15, 0, ai0: 1);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(6 * i * Main.rand.NextFloat(0.7f, 1.2f), 3), ProjectileType<GarbageGiantFlame>(), 15, 0, ai0: 1);
                     }
                     NPC.velocity = new Vector2(0, 35);
                 }
@@ -745,7 +756,7 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     SoundEngine.PlaySound(SoundID.Item62, NPC.Center);
                     NPC.velocity = -Vector2.UnitY * 3;
-                    Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), 0, 0);
+                    Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ProjectileType<FlameExplosionWSprite>(), 0, 0);
                     AITimer2 = 1;
                 }
                 if (AITimer2 >= 1)
@@ -770,7 +781,7 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer == 10)
                 {
                     SoundEngine.PlaySound(SoundID.Zombie66, NPC.Center);
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CircleTelegraph>(), 0, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ProjectileType<CircleTelegraph>(), 0, 0);
                 }
                 NPC.rotation += MathHelper.ToRadians(-0.2f * 2 * NPC.direction);
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
@@ -796,7 +807,7 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer % 6 == 0)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(-NPC.direction * Main.rand.NextFloat(1, 3), Main.rand.NextFloat(-5, -1)), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(-NPC.direction * Main.rand.NextFloat(1, 3), Main.rand.NextFloat(-5, -1)), ProjectileType<GarbageFlame>(), 15, 0);
                 }
                 if (AITimer >= 110)
                 {
@@ -815,7 +826,7 @@ namespace EbonianMod.NPCs.Garbage
                 if (NextAttack2 == FallOver)
                     NPC.rotation -= MathHelper.ToRadians(-0.9f * 5 * NPC.direction);
                 if (AITimer == 1)
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<GreenShockwave>(), 0, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ProjectileType<GreenShockwave>(), 0, 0);
 
             }
             else if (AIState == SpewFire)
@@ -828,7 +839,7 @@ namespace EbonianMod.NPCs.Garbage
                     SoundEngine.PlaySound(SoundID.Item34, NPC.Center);
                     for (int i = -2; i < 2; i++)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), 0), new Vector2(NPC.direction * Main.rand.NextFloat(5, 10), -4 - Main.rand.NextFloat(2, 4)), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), 0), new Vector2(NPC.direction * Main.rand.NextFloat(5, 10), -4 - Main.rand.NextFloat(2, 4)), ProjectileType<GarbageFlame>(), 15, 0);
                     }
                 }
                 if (AITimer >= 100)
@@ -844,11 +855,11 @@ namespace EbonianMod.NPCs.Garbage
             {
                 AITimer++;
                 if (AITimer == 1)
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), Helper.TRay.Cast(NPC.Center, Vector2.UnitY, NPC.velocity.Length() * 40), new Vector2(NPC.direction, 0), ModContent.ProjectileType<GarbageTelegraphSmall>(), 0, 0, -1, 800);
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), Helper.TRay.Cast(NPC.Center, Vector2.UnitY, NPC.velocity.Length() * 40), new Vector2(NPC.direction, 0), ProjectileType<GarbageTelegraphSmall>(), 0, 0, -1, 800);
                 if (AITimer == 40)
                 {
                     SoundEngine.PlaySound(SoundID.DD2_BetsyFlameBreath, NPC.Center);
-                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, new Vector2(NPC.direction, 0), ModContent.ProjectileType<EFireBreath>(), 15, 0).localAI[0] = 650;
+                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, new Vector2(NPC.direction, 0), ProjectileType<EFireBreath>(), 15, 0).localAI[0] = 650;
                 }
                 if (AITimer >= 60)
                 {
@@ -869,7 +880,7 @@ namespace EbonianMod.NPCs.Garbage
                     SoundEngine.PlaySound(SoundID.DD2_FlameburstTowerShot, NPC.Center);
                     for (int i = 0; i < 4; i++)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), 0), new Vector2(NPC.direction * Main.rand.NextFloat(-10, 10), -6 - Main.rand.NextFloat(2, 4)), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), 0), new Vector2(NPC.direction * Main.rand.NextFloat(-10, 10), -6 - Main.rand.NextFloat(2, 4)), ProjectileType<GarbageFlame>(), 15, 0);
                     }
                 }
                 if (AITimer >= 70)
@@ -900,7 +911,7 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer % 20 == 0 && AITimer > 40)
                 {
                     SoundEngine.PlaySound(SoundID.Item10, NPC.Center);
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(Helper.FromAToB(NPC.Center, player.Center).X * (10 + AITimer * 0.2f), -3), ModContent.ProjectileType<GarbageBarrel>(), 15, 0, player.whoAmI);
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(Helper.FromAToB(NPC.Center, player.Center).X * (10 + AITimer * 0.2f), -3), ProjectileType<GarbageBarrel>(), 15, 0, player.whoAmI);
                 }
 
                 if (AITimer >= 160)
@@ -922,20 +933,20 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer == 10)
                 {
                     SoundEngine.PlaySound(SoundID.Item34, NPC.Center);
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), 0), new Vector2(NPC.direction * Main.rand.NextFloat(5, 10), -4 - Main.rand.NextFloat(2, 4)), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), 0), new Vector2(NPC.direction * Main.rand.NextFloat(5, 10), -4 - Main.rand.NextFloat(2, 4)), ProjectileType<GarbageFlame>(), 15, 0);
                 }
                 if (AITimer == 20)
                 {
                     SoundEngine.PlaySound(SoundID.DD2_FlameburstTowerShot, NPC.Center);
                     for (int i = 0; i < 3; i++)
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), 0), new Vector2(NPC.direction * Main.rand.NextFloat(5, 10), -4 - Main.rand.NextFloat(2, 4)), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), 0), new Vector2(NPC.direction * Main.rand.NextFloat(5, 10), -4 - Main.rand.NextFloat(2, 4)), ProjectileType<GarbageFlame>(), 15, 0);
                 }
                 if (AITimer == 80)
                 {
                     EbonianSystem.ScreenShakeAmount = 12;
                     SoundEngine.PlaySound(SoundID.DD2_FlameburstTowerShot.WithPitchOffset(-0.4f).WithVolumeScale(1.1f), NPC.Center);
                     for (int i = 0; i < 5; i++)
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), 0), new Vector2(NPC.direction * Main.rand.NextFloat(5, 10), -7 - Main.rand.NextFloat(4, 7)), ModContent.ProjectileType<GarbageGiantFlame>(), 15, 0, ai2: 1);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), 0), new Vector2(NPC.direction * Main.rand.NextFloat(5, 10), -7 - Main.rand.NextFloat(4, 7)), ProjectileType<GarbageGiantFlame>(), 15, 0, ai2: 1);
                 }
                 if (AITimer >= 80)
                 {
@@ -954,11 +965,11 @@ namespace EbonianMod.NPCs.Garbage
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
                 if (AITimer <= 60 && AITimer % 5 == 0)
                 {
-                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, new Vector2(Main.rand.NextFloat(-2.5f, 2.5f), Main.rand.NextFloat(-15, -7)), ModContent.ProjectileType<GarbageBag>(), 15, 0, player.whoAmI).timeLeft = 200;
+                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, new Vector2(Main.rand.NextFloat(-2.5f, 2.5f), Main.rand.NextFloat(-15, -7)), ProjectileType<GarbageBag>(), 15, 0, player.whoAmI).timeLeft = 200;
                 }
                 if (AITimer % 3 == 0 && AITimer > 100)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(player.Center.X + 600 * Main.rand.NextFloat(-1, 1), player.Center.Y - 600), new Vector2(Main.rand.NextFloat(-1, 1), 2), ModContent.ProjectileType<GarbageBag>(), 15, 0, player.whoAmI);
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(player.Center.X + 600 * Main.rand.NextFloat(-1, 1), player.Center.Y - 600), new Vector2(Main.rand.NextFloat(-1, 1), 2), ProjectileType<GarbageBag>(), 15, 0, player.whoAmI);
                 }
                 if (AITimer >= 100 && AITimer < 120)
                 {
@@ -988,7 +999,7 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer % 5 == 0 && AITimer < 60 && AITimer > 20)
                 {
                     SoundEngine.PlaySound(SoundID.Item156, NPC.Center);
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(Main.rand.NextFloat(-4, 4), -7), ModContent.ProjectileType<GarbageMissile>(), 15, 0, player.whoAmI, MathHelper.ToRadians(Main.rand.NextFloat(-3, 3)));
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(Main.rand.NextFloat(-4, 4), -7), ProjectileType<GarbageMissile>(), 15, 0, player.whoAmI, MathHelper.ToRadians(Main.rand.NextFloat(-3, 3)));
                 }
                 if (AITimer >= 60)
                 {
@@ -1007,11 +1018,11 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer == 20)
                     SoundEngine.PlaySound(SoundID.Zombie67, NPC.Center);
                 if (AITimer >= 20 && AITimer <= 40 && AITimer % 10 == 0)
-                    Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ModContent.ProjectileType<GreenShockwave>(), 0, 0);
+                    Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<GreenShockwave>(), 0, 0);
 
                 if (AITimer > 60 && AITimer < 82)
                 {
-                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), Helper.TRay.Cast(NPC.Center - new Vector2(Main.rand.NextFloat(-2000, 2000), 200), Vector2.UnitY, 600, true), Vector2.Zero, ModContent.ProjectileType<Mailbox>(), 15, 0, player.whoAmI);
+                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), Helper.TRay.Cast(NPC.Center - new Vector2(Main.rand.NextFloat(-2000, 2000), 200), Vector2.UnitY, 600, true), Vector2.Zero, ProjectileType<Mailbox>(), 15, 0, player.whoAmI);
                 }
                 if (AITimer >= 120)
                 {
@@ -1029,11 +1040,11 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer >= 20 && AITimer % 20 == 0)
                 {
                     SoundEngine.PlaySound(SoundID.Zombie67, NPC.Center);
-                    Projectile.NewProjectile(null, NPC.Center, Main.rand.NextVector2Circular(10, 10), ModContent.ProjectileType<GarbageDrone>(), 20, 0, ai1: Helper.FromAToB(NPC.Center, player.Center + player.velocity * 2, false).X, ai2: Main.rand.NextFloat(0.02f, 0.035f));
+                    Projectile.NewProjectile(null, NPC.Center, Main.rand.NextVector2Circular(10, 10), ProjectileType<GarbageDrone>(), 20, 0, ai1: Helper.FromAToB(NPC.Center, player.Center + player.velocity * 2, false).X, ai2: Main.rand.NextFloat(0.02f, 0.035f));
                 }
                 if (AITimer > 20 && AITimer % 5 == 0)
                 {
-                    Projectile.NewProjectile(null, NPC.Center, Main.rand.NextVector2Circular(10, 10), ModContent.ProjectileType<GarbageDrone>(), 20, 0, ai1: Main.rand.NextFloat(-1500, 1500), ai2: Main.rand.NextFloat(0.02f, 0.035f));
+                    Projectile.NewProjectile(null, NPC.Center, Main.rand.NextVector2Circular(10, 10), ProjectileType<GarbageDrone>(), 20, 0, ai1: Main.rand.NextFloat(-1500, 1500), ai2: Main.rand.NextFloat(0.02f, 0.035f));
                 }
                 if (AITimer >= 100)
                 {
@@ -1068,11 +1079,11 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer == 150)
                 {
                     NPC.velocity = Vector2.Zero;
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.UnitY, ModContent.ProjectileType<GarbageTelegraph>(), 0, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.UnitY, ProjectileType<GarbageTelegraph>(), 0, 0);
                 }
                 if (AITimer > 170 && AITimer <= 200 && AITimer % 3 == 0)
                 {
-                    Projectile.NewProjectile(null, Main.rand.NextVector2FromRectangle(NPC.getRect()), Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(5, 10), ModContent.ProjectileType<Pipebomb>(), 15, 0);
+                    Projectile.NewProjectile(null, Main.rand.NextVector2FromRectangle(NPC.getRect()), Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(5, 10), ProjectileType<Pipebomb>(), 15, 0);
                 }
                 if (AITimer == 200)
                 {
@@ -1088,7 +1099,7 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     SoundEngine.PlaySound(SoundID.Item62, NPC.Center);
                     NPC.velocity = -Vector2.UnitY * 3;
-                    Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), 16, 0);
+                    Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ProjectileType<FlameExplosionWSprite>(), 16, 0);
                     AITimer2 = 1;
                 }
                 if (AITimer2 >= 1)
@@ -1144,8 +1155,8 @@ namespace EbonianMod.NPCs.Garbage
                         pos = NPC.Center + new Vector2(0, NPC.height * 0.5f);
                         AITimer3 = 3;
                         for (int i = 0; i < 4; i++)
-                            Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center + Main.rand.NextVector2Circular(15, 15), Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), 0, 0);
-                        Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FatSmash>(), 0, 0).scale = Main.rand.NextFloat(0.4f, 0.7f);
+                            Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center + Main.rand.NextVector2Circular(15, 15), Vector2.Zero, ProjectileType<FlameExplosionWSprite>(), 0, 0);
+                        Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ProjectileType<FatSmash>(), 0, 0).scale = Main.rand.NextFloat(0.4f, 0.7f);
                     }
                     else
                     {
@@ -1155,28 +1166,28 @@ namespace EbonianMod.NPCs.Garbage
                     if (AITimer % 3 - (int)AITimer2 == 0)
                     {
                         Vector2 pos = NPC.Center + new Vector2(Main.rand.NextFloat(-NPC.width, NPC.width) * 0.7f, NPC.height * 0.3f);
-                        Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(10, 15),
+                        Dust.NewDustPerfect(pos, DustType<LineDustFollowPoint>(), Helper.FromAToB(NPC.Center, pos) * Main.rand.NextFloat(10, 15),
                             newColor: Color.OrangeRed, Scale: Main.rand.NextFloat(0.105f, 0.25f)).customData = NPC.Center - new Vector2(0, 100);
                     }
                 }
                 if (AITimer == 300)
-                    Projectile.NewProjectile(null, NPC.Center - new Vector2(6 * NPC.direction, 40), -Vector2.UnitY * 10, ModContent.ProjectileType<GarbageGiantFlame>(), 20, 0, ai2: 1);
+                    Projectile.NewProjectile(null, NPC.Center - new Vector2(6 * NPC.direction, 40), -Vector2.UnitY * 10, ProjectileType<GarbageGiantFlame>(), 20, 0, ai2: 1);
                 if (AITimer > 100 && AITimer < 300 && AITimer % 20 == 0)
                 {
                     EbonianSystem.ScreenShakeAmount = 5 * AITimer2;
                     for (int i = 0; i < 3; i++)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), -40), new Vector2(NPC.direction * Main.rand.NextFloat(-10, 10), -6 - Main.rand.NextFloat(2, 4)), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), -40), new Vector2(NPC.direction * Main.rand.NextFloat(-10, 10), -6 - Main.rand.NextFloat(2, 4)), ProjectileType<GarbageFlame>(), 15, 0);
                     }
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), -40), new Vector2(NPC.direction * Main.rand.NextFloat(-6, 6) * AITimer2, -6 - Main.rand.NextFloat(3, 5) * AITimer2), ModContent.ProjectileType<GarbageFlame>(), 15, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), -40), new Vector2(NPC.direction * Main.rand.NextFloat(-6, 6) * AITimer2, -6 - Main.rand.NextFloat(3, 5) * AITimer2), ProjectileType<GarbageFlame>(), 15, 0);
                 }
                 if (AITimer == 5)
                 {
                     SoundEngine.PlaySound(SoundID.Zombie66, NPC.Center);
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<GarbageTelegraph>(), 0, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, -Vector2.UnitY, ProjectileType<GarbageTelegraph>(), 0, 0);
                 }
                 if (AITimer == 40)
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.UnitY, ModContent.ProjectileType<GarbageTelegraph>(), 0, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.UnitY, ProjectileType<GarbageTelegraph>(), 0, 0);
 
                 if (AITimer == 60)
                 {
@@ -1184,8 +1195,8 @@ namespace EbonianMod.NPCs.Garbage
                     laserSlot = SoundEngine.PlaySound(EbonianSounds.garbageLaser.WithVolumeScale(1.35f), NPC.Center);
                     EbonianSystem.ScreenShakeAmount = 5;
                     AITimer2 = 1;
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center - new Vector2(-6 * NPC.direction, NPC.height * 0.75f), -Vector2.UnitY, ModContent.ProjectileType<HeatBlastVFX>(), 0, 0);
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<GarbageLaserSmall1>(), 100, 0, ai0: NPC.whoAmI);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center - new Vector2(-6 * NPC.direction, NPC.height * 0.75f), -Vector2.UnitY, ProjectileType<HeatBlastVFX>(), 0, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, -Vector2.UnitY, ProjectileType<GarbageLaserSmall1>(), 100, 0, ai0: NPC.whoAmI);
                 }
                 if (AITimer == 140)
                 {
@@ -1196,8 +1207,8 @@ namespace EbonianMod.NPCs.Garbage
                     }
                     EbonianSystem.ScreenShakeAmount = 10;
                     AITimer2 = 1.5f;
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center - new Vector2(-6 * NPC.direction, NPC.height * 0.75f), -Vector2.UnitY, ModContent.ProjectileType<HeatBlastVFX>(), 0, 0);
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<GarbageLaserSmall2>(), 100, 0, ai0: NPC.whoAmI);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center - new Vector2(-6 * NPC.direction, NPC.height * 0.75f), -Vector2.UnitY, ProjectileType<HeatBlastVFX>(), 0, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, -Vector2.UnitY, ProjectileType<GarbageLaserSmall2>(), 100, 0, ai0: NPC.whoAmI);
                 }
                 if (AITimer == 200)
                 {
@@ -1208,8 +1219,8 @@ namespace EbonianMod.NPCs.Garbage
                     }
                     EbonianSystem.ScreenShakeAmount = 15;
                     AITimer2 = 2.25f;
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center - new Vector2(-6 * NPC.direction, NPC.height * 0.75f), -Vector2.UnitY, ModContent.ProjectileType<HeatBlastVFX>(), 0, 0);
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<GarbageLaserSmall3>(), 100, 0, ai0: NPC.whoAmI);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center - new Vector2(-6 * NPC.direction, NPC.height * 0.75f), -Vector2.UnitY, ProjectileType<HeatBlastVFX>(), 0, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, -Vector2.UnitY, ProjectileType<GarbageLaserSmall3>(), 100, 0, ai0: NPC.whoAmI);
                 }
                 if (AITimer > 200 && AITimer < 320)
                 {
@@ -1305,7 +1316,7 @@ namespace EbonianMod.NPCs.Garbage
                 }
             }
 
-            string strin = "" + (int)(Projectile.ai[1] / 60);
+            string strin = "" + MathF.Round(Projectile.ai[1] / 60, 3);
             if (extraString != "NUKE DETONATION IN: ")
                 strin = "";
 
@@ -1356,12 +1367,12 @@ namespace EbonianMod.NPCs.Garbage
             }
             foreach (NPC npc in Main.npc)
             {
-                if (npc.active && npc.Center.Distance(targetPos) < 4500 / 2 && npc.type != ModContent.NPCType<HotGarbage>())
+                if (npc.active && npc.Center.Distance(targetPos) < 4500 / 2 && npc.type != NPCType<HotGarbage>())
                 {
                     npc.life = 0;
                     npc.checkDead();
                 }
-                if (npc.active && npc.type == ModContent.NPCType<HotGarbage>())
+                if (npc.active && npc.type == NPCType<HotGarbage>())
                 {
                     npc.immortal = false;
                     npc.dontTakeDamage = false;
@@ -1369,7 +1380,7 @@ namespace EbonianMod.NPCs.Garbage
                 }
             }
             EbonianMod.FlashAlpha = 1;
-            //Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScreenFlash>(), 0, 0);
+            //Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<ScreenFlash>(), 0, 0);
         }
         public override void AI()
         {

@@ -31,7 +31,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         {
             for (int i = 0; i < 10; i++)
                 Dust.NewDustPerfect(Projectile.Center, DustID.Glass, Main.rand.NextVector2Circular(Projectile.velocity.Length(), Projectile.velocity.Length()));
-            Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<XExplosionTiny>(), Projectile.damage, 0);
+            Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<XExplosionTiny>(), Projectile.damage, 0);
             SoundEngine.PlaySound(SoundID.Shatter, Projectile.Center);
         }
     }

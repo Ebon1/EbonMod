@@ -50,7 +50,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CecitiorMaterial>(), 2, 1, 3));
+            npcLoot.Add(ItemDropRule.Common(ItemType<CecitiorMaterial>(), 2, 1, 3));
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -121,12 +121,12 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit(), ModContent.Find<ModGore>("EbonianMod/Crimorrhage" + i).Type);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit(), Find<ModGore>("EbonianMod/Crimorrhage" + i).Type);
                 }
                 for (int i = 0; i < 2; i++)
                 {
                     for (int j = 0; j < verlet[i].segments.Count; j++)
-                        Gore.NewGore(NPC.GetSource_Death(), verlet[i].segments[j].pointA.position, Main.rand.NextVector2Unit(), ModContent.Find<ModGore>("EbonianMod/CrimorrhageChain").Type);
+                        Gore.NewGore(NPC.GetSource_Death(), verlet[i].segments[j].pointA.position, Main.rand.NextVector2Unit(), Find<ModGore>("EbonianMod/CrimorrhageChain").Type);
                 }
             }
         }
@@ -270,7 +270,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
                             {
                                 Dust.NewDustDirect(NPC.Center, NPC.width / 2, NPC.height / 2, DustID.IchorTorch, vel.X * Main.rand.NextFloat(5, 8), vel.Y * Main.rand.NextFloat(5, 8));
                             }
-                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, vel * Main.rand.NextFloat(10, 15), ModContent.ProjectileType<CIchor>(), 20, 0);
+                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, vel * Main.rand.NextFloat(10, 15), ProjectileType<CIchor>(), 20, 0);
                             a.friendly = false;
                             a.hostile = true;
                             a.tileCollide = false;
@@ -286,7 +286,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
                             ogPos[1] = Vector2.Lerp(ogPos[1], player.Center - new Vector2(0, 200), 0.1f);
                         }
                         if (AITimer == 40)
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), savedP + Helper.FromAToB(savedP, savedP2) * 110, Helper.FromAToB(savedP, savedP2), ModContent.ProjectileType<CecitiorClawSlash>(), 30, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), savedP + Helper.FromAToB(savedP, savedP2) * 110, Helper.FromAToB(savedP, savedP2), ProjectileType<CecitiorClawSlash>(), 30, 0);
 
                         if (AITimer > 40 && AITimer < 65)
                         {

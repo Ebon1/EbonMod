@@ -49,12 +49,12 @@ namespace EbonianMod.Projectiles.ArchmageX
                 for (int i = 0; i < 10; i++)
                 {
                     if (i % 2 == 0)
-                        Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), vel.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(2, 5), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
+                        Dust.NewDustPerfect(pos, DustType<SparkleDust>(), vel.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(2, 5), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
                     else
-                        Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), vel.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(2, 5), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
+                        Dust.NewDustPerfect(pos, DustType<LineDustFollowPoint>(), vel.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(2, 5), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
                 }
                 pos = Projectile.Center - new Vector2(10, Main.rand.NextFloat(-15, 15)).RotatedBy(Projectile.velocity.ToRotation());
-                Projectile a = Projectile.NewProjectileDirect(null, pos, vel, ModContent.ProjectileType<XTentacle>(), Projectile.damage, 0);
+                Projectile a = Projectile.NewProjectileDirect(null, pos, vel, ProjectileType<XTentacle>(), Projectile.damage, 0);
                 a.ai[0] = Main.rand.Next(50, 90);
                 a.ai[1] = Main.rand.NextFloat(0.5f, 2f);
             }
@@ -137,7 +137,7 @@ namespace EbonianMod.Projectiles.ArchmageX
 
             if (Projectile.timeLeft % 16 == 0 && Projectile.timeLeft < 280 && Projectile.timeLeft > 140)
             {
-                Projectile a = Projectile.NewProjectileDirect(null, Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f), ModContent.ProjectileType<XTentacle>(), 15, 0);
+                Projectile a = Projectile.NewProjectileDirect(null, Projectile.Center, Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f), ProjectileType<XTentacle>(), 15, 0);
                 a.ai[0] = Main.rand.Next(50, 90);
                 a.ai[1] = Main.rand.NextFloat(2.5f, 5f);
             }

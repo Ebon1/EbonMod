@@ -39,7 +39,7 @@ namespace EbonianMod.Projectiles.Dev
         public override void OnSpawn(IEntitySource source)
         {
             Player player = Main.player[Projectile.owner];
-            player.AddBuff(ModContent.BuffType<RollegB>(), 69);
+            player.AddBuff(BuffType<RollegB>(), 69);
             Projectile.frame = 1;
         }
         public override bool PreDraw(ref Color lightColor)

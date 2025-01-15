@@ -21,7 +21,7 @@ namespace EbonianMod.Items.Pets.Hightoma
         }
         public override void SetDefaults()
         {
-            Item.DefaultToVanitypet(ModContent.ProjectileType<Hightoma>(), ModContent.BuffType<HightomaB>());
+            Item.DefaultToVanitypet(ProjectileType<Hightoma>(), BuffType<HightomaB>());
             Item.rare = ItemRarityID.Master;
             Item.master = true;
             Item.useStyle = ItemUseStyleID.HoldUp;
@@ -44,7 +44,7 @@ namespace EbonianMod.Items.Pets.Hightoma
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            if (player.active && player.HasBuff(ModContent.BuffType<HightomaB>()))
+            if (player.active && player.HasBuff(BuffType<HightomaB>()))
                 Projectile.timeLeft = 10;
             //Projectile.direction = Projectile.spriteDirection = player.direction;
             Projectile.velocity = Helper.FromAToB(Projectile.Center, player.Center - new Vector2(player.direction * -50, 100), false) * 0.1f;
@@ -95,7 +95,7 @@ namespace EbonianMod.Items.Pets.Hightoma
         {
             player.buffTime[buffIndex] = 18000;
 
-            int projType = ModContent.ProjectileType<Hightoma>();
+            int projType = ProjectileType<Hightoma>();
 
 
             if (player.whoAmI == Main.myPlayer && player.ownedProjectileCounts[projType] <= 0)

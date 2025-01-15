@@ -44,7 +44,7 @@ namespace EbonianMod.NPCs.Crimson
         {
             for (int k = 0; k < 2; k++)
             {
-                NPC.NewNPC(NPC.GetSource_FromThis(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Parasite>());
+                NPC.NewNPC(NPC.GetSource_FromThis(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCType<Parasite>());
             }
             return true;
         }
@@ -84,14 +84,14 @@ namespace EbonianMod.NPCs.Crimson
                     }
                     for (int j = 0; j < 10; j++)
                     {
-                        Projectile.NewProjectile(null, Main.rand.NextVector2FromRectangle(NPC.getRect()), new Vector2(Main.rand.NextFloat(-10, 10), Main.rand.NextFloat(-7, -4)), ModContent.ProjectileType<AmbientGibs>(), 0, 0);
+                        Projectile.NewProjectile(null, Main.rand.NextVector2FromRectangle(NPC.getRect()), new Vector2(Main.rand.NextFloat(-10, 10), Main.rand.NextFloat(-7, -4)), ProjectileType<AmbientGibs>(), 0, 0);
                     }
                     for (int k = 0; k < 5; k++)
                     {
-                        Gore.NewGore(NPC.GetSource_FromThis(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/WormyGore").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_FromThis(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/WormyGore2").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_FromThis(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/WormyGore3").Type, NPC.scale);
-                        NPC.NewNPC(NPC.GetSource_FromThis(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Parasite>());
+                        Gore.NewGore(NPC.GetSource_FromThis(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/WormyGore").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_FromThis(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/WormyGore2").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_FromThis(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/WormyGore3").Type, NPC.scale);
+                        NPC.NewNPC(NPC.GetSource_FromThis(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCType<Parasite>());
                     }
                     NPC.StrikeInstantKill();
                 }

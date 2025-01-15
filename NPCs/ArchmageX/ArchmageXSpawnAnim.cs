@@ -60,9 +60,9 @@ namespace EbonianMod.NPCs.ArchmageX
         public override void OnKill(int timeLeft)
         {
             for (int i = 0; i < 15; i++)
-                Projectile.NewProjectile(null, Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(10, 20), ModContent.ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(0.1f, 0.3f));
+                Projectile.NewProjectile(null, Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(10, 20), ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(0.1f, 0.3f));
 
-            NPC.NewNPCDirect(null, Projectile.Center, ModContent.NPCType<ArchmageX>());
+            NPC.NewNPCDirect(null, Projectile.Center, NPCType<ArchmageX>());
         }
         public override bool PreDraw(ref Color lightColor)
         {
@@ -125,7 +125,7 @@ namespace EbonianMod.NPCs.ArchmageX
                 fac = 9;
             if (Projectile.timeLeft % fac == 0 && Projectile.timeLeft > 35)
             {
-                Projectile.NewProjectile(null, Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.5f, 2) * Projectile.scale, ModContent.ProjectileType<XCloudVFXExtra>(), 0, 0);
+                Projectile.NewProjectile(null, Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.5f, 2) * Projectile.scale, ProjectileType<XCloudVFXExtra>(), 0, 0);
             }
 
 
@@ -133,7 +133,7 @@ namespace EbonianMod.NPCs.ArchmageX
                 for (int i = 0; i < 2; i++)
                 {
                     Vector2 vel = Main.rand.NextVector2Unit() * Main.rand.NextFloat(2, MathHelper.Clamp(10 - fac, 3, 10)) * (Projectile.scale * 0.5f);
-                    Projectile.NewProjectile(null, Projectile.Center - vel * 2, vel, ModContent.ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(0.1f, 0.3f));
+                    Projectile.NewProjectile(null, Projectile.Center - vel * 2, vel, ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(0.1f, 0.3f));
                 }
 
 
@@ -143,8 +143,8 @@ namespace EbonianMod.NPCs.ArchmageX
                 {
                     Vector2 pos = Projectile.Center + new Vector2(Main.rand.NextFloat(-280, 280), 0);
                     float off = Main.rand.NextFloat(-1, 1);
-                    //Projectile.NewProjectile(null, pos, Vector2.UnitY.RotatedBy(off), ModContent.ProjectileType<XLightningBolt>(), 0, 0, ai1: 1);
-                    //Projectile.NewProjectile(null, pos, -Vector2.UnitY.RotatedBy(off), ModContent.ProjectileType<XLightningBolt>(), 0, 0, ai1: 1);
+                    //Projectile.NewProjectile(null, pos, Vector2.UnitY.RotatedBy(off), ProjectileType<XLightningBolt>(), 0, 0, ai1: 1);
+                    //Projectile.NewProjectile(null, pos, -Vector2.UnitY.RotatedBy(off), ProjectileType<XLightningBolt>(), 0, 0, ai1: 1);
                 }
             }
             if (Projectile.timeLeft == 399)
@@ -163,7 +163,7 @@ namespace EbonianMod.NPCs.ArchmageX
 
             if (Projectile.timeLeft == 40)
             {
-                Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ArchmageChargeUp>(), 0, 0);
+                Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<ArchmageChargeUp>(), 0, 0);
             }
         }
     }
@@ -173,7 +173,7 @@ namespace EbonianMod.NPCs.ArchmageX
         public override int Music => MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ambience");
         public override bool IsBiomeActive(Player player)
         {
-            return player.ownedProjectileCounts[ModContent.ProjectileType<ArchmageXSpawnAnim>()] > 0;
+            return player.ownedProjectileCounts[ProjectileType<ArchmageXSpawnAnim>()] > 0;
         }
     }
 }

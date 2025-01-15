@@ -72,8 +72,8 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                 verlet.Update(player.Center + Helper.FromAToB(player.Center, Projectile.Center) * off, Projectile.Center);
                 verlet.Draw(Main.spriteBatch, "Projectiles/Friendly/Crimson/SpinaxP_Chain");
             }
-            Texture2D tex = ModContent.Request<Texture2D>(Texture + "_Handle").Value;
-            Texture2D trail = ModContent.Request<Texture2D>(Texture + "_Trail").Value;
+            Texture2D tex = Request<Texture2D>(Texture + "_Handle").Value;
+            Texture2D trail = Request<Texture2D>(Texture + "_Trail").Value;
             Main.spriteBatch.Draw(tex, player.Center + Helper.FromAToB(player.Center, Projectile.Center) * off - Main.screenPosition, null, Color.White, Helper.FromAToB(player.Center, Projectile.Center).ToRotation() + MathHelper.PiOver4, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
 
 

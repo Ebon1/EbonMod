@@ -28,7 +28,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.damage = 26;
             Item.useTime = 2;
             Item.useAnimation = 30;
-            Item.shoot = ModContent.ProjectileType<TinyFish>();
+            Item.shoot = ProjectileType<TinyFish>();
             Item.shootSpeed = 8f;
             Item.rare = ItemRarityID.LightRed;
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -46,13 +46,13 @@ namespace EbonianMod.Items.Weapons.Ranged
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.Toxikarp).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.Toxikarp).AddIngredient(ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             position += new Vector2(16, -5).RotatedBy(velocity.ToRotation()) * player.direction;
             if (player.itemAnimation > 21)
-                Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(10)), ModContent.ProjectileType<TinyFish>(), damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position, velocity.RotatedByRandom(MathHelper.ToRadians(10)), ProjectileType<TinyFish>(), damage, knockback, player.whoAmI);
             return false;
         }
     }

@@ -64,8 +64,8 @@ namespace EbonianMod.NPCs.Corruption
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Melee.CorruptionClaw>(), 3));
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<TerrortomaMaterial>(), 2, 1, 3));
+            npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Melee.CorruptionClaw>(), 3));
+            npcLoot.Add(ItemDropRule.Common(ItemType<TerrortomaMaterial>(), 2, 1, 3));
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
@@ -89,10 +89,10 @@ namespace EbonianMod.NPCs.Corruption
                 for (int j = 0; j < 3; j++)
                 {
                     for (int i = 0; i < 4; i++)
-                        Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CorruptionBrickGibs2").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CorruptionBrickGibs4").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CorruptionBrickGibs0").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CorruptionBrickGibs2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CorruptionBrickGibs4").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CorruptionBrickGibs0").Type, NPC.scale);
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace EbonianMod.NPCs.Corruption
                     {
                         NPC.damage = 40;
                         NPC.velocity *= 0.5f;
-                        //Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center), ModContent.ProjectileType<VileTearTelegraph>(), 0, 0);
+                        //Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center), ProjectileType<VileTearTelegraph>(), 0, 0);
                         SoundEngine.PlaySound(EbonianSounds.cursedToyCharge.WithPitchOffset(-0.4f), NPC.Center);
                     }
                     if (AITimer == 70)
@@ -173,7 +173,7 @@ namespace EbonianMod.NPCs.Corruption
                             for (int i = 0; i < 15; i++)
                                 Dust.NewDustPerfect(NPC.Center, DustID.CursedTorch, Helper.FromAToB(NPC.Center + new Vector2(32, 0).RotatedBy(NPC.rotation), p).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(3, 6));
                             for (int i = -1; i < 2; i++)
-                                Projectile.NewProjectile(null, NPC.Center - new Vector2(32, -40 * i).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center + new Vector2(32, 50 * i).RotatedBy(NPC.rotation), p), ModContent.ProjectileType<RegorgerBolt>(), 20, 0);
+                                Projectile.NewProjectile(null, NPC.Center - new Vector2(32, -40 * i).RotatedBy(NPC.rotation), Helper.FromAToB(NPC.Center + new Vector2(32, 50 * i).RotatedBy(NPC.rotation), p), ProjectileType<RegorgerBolt>(), 20, 0);
                         }
                     }
 
@@ -183,7 +183,7 @@ namespace EbonianMod.NPCs.Corruption
                         NPC.velocity += Helper.FromAToB(NPC.Center, p) * 1.4f;
                     }
                     if (AITimer > 70 && AITimer < 100 && AITimer3 == 1)
-                        Projectile.NewProjectile(null, NPC.Center + Main.rand.NextVector2Circular(30, 30) + new Vector2(NPC.width / 3, 0).RotatedBy(NPC.rotation).RotatedByRandom(MathHelper.PiOver2), -NPC.velocity.RotatedByRandom(MathHelper.PiOver4) * 0.2f, ModContent.ProjectileType<TFlameThrower>(), 20, 0);
+                        Projectile.NewProjectile(null, NPC.Center + Main.rand.NextVector2Circular(30, 30) + new Vector2(NPC.width / 3, 0).RotatedBy(NPC.rotation).RotatedByRandom(MathHelper.PiOver2), -NPC.velocity.RotatedByRandom(MathHelper.PiOver4) * 0.2f, ProjectileType<TFlameThrower>(), 20, 0);
                     if (AITimer > 100)
                     {
                         scaleOffset = Vector2.Zero;

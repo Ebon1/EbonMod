@@ -34,7 +34,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.Orange;
             Item.shootSpeed = 15f;
-            Item.shoot = ModContent.ProjectileType<RingOfFireP>();
+            Item.shoot = ProjectileType<RingOfFireP>();
         }
     }
     public class RingOfFireP : ModProjectile
@@ -129,7 +129,7 @@ namespace EbonianMod.Items.Weapons.Magic
                     {
                         float angle = Helper.CircleDividedEqually(i, 8) + Projectile.rotation;
                         Vector2 vel = Vector2.One.RotatedBy(angle);
-                        Projectile a = Projectile.NewProjectileDirect(Terraria.Entity.InheritSource(Projectile), Projectile.Center, vel, ModContent.ProjectileType<RingOfFireP2>(), 5, Projectile.knockBack, Projectile.owner);
+                        Projectile a = Projectile.NewProjectileDirect(Terraria.Entity.InheritSource(Projectile), Projectile.Center, vel, ProjectileType<RingOfFireP2>(), 5, Projectile.knockBack, Projectile.owner);
                         a.friendly = true;
                         a.hostile = false;
                         a.localAI[0] = 100;
@@ -252,7 +252,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Projectile.CritChance = 0;
             proj = Main.projectile[(int)Projectile.ai[2]];
             if (proj != null)
-                if (proj.active && proj.type == ModContent.ProjectileType<RingOfFireP>() && proj.whoAmI == Projectile.ai[2])
+                if (proj.active && proj.type == ProjectileType<RingOfFireP>() && proj.whoAmI == Projectile.ai[2])
                     Projectile.Center = Main.projectile[(int)Projectile.ai[2]].Center;
             if (Projectile.ai[1] != 0)
                 Projectile.scale = Projectile.ai[1];

@@ -39,11 +39,11 @@ namespace EbonianMod.Projectiles.Garbage
         public override bool? CanDamage() => false;
         public override void AI()
         {
-            Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-30, 30), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(250, 290), ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.35f) * 3 * Main.rand.NextFloat(2, 5), 0, Color.OrangeRed, Main.rand.NextFloat(0.05f, 0.3f)).customData = Projectile.Center + Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * 1200;
+            Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-30, 30), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(250, 290), DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.35f) * 3 * Main.rand.NextFloat(2, 5), 0, Color.OrangeRed, Main.rand.NextFloat(0.05f, 0.3f)).customData = Projectile.Center + Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * 1200;
 
             Dust.NewDustPerfect(Projectile.Center + Projectile.velocity * Main.rand.NextFloat(50), DustID.Smoke, Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 8));
             NPC npc = Main.npc[(int)Projectile.ai[0]];
-            if (npc.active && npc.type == ModContent.NPCType<HotGarbage>())
+            if (npc.active && npc.type == NPCType<HotGarbage>())
                 Projectile.Center = npc.Center + new Vector2(-7 * npc.direction, npc.height * 0.4f);
             float progress = Utils.GetLerpValue(0, maxTime, Projectile.timeLeft);
             Projectile.scale = MathHelper.Clamp(MathF.Sin(progress * MathHelper.Pi) * 5, 0, 1);
@@ -150,13 +150,13 @@ namespace EbonianMod.Projectiles.Garbage
         public override bool? CanDamage() => false;
         public override void AI()
         {
-            Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-150, 150), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(250, 290), ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * 3 * Main.rand.NextFloat(5, 10), 0, Color.Orange, Main.rand.NextFloat(0.05f, 0.3f)).customData = Projectile.Center + Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * 1200;
+            Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-150, 150), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(250, 290), DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * 3 * Main.rand.NextFloat(5, 10), 0, Color.Orange, Main.rand.NextFloat(0.05f, 0.3f)).customData = Projectile.Center + Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * 1200;
 
             Dust.NewDustPerfect(Projectile.Center + Projectile.velocity * Main.rand.NextFloat(50), DustID.Smoke, Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 8));
 
 
             NPC npc = Main.npc[(int)Projectile.ai[0]];
-            if (npc.active && npc.type == ModContent.NPCType<HotGarbage>())
+            if (npc.active && npc.type == NPCType<HotGarbage>())
                 Projectile.Center = npc.Center + new Vector2(-7 * npc.direction, npc.height * 0.4f);
             float progress = Utils.GetLerpValue(0, maxTime, Projectile.timeLeft);
             Projectile.scale = MathHelper.Clamp(MathF.Sin(progress * MathHelper.Pi) * 5, 0, 1);
@@ -258,11 +258,11 @@ namespace EbonianMod.Projectiles.Garbage
         public override bool? CanDamage() => false;
         public override void AI()
         {
-            Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-300, 300), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(250, 290), ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * 3 * Main.rand.NextFloat(4, 7), 0, Color.Gold, Main.rand.NextFloat(0.05f, 0.3f)).customData = Projectile.Center + Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * 1200;
+            Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-300, 300), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(250, 290), DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * 3 * Main.rand.NextFloat(4, 7), 0, Color.Gold, Main.rand.NextFloat(0.05f, 0.3f)).customData = Projectile.Center + Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * 1200;
 
             Dust.NewDustPerfect(Projectile.Center + Projectile.velocity * Main.rand.NextFloat(50), DustID.Smoke, Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 8));
             NPC npc = Main.npc[(int)Projectile.ai[0]];
-            if (npc.active && npc.type == ModContent.NPCType<HotGarbage>())
+            if (npc.active && npc.type == NPCType<HotGarbage>())
                 Projectile.Center = npc.Center + new Vector2(-7 * npc.direction, npc.height * 0.4f);
             float progress = Utils.GetLerpValue(0, maxTime, Projectile.timeLeft);
             Projectile.scale = MathHelper.Clamp(MathF.Sin(progress * MathHelper.Pi) * 5, 0, 1);

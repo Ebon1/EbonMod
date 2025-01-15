@@ -33,7 +33,7 @@ namespace EbonianMod.Tiles
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<HotMusic>();
+            player.cursorItemIconID = ItemType<HotMusic>();
         }
     }
 }

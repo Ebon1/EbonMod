@@ -21,7 +21,7 @@ namespace EbonianMod.Tiles
 
             TileID.Sets.BlockMergesWithMergeAllBlock[Type] = true;
             DustType = DustID.GemAmethyst;
-            //ItemDrop = ModContent.ItemType<Items.Tiles.EbonHiveI>();
+            //ItemDrop = ItemType<Items.Tiles.EbonHiveI>();
             MineResist = 10;
             MinPick = 1000;
             AddMapEntry(Color.Indigo);

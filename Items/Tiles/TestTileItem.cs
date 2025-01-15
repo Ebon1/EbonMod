@@ -29,7 +29,7 @@ namespace EbonianMod.Items.Tiles
             Item.useTime = 10;
             Item.useStyle = 1;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<EbonHiveRock>();
+            Item.createTile = TileType<EbonHiveRock>();
         }
     }
     public class TestTileItem2 : ModItem
@@ -53,7 +53,7 @@ namespace EbonianMod.Items.Tiles
             Item.useTime = 10;
             Item.useStyle = 1;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<EbonHiveRock2>();
+            Item.createTile = TileType<EbonHiveRock2>();
         }
     }
     public class TestTileItem3 : ModItem
@@ -77,7 +77,7 @@ namespace EbonianMod.Items.Tiles
             Item.useTime = 10;
             Item.useStyle = 1;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<EbonHiveBlockSpecial>();
+            Item.createTile = TileType<EbonHiveBlockSpecial>();
         }
     }
     public class TestTileItem4 : ModItem
@@ -100,7 +100,7 @@ namespace EbonianMod.Items.Tiles
             Item.useTime = 10;
             Item.useStyle = 1;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<CrimsonBrainBlockSpecial>();
+            Item.createTile = TileType<CrimsonBrainBlockSpecial>();
         }
     }*/
 }

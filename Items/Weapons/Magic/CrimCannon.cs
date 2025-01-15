@@ -31,7 +31,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.mana = 5;
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<CrimCannonP>();
+            Item.shoot = ProjectileType<CrimCannonP>();
             Item.shootSpeed = 20;
         }
         public override void AddRecipes()

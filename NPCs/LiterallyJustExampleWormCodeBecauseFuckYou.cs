@@ -143,13 +143,13 @@ namespace EbonianMod.NPCs
         public virtual bool extraAiAsIndex { get; set; }
 
         /// <summary>
-        /// The NPCID or ModContent.NPCType for the body segment NPCs.<br/>
+        /// The NPCID or NPCType for the body segment NPCs.<br/>
         /// This property is only used if <see cref="HasCustomBodySegments"/> returns <see langword="false"/>.
         /// </summary>
         public abstract int BodyType { get; }
 
         /// <summary>
-        /// The NPCID or ModContent.NPCType for the tail segment NPC.<br/>
+        /// The NPCID or NPCType for the tail segment NPC.<br/>
         /// This property is only used if <see cref="HasCustomBodySegments"/> returns <see langword="false"/>.
         /// </summary>
         public abstract int TailType { get; }
@@ -272,7 +272,7 @@ namespace EbonianMod.NPCs
                         int index = 0;
                         while (distance > 0)
                         {
-                            if (NPC.type != ModContent.NPCType<CrimsonWormHead>())
+                            if (NPC.type != NPCType<CrimsonWormHead>())
                                 latestNPC = SpawnSegment(source, BodyType, latestNPC, extraAiAsIndex ? index : 0);
                             else
                                 latestNPC = SpawnSegment(source, BodyType, latestNPC, NPC.whoAmI, index);
@@ -635,7 +635,7 @@ namespace EbonianMod.NPCs
                     worm.Despawn();
                     worm.NPC.life = 0;
                     worm.NPC.HitEffect(0, 10);
-                    if (following.type == ModContent.NPCType<CrimsonWormHead>())
+                    if (following.type == NPCType<CrimsonWormHead>())
                         following.HitEffect(0, 0);
                     worm.NPC.active = false;
                 }

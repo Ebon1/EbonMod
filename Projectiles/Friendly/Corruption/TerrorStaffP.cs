@@ -38,7 +38,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
         {
             //Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.Green);
 
-            Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Main.rand.NextVector2Unit() * 10, ModContent.ProjectileType<EbonFlyMinion>(), Projectile.damage / 4, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Main.rand.NextVector2Unit() * 10, ProjectileType<EbonFlyMinion>(), Projectile.damage / 4, Projectile.knockBack, Projectile.owner);
 
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -53,7 +53,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                 Projectile.velocity.X = 0;
                 return false;
             }
-            Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Helper.TRay.Cast(Projectile.Center, Vector2.UnitY, Main.screenWidth), Vector2.Zero, ModContent.ProjectileType<TExplosion>(), 0, 0);
+            Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Helper.TRay.Cast(Projectile.Center, Vector2.UnitY, Main.screenWidth), Vector2.Zero, ProjectileType<TExplosion>(), 0, 0);
             Terraria.Audio.SoundEngine.PlaySound(EbonianSounds.eggplosion, Projectile.Center);
             return true;
         }
@@ -93,7 +93,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
         {
             //Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.Green);
 
-            Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Main.rand.NextVector2Unit() * 10, ModContent.ProjectileType<OstertagiExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Main.rand.NextVector2Unit() * 10, ProjectileType<OstertagiExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -108,7 +108,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                 Projectile.velocity.X = 0;
                 return false;
             }
-            Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Helper.TRay.Cast(Projectile.Center, Vector2.UnitY, Main.screenWidth), Vector2.Zero, ModContent.ProjectileType<TExplosion>(), 0, 0);
+            Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Helper.TRay.Cast(Projectile.Center, Vector2.UnitY, Main.screenWidth), Vector2.Zero, ProjectileType<TExplosion>(), 0, 0);
             Terraria.Audio.SoundEngine.PlaySound(EbonianSounds.eggplosion, Projectile.Center);
             return true;
         }

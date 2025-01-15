@@ -188,7 +188,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             }
             if (Projectile.ai[1] == 0)
                 Projectile.rotation = Projectile.velocity.ToRotation();
-            if (!NPC.AnyNPCs(ModContent.NPCType<NPCs.Cecitior.Cecitior>()))
+            if (!NPC.AnyNPCs(NPCType<NPCs.Cecitior.Cecitior>()))
                 Projectile.Kill();
             NPC player = Main.npc[(int)Projectile.ai[0]];
             if (player.ai[0] != 8)
@@ -198,7 +198,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                 player.velocity = Helper.FromAToB(player.Center, Projectile.Center) * 25;
                 if (player.Center.Distance(Projectile.Center) < 50)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<FatSmash>(), 0, 0, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 0), ProjectileType<FatSmash>(), 0, 0, 0, 0);
                     player.velocity = Projectile.rotation.ToRotationVector2() * -10f;
                     Projectile.Kill();
                     SoundEngine.PlaySound(Main.rand.NextBool() ? EbonianSounds.chomp0 : EbonianSounds.chomp1, Projectile.Center);

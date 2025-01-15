@@ -49,10 +49,10 @@ namespace EbonianMod.Items.Accessories
 
         public override bool CheckDead()
         {
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/TinyBrainGore").Type, NPC.scale);
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/TinyBrainGore2").Type, NPC.scale);
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/TinyBrainGore3").Type, NPC.scale);
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/TinyBrainGore4").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/TinyBrainGore").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/TinyBrainGore2").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/TinyBrainGore3").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/TinyBrainGore4").Type, NPC.scale);
             return true;
         }
         public override void ReceiveExtraAI(BinaryReader reader)

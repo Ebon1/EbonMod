@@ -54,10 +54,10 @@ namespace EbonianMod.Projectiles.Minions
 
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), Projectile.damage * 2, 0, Projectile.owner);
-            Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, Projectile.scale);
-            Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, Projectile.scale);
-            Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, Projectile.scale);
+            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), Projectile.damage * 2, 0, Projectile.owner);
+            Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, Find<ModGore>("EbonianMod/EbonFlyGore").Type, Projectile.scale);
+            Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, Find<ModGore>("EbonianMod/EbonFlyGore2").Type, Projectile.scale);
+            Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity, Find<ModGore>("EbonianMod/EbonFlyGore3").Type, Projectile.scale);
         }
         public override bool? CanCutTiles()
         {

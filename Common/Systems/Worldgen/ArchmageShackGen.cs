@@ -83,7 +83,7 @@ namespace EbonianMod.Common.Systems.Worldgen
                     if (Main.tile[i, j].TileType == TileID.SillyBalloonGreen)
                     {
                         Tile tile = Main.tile[i, j];
-                        tile.ResetToType((ushort)ModContent.TileType<ArchmageStaffTile>());
+                        tile.ResetToType((ushort)TileType<ArchmageStaffTile>());
                     }
                 }
             }
@@ -96,7 +96,7 @@ namespace EbonianMod.Common.Systems.Worldgen
                         Main.tile[i, j - 1].TileType != TileID.ClosedDoor && (Main.tile[i, j].TileType == TileID.EbonstoneBrick || Main.tile[i, j].TileType == TileID.IronBrick)) || Main.tile[i, j].TileType == TileID.PinkDungeonBrick || Main.tile[i, j].TileType == TileID.CrackedPinkDungeonBrick)
                     {
                         Tile tile = Main.tile[i, j];
-                        tile.ResetToType((ushort)ModContent.TileType<XHouseBrick>());
+                        tile.ResetToType((ushort)TileType<XHouseBrick>());
                     }
                 }
             }

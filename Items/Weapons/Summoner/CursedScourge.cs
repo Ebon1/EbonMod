@@ -21,7 +21,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
         public override void SetDefaults()
         {
-            Item.DefaultToWhip(ModContent.ProjectileType<CursedScourgePro>(), 23, 2, 4, 30);
+            Item.DefaultToWhip(ProjectileType<CursedScourgePro>(), 23, 2, 4, 30);
             Item.rare = ItemRarityID.Pink;
 
             Item.channel = false;

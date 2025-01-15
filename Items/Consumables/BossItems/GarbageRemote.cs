@@ -49,19 +49,19 @@ namespace EbonianMod.Items.Consumables.BossItems
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ModContent.ItemType<Potato>(), 5).AddIngredient(RecipeGroupID.IronBar, 20).AddIngredient(ItemID.Glass, 10).Register();
+            CreateRecipe().AddIngredient(ItemType<Potato>(), 5).AddIngredient(RecipeGroupID.IronBar, 20).AddIngredient(ItemID.Glass, 10).Register();
         }
 
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(ModContent.NPCType<HotGarbage>()) && player.ownedProjectileCounts[ModContent.ProjectileType<GarbageRemoteP>()] <= 0;
+            return !NPC.AnyNPCs(NPCType<HotGarbage>()) && player.ownedProjectileCounts[ProjectileType<GarbageRemoteP>()] <= 0;
         }
 
         public override bool? UseItem(Player player)
         {
-            //NPC.NewNPCDirect(player.GetSource_FromThis(), player.Center + new Microsoft.Xna.Framework.Vector2(300, -200), ModContent.NPCType<HotGarbage>());
+            //NPC.NewNPCDirect(player.GetSource_FromThis(), player.Center + new Microsoft.Xna.Framework.Vector2(300, -200), NPCType<HotGarbage>());
             Terraria.Audio.SoundEngine.PlaySound(EbonianSounds.garbageSignal.WithVolumeScale(3), player.position);
-            Projectile.NewProjectile(Item.GetSource_FromThis(), player.Center, Vector2.Zero, ModContent.ProjectileType<GarbageRemoteP>(), 0, 0, player.whoAmI);
+            Projectile.NewProjectile(Item.GetSource_FromThis(), player.Center, Vector2.Zero, ProjectileType<GarbageRemoteP>(), 0, 0, player.whoAmI);
             return true;
         }
     }
@@ -84,7 +84,7 @@ namespace EbonianMod.Items.Consumables.BossItems
         }
         public override void PostDraw(Color lightColor)
         {
-            Texture2D tex = ModContent.Request<Texture2D>(Texture + "_Overlay").Value;
+            Texture2D tex = Request<Texture2D>(Texture + "_Overlay").Value;
             if (Projectile.timeLeft > 155)
                 Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, Projectile.Size / 2, 1, SpriteEffects.None, 0);
         }
@@ -105,7 +105,7 @@ namespace EbonianMod.Items.Consumables.BossItems
         {
             foreach (NPC npc in Main.npc)
             {
-                if (npc.active && npc.type == ModContent.NPCType<HotGarbage>())
+                if (npc.active && npc.type == NPCType<HotGarbage>())
                 {
                     if (npc.Distance(Projectile.Center) < Projectile.Size.Length())
                         Projectile.Kill();
@@ -135,24 +135,24 @@ namespace EbonianMod.Items.Consumables.BossItems
             Projectile.ai[1]++;
             if (Projectile.ai[1] % 5 == 0 && Main.rand.NextBool(4) && Projectile.timeLeft > 155)
             {
-                Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<YellowShockwave>(), 0, 0);
+                Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<YellowShockwave>(), 0, 0);
                 /*for (int i = -1; i < 2; i++)
                 {
                     if (i == 0)
                         continue;
-                    Projectile.NewProjectile(null, Projectile.Center, -Vector2.UnitY * 5, ModContent.ProjectileType<GarbageSignals>(), 0, 0, player.whoAmI, i * (1 + Projectile.ai[1] * 0.005f));
+                    Projectile.NewProjectile(null, Projectile.Center, -Vector2.UnitY * 5, ProjectileType<GarbageSignals>(), 0, 0, player.whoAmI, i * (1 + Projectile.ai[1] * 0.005f));
                 }*/
             }
             int n = 15;
             Vector2 start = Projectile.Center;
             if (Projectile.timeLeft == 120)
             {
-                NPC.NewNPCDirect(Projectile.GetSource_FromThis(), Projectile.Center + new Vector2(0, -Main.screenHeight), ModContent.NPCType<HotGarbage>());
+                NPC.NewNPCDirect(Projectile.GetSource_FromThis(), Projectile.Center + new Vector2(0, -Main.screenHeight), NPCType<HotGarbage>());
             }
             if (Projectile.timeLeft == 155)
             {
                 EbonianSystem.ScreenShakeAmount = 5;
-                Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BigGrayShockwave>(), 0, 0);
+                Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<BigGrayShockwave>(), 0, 0);
                 end = Projectile.Center + new Vector2(0, -Main.screenHeight);
                 Vector2 dir = (end - start).RotatedBy(MathHelper.PiOver2);
                 dir.Normalize();
@@ -188,7 +188,7 @@ namespace EbonianMod.Items.Consumables.BossItems
                     {
                         foreach (NPC npc in Main.npc)
                         {
-                            if (npc.active && npc.type == ModContent.NPCType<HotGarbage>())
+                            if (npc.active && npc.type == NPCType<HotGarbage>())
                             {
                                 if (npc.Center.Distance(Projectile.Center) < 3000)
                                 {
@@ -248,7 +248,7 @@ namespace EbonianMod.Items.Consumables.BossItems
 
             float mult = 0.55f + (float)Math.Sin(Main.GlobalTimeWrappedHourly/* * 2*/) * 0.1f;
             float scale = Projectile.scale * 2;
-            Texture2D texture = ModContent.Request<Texture2D>("EbonianMod/Extras/explosion").Value;
+            Texture2D texture = Request<Texture2D>("EbonianMod/Extras/explosion").Value;
             Texture2D bolt = Helper.GetExtraTexture("laser2");
             Texture2D boltTransparent = Helper.GetExtraTexture("laser5");
             Main.spriteBatch.Reload(BlendState.Additive);

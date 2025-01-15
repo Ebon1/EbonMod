@@ -24,9 +24,9 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.useTime = 25;
             Item.useAnimation = 25;
             Item.UseSound = SoundID.Item20;
-            Item.useAmmo = ModContent.ItemType<Potato>();
+            Item.useAmmo = ItemType<Potato>();
             Item.shootSpeed = 17;
-            Item.shoot = ModContent.ProjectileType<PotatoP>();
+            Item.shoot = ProjectileType<PotatoP>();
         }
         public override Vector2? HoldoutOffset()
         {

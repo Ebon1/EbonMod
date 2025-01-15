@@ -61,14 +61,14 @@ namespace EbonianMod.Projectiles.Garbage
             Dust.NewDustPerfect(Projectile.Center - new Vector2(-8, 15).RotatedBy(Projectile.rotation), DustID.Torch);
             if (Projectile.timeLeft == 30)
             {
-                Projectile.NewProjectileDirect(NPC.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CircleTelegraph>(), 0, 0);
+                Projectile.NewProjectileDirect(NPC.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<CircleTelegraph>(), 0, 0);
                 Projectile.velocity = Vector2.Zero;
                 Projectile.aiStyle = 0;
             }
         }
         public override void Kill(int timeLeft)
         {
-            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), Projectile.damage, 0, Projectile.owner);
+            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<FlameExplosionWSprite>(), Projectile.damage, 0, Projectile.owner);
         }
     }
 }

@@ -38,8 +38,8 @@ namespace EbonianMod.Items.Weapons.Summoner
             Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.NPCHit1;
-            Item.shoot = ModContent.ProjectileType<TitteringMinion>();
-            Item.buffType = ModContent.BuffType<TitteringB>();
+            Item.shoot = ProjectileType<TitteringMinion>();
+            Item.buffType = BuffType<TitteringB>();
             Item.shootSpeed = 1;
             Item.buffTime = 100;
         }
@@ -54,7 +54,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.HornetStaff).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.HornetStaff).AddIngredient(ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

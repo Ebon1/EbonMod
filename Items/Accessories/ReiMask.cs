@@ -46,16 +46,16 @@ namespace EbonianMod.Items.Accessories
         {
             EbonianPlayer modPlayer = player.GetModPlayer<EbonianPlayer>();
             modPlayer.reiV = true;
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<ReiCapeP>()] < 1 && !modPlayer.sheep)
+            if (player.ownedProjectileCounts[ProjectileType<ReiCapeP>()] < 1 && !modPlayer.sheep)
             {
-                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ReiCapeP>(), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ProjectileType<ReiCapeP>(), 0, 0, player.whoAmI);
             }
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<ReiCapeTrail>()] < 2 && !modPlayer.sheep)
+            if (player.ownedProjectileCounts[ProjectileType<ReiCapeTrail>()] < 2 && !modPlayer.sheep)
             {
                 for (int i = -1; i < 2; i++)
                 {
                     if (i == 0) continue;
-                    Projectile.NewProjectileDirect(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ReiCapeTrail>(), 0, 0, player.whoAmI, i).ai[0] = i;
+                    Projectile.NewProjectileDirect(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ProjectileType<ReiCapeTrail>(), 0, 0, player.whoAmI, i).ai[0] = i;
                 }
             }
         }
@@ -63,16 +63,16 @@ namespace EbonianMod.Items.Accessories
         {
             EbonianPlayer modPlayer = player.GetModPlayer<EbonianPlayer>();
             modPlayer.rei = true;
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<ReiCapeP>()] < 1)
+            if (player.ownedProjectileCounts[ProjectileType<ReiCapeP>()] < 1)
             {
-                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ReiCapeP>(), 0, 0, player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ProjectileType<ReiCapeP>(), 0, 0, player.whoAmI);
             }
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<ReiCapeTrail>()] < 2)
+            if (player.ownedProjectileCounts[ProjectileType<ReiCapeTrail>()] < 2)
             {
                 for (int i = -1; i < 2; i++)
                 {
                     if (i == 0) continue;
-                    Projectile.NewProjectileDirect(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ModContent.ProjectileType<ReiCapeTrail>(), 0, 0, player.whoAmI, i).ai[0] = i;
+                    Projectile.NewProjectileDirect(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ProjectileType<ReiCapeTrail>(), 0, 0, player.whoAmI, i).ai[0] = i;
                 }
             }
             if (EbonianKeybinds.ReiDash.JustReleased && modPlayer.reiBoostCool <= 0)
@@ -91,7 +91,7 @@ namespace EbonianMod.Items.Accessories
                                 pos += Helper.FromAToB(pos, Main.MouseWorld, false) * 0.05f;
                             }
                             Helper.TPNoDust(Main.MouseWorld - new Vector2(0, 40), player);
-                            Projectile.NewProjectile(null, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ReiExplosion>(), 50, 0, player.whoAmI);
+                            Projectile.NewProjectile(null, Main.MouseWorld, Vector2.Zero, ProjectileType<ReiExplosion>(), 50, 0, player.whoAmI);
                             EbonianSystem.ScreenShakeAmount = 5;
                             SoundEngine.PlaySound(EbonianSounds.reiTP, Main.MouseWorld);
                             modPlayer.reiBoostCool = 60;

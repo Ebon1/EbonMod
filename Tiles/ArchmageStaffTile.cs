@@ -44,7 +44,7 @@ namespace EbonianMod.Tiles
         }
         /*public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0)
+            if (NPC.AnyNPCs(NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0)
                 staffAlpha[i, j] = MathHelper.Lerp(staffAlpha[i, j], .1f, 0.1f);
             else
                 staffAlpha[i, j] = MathHelper.Lerp(staffAlpha[i, j], 1f, 0.2f);

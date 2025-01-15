@@ -36,12 +36,12 @@ namespace EbonianMod.Items.Weapons.Summoner
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<TerrorStaffP>();
+            Item.shoot = ProjectileType<TerrorStaffP>();
             Item.shootSpeed = 14;
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.FlinxStaff).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.FlinxStaff).AddIngredient(ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

@@ -60,18 +60,18 @@ namespace EbonianMod.NPCs.Terrortoma
             if (NPC.life <= 0)
             {
                 SoundEngine.PlaySound(EbonianSounds.cecitiorDie, NPC.Center);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ModContent.Find<ModGore>("EbonianMod/Terrortoma2").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ModContent.Find<ModGore>("EbonianMod/VileSlimeGore").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ModContent.Find<ModGore>("EbonianMod/VileSlimeGore2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/Terrortoma2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/VileSlimeGore").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/VileSlimeGore2").Type, NPC.scale);
                 for (int i = 0; i < 5; i++)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ModContent.Find<ModGore>("EbonianMod/VileSlimeGore4").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/VileSlimeGore4").Type, NPC.scale);
                 for (int i = 0; i < 3; i++)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ModContent.Find<ModGore>("EbonianMod/EbonCrawlerGore2").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), ModContent.Find<ModGore>("EbonianMod/EbonCrawlerGore1").Type, NPC.scale);
-                NPC.NewNPCDirect(NPC.GetSource_Death(), NPC.Center + new Vector2(0, 40), ModContent.NPCType<Terrortoma>());
-                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0, 0);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/EbonCrawlerGore2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/EbonCrawlerGore1").Type, NPC.scale);
+                NPC.NewNPCDirect(NPC.GetSource_Death(), NPC.Center + new Vector2(0, 40), NPCType<Terrortoma>());
+                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                 for (int i = 0; i < 5; i++)
-                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(2, 3), ModContent.ProjectileType<OstertagiWorm>(), 20, 0, 0);
+                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(2, 3), ProjectileType<OstertagiWorm>(), 20, 0, 0);
             }
         }
         public override void FindFrame(int frameHeight)

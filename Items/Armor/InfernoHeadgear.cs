@@ -22,7 +22,7 @@ namespace EbonianMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<InfernoBreastplate>() && legs.type == ModContent.ItemType<InfernoLeggings>();
+            return body.type == ItemType<InfernoBreastplate>() && legs.type == ItemType<InfernoLeggings>();
         }
     }
 }

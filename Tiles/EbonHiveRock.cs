@@ -19,17 +19,17 @@ namespace EbonianMod.Tiles
             Main.tileObsidianKill[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
-            Main.tileMerge[ModContent.TileType<EbonHiveBlock>()][Type] = true;
+            Main.tileMerge[TileType<EbonHiveBlock>()][Type] = true;
 
             DustType = DustID.GreenBlood;
 
-            RegisterItemDrop(ModContent.ItemType<Items.Tiles.EbonHiveI>());
+            RegisterItemDrop(ItemType<Items.Tiles.EbonHiveI>());
 
             AddMapEntry(Color.LawnGreen);
         }
         public override IEnumerable<Item> GetItemDrops(int i, int j)
         {
-            yield return new Item(ModContent.ItemType<Items.Tiles.EbonHiveI>());
+            yield return new Item(ItemType<Items.Tiles.EbonHiveI>());
         }
     }
     internal class EbonHiveRock2 : ModTile
@@ -42,16 +42,16 @@ namespace EbonianMod.Tiles
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
 
-            Main.tileMerge[ModContent.TileType<EbonHiveBlock>()][Type] = true;
+            Main.tileMerge[TileType<EbonHiveBlock>()][Type] = true;
             DustType = DustID.GreenBlood;
 
-            RegisterItemDrop(ModContent.ItemType<Items.Tiles.EbonHiveI>());
+            RegisterItemDrop(ItemType<Items.Tiles.EbonHiveI>());
 
             AddMapEntry(Color.LawnGreen);
         }
         public override IEnumerable<Item> GetItemDrops(int i, int j)
         {
-            yield return new Item(ModContent.ItemType<Items.Tiles.EbonHiveI>());
+            yield return new Item(ItemType<Items.Tiles.EbonHiveI>());
         }
     }
 }

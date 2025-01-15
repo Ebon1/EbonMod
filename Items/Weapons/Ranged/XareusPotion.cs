@@ -36,7 +36,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.UseSound = SoundID.Item1;
             Item.noUseGraphic = true;
 
-            Item.shoot = ModContent.ProjectileType<XareusPotionPro>();
+            Item.shoot = ProjectileType<XareusPotionPro>();
             Item.shootSpeed = 14;
         }
     }
@@ -61,7 +61,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             for (int i = 0; i < 10; i++)
                 Dust.NewDustPerfect(Projectile.Center, DustID.Glass, Main.rand.NextVector2Circular(Projectile.velocity.Length(), Projectile.velocity.Length()));
-            Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<XareusPotionExplosion>(), Projectile.damage, 0);
+            Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<XareusPotionExplosion>(), Projectile.damage, 0);
             SoundEngine.PlaySound(SoundID.Shatter, Projectile.Center);
         }
     }
@@ -103,13 +103,13 @@ namespace EbonianMod.Items.Weapons.Ranged
             SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(-0.5f), Projectile.Center);
             for (int i = 0; i < 20; i++)
             {
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
-                Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
+                Dust.NewDustPerfect(Projectile.Center, DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                Dust.NewDustPerfect(Projectile.Center, DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
             }
         }
         public override void AI()
         {
-            Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(150 * Projectile.ai[0], 150 * Projectile.ai[0]), ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+            Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(150 * Projectile.ai[0], 150 * Projectile.ai[0]), DustType<SparkleDust>(), Main.rand.NextVector2Circular(3, 3), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
             Projectile.ai[0] += 0.05f;
             if (Projectile.ai[0] > 0.5f)
                 Projectile.Kill();

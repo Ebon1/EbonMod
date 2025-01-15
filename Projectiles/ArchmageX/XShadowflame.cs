@@ -73,12 +73,12 @@ namespace EbonianMod.Projectiles.ArchmageX
                     if (Projectile.localAI[1] >= 0.99f)
                     {
                         if (Main.rand.NextBool(Projectile.extraUpdates) && Projectile.ai[2] > 0.5f)
-                            Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(30, 1), ModContent.DustType<SparkleDust>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(6, 15) * Projectile.ai[2], 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
+                            Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(30, 1), DustType<SparkleDust>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(6, 15) * Projectile.ai[2], 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
                         else
-                            Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(10, 1), ModContent.DustType<XGoopDust>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(.1f, 15 * Projectile.ai[2]), Scale: Main.rand.NextFloat(0.5f, 0.7f));
+                            Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(10, 1), DustType<XGoopDust>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(.1f, 15 * Projectile.ai[2]), Scale: Main.rand.NextFloat(0.5f, 0.7f));
                     }
                     if (Main.rand.NextBool(Projectile.localAI[1] < 0.5f ? 10 : 5))
-                        Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(30, 1), ModContent.DustType<SparkleDust>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(1f, 6), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
+                        Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(30, 1), DustType<SparkleDust>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(1f, 6), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
                 }
         }
         public override bool PreDraw(ref Color lightColor)

@@ -28,7 +28,7 @@ namespace EbonianMod.Common.UI
         {
             Width.Set(20f, 0f);
             MaxWidth.Set(20f, 0f);
-            _texture = ModContent.Request<Texture2D>("Ebonianmod/Extras/Sprites/scrollbarBg", AssetRequestMode.ImmediateLoad);
+            _texture = Request<Texture2D>("Ebonianmod/Extras/Sprites/scrollbarBg", AssetRequestMode.ImmediateLoad);
             _innerTexture = Main.Assets.Request<Texture2D>("Images/UI/ScrollbarInner");
             PaddingTop = 5f;
             PaddingBottom = 5f;

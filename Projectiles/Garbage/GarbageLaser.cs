@@ -39,9 +39,9 @@ namespace EbonianMod.Projectiles.Garbage
         public override bool? CanDamage() => false;
         public override void AI()
         {
-            Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-30, 30), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(200, 1400), ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.35f) * Main.rand.NextFloat(5, 10), 0, Color.OrangeRed, Main.rand.NextFloat(0.05f, 0.3f));
+            Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-30, 30), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(200, 1400), DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.35f) * Main.rand.NextFloat(5, 10), 0, Color.OrangeRed, Main.rand.NextFloat(0.05f, 0.3f));
             NPC npc = Main.npc[(int)Projectile.ai[0]];
-            if (npc.active && npc.type == ModContent.NPCType<HotGarbage>())
+            if (npc.active && npc.type == NPCType<HotGarbage>())
                 Projectile.Center = npc.Center + new Vector2(6, npc.height * -0.75f);
             float progress = Utils.GetLerpValue(0, maxTime, Projectile.timeLeft);
             Projectile.scale = MathHelper.Clamp(MathF.Sin(progress * MathHelper.Pi) * 5, 0, 1);
@@ -149,10 +149,10 @@ namespace EbonianMod.Projectiles.Garbage
         {
             for (int i = 0; i < 3; i++)
             {
-                Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-150, 150), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(200, 1400), ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(10, 15), 0, Color.Orange, Main.rand.NextFloat(0.05f, 0.3f));
+                Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-150, 150), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(200, 1400), DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(10, 15), 0, Color.Orange, Main.rand.NextFloat(0.05f, 0.3f));
             }
             NPC npc = Main.npc[(int)Projectile.ai[0]];
-            if (npc.active && npc.type == ModContent.NPCType<HotGarbage>())
+            if (npc.active && npc.type == NPCType<HotGarbage>())
                 Projectile.Center = npc.Center + new Vector2(6, npc.height * -0.75f);
             float progress = Utils.GetLerpValue(0, maxTime, Projectile.timeLeft);
             Projectile.scale = MathHelper.Clamp(MathF.Sin(progress * MathHelper.Pi) * 5, 0, 1);
@@ -250,10 +250,10 @@ namespace EbonianMod.Projectiles.Garbage
         {
             for (int i = 0; i < 6; i++)
             {
-                Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-200, 200), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(200, 1400), ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(10, 20), 0, Color.Gold, Main.rand.NextFloat(0.05f, 0.3f));
+                Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.NextFloat(-200, 200), 0).RotatedBy(Projectile.velocity.ToRotation()) + Projectile.velocity.ToRotation().ToRotationVector2() * Main.rand.NextFloat(200, 1400), DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(10, 20), 0, Color.Gold, Main.rand.NextFloat(0.05f, 0.3f));
             }
             NPC npc = Main.npc[(int)Projectile.ai[0]];
-            if (npc.active && npc.type == ModContent.NPCType<HotGarbage>())
+            if (npc.active && npc.type == NPCType<HotGarbage>())
                 Projectile.Center = npc.Center + new Vector2(6, npc.height * -0.75f);
             float progress = Utils.GetLerpValue(0, maxTime, Projectile.timeLeft);
             Projectile.scale = MathHelper.Clamp(MathF.Sin(progress * MathHelper.Pi) * 5, 0, 1);

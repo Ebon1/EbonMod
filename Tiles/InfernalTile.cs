@@ -22,7 +22,7 @@ namespace EbonianMod.Tiles
 
             TileID.Sets.BlockMergesWithMergeAllBlock[Type] = false;
             DustType = DustID.Ash;
-            //ItemDrop = ModContent.ItemType<Items.Tiles.EbonHiveI>();
+            //ItemDrop = ItemType<Items.Tiles.EbonHiveI>();
 
             AddMapEntry(Color.Gray);
         }

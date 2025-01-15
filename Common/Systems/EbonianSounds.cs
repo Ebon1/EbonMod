@@ -84,7 +84,7 @@ namespace EbonianMod.Common.Systems
             bowPull = Default with
             {
                 SoundPath = ebonianSoundPath + "bowPull",
-                Volume = ModContent.GetInstance<EbonianClientConfig>().BowPullVolume
+                Volume = GetInstance<EbonianClientConfig>().BowPullVolume
             };
 
 

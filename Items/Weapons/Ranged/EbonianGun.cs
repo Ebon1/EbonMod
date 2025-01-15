@@ -33,7 +33,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.rare = ItemRarityID.Green;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<EbonianGunP>();
+            Item.shoot = ProjectileType<EbonianGunP>();
         }
         public override void AddRecipes()
         {

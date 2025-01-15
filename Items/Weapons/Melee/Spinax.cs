@@ -30,7 +30,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<SpinaxP>();
+            Item.shoot = ProjectileType<SpinaxP>();
         }
         public override bool? CanAutoReuseItem(Player player)
         {

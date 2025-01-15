@@ -24,7 +24,7 @@ namespace EbonianMod.Items.Pets
         {
             Item.damage = 0;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.shoot = ModContent.ProjectileType<Djungelskog>();
+            Item.shoot = ProjectileType<Djungelskog>();
             Item.width = 16;
             Item.height = 30;
             Item.UseSound = SoundID.Item2;
@@ -33,7 +33,7 @@ namespace EbonianMod.Items.Pets
             Item.rare = ItemRarityID.Green;
             Item.noMelee = true;
             Item.value = Item.sellPrice(0, 5, 50, 0);
-            Item.buffType = ModContent.BuffType<DjungelskogB>();
+            Item.buffType = BuffType<DjungelskogB>();
         }
 
         public override void UseStyle(Player player, Rectangle rec)
@@ -73,8 +73,8 @@ namespace EbonianMod.Items.Pets
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Texture2D texture = ModContent.Request<Texture2D>("EbonianMod/Items/Pets/Djungelskog").Value;
-            int frameHeight = ModContent.Request<Texture2D>("EbonianMod/Items/Pets/Djungelskog").Value.Height / 17;
+            Texture2D texture = Request<Texture2D>("EbonianMod/Items/Pets/Djungelskog").Value;
+            int frameHeight = Request<Texture2D>("EbonianMod/Items/Pets/Djungelskog").Value.Height / 17;
             int startY = frameHeight * currentframe;
             Rectangle sourceRectangle = new Rectangle(0, startY, texture.Width, frameHeight);
             Vector2 origin = sourceRectangle.Size() / 2f;
@@ -130,7 +130,7 @@ namespace EbonianMod.Items.Pets
                     currentframe = 7;
                 }
             }
-            if (player.HasBuff(ModContent.BuffType<DjungelskogB>()))
+            if (player.HasBuff(BuffType<DjungelskogB>()))
             {
                 Projectile.timeLeft = 2;
             }
@@ -150,9 +150,9 @@ namespace EbonianMod.Items.Pets
 
         public override void Update(Player player, ref int buffIndex)
         {
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Djungelskog>()] < 1)
+            if (player.ownedProjectileCounts[ProjectileType<Djungelskog>()] < 1)
             {
-                Projectile.NewProjectile(player.GetSource_Buff(buffIndex), player.Center, Vector2.Zero, ModContent.ProjectileType<Djungelskog>(), 0, 0, 0);
+                Projectile.NewProjectile(player.GetSource_Buff(buffIndex), player.Center, Vector2.Zero, ProjectileType<Djungelskog>(), 0, 0, 0);
             }
             else
                 player.buffTime[buffIndex] = 18000;

@@ -44,7 +44,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
             for (int i = 0; i < 5; i++)
             {
                 float angle = Helper.CircleDividedEqually(i, 5) + offset;
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * 5 * offset, ModContent.ProjectileType<CorruptThorn>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * 5 * offset, ProjectileType<CorruptThorn>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
     }
@@ -89,10 +89,10 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                     Projectile.ai[1] += 1f;
                     Projectile.position += Projectile.velocity * 1f;
                 }
-                int num62 = ModContent.ProjectileType<CorruptThorn>();
+                int num62 = ProjectileType<CorruptThorn>();
                 if (Projectile.ai[1] >= 3f)
                 {
-                    num62 = ModContent.ProjectileType<TerrorVilethorn2>();
+                    num62 = ProjectileType<TerrorVilethorn2>();
                 }
                 int num63 = Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.position.X + Projectile.velocity.X + (float)(Projectile.width / 2), Projectile.position.Y + Projectile.velocity.Y + (float)(Projectile.height / 2), Projectile.velocity.X, Projectile.velocity.Y, num62, Projectile.damage, 1, Projectile.owner);
                 Main.projectile[num63].damage = Projectile.damage;

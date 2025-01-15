@@ -60,17 +60,17 @@ namespace EbonianMod.NPCs.Crimson.Fleshformator
         {
             if (NPC.life <= 0)
             {
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit(), ModContent.Find<ModGore>("EbonianMod/Crimorrhage1").Type);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit(), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk9").Type);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit(), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit(), Find<ModGore>("EbonianMod/Crimorrhage1").Type);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit(), Find<ModGore>("EbonianMod/CrimsonGoreChunk9").Type);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit(), Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type);
                 for (int i = 0; i < 3; i++)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit(), ModContent.Find<ModGore>("EbonianMod/Bone2").Type);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit(), Find<ModGore>("EbonianMod/Bone2").Type);
 
 
                 for (int i = 0; i < 3; i++)
                 {
                     for (int j = 0; j < verlet[i].segments.Count; j++)
-                        Gore.NewGore(NPC.GetSource_Death(), verlet[i].segments[j].pointA.position, Main.rand.NextVector2Unit(), ModContent.Find<ModGore>("EbonianMod/CecitiorChainGore").Type);
+                        Gore.NewGore(NPC.GetSource_Death(), verlet[i].segments[j].pointA.position, Main.rand.NextVector2Unit(), Find<ModGore>("EbonianMod/CecitiorChainGore").Type);
                 }
             }
         }

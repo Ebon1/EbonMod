@@ -44,7 +44,7 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CrimCannon>(), 35));
+            npcLoot.Add(ItemDropRule.Common(ItemType<CrimCannon>(), 35));
         }
         public override void OnSpawn(IEntitySource source)
         {
@@ -82,8 +82,8 @@ namespace EbonianMod.NPCs.Crimson
         {
             for (int i = 0; i < 2; i++)
             {
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
             }
             return base.CheckDead();
         }

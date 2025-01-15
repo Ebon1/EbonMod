@@ -36,7 +36,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.Green;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<ToothToothbrushP>();
+            Item.shoot = ProjectileType<ToothToothbrushP>();
         }
         public override bool? CanAutoReuseItem(Player player)
         {
@@ -91,7 +91,7 @@ namespace EbonianMod.Items.Weapons.Melee
                     Projectile.timeLeft = 15;
                     SoundEngine.PlaySound(SoundID.Item70, Projectile.Center);
                     for (int i = 0; i < 6; i++)
-                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), Helper.TRay.Cast(Projectile.Center - new Vector2(0, 30), Vector2.UnitY, 60) - new Vector2(0, 10), Main.rand.NextVector2Circular(15, 15), ModContent.ProjectileType<Gibs>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromAI(), Helper.TRay.Cast(Projectile.Center - new Vector2(0, 30), Vector2.UnitY, 60) - new Vector2(0, 10), Main.rand.NextVector2Circular(15, 15), ProjectileType<Gibs>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
 
                     lerpProg = -1;
                 }

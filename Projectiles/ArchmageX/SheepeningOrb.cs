@@ -67,12 +67,12 @@ namespace EbonianMod.Projectiles.ArchmageX
             if (Projectile.timeLeft == 30)
             {
                 EbonianSystem.ScreenShakeAmount = 10f;
-                Projectile.NewProjectile(null, Projectile.Center + Projectile.velocity * 10, Vector2.Zero, ModContent.ProjectileType<XExplosion>(), 0, 0);
+                Projectile.NewProjectile(null, Projectile.Center + Projectile.velocity * 10, Vector2.Zero, ProjectileType<XExplosion>(), 0, 0);
                 SoundEngine.PlaySound(EbonianSounds.xSpirit, Projectile.Center);
                 for (int i = 0; i < 20; i++)
                 {
-                    Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<SparkleDust>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 15), 0, Color.White, Main.rand.NextFloat(0.05f, 0.175f));
-                    Dust.NewDustPerfect(Projectile.Center, ModContent.DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 15), 0, Color.White, Main.rand.NextFloat(0.05f, 0.24f));
+                    Dust.NewDustPerfect(Projectile.Center, DustType<SparkleDust>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 15), 0, Color.White, Main.rand.NextFloat(0.05f, 0.175f));
+                    Dust.NewDustPerfect(Projectile.Center, DustType<LineDustFollowPoint>(), Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(5, 15), 0, Color.White, Main.rand.NextFloat(0.05f, 0.24f));
                 }
                 Projectile.ai[2] = 0.5f;
             }
@@ -180,7 +180,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            target.AddBuff(ModContent.BuffType<Sheepened>(), (Main.expertMode ? Main.masterMode ? 10 : 8 : 6) * 60);
+            target.AddBuff(BuffType<Sheepened>(), (Main.expertMode ? Main.masterMode ? 10 : 8 : 6) * 60);
         }
     }
 }

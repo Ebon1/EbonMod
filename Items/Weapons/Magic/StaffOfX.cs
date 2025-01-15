@@ -43,7 +43,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.Yellow;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<StaffOfXP>();
+            Item.shoot = ProjectileType<StaffOfXP>();
         }
         public override bool? CanAutoReuseItem(Player player)
         {
@@ -145,7 +145,7 @@ namespace EbonianMod.Items.Weapons.Magic
                     chat.Add("OUCH!");
                     chat.Add("DAMN YOU!");
                     DialogueSystem.NewDialogueBox(40, Projectile.Center - new Vector2(0, 40), chat, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 8f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
-                    Projectile.NewProjectile(null, Helper.TRay.Cast(Projectile.Center, Vector2.UnitY, 80), Vector2.Zero, ModContent.ProjectileType<XImpact>(), 0, 0);
+                    Projectile.NewProjectile(null, Helper.TRay.Cast(Projectile.Center, Vector2.UnitY, 80), Vector2.Zero, ProjectileType<XImpact>(), 0, 0);
 
                     lerpProg = -1;
                 }
@@ -167,7 +167,7 @@ namespace EbonianMod.Items.Weapons.Magic
 
             if (lerpProg > -1 && swingProgress > 0.15f && swingProgress < 0.85f)
             {
-                Projectile.NewProjectile(null, Projectile.Center + rotation.ToRotationVector2() * Projectile.height * 2, Helper.FromAToB(Projectile.Center + rotation.ToRotationVector2() * Projectile.height, Main.MouseWorld).RotatedByRandom(MathHelper.PiOver4 * MathF.Sin(MathHelper.Pi * swingProgress)) * 15, ModContent.ProjectileType<XBoltFriendly>(), Projectile.damage, 0);
+                Projectile.NewProjectile(null, Projectile.Center + rotation.ToRotationVector2() * Projectile.height * 2, Helper.FromAToB(Projectile.Center + rotation.ToRotationVector2() * Projectile.height, Main.MouseWorld).RotatedByRandom(MathHelper.PiOver4 * MathF.Sin(MathHelper.Pi * swingProgress)) * 15, ProjectileType<XBoltFriendly>(), Projectile.damage, 0);
             }
 
         }

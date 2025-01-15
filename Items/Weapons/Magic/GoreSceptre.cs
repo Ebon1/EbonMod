@@ -43,14 +43,14 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.noMelee = true;
             Item.autoReuse = false;
             Item.useTurn = false;
-            Item.shoot = ModContent.ProjectileType<GoreBeam>();
+            Item.shoot = ProjectileType<GoreBeam>();
             Item.shootSpeed = 1;
         }
         //int uses = -2;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             {
-                Projectile.NewProjectile(source, position + velocity * 14, velocity, ModContent.ProjectileType<GoreBeam>(), damage, knockback, player.whoAmI);
+                Projectile.NewProjectile(source, position + velocity * 14, velocity, ProjectileType<GoreBeam>(), damage, knockback, player.whoAmI);
                 return false;
             }
         }
@@ -188,7 +188,7 @@ namespace EbonianMod.Items.Weapons.Magic
 
                     player.CheckMana((int)(20 - (Projectile.ai[2] / 2)), true);
                     SoundEngine.PlaySound(EbonianSounds.heartbeat.WithVolumeScale(1.3f), end);
-                    Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), end, Vector2.Zero, ModContent.ProjectileType<BloodShockwave2>(), 0, 0, Projectile.owner);
+                    Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), end, Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0, Projectile.owner);
                     Projectile.damage++;
                     Projectile.ai[2]++;
                     Projectile.ai[0] = 0;
@@ -239,7 +239,7 @@ namespace EbonianMod.Items.Weapons.Magic
 
             float mult = 0.55f + (float)Math.Sin(Main.GlobalTimeWrappedHourly/* * 2*/) * 0.1f;
             float scale = Projectile.scale * 2;
-            Texture2D texture = ModContent.Request<Texture2D>("EbonianMod/Extras/explosion").Value;
+            Texture2D texture = Request<Texture2D>("EbonianMod/Extras/explosion").Value;
             Texture2D bolt = Helper.GetExtraTexture("laser2");
             Texture2D boltTransparent = Helper.GetExtraTexture("laser5");
             Main.spriteBatch.Reload(BlendState.Additive);

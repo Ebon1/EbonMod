@@ -43,8 +43,8 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
             return spawnInfo.Player.ZoneCorrupt && spawnInfo.Player.ZoneDirtLayerHeight ? 0.15f : 0;
         }
         public override bool byHeight => true;
-        public override int BodyType => ModContent.NPCType<DankDiggerBody>();
-        public override int TailType => ModContent.NPCType<DankDiggerTail>();
+        public override int BodyType => NPCType<DankDiggerBody>();
+        public override int TailType => NPCType<DankDiggerTail>();
         public override bool useNormalMovement => NPC.ai[3] < 300;
         public override void SetDefaults()
         {
@@ -59,7 +59,7 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
         public override void OnKill()
         {
             for (int i = 0; i < 4; i++)
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
         }
         public override void ExtraAI()
         {
@@ -98,7 +98,7 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
         {
             if (hitinfo.Damage > NPC.life && NPC.life <= 0)
                 for (int i = 0; i < 4; i++)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
         }
         public override void ExtraAI()
         {
@@ -125,7 +125,7 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
         {
             if (hitinfo.Damage > NPC.life && NPC.life <= 0)
                 for (int i = 0; i < 4; i++)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
         }
         public override void ExtraAI()
         {

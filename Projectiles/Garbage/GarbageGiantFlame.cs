@@ -26,13 +26,13 @@ namespace EbonianMod.Projectiles.Garbage
         {
             int b = 0;
             var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
-            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), 0, 0);
+            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<FlameExplosionWSprite>(), 0, 0);
             foreach (Vector2 pos in Projectile.oldPos)
             {
                 b++;
                 float s = MathHelper.SmoothStep(0, 1, (1f - fadeMult * b * 2));
                 if (b % 6 == 0 && b < Projectile.oldPos.Length / 2 - 6)
-                    Projectile.NewProjectileDirect(null, pos + Projectile.Size / 2, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), Projectile.damage, 0).scale = s;
+                    Projectile.NewProjectileDirect(null, pos + Projectile.Size / 2, Vector2.Zero, ProjectileType<FlameExplosionWSprite>(), Projectile.damage, 0).scale = s;
                 float Y = MathHelper.Lerp(60, 0, (float)(MathHelper.Clamp(Projectile.velocity.Length(), -10, 10) + 10) / 20);
                 Vector2 oldpos = Vector2.SmoothStep(pos, pos - new Vector2(MathF.Sin(Main.GlobalTimeWrappedHourly * 2) * 5 + Main.windSpeedCurrent * 2, Y), (float)b / Projectile.oldPos.Length);
                 if (b < Projectile.oldPos.Length / 2)
@@ -43,7 +43,7 @@ namespace EbonianMod.Projectiles.Garbage
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    Projectile.NewProjectile(null, Projectile.Center, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-8, -0.1f)), ModContent.ProjectileType<GarbageFlame>(), Projectile.damage, 0);
+                    Projectile.NewProjectile(null, Projectile.Center, new Vector2(Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-8, -0.1f)), ProjectileType<GarbageFlame>(), Projectile.damage, 0);
                 }
             }
             return true;

@@ -26,8 +26,8 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
     {
         //public override string Texture => "EbonianMod/NPCs/Crimson/CrimsonWorm/CrimsonWormBody";
         public override bool extraAiAsIndex => true;
-        public override int TailType => ModContent.NPCType<CrimsonWormTail>();
-        public override int BodyType => ModContent.NPCType<CrimsonWormBody>();
+        public override int TailType => NPCType<CrimsonWormTail>();
+        public override int BodyType => NPCType<CrimsonWormBody>();
         public override bool byHeight => true;
         public override bool useNormalMovement => !(NPC.ai[3] < 302 && NPC.ai[3] > 198) && !(NPC.ai[3] > 800);
         public override void SetStaticDefaults()
@@ -66,7 +66,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<CecitiorMaterial>(), 2, 1, 3));
+            npcLoot.Add(ItemDropRule.Common(ItemType<CecitiorMaterial>(), 2, 1, 3));
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -93,7 +93,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
                 sound.MaxInstances = 3;
                 SoundEngine.PlaySound(sound, NPC.Center);
                 for (int i = 0; i < 3; i++)
-                    Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f, 2), ModContent.ProjectileType<HostileGibs>(), 10, 0).tileCollide = false;
+                    Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f, 2), ProjectileType<HostileGibs>(), 10, 0).tileCollide = false;
 
             }
             if (NPC.life > 4)
@@ -125,7 +125,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
                 {
                     SoundEngine.PlaySound(SoundID.NPCHit1, NPC.Center);
                     for (int i = 0; i < 5; i++)
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f, 2), ModContent.ProjectileType<HostileGibs>(), 10, 0).tileCollide = false;
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f, 2), ProjectileType<HostileGibs>(), 10, 0).tileCollide = false;
 
                     if (NPC.ai[3] > 250)
                         NPC.ai[3] = 0;
@@ -182,8 +182,8 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             if (hitinfo.Damage > NPC.life && NPC.life <= 0)
             {
                 EbonianSystem.ScreenShakeAmount = 5;
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 0.05f, ModContent.Find<ModGore>("EbonianMod/CrimsonWormSkull").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 0.05f, ModContent.Find<ModGore>("EbonianMod/CrimsonWormJaw").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 0.05f, Find<ModGore>("EbonianMod/CrimsonWormSkull").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 0.05f, Find<ModGore>("EbonianMod/CrimsonWormJaw").Type, NPC.scale);
             }
         }
     }
@@ -194,13 +194,13 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             if (hitinfo.Damage > NPC.life && !isDed)
             {
                 if (NPC.ai[2] <= 6 && NPC.ai[2] > 3)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk" + Main.rand.Next(4, 7)).Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/CrimsonGoreChunk" + Main.rand.Next(4, 7)).Type, NPC.scale);
 
                 else if (NPC.ai[2] > 6)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk" + Main.rand.Next(7, 10)).Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/CrimsonGoreChunk" + Main.rand.Next(7, 10)).Type, NPC.scale);
 
                 else
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk" + Main.rand.Next(1, 4)).Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/CrimsonGoreChunk" + Main.rand.Next(1, 4)).Type, NPC.scale);
 
 
                 for (int i = 0; i < 20; i++)
@@ -212,7 +212,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             {
                 for (int i = 1; i < 4; i++)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/Bone" + i).Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/Bone" + i).Type, NPC.scale);
                 }
             }
         }
@@ -249,7 +249,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
                 spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
 
 
-                //if (FollowerNPC.type == ModContent.NPCType<CrimsonWormTail>())
+                //if (FollowerNPC.type == NPCType<CrimsonWormTail>())
                 //  spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowerNPC.Center, 0.5f) - screenPos, NPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowerNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
             }
             return false;
@@ -406,7 +406,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         {
             if (hitinfo.Damage > NPC.life && NPC.life <= 0)
             {
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk7").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/CrimsonGoreChunk7").Type, NPC.scale);
             }
         }
         public override bool byHeight => true;

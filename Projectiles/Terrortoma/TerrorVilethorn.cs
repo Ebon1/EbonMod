@@ -52,10 +52,10 @@ namespace EbonianMod.Projectiles.Terrortoma
                     Projectile.ai[1] += 1f;
                     Projectile.position += Projectile.velocity * 1f;
                 }
-                int num62 = ModContent.ProjectileType<TerrorVilethorn1>();
+                int num62 = ProjectileType<TerrorVilethorn1>();
                 if (Projectile.ai[1] >= 45f)
                 {
-                    num62 = ModContent.ProjectileType<TerrorVilethorn2>();
+                    num62 = ProjectileType<TerrorVilethorn2>();
                 }
                 int num63 = Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.position + Projectile.velocity + (Projectile.Size / 2), Vector2.SmoothStep(Projectile.velocity, Helper.FromAToB(Projectile.Center, Main.LocalPlayer.Center), Projectile.ai[1] / 65).SafeNormalize(Vector2.UnitY) * MathHelper.Lerp(Projectile.velocity.Length(), 28, Projectile.ai[1] / 45), num62, Projectile.damage, 1, Projectile.owner);
                 Main.projectile[num63].damage = Projectile.damage;

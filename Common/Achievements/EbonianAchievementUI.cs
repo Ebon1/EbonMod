@@ -35,8 +35,8 @@ namespace EbonianMod.Common.Achievements
             PaddingTop = 8f;
             PaddingLeft = 9f;
             HoverColor = hoverColor;
-            icon = new UIImageFramed(ModContent.Request<Texture2D>("EbonianMod/" + TexturePath, ReLogic.Content.AssetRequestMode.ImmediateLoad), new Rectangle(0, 64 * index, 64, 64));
-            iconBorder = new UIImageFramed(ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/iconBorder", ReLogic.Content.AssetRequestMode.ImmediateLoad), new Rectangle(0, 0, 64, 64));
+            icon = new UIImageFramed(Request<Texture2D>("EbonianMod/" + TexturePath, ReLogic.Content.AssetRequestMode.ImmediateLoad), new Rectangle(0, 64 * index, 64, 64));
+            iconBorder = new UIImageFramed(Request<Texture2D>("EbonianMod/Extras/Sprites/iconBorder", ReLogic.Content.AssetRequestMode.ImmediateLoad), new Rectangle(0, 0, 64, 64));
             iconBorder.Color = Color.Gray * 0.4f;
             Append(icon);
             Append(iconBorder);
@@ -154,7 +154,7 @@ namespace EbonianMod.Common.Achievements
             uiTextBG.SetPadding(13f);
             uiTextBG.BackgroundColor = new Color(17, 17, 17) * 0.85f;
 
-            UIImage logo = new UIImage(ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/Logo"))
+            UIImage logo = new UIImage(Request<Texture2D>("EbonianMod/Extras/Sprites/Logo"))
             {
                 HAlign = 0.5f
             };
@@ -258,7 +258,7 @@ namespace EbonianMod.Common.Achievements
             {
                 location.X += 52f * Main.inventoryScale;
             }
-            uiOutline = new(ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/smallIconOutline"), new Rectangle(0, 0, 40, 40));
+            uiOutline = new(Request<Texture2D>("EbonianMod/Extras/Sprites/smallIconOutline"), new Rectangle(0, 0, 40, 40));
             uiOutline.Width.Set(40, 0f);
             uiOutline.Height.Set(40f, 0f);
             //uiOutline.VAlign = 0.255f;
@@ -267,13 +267,13 @@ namespace EbonianMod.Common.Achievements
             uiOutline.Top.Set(location.Y, 0);
             //uiOutline.Left.Set(0, 0.035f);
             uiOutline.Color = Color.Black * 0.5f;
-            hover = new(ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/smallIconHover"), new Rectangle(0, 0, 32, 32));
+            hover = new(Request<Texture2D>("EbonianMod/Extras/Sprites/smallIconHover"), new Rectangle(0, 0, 32, 32));
             hover.Width.Set(32, 0f);
             hover.Height.Set(32f, 0f);
             hover.Left.Set(-1, 0);
             hover.Top.Set(-1, 0);
             hover.Color = Color.Transparent;
-            UIImageFramed uITextPanel2 = new(ModContent.Request<Texture2D>("EbonianMod/icon_small"), new Rectangle(0, 0, 30, 30));
+            UIImageFramed uITextPanel2 = new(Request<Texture2D>("EbonianMod/icon_small"), new Rectangle(0, 0, 30, 30));
             uITextPanel2.Width.Set(30, 0f);
             uITextPanel2.Height.Set(30f, 0f);
             uITextPanel2.Left.Set(3, 0);

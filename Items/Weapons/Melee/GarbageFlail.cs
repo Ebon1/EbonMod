@@ -33,7 +33,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.knockBack = 4f;
             Item.damage = 35;
             Item.noUseGraphic = true;
-            Item.shoot = ModContent.ProjectileType<GarbageFlailP>();
+            Item.shoot = ProjectileType<GarbageFlailP>();
             Item.shootSpeed = 1;
             Item.UseSound = SoundID.Item1;
             Item.DamageType = DamageClass.Melee;

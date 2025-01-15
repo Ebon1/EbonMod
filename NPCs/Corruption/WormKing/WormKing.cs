@@ -88,7 +88,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
         {
             if (verlet != null)
                 verlet.Draw(spriteBatch, Texture + "_Chain");
-            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D texture = Request<Texture2D>(Texture).Value;
             spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, new Vector2(scaleX, scaleY), SpriteEffects.None, 0);
             return false;
         }
@@ -107,18 +107,18 @@ namespace EbonianMod.NPCs.Corruption.WormKing
         {
             if (hitinfo.Damage > NPC.life && NPC.life <= 0)
             {
-                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0, 0);
+                Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                 for (int i = 0; i < 18; i++)
-                    Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(3, 3), ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(3, 3), ModContent.Find<ModGore>("EbonianMod/CorruptionBrickGibs4").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(3, 3), ModContent.Find<ModGore>("EbonianMod/CorruptionBrickGibs0").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(3, 3), Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(3, 3), Find<ModGore>("EbonianMod/CorruptionBrickGibs4").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(3, 3), Find<ModGore>("EbonianMod/CorruptionBrickGibs0").Type, NPC.scale);
 
                 if (verlet != null)
                 {
                     for (int i = 0; i < verlet.points.Count; i++)
                     {
                         for (int j = 0; j < 8; j++)
-                            Gore.NewGore(NPC.GetSource_Death(), verlet.points[i].position, Main.rand.NextVector2Circular(3, 3), ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                            Gore.NewGore(NPC.GetSource_Death(), verlet.points[i].position, Main.rand.NextVector2Circular(3, 3), Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
                     }
                 }
             }
@@ -196,11 +196,11 @@ namespace EbonianMod.NPCs.Corruption.WormKing
                         {
                             scaleX = 1.15f;
                             scaleY = 0.85f;
-                            Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0, 0);
+                            Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                             for (int i = 0; i < 10; i++)
                             {
                                 float angle = Helper.CircleDividedEqually(i, 10);
-                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, angle.ToRotationVector2().RotatedByRandom(0.5f) * Main.rand.NextFloat(5, 7), ModContent.ProjectileType<OstertagiWorm>(), 30, 0, 0);
+                                Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, angle.ToRotationVector2().RotatedByRandom(0.5f) * Main.rand.NextFloat(5, 7), ProjectileType<OstertagiWorm>(), 30, 0, 0);
                                 a.friendly = false;
                                 a.hostile = true;
                             }
@@ -230,7 +230,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
                                 scaleX = 0.9f;
                                 scaleY = 1.1f;
                             }
-                            NPC.NewNPCDirect(null, NPC.Center, ModContent.NPCType<BloatedEbonfly>());
+                            NPC.NewNPCDirect(null, NPC.Center, NPCType<BloatedEbonfly>());
                         }
                         if (AITimer > 90)
                         {
@@ -258,7 +258,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
                                 scaleY = 1.1f;
                             }
 
-                            NPC.NewNPCDirect(null, NPC.Center, ModContent.NPCType<RotlingHead>());
+                            NPC.NewNPCDirect(null, NPC.Center, NPCType<RotlingHead>());
                         }
                         if (AITimer > 60)
                         {
@@ -271,7 +271,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
                 case Slam:
                     {
                         if (AITimer == 10)
-                            Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0, 0);
+                            Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                         if (AITimer <= 50 && AITimer >= 40)
                         {
                             NPC.velocity.Y += 3;
@@ -288,8 +288,8 @@ namespace EbonianMod.NPCs.Corruption.WormKing
                             scaleX = 1.2f;
                             scaleY = 0.8f;
 
-                            Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<FatSmash>(), 0, 0, 0, 0);
-                            Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<GluttonImpact>(), 0, 0, 0, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ProjectileType<FatSmash>(), 0, 0, 0, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ProjectileType<GluttonImpact>(), 0, 0, 0, 0);
                             SoundEngine.PlaySound(EbonianSounds.terrortomaFlesh, NPC.Center);
                             SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, NPC.Center);
                         }

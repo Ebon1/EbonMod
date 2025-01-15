@@ -50,12 +50,12 @@ namespace EbonianMod.Projectiles.Garbage
                 Projectile.ai[0] = 1;
             }
             //if (Projectile.timeLeft == 150)
-            //  Projectile.NewProjectileDirect(NPC.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CircleTelegraph>(), 0, 0);
+            //  Projectile.NewProjectileDirect(NPC.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<CircleTelegraph>(), 0, 0);
             if (Projectile.timeLeft == 100)
             {
                 Projectile.frame = 1;
                 SoundEngine.PlaySound(SoundID.Item156, Projectile.Center);
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center) * 10, ModContent.ProjectileType<Pipebomb>(), Projectile.damage, 0, Projectile.owner);
+                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Helper.FromAToB(Projectile.Center, Main.player[Projectile.owner].Center) * 10, ProjectileType<Pipebomb>(), Projectile.damage, 0, Projectile.owner);
             }
 
             float progress = Utils.GetLerpValue(0, 200, Projectile.timeLeft);

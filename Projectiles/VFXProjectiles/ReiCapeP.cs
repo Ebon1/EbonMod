@@ -82,7 +82,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             for (int i = 0; i < smoke.Length; i++)
             {
                 Smoke d = smoke[i];
-                Texture2D tex = ModContent.Request<Texture2D>("EbonianMod/Extras/explosion").Value;
+                Texture2D tex = Request<Texture2D>("EbonianMod/Extras/explosion").Value;
                 sb.Draw(tex, player.RotatedRelativePoint(player.MountedCenter) - d.position - Main.screenPosition, null, Color.White * d.scale * 10, 0, tex.Size() / 2, d.scale * 2, SpriteEffects.None, 0);
             }
             //sb.Reload(BlendState.AlphaBlend);
@@ -96,7 +96,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                 Projectile.Kill();
             UpdateSmoke();
             //for (int i = 0; i < 2; i++)
-            //    Dust.NewDustPerfect(player.RotatedRelativePoint(player.MountedCenter) - new Vector2(0, player.height / 2 - 10), ModContent.DustType<ReiSmoke>(), new Vector2(-player.velocity.X * Main.rand.NextFloat(-0.1f, 0.1f) + Main.rand.NextFloat(-0.5f, 2f) * -player.direction, Main.rand.NextFloat(-2f, -0.25f))).scale = Main.rand.NextFloat(0.01f, 0.05f);
+            //    Dust.NewDustPerfect(player.RotatedRelativePoint(player.MountedCenter) - new Vector2(0, player.height / 2 - 10), DustType<ReiSmoke>(), new Vector2(-player.velocity.X * Main.rand.NextFloat(-0.1f, 0.1f) + Main.rand.NextFloat(-0.5f, 2f) * -player.direction, Main.rand.NextFloat(-2f, -0.25f))).scale = Main.rand.NextFloat(0.01f, 0.05f);
             Projectile.Center = player.RotatedRelativePoint(player.MountedCenter) + new Vector2(-5, 19);
             Projectile.rotation = player.velocity.ToRotation();
             if (verlet[0] != null)

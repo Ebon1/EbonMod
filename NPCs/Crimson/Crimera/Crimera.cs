@@ -21,7 +21,7 @@ namespace EbonianMod.NPCs.Crimson.Crimera
     {
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Melee.Spinax>(), 35));
+            npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Melee.Spinax>(), 35));
         }
 
         //public override bool HasCustomBodySegments => true;
@@ -31,9 +31,9 @@ namespace EbonianMod.NPCs.Crimson.Crimera
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/Gnasher1").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/Gnasher1").Type, NPC.scale);
                 }
             }
         }
@@ -121,9 +121,9 @@ namespace EbonianMod.NPCs.Crimson.Crimera
             latestNPC = SpawnSegment(source, BodyType, latestNPC, NPC.ai[3] == 3 ? 1 : 0);
             return latestNPC;
         }*/
-        public override int BodyType => ModContent.NPCType<CrimeraBody>();
+        public override int BodyType => NPCType<CrimeraBody>();
 
-        public override int TailType => ModContent.NPCType<CrimeraTail>();
+        public override int TailType => NPCType<CrimeraTail>();
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
@@ -181,9 +181,9 @@ namespace EbonianMod.NPCs.Crimson.Crimera
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/Gnasher1").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/Gnasher1").Type, NPC.scale);
                 }
             }
         }
@@ -197,9 +197,9 @@ namespace EbonianMod.NPCs.Crimson.Crimera
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/Gnasher1").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/Gnasher1").Type, NPC.scale);
                 }
             }
         }
@@ -232,7 +232,7 @@ namespace EbonianMod.NPCs.Crimson.Crimera
         {
             if (++NPC.ai[2] % 30 == 0)
             {
-                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.UnitY.RotatedBy(NPC.rotation) * 4, ModContent.ProjectileType<TFlameThrower>(), 10, 0);
+                Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.UnitY.RotatedBy(NPC.rotation) * 4, ProjectileType<TFlameThrower>(), 10, 0);
             }
         }*/
         public override void Init()

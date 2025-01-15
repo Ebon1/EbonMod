@@ -22,7 +22,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.useTime = 1;
             Item.useAnimation = 10;
             Item.reuseDelay = 25;
-            Item.shoot = ModContent.ProjectileType<GutlingGunP>();
+            Item.shoot = ProjectileType<GutlingGunP>();
             Item.shootSpeed = 8f;
             Item.rare = ItemRarityID.LightRed;
             Item.useStyle = 5;
@@ -39,11 +39,11 @@ namespace EbonianMod.Items.Weapons.Ranged
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.TheUndertaker).AddIngredient(ModContent.ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.TheUndertaker).AddIngredient(ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            type = ModContent.ProjectileType<GutlingGunP>();
+            type = ProjectileType<GutlingGunP>();
             velocity.Normalize();
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 35);
             return false;
@@ -112,7 +112,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                     return;
                 }
                 SoundEngine.PlaySound(SoundID.Item11.WithPitchOffset(0.75f - (Projectile.ai[0] * 0.02f)), player.Center);
-                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + Projectile.velocity * 10, Projectile.velocity.RotatedBy(Main.rand.NextFloat(-(MathHelper.Pi / 16), MathHelper.Pi / 16)) * Main.rand.NextFloat(20, 25), ModContent.ProjectileType<CecitiorTeethFriendly>(), Projectile.damage, Projectile.knockBack, player.whoAmI);
+                Projectile.NewProjectile(Projectile.GetSource_FromAI(), Projectile.Center + Projectile.velocity * 10, Projectile.velocity.RotatedBy(Main.rand.NextFloat(-(MathHelper.Pi / 16), MathHelper.Pi / 16)) * Main.rand.NextFloat(20, 25), ProjectileType<CecitiorTeethFriendly>(), Projectile.damage, Projectile.knockBack, player.whoAmI);
                 Projectile.ai[1] = 0;
             }
         }

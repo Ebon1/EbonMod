@@ -40,7 +40,7 @@ namespace EbonianMod
         {
             if (item.DamageType == DamageClass.Magic && xTent && xTentCool <= 0)
             {
-                Projectile p = Projectile.NewProjectileDirect(source, position, Helper.FromAToB(position, Main.MouseWorld) * 8, ModContent.ProjectileType<XAmethyst>(), 50, 0);
+                Projectile p = Projectile.NewProjectileDirect(source, position, Helper.FromAToB(position, Main.MouseWorld) * 8, ProjectileType<XAmethyst>(), 50, 0);
                 p.DamageType = DamageClass.Magic;
                 p.friendly = true;
                 p.hostile = false;
@@ -50,7 +50,7 @@ namespace EbonianMod
         }
         public override void ResetEffects()
         {
-            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ModContent.ProjectileType<ArchmageXSpawnAnim>()] > 0)
+            if (NPC.AnyNPCs(NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ProjectileType<ArchmageXSpawnAnim>()] > 0)
                 Player.noBuilding = true;
             reiBoostCool--;
             xTentCool--;
@@ -66,7 +66,7 @@ namespace EbonianMod
             brainAcc = false;
             xTent = false;
             heartAcc = false;
-            if (!NPC.AnyNPCs(ModContent.NPCType<Fleshformator>()))
+            if (!NPC.AnyNPCs(NPCType<Fleshformator>()))
                 fleshformators = 0;
             ToxicGland = false;
             sheep = false;
@@ -92,11 +92,11 @@ namespace EbonianMod
         }
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
-            if (NPC.AnyNPCs(ModContent.NPCType<TinyBrain>()))
+            if (NPC.AnyNPCs(NPCType<TinyBrain>()))
             {
                 foreach (NPC npc in Main.npc)
                 {
-                    if (npc.active && npc.type == ModContent.NPCType<TinyBrain>())
+                    if (npc.active && npc.type == NPCType<TinyBrain>())
                     {
                         npc.life = 0;
                         npc.checkDead();
@@ -106,9 +106,9 @@ namespace EbonianMod
         }
         public override void PostUpdateRunSpeeds()
         {
-            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ModContent.ProjectileType<ArchmageXSpawnAnim>()] > 0)
+            if (NPC.AnyNPCs(NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ProjectileType<ArchmageXSpawnAnim>()] > 0)
                 Player.noBuilding = true;
-            if (Player.HeldItem.type == ModContent.ItemType<EbonianScythe>() && !Player.ItemTimeIsZero)
+            if (Player.HeldItem.type == ItemType<EbonianScythe>() && !Player.ItemTimeIsZero)
             {
                 Player.maxRunSpeed += 2;
                 Player.accRunSpeed += 2;
@@ -150,8 +150,8 @@ namespace EbonianMod
         public override void PostUpdateMiscEffects()
         {
             EbonianMod.sys.UpdateParticles();
-            Player.ManageSpecialBiomeVisuals("EbonianMod:XMartian", NPC.AnyNPCs(ModContent.NPCType<ArchmageCutsceneMartian>()));
-            //Player.ManageSpecialBiomeVisuals("EbonianMod:Conglomerate", NPC.AnyNPCs(ModContent.NPCType<Conglomerate>()));
+            Player.ManageSpecialBiomeVisuals("EbonianMod:XMartian", NPC.AnyNPCs(NPCType<ArchmageCutsceneMartian>()));
+            //Player.ManageSpecialBiomeVisuals("EbonianMod:Conglomerate", NPC.AnyNPCs(NPCType<Conglomerate>()));
             #region "hell stuff"
             Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight);
             #endregion
@@ -179,7 +179,7 @@ namespace EbonianMod
         }
         public override void PostUpdateBuffs()
         {
-            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ModContent.ProjectileType<ArchmageXSpawnAnim>()] > 0)
+            if (NPC.AnyNPCs(NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ProjectileType<ArchmageXSpawnAnim>()] > 0)
                 Player.noBuilding = true;
             if (sheep)
             {
@@ -187,14 +187,14 @@ namespace EbonianMod
                 Player.position.Y += Player.width + 2;
                 foreach (Projectile proj in Main.projectile)
                 {
-                    if (proj.active && proj.type == ModContent.ProjectileType<player_sheep>())
+                    if (proj.active && proj.type == ProjectileType<player_sheep>())
                         proj.Center = Player.Bottom + new Vector2(0, -14);
                 }
             }
         }
         public override void PostUpdate()
         {
-            if (NPC.AnyNPCs(ModContent.NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ModContent.ProjectileType<ArchmageXSpawnAnim>()] > 0)
+            if (NPC.AnyNPCs(NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ProjectileType<ArchmageXSpawnAnim>()] > 0)
                 Player.noBuilding = true;
             if (flashTime > 0)
             {

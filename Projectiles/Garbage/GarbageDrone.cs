@@ -70,15 +70,15 @@ namespace EbonianMod.Projectiles.Garbage
             if (Projectile.ai[0] > 90 && Projectile.ai[0] % 5 == 0)
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, startP + new Vector2(Projectile.ai[1], -500), true).RotatedBy(MathF.Sin(Projectile.ai[0]) * Projectile.ai[2] * 10) * Projectile.ai[2] * 200, 0.2f);
             if (Projectile.ai[0] == 150)
-                Projectile.NewProjectile(null, Projectile.Center, Vector2.UnitY, ModContent.ProjectileType<GarbageTelegraphSmall>(), 0, 0);
+                Projectile.NewProjectile(null, Projectile.Center, Vector2.UnitY, ProjectileType<GarbageTelegraphSmall>(), 0, 0);
 
             if (Projectile.ai[0] == 200)
             {
-                Projectile.NewProjectile(null, Projectile.Center, Vector2.UnitY, ModContent.ProjectileType<GarbageLightning>(), Projectile.damage, 0);
+                Projectile.NewProjectile(null, Projectile.Center, Vector2.UnitY, ProjectileType<GarbageLightning>(), Projectile.damage, 0);
             }
             if (Projectile.ai[0] == 230)
             {
-                Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), 50, 0);
+                Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<FlameExplosionWSprite>(), 50, 0);
                 Projectile.Kill();
             }
         }
@@ -137,14 +137,14 @@ namespace EbonianMod.Projectiles.Garbage
                 Projectile.velocity *= 0.9f;
             if (Projectile.ai[0] >= 100 && Projectile.ai[0] % 5 == 0 && Projectile.ai[0] < 120)
             {
-                Projectile p = Projectile.NewProjectileDirect(null, Projectile.Center, Vector2.UnitY, ModContent.ProjectileType<GarbageLightning>(), Projectile.damage, 0);
+                Projectile p = Projectile.NewProjectileDirect(null, Projectile.Center, Vector2.UnitY, ProjectileType<GarbageLightning>(), Projectile.damage, 0);
                 p.friendly = true;
                 p.hostile = false;
                 p.DamageType = DamageClass.Magic;
             }
             if (Projectile.ai[0] == 130)
             {
-                Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), 0, 0);
+                Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<FlameExplosionWSprite>(), 0, 0);
                 Projectile.Kill();
             }
         }
@@ -224,8 +224,8 @@ namespace EbonianMod.Projectiles.Garbage
                         a = 0;
                     Vector2 point = Vector2.SmoothStep(start, end, i / (float)n) + dir * a;
                     points.Add(point);
-                    //Dust.NewDustPerfect(point, ModContent.DustType<XGoopDustDark>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, default, 0.35f);
-                    Dust.NewDustPerfect(point, ModContent.DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, default, 0.25f);
+                    //Dust.NewDustPerfect(point, DustType<XGoopDustDark>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, default, 0.35f);
+                    Dust.NewDustPerfect(point, DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, default, 0.25f);
                     x -= i / (float)n;
                 }
                 RunOnce = true;
@@ -245,11 +245,11 @@ namespace EbonianMod.Projectiles.Garbage
                             if (j % 10 == 0)
                             {
                                 float velF = Main.rand.NextFloat(1, 5);
-                                //Dust.NewDustPerfect(pos, ModContent.DustType<XGoopDustDark>(), Helper.FromAToB(pos, points[i]) * velF, 0, default, 0.5f * s);
+                                //Dust.NewDustPerfect(pos, DustType<XGoopDustDark>(), Helper.FromAToB(pos, points[i]) * velF, 0, default, 0.5f * s);
                                 Dust.NewDustPerfect(pos, DustID.Electric, Helper.FromAToB(pos, points[i]).RotateRandom(MathHelper.PiOver4) * velF, 0, default, 0.6f * s);
                             }
                             if (Main.rand.NextBool(4) && j % 6 == 0 && Projectile.ai[0] < 7)
-                                Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Main.rand.NextVector2Unit(), 0, Color.Cyan * s, Main.rand.NextFloat(0.1f, 0.15f) * s);
+                                Dust.NewDustPerfect(pos, DustType<SparkleDust>(), Main.rand.NextVector2Unit(), 0, Color.Cyan * s, Main.rand.NextFloat(0.1f, 0.15f) * s);
                         }
                         s -= i / (float)points.Count * 0.01f;
                     }

@@ -9,7 +9,7 @@ namespace EbonianMod.Items.Tiles
     {
         public override void SetDefaults()
         {
-            Item.DefaultToPlaceableTile(ModContent.TileType<TerrortomaTrophyTile>());
+            Item.DefaultToPlaceableTile(TileType<TerrortomaTrophyTile>());
 
             Item.width = 32;
             Item.height = 32;

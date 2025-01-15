@@ -22,7 +22,7 @@ namespace EbonianMod.NPCs.Cecitior
     {
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[ModContent.NPCType<Cecitior>()], quickUnlock: true);
+            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[NPCType<Cecitior>()], quickUnlock: true);
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
                 new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
@@ -72,7 +72,7 @@ namespace EbonianMod.NPCs.Cecitior
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             NPC center = Main.npc[(int)NPC.ai[0]];
-            if (NPC.IsABestiaryIconDummy || !center.active || center.type != ModContent.NPCType<Cecitior>())
+            if (NPC.IsABestiaryIconDummy || !center.active || center.type != NPCType<Cecitior>())
                 return true;
 
             if (verlet != null)
@@ -89,7 +89,7 @@ namespace EbonianMod.NPCs.Cecitior
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             NPC center = Main.npc[(int)NPC.ai[0]];
-            if (NPC.IsABestiaryIconDummy || !center.active || center.type != ModContent.NPCType<Cecitior>())
+            if (NPC.IsABestiaryIconDummy || !center.active || center.type != NPCType<Cecitior>())
                 return;
             Texture2D a = Helper.GetTexture("NPCs/Cecitior/CecitiorChain_base");
             Texture2D b = Helper.GetTexture("NPCs/Cecitior/CecitiorEye");
@@ -182,7 +182,7 @@ namespace EbonianMod.NPCs.Cecitior
                 {
                     for (int i = 0; i < verlet.points.Count; i++)
                     {
-                        Gore.NewGore(NPC.GetSource_Death(), verlet.points[i].position, Vector2.Zero, ModContent.Find<ModGore>("EbonianMod/CecitiorChainGore").Type);
+                        Gore.NewGore(NPC.GetSource_Death(), verlet.points[i].position, Vector2.Zero, Find<ModGore>("EbonianMod/CecitiorChainGore").Type);
                     }
                 }
         }
@@ -200,7 +200,7 @@ namespace EbonianMod.NPCs.Cecitior
                     eyeCount++;
             }
             bool halfEyesPhase2 = eyeCount <= 3;
-            if (!center.active || center.type != ModContent.NPCType<Cecitior>() || center.ai[0] == -12124)
+            if (!center.active || center.type != NPCType<Cecitior>() || center.ai[0] == -12124)
             {
                 NPC.life = 0;
                 return;
@@ -242,14 +242,14 @@ namespace EbonianMod.NPCs.Cecitior
                         timer++;
                         if ((AITimer == 30 || (halfEyesPhase2 && AITimer == 15)) && leftie)
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center), ModContent.ProjectileType<EyeVFX>(), 0, 0);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center) * 3, ModContent.ProjectileType<CecitiorEyeP>(), 30, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center), ProjectileType<EyeVFX>(), 0, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center) * 3, ProjectileType<CecitiorEyeP>(), 30, 0);
                         }
 
                         if ((AITimer == 60 || (halfEyesPhase2 && AITimer == 45)) && !leftie)
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center), ModContent.ProjectileType<EyeVFX>(), 0, 0);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center) * 3, ModContent.ProjectileType<CecitiorEyeP>(), 30, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center), ProjectileType<EyeVFX>(), 0, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center) * 3, ProjectileType<CecitiorEyeP>(), 30, 0);
                         }
 
                     }
@@ -280,7 +280,7 @@ namespace EbonianMod.NPCs.Cecitior
                             NPC.velocity = Vector2.Zero;
                         if (AITimer > 300 && AITimer < 330 && AITimer % 5 == 0)
                         {
-                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 15 + Main.rand.NextVector2Unit(-0.5f, 0.5f), ModContent.ProjectileType<CecitiorTeeth>(), 15, 0);
+                            Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 15 + Main.rand.NextVector2Unit(-0.5f, 0.5f), ProjectileType<CecitiorTeeth>(), 15, 0);
                             a.hostile = true;
                             a.friendly = false;
                         }
@@ -317,7 +317,7 @@ namespace EbonianMod.NPCs.Cecitior
                     NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + new Vector2(200).RotatedBy(angle + MathHelper.ToRadians(timer * (halfEyesPhase2 ? 3 : 1))), false) / 3;
                     focalPoint = player.Center;
                     if (center.ai[1] % (halfEyesPhase2 ? 20 : 50) == 0 && center.ai[1] > 1)
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 0.5f, ModContent.ProjectileType<CecitiorTeeth>(), 30, 0);
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 0.5f, ProjectileType<CecitiorTeeth>(), 30, 0);
                     break;
                 case 6:
                     NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 10f;

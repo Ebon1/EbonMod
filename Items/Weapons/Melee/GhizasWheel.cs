@@ -26,7 +26,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.knockBack = 0;
             Item.useTime = 5;
             Item.useAnimation = 5;
-            Item.shoot = ModContent.ProjectileType<GhizasWheelP>();
+            Item.shoot = ProjectileType<GhizasWheelP>();
             Item.shootSpeed = 1f;
             Item.rare = ItemRarityID.LightRed;
             Item.useStyle = 5;
@@ -75,9 +75,9 @@ namespace EbonianMod.Items.Weapons.Melee
             for (int i = 0; i < 3; i++)
             {
                 if (Main.rand.NextBool())
-                    Dust.NewDustPerfect(pos + Helper.FromAToB(pos, target.Center).RotatedByRandom(MathHelper.PiOver4 * 0.7f) * 16, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(pos, target.Center).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(5, 8), 0, Color.Lerp(Color.Gold, Color.DarkOrange, Main.rand.NextFloat()), Main.rand.NextFloat(0.05f, 0.1f));
+                    Dust.NewDustPerfect(pos + Helper.FromAToB(pos, target.Center).RotatedByRandom(MathHelper.PiOver4 * 0.7f) * 16, DustType<LineDustFollowPoint>(), Helper.FromAToB(pos, target.Center).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(5, 8), 0, Color.Lerp(Color.Gold, Color.DarkOrange, Main.rand.NextFloat()), Main.rand.NextFloat(0.05f, 0.1f));
                 else
-                    Dust.NewDustPerfect(pos + Helper.FromAToB(pos, target.Center).RotatedByRandom(MathHelper.PiOver4 * 0.7f) * 16, ModContent.DustType<SparkleDust>(), Helper.FromAToB(pos, target.Center).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(5, 8), 0, Color.Lerp(Color.Gold, Color.DarkOrange, Main.rand.NextFloat()), Main.rand.NextFloat(0.025f, 0.075f));
+                    Dust.NewDustPerfect(pos + Helper.FromAToB(pos, target.Center).RotatedByRandom(MathHelper.PiOver4 * 0.7f) * 16, DustType<SparkleDust>(), Helper.FromAToB(pos, target.Center).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(5, 8), 0, Color.Lerp(Color.Gold, Color.DarkOrange, Main.rand.NextFloat()), Main.rand.NextFloat(0.025f, 0.075f));
             }
         }
         public override void ModifyDamageHitbox(ref Rectangle hitbox)

@@ -96,7 +96,7 @@ public override void OnLoad()
                 Tile tile = Main.tile[i, j];
                 if (j > Main.maxTilesY - 62 + (int)(Math.Sin(i * 0.1f) * height) || j < 55 - (int)(Math.Sin(i * 0.1f) * height))
                     tile.HasTile = true;
-                tile.TileType = (ushort)ModContent.TileType<InfernalTile>();
+                tile.TileType = (ushort)TileType<InfernalTile>();
             }
         }
     }

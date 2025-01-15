@@ -40,7 +40,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.Lime;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<EquilibriumP>();
+            Item.shoot = ProjectileType<EquilibriumP>();
         }
         int dir = 1;
         public override bool? CanAutoReuseItem(Player player)
@@ -49,7 +49,7 @@ namespace EbonianMod.Items.Weapons.Melee
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ModContent.ItemType<Serration>()).AddIngredient(ModContent.ItemType<MeatCrusher>()).AddIngredient(ItemID.BrokenHeroSword).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemType<Serration>()).AddIngredient(ItemType<MeatCrusher>()).AddIngredient(ItemID.BrokenHeroSword).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -104,13 +104,13 @@ namespace EbonianMod.Items.Weapons.Melee
             {
                 SoundEngine.PlaySound(EbonianSounds.FleshImpact, Projectile.Center);
                 Vector2 dir = Vector2.Normalize(Main.MouseWorld - player.Center);
-                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity * 50, dir, ModContent.ProjectileType<EquilibriumP2>(), Projectile.damage, Projectile.knockBack, player.whoAmI, 0, (Projectile.ai[1]));
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity * 50, dir, ProjectileType<EquilibriumP2>(), Projectile.damage, Projectile.knockBack, player.whoAmI, 0, (Projectile.ai[1]));
                 proj.rotation = Projectile.rotation;
                 proj.Center = Projectile.Center + Projectile.velocity * 50;
                 proj.timeLeft = 60 * 5 - 15 * 5;
                 //if (Projectile.ai[0] == 3)
                 {
-                    Projectile a = Projectile.NewProjectileDirect(null, Projectile.Center + Projectile.velocity * 50, Vector2.Zero, Projectile.ai[1] == 1 ? ModContent.ProjectileType<OstertagiExplosion>() : ModContent.ProjectileType<BloodExplosionWSprite>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile a = Projectile.NewProjectileDirect(null, Projectile.Center + Projectile.velocity * 50, Vector2.Zero, Projectile.ai[1] == 1 ? ProjectileType<OstertagiExplosion>() : ProjectileType<BloodExplosionWSprite>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     a.hostile = false;
                     a.friendly = true;
                 }

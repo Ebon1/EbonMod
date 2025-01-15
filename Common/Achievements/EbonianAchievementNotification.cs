@@ -24,7 +24,7 @@ namespace EbonianMod.Common.Achievements
 
         private int timeLeft = 5 * 60;
 
-        public Asset<Texture2D> iconTexture = ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/Achievements");
+        public Asset<Texture2D> iconTexture = Request<Texture2D>("EbonianMod/Extras/Sprites/Achievements");
         public EbonianAchievementNotification(int index)
         {
             Index = index;

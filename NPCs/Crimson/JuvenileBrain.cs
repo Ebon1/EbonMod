@@ -35,15 +35,15 @@ namespace EbonianMod.NPCs.Crimson
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/TinyBrainGore").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/TinyBrainGore2").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/TinyBrainGore3").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/TinyBrainGore4").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/TinyBrainGore").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/TinyBrainGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/TinyBrainGore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/TinyBrainGore4").Type, NPC.scale);
                 }
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/SanguinaryBrainGore").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/SanguinaryBrainGore2").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/SanguinaryBrainGore3").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/SanguinaryBrainGore4").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/SanguinaryBrainGore").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/SanguinaryBrainGore2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/SanguinaryBrainGore3").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/SanguinaryBrainGore4").Type, NPC.scale);
             }
         }
         public override void SetDefaults()
@@ -71,7 +71,7 @@ namespace EbonianMod.NPCs.Crimson
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
             Microsoft.Xna.Framework.Color color9 = Lighting.GetColor((int)((double)NPC.position.X + (double)NPC.width * 0.5) / 16, (int)(((double)NPC.position.Y + (double)NPC.height * 0.5) / 16.0));
-            Vector2 orig = new Vector2((float)(ModContent.Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Width / 2), (float)(ModContent.Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Height / Main.npcFrameCount[NPC.type] / 2));
+            Vector2 orig = new Vector2((float)(Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Width / 2), (float)(Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Height / Main.npcFrameCount[NPC.type] / 2));
             SpriteEffects spriteEffects2;
             Rectangle frame6 = NPC.frame;
             Color col = Color.White * ((MathF.Sin(Main.GlobalTimeWrappedHourly * 3) + 2) * 0.5f);
@@ -91,7 +91,7 @@ namespace EbonianMod.NPCs.Crimson
                     spriteEffects2 = SpriteEffects.FlipHorizontally;
                 }
                 position9.X -= (float)(NPC.width / 2);
-                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value, new Vector2(position9.X - pos.X + (float)(NPC.width / 2) - (float)ModContent.Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Width * NPC.scale / 2f + orig.X * NPC.scale, position9.Y - pos.Y + (float)NPC.height - (float)ModContent.Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Height * NPC.scale / (float)Main.npcFrameCount[NPC.type] + 4f + orig.Y * NPC.scale + NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(frame6), col, NPC.rotation * .1f, orig, NPC.scale, spriteEffects2, 0);
+                Main.spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value, new Vector2(position9.X - pos.X + (float)(NPC.width / 2) - (float)Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Width * NPC.scale / 2f + orig.X * NPC.scale, position9.Y - pos.Y + (float)NPC.height - (float)Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Height * NPC.scale / (float)Main.npcFrameCount[NPC.type] + 4f + orig.Y * NPC.scale + NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(frame6), col, NPC.rotation * .1f, orig, NPC.scale, spriteEffects2, 0);
             }
             return false;
         }
@@ -108,7 +108,7 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Magic.GoreSceptre>(), 35));
+            npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Magic.GoreSceptre>(), 35));
         }
         public override void FindFrame(int frameHeight)
         {

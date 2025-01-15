@@ -44,7 +44,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.rare = ItemRarityID.Orange;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<PhantasmalGreatswordP>();
+            Item.shoot = ProjectileType<PhantasmalGreatswordP>();
         }
         int dir = 1;
         public override bool? CanAutoReuseItem(Player player)
@@ -113,9 +113,9 @@ namespace EbonianMod.Items.Weapons.Melee
                     for (int i = 0; i < 4; i++)
                     {
                         Vector2 pos = Vector2.Lerp(start, end, Main.rand.NextFloat());
-                        //Dust.NewDustPerfect(pos, ModContent.DustType<SparkleDust>(), Helper.FromAToB(pos, player.Center + Helper.FromAToB(player.Center, pos, false).RotatedBy(-Projectile.ai[1] * 0.5f)) * 5, 0, Color.Indigo, Main.rand.NextFloat(0.1f, 0.15f)).noGravity = true;
+                        //Dust.NewDustPerfect(pos, DustType<SparkleDust>(), Helper.FromAToB(pos, player.Center + Helper.FromAToB(player.Center, pos, false).RotatedBy(-Projectile.ai[1] * 0.5f)) * 5, 0, Color.Indigo, Main.rand.NextFloat(0.1f, 0.15f)).noGravity = true;
 
-                        Dust.NewDustPerfect(pos, ModContent.DustType<LineDustFollowPoint>(), Helper.FromAToB(pos, player.Center + Helper.FromAToB(player.Center, pos, false).RotatedBy(-Projectile.ai[1] * 0.5f)) * 5, 0, Color.Indigo, Main.rand.NextFloat(0.1f, 0.15f)).customData = position;
+                        Dust.NewDustPerfect(pos, DustType<LineDustFollowPoint>(), Helper.FromAToB(pos, player.Center + Helper.FromAToB(player.Center, pos, false).RotatedBy(-Projectile.ai[1] * 0.5f)) * 5, 0, Color.Indigo, Main.rand.NextFloat(0.1f, 0.15f)).customData = position;
                     }
 
             }
@@ -132,7 +132,7 @@ namespace EbonianMod.Items.Weapons.Melee
 
                         if (hit)
                         {
-                            Projectile proj2 = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, ModContent.ProjectileType<PhantasmalGreatswordP2>(), Projectile.damage, Projectile.knockBack, player.whoAmI, -.5f + Projectile.ai[0], (-Projectile.ai[1]));
+                            Projectile proj2 = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, ProjectileType<PhantasmalGreatswordP2>(), Projectile.damage, Projectile.knockBack, player.whoAmI, -.5f + Projectile.ai[0], (-Projectile.ai[1]));
                             proj2.rotation = Projectile.rotation;
                             proj2.Center = Projectile.Center;
                         }

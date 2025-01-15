@@ -17,7 +17,7 @@ namespace EbonianMod.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             EbonianPlayer modPlayer = player.GetModPlayer<EbonianPlayer>();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Minions.DoomsdayDrone>()] > 0)
+            if (player.ownedProjectileCounts[ProjectileType<Projectiles.Minions.DoomsdayDrone>()] > 0)
             {
                 modPlayer.doomMinion = true;
             }

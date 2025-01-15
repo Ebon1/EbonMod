@@ -32,7 +32,7 @@ namespace EbonianMod.NPCs.Corruption.Rotling
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<VileNoodleBox>(), 50, 1, 3));
+            npcLoot.Add(ItemDropRule.Common(ItemType<VileNoodleBox>(), 50, 1, 3));
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -48,10 +48,10 @@ namespace EbonianMod.NPCs.Corruption.Rotling
         }
         public override void OnKill()
         {
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
         }
-        public override int BodyType => ModContent.NPCType<RotlingBody>();
-        public override int TailType => ModContent.NPCType<RotlingTail>();
+        public override int BodyType => NPCType<RotlingBody>();
+        public override int TailType => NPCType<RotlingTail>();
         public override void SetDefaults()
         {
             NPC.CloneDefaults(NPCID.DiggerHead);
@@ -79,7 +79,7 @@ namespace EbonianMod.NPCs.Corruption.Rotling
         public override void HitEffect(NPC.HitInfo hitinfo)
         {
             if (hitinfo.Damage > NPC.life && NPC.life <= 0)
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
         }
         public override void SetDefaults()
         {
@@ -104,7 +104,7 @@ namespace EbonianMod.NPCs.Corruption.Rotling
         public override void HitEffect(NPC.HitInfo hitinfo)
         {
             if (hitinfo.Damage > NPC.life && NPC.life <= 0)
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
         }
         public override void SetDefaults()
         {

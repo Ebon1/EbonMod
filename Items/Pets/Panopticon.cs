@@ -22,7 +22,7 @@ namespace EbonianMod.Items.Pets
         }
         public override void SetDefaults()
         {
-            Item.DefaultToVanitypet(ModContent.ProjectileType<PanopticonP>(), ModContent.BuffType<PanopticonB>());
+            Item.DefaultToVanitypet(ProjectileType<PanopticonP>(), BuffType<PanopticonB>());
             Item.rare = ItemRarityID.LightRed;
             Item.useStyle = 10;
             Item.UseSound = SoundID.NPCHit54;
@@ -46,7 +46,7 @@ namespace EbonianMod.Items.Pets
         }
         public override void PostDraw(Color lightColor)
         {
-            Texture2D eye = ModContent.Request<Texture2D>(Texture + "_Eye").Value;
+            Texture2D eye = Request<Texture2D>(Texture + "_Eye").Value;
             for (int i = 0; i < 4; i++)
             {
                 float angle = Helper.CircleDividedEqually(i, 4) - Main.GlobalTimeWrappedHourly;
@@ -65,7 +65,7 @@ namespace EbonianMod.Items.Pets
                 else
                     Projectile.frame = 0;
             }
-            if (player.active && player.HasBuff(ModContent.BuffType<PanopticonB>()))
+            if (player.active && player.HasBuff(BuffType<PanopticonB>()))
                 Projectile.timeLeft = 10;
             Projectile.ai[1] += MathHelper.ToRadians(1);
             Projectile.velocity = Helper.FromAToB(Projectile.Center, player.Center - (Vector2.UnitX * 100).RotatedBy(Projectile.ai[1]), false) * 0.1f;
@@ -83,7 +83,7 @@ namespace EbonianMod.Items.Pets
         {
             player.buffTime[buffIndex] = 18000;
 
-            int projType = ModContent.ProjectileType<PanopticonP>();
+            int projType = ProjectileType<PanopticonP>();
 
 
             if (player.whoAmI == Main.myPlayer && player.ownedProjectileCounts[projType] <= 0)

@@ -97,10 +97,10 @@ namespace EbonianMod.NPCs.Corruption
         }
         public override bool CheckDead()
         {
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/VileSlimeGore").Type, NPC.scale);
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/VileSlimeGore2").Type, NPC.scale);
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/VileSlimeGore3").Type, NPC.scale);
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/VileSlimeGore4").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/VileSlimeGore").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/VileSlimeGore2").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/VileSlimeGore3").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/VileSlimeGore4").Type, NPC.scale);
             return true;
         }
         public float AITimer
@@ -112,7 +112,7 @@ namespace EbonianMod.NPCs.Corruption
         {
             if (Main.rand.Next(30) == 0)
             {
-                Item.NewItem(NPC.getRect(), ModContent.ItemType<Items.Weapons.Ranged.EbonianGatling>());
+                Item.NewItem(NPC.getRect(), ItemType<Items.Weapons.Ranged.EbonianGatling>());
             }
         }*/
         public override void AI()
@@ -268,7 +268,7 @@ namespace EbonianMod.NPCs.Corruption
                 {
                     if (velocity.Length() < 3) velocity = Vector2.Normalize(velocity) * 3f;
                     {
-                        int projInt = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, ModContent.ProjectileType<TFlameThrower>(), 30, 0, 0, 1);
+                        int projInt = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, ProjectileType<TFlameThrower>(), 30, 0, 0, 1);
                         Main.projectile[projInt].tileCollide = false;
                         Main.projectile[projInt].friendly = false;
                         Main.projectile[projInt].hostile = true;

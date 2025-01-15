@@ -47,7 +47,7 @@ namespace EbonianMod.Items.Accessories
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
             Player player = Main.player[NPC.target];
-            spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/Items/Accessories/EbonianHeartNPC").Value, NPC.Center - pos,
+            spriteBatch.Draw(Request<Texture2D>("EbonianMod/Items/Accessories/EbonianHeartNPC").Value, NPC.Center - pos,
                         NPC.frame, drawColor, NPC.rotation,
                         new Vector2(40 * 0.5f, 40 * 0.5f), 1f, SpriteEffects.None, 0);
             spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Accessories/EbonianHeartNPC_Glow").Value, NPC.Center - pos,
@@ -73,7 +73,7 @@ namespace EbonianMod.Items.Accessories
                             NPC.ai[0] = -450;
                             break;
                         }
-                        Projectile p = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Helper.FromAToB(NPC.Center, npc.Center) * 10, ModContent.ProjectileType<EHeartP>(), 26, 0, player.whoAmI);
+                        Projectile p = Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Helper.FromAToB(NPC.Center, npc.Center) * 10, ProjectileType<EHeartP>(), 26, 0, player.whoAmI);
                         p.friendly = true;
                         p.hostile = false;
                         break;
@@ -194,7 +194,7 @@ namespace EbonianMod.Items.Accessories
                 Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("FlamesSeamless"), false);
             }
             Main.spriteBatch.ApplySaved();
-            //Main.spriteBatch.Draw(TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value, Projectile.Center - Main.screenPosition, null, Color.LawnGreen * alpha * 3, 0, TextureAssets.Projectile[ModContent.ProjectileType<Gibs>()].Value.Size() / 2, 0.05f, SpriteEffects.None, 0);
+            //Main.spriteBatch.Draw(TextureAssets.Projectile[ProjectileType<Gibs>()].Value, Projectile.Center - Main.screenPosition, null, Color.LawnGreen * alpha * 3, 0, TextureAssets.Projectile[ProjectileType<Gibs>()].Value.Size() / 2, 0.05f, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

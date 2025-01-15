@@ -69,14 +69,14 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
         {
             for (int i = 0; i < 2; i++)
             {
-                Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CrimsonGoreChunk8").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CrimsonGoreChunk8").Type, NPC.scale);
 
 
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/BloodHunter_FGLeg0").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center + fgLegOffsets[0], Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/BloodHunter_FGLeg1").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center + fgLegOffsets[1], Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/BloodHunter_FGLeg2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/BloodHunter_FGLeg0").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center + fgLegOffsets[0], Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/BloodHunter_FGLeg1").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center + fgLegOffsets[1], Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/BloodHunter_FGLeg2").Type, NPC.scale);
             }
             if (tail != null)
             {
@@ -89,7 +89,7 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
                         tex = "BloodHunter_Tail2";
                     if (i == tail.points.Count - 1)
                         tex = "BloodHunter_Stinger";
-                    Gore.NewGore(NPC.GetSource_Death(), tail.points[i].position, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/" + tex).Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), tail.points[i].position, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/" + tex).Type, NPC.scale);
                 }
             }
             return base.CheckDead();

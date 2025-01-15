@@ -28,7 +28,7 @@ namespace EbonianMod.Items.Tiles
             Item.useTime = 10;
             Item.useStyle = 1;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<EbonHiveBlock>();
+            Item.createTile = TileType<EbonHiveBlock>();
         }
     }
 }

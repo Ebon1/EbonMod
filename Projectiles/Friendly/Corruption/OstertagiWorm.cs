@@ -65,8 +65,8 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D body = ModContent.Request<Texture2D>(Texture.Replace("Head", "Body")).Value;
-            Texture2D tail = ModContent.Request<Texture2D>(Texture.Replace("Head", "Tail")).Value;
+            Texture2D body = Request<Texture2D>(Texture.Replace("Head", "Body")).Value;
+            Texture2D tail = Request<Texture2D>(Texture.Replace("Head", "Tail")).Value;
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 if (i != Projectile.oldPos.Length - 1)

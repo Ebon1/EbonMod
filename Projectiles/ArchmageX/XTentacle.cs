@@ -128,7 +128,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                 EbonianMod.Tentacle.Parameters[0].SetValue(model * projection);
                 EbonianMod.Tentacle.CurrentTechnique.Passes[0]
                     .Apply();
-                ((Game)Main.instance).GraphicsDevice.Textures[0] = (Texture)(object)ModContent.Request<Texture2D>(Texture, (AssetRequestMode)2).Value;
+                ((Game)Main.instance).GraphicsDevice.Textures[0] = (Texture)(object)Request<Texture2D>(Texture, (AssetRequestMode)2).Value;
                 ((Game)Main.instance).GraphicsDevice.DrawUserPrimitives<VertexInfo2>((PrimitiveType)1, bars.ToArray(), 0, bars.Count - 2);
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin((SpriteSortMode)0, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, (Effect)null, Main.GameViewMatrix.TransformationMatrix);

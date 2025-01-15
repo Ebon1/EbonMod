@@ -31,7 +31,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<CorruptionClawP>();
+            Item.shoot = ProjectileType<CorruptionClawP>();
         }
         public override bool? CanAutoReuseItem(Player player)
         {

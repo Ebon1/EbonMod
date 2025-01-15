@@ -20,11 +20,11 @@ namespace EbonianMod.Tiles
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             TileID.Sets.BlockMergesWithMergeAllBlock[Type] = true;
-            Main.tileMerge[ModContent.TileType<EbonHiveBlockSpecial>()][Type] = true;
-            Main.tileMerge[ModContent.TileType<EbonHiveRock>()][Type] = true;
-            Main.tileMerge[ModContent.TileType<EbonHiveRock2>()][Type] = true;
+            Main.tileMerge[TileType<EbonHiveBlockSpecial>()][Type] = true;
+            Main.tileMerge[TileType<EbonHiveRock>()][Type] = true;
+            Main.tileMerge[TileType<EbonHiveRock2>()][Type] = true;
             DustType = DustID.GreenBlood;
-            RegisterItemDrop(ModContent.ItemType<Items.Tiles.EbonHiveI>());
+            RegisterItemDrop(ItemType<Items.Tiles.EbonHiveI>());
 
             AddMapEntry(Color.Brown);
         }
@@ -41,16 +41,16 @@ namespace EbonianMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
-            Main.tileMerge[ModContent.TileType<EbonHiveBlock>()][Type] = true;
+            Main.tileMerge[TileType<EbonHiveBlock>()][Type] = true;
             TileID.Sets.BlockMergesWithMergeAllBlock[Type] = true;
             DustType = DustID.GreenBlood;
-            RegisterItemDrop(ModContent.ItemType<Items.Accessories.EbonianHeart>());
+            RegisterItemDrop(ItemType<Items.Accessories.EbonianHeart>());
 
             AddMapEntry(Color.LawnGreen);
         }
         public override IEnumerable<Item> GetItemDrops(int i, int j)
         {
-            yield return new Item(ModContent.ItemType<EbonianHeart>());
+            yield return new Item(ItemType<EbonianHeart>());
         }
         public Rectangle frame;
         public int frameCounter;
@@ -77,7 +77,7 @@ namespace EbonianMod.Tiles
                     null, Lighting.GetColor(new(i, j)), projRotation,
                     new Vector2(12 * 0.5f, 6 * 0.5f), 1f, SpriteEffects.None, 0);
             }
-            spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/Items/Accessories/EbonianHeartNPC").Value, finalCenter + zero,
+            spriteBatch.Draw(Request<Texture2D>("EbonianMod/Items/Accessories/EbonianHeartNPC").Value, finalCenter + zero,
                         frame, Lighting.GetColor(new(i, j)), 0,
                         new Vector2(34 * 0.5f, 34 * 0.5f), 1f, SpriteEffects.None, 0);
             spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Items/Accessories/EbonianHeartNPC_Glow").Value, finalCenter + zero,
@@ -101,7 +101,7 @@ namespace EbonianMod.Tiles
             {
                 frameCounter = 0;
             }
-            frame = new Rectangle(0, frame.Y, ModContent.Request<Texture2D>("EbonianMod/Items/Accessories/EbonianHeartNPC").Value.Width, ModContent.Request<Texture2D>("EbonianMod/Items/Accessories/EbonianHeartNPC").Value.Height / 3);
+            frame = new Rectangle(0, frame.Y, Request<Texture2D>("EbonianMod/Items/Accessories/EbonianHeartNPC").Value.Width, Request<Texture2D>("EbonianMod/Items/Accessories/EbonianHeartNPC").Value.Height / 3);
             return true;
         }
 

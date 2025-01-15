@@ -18,7 +18,7 @@ namespace EbonianMod.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             EbonianPlayer modPlayer = player.GetModPlayer<EbonianPlayer>();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<XTomeSummon>()] > 0)
+            if (player.ownedProjectileCounts[ProjectileType<XTomeSummon>()] > 0)
             {
                 modPlayer.xMinion = true;
             }

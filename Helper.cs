@@ -384,9 +384,9 @@ namespace EbonianMod
         public static Texture2D GetTexture(string path)
         {
             if (path.Contains("EbonianMod/"))
-                return ModContent.Request<Texture2D>(path).Value;
+                return Request<Texture2D>(path).Value;
             else
-                return ModContent.Request<Texture2D>("EbonianMod/" + path).Value;
+                return Request<Texture2D>("EbonianMod/" + path).Value;
         }
         public static Texture2D GetTextureAlt(string path)
         {
@@ -517,17 +517,17 @@ namespace EbonianMod
         public static void DustExplosion(Vector2 pos, Vector2 size = default, int type = 0, Color color = default, bool sound = true, bool smoke = true, float scaleFactor = 1, float increment = 0.125f, Vector2 _vel = default)
         {
 
-            int dustType = ModContent.DustType<Dusts.ColoredFireDust>();
+            int dustType = DustType<Dusts.ColoredFireDust>();
             switch (type)
             {
                 case 0:
-                    dustType = ModContent.DustType<Dusts.ColoredFireDust>();
+                    dustType = DustType<Dusts.ColoredFireDust>();
                     break;
                 case 1:
-                    dustType = ModContent.DustType<Dusts.FireDust>();
+                    dustType = DustType<Dusts.FireDust>();
                     break;
                 case 2:
-                    dustType = ModContent.DustType<Dusts.SmokeDustAkaFireDustButNoGlow>();
+                    dustType = DustType<Dusts.SmokeDustAkaFireDustButNoGlow>();
                     break;
             }
             if (sound)
@@ -700,7 +700,7 @@ namespace EbonianMod
                 float alpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
                 string text = GetDialogueText();
                 Main.spriteBatch.Reload(BlendState.Additive);
-                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/Extras/textGlow").Value, new Vector2(Main.screenWidth / 2, (int)(Main.screenHeight * 0.2f)), null, player.dialogueColor * alpha * 0.5f, 0f, new Vector2(256) / 2, new Vector2(10, 3f), SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Request<Texture2D>("EbonianMod/Extras/textGlow").Value, new Vector2(Main.screenWidth / 2, (int)(Main.screenHeight * 0.2f)), null, player.dialogueColor * alpha * 0.5f, 0f, new Vector2(256) / 2, new Vector2(10, 3f), SpriteEffects.None, 0f);
                 Main.spriteBatch.Reload(BlendState.AlphaBlend);
                 ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, text, new Vector2(100, Main.screenHeight * 0.2f), player.dialogueColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f), Main.screenWidth - 100);
                 Main.spriteBatch.Reload(Main.DefaultSamplerState);

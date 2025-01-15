@@ -110,7 +110,7 @@ namespace EbonianMod.Projectiles.ArchmageX
 
                     points.Add(point);
                     //if (Projectile.damage != 0 && i != 0 && Collision.CanHitLine(Projectile.Center, 1, 1, points[i], 1, 1))
-                    //  Dust.NewDustPerfect(point, ModContent.DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, default, 0.25f);
+                    //  Dust.NewDustPerfect(point, DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], point) * 4, 0, default, 0.25f);
 
                     x = MathF.Cos(4.7124f + ((float)i / n) * 35) * Projectile.ai[1];
                 }
@@ -133,9 +133,9 @@ namespace EbonianMod.Projectiles.ArchmageX
                                 if (!Collision.CanHitLine(Projectile.Center, 1, 1, points[i], 1, 1))
                                     continue;
                                 if (Main.rand.NextBool())
-                                    Dust.NewDustPerfect(points[i], ModContent.DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], points[i]) * Main.rand.NextFloat(4, 8), 0, default, 0.5f * s);
+                                    Dust.NewDustPerfect(points[i], DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], points[i]) * Main.rand.NextFloat(4, 8), 0, default, 0.5f * s);
                                 if (Main.rand.NextBool(4) && i % 4 == 0)
-                                    Dust.NewDustPerfect(points[i], ModContent.DustType<SparkleDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], points[i]) * Main.rand.NextFloat(4, 8), 0, Color.Indigo * s, Main.rand.NextFloat(0.1f, 0.15f) * s);
+                                    Dust.NewDustPerfect(points[i], DustType<SparkleDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], points[i]) * Main.rand.NextFloat(4, 8), 0, Color.Indigo * s, Main.rand.NextFloat(0.1f, 0.15f) * s);
                             }
                             s -= i / (float)points.Count * 0.01f;
                         }

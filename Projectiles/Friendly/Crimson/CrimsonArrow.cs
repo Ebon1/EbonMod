@@ -44,7 +44,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             for (int i = 0; i < 2; i++)
             {
                 float angle = (i + 1) * offset;
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * 4, ModContent.ProjectileType<Gibs>(), Projectile.damage / 4, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.UnitX.RotatedBy(angle) * 4, ProjectileType<Gibs>(), Projectile.damage / 4, Projectile.knockBack, Projectile.owner);
             }
         }
     }

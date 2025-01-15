@@ -26,13 +26,13 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.damage = 19;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<ExolsawP>();
+            Item.shoot = ProjectileType<ExolsawP>();
             Item.rare = ItemRarityID.Orange;
             Item.shootSpeed = 16f;
         }
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[ModContent.ProjectileType<ExolsawP>()] < 10;
+            return player.ownedProjectileCounts[ProjectileType<ExolsawP>()] < 10;
         }
     }
     public class ExolsawP : ModProjectile

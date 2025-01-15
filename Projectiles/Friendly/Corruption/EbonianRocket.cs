@@ -83,7 +83,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
         {
             if (Projectile.ai[1] == 0)
             {
-                Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GreenShockwave>(), Projectile.damage, 0, Projectile.owner);
+                Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<GreenShockwave>(), Projectile.damage, 0, Projectile.owner);
                 a.hostile = false;
                 a.friendly = true;
                 Helper.DustExplosion(Projectile.Center, Vector2.One, 0, Color.Green * 0.75f, true, true);
@@ -101,7 +101,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
             {
                 Projectile.timeLeft = 45;
                 Projectile.velocity *= 0;
-                Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GreenShockwave>(), Projectile.damage, 0, Projectile.owner);
+                Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<GreenShockwave>(), Projectile.damage, 0, Projectile.owner);
                 a.hostile = false;
                 a.friendly = true;
                 Helper.DustExplosion(Projectile.Center, Vector2.One, 0, Color.Green * 0.75f, true, true);

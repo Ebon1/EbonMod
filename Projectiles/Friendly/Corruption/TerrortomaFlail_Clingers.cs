@@ -49,7 +49,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
         {
             Player player = Main.player[Projectile.owner];
             Projectile center = Main.projectile[(int)Projectile.ai[0]];
-            if (!center.active || center.type != ModContent.ProjectileType<TerrortomaFlail>())
+            if (!center.active || center.type != ProjectileType<TerrortomaFlail>())
             {
                 Projectile.Kill();
             }
@@ -65,7 +65,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                 if (AITimer % 100 == 0)
                 {
                     float rotation = (float)Math.Atan2(Projectile.Center.Y - Main.MouseWorld.Y, Projectile.Center.X - Main.MouseWorld.X);
-                    Projectile projectilee = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center.X, Projectile.Center.Y, (float)((Math.Cos(rotation) * 12f) * -1), (float)((Math.Sin(rotation) * 12f) * -1), ModContent.ProjectileType<TFlameThrower3>(), Projectile.damage, 1f, Main.myPlayer)];
+                    Projectile projectilee = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center.X, Projectile.Center.Y, (float)((Math.Cos(rotation) * 12f) * -1), (float)((Math.Sin(rotation) * 12f) * -1), ProjectileType<TFlameThrower3>(), Projectile.damage, 1f, Main.myPlayer)];
                     projectilee.friendly = true;
                     projectilee.hostile = false;
                 }
@@ -78,7 +78,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                 Vector2 moveTo = target - Projectile.Center;
                 Projectile.velocity = (moveTo) * 0.1f;
                 if (AITimer % 180 == 0)
-                    Projectile.NewProjectile(null, Projectile.Center, Helper.FromAToB(Projectile.Center, Main.MouseWorld) * Main.rand.NextFloat(5, 8), ModContent.ProjectileType<OstertagiWorm>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Main.rand.NextFloat(0.05f, 0.2f));
+                    Projectile.NewProjectile(null, Projectile.Center, Helper.FromAToB(Projectile.Center, Main.MouseWorld) * Main.rand.NextFloat(5, 8), ProjectileType<OstertagiWorm>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Main.rand.NextFloat(0.05f, 0.2f));
             }
             else
             {

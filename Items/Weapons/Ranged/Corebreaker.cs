@@ -33,7 +33,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item14;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<CorebreakerP>();
+            Item.shoot = ProjectileType<CorebreakerP>();
             Item.shootSpeed = 14;
             Item.useAmmo = AmmoID.Bullet;
         }
@@ -46,19 +46,19 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             //   for (int i = 0; i < 2; i++)
             //     Helper.DustExplosion(position + velocity, Vector2.One, 2, Color.White, false, false, 0.6f, 0.5f, new(velocity.X / 2, Main.rand.NextFloat(-5, -3)));
-            Projectile.NewProjectile(source, position, velocity * 2, ModContent.ProjectileType<CorebreakerP>(), damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity * 2, ProjectileType<CorebreakerP>(), damage, knockback, player.whoAmI);
             /*for (int i = -1; i < 2; i++)
             {
                 if (i == 0)
                     continue;
-                Projectile a = Projectile.NewProjectileDirect(Item.InheritSource(Item), position, velocity + new Vector2(0, 5 * i).RotatedBy(velocity.ToRotation()), ModContent.ProjectileType<EFireBreath2>(), damage, knockback, player.whoAmI);
+                Projectile a = Projectile.NewProjectileDirect(Item.InheritSource(Item), position, velocity + new Vector2(0, 5 * i).RotatedBy(velocity.ToRotation()), ProjectileType<EFireBreath2>(), damage, knockback, player.whoAmI);
                 a.friendly = true;
                 a.hostile = false;
                 a.localAI[0] = 600;
                 a.scale = 1;
 
             }*/
-            Projectile a = Projectile.NewProjectileDirect(Terraria.Entity.InheritSource(Item), position, velocity, ModContent.ProjectileType<EFireBreath2>(), damage / 3, knockback, player.whoAmI);
+            Projectile a = Projectile.NewProjectileDirect(Terraria.Entity.InheritSource(Item), position, velocity, ProjectileType<EFireBreath2>(), damage / 3, knockback, player.whoAmI);
             a.friendly = true;
             a.hostile = false;
             a.localAI[0] = 400;

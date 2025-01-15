@@ -22,7 +22,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.damage = 2;
             Item.useTime = 5;
             Item.useAnimation = 5;
-            Item.shoot = ModContent.ProjectileType<WeakCursedBullet>();
+            Item.shoot = ProjectileType<WeakCursedBullet>();
             Item.shootSpeed = 8f;
             Item.rare = ItemRarityID.Green;
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -44,7 +44,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (type == ProjectileID.Bullet)
-                type = ModContent.ProjectileType<WeakCursedBullet>();
+                type = ProjectileType<WeakCursedBullet>();
             Projectile.NewProjectile(source, position, velocity.RotatedBy(Main.rand.NextFloat(-(MathHelper.Pi / 16), MathHelper.Pi / 16)), type, damage, knockback, player.whoAmI);
             return false;
         }

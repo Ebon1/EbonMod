@@ -22,7 +22,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
         public override void SetDefaults()
         {
-            Item.DefaultToWhip(ModContent.ProjectileType<BloodlashPro>(), 23, 2, 4, 30);
+            Item.DefaultToWhip(ProjectileType<BloodlashPro>(), 23, 2, 4, 30);
             Item.rare = ItemRarityID.Pink;
 
             Item.channel = false;
@@ -141,7 +141,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
             Main.instance.LoadProjectile(Type);
             Texture2D texture = TextureAssets.Projectile[Type].Value;
-            Texture2D glowTexture = ModContent.Request<Texture2D>(Texture + "_Glow").Value;
+            Texture2D glowTexture = Request<Texture2D>(Texture + "_Glow").Value;
 
             Vector2 pos = list[0];
 

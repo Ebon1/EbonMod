@@ -33,7 +33,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Zombie67;
-            Item.shoot = ModContent.ProjectileType<GarbageDroneF>();
+            Item.shoot = ProjectileType<GarbageDroneF>();
             Item.shootSpeed = 5;
         }
         public override Vector2? HoldoutOffset()

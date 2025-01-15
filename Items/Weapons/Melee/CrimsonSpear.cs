@@ -36,11 +36,11 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<CrimsonSpearP>();
+            Item.shoot = ProjectileType<CrimsonSpearP>();
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.TheRottedFork).AddIngredient(ModContent.ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.TheRottedFork).AddIngredient(ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         int dir = -1;
         public override bool? CanAutoReuseItem(Player player)

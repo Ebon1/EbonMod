@@ -32,7 +32,7 @@ namespace EbonianMod.Projectiles.Friendly.Underworld
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-            Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FlameExplosionWSprite>(), Projectile.damage * 2, 0);
+            Projectile a = Projectile.NewProjectileDirect(NPC.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<FlameExplosionWSprite>(), Projectile.damage * 2, 0);
             a.friendly = true;
             a.hostile = false;
         }

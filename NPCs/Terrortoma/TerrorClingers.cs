@@ -34,7 +34,7 @@ namespace EbonianMod.NPCs.Terrortoma
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[ModContent.NPCType<Terrortoma>()], quickUnlock: true);
+            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[NPCType<Terrortoma>()], quickUnlock: true);
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
@@ -79,7 +79,7 @@ namespace EbonianMod.NPCs.Terrortoma
             Player player = Main.player[NPC.target];
             NPC.damage = 0;
             NPC center = Main.npc[(int)NPC.ai[0]];
-            if (!center.active || center.type != ModContent.NPCType<Terrortoma>())
+            if (!center.active || center.type != NPCType<Terrortoma>())
             {
                 NPC.life = 0;
             }
@@ -133,17 +133,17 @@ namespace EbonianMod.NPCs.Terrortoma
                         distToProj = neckOrigin - NPCcenter;
                         distance = distToProj.Length();
 
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
                     }
                     NPC.life = 0;
                     NPC.checkDead();
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
                     EbonianSystem.ScreenShakeAmount += 5f;
-                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0, 0);
+                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                 }
             }
             if (center.ai[2] == 0 && NPC.ai[3] == 0 && AIState != 0)
@@ -186,7 +186,7 @@ namespace EbonianMod.NPCs.Terrortoma
                             NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + new Vector2(100).RotatedBy(MathHelper.ToRadians(AITimer * 3.6f)), false) * 0.25f;
                             if (AITimer % 15 == 0)
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * 2, ModContent.ProjectileType<TFlameThrower4>(), 20, 0, ai2: AITimer - 100);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * 2, ProjectileType<TFlameThrower4>(), 20, 0, ai2: AITimer - 100);
                             }
                             if (AITimer >= 101)
                             {
@@ -202,7 +202,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                 for (int i = 0; i < Main.maxNPCs; i++)
                                 {
                                     NPC npc = Main.npc[i];
-                                    if (npc.active && npc.type == ModContent.NPCType<TerrorClingerMelee>())
+                                    if (npc.active && npc.type == NPCType<TerrorClingerMelee>())
                                     {
                                         if (npc.Center.Distance(NPC.Center) < npc.width)
                                         {
@@ -215,7 +215,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                                 for (int j = -5; j < 6; j++)
                                                 {
                                                     if (j == 0) continue;
-                                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY.RotatedBy(MathHelper.ToRadians(MathHelper.Lerp(-100, 100, (float)(j + 5) / 10))) * 10, ModContent.ProjectileType<TFlameThrower3>(), 20, 0);
+                                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY.RotatedBy(MathHelper.ToRadians(MathHelper.Lerp(-100, 100, (float)(j + 5) / 10))) * 10, ProjectileType<TFlameThrower3>(), 20, 0);
                                                 }
                                             }
                                             else
@@ -223,7 +223,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                                 for (int j = -3; j < 4; j++)
                                                 {
                                                     if (j == 0) continue;
-                                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY.RotatedBy(j * 0.5f) * 10, ModContent.ProjectileType<TFlameThrower3>(), 20, 0);
+                                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY.RotatedBy(j * 0.5f) * 10, ProjectileType<TFlameThrower3>(), 20, 0);
                                                 }
                                             }
                                             SoundEngine.PlaySound(EbonianSounds.fleshHit, npc.Center);
@@ -264,7 +264,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                     {
                                         if (AITimer2 == 0)
                                         {
-                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4 / 3) * 5, ModContent.ProjectileType<TFlameThrower3>(), 25, 0);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver4 / 3) * 5, ProjectileType<TFlameThrower3>(), 25, 0);
                                             AITimer2 = 1;
                                         }
                                     }
@@ -311,7 +311,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     new Rectangle(0, 0, 26, 20), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
                     new Vector2(26 * 0.5f, 20 * 0.5f), 1f, SpriteEffects.None, 0);
             }
-            Texture2D tex = ModContent.Request<Texture2D>(Texture + "_Bloom").Value;
+            Texture2D tex = Request<Texture2D>(Texture + "_Bloom").Value;
             spriteBatch.Reload(BlendState.Additive);
             spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.LawnGreen * bloomAlpha, NPC.rotation, tex.Size() / 2 - new Vector2(0, 2).RotatedBy(NPC.rotation), NPC.scale * 1.05f, SpriteEffects.None, 0);
             spriteBatch.Reload(BlendState.AlphaBlend);
@@ -323,7 +323,7 @@ namespace EbonianMod.NPCs.Terrortoma
     {
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[ModContent.NPCType<Terrortoma>()], quickUnlock: true);
+            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[NPCType<Terrortoma>()], quickUnlock: true);
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
@@ -377,7 +377,7 @@ namespace EbonianMod.NPCs.Terrortoma
             Player player = Main.player[NPC.target];
 
             NPC center = Main.npc[(int)NPC.ai[0]];
-            if (!center.active || center.type != ModContent.NPCType<Terrortoma>())
+            if (!center.active || center.type != NPCType<Terrortoma>())
             {
                 NPC.life = 0;
             }
@@ -432,19 +432,19 @@ namespace EbonianMod.NPCs.Terrortoma
                         distToProj = neckOrigin - NPCcenter;
                         distance = distToProj.Length();
 
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
                     }
 
                     EbonianSystem.ScreenShakeAmount += 5f;
-                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0, 0);
+                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                     for (int i = 0; i < 5; i++)
                     {
-                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
-                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 7), ModContent.ProjectileType<OstertagiWorm>(), 20, 0, 0);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
+                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 7), ProjectileType<OstertagiWorm>(), 20, 0, 0);
                         a.friendly = false;
                         a.hostile = true;
                     }
@@ -460,7 +460,7 @@ namespace EbonianMod.NPCs.Terrortoma
             {
                 if (CenterAITimer % 120 == 0)
                 {
-                    NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), ModContent.NPCType<BloatedEbonfly>());
+                    NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), NPCType<BloatedEbonfly>());
                 }
             }
             if ((center.ai[2] != 1 && center.ai[2] <= 2) || center.ai[2] == 4)
@@ -499,21 +499,21 @@ namespace EbonianMod.NPCs.Terrortoma
                                 AITimer++;
                                 if (AITimer % 25 == 0)
                                 {
-                                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * Main.rand.NextFloat(5, 7), ModContent.ProjectileType<OstertagiWorm>(), 30, 0, 0);
+                                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * Main.rand.NextFloat(5, 7), ProjectileType<OstertagiWorm>(), 30, 0, 0);
                                     a.friendly = false;
                                     a.hostile = true;
                                 }
                                 if (AITimer == 50)
                                 {
-                                    NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), ModContent.NPCType<BloatedEbonfly>());
+                                    NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), NPCType<BloatedEbonfly>());
                                     //float angle = Helper.CircleDividedEqually(i, 6) + off;
-                                    //Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.One.RotatedBy(angle), ModContent.ProjectileType<TSpike>(), 15, 0);
+                                    //Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.One.RotatedBy(angle), ProjectileType<TSpike>(), 15, 0);
                                 }
                                 if (AITimer == 80)
                                 {
-                                    NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), ModContent.NPCType<BloatedEbonfly>());
+                                    NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), NPCType<BloatedEbonfly>());
                                     //float angle = Helper.CircleDividedEqually(i, 8) + off;
-                                    //Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.One.RotatedBy(angle), ModContent.ProjectileType<TSpike>(), 15, 0);
+                                    //Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.One.RotatedBy(angle), ProjectileType<TSpike>(), 15, 0);
                                 }
                                 if (AITimer >= 100)
                                 {
@@ -532,7 +532,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                 for (int i = 0; i < Main.maxNPCs; i++)
                                 {
                                     NPC npc = Main.npc[i];
-                                    if (npc.active && npc.type == ModContent.NPCType<TerrorClingerMelee>())
+                                    if (npc.active && npc.type == NPCType<TerrorClingerMelee>())
                                     {
                                         if (npc.Center.Distance(NPC.Center) < npc.width)
                                         {
@@ -599,7 +599,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     new Rectangle(0, 0, 26, 20), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
                     new Vector2(26 * 0.5f, 20 * 0.5f), 1f, SpriteEffects.None, 0);
             }
-            Texture2D tex = ModContent.Request<Texture2D>(Texture + "_Bloom").Value;
+            Texture2D tex = Request<Texture2D>(Texture + "_Bloom").Value;
             spriteBatch.Reload(BlendState.Additive);
             spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.LawnGreen * bloomAlpha, NPC.rotation, tex.Size() / 2 + new Vector2(0, 2).RotatedBy(NPC.rotation), NPC.scale * 1.05f, SpriteEffects.None, 0);
             spriteBatch.Reload(BlendState.AlphaBlend);
@@ -611,7 +611,7 @@ namespace EbonianMod.NPCs.Terrortoma
     {
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[ModContent.NPCType<Terrortoma>()], quickUnlock: true);
+            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[NPCType<Terrortoma>()], quickUnlock: true);
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
@@ -705,7 +705,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 AITimer = center.ai[1];
             }
             NPC.damage = (int)center.localAI[0];
-            if (!center.active || center.type != ModContent.NPCType<Terrortoma>())
+            if (!center.active || center.type != NPCType<Terrortoma>())
             {
                 NPC.life = 0;
             }
@@ -734,7 +734,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 {
                     NPC.velocity = Vector2.UnitY * 5;
                     EbonianSystem.ScreenShakeAmount += 5f;
-                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0, 0);
+                    Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                     Vector2 neckOrigin = terrortomaCenter;
                     Vector2 NPCcenter = NPC.Center;
                     Vector2 distToProj = neckOrigin - NPC.Center;
@@ -748,18 +748,18 @@ namespace EbonianMod.NPCs.Terrortoma
                         distToProj = neckOrigin - NPCcenter;
                         distance = distToProj.Length();
 
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
-                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
                     }
                 }
                 if (center.ai[1] == 350)
                 {
                     NPC.life = 0;
                     NPC.checkDead();
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
                     for (int i = 0; i < 10; i++)
                     {
                         Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.CursedTorch, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
@@ -900,13 +900,13 @@ namespace EbonianMod.NPCs.Terrortoma
 
             if (NPC.IsABestiaryIconDummy || NPC.Center == Vector2.Zero)
                 return true;
-            Vector2 drawOrigin = new Vector2(ModContent.Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrorClingerMelee").Value.Width * 0.5f, NPC.height * 0.5f);
+            Vector2 drawOrigin = new Vector2(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrorClingerMelee").Value.Width * 0.5f, NPC.height * 0.5f);
             if (IsDashing)
             {
                 for (int k = 0; k < NPC.oldPos.Length; k++)
                 {
                     Vector2 drawPos = NPC.oldPos[k] - pos + drawOrigin + new Vector2(0, NPC.gfxOffY);
-                    spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrorClingerMelee").Value, drawPos, NPC.frame, Color.White * 0.5f, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrorClingerMelee").Value, drawPos, NPC.frame, Color.White * 0.5f, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
                 }
             }
             if (Main.npc[(int)NPC.ai[0]].ai[0] == -1 && Main.npc[(int)NPC.ai[0]].ai[1] > 100)
@@ -929,7 +929,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     new Rectangle(0, 0, 26, 20), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
                     new Vector2(26 * 0.5f, 20 * 0.5f), 1f, SpriteEffects.None, 0);
             }
-            Texture2D tex = ModContent.Request<Texture2D>(Texture + "_Bloom").Value;
+            Texture2D tex = Request<Texture2D>(Texture + "_Bloom").Value;
             spriteBatch.Reload(BlendState.Additive);
             spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.LawnGreen * bloomAlpha, NPC.rotation, tex.Size() / 2 - new Vector2(0, 2).RotatedBy(NPC.rotation), NPC.scale * 1.05f, SpriteEffects.None, 0);
             spriteBatch.Reload(BlendState.AlphaBlend);

@@ -49,11 +49,11 @@ namespace EbonianMod.NPCs
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
             if (npc.type == NPCID.Zombie)
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<ClementinesCap>(), 300));
+                npcLoot.Add(ItemDropRule.Common(ItemType<ClementinesCap>(), 300));
         }
         public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
         {
-            if (NPC.AnyNPCs(ModContent.NPCType<Terrortoma.Terrortoma>()) || NPC.AnyNPCs(ModContent.NPCType<Cecitior.Cecitior>()) || NPC.AnyNPCs(ModContent.NPCType<ArchmageX.ArchmageX>()) || NPC.AnyNPCs(ModContent.NPCType<HotGarbage>()))
+            if (NPC.AnyNPCs(NPCType<Terrortoma.Terrortoma>()) || NPC.AnyNPCs(NPCType<Cecitior.Cecitior>()) || NPC.AnyNPCs(NPCType<ArchmageX.ArchmageX>()) || NPC.AnyNPCs(NPCType<HotGarbage>()))
             {
                 maxSpawns = 0;
                 spawnRate = 0;

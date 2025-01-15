@@ -49,10 +49,10 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                     Projectile.ai[1] += 1f;
                     Projectile.position += Projectile.velocity * 1f;
                 }
-                int num62 = ModContent.ProjectileType<VilethornF1>();
+                int num62 = ProjectileType<VilethornF1>();
                 if (Projectile.ai[1] >= 55f)
                 {
-                    num62 = ModContent.ProjectileType<VilethornF2>();
+                    num62 = ProjectileType<VilethornF2>();
                 }
                 //float rot = MathHelper.ToRadians(Projectile.ai[1] * (Projectile.ai[2] == 0 ? 1 : Projectile.ai[2]));
                 Vector2 vel = Projectile.velocity.SafeNormalize(Vector2.UnitY);

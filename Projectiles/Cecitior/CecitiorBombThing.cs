@@ -36,7 +36,7 @@ namespace EbonianMod.Projectiles.Cecitior
         }*/
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Helper.TRay.Cast(Projectile.Center, Vector2.UnitY, Main.screenWidth), Vector2.Zero, ModContent.ProjectileType<IchorExplosion>(), Projectile.damage, 0);
+            Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Helper.TRay.Cast(Projectile.Center, Vector2.UnitY, Main.screenWidth), Vector2.Zero, ProjectileType<IchorExplosion>(), Projectile.damage, 0);
             Terraria.Audio.SoundEngine.PlaySound(EbonianSounds.eggplosion, Projectile.Center);
             return true;
         }

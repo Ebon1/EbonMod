@@ -36,7 +36,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.Green;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<SanguineSlasherP>();
+            Item.shoot = ProjectileType<SanguineSlasherP>();
         }
         int dir = 1;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

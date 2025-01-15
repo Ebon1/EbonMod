@@ -32,12 +32,12 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<ThornBowP>();
+            Item.shoot = ProjectileType<ThornBowP>();
             Item.useAmmo = AmmoID.Arrow;
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.EbonwoodBow).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.EbonwoodBow).AddIngredient(ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool CanConsumeAmmo(Item ammo, Player player)
         {
@@ -45,7 +45,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<ThornBowP>(), damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity, ProjectileType<ThornBowP>(), damage, knockback, player.whoAmI);
             return false;
         }
         public override bool CanUseItem(Player player)
@@ -162,7 +162,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                 if (Projectile.timeLeft == 24)
                 {
                     SoundEngine.PlaySound(release, Projectile.Center);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 20, ModContent.ProjectileType<CorruptArrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 20, ProjectileType<CorruptArrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
 
                     alpha = 0;
                 }

@@ -22,7 +22,7 @@ namespace EbonianMod.Items.Accessories
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 var npcc = Main.npc[i];
-                if (npcc.type == ModContent.NPCType<TinyBrain>() && npcc.active)
+                if (npcc.type == NPCType<TinyBrain>() && npcc.active)
                 {
                     brains.Add(i);
                 }
@@ -35,7 +35,7 @@ namespace EbonianMod.Items.Accessories
                     for (int k = 0; k < 8; k++)
                     {
                         float angle = 2f * (float)Math.PI / 8f * k;
-                        NPC npc = NPC.NewNPCDirect(player.GetSource_Accessory(Item), player.Center, ModContent.NPCType<TinyBrain>(), target: player.whoAmI);
+                        NPC npc = NPC.NewNPCDirect(player.GetSource_Accessory(Item), player.Center, NPCType<TinyBrain>(), target: player.whoAmI);
                         npc.localAI[0] = k;
                         NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI);
                     }

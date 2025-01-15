@@ -38,11 +38,11 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<MeatCrusherP>();
+            Item.shoot = ProjectileType<MeatCrusherP>();
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.BreakerBlade).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.BreakerBlade).AddIngredient(ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool? CanAutoReuseItem(Player player)
         {
@@ -103,7 +103,7 @@ namespace EbonianMod.Items.Weapons.Melee
                     SoundEngine.PlaySound(SoundID.Item70, Projectile.Center);
                     for (int i = 0; i < 5; i++)
                     {
-                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center - new Vector2(0, 20), new Vector2(Main.rand.NextFloat(-4.5f, 4.5f), Main.rand.NextFloat(-2, -3)), ModContent.ProjectileType<VileMeatChunk>(), Projectile.damage / 2, 0, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center - new Vector2(0, 20), new Vector2(Main.rand.NextFloat(-4.5f, 4.5f), Main.rand.NextFloat(-2, -3)), ProjectileType<VileMeatChunk>(), Projectile.damage / 2, 0, Projectile.owner);
                     }
 
                     lerpProg = -1;

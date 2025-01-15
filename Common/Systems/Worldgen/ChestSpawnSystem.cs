@@ -20,11 +20,11 @@ namespace EbonianMod.Common.Systems.Worldgen
     {
         void FillChests()
         {
-            int[] goldChestMainLoot = { ModContent.ItemType<GarbageRemote>(), ModContent.ItemType<SpudCannon>() };
+            int[] goldChestMainLoot = { ItemType<GarbageRemote>(), ItemType<SpudCannon>() };
 
-            int[] goldChestSecondaryLoot = { ModContent.ItemType<WaspPaintingI>(), ModContent.ItemType<DjungelskogI>(), ModContent.ItemType<Potato>() };
+            int[] goldChestSecondaryLoot = { ItemType<WaspPaintingI>(), ItemType<DjungelskogI>(), ItemType<Potato>() };
 
-            int[] shadowChestMainLoot = { ModContent.ItemType<Corebreaker>(), ModContent.ItemType<RingOfFire>(), ModContent.ItemType<Exolsaw>() };
+            int[] shadowChestMainLoot = { ItemType<Corebreaker>(), ItemType<RingOfFire>(), ItemType<Exolsaw>() };
 
             for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
             {
@@ -37,16 +37,16 @@ namespace EbonianMod.Common.Systems.Worldgen
                         {
                             int type = Main.rand.Next(goldChestSecondaryLoot);
                             chest.item[1].SetDefaults(type);
-                            if (chest.item[1].type == ModContent.ItemType<Potato>())
+                            if (chest.item[1].type == ItemType<Potato>())
                                 chest.item[1].stack = Main.rand.Next(2, 20);
                         }
                         if (WorldGen.genRand.NextBool(5)) //primary
                         {
                             int type = Main.rand.Next(goldChestMainLoot);
                             chest.item[0].SetDefaults(type);
-                            if (chest.item[0].type == ModContent.ItemType<SpudCannon>())
+                            if (chest.item[0].type == ItemType<SpudCannon>())
                             {
-                                chest.item[1].SetDefaults(ModContent.ItemType<Potato>());
+                                chest.item[1].SetDefaults(ItemType<Potato>());
                                 chest.item[1].stack = Main.rand.Next(2, 20);
                             }
 

@@ -37,7 +37,7 @@ namespace EbonianMod.Items.Misc
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<SelfStabP>();
+            Item.shoot = ProjectileType<SelfStabP>();
         }
         public override bool? CanAutoReuseItem(Player player)
         {
@@ -102,7 +102,7 @@ namespace EbonianMod.Items.Misc
                 player.GetModPlayer<EbonianPlayer>().stabDirection = new Vector2(-player.direction, Main.rand.NextFloat(-1, 0));
                 for (int i = 0; i < 5; i++)
                 {
-                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, new Vector2(-player.direction, Main.rand.NextFloat(-1, 0)).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(3, 7), ModContent.ProjectileType<Gibs>(), 15, 0, ai2: 0);
+                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, new Vector2(-player.direction, Main.rand.NextFloat(-1, 0)).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(3, 7), ProjectileType<Gibs>(), 15, 0, ai2: 0);
                 }
                 for (int i = 0; i < 30; i++)
                 {
@@ -110,7 +110,7 @@ namespace EbonianMod.Items.Misc
                     if (i % 5 == 0)
                         Dust.NewDustPerfect(player.Center, DustID.Blood, new Vector2(player.direction, Main.rand.NextFloat(-1, 0)).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(2, 4));
                 }
-                player.AddBuff(ModContent.BuffType<SelfStabB>(), 60 * 60);
+                player.AddBuff(BuffType<SelfStabB>(), 60 * 60);
                 player.AddBuff(BuffID.PotionSickness, 60 * 120);
             }
             if (Projectile.timeLeft <= 30 && Projectile.timeLeft > 15)
@@ -171,17 +171,17 @@ namespace EbonianMod.Items.Misc
             if (player.buffTime[buffIndex] > 60 * 50)
             {
                 if (player.buffTime[buffIndex] % 15 == 0)
-                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, dir * Main.rand.NextFloat(1, 5), ModContent.ProjectileType<Gibs>(), 15, 0);
+                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, dir * Main.rand.NextFloat(1, 5), ProjectileType<Gibs>(), 15, 0);
             }
             else if (player.buffTime[buffIndex] > 60 * 30)
             {
                 if (player.buffTime[buffIndex] % 10 == 0)
-                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, dir * Main.rand.NextFloat(1, 5), ModContent.ProjectileType<Gibs>(), 15, 0);
+                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, dir * Main.rand.NextFloat(1, 5), ProjectileType<Gibs>(), 15, 0);
             }
             else if (player.buffTime[buffIndex] < 60 * 30)
             {
                 if (player.buffTime[buffIndex] % 5 == 0)
-                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, dir * Main.rand.NextFloat(1, 5), ModContent.ProjectileType<Gibs>(), 15, 0);
+                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, dir * Main.rand.NextFloat(1, 5), ProjectileType<Gibs>(), 15, 0);
             }
         }
     }

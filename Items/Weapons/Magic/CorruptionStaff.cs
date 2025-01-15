@@ -35,7 +35,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<VilethornF1>();
+            Item.shoot = ProjectileType<VilethornF1>();
             Item.shootSpeed = 28;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -49,7 +49,7 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.Vilethorn).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.Vilethorn).AddIngredient(ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

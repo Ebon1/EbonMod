@@ -27,7 +27,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.knockBack = 4f;
             Item.damage = 35;
             Item.noUseGraphic = true;
-            Item.shoot = ModContent.ProjectileType<TerrortomaFlail>();
+            Item.shoot = ProjectileType<TerrortomaFlail>();
             Item.shootSpeed = 15.1f;
             Item.UseSound = SoundID.Item1;
             Item.DamageType = DamageClass.Melee;
@@ -36,7 +36,7 @@ namespace EbonianMod.Items.Weapons.Melee
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.BallOHurt).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.BallOHurt).AddIngredient(ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

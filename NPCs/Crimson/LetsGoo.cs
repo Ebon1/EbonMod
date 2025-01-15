@@ -35,7 +35,7 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Items.Weapons.Melee.SanguineSlasher>(), 20));
+            npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Melee.SanguineSlasher>(), 20));
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -98,7 +98,7 @@ namespace EbonianMod.NPCs.Crimson
         public override bool CheckDead()
         {
             for (int i = 0; i < 6; i++)
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/Gnasher" + i).Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/Gnasher" + i).Type, NPC.scale);
             return true;
         }
         public override void AI()

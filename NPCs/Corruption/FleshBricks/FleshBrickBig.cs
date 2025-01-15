@@ -74,8 +74,8 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
         {
             for (int j = 0; j < 6; j++)
                 for (int i = 0; i < 5; i++)
-                    Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CorruptionBrickGibs" + i).Type, NPC.scale);
-            NPC.NewNPCDirect(NPC.GetSource_Death(), NPC.Center + new Vector2(0, 30), ModContent.NPCType<FleshBrickMedium>());
+                    Gore.NewGore(NPC.GetSource_Death(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CorruptionBrickGibs" + i).Type, NPC.scale);
+            NPC.NewNPCDirect(NPC.GetSource_Death(), NPC.Center + new Vector2(0, 30), NPCType<FleshBrickMedium>());
             return true;
         }
         public float AIState

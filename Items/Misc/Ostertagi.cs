@@ -36,7 +36,7 @@ namespace EbonianMod.Items.Misc
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<OstertagiP>();
+            Item.shoot = ProjectileType<OstertagiP>();
         }
         public override bool? CanAutoReuseItem(Player player)
         {
@@ -93,16 +93,16 @@ namespace EbonianMod.Items.Misc
                 player.immuneTime = 0;
                 SoundEngine.PlaySound(EbonianSounds.fleshHit, player.Center);
 
-                Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero, ModContent.ProjectileType<OstertagiExplosion>(), 0, 0, 0);
+                Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                 for (int i = 0; i < 5; i++)
                 {
-                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(3, 7), ModContent.ProjectileType<OstertagiWorm>(), 15, 0, ai2: 0);
+                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(3, 7), ProjectileType<OstertagiWorm>(), 15, 0, ai2: 0);
                 }
                 for (int i = 0; i < 30; i++)
                 {
                     Dust.NewDustPerfect(player.Center, DustID.CorruptGibs, new Vector2(-player.direction, Main.rand.NextFloat(-1, 0)).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(4.5f, 7));
                 }
-                player.AddBuff(ModContent.BuffType<OstertagiB>(), 60 * 45);
+                player.AddBuff(BuffType<OstertagiB>(), 60 * 45);
                 player.AddBuff(BuffID.PotionSickness, 60 * 120);
             }
         }
@@ -132,7 +132,7 @@ namespace EbonianMod.Items.Misc
             {
                 if (player.buffTime[buffIndex] % 30 == 0)
                 {
-                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, dir * Main.rand.NextFloat(1, 5), ModContent.ProjectileType<OstertagiWorm>(), 5, 0);
+                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, dir * Main.rand.NextFloat(1, 5), ProjectileType<OstertagiWorm>(), 5, 0);
 
                     EbonianSystem.ScreenShakeAmount = 2;
 
@@ -148,7 +148,7 @@ namespace EbonianMod.Items.Misc
             {
                 if (player.buffTime[buffIndex] % 20 == 0)
                 {
-                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, dir * Main.rand.NextFloat(1, 5), ModContent.ProjectileType<OstertagiWorm>(), 5, 0);
+                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, dir * Main.rand.NextFloat(1, 5), ProjectileType<OstertagiWorm>(), 5, 0);
 
                     EbonianSystem.ScreenShakeAmount = 2;
 
@@ -164,7 +164,7 @@ namespace EbonianMod.Items.Misc
             {
                 if (player.buffTime[buffIndex] % 10 == 0)
                 {
-                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, dir * Main.rand.NextFloat(1, 5), ModContent.ProjectileType<OstertagiWorm>(), 5, 0);
+                    Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, dir * Main.rand.NextFloat(1, 5), ProjectileType<OstertagiWorm>(), 5, 0);
 
                     EbonianSystem.ScreenShakeAmount = 2;
 

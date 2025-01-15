@@ -21,7 +21,7 @@ namespace EbonianMod.Items.Weapons.Magic
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.Harpoon);
-            Item.shoot = ModContent.ProjectileType<LatcherP>();
+            Item.shoot = ProjectileType<LatcherP>();
             Item.DamageType = DamageClass.Magic;
             Item.noUseGraphic = true;
             Item.rare = ItemRarityID.Green;
@@ -34,7 +34,7 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[ModContent.ProjectileType<LatcherP>()] < 1;
+            return player.ownedProjectileCounts[ProjectileType<LatcherP>()] < 1;
         }
     }
 }

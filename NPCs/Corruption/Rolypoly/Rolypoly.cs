@@ -96,7 +96,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
                 for (int i = 0; i < verlet.points.Count; i++)
                 {
                     if (i % 5 == 0)
-                        Gore.NewGore(NPC.GetSource_Death(), verlet.points[i].position, Main.rand.NextVector2Circular(4, 4), ModContent.Find<ModGore>("EbonianMod/Rolypoly" + Main.rand.Next(3)).Type);
+                        Gore.NewGore(NPC.GetSource_Death(), verlet.points[i].position, Main.rand.NextVector2Circular(4, 4), Find<ModGore>("EbonianMod/Rolypoly" + Main.rand.Next(3)).Type);
                 }
                 Verlet v = verlet;
                 v.gravity = 0;
@@ -108,7 +108,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
                     for (int j = 0; j < extraVerlets[i].points.Count; j++)
                     {
                         if (j % 5 == 0)
-                            Gore.NewGore(NPC.GetSource_Death(), extraVerlets[i].points[j].position, Main.rand.NextVector2Circular(4, 4), ModContent.Find<ModGore>("EbonianMod/Rolypoly" + Main.rand.Next(3)).Type);
+                            Gore.NewGore(NPC.GetSource_Death(), extraVerlets[i].points[j].position, Main.rand.NextVector2Circular(4, 4), Find<ModGore>("EbonianMod/Rolypoly" + Main.rand.Next(3)).Type);
                     }
                     Verlet v = extraVerlets[i];
                     v.gravity = 0;

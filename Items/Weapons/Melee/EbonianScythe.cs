@@ -33,7 +33,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.rare = ItemRarityID.Green;
             Item.shootSpeed = 1;
-            Item.shoot = ModContent.ProjectileType<EbonianScytheP>();
+            Item.shoot = ProjectileType<EbonianScytheP>();
         }
         int dir = 1;
         public override void AddRecipes()

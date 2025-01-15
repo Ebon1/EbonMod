@@ -30,18 +30,18 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Lime;
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<EbonianRocket>();
+            Item.shoot = ProjectileType<EbonianRocket>();
             Item.shootSpeed = 14;
             Item.useAmmo = AmmoID.Rocket;
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.RocketLauncher).AddIngredient(ModContent.ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.RocketLauncher).AddIngredient(ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override Vector2? HoldoutOffset() => new Vector2(-6, 0);
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<EbonianRocket>(), damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity, ProjectileType<EbonianRocket>(), damage, knockback, player.whoAmI);
             return false;
         }
     }

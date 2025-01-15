@@ -34,7 +34,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.rare = ItemRarityID.Green;
             Item.shootSpeed = 1f;
-            Item.shoot = ModContent.ProjectileType<FangSlingerP>();
+            Item.shoot = ProjectileType<FangSlingerP>();
             Item.useAmmo = AmmoID.Arrow;
         }
         public override bool CanConsumeAmmo(Item ammo, Player player)
@@ -47,7 +47,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<FangSlingerP>(), damage, knockback, player.whoAmI);
+            Projectile.NewProjectile(source, position, velocity, ProjectileType<FangSlingerP>(), damage, knockback, player.whoAmI);
             return false;
         }
         public override bool CanUseItem(Player player)
@@ -176,7 +176,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                     SoundEngine.PlaySound(release, Projectile.Center);
                     for (int i = -2; i < 4; i++)
                     {
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedByRandom(i * 0.25f) * 20, ModContent.ProjectileType<CrimsonArrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner, -i);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedByRandom(i * 0.25f) * 20, ProjectileType<CrimsonArrow>(), Projectile.damage, Projectile.knockBack, Projectile.owner, -i);
                     }
                     for (int i = 0; i < 3; i++)
                         alpha[i] = 0;

@@ -110,7 +110,7 @@ namespace EbonianMod.Projectiles.Minions
                     SoundEngine.PlaySound(EbonianSounds.bloodSpit);
                 if (Projectile.ai[2]++ % 60 == 50)
                 {
-                    Projectile p = Projectile.NewProjectileDirect(null, Projectile.Center, Helper.FromAToB(Projectile.Center, targetPos) * 10, ModContent.ProjectileType<CursedToyP>(), Projectile.damage, 0);
+                    Projectile p = Projectile.NewProjectileDirect(null, Projectile.Center, Helper.FromAToB(Projectile.Center, targetPos) * 10, ProjectileType<CursedToyP>(), Projectile.damage, 0);
                     p.DamageType = DamageClass.Summon;
                     p.tileCollide = false;
                     Projectile.velocity = -Helper.FromAToB(Projectile.Center, targetPos) * 4;

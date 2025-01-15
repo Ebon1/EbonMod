@@ -97,10 +97,10 @@ namespace EbonianMod.NPCs.Corruption
             if (hitinfo.Damage > NPC.life && NPC.life <= 0)
             {
                 for (int i = 0; i < 5; i++)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CorruptionBrickGibs2").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CorruptionBrickGibs4").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), ModContent.Find<ModGore>("EbonianMod/CorruptionBrickGibs0").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CorruptionBrickGibs2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CorruptionBrickGibs4").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CorruptionBrickGibs0").Type, NPC.scale);
             }
         }
         Vector2 p;
@@ -138,7 +138,7 @@ namespace EbonianMod.NPCs.Corruption
                     {
                         NPC.velocity = Vector2.Zero;
                         p = player.Center;
-                        //Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center), ModContent.ProjectileType<RegorgerTelegraph>(), 0, 0);
+                        //Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center), ProjectileType<RegorgerTelegraph>(), 0, 0);
                         SoundEngine.PlaySound(EbonianSounds.bloodSpit.WithPitchOffset(0.25f), NPC.Center);
                     }
 
@@ -147,11 +147,11 @@ namespace EbonianMod.NPCs.Corruption
                         NPC.velocity = -Helper.FromAToB(NPC.Center, p) * 4;
                         for (int i = 0; i < 15; i++)
                             Dust.NewDustPerfect(NPC.Center, DustID.CursedTorch, Helper.FromAToB(NPC.Center, p).RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(3, 6));
-                        Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, p), ModContent.ProjectileType<RegorgerBolt>(), 20, 0);
+                        Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, p), ProjectileType<RegorgerBolt>(), 20, 0);
 
                         for (int i = -1; i < 2; i++)
                         {
-                            Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, p).RotatedBy(i * .3f) * 2, ModContent.ProjectileType<TFlameThrower>(), 20, 0);
+                            Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, p).RotatedBy(i * .3f) * 2, ProjectileType<TFlameThrower>(), 20, 0);
                         }
                     }
 

@@ -38,7 +38,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Green;
             Item.shootSpeed = 1f;
             Item.ArmorPenetration = 3;
-            Item.shoot = ModContent.ProjectileType<ChainswordP>();
+            Item.shoot = ProjectileType<ChainswordP>();
         }
         public override bool? CanAutoReuseItem(Player player)
         {
@@ -130,18 +130,18 @@ namespace EbonianMod.Items.Weapons.Melee
                 for (int i = 0; i < 70; i++)
                 {
                     if (Main.rand.NextBool())
-                        Dust.NewDustPerfect(pos + Helper.FromAToB(Projectile.Center, pos).RotatedByRandom(MathHelper.PiOver4 * 0.7f) * Main.rand.NextFloat(5, 35), ModContent.DustType<LineDustFollowPoint>(), vel * Main.rand.NextFloat(5, 8), 0, Color.Lerp(Color.White, Color.Orange, Main.rand.NextFloat()), Main.rand.NextFloat(0.05f, 0.1f));
+                        Dust.NewDustPerfect(pos + Helper.FromAToB(Projectile.Center, pos).RotatedByRandom(MathHelper.PiOver4 * 0.7f) * Main.rand.NextFloat(5, 35), DustType<LineDustFollowPoint>(), vel * Main.rand.NextFloat(5, 8), 0, Color.Lerp(Color.White, Color.Orange, Main.rand.NextFloat()), Main.rand.NextFloat(0.05f, 0.1f));
                     else
-                        Dust.NewDustPerfect(pos + Helper.FromAToB(Projectile.Center, pos).RotatedByRandom(MathHelper.PiOver4 * 0.7f) * Main.rand.NextFloat(5, 35), ModContent.DustType<SparkleDust>(), vel * Main.rand.NextFloat(5, 8), 0, Color.Lerp(Color.White, Color.Orange, Main.rand.NextFloat()), Main.rand.NextFloat(0.025f, 0.075f));
+                        Dust.NewDustPerfect(pos + Helper.FromAToB(Projectile.Center, pos).RotatedByRandom(MathHelper.PiOver4 * 0.7f) * Main.rand.NextFloat(5, 35), DustType<SparkleDust>(), vel * Main.rand.NextFloat(5, 8), 0, Color.Lerp(Color.White, Color.Orange, Main.rand.NextFloat()), Main.rand.NextFloat(0.025f, 0.075f));
                 }
 
             }
             for (int i = 0; i < 10; i++)
             {
                 if (Main.rand.NextBool())
-                    Dust.NewDustPerfect(pos + Helper.FromAToB(Projectile.Center, pos).RotatedByRandom(MathHelper.PiOver4 * 0.7f) * Main.rand.NextFloat(5, 35), ModContent.DustType<LineDustFollowPoint>(), vel * Main.rand.NextFloat(5, 8), 0, Color.Lerp(Color.White, Color.Orange, Main.rand.NextFloat()), Main.rand.NextFloat(0.05f, 0.1f));
+                    Dust.NewDustPerfect(pos + Helper.FromAToB(Projectile.Center, pos).RotatedByRandom(MathHelper.PiOver4 * 0.7f) * Main.rand.NextFloat(5, 35), DustType<LineDustFollowPoint>(), vel * Main.rand.NextFloat(5, 8), 0, Color.Lerp(Color.White, Color.Orange, Main.rand.NextFloat()), Main.rand.NextFloat(0.05f, 0.1f));
                 else
-                    Dust.NewDustPerfect(pos + Helper.FromAToB(Projectile.Center, pos).RotatedByRandom(MathHelper.PiOver4 * 0.7f) * Main.rand.NextFloat(5, 35), ModContent.DustType<SparkleDust>(), vel * Main.rand.NextFloat(5, 8), 0, Color.Lerp(Color.White, Color.Orange, Main.rand.NextFloat()), Main.rand.NextFloat(0.025f, 0.075f));
+                    Dust.NewDustPerfect(pos + Helper.FromAToB(Projectile.Center, pos).RotatedByRandom(MathHelper.PiOver4 * 0.7f) * Main.rand.NextFloat(5, 35), DustType<SparkleDust>(), vel * Main.rand.NextFloat(5, 8), 0, Color.Lerp(Color.White, Color.Orange, Main.rand.NextFloat()), Main.rand.NextFloat(0.025f, 0.075f));
             }
         }
     }

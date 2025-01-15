@@ -47,7 +47,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         public override bool useNormalMovement => true;
         public override void OnKill()
         {
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/RottenSpineGore1").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/RottenSpineGore1").Type, NPC.scale);
         }
         public override void ExtraAI()
         {
@@ -56,7 +56,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
             if (++NPC.ai[2] % 35 == 0 && NPC.ai[2] % 550 > 200)
             {
                 SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
-                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + NPC.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2) * NPC.height, -Vector2.UnitY.RotatedBy(NPC.rotation) * 10, ModContent.ProjectileType<TFlameThrower>(), 10, 0).tileCollide = true; ;
+                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + NPC.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2) * NPC.height, -Vector2.UnitY.RotatedBy(NPC.rotation) * 10, ProjectileType<TFlameThrower>(), 10, 0).tileCollide = true; ;
             }
 
             if (NPC.ai[2] % 550 < 200)
@@ -89,9 +89,9 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
             latestNPC = SpawnSegment(source, BodyType, latestNPC, NPC.ai[3] == 3 ? 1 : 0);
             return latestNPC;
         }*/
-        public override int BodyType => ModContent.NPCType<RottenSpineBody>();
+        public override int BodyType => NPCType<RottenSpineBody>();
 
-        public override int TailType => ModContent.NPCType<RottenSpineTail>();
+        public override int TailType => NPCType<RottenSpineTail>();
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
@@ -116,9 +116,9 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         {
             if (hitinfo.Damage > NPC.life && NPC.life <= 0)
                 if (NPC.ai[3] == 3)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/RottenSpineGore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/RottenSpineGore3").Type, NPC.scale);
                 else
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/RottenSpineGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/RottenSpineGore2").Type, NPC.scale);
         }
         public override void SetStaticDefaults()
         {
@@ -162,7 +162,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         public override void HitEffect(NPC.HitInfo hitinfo)
         {
             if (hitinfo.Damage > NPC.life && NPC.life <= 0)
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, ModContent.Find<ModGore>("EbonianMod/RottenSpineGore1").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/RottenSpineGore1").Type, NPC.scale);
         }
         public override void SetStaticDefaults()
         {
@@ -193,7 +193,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
             if (++NPC.ai[2] % 35 == 0 && HeadSegment.ai[2] % 550 < 200)
             {
                 SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
-                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + NPC.velocity, Vector2.UnitY.RotatedBy(NPC.rotation) * 10, ModContent.ProjectileType<TFlameThrower>(), 10, 0).tileCollide = true; ;
+                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + NPC.velocity, Vector2.UnitY.RotatedBy(NPC.rotation) * 10, ProjectileType<TFlameThrower>(), 10, 0).tileCollide = true; ;
             }
         }
         public override void Init()

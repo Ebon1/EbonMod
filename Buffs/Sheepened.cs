@@ -25,8 +25,8 @@ namespace EbonianMod.Buffs
                     player.ClearBuff(i);
             }
             player.GetModPlayer<EbonianPlayer>().sheep = true;
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<player_sheep>()] < 1)
-                Projectile.NewProjectile(null, player.Center, Vector2.Zero, ModContent.ProjectileType<player_sheep>(), 0, 0, player.whoAmI);
+            if (player.ownedProjectileCounts[ProjectileType<player_sheep>()] < 1)
+                Projectile.NewProjectile(null, player.Center, Vector2.Zero, ProjectileType<player_sheep>(), 0, 0, player.whoAmI);
         }
     }
 }

@@ -20,9 +20,9 @@ namespace EbonianMod.Tiles
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             TileID.Sets.BlockMergesWithMergeAllBlock[Type] = true;
-            Main.tileMerge[ModContent.TileType<CrimsonBrainBlockSpecial>()][Type] = true;
+            Main.tileMerge[TileType<CrimsonBrainBlockSpecial>()][Type] = true;
             DustType = DustID.Blood;
-            //ItemDrop = ModContent.ItemType<Items.Tiles.CrimsonBrainI>();
+            //ItemDrop = ItemType<Items.Tiles.CrimsonBrainI>();
 
             AddMapEntry(Color.Maroon);
         }
@@ -39,16 +39,16 @@ namespace EbonianMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
-            Main.tileMerge[ModContent.TileType<CrimsonBrainBlock>()][Type] = true;
+            Main.tileMerge[TileType<CrimsonBrainBlock>()][Type] = true;
             TileID.Sets.BlockMergesWithMergeAllBlock[Type] = true;
             DustType = DustID.Blood;
-            RegisterItemDrop(ModContent.ItemType<Items.Accessories.BrainAcc>());
+            RegisterItemDrop(ItemType<Items.Accessories.BrainAcc>());
 
             AddMapEntry(Color.Maroon);
         }
         public override IEnumerable<Item> GetItemDrops(int i, int j)
         {
-            yield return new Item(ModContent.ItemType<BrainAcc>());
+            yield return new Item(ItemType<BrainAcc>());
         }
         public Rectangle frame;
         public int frameCounter;
@@ -76,7 +76,7 @@ namespace EbonianMod.Tiles
                         null, Lighting.GetColor(new(i, j)), projRotation,
                         new Vector2(8 * 0.5f, 4 * 0.5f), 1f, SpriteEffects.None, 0);
                 }
-                spriteBatch.Draw(ModContent.Request<Texture2D>("EbonianMod/Items/Accessories/TinyBrain").Value, finalCenter + zero,
+                spriteBatch.Draw(Request<Texture2D>("EbonianMod/Items/Accessories/TinyBrain").Value, finalCenter + zero,
                             frame, Lighting.GetColor(new(i, j)), 0,
                             new Vector2(34 * 0.5f, 34 * 0.5f), 1f, SpriteEffects.None, 0);
             }
@@ -101,7 +101,7 @@ namespace EbonianMod.Tiles
             {
                 frameCounter = 0;
             }
-            frame = new Rectangle(0, frame.Y, ModContent.Request<Texture2D>("EbonianMod/Items/Accessories/TinyBrain").Value.Width, ModContent.Request<Texture2D>("EbonianMod/Items/Accessories/TinyBrain").Value.Height / 4);
+            frame = new Rectangle(0, frame.Y, Request<Texture2D>("EbonianMod/Items/Accessories/TinyBrain").Value.Width, Request<Texture2D>("EbonianMod/Items/Accessories/TinyBrain").Value.Height / 4);
             return true;
         }
 
