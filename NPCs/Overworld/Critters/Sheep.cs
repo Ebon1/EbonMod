@@ -33,12 +33,26 @@ namespace EbonianMod.NPCs.Overworld.Critters
             for (int i = 0; i < 50; i++)
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, Main.rand.NextFloatDirection(), Main.rand.NextFloatDirection());
         }
+        int dyeId = -1;
         public override void AI()
         {
             if (Main.rand.NextBool(2000))
                 SoundEngine.PlaySound(EbonianSounds.sheep.WithVolumeScale(0.5f), NPC.Center);
+            if (new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 5, 5).Intersects(NPC.getRect()) && Main.mouseRight && Main.LocalPlayer.HeldItem.dye > 0)
+            {
+                dyeId = Main.LocalPlayer.HeldItem.type;
+            }
             NPC.spriteDirection = -NPC.direction;
             Collision.StepDown(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY);
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            Texture2D tex = Helper.GetTexture(Texture + "_Wool");
+            if (dyeId > 0)
+            {
+                DrawData data = new(tex, NPC.Center + new Vector2(0, NPC.gfxOffY + 2) - Main.screenPosition, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally);
+                MiscDrawingMethods.DrawWithDye(spriteBatch, data, dyeId, NPC);
+            }
         }
         public override void OnSpawn(IEntitySource source)
         {
