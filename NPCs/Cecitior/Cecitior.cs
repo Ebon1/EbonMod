@@ -545,8 +545,8 @@ namespace EbonianMod.NPCs.Cecitior
                 EbonianSystem.ScreenShakeAmount = 10f;
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position + openOffset, Vector2.UnitX * 5, ModContent.Find<ModGore>("EbonianMod/Cecitior1").Type, NPC.scale);
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, -Vector2.UnitX * 5, ModContent.Find<ModGore>("EbonianMod/Cecitior2").Type, NPC.scale);
-                if (!EbonianAchievementSystem.acquiredAchievement[2])
-                    InGameNotificationsTracker.AddNotification(new EbonianAchievementNotification(2));
+                // if (!EbonianAchievementSystem.acquiredAchievement[2])
+                //   InGameNotificationsTracker.AddNotification(new EbonianAchievementNotification(2));
                 for (int i = 0; i < 3; i++)
                 {
                     Projectile.NewProjectile(NPC.GetSource_Death(), claw[i].position, Main.rand.NextVector2CircularEdge(15, 15) * Main.rand.NextFloat(0.75f, 1f), ModContent.ProjectileType<ClawGore>(), 0, 0, -1, claw[i].verlet.firstP.position.X, claw[i].verlet.firstP.position.Y);

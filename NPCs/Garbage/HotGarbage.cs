@@ -339,8 +339,8 @@ namespace EbonianMod.NPCs.Garbage
                 Music = 0;
                 return false;
             }
-            if (!EbonianAchievementSystem.acquiredAchievement[0])
-                InGameNotificationsTracker.AddNotification(new EbonianAchievementNotification(0));
+            //if (!EbonianAchievementSystem.acquiredAchievement[0])
+            //  InGameNotificationsTracker.AddNotification(new EbonianAchievementNotification(0));
             return true;
         }
         Vector2 pos;

@@ -17,7 +17,7 @@ using Terraria.ModLoader;
 
 namespace EbonianMod.Common.UI
 {
-    public class CustomScrollbar : UIScrollbar
+    /*public class CustomScrollbar : UIScrollbar
     {
         // Code taken directly from Infernum, you can probably tell why
         public readonly Asset<Texture2D> _texture;
@@ -78,5 +78,5 @@ namespace EbonianMod.Common.UI
             spriteBatch.Draw(texture, new Rectangle(dimensions.X, dimensions.Y, dimensions.Width, dimensions.Height), new Rectangle(0, 6, texture.Width, 4), color);
             spriteBatch.Draw(texture, new Rectangle(dimensions.X, dimensions.Y + dimensions.Height, dimensions.Width, 6), new Rectangle(0, texture.Height - 6, texture.Width, 6), color);
         }
-    }
+    }*/
 }

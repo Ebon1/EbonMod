@@ -16,10 +16,10 @@ using Terraria.Audio;
 using Terraria.ID;
 
 namespace EbonianMod.Common.Achievements
-{
+{   /*
     public class EbonianAchievementNotification : IInGameNotification
     {
-
+     
         public bool ShouldBeRemoved => timeLeft <= 0;
 
         private int timeLeft = 5 * 60;
@@ -131,5 +131,5 @@ namespace EbonianMod.Common.Achievements
         {
             positionAnchorBottom.Y -= 50f * Opacity;
         }
-    }
+}*/
 }

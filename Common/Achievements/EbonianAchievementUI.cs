@@ -20,7 +20,7 @@ using Terraria.UI.Chat;
 namespace EbonianMod.Common.Achievements
 {
     public class EbonianAchievement : UIPanel
-    {
+    {/*
         public EbonianAchievement(int index, string text, string subtext, Color hoverColor, bool hiddenUntilUnlocked = false, string texture = "Extras/Sprites/Achievements")
         {
             Index = index;
@@ -28,7 +28,7 @@ namespace EbonianMod.Common.Achievements
             Subtext = subtext;
             TexturePath = texture;
             HiddenUntilUnlocked = hiddenUntilUnlocked;
-            BackgroundColor = /*new Color(167, 51, 16)*/ new Color(17, 17, 17) * 0.75f;
+            BackgroundColor = /*new Color(167, 51, 16)*//* new Color(17, 17, 17) * 0.75f;
             BorderColor = Color.Black * 0.75f;
             Height.Set(82f, 0f);
             Width.Set(0f, 1f);
@@ -164,7 +164,7 @@ namespace EbonianMod.Common.Achievements
             logo.SetPadding(13f);
 
             ui.Append(uiTextBG);
-            ui.Append(logo);*/
+            ui.Append(logo);*//*
             ui.Append(uITextPanel);
 
             UITextPanel<LocalizedText> uITextPanel2 = new(Language.GetText("UI.Back"), 0.7f, large: true);
@@ -322,6 +322,6 @@ namespace EbonianMod.Common.Achievements
             {
                 Main.hoverItemName = "Ebonian Mod Achievements";
             }
-        }
+        }*/
     }
 }

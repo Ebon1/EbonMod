@@ -19,10 +19,6 @@ namespace EbonianMod.Items.Pets.Hightoma
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
-        public override void AddRecipes()
-        {
-            CreateRecipe().Register();
-        }
         public override void SetDefaults()
         {
             Item.DefaultToVanitypet(ModContent.ProjectileType<Hightoma>(), ModContent.BuffType<HightomaB>());

@@ -11,7 +11,7 @@ using Terraria.ModLoader.IO;
 using Terraria.UI;
 
 namespace EbonianMod.Common.Achievements
-{
+{/*
     public static class AchievementID
     {
         public const int HotGarbage = 0;
@@ -148,5 +148,5 @@ namespace EbonianMod.Common.Achievements
                 acquiredAchievement[i] = flags2[i];
             }
         }
-    }
+    }*/
 }

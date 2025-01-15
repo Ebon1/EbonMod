@@ -126,10 +126,6 @@ namespace EbonianMod
                     projectile.ModProjectile.PreDraw(ref color);
                 }
             }
-            if (FlashAlpha > 0)
-            {
-                Main.spriteBatch.Draw(Helper.GetExtraTexture("Line"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * FlashAlpha * 2);
-            }
         }
 
         public void DrawBehindTilesAndWalls(Terraria.On_Main.orig_DrawBG orig, global::Terraria.Main self)
@@ -232,7 +228,7 @@ namespace EbonianMod
             Filters.Scene["EbonianMod:HellTint2"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(0.03f, 0f, .18f).UseOpacity(0.425f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:HellTint2"] = new BasicTint();
             Filters.Scene["EbonianMod:ScreenFlash"] = new Filter(new ScreenShaderData(ModContent.Request<Effect>("EbonianMod/Effects/ScreenFlash", (AssetRequestMode)1), "Flash"), EffectPriority.VeryHigh);
-            //Terraria.Graphics.Effects.On_FilterManager.EndCapture += FilterManager_EndCapture;
+            Terraria.Graphics.Effects.On_FilterManager.EndCapture += FilterManager_EndCapture;
             Main.OnResolutionChanged += Main_OnResolutionChanged;
             Terraria.On_Main.DrawBG += DrawBehindTilesAndWalls;
             Terraria.On_Main.DrawNPC += DrawNPC;
@@ -264,6 +260,20 @@ namespace EbonianMod
                 return;
             orig(self, ref drawInfo);
         }
+        void FilterManager_EndCapture(On_FilterManager.orig_EndCapture orig, FilterManager self, RenderTarget2D finalTexture, RenderTarget2D screenTarget1, RenderTarget2D screenTarget2, Color clearColor)
+        {
+            orig(self, finalTexture, screenTarget1, screenTarget2, clearColor);
+
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+
+            if (FlashAlpha > 0)
+            {
+                Main.spriteBatch.Draw(Helper.GetExtraTexture("Line"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * FlashAlpha * 2);
+            }
+
+            Main.spriteBatch.End();
+        }
+
         void PreDraw(On_Main.orig_DrawPlayers_AfterProjectiles orig, Main self)
         {
             GraphicsDevice gd = Main.instance.GraphicsDevice;

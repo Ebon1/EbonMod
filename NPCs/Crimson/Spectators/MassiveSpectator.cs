@@ -1,6 +1,7 @@
 ﻿using EbonianMod.Common.Systems;
 using EbonianMod.Common.Systems.Misc;
 using EbonianMod.Items.Misc;
+using EbonianMod.Items.Pets;
 using EbonianMod.NPCs.Cecitior;
 using EbonianMod.Projectiles.Friendly.Corruption;
 using EbonianMod.Projectiles.VFXProjectiles;
@@ -15,6 +16,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -45,6 +47,10 @@ namespace EbonianMod.NPCs.Crimson.Spectators
                 new FlavorTextBestiaryInfoElement("Type: Organ"),
                 new FlavorTextBestiaryInfoElement("These towering eyes seem to be connected to something at the very base of the Crimson. They only appeared very recently, so not much else is known about them."),
             });
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Panopticon>(), 40));
         }
         public override void SetDefaults()
         {
