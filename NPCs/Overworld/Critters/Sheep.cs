@@ -72,7 +72,7 @@ namespace EbonianMod.NPCs.Overworld.Critters
             }
             string name = Main.LocalPlayer.name;
             name.ApplyCase(LetterCasing.LowerCase);
-            if (name == "dinnerbone")
+            if (name == "dinnerbone" || name == "grumm")
                 NPC.directionY = -1;
             NPC.spriteDirection = -NPC.direction;
             Collision.StepDown(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY);
@@ -88,7 +88,7 @@ namespace EbonianMod.NPCs.Overworld.Critters
 
             string name = Main.LocalPlayer.name;
             name.ApplyCase(LetterCasing.LowerCase);
-            spriteBatch.Draw(tex, NPC.Center + new Vector2(0, NPC.gfxOffY + 2) - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, (NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally) | (name == "dinnerbone" ? SpriteEffects.FlipVertically : SpriteEffects.None), 0);
+            spriteBatch.Draw(tex, NPC.Center + new Vector2(0, NPC.gfxOffY + 2) - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, (NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally) | (name == "dinnerbone" || name == "grumm" ? SpriteEffects.FlipVertically : SpriteEffects.None), 0);
 
             return false;
         }
@@ -99,7 +99,7 @@ namespace EbonianMod.NPCs.Overworld.Critters
             {
                 string name = Main.LocalPlayer.name;
                 name.ApplyCase(LetterCasing.LowerCase);
-                DrawData data = new(tex, NPC.Center + new Vector2(0, NPC.gfxOffY + 2) - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, (NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally) | (name == "dinnerbone" ? SpriteEffects.FlipVertically : SpriteEffects.None));
+                DrawData data = new(tex, NPC.Center + new Vector2(0, NPC.gfxOffY + 2) - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, (NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally) | (name == "dinnerbone" || name == "grumm" ? SpriteEffects.FlipVertically : SpriteEffects.None));
                 MiscDrawingMethods.DrawWithDye(spriteBatch, data, dyeId, NPC);
             }
         }
