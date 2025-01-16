@@ -149,6 +149,7 @@ namespace EbonianMod
         public static List<Action> pixelationDrawCachePost = [];
         public static List<Action> addPixelationDrawCachePre = [];
         public static List<Action> addPixelationDrawCachePost = [];
+        public static List<Action> finalDrawCache = [];
         public override void Unload()
         {
             sys = null;
@@ -177,6 +178,9 @@ namespace EbonianMod
 
             addPixelationDrawCachePost.Clear();
             addPixelationDrawCachePost = [];
+
+            finalDrawCache.Clear();
+            finalDrawCache = [];
         }
         public override void Load()
         {
@@ -245,6 +249,7 @@ namespace EbonianMod
             pixelationDrawCachePost ??= [];
             addPixelationDrawCachePre ??= [];
             addPixelationDrawCachePost ??= [];
+            finalDrawCache ??= [];
         }
         void EventClear(On_NPC.orig_SetEventFlagCleared orig, ref bool eventFlag, int gameEventId)
         {
@@ -527,6 +532,11 @@ namespace EbonianMod
                     projectile.ModProjectile.PreDraw(ref color);
                 }
             }
+            foreach (Action draw in finalDrawCache)
+            {
+                draw?.Invoke();
+            }
+            finalDrawCache.Clear();
             sb.End();
         }
         public static void DrawBlurredContent(SpriteBatch sb, GraphicsDevice gd)
