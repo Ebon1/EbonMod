@@ -865,6 +865,11 @@ Items: {
 		DisplayName: X Trophy
 		Tooltip: ""
 	}
+
+	SheepItem: {
+		DisplayName: Sheep
+		Tooltip: ""
+	}
 }
 
 Buffs: {

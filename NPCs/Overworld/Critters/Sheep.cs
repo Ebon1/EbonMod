@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EbonianMod.Items.Misc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,10 @@ namespace EbonianMod.NPCs.Overworld.Critters
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[Type] = 6;
+            NPCID.Sets.CountsAsCritter[Type] = true;
+            NPCID.Sets.TakesDamageFromHostilesWithoutBeingFriendly[Type] = true;
+            NPCID.Sets.TownCritter[Type] = true;
+            Main.npcCatchable[Type] = true;
         }
         public override void SetDefaults()
         {
@@ -19,6 +24,7 @@ namespace EbonianMod.NPCs.Overworld.Critters
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.width = 38;
             NPC.height = 28;
+            NPC.catchItem = ItemType<SheepItem>();
             NPC.Size = new Vector2(38, 28);
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -27,8 +33,12 @@ namespace EbonianMod.NPCs.Overworld.Critters
         }
         public override void OnKill()
         {
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Circular(1, 1), Find<ModGore>("EbonianMod/SheepGore0").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Circular(1, 1), Find<ModGore>("EbonianMod/SheepGore1").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Circular(1, 1), Find<ModGore>("EbonianMod/SheepGore2").Type, NPC.scale);
+
             for (int i = 0; i < 4; i++)
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Circular(1, 1), Find<ModGore>("EbonianMod/WoolGore").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Circular(1, 1), Find<ModGore>("EbonianMod/SheepGore3").Type, NPC.scale);
 
             for (int i = 0; i < 50; i++)
                 Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, Main.rand.NextFloatDirection(), Main.rand.NextFloatDirection());
@@ -37,9 +47,10 @@ namespace EbonianMod.NPCs.Overworld.Critters
         int dyeId = -1, lastClicked = 0;
         public override void AI()
         {
+            lastClicked--;
             if (Main.rand.NextBool(2000))
                 SoundEngine.PlaySound(EbonianSounds.sheep.WithVolumeScale(0.5f), NPC.Center);
-            if (new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 5, 5).Intersects(NPC.getRect()) && Main.mouseRight && --lastClicked < 0 && Main.LocalPlayer.HeldItem.dye > 0 && dyeId != Main.LocalPlayer.HeldItem.type)
+            if (new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 5, 5).Intersects(NPC.getRect()) && Main.mouseRight && lastClicked < 0 && Main.LocalPlayer.HeldItem.dye > 0 && dyeId != Main.LocalPlayer.HeldItem.type)
             {
                 dyeId = Main.LocalPlayer.HeldItem.type;
                 SoundEngine.PlaySound(SoundID.Item176, NPC.Center);
@@ -54,7 +65,7 @@ namespace EbonianMod.NPCs.Overworld.Critters
         }
         public override void PostAI()
         {
-            if (new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 5, 5).Intersects(NPC.getRect()) && Main.mouseRight)
+            if (new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 5, 5).Intersects(NPC.getRect()) && Main.mouseRight && lastClicked < 0)
                 lastClicked = 30;
         }
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -65,29 +76,24 @@ namespace EbonianMod.NPCs.Overworld.Critters
                 DrawData data = new(tex, NPC.Center + new Vector2(0, NPC.gfxOffY + 2) - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally);
                 MiscDrawingMethods.DrawWithDye(spriteBatch, data, dyeId, NPC);
             }
-            if (new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 5, 5).Intersects(NPC.getRect()) && --lastClicked < 0 && Main.LocalPlayer.HeldItem.dye > 0 && dyeId != Main.LocalPlayer.HeldItem.type)
-            {
-                EbonianMod.finalDrawCache.Add(() => { spriteBatch.Draw(TextureAssets.Item[Main.LocalPlayer.HeldItem.type].Value, Main.MouseWorld + new Vector2(20, -20), null, Color.White, 0, TextureAssets.Item[Main.LocalPlayer.HeldItem.type].Value.Size() / 2, 1, SpriteEffects.None, 0)});
-            }
         }
         public override void OnSpawn(IEntitySource source)
         {
             SoundEngine.PlaySound(EbonianSounds.sheep, NPC.Center);
 
-            if (Main.rand.NextBool(12))
-            {
-                WeightedRandom<int> dye = new();
-                dye.Add(ItemID.PinkDye, 0.01f);
-                dye.Add(ItemID.BlackDye);
-                dye.Add(ItemID.BlueDye, 0.2f);
-                dye.Add(ItemID.BrownDye);
-                dye.Add(ItemID.YellowDye, 0.3f);
-                dye.Add(ItemID.NegativeDye, 0.0001f);
-                dye.Add(ItemID.RedDye, 0.3f);
-                dye.Add(ItemID.BrightSilverDye);
-                dye.Add(ItemID.ReflectiveGoldDye, 0.1f);
-                dyeId = dye;
-            }
+            WeightedRandom<int> dye = new();
+            dye.Add(ItemID.PinkDye, 0.01f);
+            dye.Add(ItemID.NegativeDye, 0.0001f);
+            dye.Add(ItemID.BlackDye);
+            dye.Add(ItemID.BlueDye, 0.1f);
+            dye.Add(ItemID.BrownDye);
+            dye.Add(ItemID.YellowDye, 0.3f);
+            dye.Add(ItemID.BrightSilverDye);
+            dye.Add(ItemID.ShadowDye);
+            dye.Add(ItemID.BrightBrownDye);
+            dye.Add(ItemID.ReflectiveGoldDye, 0.1f);
+            dye.Add(-1, 8);
+            dyeId = dye;
         }
         public override void FindFrame(int frameHeight)
         {
