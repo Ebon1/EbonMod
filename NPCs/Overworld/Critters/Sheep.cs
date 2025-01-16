@@ -1,9 +1,11 @@
 ﻿using EbonianMod.Items.Misc;
+using Humanizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria.GameContent.Bestiary;
 
 namespace EbonianMod.NPCs.Overworld.Critters
 {
@@ -16,6 +18,14 @@ namespace EbonianMod.NPCs.Overworld.Critters
             NPCID.Sets.TakesDamageFromHostilesWithoutBeingFriendly[Type] = true;
             NPCID.Sets.TownCritter[Type] = true;
             Main.npcCatchable[Type] = true;
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+                new FlavorTextBestiaryInfoElement("Type: Farm Animal"),
+                new FlavorTextBestiaryInfoElement("Sheep are passive, friendly animals with a thick layer of wool and an appetite for grass, sheep's wool is quite common in many colorful items of clothing and especially comfort, to the surprise of very few"),
+            });
         }
         public override void SetDefaults()
         {
@@ -50,7 +60,7 @@ namespace EbonianMod.NPCs.Overworld.Critters
             lastClicked--;
             if (Main.rand.NextBool(2000))
                 SoundEngine.PlaySound(EbonianSounds.sheep.WithVolumeScale(0.5f), NPC.Center);
-            if (new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 5, 5).Intersects(NPC.getRect()) && Main.mouseRight && lastClicked < 0 && Main.LocalPlayer.HeldItem.dye > 0 && dyeId != Main.LocalPlayer.HeldItem.type)
+            if (Main.LocalPlayer.Center.Distance(NPC.Center) < 175 && new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 5, 5).Intersects(NPC.getRect()) && Main.mouseRight && lastClicked < 0 && Main.LocalPlayer.HeldItem.dye > 0 && dyeId != Main.LocalPlayer.HeldItem.type)
             {
                 dyeId = Main.LocalPlayer.HeldItem.type;
                 SoundEngine.PlaySound(SoundID.Item176, NPC.Center);
@@ -60,20 +70,36 @@ namespace EbonianMod.NPCs.Overworld.Critters
                     Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.ShimmerSpark);
                 }
             }
+            string name = Main.LocalPlayer.name;
+            name.ApplyCase(LetterCasing.LowerCase);
+            if (name == "dinnerbone")
+                NPC.directionY = -1;
             NPC.spriteDirection = -NPC.direction;
             Collision.StepDown(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY);
         }
         public override void PostAI()
         {
-            if (new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 5, 5).Intersects(NPC.getRect()) && Main.mouseRight && lastClicked < 0)
+            if (Main.LocalPlayer.Center.Distance(NPC.Center) < 175 && new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 5, 5).Intersects(NPC.getRect()) && Main.mouseRight && lastClicked < 0)
                 lastClicked = 30;
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            Texture2D tex = Helper.GetTexture(Texture);
+
+            string name = Main.LocalPlayer.name;
+            name.ApplyCase(LetterCasing.LowerCase);
+            spriteBatch.Draw(tex, NPC.Center + new Vector2(0, NPC.gfxOffY + 2) - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, (NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally) | (name == "dinnerbone" ? SpriteEffects.FlipVertically : SpriteEffects.None), 0);
+
+            return false;
         }
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D tex = Helper.GetTexture(Texture + "_Wool");
             if (dyeId > 0)
             {
-                DrawData data = new(tex, NPC.Center + new Vector2(0, NPC.gfxOffY + 2) - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally);
+                string name = Main.LocalPlayer.name;
+                name.ApplyCase(LetterCasing.LowerCase);
+                DrawData data = new(tex, NPC.Center + new Vector2(0, NPC.gfxOffY + 2) - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, (NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally) | (name == "dinnerbone" ? SpriteEffects.FlipVertically : SpriteEffects.None));
                 MiscDrawingMethods.DrawWithDye(spriteBatch, data, dyeId, NPC);
             }
         }
@@ -83,17 +109,28 @@ namespace EbonianMod.NPCs.Overworld.Critters
 
             WeightedRandom<int> dye = new();
             dye.Add(ItemID.PinkDye, 0.01f);
-            dye.Add(ItemID.NegativeDye, 0.0001f);
+            dye.Add(ItemID.NegativeDye, 0.001f);
             dye.Add(ItemID.BlackDye);
             dye.Add(ItemID.BlueDye, 0.1f);
             dye.Add(ItemID.BrownDye);
             dye.Add(ItemID.YellowDye, 0.3f);
             dye.Add(ItemID.BrightSilverDye);
+            dye.Add(ItemID.GreenDye, 0.2f);
             dye.Add(ItemID.ShadowDye);
             dye.Add(ItemID.BrightBrownDye);
-            dye.Add(ItemID.ReflectiveGoldDye, 0.1f);
+            dye.Add(ItemID.BrownAndBlackDye);
+            dye.Add(ItemID.BrownAndSilverDye);
+            dye.Add(ItemID.SkyBlueDye, 0.5f);
+            dye.Add(ItemID.OrangeandSilverDye);
+            dye.Add(ItemID.ReflectiveGoldDye, 0.025f);
             dye.Add(-1, 8);
             dyeId = dye;
+
+            string name = Main.LocalPlayer.name;
+            name.ApplyCase(LetterCasing.LowerCase);
+            if (name == "jeb" || name == "jeb_")
+                dyeId = ItemID.LivingRainbowDye;
+
         }
         public override void FindFrame(int frameHeight)
         {
