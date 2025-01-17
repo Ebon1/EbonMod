@@ -482,35 +482,36 @@ namespace EbonianMod.NPCs.Cecitior
                 NPC.velocity = Vector2.Zero;
                 phase2 = true;
             }
-            if (!player.active || player.dead)// || !player.ZoneCorrupt)
-            {
-                NPC.TargetClosest(false);
-                player = Main.player[NPC.target];
-                if (NPC.HasValidTarget)
+            if (!deathAnim)
+                if (!player.active || player.dead)// || !player.ZoneCorrupt)
                 {
-                    if (AIState != Intro)
-                        AIState = Idle;
-                    AITimer = 0;
-                }
-                if (!player.active || player.dead)// || !player.ZoneCrimson)
-                {
-                    AIState = -12124;
-                    NPC.velocity = new Vector2(0, 10f);
-
-                    if (claw[0].verlet != null && phase2)
+                    NPC.TargetClosest(false);
+                    player = Main.player[NPC.target];
+                    if (NPC.HasValidTarget)
                     {
-                        claw[0].position = Vector2.Lerp(claw[0].position, NPC.Center + openOffset + new Vector2(150, -65).RotatedBy(MathF.Sin(Main.GlobalTimeWrappedHourly) * 0.4f), 0.2f);
-                        claw[1].position = Vector2.Lerp(claw[1].position, NPC.Center + openOffset + new Vector2(165, 45).RotatedBy(MathF.Sin(Main.GlobalTimeWrappedHourly) * 0.4f), 0.2f);
-                        claw[2].position = Vector2.Lerp(claw[2].position, NPC.Center - openOffset + new Vector2(-110, 55).RotatedBy(MathF.Sin(Main.GlobalTimeWrappedHourly) * 0.4f), 0.2f);
+                        if (AIState != Intro)
+                            AIState = Idle;
+                        AITimer = 0;
                     }
-
-                    if (NPC.timeLeft > 60)
+                    if (!player.active || player.dead)// || !player.ZoneCrimson)
                     {
-                        NPC.timeLeft = 60;
+                        AIState = -12124;
+                        NPC.velocity = new Vector2(0, 10f);
+
+                        if (claw[0].verlet != null && phase2)
+                        {
+                            claw[0].position = Vector2.Lerp(claw[0].position, NPC.Center + openOffset + new Vector2(150, -65).RotatedBy(MathF.Sin(Main.GlobalTimeWrappedHourly) * 0.4f), 0.2f);
+                            claw[1].position = Vector2.Lerp(claw[1].position, NPC.Center + openOffset + new Vector2(165, 45).RotatedBy(MathF.Sin(Main.GlobalTimeWrappedHourly) * 0.4f), 0.2f);
+                            claw[2].position = Vector2.Lerp(claw[2].position, NPC.Center - openOffset + new Vector2(-110, 55).RotatedBy(MathF.Sin(Main.GlobalTimeWrappedHourly) * 0.4f), 0.2f);
+                        }
+
+                        if (NPC.timeLeft > 60)
+                        {
+                            NPC.timeLeft = 60;
+                        }
+                        return;
                     }
-                    return;
                 }
-            }
             NPC.localAI[0] = openOffset.X;
             NPC.localAI[1] = openOffset.Y;
             if (open)

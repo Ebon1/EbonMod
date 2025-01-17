@@ -348,6 +348,7 @@ NPCs: {
 	ArchmageStaffNPC.DisplayName: " "
 	FleshDice.DisplayName: Flesh Dice
 	Sheep.DisplayName: Sheep
+	JelleyeFish.DisplayName: Jelleye Fish
 }
 
 Items: {
