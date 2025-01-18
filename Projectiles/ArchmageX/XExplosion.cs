@@ -35,15 +35,15 @@ namespace EbonianMod.Projectiles.ArchmageX
             float alpha2 = MathHelper.Lerp(0.5f, 0, Projectile.ai[0]);
             Texture2D ring = Helper.GetExtraTexture("crosslight");
             Texture2D explosion = Helper.GetExtraTexture("explosion");
-            Texture2D flameEye2 = Helper.GetExtraTexture("flameEye2");
+            Texture2D flameEye2 = Helper.GetExtraTexture("crosslight");
             Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.ai[2] == 0)
             {
                 Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha2 * 2, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0] * 2, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(flameEye2, Projectile.Center - Main.screenPosition, null, Color.Magenta * alpha2 * 2, Projectile.rotation, flameEye2.Size() / 2, Projectile.ai[0] * 2, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(flameEye2, Projectile.Center - Main.screenPosition, null, Color.Magenta * alpha2 * 2, Projectile.rotation + PiOver4, flameEye2.Size() / 2, Projectile.ai[0] * 2, SpriteEffects.None, 0);
             }
-            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * (alpha), Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 1.1f * 2, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha * (0.5f + Projectile.ai[2]), Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 4f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * (alpha), Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 1.1f * 5, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha * (0.5f + Projectile.ai[2]), Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 7f, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
@@ -96,8 +96,8 @@ namespace EbonianMod.Projectiles.ArchmageX
             Texture2D flameEye2 = Helper.GetExtraTexture("crosslight");
             Main.spriteBatch.Reload(BlendState.Additive);
             Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha2 * 2, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0] * 2, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 1.1f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha * 0.5f, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 2f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 1.1f * 3, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha * 0.5f, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 4f, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }

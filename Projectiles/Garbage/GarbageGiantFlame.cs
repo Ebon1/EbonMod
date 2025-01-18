@@ -61,10 +61,10 @@ namespace EbonianMod.Projectiles.Garbage
                 Vector2 olderpos = Vector2.SmoothStep(Projectile.oldPos[i - 1], Projectile.oldPos[i - 1] - new Vector2(MathF.Sin(Main.GlobalTimeWrappedHourly * 2) * 5 + Main.windSpeedCurrent * 2, Y), (float)i / Projectile.oldPos.Length);
                 if (oldpos == Vector2.Zero || oldpos == Projectile.position) continue;
                 float mult = (1f - fadeMult * i);
-                for (float j = 0; j < 5; j++)
+                for (float j = 0; j < 3; j++)
                 {
                     Vector2 pos = Vector2.Lerp(oldpos, olderpos, (float)(j / 5));
-                    Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + new Vector2(5, 10 / Main.GameZoomTarget) + Projectile.Size / 2 - Main.screenPosition, null, Color.Lerp(Color.DarkRed * 0.1f, Color.DarkOrange, mult) * mult * 0.2f, Helper.FromAToB(oldpos, olderpos).ToRotation() + MathHelper.PiOver2, TextureAssets.Projectile[Type].Value.Size() / 2, 0.35f * mult * 4f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + new Vector2(5, 10 / Main.GameZoomTarget) + Projectile.Size / 2 - Main.screenPosition, null, Color.Lerp(Color.DarkRed * 0.2f, Color.Orange, mult * 0.5f) * mult * mult * 0.2f, Helper.FromAToB(oldpos, olderpos).ToRotation() + MathHelper.PiOver2, TextureAssets.Projectile[Type].Value.Size() / 2, 0.35f * mult * 4f, SpriteEffects.None, 0);
                 }
             }
             Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center + new Vector2(5, 10 / Main.GameZoomTarget) - Main.screenPosition, null, Color.OrangeRed * 0.5f, Projectile.velocity.ToRotation() + MathHelper.PiOver2, TextureAssets.Projectile[Type].Value.Size() / 2, 0.35f * 4, SpriteEffects.None, 0);

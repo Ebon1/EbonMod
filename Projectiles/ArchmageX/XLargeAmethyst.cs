@@ -47,10 +47,12 @@ namespace EbonianMod.Projectiles.ArchmageX
                 i++;
             }
             SoundEngine.PlaySound(SoundID.Shatter, Projectile.Center);
-            for (int h = 0; h < 5; h++)
+            for (int h = 0; h < (Projectile.ai[2] == 0 ? 5 : 3); h++)
             {
                 Projectile.NewProjectile(null, Projectile.Center, Main.rand.NextVector2Circular(5, 5), ProjectileType<XAmethystShard>(), Projectile.damage, 0);
             }
+
+            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<XExplosion>(), 0, 0);
             return true;
         }
         float vfxOffset;
@@ -129,9 +131,17 @@ namespace EbonianMod.Projectiles.ArchmageX
             float vel = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3f, 0, 2);
             if (Projectile.timeLeft > 70)
             {
-                Projectile.velocity = Helper.FromAToB(Projectile.Center, player.Center + Helper.FromAToB(player.Center, Projectile.Center) * 50) * 3 * vel;
-                if (Projectile.Distance(player.Center) < 90)
-                    Projectile.timeLeft = 70;
+                if (Projectile.ai[2] == 0)
+                {
+                    Projectile.velocity = Helper.FromAToB(Projectile.Center, player.Center + Helper.FromAToB(player.Center, Projectile.Center) * 50) * 3 * vel;
+                    if (Projectile.Distance(player.Center) < 90)
+                        Projectile.timeLeft = 70;
+                }
+                else
+                {
+                    Projectile.velocity = Projectile.velocity.RotatedBy(ToRadians(2)) * 1.05f;
+                    Projectile.timeLeft -= 2;
+                }
             }
             else if (Projectile.timeLeft <= 70 && Projectile.timeLeft > 50)
             {

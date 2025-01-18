@@ -208,7 +208,7 @@ namespace EbonianMod.NPCs.ArchmageX
         }
         float leftArmRot, rightArmRot;
         float headRotation, headYOff, headOffIncrementOffset;
-        float manaPotAlpha, staffAlpha = 1f, heliAlpha, arenaVFXOffset, arenaAlpha;
+        float manaPotAlpha, staffAlpha = 1f, bigStaffAlpha, bigStaffBloomAlpha, heliAlpha, arenaVFXOffset, arenaAlpha;
         Rectangle headFrame = new Rectangle(0, 0, 36, 42);
         public void FacePlayer()
         {
@@ -255,7 +255,7 @@ namespace EbonianMod.NPCs.ArchmageX
         public const int Phase2Transition = -5, Taunt = -4, Despawn = -3, Death = -2, Idle = -1, Spawn = 0,
             PhantasmalSpirit = 1, ShadowflamePuddles = 2, SpectralOrbs = 3, MagnificentFireballs = 4, SineLaser = 5, AmethystCloseIn = 6,
             HelicopterBlades = 7, GiantAmethyst = 8, Micolash = 9, TheSheepening = 10, ManaPotion = 11, PhantasmalBlast = 12, ShadowflameRift = 13,
-            AmethystBulletHell = 14, AmethystStorm = 15;
+            AmethystBulletHell = 14, AmethystStorm = 15, BullshitRain = 16, BONK = 17;
         public List<int> Phase1AttackPool = new List<int>()
         {
             ManaPotion,
@@ -287,12 +287,33 @@ namespace EbonianMod.NPCs.ArchmageX
             AmethystBulletHell,
             Micolash,
             ShadowflameRift,
+            SineLaser,
             ShadowflamePuddles,
             MagnificentFireballs,
             HelicopterBlades,
             PhantasmalBlast,
             AmethystStorm,
 
+        };
+        public List<int> Phase3AttackPool = new List<int>()
+        {
+            ManaPotion,
+            PhantasmalSpirit,
+            AmethystCloseIn,
+            GiantAmethyst,
+            SineLaser,
+            TheSheepening,
+            SpectralOrbs,
+            AmethystBulletHell,
+            Micolash,
+            ShadowflameRift,
+            ShadowflamePuddles,
+            MagnificentFireballs,
+            HelicopterBlades,
+            PhantasmalBlast,
+            AmethystStorm,
+            BONK,
+            BullshitRain
         };
         public List<float> MeleeAttacks = new List<float>()
         {
@@ -307,6 +328,7 @@ namespace EbonianMod.NPCs.ArchmageX
             Micolash,
             AmethystBulletHell,
             AmethystCloseIn,
+
         };
         float Next = 1;
         float arenaFlash;
@@ -338,15 +360,24 @@ namespace EbonianMod.NPCs.ArchmageX
                 }
                 else
                 {
-                    Next = Main.rand.Next(Phase2AttackPool);
-                    while (attempts++ < (phaseMult == 3 ? 10 : 20) && Phase2AttackPool.IndexOf((int)Next) > 11 && oldAttack == Next)
+                    if (phaseMult == 3)
+                    {
+                        Next = Main.rand.Next(Phase3AttackPool);
+                        while (attempts++ < 10 && oldAttack == Next)
+                            Next = Main.rand.Next(Phase3AttackPool);
+                    }
+                    else
+                    {
                         Next = Main.rand.Next(Phase2AttackPool);
+                        while (attempts++ < 20 && oldAttack == Next)
+                            Next = Main.rand.Next(Phase2AttackPool);
+                    }
                 }
             }
             else
             {
                 Next = oldAttack + 1;
-                if (Next > (phase2 ? 15 : 11))
+                if (Next > (phase2 ? (phaseMult == 3 ? 17 : 15) : 11))
                 {
                     doneAttacksBefore = true;
                     PickAttack();
@@ -360,6 +391,7 @@ namespace EbonianMod.NPCs.ArchmageX
                 AIState = Taunt;
                 AITimer = 0;
             }
+            if (phaseMult == 3) Next = BONK;
         }
         bool phase2;
         float phaseMult;
@@ -533,6 +565,8 @@ namespace EbonianMod.NPCs.ArchmageX
             Lighting.AddLight(staffTip, TorchID.Purple);
             AITimer++;
             headYOff = MathHelper.Lerp(headYOff, MathF.Sin((AITimer + headOffIncrementOffset) * 0.05f) * 2, 0.2f);
+            bigStaffBloomAlpha = Lerp(bigStaffBloomAlpha, 0, 0.1f);
+            if (bigStaffBloomAlpha.CloseTo(0, 0.05f)) bigStaffBloomAlpha = 0;
             switch (AIState)
             {
                 case Despawn:
@@ -559,7 +593,10 @@ namespace EbonianMod.NPCs.ArchmageX
                             }
                             else
                             {
-                                chat.Add("Phew... I mean, not even close!");
+                                if (phaseMult == 3)
+                                    chat.Add("GOOD GODDAMN RIDDANCE!");
+                                else
+                                    chat.Add("Phew... I mean, not even close!");
                             }
                             currentDialogue = DialogueSystem.NewDialogueBox(160, NPC.Center - new Vector2(0, 80), chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         }
@@ -640,7 +677,6 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             NPC.dontTakeDamage = false;
                             EbonianSystem.heardXareusIntroMonologue = true;
-                            //AIState = Idle;
                             Reset();
                             PickAttack();
                         }
@@ -1012,7 +1048,6 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Reset();
                             PickAttack();
-                            //AIState = Idle;
                         }
                     }
                     break;
@@ -1104,7 +1139,6 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Reset();
                             PickAttack();
-                            //AIState = Idle;
                         }
                     }
                     break;
@@ -1146,7 +1180,6 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Reset();
                             PickAttack();
-                            //AIState = Idle;
                         }
                     }
                     break;
@@ -1206,6 +1239,7 @@ namespace EbonianMod.NPCs.ArchmageX
                                 rect.Y += 60;
                                 pos = Main.rand.NextVector2FromRectangle(rect);
                             }
+                            pos = Helper.TRay.Cast(pos, Vector2.UnitY, 1000, true) - new Vector2(0, NPC.height / 2 + 16);
                             Projectile.NewProjectile(null, pos, Vector2.Zero, ProjectileType<XExplosionInvis>(), 0, 0);
                             NPC.Center = pos;
                         }
@@ -1249,7 +1283,6 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Reset();
                             PickAttack();
-                            //AIState = Idle;
                         }
                     }
                     break;
@@ -1323,7 +1356,6 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Reset();
                             PickAttack();
-                            //AIState = Idle;
                         }
                     }
                     break;
@@ -1361,7 +1393,6 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Reset();
                             PickAttack();
-                            //AIState = Idle;
                         }
                     }
                     break;
@@ -1436,7 +1467,6 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Reset();
                             PickAttack();
-                            //AIState = Idle;
                         }
                     }
                     break;
@@ -1449,18 +1479,41 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 1) disposablePos[9] = player.Center;
                         if (AITimer < 50)
                         {
+                            if (phaseMult == 1)
+                            {
+                                Vector2 pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220, NPC.Center.Y);
+                                if (disposablePos[9].X < NPC.Center.X)
+                                    pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220 + OffsetBoundaries(NPC.Size * 1.5f).Width - 220, NPC.Center.Y);
 
-                            Vector2 pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220, NPC.Center.Y);
-                            if (disposablePos[9].X < NPC.Center.X)
-                                pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220 + OffsetBoundaries(NPC.Size * 1.5f).Width - 220, NPC.Center.Y);
+                                Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
+                                if (NPC.Center.Y - player.Center.Y > NPC.height * 1.4f && NPC.Grounded())
+                                    NPC.velocity.Y = -9.5f;
+                                NPC.velocity.X = Helper.FromAToB(NPC.Center, pos, false).X * .01f;
+                                NPC.direction = disposablePos[9].X > NPC.Center.X ? -1 : 1;
+                                NPC.spriteDirection = NPC.direction;
+                                NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
+                            }
+                            else if (phaseMult == 2)
+                            {
+                                FacePlayer();
+                                disposablePos[9] = GetArenaRect().Center.ToVector2() - new Vector2(0, 16);
+                                Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
+                                NPC.velocity.X = Helper.FromAToB(NPC.Center, disposablePos[9], false).X * .03f;
+                                rightArmRot = Helper.LerpAngle(rightArmRot, -NPC.direction + MathHelper.ToRadians(-30f) * NPC.direction, 0.15f);
+                                leftArmRot = Helper.LerpAngle(leftArmRot, NPC.direction + MathHelper.ToRadians(30f) * NPC.direction, 0.15f);
+                            }
+                            else
+                            {
+                                rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, NPC.Center - Vector2.UnitY.RotatedBy(NPC.direction * 0.5f) * 100, reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
 
-                            Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
-                            if (NPC.Center.Y - player.Center.Y > NPC.height * 1.4f && NPC.Grounded())
-                                NPC.velocity.Y = -9.5f;
-                            NPC.velocity.X = Helper.FromAToB(NPC.Center, pos, false).X * .01f;
-                            NPC.direction = disposablePos[9].X > NPC.Center.X ? -1 : 1;
-                            NPC.spriteDirection = NPC.direction;
-                            NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
+                                headFrame.Y = AngryFace;
+                                NPC.velocity *= 0.9f;
+                                NPC.noGravity = false;
+                                heliAlpha = MathHelper.Lerp(heliAlpha, 0, 0.25f);
+                                Dust d = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Circular(200, 200), DustType<LineDustFollowPoint>(), Helper.FromAToB(Main.rand.NextVector2FromRectangle(NPC.getRect()), NPC.Center) * Main.rand.NextFloat(3, 7), 0, Color.Indigo, Main.rand.NextFloat(0.06f, .2f));
+                                d.noGravity = true;
+                                d.customData = NPC.Center + Helper.FromAToB(NPC.Center, player.Center) * 20;
+                            }
                         }
                         else
                             NPC.velocity.X *= 0.9f;
@@ -1469,37 +1522,61 @@ namespace EbonianMod.NPCs.ArchmageX
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                         if (AITimer == 40)
                             if (oldAttack != AIState)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? "GO FORTH, MY AMETHYSTS!" : "The Archmage's Great Amethysts!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? "GET AWAY FROM ME!!" : "The Archmage's Great Amethysts!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "AGAIN!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
-                        if (AITimer >= 60 && AITimer % 25 == 0)
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "I HATE YOU!!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                        if (phaseMult < 3)
                         {
-                            Projectile.NewProjectile(null, staffTip, Vector2.Zero, ProjectileType<XLargeAmethyst>(), 15, 0);
-                            if (phaseMult == 3)
+                            if (AITimer >= 60 && phase2 && AITimer % 35 == 0)
                             {
-                                for (int i = 0; i < 5; i++)
+                                float off = Main.rand.NextFloat(Pi);
+                                for (int i = 0; i < 3; i++)
                                 {
-                                    Projectile.NewProjectileDirect(null, staffTip, Helper.FromAToB(staffTip, player.Center).RotatedBy(Helper.CircleDividedEqually(i, 5)) * 0.25f, ProjectileType<XAmethyst>(), 15, 0).tileCollide = false;
+                                    float angle = Helper.CircleDividedEqually(i, 3) + off;
+                                    Projectile.NewProjectile(null, staffTip, angle.ToRotationVector2(), ProjectileType<XLargeAmethyst>(), 15, 0, ai2: 1);
                                 }
                             }
-                            Projectile.NewProjectile(null, staffTip, Vector2.Zero, ProjectileType<XExplosionInvis>(), 0, 0);
+                            if (!phase2 && AITimer >= 60 && AITimer % 25 == 0)
+                            {
+                                Projectile.NewProjectile(null, staffTip, Vector2.Zero, ProjectileType<XLargeAmethyst>(), 15, 0);
+
+                                Projectile.NewProjectile(null, staffTip, Vector2.Zero, ProjectileType<XExplosionInvis>(), 0, 0);
+                            }
+
                         }
-                        if (AITimer >= (phase2 ? (phaseMult == 3 ? 176 : 151) : (phaseMult == 1 ? 100 : 76)))
+                        else
+                        {
+                            if (AITimer > 90 && AITimer % 25 == 0)
+                            {
+                                SoundEngine.PlaySound(SoundID.Shatter, staffTip);
+                                for (int h = 0; h < 5; h++)
+                                {
+                                    Projectile.NewProjectile(null, staffTip, Main.rand.NextVector2Circular(7 + AITimer * 0.02f, 7 + AITimer * 0.02f), ProjectileType<XAmethystShard>(), 15, 0);
+                                }
+
+                                Projectile.NewProjectile(null, staffTip, Vector2.Zero, ProjectileType<XExplosion>(), 0, 0);
+                                float off = Main.rand.NextFloat(Pi);
+                                for (int i = 0; i < 5; i++)
+                                {
+                                    Projectile.NewProjectileDirect(null, staffTip, Helper.FromAToB(staffTip, player.Center).RotatedBy(Helper.CircleDividedEqually(i, 5) + off) * 0.25f, ProjectileType<XBolt>(), 15, 0).tileCollide = false;
+                                }
+                            }
+                        }
+                        if (AITimer >= (phase2 ? (phaseMult == 3 ? 200 : 151) : (phaseMult == 1 ? 100 : 76)))
                         {
                             Reset();
                             PickAttack();
-                            //AIState = Idle;
                         }
                     }
                     break;
                 case Micolash:
                     {
-                        leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
                         rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, disposablePos[0], reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
                         //if (AITimer == 40)
                         //  if (oldAttack != AIState)
                         //    currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Think fast!", Color.Violet, -1, 0.Color.Indigo* 0.5f, default, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)),3);
 
+                        leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
                         if (AITimer == 40)
                             if (oldAttack != AIState && AITimer3 == 0)
                                 currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? "DIE!!" : "Shadowflame Tendrils!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
@@ -1508,12 +1585,12 @@ namespace EbonianMod.NPCs.ArchmageX
 
                         if (phaseMult == 3 && AITimer3 > 0 && AITimer == 121)
                         {
-                            string dialogue = "You stupid HUMAN!!!!";
+                            string dialogue = "DIE!!!!";
                             if (AITimer3 == 2)
-                                dialogue = "I never leave an ENEMY alive!!!!";
+                                dialogue = "DIE!!!!!!!!!!!!!";
                             currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), dialogue, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         }
-                        if (AITimer < 110)
+                        if (AITimer < 122)
                         {
                             if (phaseMult == 3)
                                 headFrame.Y = AngryFace;
@@ -1574,7 +1651,6 @@ namespace EbonianMod.NPCs.ArchmageX
                             }
                             else
                                 AITimer = (phaseMult == 3 ? 120 : 80);
-                            //AIState = Idle;
                         }
                     }
                     break;
@@ -1657,7 +1733,6 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Reset();
                             PickAttack();
-                            //AIState = Idle;
                         }
                     }
                     break;
@@ -1745,7 +1820,6 @@ namespace EbonianMod.NPCs.ArchmageX
                                 NPC.ai[3] = 0;
                                 PickAttack();
                             }
-                            //AIState = Idle;
                         }
                     }
                     break;
@@ -1837,7 +1911,6 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Reset();
                             PickAttack();
-                            //AIState = Idle;
                         }
                     }
                     break;
@@ -1911,39 +1984,38 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Projectile.NewProjectile(null, disposablePos[0], Helper.FromAToB(disposablePos[0], NPC.Center), ProjectileType<XRift>(), 0, 0);
                         }
-                        if (AITimer == 140)
-                        {
-                            Projectile.NewProjectile(null, disposablePos[1] + Helper.FromAToB(disposablePos[1], player.Center) * 10, Helper.FromAToB(disposablePos[1], player.Center), ProjectileType<XRift>(), 15, 0);
-                            if (phaseMult == 3)
-                                Projectile.NewProjectile(null, disposablePos[1], -Helper.FromAToB(disposablePos[1], player.Center), ProjectileType<XRift>(), 15, 0);
-                        }
 
-                        if (AITimer == 200 && phase2)
+                        if (phaseMult < 3)
                         {
-                            disposablePos[1] = player.Center - new Vector2(-player.velocity.X, 100).RotatedByRandom(MathHelper.TwoPi);
-                            Projectile.NewProjectile(null, disposablePos[1] + Helper.FromAToB(disposablePos[1], player.Center) * 10, Helper.FromAToB(disposablePos[1], player.Center), ProjectileType<XRift>(), 15, 0);
-                            if (phaseMult == 3)
-                                Projectile.NewProjectile(null, disposablePos[1], -Helper.FromAToB(disposablePos[1], player.Center), ProjectileType<XRift>(), 15, 0);
-                        }
-
-                        if (AITimer == 240 && phaseMult == 3)
-                        {
-                            disposablePos[1] = player.Center;
-
-                            float off = Main.rand.NextFloat(MathHelper.Pi);
-                            for (int i = 0; i < 4; i++)
+                            if (AITimer == 140)
                             {
-                                float angle = Helper.CircleDividedEqually(i, 4) + off;
-                                Vector2 pos = disposablePos[1] + angle.ToRotationVector2() * Main.rand.NextFloat(100, 600);
-                                Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, disposablePos[1]), ProjectileType<XRift>(), 15, 0);
+                                Projectile.NewProjectile(null, disposablePos[1] + Helper.FromAToB(disposablePos[1], player.Center) * 10, Helper.FromAToB(disposablePos[1], player.Center), ProjectileType<XRift>(), 15, 0);
+                                if (phaseMult == 3)
+                                    Projectile.NewProjectile(null, disposablePos[1], -Helper.FromAToB(disposablePos[1], player.Center), ProjectileType<XRift>(), 15, 0);
+                            }
+
+                            if (AITimer == 200 && phase2)
+                            {
+                                disposablePos[1] = player.Center - new Vector2(-player.velocity.X, 100).RotatedByRandom(MathHelper.TwoPi);
+                                Projectile.NewProjectile(null, disposablePos[1] + Helper.FromAToB(disposablePos[1], player.Center) * 10, Helper.FromAToB(disposablePos[1], player.Center), ProjectileType<XRift>(), 15, 0);
+                            }
+                        }
+                        else
+                        {
+                            if (AITimer > 140 && AITimer < 241 && AITimer % 30 == 0)
+                            {
+                                disposablePos[1] = Helper.TRay.Cast(Vector2.Clamp(player.Center, GetArenaRect().BottomLeft() + new Vector2(30, -30), GetArenaRect().TopRight() + new Vector2(-30, 30)), -Vector2.UnitY, 600);
+                                Projectile.NewProjectile(null, disposablePos[1], Vector2.UnitY, ProjectileType<XRift>(), 15, 0);
+
+                                disposablePos[1] = Helper.TRay.Cast(Vector2.Clamp(player.Center, GetArenaRect().BottomLeft() + new Vector2(30, -30), GetArenaRect().TopRight() + new Vector2(-30, 30)), Vector2.UnitY, 600);
+                                Projectile.NewProjectile(null, disposablePos[1], -Vector2.UnitY, ProjectileType<XRift>(), 15, 0);
                             }
                         }
 
-                        if (AITimer >= 320)
+                        if (AITimer >= (phaseMult == 3 ? 270 : 320))
                         {
                             Reset();
                             PickAttack();
-                            //AIState = Idle;
                         }
                     }
                     break;
@@ -2038,17 +2110,28 @@ namespace EbonianMod.NPCs.ArchmageX
                                 {
                                     float angle = Helper.CircleDividedEqually(i, 14);
                                     if (i % 2 == 0)
+                                        Projectile.NewProjectileDirect(null, staffTip, angle.ToRotationVector2() * 0.5f, ProjectileType<XBolt>(), 15, 0);
+                                    else
+                                        Projectile.NewProjectileDirect(null, staffTip, angle.ToRotationVector2() * 0.5f, ProjectileType<XAmethyst>(), 15, 0).tileCollide = false;
+                                }
+                            }
+
+                            if (AITimer == 560)
+                            {
+                                for (int i = 0; i < 18; i++)
+                                {
+                                    float angle = Helper.CircleDividedEqually(i, 18);
+                                    if (i % 2 == 0)
                                         Projectile.NewProjectileDirect(null, staffTip, angle.ToRotationVector2(), ProjectileType<XBolt>(), 15, 0);
                                     else
                                         Projectile.NewProjectileDirect(null, staffTip, angle.ToRotationVector2(), ProjectileType<XAmethyst>(), 15, 0).tileCollide = false;
                                 }
                             }
                         }
-                        if (AITimer >= 550)
+                        if (AITimer >= (phaseMult == 3 ? 620 : 550))
                         {
                             Reset();
                             PickAttack();
-                            //AIState = Idle;
                         }
                     }
                     break;
@@ -2117,13 +2200,160 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Reset();
                             PickAttack();
-                            //AIState = Idle;
+                        }
+                    }
+                    break;
+                case BullshitRain:
+                    {
+                        if (AITimer == 40)
+                            if (oldAttack != AIState)
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "STOP DODGING!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                            else
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "STOP!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+
+                        headFrame.Y = AngryFace;
+                        leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
+                        if (AITimer == 1) disposablePos[9] = player.Center;
+                        if (AITimer < 50)
+                        {
+
+                            Vector2 pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220, NPC.Center.Y);
+                            if (disposablePos[9].X < NPC.Center.X)
+                                pos = new Vector2(OffsetBoundaries(NPC.Size * 1.5f).X + 220 + OffsetBoundaries(NPC.Size * 1.5f).Width - 220, NPC.Center.Y);
+
+                            Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
+                            if (NPC.Center.Y - player.Center.Y > NPC.height * 1.4f && NPC.Grounded())
+                                NPC.velocity.Y = -9.5f;
+                            NPC.velocity.X = Helper.FromAToB(NPC.Center, pos, false).X * .01f;
+                            NPC.direction = disposablePos[9].X > NPC.Center.X ? -1 : 1;
+                            NPC.spriteDirection = NPC.direction;
+                            NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.03f, 0.1f);
+                        }
+                        else
+                        {
+                            NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
+                            NPC.velocity.X *= 0.9f;
+                        }
+                        if (AITimer > 60 && AITimer < 160)
+                        {
+                            rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, disposablePos[0], reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
+                            if (AITimer < 160)
+                                disposablePos[1] = player.Center - new Vector2(-player.velocity.X, 100).RotatedByRandom(MathHelper.TwoPi);
+
+                            if (AITimer < 85)
+                            {
+                                disposablePos[0] = NPC.Center + new Vector2(NPC.direction * 70, 0);
+                            }
+                            if (AITimer % 2 == 0)
+                            {
+                                Dust.NewDustPerfect(disposablePos[0], DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                                Dust.NewDustPerfect(disposablePos[0], DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f)).customData = NPC.Center;
+                                Dust.NewDustPerfect(NPC.Center, DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f)).customData = disposablePos[0];
+
+                                Dust.NewDustPerfect(disposablePos[1], DustType<SparkleDust>(), Main.rand.NextVector2Circular(7, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                                Dust.NewDustPerfect(disposablePos[1], DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f));
+                            }
+                        }
+                        if (AITimer > 60 && AITimer < 270 && AITimer % 5 == 0)
+                        {
+                            Dust.NewDustPerfect(disposablePos[0], DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f)).customData = NPC.Center;
+                            Dust.NewDustPerfect(NPC.Center, DustType<LineDustFollowPoint>(), Main.rand.NextVector2Circular(10, 10), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.24f)).customData = disposablePos[0];
+                        }
+                        if (AITimer == 85)
+                        {
+                            Projectile.NewProjectile(null, disposablePos[0], Helper.FromAToB(disposablePos[0], NPC.Center), ProjectileType<XRift>(), 0, 0);
+                        }
+
+                        if (AITimer == 100)
+                        {
+                            for (float i = 0; i <= 1; i += 0.2f)
+                            {
+                                Vector2 pos = Helper.TRay.Cast(new Vector2(GetArenaRect().X + 30 + (GetArenaRect().Width - 60) * i, GetArenaRect().Center.Y), -Vector2.UnitY, 700);
+                                Projectile.NewProjectile(null, pos, Vector2.UnitY, ProjectileType<XRift>(), 0, 0);
+                            }
+                        }
+                        if (AITimer > 170 && AITimer < 260 && AITimer % 10 == 0)
+                        {
+                            for (int i = 0; i < 2; i++)
+                            {
+                                Vector2 pos = Helper.TRay.Cast(new Vector2(GetArenaRect().X + 30 + (GetArenaRect().Width - 60) * Main.rand.NextFloat(), GetArenaRect().Center.Y), -Vector2.UnitY, 700);
+
+                                Vector2 vel = Vector2.UnitY.RotatedByRandom(MathHelper.PiOver4 * 0.7f);
+                                SoundEngine.PlaySound(EbonianSounds.xSpirit, pos);
+                                for (int j = 0; j < 10; j++)
+                                {
+                                    if (j % 2 == 0)
+                                        Dust.NewDustPerfect(pos, DustType<SparkleDust>(), vel.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(2, 5), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
+                                    else
+                                        Dust.NewDustPerfect(pos, DustType<LineDustFollowPoint>(), vel.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(2, 5), 0, Color.DarkOrchid, Main.rand.NextFloat(0.05f, 0.175f));
+                                }
+
+                                WeightedRandom<int> projType = new();
+                                projType.Add(ProjectileType<XAmethystCloseIn>());
+                                projType.Add(ProjectileType<XBolt>());
+                                projType.Add(ProjectileType<XKnife>());
+                                projType.Add(ProjectileType<XManaPotion>());
+                                int _projType = projType;
+                                Vector2 _vel = Vector2.UnitY.RotatedByRandom(PiOver4 * 0.3f);
+                                if (_projType == ProjectileType<XKnife>())
+                                    _vel *= 7;
+                                else
+                                    Projectile.NewProjectileDirect(null, pos + new Vector2(0, 32), _vel, _projType, 20, 0);
+                            }
+                        }
+
+                        if (AITimer >= 280)
+                        {
+                            Reset();
+                            PickAttack();
+                        }
+                    }
+                    break;
+                case BONK:
+                    {
+                        leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
+                        if (AITimer == 40)
+                            if (oldAttack != AIState && AITimer3 == 0)
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), doneAttacksBefore ? "I'M SO TIRED OF YOUR NONSENSE!" : "LOOK WHAT YOU'RE MAKING ME DO!!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                            else
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "GOD DAMN YOU!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+
+                        if (AITimer < 122)
+                        {
+                            headFrame.Y = AngryFace;
+                            FacePlayer();
+                            NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.02f, 0.1f);
+
+                            Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
+                            if (NPC.Center.Y - player.Center.Y > NPC.height * 1.4f && NPC.Grounded())
+                                NPC.velocity.Y = -9.5f;
+                            NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center - Helper.FromAToB(NPC.Center, player.Center) * 120, false).X * 0.07f, 0.1f);
+                        }
+                        else
+                        {
+                            NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
+                            NPC.velocity.X *= 0.7f;
+                        }
+                        if (AITimer < 130)
+                            disposablePos[0] = player.Center;
+
+                        if (AITimer == 140)
+                        {
+                            staffAlpha = 0;
+                            bigStaffAlpha = 1;
+                            bigStaffBloomAlpha = 1;
+                        }
+
+                        if (AITimer >= 240)
+                        {
+                            Reset();
+                            PickAttack();
                         }
                     }
                     break;
             }
         }
-        // TODO: Detached head, Drinkable mana potion, Mana system, smoother movement, improved arm movement, phase 2 attack changes
+        // Sounds like something
         Vector2 sCenter;
         Rectangle GetArenaRect()
         {
@@ -2186,6 +2416,8 @@ namespace EbonianMod.NPCs.ArchmageX
             staffAlpha = 1;
             heliAlpha = 0;
             NPC.velocity.X = 0;
+            bigStaffAlpha = 0;
+            bigStaffBloomAlpha = 0;
             headFrame.Y = phase2 ? DisappointedFace : NeutralFace;
             for (int i = 0; i < disposablePos.Length; i++) disposablePos[i] = Vector2.Zero;
             NPC.damage = 0;

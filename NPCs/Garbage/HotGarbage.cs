@@ -1317,8 +1317,14 @@ namespace EbonianMod.NPCs.Garbage
                     Main.spriteBatch.Draw(chevron, targetPos + offset.RotatedBy(angle) - Main.screenPosition, null, Color.DarkRed * alpha2 * 0.25f, angle + MathHelper.PiOver4, chevron.Size() / 2, 0.5f, SpriteEffects.None, 0);
                 }
             }
-
-            string strin = "" + MathF.Round(Projectile.ai[1] / 60, 3);
+            string num = MathF.Round(Projectile.ai[1] / 60, 2).ToString();
+            switch (num.Length)
+            {
+                case 1:
+                    num = MathF.Round(Projectile.ai[1] / 60, 2).ToString() + ".0";
+                    break;
+            }
+            string strin = "" + num;
             if (extraString != "NUKE DETONATION IN: ")
                 strin = "";
 
@@ -1336,7 +1342,7 @@ namespace EbonianMod.NPCs.Garbage
                     Main.spriteBatch.Draw(hazard, new Vector2(Main.screenWidth / 2 + (i * hazard.Width) + waveTimer * hazard.Width, Main.screenHeight * 0.122f), null, Color.Red, 0, new Vector2(hazard.Width / 2, hazard.Height / 2), 1, SpriteEffects.None, 0);
                 }
             }
-            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, extraString + strin, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString((extraString + strin).ToString()).X / 2, Main.screenHeight * 0.05f), Color.Red);
+            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, extraString + strin, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString((extraString + "0.00").ToString()).X / 2, Main.screenHeight * 0.05f), Color.Red);
 
             Main.spriteBatch.ApplySaved();
             return true;
@@ -1367,6 +1373,7 @@ namespace EbonianMod.NPCs.Garbage
                 }
 
             }
+
             foreach (NPC npc in Main.npc)
             {
                 if (npc.active && npc.Center.Distance(targetPos) < 4500 / 2 && npc.type != NPCType<HotGarbage>())

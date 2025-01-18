@@ -103,7 +103,7 @@ namespace EbonianMod.Dusts
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity;
-            dust.scale -= 0.005f;
+            dust.scale -= 0.0025f;
             dust.rotation = dust.velocity.ToRotation() - MathHelper.PiOver2;
             if (dust.customData != null && dust.customData.GetType() == typeof(Vector2))
             {
@@ -111,6 +111,8 @@ namespace EbonianMod.Dusts
                 if (dust.position.Distance((Vector2)dust.customData) < 100)
                     dust.scale -= 0.01f;
             }
+            else
+                dust.velocity *= 0.98f;
             if (dust.scale <= 0)
                 dust.active = false;
             return false;
@@ -122,7 +124,7 @@ namespace EbonianMod.Dusts
                 if (d.type == DustType<LineDustFollowPoint>() && d.active)
                 {
                     Texture2D tex = Request<Texture2D>("EbonianMod/Extras/Extras2/trace_01").Value;
-                    sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.scale * 10), d.rotation, tex.Size() / 2, d.scale * 2, SpriteEffects.None, 0);
+                    sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.scale * 10), d.rotation, tex.Size() / 2, new Vector2(1, Clamp(d.velocity.Length() * 0.25f, 0, 3)) * d.scale * 2, SpriteEffects.None, 0);
                 }
             }
         }

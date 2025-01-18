@@ -192,9 +192,12 @@ namespace EbonianMod.Projectiles.ArchmageX
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation();
+            Vector2 pos = new(Projectile.ai[0], Projectile.ai[1]);
             if (Projectile.velocity.Length() < 10)
                 Projectile.velocity *= 1.05f;
-            Vector2 pos = new(Projectile.ai[0], Projectile.ai[1]);
+            else
+                Projectile.velocity = Projectile.velocity.RotatedBy(ToRadians(Helper.FromAToB(Projectile.Center, pos).X < 0 ? 0.25f : -0.25f));
+
             if (Projectile.timeLeft > 230 && Projectile.ai[2] < 1)
                 Projectile.ai[2] += 0.1f;
             if (Projectile.timeLeft < 15)
