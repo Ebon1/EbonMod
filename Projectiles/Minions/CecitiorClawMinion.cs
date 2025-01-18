@@ -41,7 +41,7 @@ namespace EbonianMod.Projectiles.Minions
         public override bool ShouldUpdatePosition() => false;
         public override void OnSpawn(IEntitySource source)
         {
-            verlet = new Verlet(Projectile.Center, 6, 40, -1, stiffness: 100);
+            verlet = new Verlet(Projectile.Center, 6, 40, -1, stiffness: 60);
         }
         public override bool? CanDamage() => false;
         public override void AI()

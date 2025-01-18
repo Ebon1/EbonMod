@@ -54,6 +54,7 @@ namespace EbonianMod.Common.Systems.Misc
         public VerletPoint lastP { get; set; }
         public float drag { get; set; }
         public float gravity { get; set; }
+        public Vector2 gravityDirection { get; set; }
         public float startRot => segments[0].Rotation();
         public float endRot => segments[segments.Count - 1].Rotation();
         public Vector2 startPos => segments[0].pointA.position;
@@ -63,6 +64,7 @@ namespace EbonianMod.Common.Systems.Misc
         {
 
             this.gravity = gravity;
+            this.gravityDirection = Vector2.UnitY;
             this.stiffness = stiffness;
 
             Load(start, length, count, firstPointLocked, lastPointLocked, collide: collide, colLength: colLength);
@@ -75,7 +77,7 @@ namespace EbonianMod.Common.Systems.Misc
 
             for (int i = 0; i < count; i++)
             {
-                points.Add(new VerletPoint(startPosition + (offset == default ? Vector2.Zero : offset * i), gravity/*, drag*/, collide, colLength));
+                points.Add(new VerletPoint(startPosition + (offset == default ? Vector2.Zero : offset * i), gravity, gravityDirection/*, drag*/, collide, colLength));
             }
 
 
@@ -102,6 +104,12 @@ namespace EbonianMod.Common.Systems.Misc
             {
                 point.Update();
                 point.gravity = gravity;
+                if (point.gravityDirection != gravityDirection)
+                {
+                    if (gravityDirection.Length() > 0)
+                        gravityDirection.Normalize();
+                    point.gravityDirection = gravityDirection;
+                }
             }
             for (int i = 0; i < stiffness; i++)
                 foreach (VerletSegment segment in segments)
@@ -178,17 +186,18 @@ namespace EbonianMod.Common.Systems.Misc
     }
     public class VerletPoint
     {
-        public Vector2 position, lastPos;
+        public Vector2 position, lastPos, gravityDirection;
         public bool locked;
         public float gravity;
         public bool collide;
         public float colLength;
-        public VerletPoint(Vector2 position, float gravity/*, float drag*/, bool collide = false, float colLength = 1)
+        public VerletPoint(Vector2 position, float gravity, Vector2 gravityDirection/*, float drag*/, bool collide = false, float colLength = 1)
         {
             this.position = position;
             this.gravity = gravity;
             this.collide = collide;
             this.colLength = colLength;
+            this.gravityDirection = gravityDirection;
         }
 
         public void Update()
@@ -203,16 +212,16 @@ namespace EbonianMod.Common.Systems.Misc
                 {*/
                 if (collide)
                 {
-                    if (Helper.TRay.CastLength(position, Vector2.UnitY, colLength) >= colLength || !Collision.SolidCollision(position, (int)colLength, (int)colLength))
+                    if (Helper.TRay.CastLength(position, gravityDirection, colLength) >= colLength || !Collision.SolidCollision(position, (int)colLength, (int)colLength))
                     {
                         lastPos = position;
-                        position += new Vector2(0, gravity);
+                        position += gravityDirection * gravity;
                     }
                 }
                 else
                 {
                     lastPos = position;
-                    position += new Vector2(0, gravity);
+                    position += gravityDirection * gravity;
                 }
             }
         }

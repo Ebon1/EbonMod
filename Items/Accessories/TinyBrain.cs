@@ -63,7 +63,7 @@ namespace EbonianMod.Items.Accessories
         {
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
-            verlet = new Verlet(NPC.Center, 8, 14, stiffness: 200);
+            verlet = new Verlet(NPC.Center, 8, 14, stiffness: 70);
         }
         public override void AI()
         {

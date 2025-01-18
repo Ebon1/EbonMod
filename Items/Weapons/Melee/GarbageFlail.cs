@@ -73,7 +73,7 @@ namespace EbonianMod.Items.Weapons.Melee
         SlotId slot;
         public override void OnSpawn(IEntitySource source)
         {
-            verlet = new Verlet(Projectile.Center, 2, 15, stiffness: 50);
+            verlet = new Verlet(Projectile.Center, 2, 15, stiffness: 40);
             SoundEngine.PlaySound(SoundID.Item23.WithPitchOffset(0.5f));
 
             slot = SoundEngine.PlaySound(EbonianSounds.ghizasWheel.WithPitchOffset(-0.35f));
