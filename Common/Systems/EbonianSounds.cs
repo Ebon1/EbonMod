@@ -73,7 +73,8 @@ namespace EbonianMod.Common.Systems
         vaccum,
         ghizasWheel,
         garbageDeath,
-        evilOutro;
+        evilOutro,
+        xareusOutro;
         public static void LoadSounds()
         {
             bloodSpit = Default with
@@ -409,6 +410,12 @@ namespace EbonianMod.Common.Systems
             evilOutro = Default with
             {
                 SoundPath = ebonianSoundPath + "Music/Outros/evilOutro",
+                PitchVariance = 0
+            };
+
+            xareusOutro = Default with
+            {
+                SoundPath = ebonianSoundPath + "Music/Outros/xareusOutro",
                 PitchVariance = 0
             };
 

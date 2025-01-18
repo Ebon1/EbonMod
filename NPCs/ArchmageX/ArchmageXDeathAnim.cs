@@ -94,6 +94,8 @@ namespace EbonianMod.NPCs.ArchmageX
                 id = SoundEngine.PlaySound(EbonianSounds.xDeath, Projectile.Center);
                 d = DialogueSystem.NewDialogueBox(250, Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!").X * -0.5f, 7), "DAMN YOU!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 5f, true, DialogueAnimationIDs.ColorWhite);
             }
+            if (Projectile.timeLeft == 170)
+                SoundEngine.PlaySound(EbonianSounds.xareusOutro);
             if (id.IsValid)
             {
                 if (SoundEngine.TryGetActiveSound(id, out var activeSound))
@@ -104,6 +106,7 @@ namespace EbonianMod.NPCs.ArchmageX
             if (d != null)
             {
                 d.Center = Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!").X * -0.5f, 7);
+                d.VisibleCenter = Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!").X * -0.5f, 7);
             }
         }
     }

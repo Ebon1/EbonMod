@@ -89,6 +89,8 @@ namespace EbonianMod.NPCs.ArchmageX
             Texture2D headGlow = Helper.GetTexture(Texture + "_HeadGlow");
             Texture2D manaPot = TextureAssets.Projectile[ProjectileType<XManaPotion>()].Value;
             Texture2D staff = Helper.GetTexture("Items/Weapons/Magic/StaffOfXItem");
+            Texture2D bigStaff = Helper.GetTexture("Items/Weapons/Magic/StaffOfX");
+            Texture2D bigStaffBloom = Helper.GetTexture("Items/Weapons/Magic/StaffOfX_Bloom");
             Texture2D heli = Helper.GetExtraTexture("Sprites/ArchmageXHeli");
             Texture2D heliGlow = Helper.GetExtraTexture("Sprites/ArchmageXHeli_Glow");
 
@@ -110,8 +112,16 @@ namespace EbonianMod.NPCs.ArchmageX
 
             spriteBatch.Draw(staff, staffP - screenPos, null, Color.White * staffAlpha, staffRot, new Vector2(0, staff.Height), NPC.scale, SpriteEffects.None, 0f);
 
+            spriteBatch.Draw(bigStaff, staffP - screenPos, null, Color.White * bigStaffAlpha, staffRot, new Vector2(0, bigStaff.Height), NPC.scale, SpriteEffects.None, 0f);
+
+
             Vector2 scale = new Vector2(1f, 0.25f);
             Main.spriteBatch.Reload(BlendState.Additive);
+
+            for (int i = 0; i < 6; i++)
+                spriteBatch.Draw(bigStaff, staffP - screenPos, null, Color.White * bigStaffBloomAlpha, staffRot, new Vector2(0, bigStaff.Height), NPC.scale, SpriteEffects.None, 0f);
+
+
             Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
             EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(MathHelper.ToRadians(Main.GlobalTimeWrappedHourly * 1200));
             EbonianMod.SpriteRotation.Parameters["scale"].SetValue(scale);
@@ -2318,8 +2328,9 @@ namespace EbonianMod.NPCs.ArchmageX
                             else
                                 currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "GOD DAMN YOU!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
 
-                        if (AITimer < 122)
+                        if (AITimer < 110)
                         {
+                            rightArmRot = Helper.LerpAngle(rightArmRot, 1.75f * -NPC.direction, 0.3f);
                             headFrame.Y = AngryFace;
                             FacePlayer();
                             NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.X * 0.02f, 0.1f);
@@ -2334,24 +2345,96 @@ namespace EbonianMod.NPCs.ArchmageX
                             NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                             NPC.velocity.X *= 0.7f;
                         }
-                        if (AITimer < 130)
+                        if (AITimer < 110)
                             disposablePos[0] = player.Center;
 
-                        if (AITimer == 140)
+                        if (AITimer == 80)
                         {
                             staffAlpha = 0;
+                            for (int i = 0; i < 15; i++)
+                                Projectile.NewProjectile(null, staffTip, Main.rand.NextVector2Unit() * Main.rand.NextFloat(10, 20), ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(0.1f, 0.3f));
+
+                            Projectile.NewProjectile(null, staffTip, Vector2.Zero, ProjectileType<XExplosion>(), 0, 0);
                             bigStaffAlpha = 1;
                             bigStaffBloomAlpha = 1;
+                            AITimer2 = 60;
                         }
 
-                        if (AITimer >= 240)
+
+                        if (AITimer > 130 && AITimer2 > 0)
+                        {
+                            AITimer2--;
+                            int direction = -NPC.direction;
+                            if (lerpProg > 0)
+                                swingProgress = MathHelper.Lerp(swingProgress, BigStaffEasingFunction(Utils.GetLerpValue(0, 60, AITimer2)), lerpProg);
+                            float defRot = (Vector2.UnitX * NPC.direction).ToRotation();
+                            float start = defRot - (MathHelper.PiOver2 + MathHelper.PiOver4);
+                            float end = defRot + (MathHelper.PiOver2 + MathHelper.PiOver4);
+                            if (lerpProg >= 0)
+                                rightArmRot = Helper.LerpAngle(rightArmRot, (direction == 1 ? start + MathHelper.Pi * 3 / 2 * swingProgress : end - MathHelper.Pi * 3 / 2 * swingProgress) + MathHelper.PiOver4 - rightHandOffsetRot, 0.3f * lerpProg);
+                            Vector2 position = NPC.Center +
+                                (rightArmRot - PiOver4 + Pi).ToRotationVector2() * 170 * BigStaffScaleFunction(swingProgress);
+
+                            if (lerpProg > -1 && swingProgress > 0.1f && swingProgress < 0.9f && AITimer % 4 < 2)
+                            {
+                                Projectile.NewProjectile(null, position - Helper.FromAToB(position, NPC.Center) * 20, Helper.FromAToB(staffTip + (rightArmRot - PiOver4).ToRotationVector2() * 50, disposablePos[0]) * Main.rand.NextFloat(1, 3), ProjectileType<XBolt>(), 20, 0);
+                            }
+
+                            if (AITimer > 164)
+                                if (AITimer3 == 0 && Helper.TRay.CastLength(position, Vector2.UnitY, 100) < 30)
+                                {
+                                    AITimer3 = 1;
+                                    AITimer2 = 15;
+                                    AITimer = 190;
+                                    lerpProg = -1;
+                                    SoundEngine.PlaySound(SoundID.Item70, position);
+                                    SoundEngine.PlaySound(EbonianSounds.xSpirit, position);
+                                    WeightedRandom<string> chat = new();
+                                    chat.Add("WHAT ARE YOU DOING?!");
+                                    chat.Add("XAREUS?!");
+                                    chat.Add("???!");
+                                    chat.Add("HUH?!");
+                                    DialogueSystem.NewDialogueBox(40, position - new Vector2(0, 40), chat, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 8f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+                                    Projectile p = Projectile.NewProjectileDirect(null, Helper.TRay.Cast(position - new Vector2(0, 20), Vector2.UnitY, 80), Vector2.Zero, ProjectileType<XImpact>(), 20, 0);
+                                    p.friendly = false;
+                                    p.hostile = true;
+                                }
+
+                        }
+
+                        if (AITimer == 240)
+                        {
+                            for (int i = 0; i < 15; i++)
+                                Projectile.NewProjectile(null, staffTip, Main.rand.NextVector2Unit() * Main.rand.NextFloat(10, 20), ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(0.1f, 0.3f));
+
+                            Projectile.NewProjectile(null, staffTip, Vector2.Zero, ProjectileType<XExplosion>(), 0, 0);
+                            bigStaffBloomAlpha = 1;
+                            bigStaffAlpha = 0;
+                            staffAlpha = 1;
+                        }
+                        if (AITimer >= 270)
                         {
                             Reset();
+                            AITimer3 = 0;
                             PickAttack();
                         }
                     }
                     break;
             }
+        }
+        float swingProgress, lerpProg = 1;
+        float BigStaffEasingFunction(float x)
+        {
+            return x == 0
+    ? 0
+    : x == 1
+    ? 1
+    : x < 0.5 ? MathF.Pow(2, 20 * x - 10) / 2
+    : (2 - MathF.Pow(2, -20 * x + 10)) / 2;
+        }
+        float BigStaffScaleFunction(float progress)
+        {
+            return 0.7f + (float)Math.Sin(progress * Math.PI) * 0.5f;
         }
         // Sounds like something
         Vector2 sCenter;
@@ -2400,7 +2483,7 @@ namespace EbonianMod.NPCs.ArchmageX
         public override bool? CanFallThroughPlatforms()
         {
             Player player = Main.player[NPC.target];
-            return (player.Center.Y > NPC.Center.Y + 50 && (AIState == Idle || AIState == Spawn || (AIState == Micolash && AITimer < 130))) || NPC.noGravity;
+            return (player.Center.Y > NPC.Center.Y + 50 && (AIState == Idle || (AIState == BONK && AITimer < 130) || AIState == Spawn || (AIState == Micolash && AITimer < 130))) || NPC.noGravity;
         }
         void Reset()
         {
@@ -2421,6 +2504,8 @@ namespace EbonianMod.NPCs.ArchmageX
             headFrame.Y = phase2 ? DisappointedFace : NeutralFace;
             for (int i = 0; i < disposablePos.Length; i++) disposablePos[i] = Vector2.Zero;
             NPC.damage = 0;
+            lerpProg = 1;
+            swingProgress = 0;
         }
     }
 }
