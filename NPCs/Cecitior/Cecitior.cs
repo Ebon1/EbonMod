@@ -265,8 +265,8 @@ namespace EbonianMod.NPCs.Cecitior
                     }
                 }
                 Texture2D part = Helper.GetTexture("NPCs/Cecitior/Cecitior_Part");
-                spriteBatch.Draw(part, NPC.Center + new Vector2(30, 4) + openOffset - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center + new Vector2(30, 4) + openOffset)), openRotation, part.Size() / 2, NPC.scale, SpriteEffects.None, 0);
-                spriteBatch.Draw(tex, NPC.Center - openOffset - screenPos, NPC.frame, new Color(Lighting.GetSubLight(NPC.Center - openOffset)), NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(part, NPC.Center + new Vector2(30, 4) + openOffset - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center + new Vector2(30, 4) + openOffset) * 1.25f), openRotation, part.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(tex, NPC.Center - openOffset - screenPos, NPC.frame, new Color(Lighting.GetSubLight(NPC.Center - openOffset) * 1.25f), NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
                 return false;
             }
             return true;

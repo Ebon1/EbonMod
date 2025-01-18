@@ -316,7 +316,7 @@ NPCs: {
 	DankDiggerTail.DisplayName: Dank Digger
 	EbonButKill.DisplayName: Ebon But Kill
 	BloatedEbonfly.DisplayName: Bloated Ebonfly
-	MassiveSpectator.DisplayName: Spectator
+	MassiveSpectator.DisplayName: Massive Spectator
 	TerrortomaBulb.DisplayName: Giant Cocoon
 	Bloodhound.DisplayName: Bloodhound
 	ClumpOfMeat.DisplayName: Clump Of Meat
@@ -349,6 +349,7 @@ NPCs: {
 	FleshDice.DisplayName: Flesh Dice
 	Sheep.DisplayName: Sheep
 	JelleyeFish.DisplayName: Jelleye Fish
+	MiniSpectator.DisplayName: Spectator
 }
 
 Items: {

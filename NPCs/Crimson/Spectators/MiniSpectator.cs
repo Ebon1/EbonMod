@@ -22,46 +22,43 @@ using Terraria.ModLoader;
 
 namespace EbonianMod.NPCs.Crimson.Spectators
 {
-    public class MassiveSpectator : ModNPC
+    public class MiniSpectator : ModNPC
     {
         public override void SetStaticDefaults()
         {
 
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
-                CustomTexturePath = "EbonianMod/NPCs/Crimson/Spectators/MassiveSpectator_Bestiary",
+                //CustomTexturePath = "EbonianMod/NPCs/Crimson/Spectators/MiniSpectator_Bestiary",
                 Position = new Vector2(7f, 24f),
                 PortraitPositionXOverride = 0f,
-                PortraitPositionYOverride = 32f
+                PortraitPositionYOverride = 32f,
+                Hide = true
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return (spawnInfo.Player.ZoneCrimson && Main.hardMode && !NPC.AnyNPCs(Type)) ? 0.5f : 0;
+            return (spawnInfo.Player.ZoneCrimson) ? 0.15f : 0;
         }
-        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        /*public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
                 new FlavorTextBestiaryInfoElement("Type: Organ"),
                 new FlavorTextBestiaryInfoElement("These towering eyes seem to be connected to something at the very base of the Crimson. They only appeared very recently, so not much else is known about them."),
             });
-        }
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ItemDropRule.Common(ItemType<Panopticon>(), 40));
-        }
+        }*/
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.lifeMax = 1000;
+            NPC.lifeMax = 500;
             NPC.damage = 0;
             NPC.noTileCollide = true;
             NPC.defense = 20;
             NPC.knockBackResist = 0;
-            NPC.width = 46;
-            NPC.height = 44;
+            NPC.width = 24;
+            NPC.height = 20;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.buffImmune[24] = true;
@@ -78,7 +75,7 @@ namespace EbonianMod.NPCs.Crimson.Spectators
         }
         public override void OnSpawn(IEntitySource source)
         {
-            verlet = new Verlet(NPC.Center, 16, 20, -0.25f, true, true, 30);
+            verlet = new Verlet(NPC.Center, 10, Main.rand.Next(15, 25), Main.rand.NextFloat(-1, -0.5f), true, true, 4);
 
             NPC.ai[1] = Main.rand.NextFloat(20, 100);
             NPC.ai[2] = Main.rand.NextFloat(30, 100);
@@ -87,7 +84,7 @@ namespace EbonianMod.NPCs.Crimson.Spectators
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (verlet != null)
-                verlet.Draw(spriteBatch, Texture + "_Vein", null, Texture + "_VeinBase", useRotEnd: true, endRot: NPC.rotation + MathHelper.PiOver2);
+                verlet.Draw(spriteBatch, Texture + "_Vein", null, null, useRotEnd: true, endRot: NPC.rotation + MathHelper.PiOver2);
             Texture2D texture = Request<Texture2D>(Texture).Value;
             spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, texture.Size() / 2, NPC.scale, SpriteEffects.None, 0);
             Texture2D glow = Request<Texture2D>(Texture + "_Glow").Value;
@@ -100,19 +97,17 @@ namespace EbonianMod.NPCs.Crimson.Spectators
             if (NPC.life <= 0)
             {
                 SoundEngine.PlaySound(EbonianSounds.cecitiorDie, NPC.Center);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/Gnasher0").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/CrimsonGoreChunk3").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/CrimsonGoreChunk1").Type, NPC.scale);
-                for (int i = 0; i < 5; i++)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/WormyGore").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/WormyGore2").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/WormyGore3").Type, NPC.scale);
                 for (int i = 0; i < 3; i++)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/WormyGore2").Type, NPC.scale);
+
+                Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/WormyGore3").Type, NPC.scale);
                 for (int i = 0; i < verlet.points.Count; i++)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), verlet.points[i].position, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/CrimsonGoreChunk2").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), verlet.points[i].position, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/CrimorrhageChain").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), verlet.points[i].position, Main.rand.NextVector2Unit() * Main.rand.NextFloat(5, 10), Find<ModGore>("EbonianMod/JelleyeFishGore1").Type, NPC.scale);
                 }
-                NPC.NewNPCDirect(NPC.GetSource_Death(), NPC.Center + new Vector2(0, -1300), NPCType<Cecitior.Cecitior>());
                 Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0, 0);
             }
         }
@@ -122,32 +117,33 @@ namespace EbonianMod.NPCs.Crimson.Spectators
             NPC.despawnEncouraged = false;
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
-            if (stalkBase == Vector2.Zero || Helper.TRay.CastLength(stalkBase, Vector2.UnitY, 4) > 3)
+            if (stalkBase == Vector2.Zero || Helper.TRay.CastLength(stalkBase, Vector2.UnitY, 10) > 7)
             {
                 Vector2 direction = Vector2.UnitY.RotatedBy(MathHelper.PiOver4 + MathHelper.PiOver4 * 0.25f);
                 int attempts = 0;
-                while (Helper.TRay.CastLength(NPC.Center, direction, 400) >= 399 && attempts++ <= 100)
+                while (attempts++ <= 200)
                 {
-                    NPC.Center += Vector2.UnitY * 3;
+                    if (Helper.TRay.CastLength(NPC.Center, Vector2.UnitY, 100) > 99)
+                        NPC.Center += Vector2.UnitY;
                     if (attempts == 1)
                         direction = Vector2.UnitY.RotatedBy(-1 * MathHelper.PiOver4 - MathHelper.PiOver4 * 0.25f);
                     else
-                        direction = Vector2.UnitY.RotatedByRandom(MathHelper.PiOver4 + MathHelper.PiOver4 * 0.25f);
+                        direction = Vector2.UnitY.RotatedByRandom(MathHelper.PiOver4);
                 }
-                stalkBase = Helper.TRay.Cast(NPC.Center, direction, 400) + new Vector2(0, 40);
+                stalkBase = Helper.TRay.Cast(NPC.Center, direction, 800) + new Vector2(0, 40);
                 return;
             }
             NPC.rotation = NPC.Center.FromAToB(player.Center).ToRotation() + MathHelper.Pi;
             NPC.velocity = NPC.Center.FromAToB(player.Center - new Vector2(NPC.ai[1] * NPC.ai[3], NPC.ai[2]), false) * 0.005f;
             NPC.Center = Vector2.Clamp(NPC.Center, stalkBase - new Vector2(200), stalkBase + new Vector2(200));
-            if (NPC.Center.Distance(stalkBase) > 200)
+            if (NPC.Center.Distance(stalkBase) > 300)
             {
                 NPC.ai[1] = Main.rand.NextFloat(20, 100);
                 NPC.ai[2] = Main.rand.NextFloat(30, 100);
                 NPC.ai[3] = Main.rand.NextFloatDirection();
             }
             if (verlet != null)
-                verlet.Update(stalkBase, NPC.Center + new Vector2(13, 0).RotatedBy(NPC.rotation));
+                verlet.Update(stalkBase, NPC.Center + new Vector2(4, 0).RotatedBy(NPC.rotation));
         }
     }
 }

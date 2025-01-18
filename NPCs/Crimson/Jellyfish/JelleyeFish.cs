@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Terraria.GameContent.ItemDropRules;
 
@@ -24,7 +25,7 @@ namespace EbonianMod.NPCs.Crimson.Jellyfish
             NPC.noGravity = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.netAlways = true;
-            NPC.value = Item.buyPrice(0, 20);
+            NPC.value = Item.buyPrice(0, 0, 20);
         }
         Verlet[] eyeVerlets = new Verlet[4];
         Verlet[] tentVerlets = new Verlet[4];
@@ -62,16 +63,16 @@ namespace EbonianMod.NPCs.Crimson.Jellyfish
             Player player = Main.player[NPC.target];
             AITimer++;
             AITimer2++;
-            if (AITimer2 > 40 && AITimer2 < 100)
+            if (AITimer2 < 100)
             {
-                NPC.velocity = Vector2.Lerp(NPC.velocity, Vector2.Clamp(NPC.Center.FromAToB(player.Center, true, true), new Vector2(-1, -1), new Vector2(1, -0.01f)) * 0.1f, 0.05f);
-                NPC.rotation = Helper.LerpAngle(NPC.rotation, Vector2.Clamp(NPC.Center.FromAToB(player.Center), new Vector2(-1, -1), new Vector2(1, -0.01f)).ToRotation() + PiOver2, 0.1f);
+                NPC.velocity = Vector2.Lerp(NPC.velocity, Vector2.Clamp(NPC.Center.FromAToB(player.Center, true, true), new Vector2(-1, -1), new Vector2(1, -0.01f)) * 0.1f + new Vector2(0, 3), 0.025f);
+                NPC.rotation = Helper.LerpAngle(NPC.rotation, 0, 0.01f);
             }
             if (AITimer2 >= 100)
             {
                 Projectile.NewProjectile(null, NPC.Center, -NPC.velocity.RotatedByRandom(PiOver2) * 0.5f, ModContent.ProjectileType<HostileGibs>(), 20, 0);
                 if (AITimer2 == 100)
-                    _vel = Vector2.Clamp(NPC.Center.FromAToB(player.Center - new Vector2(0, 100)) * 10, new Vector2(-1, -1), new Vector2(1, 0.01f));
+                    _vel = Vector2.Clamp(NPC.Center.FromAToB(player.Center - new Vector2(0, 100)) * 10, new Vector2(-1, -1), new Vector2(1, -.5f));
                 Vector2 oldVel = _vel;
                 if (_vel.X.CloseTo(0, 0.05f)) _vel.X = 1 * (oldVel.X > 0 ? 1 : -1);
                 NPC.velocity = Vector2.Lerp(NPC.velocity, _vel * 10, 0.1f);
@@ -113,7 +114,41 @@ namespace EbonianMod.NPCs.Crimson.Jellyfish
                 }
 
         }
+        public override void OnKill()
+        {
+            for (int i = 0; i < 50; i++)
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, Main.rand.NextFloatDirection() * 5, Main.rand.NextFloatDirection() * 5, Scale: 2);
+            Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/WormyGore").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/WormyGore2").Type, NPC.scale);
+            Gore.NewGore(NPC.GetSource_FromThis(), NPC.position, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/WormyGore3").Type, NPC.scale);
 
+            Gore.NewGore(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/JelleyeFishGore0").Type, NPC.scale);
+            for (int i = 0; i < tentVerlets.Length; i++)
+                if (tentVerlets[i] != null)
+                {
+                    for (int j = 0; j < tentVerlets[i].points.Count; j++)
+                        if (j % 4 == 0 || j == tentVerlets[i].points.Count - 1)
+                        {
+                            if (j < tentVerlets[i].points.Count - 1)
+                                Gore.NewGore(NPC.GetSource_Death(), tentVerlets[i].points[j].position, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/JelleyeFishGore1").Type, NPC.scale);
+                            else
+                                Gore.NewGore(NPC.GetSource_Death(), tentVerlets[i].points[j].position, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/JelleyeFishGore2").Type, NPC.scale);
+                        }
+                }
+
+            for (int i = 0; i < eyeVerlets.Length; i++)
+                if (eyeVerlets[i] != null)
+                {
+                    for (int j = 0; j < eyeVerlets[i].points.Count; j++)
+                        if (j % 4 == 0 || j == eyeVerlets[i].points.Count - 1)
+                        {
+                            if (j < eyeVerlets[i].points.Count - 1)
+                                Gore.NewGore(NPC.GetSource_Death(), eyeVerlets[i].points[j].position, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/JelleyeFishGore1").Type, NPC.scale);
+                            else
+                                Gore.NewGore(NPC.GetSource_Death(), eyeVerlets[i].points[j].position, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/JelleyeFishGore0").Type, NPC.scale);
+                        }
+                }
+        }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             for (int i = 0; i < tentVerlets.Length; i++)
