@@ -33,7 +33,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             float a = 0f;
             Vector2 vel = Projectile.velocity;
             vel.SafeNormalize(-Vector2.UnitY);
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + vel * 200, 10, ref a);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + vel * 200, 20, ref a);
         }
         public override bool ShouldUpdatePosition() => false;
         public override bool? CanDamage() => Projectile.ai[2] >= 1f;

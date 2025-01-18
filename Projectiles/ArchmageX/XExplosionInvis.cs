@@ -35,13 +35,13 @@ namespace EbonianMod.Projectiles.ArchmageX
             //EbonianMod.affectedByInvisibleMaskCache.Add(() =>
             {
                 float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
-                Texture2D explosion = Helper.GetExtraTexture("explosion");
-                Texture2D ring = Helper.GetExtraTexture("ring");
+                Texture2D explosion = Helper.GetExtraTexture("crosslight");
+                Texture2D ring = Helper.GetExtraTexture("crosslight");
                 Main.spriteBatch.Reload(BlendState.Additive);
                 for (int i = 0; i < 3; i++)
                 {
                     Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0] * 0.9f * 2, SpriteEffects.None, 0);
-                    Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 0.95f * 2, SpriteEffects.None, 0);
+                    //Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 0.95f * 2, SpriteEffects.None, 0);
                 }
                 Main.spriteBatch.Reload(BlendState.AlphaBlend);
             }//);

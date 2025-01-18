@@ -12,6 +12,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Humanizer.In;
@@ -66,7 +67,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             }
             if (Projectile.timeLeft == 30)
             {
-                EbonianSystem.ScreenShakeAmount = 10f;
+                Main.instance.CameraModifiers.Add(new PunchCameraModifier(Projectile.Center, Projectile.velocity, 7, 15, 30));
                 Projectile.NewProjectile(null, Projectile.Center + Projectile.velocity * 10, Vector2.Zero, ProjectileType<XExplosion>(), 0, 0);
                 SoundEngine.PlaySound(EbonianSounds.xSpirit, Projectile.Center);
                 for (int i = 0; i < 20; i++)

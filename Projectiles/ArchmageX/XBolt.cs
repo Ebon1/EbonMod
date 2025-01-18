@@ -52,7 +52,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                 if (++Projectile.frame > 4)
                     Projectile.frame = 0;
             Projectile.ai[0] += 0.2f;
-            if (Projectile.ai[0] < 25)
+            if (Projectile.ai[0] < 35)
             {
                 if (Projectile.velocity.Length() > 0.1f)
                     Projectile.velocity *= 0.92f;
