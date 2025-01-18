@@ -74,10 +74,10 @@ namespace EbonianMod.Items.BossTreasure
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
             itemLoot.Add(ItemDropRule.Common(ItemType<HotShield>(), 1));
-            itemLoot.Add(ItemDropRule.Common(ItemType<Chainsword>(), 4));
-            itemLoot.Add(ItemDropRule.Common(ItemType<DoomsdayRemote>(), 4));
-            itemLoot.Add(ItemDropRule.Common(ItemType<DoomsdayRemote>(), 4));
-            itemLoot.Add(ItemDropRule.Common(ItemType<GarbageFlail>(), 4));
+            itemLoot.Add(ItemDropRule.Common(ItemType<Chainsword>(), 3));
+            itemLoot.Add(ItemDropRule.Common(ItemType<DoomsdayRemote>(), 3));
+            itemLoot.Add(ItemDropRule.Common(ItemType<MailboxStaff>(), 3));
+            itemLoot.Add(ItemDropRule.Common(ItemType<GarbageFlail>(), 3));
             itemLoot.Add(ItemDropRule.Common(ItemType<PipebombI>(), 1, 20, 100));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(NPCType<HotGarbage>()));
         }
@@ -92,11 +92,11 @@ namespace EbonianMod.Items.BossTreasure
         }
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
-            //itemLoot.Add(ItemDropRule.Common(ItemType<>(), 1)); *for expert
-            itemLoot.Add(ItemDropRule.Common(ItemType<PhantasmalGreatsword>(), 4));
-            itemLoot.Add(ItemDropRule.Common(ItemType<XareusPotion>(), 4));
-            itemLoot.Add(ItemDropRule.Common(ItemType<StaffofXWeapon>(), 4));
-            itemLoot.Add(ItemDropRule.Common(ItemType<ArchmageXTome>(), 4));
+            itemLoot.Add(ItemDropRule.Common(ItemType<XTentacleAcc>(), 1));
+            itemLoot.Add(ItemDropRule.Common(ItemType<PhantasmalGreatsword>(), 3));
+            itemLoot.Add(ItemDropRule.Common(ItemType<XareusPotion>(), 3));
+            itemLoot.Add(ItemDropRule.Common(ItemType<StaffofXWeapon>(), 3));
+            itemLoot.Add(ItemDropRule.Common(ItemType<ArchmageXTome>(), 3));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(NPCType<ArchmageX>()));
         }
     }

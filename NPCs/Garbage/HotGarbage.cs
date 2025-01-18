@@ -31,6 +31,7 @@ using EbonianMod.Items.BossTreasure;
 using EbonianMod.Items.Tiles;
 using EbonianMod.Items.Pets.Hightoma;
 using EbonianMod.Items.Pets;
+using EbonianMod.Items.Weapons.Summoner;
 
 namespace EbonianMod.NPCs.Garbage
 {
@@ -69,7 +70,7 @@ namespace EbonianMod.NPCs.Garbage
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
             notExpertRule.OnSuccess(new CommonDrop(ItemType<Chainsword>(), 4));
             notExpertRule.OnSuccess(new CommonDrop(ItemType<DoomsdayRemote>(), 4));
-            notExpertRule.OnSuccess(new CommonDrop(ItemType<DoomsdayRemote>(), 4));
+            notExpertRule.OnSuccess(new CommonDrop(ItemType<MailboxStaff>(), 4));
             notExpertRule.OnSuccess(new CommonDrop(ItemType<GarbageFlail>(), 4));
             notExpertRule.OnSuccess(new CommonDrop(ItemType<PipebombI>(), 1, 20, 100));
             npcLoot.Add(notExpertRule);

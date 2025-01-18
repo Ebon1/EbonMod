@@ -258,6 +258,8 @@ Projectiles: {
 	CecitiorPetP.DisplayName: Cecitior Pet P
 	GarbagePetP.DisplayName: Garbage Pet P
 	SheepPetP.DisplayName: Sheep Pet P
+	MailboxSentry.DisplayName: Mailbox Sentry
+	PipebombPSentry.DisplayName: Pipebomb P Sentry
 }
 
 NPCs: {
@@ -870,6 +872,11 @@ Items: {
 
 	SheepItem: {
 		DisplayName: Sheep
+		Tooltip: ""
+	}
+
+	MailboxStaff: {
+		DisplayName: Mailbox Staff
 		Tooltip: ""
 	}
 }
