@@ -811,7 +811,6 @@ namespace EbonianMod
         {
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, Additive ? BlendState.Additive : BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, Main.Transform);
-            //DrawData a = new(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, tex.Size() / 2, 1, SpriteEffects.None, 0);
             GameShaders.Armor.GetShaderFromItemId(dye).Apply(entity, data);
             data.Draw(Main.spriteBatch);
             spriteBatch.End();

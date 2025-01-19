@@ -105,7 +105,8 @@ namespace EbonianMod.NPCs.Overworld.Critters
         }
         public override void OnSpawn(IEntitySource source)
         {
-            SoundEngine.PlaySound(EbonianSounds.sheep, NPC.Center);
+            if (Main.rand.NextBool(4))
+                SoundEngine.PlaySound(EbonianSounds.sheep, NPC.Center);
 
             WeightedRandom<int> dye = new();
             dye.Add(ItemID.PinkDye, 0.01f);
