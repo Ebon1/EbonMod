@@ -55,6 +55,7 @@ namespace EbonianMod.NPCs.Terrortoma
         {
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
             notExpertRule.OnSuccess(new CommonDrop(ItemType<TerrortomaMaterial>(), 1, 40, 60));
+            notExpertRule.OnSuccess(new CommonDrop(ItemType<Ostertagi>(), 1));
             npcLoot.Add(notExpertRule);
 
             npcLoot.Add(ItemDropRule.Common(ItemType<TerrortomaTrophy>(), 4));

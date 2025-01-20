@@ -21,6 +21,7 @@ namespace EbonianMod.Items.Weapons.Magic
         public override void SetDefaults()
         {
             Item.CloneDefaults(ItemID.Harpoon);
+            Item.damage = 80;
             Item.shoot = ProjectileType<LatcherP>();
             Item.DamageType = DamageClass.Magic;
             Item.noUseGraphic = true;

@@ -18,6 +18,7 @@ using EbonianMod.Projectiles.Garbage;
 using EbonianMod.Items.Weapons.Ranged;
 using EbonianMod.Items.Weapons.Magic;
 using EbonianMod.NPCs.ArchmageX;
+using EbonianMod.Items.Misc;
 
 namespace EbonianMod.Items.BossTreasure
 {
@@ -51,6 +52,7 @@ namespace EbonianMod.Items.BossTreasure
         {
             itemLoot.Add(ItemDropRule.Common(ItemType<CecitiorMaterial>(), 1, 40, 60));
             itemLoot.Add(ItemDropRule.Common(ItemType<BrainAcc>(), 1));
+            itemLoot.Add(ItemDropRule.Common(ItemType<SelfStab>(), 1));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(NPCType<Cecitior>()));
         }
     }
@@ -60,6 +62,7 @@ namespace EbonianMod.Items.BossTreasure
         {
             itemLoot.Add(ItemDropRule.Common(ItemType<TerrortomaMaterial>(), 1, 40, 60));
             itemLoot.Add(ItemDropRule.Common(ItemType<EbonianHeart>(), 1));
+            itemLoot.Add(ItemDropRule.Common(ItemType<Ostertagi>(), 1));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(NPCType<Terrortoma>()));
         }
     }

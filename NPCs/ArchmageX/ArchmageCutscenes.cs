@@ -438,8 +438,8 @@ namespace EbonianMod.NPCs.ArchmageX
         }
         public override void OnSpawn(IEntitySource source)
         {
-
-            NPC.NewNPCDirect(null, Main.player[0].Center, NPCType<ArchmageCutsceneMartian>(), 0, -1);
+            if (Projectile.ai[0] == 55 && Projectile.ai[1] == 1 && Projectile.ai[2] == -1)
+                NPC.NewNPCDirect(null, Main.player[0].Center, NPCType<ArchmageCutsceneMartian>(), 0, -1);
             Projectile.Kill();
         }
     }
