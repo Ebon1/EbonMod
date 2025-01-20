@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria.ModLoader.IO;
 
 namespace EbonianMod.Items.Weapons.Ranged
 {
@@ -12,7 +14,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             Item.DamageType = DamageClass.Ranged;
-            Item.damage = 30;
+            Item.damage = 13;
             Item.knockBack = 0;
             Item.useTime = 5;
             Item.useAnimation = 5;
@@ -52,6 +54,8 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.DontCancelChannelOnKill[Type] = true;
+            ProjectileID.Sets.TrailCacheLength[Type] = 4;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
             Main.projFrames[Type] = 2;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
@@ -62,7 +66,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * (Projectile.width / 2 + 70), 50, ref a);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * (Projectile.width / 2 + 100), 50, ref a);
         }
         public override void AI()
         {
@@ -78,6 +82,16 @@ namespace EbonianMod.Items.Weapons.Ranged
                 player.itemTime = 2;
                 player.itemAnimation = 2;
             }
+            if (Projectile.frame == 1)
+                for (float j = 1; j < Projectile.oldPos.Length; j++)
+                    for (float i = 0; i < 1; i += (j == 1 ? 0.3f : 0.1f))
+                    {
+                        for (float k = 0; k < 1; k += (j == 1 ? 1 : 0.5f))
+                        {
+                            Vector2 vel = Vector2.Lerp(Projectile.oldRot[(int)j - 1].ToRotationVector2(), Projectile.oldRot[(int)j].ToRotationVector2(), k);
+                            Dust.NewDustPerfect(Projectile.Center - new Vector2(0, 2 * Projectile.direction).RotatedBy(Projectile.rotation) + player.velocity + Main.rand.NextVector2Circular(5 + 10 * i, 5 + 10 * i) + vel * Lerp(Projectile.width / 2, 100, i), DustID.Torch, vel.RotatedByRandom(PiOver4 * Clamp(i * 2, 0.8f, 2) + PiOver4 * i) * Main.rand.NextFloat(2, 7) + player.velocity * 0.1f, Scale: Main.rand.NextFloat(2, 3) * Clamp(k, 0.75f, 1) * (j == 1 ? 0.75f : 1)).noGravity = j != 1;
+                        }
+                    }
 
             Projectile.timeLeft = 10;
             Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
@@ -89,8 +103,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             player.heldProj = Projectile.whoAmI;
             Projectile.rotation = Projectile.velocity.ToRotation();
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - PiOver2);
-            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(player.Center, Main.MouseWorld), 0.8f).SafeNormalize(Vector2.UnitX);
-
+            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(player.Center, Main.MouseWorld), 0.2f).SafeNormalize(Vector2.UnitX);
 
             Projectile.ai[2]++;
 
@@ -118,13 +131,14 @@ namespace EbonianMod.Items.Weapons.Ranged
 
                 SoundEngine.PlaySound(SoundID.Item34, Projectile.Center);
                 Dust.NewDustPerfect(pos + Projectile.velocity * Main.rand.NextFloat(50), DustID.Torch, Projectile.velocity.RotatedByRandom(PiOver4 * 0.4f) * Main.rand.NextFloat(5, 10));
+
             }
-            if (Projectile.ai[2] % 4 == 0)
-            {
-                Projectile.ai[0]++;
-                if (Projectile.ai[0] < 3 || Projectile.ai[0] > 6)
-                    Projectile.ai[0] = 3;
-            }
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = Helper.GetTexture(Texture);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, 30 * Projectile.frame, Projectile.width, 30), lightColor, Projectile.rotation, Projectile.Size / 2, Projectile.scale, Projectile.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically);
+            return false;
         }
         public override void PostDraw(Color lightColor)
         {
@@ -132,7 +146,7 @@ namespace EbonianMod.Items.Weapons.Ranged
 
             if (Projectile.frame == 1)
             {
-                Main.EntitySpriteDraw(tex, Projectile.Center - new Vector2(0, 8).RotatedBy(Projectile.rotation) + Projectile.velocity * Projectile.width / 2 - Main.screenPosition, new Rectangle(0, (int)Projectile.ai[0] * 76, 70, 76), Color.White, Projectile.rotation, new Vector2(0, 76 / 2), 1, SpriteEffects.None);
+                //Main.EntitySpriteDraw(tex, Projectile.Center - new Vector2(0, 8).RotatedBy(Projectile.rotation) + Projectile.velocity * Projectile.width / 2 - Main.screenPosition, new Rectangle(0, (int)Projectile.ai[0] * 76, 70, 76), Color.White, Projectile.rotation, new Vector2(0, 76 / 2), 1, SpriteEffects.None);
             }
         }
     }

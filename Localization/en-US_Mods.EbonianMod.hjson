@@ -361,11 +361,11 @@ Items: {
 
 	EbonianRocketLauncher: {
 		DisplayName: Mawzooka
-		Tooltip: 
-		'''
-		Converts any rocket into a homing corrupted one
-		Tile-destroying rockets lose that property
-		'''
+		Tooltip:
+			'''
+			Converts any rocket into a homing corrupted one
+			Tile-destroying rockets lose that property
+			'''
 	}
 
 	EbonianGun: {
@@ -523,7 +523,6 @@ Items: {
 		DisplayName: Sightly Fella
 	}
 
-
 	GarbageRemote: {
 		Tooltip:
 			'''
@@ -618,12 +617,12 @@ Items: {
 
 	Potato: {
 		DisplayName: Potato
-		Tooltip: 'So, how are you holding up?'
+		Tooltip: So, how are you holding up?
 	}
 
 	ClementinesCap: {
 		DisplayName: Bloody Ballcap
-		Tooltip: 'It's definitely seen better days'
+		Tooltip: "'It's definitely seen better days'"
 	}
 
 	InfernoBreastplate: {
@@ -693,12 +692,12 @@ Items: {
 
 	Chainsword: {
 		DisplayName: Junkyard Chainsword
-		Tooltip: Has 3 armor penetration
+		Tooltip: Ignores 3 points of enemy defense
 	}
 
 	CecitiorClawSummon: {
 		DisplayName: Backscratcher
-		Tooltip: 'Hello, Peter'
+		Tooltip: Hello, Peter
 	}
 
 	HotShield: {
@@ -863,7 +862,11 @@ Items: {
 
 	SalvagedThruster: {
 		DisplayName: Salvaged Thruster
-		Tooltip: ""
+		Tooltip:
+			'''
+			Uses gel for ammo
+			'Slight bit of dust spam...'
+			'''
 	}
 }
 
@@ -900,7 +903,7 @@ Buffs: {
 
 	DjungelskogB: {
 		DisplayName: Djungelskog
-		Description: En mjuk djungelkompis som gärna följer med på äventyr
+		Description: En mjuk djungelkompis som gï¿½rna fï¿½ljer med pï¿½ ï¿½ventyr
 	}
 
 	OstertagiB: {
