@@ -1,19 +1,18 @@
-The Ebonian Mod is a WIP Mod that plans on adding random nonsense with an unsurprising focus on... the Corruption and Crimson (They're far from everything though!)
+[i:522] WIP Mod that plans on adding random nonsense with an unsurprising focus on... the Corruption and Crimson (They're far from everything though!)
 
-Currently the mod contains 4 bossfights, 85 items and over 30 enemies but will grow with time.
+[i:1332] Currently the mod contains 4 bossfights, 85 items and over 30 enemies but will grow with time.
 
-NO MULTIPLAYER COMPATIBILITY!!!!!!!!!!!
-
+[i:4] NO MULTIPLAYER COMPATIBILITY!!!!!!!!!!!
 
 Credits:
-- Programmers: Ebon, Darkmango, Quarzz
+[i:486] Programmers: Ebon, Darkmango, Quarzz
 
-- Artists: Max 1287, Roll'eG, Endexyz, Mjoonlight, Yogu, fg, Vade, The Possum, AstroWyrm, pil, Decrypt
+[i:1071] Artists: Max 1287, Roll'eG, Endexyz, Mjoonlight, Yogu, fg, Vade, The Possum, AstroWyrm, pil, Decrypt
 
-- Ideas and Concepts: Sten, Nicola, Theonetruedog, Taco, mano amim, Dennis (Mystic Giant), Uncon Arts and most people listed in the other categories 
+[i:3223] Ideas and Concepts: Sten, Nicola, Theonetruedog, Taco, mano amim, Dennis (Mystic Giant), Uncon Arts and most people listed in the other categories 
 
-- Music: Yuri O
+[i:508] Music: Yuri O
 
-- Past / Misc Contributions: TCHNuke, Ralken, Moonburn, Riflezen, naka, Magma, Sulph
+[i:4666] Past / Misc Contributions: TCHNuke, Ralken, Moonburn, Riflezen, naka, Magma, Sulph
 
-- Testers: The Isopod Maniac (EggsBenedict), Mr.Gerd26, Lacalidot, WokrThe, GamerFizzy, Chox
+[i:5451] Testers: The Isopod Maniac (EggsBenedict), Mr.Gerd26, Lacalidot, WokrThe, GamerFizzy, Chox

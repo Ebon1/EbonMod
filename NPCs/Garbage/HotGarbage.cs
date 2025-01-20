@@ -66,7 +66,6 @@ namespace EbonianMod.NPCs.Garbage
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-
             LeadingConditionRule notExpertRule = new LeadingConditionRule(new Conditions.NotExpert());
             notExpertRule.OnSuccess(new CommonDrop(ItemType<Chainsword>(), 4));
             notExpertRule.OnSuccess(new CommonDrop(ItemType<DoomsdayRemote>(), 4));
