@@ -9,7 +9,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EbonianMod.Tiles
+namespace EbonianMod.Tiles.Trophies
 {
     public class HotGarbTrophy : ModTile
     {

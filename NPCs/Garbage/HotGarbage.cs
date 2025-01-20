@@ -28,10 +28,10 @@ using EbonianMod.Items.Weapons.Melee;
 using EbonianMod.Items.Weapons.Ranged;
 using Terraria.GameContent.ItemDropRules;
 using EbonianMod.Items.BossTreasure;
-using EbonianMod.Items.Tiles;
 using EbonianMod.Items.Pets.Hightoma;
 using EbonianMod.Items.Pets;
 using EbonianMod.Items.Weapons.Summoner;
+using EbonianMod.Items.Tiles.Trophies;
 
 namespace EbonianMod.NPCs.Garbage
 {
@@ -71,12 +71,14 @@ namespace EbonianMod.NPCs.Garbage
             notExpertRule.OnSuccess(new CommonDrop(ItemType<Chainsword>(), 4));
             notExpertRule.OnSuccess(new CommonDrop(ItemType<DoomsdayRemote>(), 4));
             notExpertRule.OnSuccess(new CommonDrop(ItemType<MailboxStaff>(), 4));
+            notExpertRule.OnSuccess(new CommonDrop(ItemType<SalvagedThruster>(), 4));
             notExpertRule.OnSuccess(new CommonDrop(ItemType<GarbageFlail>(), 4));
             notExpertRule.OnSuccess(new CommonDrop(ItemType<PipebombI>(), 1, 20, 100));
             npcLoot.Add(notExpertRule);
 
             npcLoot.Add(ItemDropRule.Common(ItemType<GarbageTrophy>(), 4));
             npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ItemType<GarbagePet>(), 4));
+            npcLoot.Add(ItemDropRule.MasterModeCommonDrop(ItemType<XRelic>()));
 
             npcLoot.Add(ItemDropRule.BossBag(ItemType<GarbageBagI>()));
         }

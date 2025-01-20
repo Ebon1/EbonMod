@@ -133,7 +133,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                 if (Projectile.timeLeft == maxTime - 1)
                 {
                     bool success = false;
-                    for (int j = 54; j < 58; j++)
+                    for (int j = 0; j < 58; j++)
                     {
                         if (player.inventory[j].ammo == player.HeldItem.useAmmo && player.inventory[j].stack > 0)
                         {

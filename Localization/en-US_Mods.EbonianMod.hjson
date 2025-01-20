@@ -260,6 +260,7 @@ Projectiles: {
 	SheepPetP.DisplayName: Sheep Pet P
 	MailboxSentry.DisplayName: Mailbox Sentry
 	PipebombPSentry.DisplayName: Pipebomb P Sentry
+	SalvagedThrusterP.DisplayName: Salvaged Thruster P
 }
 
 NPCs: {
@@ -877,6 +878,31 @@ Items: {
 
 	MailboxStaff: {
 		DisplayName: Mailbox Staff
+		Tooltip: ""
+	}
+
+	CecitiorRelic: {
+		DisplayName: Cecitior Relic
+		Tooltip: ""
+	}
+
+	GarbageRelic: {
+		DisplayName: Garbage Relic
+		Tooltip: ""
+	}
+
+	TerrortomaRelic: {
+		DisplayName: Terrortoma Relic
+		Tooltip: ""
+	}
+
+	XRelic: {
+		DisplayName: X Relic
+		Tooltip: ""
+	}
+
+	SalvagedThruster: {
+		DisplayName: Salvaged Thruster
 		Tooltip: ""
 	}
 }

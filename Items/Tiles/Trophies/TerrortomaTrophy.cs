@@ -1,15 +1,15 @@
-﻿using EbonianMod.Tiles;
+﻿using EbonianMod.Tiles.Trophies;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EbonianMod.Items.Tiles
+namespace EbonianMod.Items.Tiles.Trophies
 {
-    public class XTrophy : ModItem
+    public class TerrortomaTrophy : ModItem
     {
         public override void SetDefaults()
         {
-            Item.DefaultToPlaceableTile(TileType<XTrophyTile>());
+            Item.DefaultToPlaceableTile(TileType<TerrortomaTrophyTile>());
 
             Item.width = 32;
             Item.height = 32;

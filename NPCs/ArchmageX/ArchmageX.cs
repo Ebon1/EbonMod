@@ -5,7 +5,7 @@ using EbonianMod.Common.Systems.Misc.Dialogue;
 using EbonianMod.Dusts;
 using EbonianMod.Items.BossTreasure;
 using EbonianMod.Items.Pets;
-using EbonianMod.Items.Tiles;
+using EbonianMod.Items.Tiles.Trophies;
 using EbonianMod.Items.Weapons.Magic;
 using EbonianMod.Items.Weapons.Melee;
 using EbonianMod.Items.Weapons.Ranged;
@@ -80,6 +80,7 @@ namespace EbonianMod.NPCs.ArchmageX
 
             npcLoot.Add(ItemDropRule.Common(ItemType<XTrophy>(), 4));
             npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ItemType<SheepPet>(), 4));
+            npcLoot.Add(ItemDropRule.MasterModeCommonDrop(ItemType<XRelic>()));
 
             npcLoot.Add(ItemDropRule.BossBag(ItemType<ArchmageBag>()));
         }

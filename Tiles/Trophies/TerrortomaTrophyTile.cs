@@ -11,7 +11,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EbonianMod.Tiles
+namespace EbonianMod.Tiles.Trophies
 {
     public class TerrortomaTrophyTile : ModTile
     {

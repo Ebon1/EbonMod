@@ -9,9 +9,9 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EbonianMod.Tiles
+namespace EbonianMod.Tiles.Trophies
 {
-    public class XTrophyTile : ModTile
+    public class CecitiorTrophyTile : ModTile
     {
         public override void SetStaticDefaults()
         {

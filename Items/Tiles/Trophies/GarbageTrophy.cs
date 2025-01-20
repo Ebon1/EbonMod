@@ -1,15 +1,15 @@
-﻿using EbonianMod.Tiles;
+﻿using EbonianMod.Tiles.Trophies;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EbonianMod.Items.Tiles
+namespace EbonianMod.Items.Tiles.Trophies
 {
-    public class CecitiorTrophy : ModItem
+    public class GarbageTrophy : ModItem
     {
         public override void SetDefaults()
         {
-            Item.DefaultToPlaceableTile(TileType<CecitiorTrophyTile>());
+            Item.DefaultToPlaceableTile(TileType<HotGarbTrophy>());
 
             Item.width = 32;
             Item.height = 32;

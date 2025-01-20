@@ -32,7 +32,7 @@ using EbonianMod.Items.Weapons.Summoner;
 using EbonianMod.Items.Materials;
 using EbonianMod.Items.BossTreasure;
 using EbonianMod.Items.Pets.Hightoma;
-using EbonianMod.Items.Tiles;
+using EbonianMod.Items.Tiles.Trophies;
 
 namespace EbonianMod.NPCs.Terrortoma
 {
@@ -59,6 +59,7 @@ namespace EbonianMod.NPCs.Terrortoma
 
             npcLoot.Add(ItemDropRule.Common(ItemType<TerrortomaTrophy>(), 4));
             npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ItemType<CursedCone>(), 4));
+            npcLoot.Add(ItemDropRule.MasterModeCommonDrop(ItemType<TerrortomaRelic>()));
 
             npcLoot.Add(ItemDropRule.BossBag(ItemType<TerrortomaBag>()));
         }
