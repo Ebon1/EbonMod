@@ -72,7 +72,10 @@ namespace EbonianMod.NPCs.Crimson.Jellyfish
             {
                 Projectile.NewProjectile(null, NPC.Center, -NPC.velocity.RotatedByRandom(PiOver2) * 0.5f, ModContent.ProjectileType<HostileGibs>(), 20, 0);
                 if (AITimer2 == 100)
+                {
+                    SoundEngine.PlaySound(SoundID.NPCHit20, NPC.Center);
                     _vel = Vector2.Clamp(NPC.Center.FromAToB(player.Center - new Vector2(0, 100)) * 10, new Vector2(-1, -1), new Vector2(1, -.5f));
+                }
                 Vector2 oldVel = _vel;
                 if (_vel.X.CloseTo(0, 0.05f)) _vel.X = 1 * (oldVel.X > 0 ? 1 : -1);
                 NPC.velocity = Vector2.Lerp(NPC.velocity, _vel * 10, 0.1f);
