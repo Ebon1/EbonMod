@@ -1,1 +1,19 @@
-The Ebonian Mod is a WIP terraria mod that plans on expanding every single biome in the game; currently, only the Crimson and Corruption have had major additions.
+The Ebonian Mod is a WIP Mod that plans on adding random nonsense with an unsurprising focus on... the Corruption and Crimson (They're far from everything though!)
+
+Currently the mod contains 4 bossfights, 85 items and over 30 enemies but will grow with time.
+
+NO MULTIPLAYER COMPATIBILITY!!!!!!!!!!!
+
+
+Credits:
+- Programmers: Ebon, Darkmango, Quarzz
+
+- Artists: Max 1287, Roll'eG, Endexyz, Mjoonlight, Yogu, fg, Vade, The Possum, AstroWyrm, pil, Decrypt
+
+- Ideas and Concepts: Sten, Nicola, Theonetruedog, Taco, mano amim, Dennis (Mystic Giant), Uncon Arts and most people listed in the other categories 
+
+- Music: Yuri O
+
+- Past / Misc Contributions: TCHNuke, Ralken, Moonburn, Riflezen, naka, Magma, Sulph
+
+- Testers: The Isopod Maniac (EggsBenedict), Mr.Gerd26, Lacalidot, WokrThe, GamerFizzy, Chox
