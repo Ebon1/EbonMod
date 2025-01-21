@@ -189,8 +189,8 @@ namespace EbonianMod.Items.Weapons.Magic
                 if (!target || !Main.rand.NextBool(3))
                     return;
                 bool failed = false;
-                for (int i = Projectile.Center.ToTileCoordinates().X - 10; i < 10; i++)
-                    for (int j = Projectile.Center.ToTileCoordinates().Y - 10; j < 10; j++)
+                for (int i = Projectile.Center.ToTileCoordinates().X - 10; i < Projectile.Center.ToTileCoordinates().X + 10; i++)
+                    for (int j = Projectile.Center.ToTileCoordinates().Y - 10; j < Projectile.Center.ToTileCoordinates().Y + 10; j++)
                         if (Main.tile[i, j].HasTile)
                             failed = true;
 
@@ -232,7 +232,7 @@ namespace EbonianMod.Items.Weapons.Magic
 
             if (lerpProg > -1 && swingProgress > 0.15f && swingProgress < 0.85f && Projectile.timeLeft % 2 == 0)
             {
-                Projectile.NewProjectile(null, Projectile.Center + rotation.ToRotationVector2() * Projectile.height * 0.5f, Helper.FromAToB(Projectile.Center + rotation.ToRotationVector2() * Projectile.height, Main.MouseWorld).RotatedByRandom(PiOver4 * MathF.Sin(MathHelper.Pi * swingProgress)) * 15, ProjectileType<XBoltFriendly2>(), Projectile.damage / 3, 0, player.whoAmI);
+                Projectile.NewProjectile(null, Projectile.Center + rotation.ToRotationVector2() * Projectile.height * 0.5f, Helper.FromAToB(Projectile.Center + rotation.ToRotationVector2() * Projectile.height, Main.MouseWorld).RotatedByRandom(PiOver4 * MathF.Sin(MathHelper.Pi * swingProgress)) * 15, ProjectileType<XBoltFriendly2>(), Projectile.damage, 0, player.whoAmI);
             }
         }
         public override bool? CanDamage()
