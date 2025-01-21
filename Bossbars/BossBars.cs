@@ -8,7 +8,7 @@ using Terraria.GameContent.UI.BigProgressBar;
 using Terraria.ModLoader;
 namespace EbonianMod.Bossbars
 {
-    public class TerrortomaBar : ModBossBar
+    public abstract class BossBar : ModBossBar
     {
         private int bossHeadIndex = -1;
         public override Asset<Texture2D> GetIconTexture(ref Rectangle? iconFrame)
@@ -34,4 +34,7 @@ namespace EbonianMod.Bossbars
             return true;
         }
     }
+    public class TerrortomaBar : BossBar { }
+    public class CecitiorBar : BossBar { }
+    public class XBar : BossBar { }
 }

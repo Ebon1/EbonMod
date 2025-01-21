@@ -77,12 +77,15 @@ namespace EbonianMod.Items.BossTreasure
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
             itemLoot.Add(ItemDropRule.Common(ItemType<HotShield>(), 1));
-            itemLoot.Add(ItemDropRule.Common(ItemType<Chainsword>(), 3));
-            itemLoot.Add(ItemDropRule.Common(ItemType<DoomsdayRemote>(), 3));
-            itemLoot.Add(ItemDropRule.Common(ItemType<MailboxStaff>(), 3));
-            itemLoot.Add(ItemDropRule.Common(ItemType<SalvagedThruster>(), 3));
-            itemLoot.Add(ItemDropRule.Common(ItemType<GarbageFlail>(), 3));
             itemLoot.Add(ItemDropRule.Common(ItemType<PipebombI>(), 1, 20, 100));
+            List<int> drops = new List<int> {
+            ItemType<Chainsword>(),
+            ItemType<DoomsdayRemote>(),
+            ItemType<MailboxStaff>(),
+            ItemType<SalvagedThruster>(),
+            ItemType<GarbageFlail>(),
+            };
+            itemLoot.Add(new FromOptionsWithoutRepeatsDropRule(3, drops.ToArray()));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(NPCType<HotGarbage>()));
         }
     }
@@ -97,10 +100,15 @@ namespace EbonianMod.Items.BossTreasure
         public override void ModifyItemLoot(ItemLoot itemLoot)
         {
             itemLoot.Add(ItemDropRule.Common(ItemType<XTentacleAcc>(), 1));
-            itemLoot.Add(ItemDropRule.Common(ItemType<PhantasmalGreatsword>(), 3));
-            itemLoot.Add(ItemDropRule.Common(ItemType<XareusPotion>(), 3));
-            itemLoot.Add(ItemDropRule.Common(ItemType<StaffofXWeapon>(), 3));
-            itemLoot.Add(ItemDropRule.Common(ItemType<ArchmageXTome>(), 3));
+            List<int> drops = new List<int>
+            {
+                ItemType<ArchmageXTome>(),
+                ItemType<StaffofXWeapon>(),
+                ItemType<XareusPotion>(),
+                ItemType<PhantasmalGreatsword>(),
+            };
+            itemLoot.Add(new FromOptionsWithoutRepeatsDropRule(2, drops.ToArray()));
+
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(NPCType<ArchmageX>()));
         }
     }

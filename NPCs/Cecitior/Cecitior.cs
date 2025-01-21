@@ -39,6 +39,7 @@ using EbonianMod.Items.Pets.Hightoma;
 using EbonianMod.Items.Pets;
 using EbonianMod.Items.Tiles.Trophies;
 using EbonianMod.Items.Misc;
+using EbonianMod.Bossbars;
 
 namespace EbonianMod.NPCs.Cecitior
 {
@@ -100,6 +101,7 @@ namespace EbonianMod.NPCs.Cecitior
             NPC.netAlways = true;
             NPC.hide = true;
             NPC.value = Item.buyPrice(0, 10);
+            NPC.BossBar = GetInstance<CecitiorBar>();
             //NPC.alpha = 255;
         }
         public override void DrawBehind(int index)

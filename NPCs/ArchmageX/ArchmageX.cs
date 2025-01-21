@@ -1,4 +1,5 @@
-﻿using EbonianMod.Buffs;
+﻿using EbonianMod.Bossbars;
+using EbonianMod.Buffs;
 using EbonianMod.Common;
 using EbonianMod.Common.Systems;
 using EbonianMod.Common.Systems.Misc.Dialogue;
@@ -55,6 +56,7 @@ namespace EbonianMod.NPCs.ArchmageX
             NPC.dontTakeDamage = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.BossBar = GetInstance<XBar>();
             Music = 0;
         }
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
