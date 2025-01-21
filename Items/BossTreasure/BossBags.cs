@@ -84,6 +84,7 @@ namespace EbonianMod.Items.BossTreasure
             ItemType<MailboxStaff>(),
             ItemType<SalvagedThruster>(),
             ItemType<GarbageFlail>(),
+            ItemType<NastySnapper>(),
             };
             itemLoot.Add(new FromOptionsWithoutRepeatsDropRule(3, drops.ToArray()));
             itemLoot.Add(ItemDropRule.CoinsBasedOnNPCValue(NPCType<HotGarbage>()));

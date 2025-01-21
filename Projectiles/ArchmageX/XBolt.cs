@@ -112,7 +112,6 @@ namespace EbonianMod.Projectiles.ArchmageX
         {
             ProjectileID.Sets.TrailCacheLength[Type] = 100;
             ProjectileID.Sets.TrailingMode[Type] = 2;
-            EbonianMod.projectileFinalDrawList.Add(Type);
             Main.projFrames[Type] = 5;
         }
         public override void SetDefaults()

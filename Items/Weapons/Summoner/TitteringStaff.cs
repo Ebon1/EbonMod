@@ -41,7 +41,6 @@ namespace EbonianMod.Items.Weapons.Summoner
             Item.shoot = ProjectileType<TitteringMinion>();
             Item.buffType = BuffType<TitteringB>();
             Item.shootSpeed = 1;
-            Item.buffTime = 100;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

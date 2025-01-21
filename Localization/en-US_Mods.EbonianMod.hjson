@@ -698,7 +698,7 @@ Items: {
 
 	CecitiorClawSummon: {
 		DisplayName: Backscratcher
-		Tooltip: Hello, Peter
+		Tooltip: "'Hello, Peter'"
 	}
 
 	HotShield: {

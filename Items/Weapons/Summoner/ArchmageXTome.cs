@@ -41,7 +41,6 @@ namespace EbonianMod.Items.Weapons.Summoner
             Item.UseSound = SoundID.Item44;
             Item.shoot = ProjectileType<XTomeSummon>();
             Item.buffType = BuffType<Buffs.XTomeBuff>();
-            Item.buffTime = 100;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
