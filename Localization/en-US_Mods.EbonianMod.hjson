@@ -258,6 +258,7 @@ Projectiles: {
 	PipebombPSentry.DisplayName: Pipebomb
 	SalvagedThrusterP.DisplayName: Salvaged Thruster
 	NastySnapperPro.DisplayName: Nasty Snapper Pro
+	XBoltFriendly2.DisplayName: X Bolt Friendly2
 }
 
 NPCs: {

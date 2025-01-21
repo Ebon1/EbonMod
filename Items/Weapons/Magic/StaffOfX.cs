@@ -31,7 +31,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.knockBack = 10f;
             Item.width = Item.height = 80;
             Item.crit = 30;
-            Item.damage = 185;
+            Item.damage = 350;
             Item.useAnimation = 40;
             Item.useTime = 40;
             Item.noUseGraphic = true;
@@ -60,8 +60,8 @@ namespace EbonianMod.Items.Weapons.Magic
         public override string Texture => "EbonianMod/Items/Weapons/Magic/StaffOfX";
         public override void SetExtraDefaults()
         {
-            Projectile.width = 60;
-            Projectile.height = 60;
+            Projectile.width = 162;
+            Projectile.height = 162;
             swingTime = 90;
             Projectile.ignoreWater = true;
             useHeld = false;
@@ -89,6 +89,7 @@ namespace EbonianMod.Items.Weapons.Magic
         float visualOff;
         public override bool PreDraw(ref Color lightColor)
         {
+            if (Projectile.timeLeft > swingTime - 1) return false;
             visualOff -= 0.05f;
             if (visualOff <= 0)
                 visualOff = 1;
@@ -98,15 +99,22 @@ namespace EbonianMod.Items.Weapons.Magic
             Main.spriteBatch.Reload(BlendState.Additive);
 
             Texture2D bloom = Helper.GetTexture(Texture + "_Bloom");
-            Main.EntitySpriteDraw(bloom, Projectile.Center + visualOffset - Main.screenPosition, null, Color.Indigo, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), bloom.Size() / 2, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+            Main.EntitySpriteDraw(bloom, Projectile.Center + visualOffset - Main.screenPosition, null, Color.Indigo * alphaOff, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), bloom.Size() / 2, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
 
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
             Vector2 orig = texture.Size() / 2;
-            Main.EntitySpriteDraw(texture, Projectile.Center + visualOffset - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.White, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), orig, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+            Main.EntitySpriteDraw(texture, Projectile.Center + visualOffset - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.White * alphaOff, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), orig, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+
+            Main.spriteBatch.Reload(BlendState.Additive);
+            Main.EntitySpriteDraw(bloom, Projectile.Center + visualOffset - Main.screenPosition, null, Color.White * bloomAlpha * alphaOff, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), bloom.Size() / 2, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+
 
             return false;
         }
+        float bloomAlpha = 1, alphaOff = 1;
         public override void OnKill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
@@ -116,19 +124,29 @@ namespace EbonianMod.Items.Weapons.Magic
                 Projectile p = Projectile.NewProjectileDirect(null, Projectile.Center, Vector2.UnitX * player.direction, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, 0, -player.direction, 1);
                 p.Center = Projectile.Center;
                 p.rotation = Projectile.rotation;
+                p.timeLeft = swingTime + 10;
             }
         }
         float lerpProg = 1, swingProgress, rotation;
         public override void ExtraAI()
         {
+            if (Projectile.timeLeft < swingTime - 5)
+                bloomAlpha = Lerp(bloomAlpha, 0, 0.1f);
+            if (bloomAlpha.CloseTo(0, 0.05f)) bloomAlpha = 0;
             if (lerpProg != 1 && lerpProg != -1)
                 lerpProg = MathHelper.SmoothStep(lerpProg, 1, 0.1f);
+            if (Projectile.timeLeft == swingTime - 1)
+            {
+                for (int i = 0; i < 15; i++)
+                    Projectile.NewProjectile(null, Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(10, 20), ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(0.1f, 0.3f));
 
+                Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<XExplosion>(), 0, 0);
+            }
             if (swingProgress > 0.25f && swingProgress < 0.85f)
                 if (Projectile.ai[0] == 0 && Helper.TRay.CastLength(Projectile.Center, Vector2.UnitY, 100) < 30)
                 {
                     Projectile.ai[0] = 1;
-
+                    bloomAlpha = 1;
                     Main.instance.CameraModifiers.Add(new PunchCameraModifier(Projectile.Center, Main.rand.NextVector2Unit(), 10, 6, 30, 1000));
                     Projectile.timeLeft = 15;
                     SoundEngine.PlaySound(SoundID.Item70, Projectile.Center);
@@ -150,6 +168,49 @@ namespace EbonianMod.Items.Weapons.Magic
                     lerpProg = -1;
                 }
 
+            if (Projectile.timeLeft == 45)
+            {
+                float targetDist = 400;
+                bool target = false;
+
+                foreach (NPC npc in Main.ActiveNPCs)
+                {
+                    if (npc.active)
+                        if (npc.CanBeChasedBy(this, false))
+                        {
+                            float distance = Vector2.Distance(npc.Center, Projectile.Center);
+                            if ((distance < targetDist || !target))// && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
+                            {
+                                targetDist = distance;
+                                target = true;
+                            }
+                        }
+                }
+                if (!target || !Main.rand.NextBool(3))
+                    return;
+                bool failed = false;
+                for (int i = Projectile.Center.ToTileCoordinates().X - 10; i < 10; i++)
+                    for (int j = Projectile.Center.ToTileCoordinates().Y - 10; j < 10; j++)
+                        if (Main.tile[i, j].HasTile)
+                            failed = true;
+
+                if (!failed)
+                {
+                    WeightedRandom<string> chat = new();
+                    chat.Add("YEAH!");
+                    chat.Add("WOOO!");
+                    chat.Add("TAKE THAT!");
+                    chat.Add("AHAHAHA!");
+                    chat.Add("WOOHOOO!");
+                    chat.Add("DIEE!");
+                    chat.Add("YEAH DIE!");
+                    DialogueSystem.NewDialogueBox(40, Projectile.Center - new Vector2(0, 40), chat, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 8f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+                }
+            }
+            if (Projectile.timeLeft <= 15)
+            {
+                alphaOff = Lerp(0, 1, (float)Projectile.timeLeft / 15);
+            }
             Player player = Main.player[Projectile.owner];
             int direction = (int)Projectile.ai[1];
             if (lerpProg >= 0)
@@ -161,15 +222,18 @@ namespace EbonianMod.Items.Weapons.Magic
                 rotation = MathHelper.Lerp(rotation, direction == 1 ? start + MathHelper.Pi * 3 / 2 * swingProgress : end - MathHelper.Pi * 3 / 2 * swingProgress, lerpProg);
             Vector2 position = player.GetFrontHandPosition(stretch, rotation - MathHelper.PiOver2) +
                 rotation.ToRotationVector2() * holdOffset * ScaleFunction(swingProgress);
+            if (Projectile.timeLeft > swingTime)
+            {
+                player.SetCompositeArmFront(true, stretch, rotation - MathHelper.PiOver2); return;
+            }
             Projectile.Center = position;
             Projectile.rotation = (position - player.Center).ToRotation() + MathHelper.PiOver4;
             player.SetCompositeArmFront(true, stretch, rotation - MathHelper.PiOver2);
 
-            if (lerpProg > -1 && swingProgress > 0.15f && swingProgress < 0.85f)
+            if (lerpProg > -1 && swingProgress > 0.15f && swingProgress < 0.85f && Projectile.timeLeft % 2 == 0)
             {
-                Projectile.NewProjectile(null, Projectile.Center + rotation.ToRotationVector2() * Projectile.height * 2, Helper.FromAToB(Projectile.Center + rotation.ToRotationVector2() * Projectile.height, Main.MouseWorld).RotatedByRandom(MathHelper.PiOver4 * MathF.Sin(MathHelper.Pi * swingProgress)) * 15, ProjectileType<XBoltFriendly>(), Projectile.damage, 0);
+                Projectile.NewProjectile(null, Projectile.Center + rotation.ToRotationVector2() * Projectile.height * 0.5f, Helper.FromAToB(Projectile.Center + rotation.ToRotationVector2() * Projectile.height, Main.MouseWorld).RotatedByRandom(PiOver4 * MathF.Sin(MathHelper.Pi * swingProgress)) * 15, ProjectileType<XBoltFriendly2>(), Projectile.damage / 3, 0, player.whoAmI);
             }
-
         }
         public override bool? CanDamage()
         {
