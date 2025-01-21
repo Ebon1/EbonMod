@@ -8,11 +8,18 @@ using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
 using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Items.Misc;
+using EbonianMod.Tiles.Paintings;
+using EbonianMod.Items.Tiles;
+using Terraria.GameContent.ItemDropRules;
 
 namespace EbonianMod.NPCs.Corruption.Ebonflies
 {
     public class BloatedEbonfly : ModNPC
     {
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemType<WaspPaintingI>(), 90));
+        }
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 6;

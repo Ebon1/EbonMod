@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.ModLoader;
 
 namespace EbonianMod.NPCs.Crimson.Jellyfish
 {
@@ -26,6 +28,14 @@ namespace EbonianMod.NPCs.Crimson.Jellyfish
             NPC.HitSound = SoundID.NPCHit1;
             NPC.netAlways = true;
             NPC.value = Item.buyPrice(0, 0, 20);
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
+                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
+                new FlavorTextBestiaryInfoElement("Fleshy tendrils drift afloat over the crimson's blood-spattered terrain. Originating from the sanguine waters of the crimson, these mutant abominations evolved to continuously grow numerous inconsolable eyes and float in the putrid air, not unlike their aquatic ancestors. Just don't make sashimi from these."),
+            });
         }
         Verlet[] eyeVerlets = new Verlet[4];
         Verlet[] tentVerlets = new Verlet[4];
@@ -154,6 +164,7 @@ namespace EbonianMod.NPCs.Crimson.Jellyfish
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy) return true;
             for (int i = 0; i < tentVerlets.Length; i++)
                 if (tentVerlets[i] != null)
                     tentVerlets[i].Draw(spriteBatch, new VerletDrawData(Texture + "_Chain", null, Texture + "_Tip"));

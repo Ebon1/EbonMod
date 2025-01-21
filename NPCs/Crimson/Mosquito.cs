@@ -24,7 +24,7 @@ namespace EbonianMod.NPCs.Crimson
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("bzzzz"),
+                new FlavorTextBestiaryInfoElement("A once nuisance turned into another monster. These creatures' bloodsucking ability makes them annoying alone, but dangerous in swarms, or for what lasting side effects they may bring."),
             });
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

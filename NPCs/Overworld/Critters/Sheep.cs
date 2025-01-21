@@ -91,6 +91,7 @@ namespace EbonianMod.NPCs.Overworld.Critters
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy) return true;
             Texture2D tex = Helper.GetTexture(Texture);
 
             string name = Main.LocalPlayer.name;
@@ -101,6 +102,7 @@ namespace EbonianMod.NPCs.Overworld.Critters
         }
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy) return;
             Texture2D tex = Helper.GetTexture(Texture + "_Wool");
             if (dyeId > 0)
             {

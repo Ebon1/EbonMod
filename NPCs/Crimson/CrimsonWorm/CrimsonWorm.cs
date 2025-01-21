@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using EbonianMod.Items.Materials;
 using Terraria.GameContent.ItemDropRules;
 using EbonianMod.Items.Weapons.Magic;
+using EbonianMod.Items.Tiles;
 
 namespace EbonianMod.NPCs.Crimson.CrimsonWorm
 {
@@ -35,10 +36,20 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
 
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
-                Hide = true // Hides this NPC from the Bestiary, useful for multi-part NPCs whom you only want one entry.
+                CustomTexturePath = "EbonianMod/NPCs/Crimson/CrimsonWorm/CrimsonWorm_Bestiary",
+                PortraitPositionXOverride = -100
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
+
             Main.npcFrameCount[Type] = 8;
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
+                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
+                new FlavorTextBestiaryInfoElement("goon."),
+            });
         }
         /*public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
@@ -67,6 +78,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ItemType<CecitiorMaterial>(), 2, 1, 3));
+            npcLoot.Add(ItemDropRule.Common(ItemType<WormPaintingI>(), 10));
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -415,7 +427,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
 
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
-                Hide = true // Hides this NPC from the Bestiary, useful for multi-part NPCs whom you only want one entry.
+                Hide = true
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
             Main.npcFrameCount[Type] = 8;

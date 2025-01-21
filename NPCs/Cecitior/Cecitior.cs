@@ -40,6 +40,7 @@ using EbonianMod.Items.Pets;
 using EbonianMod.Items.Tiles.Trophies;
 using EbonianMod.Items.Misc;
 using EbonianMod.Bossbars;
+using EbonianMod.Items.Tiles;
 
 namespace EbonianMod.NPCs.Cecitior
 {
@@ -74,6 +75,7 @@ namespace EbonianMod.NPCs.Cecitior
             npcLoot.Add(ItemDropRule.Common(ItemType<CecitiorTrophy>(), 4));
             npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ItemType<CecitiorPet>(), 4));
             npcLoot.Add(ItemDropRule.MasterModeCommonDrop(ItemType<CecitiorRelic>()));
+            npcLoot.Add(ItemDropRule.Common(ItemType<DapperCecitiorI>(), 5));
 
             npcLoot.Add(ItemDropRule.BossBag(ItemType<CecitiorBag>()));
         }
