@@ -17,6 +17,7 @@ namespace EbonianMod.Items.Weapons.Melee
 {
     public class SanguineSlasher : ModItem
     {
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(25); // heal
         public override void SetDefaults()
         {
             Item.knockBack = 10f;

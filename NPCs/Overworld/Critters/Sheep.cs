@@ -1,4 +1,5 @@
-﻿using EbonianMod.Items.Misc;
+﻿using EbonianMod.Items.Materials;
+using EbonianMod.Items.Misc;
 using Humanizer;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.Biomes.CaveHouse;
+using Terraria.GameContent.ItemDropRules;
 
 namespace EbonianMod.NPCs.Overworld.Critters
 {
@@ -26,6 +29,10 @@ namespace EbonianMod.NPCs.Overworld.Critters
                 new FlavorTextBestiaryInfoElement("Type: Farm Animal"),
                 new FlavorTextBestiaryInfoElement("Sheep are passive, friendly animals with a thick layer of wool and an appetite for grass, sheep's wool is quite common in many colorful items of clothing and especially comfort, to the surprise of very few"),
             });
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemType<Wool>(), 4, 1, 3));
         }
         public override void SetDefaults()
         {

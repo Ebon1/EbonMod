@@ -20,6 +20,7 @@ namespace EbonianMod.Items.Weapons.Melee
 {
     public class Chainsword : ModItem
     {
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(3); // armor penetration
         public override void SetDefaults()
         {
             Item.knockBack = 10f;
