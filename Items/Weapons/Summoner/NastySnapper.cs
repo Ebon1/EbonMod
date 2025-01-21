@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -11,19 +12,19 @@ using Terraria.ModLoader;
 
 namespace EbonianMod.Items.Weapons.Summoner
 {
-    public class Bloodlash : ModItem
+    public class NastySnapper : ModItem
     {
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(NastySnapperDebuff.TagDamage);
 
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
-
         }
 
         public override void SetDefaults()
         {
-            Item.DefaultToWhip(ProjectileType<BloodlashPro>(), 23, 2, 4, 30);
-            Item.rare = ItemRarityID.Pink;
+            Item.DefaultToWhip(ProjectileType<NastySnapperPro>(), 18, 2, 6, 22);
+            Item.rare = ItemRarityID.Green;
             Item.crit = -4;
 
             Item.channel = false;
@@ -34,14 +35,11 @@ namespace EbonianMod.Items.Weapons.Summoner
             return true;
         }
     }
-   
 
-
-    public class BloodlashPro : ModProjectile
+    public class NastySnapperPro : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            // This makes the projectile use whip collision detection and allows flasks to be applied to it.
             ProjectileID.Sets.IsAWhip[Type] = true;
         }
 
@@ -50,14 +48,15 @@ namespace EbonianMod.Items.Weapons.Summoner
             Projectile.width = 18;
             Projectile.height = 18;
             Projectile.friendly = true;
-            Projectile.penetrate = -1;
+            Projectile.penetrate = 5;
             Projectile.tileCollide = false;
-            Projectile.ownerHitCheck = true; // This prevents the projectile from hitting through solid tiles.
+            Projectile.ownerHitCheck = true;
             Projectile.extraUpdates = 1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
-            Projectile.WhipSettings.Segments = 20;
-            Projectile.WhipSettings.RangeMultiplier = 1.5f;
+            Projectile.WhipSettings.Segments = 15;
+            Projectile.WhipSettings.RangeMultiplier = 0.43f;
+            Projectile.stopsDealingDamageAfterPenetrateHits = true;
         }
 
         private float Timer
@@ -78,7 +77,6 @@ namespace EbonianMod.Items.Weapons.Summoner
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
             Projectile.Center = Main.GetPlayerArmPosition(Projectile) + Projectile.velocity * Timer;
-
             Projectile.spriteDirection = Projectile.velocity.X >= 0f ? 1 : -1;
 
             Timer++;
@@ -96,6 +94,7 @@ namespace EbonianMod.Items.Weapons.Summoner
                 List<Vector2> points = Projectile.WhipPointsForCollision;
                 Projectile.FillWhipControlPoints(Projectile, points);
                 SoundEngine.PlaySound(SoundID.Item153, points[points.Count - 1]);
+                SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt, points[points.Count - 1]);
             }
 
             float swingProgress = Timer / swingTime;
@@ -107,28 +106,35 @@ namespace EbonianMod.Items.Weapons.Summoner
                 Projectile.FillWhipControlPoints(Projectile, points);
                 int pointIndex = Main.rand.Next(points.Count - 10, points.Count);
                 Rectangle spawnArea = Utils.CenteredRectangle(points[pointIndex], new Vector2(30f, 30f));
-                int dustType = DustID.Blood;
-                float scale = 2;
-                if (Main.rand.NextBool(3))
-                {
-                    dustType = DustID.Ichor;
-                    scale = 1.2f;
-                }
+                int dustType = DustID.FartInAJar;
 
-                Dust dust = Dust.NewDustDirect(spawnArea.TopLeft(), spawnArea.Width, spawnArea.Height, dustType, 0f, 0f, 0, default, scale);
+                Dust dust = Dust.NewDustDirect(spawnArea.TopLeft(), spawnArea.Width, spawnArea.Height, dustType, 0f, 0f, 100, default, 1);
                 dust.position = points[pointIndex];
                 dust.fadeIn = 0.3f;
                 Vector2 spinningPoint = points[pointIndex] - points[pointIndex - 1];
                 dust.noGravity = true;
-                dust.velocity *= 0.5f;
+                dust.velocity *= 0.6f;
                 dust.velocity += spinningPoint.RotatedBy(owner.direction * ((float)Math.PI / 2f));
-                dust.velocity *= 0.5f;
+                dust.velocity *= 0.6f;
+            }
+        }
+
+        public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
+        {
+            if (target.HasBuff(BuffID.Stinky))
+            {
+                modifiers.SetCrit();
             }
         }
 
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.Ichor, 60);
+            if (Main.rand.NextBool(4))
+            {
+                target.AddBuff(BuffID.Stinky, 60);
+            }
+
+            SoundEngine.PlaySound(SoundID.Item16, target.Center);
 
             Main.player[Projectile.owner].MinionAttackTargetNPC = target.whoAmI;
         }
@@ -138,69 +144,105 @@ namespace EbonianMod.Items.Weapons.Summoner
             List<Vector2> list = new List<Vector2>();
             Projectile.FillWhipControlPoints(Projectile, list);
 
-            SpriteEffects flip = Projectile.spriteDirection < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            SpriteEffects flip = Projectile.spriteDirection < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
             Main.instance.LoadProjectile(Type);
             Texture2D texture = TextureAssets.Projectile[Type].Value;
-            Texture2D glowTexture = Request<Texture2D>(Texture + "_Glow").Value;
 
             Vector2 pos = list[0];
 
             for (int i = 0; i < list.Count - 1; i++)
             {
-                Rectangle frame = new Rectangle(0, 0, 16, 24);
-                Vector2 origin = new Vector2(7, 12);
+                Rectangle frame = new Rectangle(0, 0, 25, 23);
+                Vector2 origin = new Vector2(12, 6);
                 float scale = 1;
+
+                if (i == list.Count - 2)
+                {
+                    frame.Y = 72;
+                    frame.Height = 22;
+
+                    Projectile.GetWhipSettings(Projectile, out float timeToFlyOut, out int _, out float _);
+                    float t = Timer / timeToFlyOut;
+                }
+                else if (i > 11)
+                {
+                    frame.Y = 26;
+                    frame.Height = 8;
+                }
+                else if (i > 10)
+                {
+                    frame.Y = 58;
+                    frame.Height = 8;
+                }
+                else if (i > 8)
+                {
+                    frame.Y = 26;
+                    frame.Height = 8;
+                }
+                else if (i > 7)
+                {
+                    frame.Y = 46;
+                    frame.Height = 8;
+                }
+                else if (i > 5)
+                {
+                    frame.Y = 26;
+                    frame.Height = 8;
+                }
+                else if (i > 4)
+                {
+                    frame.Y = 36;
+                    frame.Height = 8;
+                }
+                else if (i > 2)
+                {
+                    frame.Y = 26;
+                    frame.Height = 8;
+                }
+                else if (i > 0)
+                {
+                    frame.Y = 0;
+                    frame.Height = 0;
+                }
 
                 Vector2 element = list[i];
                 Vector2 diff = list[i + 1] - element;
 
-                Color color = Lighting.GetColor(element.ToTileCoordinates());
-
-                int adjustedIndex = (i - 1) % 4 + 1;
-
-                if (i == list.Count - 2)
-                {
-                    frame.Y = 122;
-                    frame.Height = 24;
-
-                    Projectile.GetWhipSettings(Projectile, out float timeToFlyOut, out int _, out float _);
-                    float t = Timer / timeToFlyOut;
-                    scale = MathHelper.Lerp(0.5f, 1.5f, Utils.GetLerpValue(0.1f, 0.7f, t, true) * Utils.GetLerpValue(0.9f, 0.7f, t, true));
-                }
-                else if (adjustedIndex == 4)
-                {
-                    frame.Y = 98;
-                    frame.Height = 22;
-                }
-                else if (adjustedIndex == 3)
-                {
-                    frame.Y = 74;
-                    frame.Height = 22;
-                }
-                else if (adjustedIndex == 2)
-                {
-                    frame.Y = 50;
-                    frame.Height = 22;
-                }
-                else if (adjustedIndex == 1)
-                {
-                    frame.Y = 26;
-                    frame.Height = 22;
-                }
-
-
-                element = list[i];
-                diff = list[i + 1] - element;
-
                 float rotation = diff.ToRotation() - MathHelper.PiOver2;
+                Color color = Color.White;
 
                 Main.EntitySpriteDraw(texture, pos - Main.screenPosition, frame, color, rotation, origin, scale, flip, 0);
-                Main.EntitySpriteDraw(glowTexture, pos - Main.screenPosition, frame, new Color(255, 255, 255), rotation, origin, scale, flip, 0);
 
                 pos += diff;
             }
+
             return false;
+        }
+    }
+
+    public class NastySnapperDebuff : ModBuff
+    {
+        public static readonly int TagDamage = 5;
+
+        public override void SetStaticDefaults()
+        {
+            BuffID.Sets.IsATagBuff[Type] = true;
+        }
+    }
+
+    public class NastySnapperDebuffNPC : GlobalNPC
+    {
+        public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
+        {
+            if (projectile.npcProj || projectile.trap || !projectile.IsMinionOrSentryRelated)
+                return;
+
+            var projTagMultiplier = ProjectileID.Sets.SummonTagDamageMultiplier[projectile.type];
+            if (npc.HasBuff<NastySnapperDebuff>())
+            {
+                modifiers.FlatBonusDamage += NastySnapperDebuff.TagDamage * projTagMultiplier;
+            }
         }
     }
 }

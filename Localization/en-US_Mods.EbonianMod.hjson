@@ -257,6 +257,7 @@ Projectiles: {
 	MailboxSentry.DisplayName: Mailbox Sentry
 	PipebombPSentry.DisplayName: Pipebomb
 	SalvagedThrusterP.DisplayName: Salvaged Thruster
+	NastySnapperPro.DisplayName: Nasty Snapper Pro
 }
 
 NPCs: {
@@ -868,6 +869,16 @@ Items: {
 			'Slight bit of dust spam...'
 			'''
 	}
+
+	NastySnapper: {
+		DisplayName: Nasty Snapper
+		Tooltip:
+			'''
+			{$CommonItemTooltip.SummonTagDamage}
+			{$CommonItemTooltip.Whips}
+			'Smells kinda fishy'
+			'''
+	}
 }
 
 Buffs: {
@@ -944,6 +955,11 @@ Buffs: {
 	SheepPetB: {
 		DisplayName: Sheep
 		Description: May have been a victim of Sheepening
+	}
+
+	NastySnapperDebuff: {
+		DisplayName: Nasty Snapper Debuff
+		Description: Mods.EbonianMod.Buffs.NastySnapperDebuff.Description
 	}
 }
 
