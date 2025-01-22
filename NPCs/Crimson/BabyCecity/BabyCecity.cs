@@ -57,7 +57,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("Crimorrhages appear to be an evolution of an Ichor Sticker that had its limbs overtaken by the spread of the biome. Their sporadic movement and violent calls suggests something resembling anger due to their current state."),
+                new FlavorTextBestiaryInfoElement("An evolution of an Ichor Sticker that had its limbs overtaken by the spread of the biome. Despite their appearance, they have adapted well to their sporadic evolution and symbiosis, and use it to the fullest extent possible, even more so than the unhindered monster it once was."),
             });
         }
         public override void SetStaticDefaults()

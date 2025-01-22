@@ -70,6 +70,7 @@ namespace EbonianMod.Common.Systems
         firework,
         magicSlash,
         sheep,
+        shriek,
         vaccum,
         ghizasWheel,
         garbageDeath,
@@ -381,6 +382,12 @@ namespace EbonianMod.Common.Systems
             {
                 SoundPath = ebonianSoundPath + "sheep",
                 PitchVariance = 0.5f
+            };
+
+
+            shriek = Default with
+            {
+                SoundPath = ebonianSoundPath + "shriek"
             };
 
 

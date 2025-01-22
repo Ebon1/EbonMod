@@ -32,6 +32,7 @@ using EbonianMod.Items.Pets.Hightoma;
 using EbonianMod.Items.Pets;
 using EbonianMod.Items.Weapons.Summoner;
 using EbonianMod.Items.Tiles.Trophies;
+using Terraria.GameContent.UI;
 
 namespace EbonianMod.NPCs.Garbage
 {
@@ -86,7 +87,7 @@ namespace EbonianMod.NPCs.Garbage
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
                 new FlavorTextBestiaryInfoElement("Type: Dumpster"),
-                new FlavorTextBestiaryInfoElement("Hot garbage is the magnum opus of Dr Dumbarton Gumtree, Renowned Garbagolist and homeless man. Using his ingenious skills acquired from the Stupidoodoo University of California, he created a machine purely out of scraps and shady government funding. After only a fortnight of hard work, the machine, nicknamed \"Hot Garbage\", was born. It killed Dr. Gumtree 30 seconds afterwards. May he rest in piece(s)."),
+                new FlavorTextBestiaryInfoElement("A heavily armed and armored dumpster, possibly for combat purposes, that has somehow been on fire since its conception.\n\nA note on its side reads: \"Please return to GenCorp Headquarters if lost.\""),
             });
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color lightColor)
@@ -110,8 +111,16 @@ namespace EbonianMod.NPCs.Garbage
                 spriteBatch.Draw(fire, drawPos + new Vector2(NPC.width * -NPC.direction + (NPC.direction == 1 ? 9 : 0), 2).RotatedBy(NPC.rotation) * NPC.scale, new Rectangle(0, NPC.frame.Y - 76 * 3, 70, 76), Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
 
             spriteBatch.Reload(BlendState.Additive);
-            spriteBatch.Draw(fireball, drawPos + new Vector2(3 * NPC.direction, 0), null, Color.OrangeRed * flameAlpha, NPC.rotation + MathHelper.PiOver2 + (NPC.direction == -1 ? MathHelper.Pi : 0), new Vector2(fireball.Width / 2, fireball.Height * 0.475f), NPC.scale * 2.2f, SpriteEffects.None, 0);
-            spriteBatch.Draw(fireball, drawPos + new Vector2(3 * NPC.direction, 0), null, Color.Gold * flameAlpha, NPC.rotation + MathHelper.PiOver2 + (NPC.direction == -1 ? MathHelper.Pi : 0), new Vector2(fireball.Width / 2, fireball.Height * 0.475f), NPC.scale * 2.15f, SpriteEffects.None, 0);
+
+            for (int i = 0; i < 4; i++)
+            {
+                spriteBatch.Draw(drawTexture, drawPos, NPC.frame, Color.White * flameAlpha, NPC.rotation, origin, NPC.scale, effects, 0);
+                if (AIState != Intro && AIState != Idle && AIState != OpenLid && AIState != SpewFire && AIState != CloseLid && AIState != Death && AIState != ActualDeath && AIState != FallOver && AIState != SpewFire2 && AIState != BouncingBarrels && NPC.frame.X == 80)
+                    spriteBatch.Draw(fire, drawPos + new Vector2(NPC.width * -NPC.direction + (NPC.direction == 1 ? 9 : 0), 2).RotatedBy(NPC.rotation) * NPC.scale, new Rectangle(0, NPC.frame.Y - 76 * 3, 70, 76), Color.White * flameAlpha, NPC.rotation, origin, NPC.scale, effects, 0);
+            }
+
+            //spriteBatch.Draw(fireball, drawPos + new Vector2(3 * NPC.direction, 0), null, Color.OrangeRed * flameAlpha, NPC.rotation + PiOver2 + (NPC.direction == -1 ? Pi : 0), new Vector2(fireball.Width / 2, fireball.Height * 0.475f), NPC.scale * 2.2f, SpriteEffects.None, 0);
+            //spriteBatch.Draw(fireball, drawPos + new Vector2(3 * NPC.direction, 0), null, Color.Gold * flameAlpha, NPC.rotation + PiOver2 + (NPC.direction == -1 ? Pi : 0), new Vector2(fireball.Width / 2, fireball.Height * 0.475f), NPC.scale * 2.15f, SpriteEffects.None, 0);
             spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
         }
@@ -459,7 +468,7 @@ namespace EbonianMod.NPCs.Garbage
                 NPC.noTileCollide = false;*/
             if (AIState == Death)
             {
-                NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
+                NPC.rotation = Lerp(NPC.rotation, 0, 0.1f);
                 if (NPC.Grounded())
                 {
                     AITimer++;
@@ -523,7 +532,7 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer2 < 22 && AITimer2 >= 0)
                 {
-                    NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, 20f * NPC.direction, 0.15f);
+                    NPC.velocity.X = Lerp(NPC.velocity.X, 20f * NPC.direction, 0.15f);
                 }
                 if (AITimer2 >= 22)
                 {
@@ -605,13 +614,13 @@ namespace EbonianMod.NPCs.Garbage
                 NPC.dontTakeDamage = false;
                 NPC.damage = 0;
                 AITimer++;
-                NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.35f);
-                NPC.scale = MathHelper.Lerp(NPC.scale, 1, 0.35f);
+                NPC.rotation = Lerp(NPC.rotation, 0, 0.35f);
+                NPC.scale = Lerp(NPC.scale, 1, 0.35f);
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
                 JumpCheck();
                 if (AITimer == 50 && Main.rand.NextBool() && NextAttack2 != SpewFire)
                     Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), Helper.TRay.Cast(NPC.Center - new Vector2(Main.rand.NextFloat(-500, 500), 200), Vector2.UnitY, 600, true), Vector2.Zero, ProjectileType<Mailbox>(), 15, 0, player.whoAmI);
-                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 70, false).X * 0.043f, 0.12f);
+                NPC.velocity.X = Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 70, false).X * 0.043f, 0.12f);
                 if (player.Distance(NPC.Center) < 70)
                     AITimer += 1;
                 if (player.Distance(NPC.Center) < 40)
@@ -672,7 +681,7 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer3 < 22)
                 {
-                    NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, 20f * NPC.direction, 0.15f);
+                    NPC.velocity.X = Lerp(NPC.velocity.X, 20f * NPC.direction, 0.15f);
                 }
                 if (AITimer3 >= 22)
                 {
@@ -710,7 +719,7 @@ namespace EbonianMod.NPCs.Garbage
             else if (AIState == SlamPreperation)
             {
                 AITimer++;
-                NPC.rotation += MathHelper.ToRadians(-0.9f * 4 * NPC.direction);
+                NPC.rotation += ToRadians(-0.9f * 4 * NPC.direction);
                 if (AITimer >= 25)
                 {
                     NPC.velocity.X = 0;
@@ -732,7 +741,7 @@ namespace EbonianMod.NPCs.Garbage
                     if (AITimer < 176)
                         pos = player.Center - new Vector2(-player.velocity.X * 20, 500);
                     NPC.direction = NPC.spriteDirection = 1;
-                    NPC.rotation = MathHelper.Lerp(NPC.rotation, MathHelper.ToRadians(90), 0.15f);
+                    NPC.rotation = Lerp(NPC.rotation, ToRadians(90), 0.15f);
                     if (AITimer % 8 == 0)
                         NPC.velocity = Helper.FromAToB(NPC.Center, pos, false) * 0.056f;
                 }
@@ -786,7 +795,7 @@ namespace EbonianMod.NPCs.Garbage
                     SoundEngine.PlaySound(SoundID.Zombie66, NPC.Center);
                     Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ProjectileType<CircleTelegraph>(), 0, 0);
                 }
-                NPC.rotation += MathHelper.ToRadians(-0.2f * 2 * NPC.direction);
+                NPC.rotation += ToRadians(-0.2f * 2 * NPC.direction);
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
                 if (AITimer >= 50)
                 {
@@ -801,7 +810,7 @@ namespace EbonianMod.NPCs.Garbage
             {
                 AITimer++;
                 NPC.damage = 90;
-                NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.35f);
+                NPC.rotation = Lerp(NPC.rotation, 0, 0.35f);
                 if (AITimer == 2)
                     SoundEngine.PlaySound(EbonianSounds.exolDash, NPC.Center);
                 if (AITimer < 12)
@@ -827,7 +836,7 @@ namespace EbonianMod.NPCs.Garbage
             {
                 AITimer++;
                 if (NextAttack2 == FallOver)
-                    NPC.rotation -= MathHelper.ToRadians(-0.9f * 5 * NPC.direction);
+                    NPC.rotation -= ToRadians(-0.9f * 5 * NPC.direction);
                 if (AITimer == 1)
                     Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ProjectileType<GreenShockwave>(), 0, 0);
 
@@ -835,7 +844,7 @@ namespace EbonianMod.NPCs.Garbage
             else if (AIState == SpewFire)
             {
                 JumpCheck();
-                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center).X * 2.5f, 0.15f);
+                NPC.velocity.X = Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center).X * 2.5f, 0.15f);
                 AITimer++;
                 if (AITimer % 6 == 0)
                 {
@@ -877,7 +886,7 @@ namespace EbonianMod.NPCs.Garbage
             {
                 AITimer++;
                 JumpCheck();
-                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center).X * 2.5f, 0.15f);
+                NPC.velocity.X = Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center).X * 2.5f, 0.15f);
                 if (AITimer % 6 == 0 && AITimer > 30)
                 {
                     SoundEngine.PlaySound(SoundID.DD2_FlameburstTowerShot, NPC.Center);
@@ -909,7 +918,7 @@ namespace EbonianMod.NPCs.Garbage
                     }
                     SoundEngine.PlaySound(SoundID.Item177, NPC.Center);
                 }
-                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center).X * 4, 0.15f);
+                NPC.velocity.X = Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center).X * 4, 0.15f);
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
                 if (AITimer % 20 == 0 && AITimer > 40)
                 {
@@ -930,7 +939,7 @@ namespace EbonianMod.NPCs.Garbage
             else if (AIState == GiantFireball)
             {
                 JumpCheck();
-                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 70, false).X * 0.01f, 0.15f);
+                NPC.velocity.X = Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 70, false).X * 0.01f, 0.15f);
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
                 AITimer++;
                 if (AITimer == 10)
@@ -964,7 +973,7 @@ namespace EbonianMod.NPCs.Garbage
             {
                 AITimer++;
                 JumpCheck();
-                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 70, false).X * 0.043f, 0.12f);
+                NPC.velocity.X = Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 70, false).X * 0.043f, 0.12f);
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
                 if (AITimer <= 60 && AITimer % 5 == 0)
                 {
@@ -998,11 +1007,11 @@ namespace EbonianMod.NPCs.Garbage
             {
                 AITimer++;
                 JumpCheck();
-                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center).X * 4, 0.15f);
+                NPC.velocity.X = Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center).X * 4, 0.15f);
                 if (AITimer % 5 == 0 && AITimer < 60 && AITimer > 20)
                 {
                     SoundEngine.PlaySound(SoundID.Item156, NPC.Center);
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(Main.rand.NextFloat(-4, 4), -7), ProjectileType<GarbageMissile>(), 15, 0, player.whoAmI, MathHelper.ToRadians(Main.rand.NextFloat(-3, 3)));
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(Main.rand.NextFloat(-4, 4), -7), ProjectileType<GarbageMissile>(), 15, 0, player.whoAmI, ToRadians(Main.rand.NextFloat(-3, 3)));
                 }
                 if (AITimer >= 60)
                 {
@@ -1016,7 +1025,7 @@ namespace EbonianMod.NPCs.Garbage
             else if (AIState == MailBoxes)
             {
                 JumpCheck();
-                NPC.velocity.X = MathHelper.Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 70, false).X * 0.043f, 0.12f);
+                NPC.velocity.X = Lerp(NPC.velocity.X, Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 70, false).X * 0.043f, 0.12f);
                 AITimer++;
                 if (AITimer == 20)
                     SoundEngine.PlaySound(SoundID.Zombie67, NPC.Center);
@@ -1064,7 +1073,7 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer == 2)
                     SoundEngine.PlaySound(SoundID.Zombie67, NPC.Center);
                 if (AITimer <= 25)
-                    NPC.rotation += MathHelper.ToRadians(-0.9f * 4 * NPC.direction);
+                    NPC.rotation += ToRadians(-0.9f * 4 * NPC.direction);
                 if (AITimer < 75 && AITimer > 25)
                 {
                     NPC.noTileCollide = true;
@@ -1076,7 +1085,7 @@ namespace EbonianMod.NPCs.Garbage
                     if (AITimer < 150)
                         pos = player.Center;
                     NPC.direction = NPC.spriteDirection = 1;
-                    NPC.rotation = MathHelper.Lerp(NPC.rotation, MathHelper.ToRadians(90), 0.15f);
+                    NPC.rotation = Lerp(NPC.rotation, ToRadians(90), 0.15f);
                     NPC.velocity = Helper.FromAToB(NPC.Center, pos - new Vector2(-player.velocity.X * 10, 700), false) * 0.05f;
                 }
                 if (AITimer == 150)
@@ -1086,7 +1095,7 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer > 170 && AITimer <= 200 && AITimer % 3 == 0)
                 {
-                    Projectile.NewProjectile(null, Main.rand.NextVector2FromRectangle(NPC.getRect()), Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(5, 10), ProjectileType<Pipebomb>(), 15, 0);
+                    Projectile.NewProjectile(null, Main.rand.NextVector2FromRectangle(NPC.getRect()), Vector2.UnitY.RotatedByRandom(PiOver2) * Main.rand.NextFloat(5, 10), ProjectileType<Pipebomb>(), 15, 0);
                 }
                 if (AITimer == 200)
                 {
@@ -1129,25 +1138,25 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     NPC.velocity.X = 0;
                     if (AITimer < 40)
-                        NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, -30, 0.1f);
+                        NPC.velocity.Y = Lerp(NPC.velocity.Y, -30, 0.1f);
                     else
                         NPC.velocity = Vector2.Lerp(NPC.velocity, Vector2.Zero, 0.3f);
                     if (AITimer > 40)
-                        NPC.rotation = Helper.LerpAngle(NPC.rotation, MathHelper.PiOver2 * NPC.direction, 0.05f);
+                        NPC.rotation = Helper.LerpAngle(NPC.rotation, PiOver2 * NPC.direction, 0.05f);
                 }
                 if (AITimer == 60)
-                    NPC.rotation = MathHelper.PiOver2 * NPC.direction;
+                    NPC.rotation = PiOver2 * NPC.direction;
                 if (AITimer > 60 && AITimer3 != 3)
                 {
                     NPC.damage = 60;
-                    flameAlpha = MathHelper.Lerp(flameAlpha, 1, 0.1f);
+                    flameAlpha = Lerp(flameAlpha, 1, 0.1f);
                     pos = NPC.Center;
                     if (NPC.velocity.Length() < 20)
                         NPC.velocity.Y += 1 + NPC.velocity.Y;
                     NPC.Center += Vector2.UnitY * NPC.velocity.Y;
                 }
                 else
-                    flameAlpha = MathHelper.Lerp(flameAlpha, 0, 0.2f);
+                    flameAlpha = Lerp(flameAlpha, 0, 0.2f);
                 bool colliding = Helper.TRay.CastLength(NPC.Center, Vector2.UnitY, NPC.width * 0.6f) < NPC.width * 0.3f ||
                     Helper.TRay.CastLength(NPC.BottomRight, Vector2.UnitY, NPC.width * 0.6f) < NPC.width * 0.3f ||
                     Helper.TRay.CastLength(NPC.BottomLeft, Vector2.UnitY, NPC.width * 0.6f) < NPC.width * 0.3f;
@@ -1228,7 +1237,7 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer > 200 && AITimer < 320)
                 {
                     for (float i = 0; i < 0.99f; i += 0.33f)
-                        Helper.DustExplosion(NPC.Center - new Vector2(6, NPC.height * 0.2f), Vector2.One, 2, Color.Gray * 0.1f, false, false, 0.1f, 0.125f, -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver4 * i) * Main.rand.NextFloat(2f, 8f));
+                        Helper.DustExplosion(NPC.Center - new Vector2(6, NPC.height * 0.2f), Vector2.One, 2, Color.Gray * 0.1f, false, false, 0.1f, 0.125f, -Vector2.UnitY.RotatedByRandom(PiOver4 * i) * Main.rand.NextFloat(2f, 8f));
                 }
                 if (AITimer >= 360)
                     NPC.rotation = Helper.LerpAngle(NPC.rotation, 0, 0.1f);
@@ -1259,6 +1268,8 @@ namespace EbonianMod.NPCs.Garbage
         public override void SetStaticDefaults()
         {
             ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
+            ProjectileID.Sets.TrailCacheLength[Type] = 25;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
             EbonianMod.projectileFinalDrawList.Add(Type);
         }
 
@@ -1273,17 +1284,58 @@ namespace EbonianMod.NPCs.Garbage
             Projectile.timeLeft = 500;
         }
         Vector2 targetPos;
-        float waveTimer;
+        float waveTimer, waveTimer2, vfxOffset;
         public override bool PreDraw(ref Color lightColor)
         {
+            List<VertexPositionColorTexture> vertices = new();
+
+            vfxOffset -= 0.015f;
+            if (vfxOffset <= 0)
+                vfxOffset = 1;
+            vfxOffset = Clamp(vfxOffset, float.Epsilon, 1 - float.Epsilon);
+
+            var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
+            for (int i = 1; i < Projectile.oldPos.Length; i++)
+            {
+                float _mult = (1f - fadeMult * i);
+                float mult = Lerp(1, 0, _mult);
+                Color c = Color.Lerp(Color.Red, Color.Gray * _mult, mult * mult) * _mult * alpha;
+
+                float rot = Projectile.oldPos[i - 1].FromAToB(Projectile.oldPos[i]).ToRotation();
+                float __off = vfxOffset;
+                if (__off > 1) __off = -__off + 1;
+                float _off = __off + mult;
+                if (Projectile.oldPos[i] == Vector2.Zero) break;
+                vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 + new Vector2(-14, 0).RotatedBy(Projectile.velocity.ToRotation()) + new Vector2(SmoothStep(20, 0, mult), 0).RotatedBy(rot + PiOver2) - Main.screenPosition, c, new Vector2(_off, 1)));
+                vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 + new Vector2(-14, 0).RotatedBy(Projectile.velocity.ToRotation()) + new Vector2(SmoothStep(20, 0, mult), 0).RotatedBy(rot - PiOver2) - Main.screenPosition, c, new Vector2(_off, 0)));
+            }
+            Main.spriteBatch.SaveCurrent();
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            if (vertices.Count > 2)
+            {
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("wavyLaser2"), false);
+            }
+            Main.spriteBatch.ApplySaved();
             Texture2D pulse = Helper.GetExtraTexture("PulseCircle2");
-            Texture2D ring = Helper.GetExtraTexture("speckle");
+            Texture2D ring = Helper.GetExtraTexture("crosslight");
             Texture2D chevron = Helper.GetExtraTexture("chevron");
             Texture2D hazard = Helper.GetExtraTexture("hazardUnblurred");
             Texture2D textGlow = Helper.GetExtraTexture("textGlow");
             Texture2D circle = Helper.GetExtraTexture("explosion2");
-            float alpha = Utils.GetLerpValue(0, 2, waveTimer);
-            float alpha2 = MathHelper.Clamp((float)Math.Sin(alpha * Math.PI) * 1, 0, 1f);
+            Texture2D blur = Helper.GetExtraTexture("seamlessNoise2");
+            float _alpha = Utils.GetLerpValue(0, 2, waveTimer);
+            float alpha2 = Clamp((float)Math.Sin(_alpha * Math.PI) * 1, 0, 1f);
+
+            float chevron_alpha = Utils.GetLerpValue(0, 1, waveTimer2);
+            float chevron_alpha2 = Clamp((float)Math.Sin(chevron_alpha * Math.PI) * 1, 0, 1f);
+            waveTimer += 0.02f * (waveTimer.Safe() + (alpha2.Safe()));
+            if (waveTimer > 2)
+                waveTimer = 0;
+
+            waveTimer2 += 0.015f * (waveTimer2.Safe());
+            if (waveTimer2 > 1)
+                waveTimer2 = 0;
             if (targetPos != Vector2.Zero)
             {
                 Main.spriteBatch.Draw(circle, targetPos - Main.screenPosition, null, Color.Black * Projectile.ai[2] * 0.5f, 0, circle.Size() / 2, 4.8f, SpriteEffects.None, 0);
@@ -1291,32 +1343,17 @@ namespace EbonianMod.NPCs.Garbage
                 Main.spriteBatch.Reload(BlendState.Additive);
                 Main.spriteBatch.Draw(pulse, targetPos - Main.screenPosition, null, Color.DarkRed * Projectile.ai[2], 0, pulse.Size() / 2, 4.5f, SpriteEffects.None, 0);
 
-                Main.spriteBatch.Draw(ring, targetPos - Main.screenPosition, null, Color.DarkRed * (alpha2 * 0.25f), Main.GlobalTimeWrappedHourly * 0.03f, ring.Size() / 2, alpha * 18 * 2, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ring, targetPos - Main.screenPosition, null, Color.Red * (chevron_alpha2), 0, ring.Size() / 2, chevron_alpha * 10, SpriteEffects.None, 0);
+
                 //Main.spriteBatch.Draw(pulse, targetPos - Main.screenPosition, null, Color.Maroon * alpha2, 0, pulse.Size() / 2, waveTimer * 2, SpriteEffects.None, 0);
-                for (int i = 0; i < 16; i++)
-                {
-                    float angle = Helper.CircleDividedEqually(i, 16);
-                    Vector2 offset = Vector2.Lerp(Vector2.Zero, (pulse.Height / 2) * Vector2.One, waveTimer);
-                    Main.spriteBatch.Draw(chevron, targetPos + offset.RotatedBy(angle) - Main.screenPosition, null, Color.DarkRed * alpha2, angle + MathHelper.PiOver4, chevron.Size() / 2, 0.5f, SpriteEffects.None, 0);
-                }
-                for (int i = 0; i < 16; i++)
-                {
-                    float angle = Helper.CircleDividedEqually(i, 16);
-                    Vector2 offset = Vector2.Lerp(Vector2.Zero, (pulse.Height / 2) * Vector2.One, waveTimer) + 100 * Vector2.One;
-                    Main.spriteBatch.Draw(chevron, targetPos + offset.RotatedBy(angle) - Main.screenPosition, null, Color.DarkRed * alpha2 * 0.75f, angle + MathHelper.PiOver4, chevron.Size() / 2, 0.5f, SpriteEffects.None, 0);
-                }
-                for (int i = 0; i < 16; i++)
-                {
-                    float angle = Helper.CircleDividedEqually(i, 16);
-                    Vector2 offset = Vector2.Lerp(Vector2.Zero, (pulse.Height / 2) * Vector2.One, waveTimer) + 200 * Vector2.One;
-                    Main.spriteBatch.Draw(chevron, targetPos + offset.RotatedBy(angle) - Main.screenPosition, null, Color.DarkRed * alpha2 * 0.5f, angle + MathHelper.PiOver4, chevron.Size() / 2, 0.5f, SpriteEffects.None, 0);
-                }
-                for (int i = 0; i < 16; i++)
-                {
-                    float angle = Helper.CircleDividedEqually(i, 16);
-                    Vector2 offset = Vector2.Lerp(Vector2.Zero, (pulse.Height / 2) * Vector2.One, waveTimer) + 300 * Vector2.One;
-                    Main.spriteBatch.Draw(chevron, targetPos + offset.RotatedBy(angle) - Main.screenPosition, null, Color.DarkRed * alpha2 * 0.25f, angle + MathHelper.PiOver4, chevron.Size() / 2, 0.5f, SpriteEffects.None, 0);
-                }
+                for (int j = 0; j < 10; j++)
+                    for (int i = 0; i < 24; i++)
+                    {
+                        float angle = Helper.CircleDividedEqually(i, 24);
+                        float scaleOff = MathF.Cos((j - Main.GlobalTimeWrappedHourly) * 20) * 0.1f;
+                        Vector2 offset = Vector2.Lerp(Vector2.Zero, (pulse.Height * 2) * Vector2.One, waveTimer2) + ((j - 1.5f) * 100) * Vector2.One;
+                        Main.spriteBatch.Draw(chevron, targetPos + offset.RotatedBy(angle) - Main.screenPosition, null, Color.DarkRed * chevron_alpha2 * 0.75f * Lerp(2, 0, Clamp(targetPos.Distance(targetPos + offset.RotatedBy(angle)) / (pulse.Height * 2.4f), 0, 1)), angle + PiOver4, chevron.Size() / 2, new Vector2(Clamp(chevron_alpha2 + (float)(j - 1) / 5, 0, 1), MathF.Pow(Clamp(chevron_alpha2 + (float)(j - 1) / 5, 0, 1), 2)) * (0.5f + scaleOff), SpriteEffects.None, 0);
+                    }
             }
             string num = MathF.Round(Projectile.ai[1] / 60, 2).ToString();
             switch (num.Length)
@@ -1330,26 +1367,29 @@ namespace EbonianMod.NPCs.Garbage
                 strin = "";
 
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
+
+            Main.EntitySpriteDraw(Helper.GetTexture(Texture), Projectile.Center - Main.screenPosition, null, Color.White * alpha, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None);
             Main.spriteBatch.SaveCurrent();
+
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.UIScaleMatrix);
-            Main.spriteBatch.Draw(textGlow, new Vector2(Main.screenWidth / 2, Main.screenHeight * 0.05f), null, Color.Black, 0, new Vector2(textGlow.Width / 2, textGlow.Height / 2), 10, SpriteEffects.None, 0);
-
-            for (int i = -(int)(Main.screenWidth / hazard.Width); i < (int)(Main.screenWidth / hazard.Width); i++)
+            EbonianMod.pixelationDrawCachePost.Add(() =>
             {
-                for (int j = 0; j < 2; j++)
-                {
-                    Main.spriteBatch.Draw(hazard, new Vector2(Main.screenWidth / 2 + (i * hazard.Width) - waveTimer * hazard.Width, Main.screenHeight * 0.0325f), null, Color.Red, 0, new Vector2(hazard.Width / 2, hazard.Height / 2), 1, SpriteEffects.None, 0);
-                    Main.spriteBatch.Draw(hazard, new Vector2(Main.screenWidth / 2 + (i * hazard.Width) + waveTimer * hazard.Width, Main.screenHeight * 0.122f), null, Color.Red, 0, new Vector2(hazard.Width / 2, hazard.Height / 2), 1, SpriteEffects.None, 0);
-                }
-            }
-            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, extraString + strin, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString((extraString + "0.00").ToString()).X / 2, Main.screenHeight * 0.05f), Color.Red);
+                Main.spriteBatch.Draw(textGlow, new Vector2(Main.screenWidth / 2, Main.screenHeight * 0.05f), null, Color.Black, 0, new Vector2(textGlow.Width / 2, textGlow.Height / 2), 10, SpriteEffects.None, 0);
 
+                for (int i = -(int)(Main.screenWidth / hazard.Width); i < (int)(Main.screenWidth / hazard.Width); i++)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        Main.spriteBatch.Draw(hazard, new Vector2(Main.screenWidth / 2 + (i * hazard.Width) - waveTimer * hazard.Width, Main.screenHeight * 0.0325f), null, Color.Red, 0, new Vector2(hazard.Width / 2, hazard.Height / 2), 1, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(hazard, new Vector2(Main.screenWidth / 2 + (i * hazard.Width) + waveTimer * hazard.Width, Main.screenHeight * 0.122f), null, Color.Red, 0, new Vector2(hazard.Width / 2, hazard.Height / 2), 1, SpriteEffects.None, 0);
+                    }
+                }
+                DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, extraString + strin, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString((extraString + "0.00").ToString()).X / 2, Main.screenHeight * 0.05f), Color.Red);
+
+            });
             Main.spriteBatch.ApplySaved();
-            return true;
-        }
-        public override void PostDraw(Color lightColor)
-        {
+            return false;
         }
         string extraString = "NUKE DETONATION IN: ";
         public override void OnSpawn(IEntitySource source)
@@ -1359,7 +1399,7 @@ namespace EbonianMod.NPCs.Garbage
         }
         public override Color? GetAlpha(Color lightColor)
         {
-            return Color.White;
+            return Color.White * alpha;
         }
         public override void Kill(int timeLeft)
         {
@@ -1392,6 +1432,11 @@ namespace EbonianMod.NPCs.Garbage
             EbonianMod.FlashAlpha = 1;
             //Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<ScreenFlash>(), 0, 0);
         }
+        public override void PostDraw(Color lightColor)
+        {
+
+        }
+        float alpha = 1;
         public override void AI()
         {
             foreach (Player player in Main.player)
@@ -1406,8 +1451,13 @@ namespace EbonianMod.NPCs.Garbage
             if (Projectile.ai[2] < 1f)
                 Projectile.ai[2] += 0.05f;
             Projectile.rotation = Projectile.velocity.ToRotation();
-            if (Projectile.ai[2] > 0)
-                Helper.DustExplosion(Projectile.Center - new Vector2(Projectile.width / 2, 0).RotatedBy(Projectile.rotation), Vector2.One, 2, Color.Transparent, false);
+            if (alpha < 0.1f)
+                for (int i = 0; i < Projectile.oldPos.Length; i++)
+                    Projectile.oldPos[i] = Projectile.position;
+            if (Projectile.ai[2] > 0 && alpha > 0.5f)
+            {
+
+            }
             if (Projectile.ai[1] > 0 && Projectile.ai[0] > 50)
                 Projectile.ai[1]--;
             if (Projectile.ai[1] <= 0 && Projectile.ai[0] > 50)
@@ -1416,22 +1466,23 @@ namespace EbonianMod.NPCs.Garbage
             }
             extraString = "NUKE DETONATION IN: ";
             Projectile.timeLeft = 2;
-            float alpha = Utils.GetLerpValue(0, 2, waveTimer);
-            float alpha2 = MathHelper.Clamp((float)Math.Sin(alpha * Math.PI) * 3, 0, 1f);
-            waveTimer += 0.025f * (waveTimer.Safe() + (alpha2.Safe() * 0.5f));
-            if (waveTimer > 2)
-                waveTimer = 0;
+            float _alpha = Utils.GetLerpValue(0, 2, waveTimer);
+            float alpha2 = Clamp((float)Math.Sin(_alpha * Math.PI) * 3, 0, 1f);
 
             Projectile.ai[0]++;
             if (Projectile.ai[0] < 50)
                 Projectile.velocity.Y -= 0.5f;
-            else if (Projectile.ai[0] > 50 && Projectile.ai[0] < 450)
+            else if (Projectile.ai[0] > 50 && Projectile.ai[0] < 540)
             {
+                alpha = Lerp(alpha, 0, 0.1f);
                 Projectile.velocity *= 0.9f;
             }
-            else if (Projectile.ai[0] > 450)
+            else if (Projectile.ai[0] > 540)
             {
-                Projectile.velocity.Y += 0.1f;
+                if (Projectile.ai[0] == 481)
+                    Projectile.Center = Vector2.Clamp(Main.player[Projectile.owner].Center - new Vector2(0, 800), targetPos - new Vector2(4500 / 2), targetPos + new Vector2(4500 / 2));
+                alpha = Lerp(alpha, 1, 0.1f);
+                Projectile.velocity.Y += 0.3f;
             }
         }
     }

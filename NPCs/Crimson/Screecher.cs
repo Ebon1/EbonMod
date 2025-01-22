@@ -23,7 +23,7 @@ namespace EbonianMod.NPCs.Crimson
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("!!"),
+                new FlavorTextBestiaryInfoElement("Medium sized, skinless creatures that roam the crimson as walking alarms of a sort. Their nerves are nearly exposed, allowing them to sense even the slightest disturbance and alert the crimson to it."),
             });
         }
 
@@ -101,7 +101,7 @@ namespace EbonianMod.NPCs.Crimson
             }
             else
             {
-                if (AITimer < 130)
+                if (AITimer < 100)
                 {
                     if (NPC.frame.Y < 7 * frameHeight)
                         NPC.frame.Y = 7 * frameHeight;
@@ -178,14 +178,18 @@ namespace EbonianMod.NPCs.Crimson
             else if (AIState == Attack)
             {
                 AITimer++;
-                if (AITimer % 10 == 0 && AITimer > 15 && AITimer < 130)
+                if (AITimer == 15)
+                {
+                    SoundEngine.PlaySound(EbonianSounds.shriek, NPC.Center);
+                }
+                if (AITimer % 5 == 0 && AITimer > 15 && AITimer < 100)
                 {
                     Projectile.NewProjectileDirect(null, NPC.Center - new Vector2(NPC.direction * -10, 8), new Vector2(NPC.direction * Main.rand.NextFloat(2, 6), 0).RotatedByRandom(MathHelper.PiOver4), ProjectileID.BloodNautilusShot, 10, 0).tileCollide = true;
                 }
-                if (player.Center.Distance(NPC.Center) > 100 && AITimer < 130)
+                if (player.Center.Distance(NPC.Center) > 100 && AITimer < 100)
                     AITimer += 2;
 
-                if (AITimer >= 150)
+                if (AITimer >= 120)
                 {
                     AIState = Walk;
                     AITimer = 0;

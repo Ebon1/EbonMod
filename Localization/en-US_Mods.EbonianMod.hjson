@@ -323,7 +323,7 @@ NPCs: {
 	ArchmageXDeathAnim.DisplayName: Xareus
 	Conglomerate.DisplayName: Conglomerate
 	Mosquito.DisplayName: Bloodsucker
-	Screecher.DisplayName: Screecher
+	Screecher.DisplayName: Shrieker
 	ArchmageCutsceneMartian.DisplayName: Archmage Xareus
 	ArchmageStaffNPC.DisplayName: " "
 	FleshDice.DisplayName: Flesh Dice
@@ -459,7 +459,11 @@ Items: {
 
 	DoomsdayRemote: {
 		DisplayName: Red Button
-		Tooltip: Calls a drone strike at your cursor
+		Tooltip:
+			'''
+			Calls a drone strike at your cursor
+			One of many failed(?) GenCorp experiments
+			'''
 	}
 
 	IchorFlintlock: {

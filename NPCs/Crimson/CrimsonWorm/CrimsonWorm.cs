@@ -20,6 +20,7 @@ using EbonianMod.Items.Materials;
 using Terraria.GameContent.ItemDropRules;
 using EbonianMod.Items.Weapons.Magic;
 using EbonianMod.Items.Tiles;
+using EbonianMod.Projectiles.Cecitior;
 
 namespace EbonianMod.NPCs.Crimson.CrimsonWorm
 {
@@ -48,7 +49,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("goon."),
+                new FlavorTextBestiaryInfoElement("Gutworms would appear to be a mimicry of the Corruption's famished eaters, down to the endless hunger and inundation of ichor. They are usually quite rare, making their appearances in this region concerning at lowest."),
             });
         }
         /*public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -137,7 +138,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
                 {
                     SoundEngine.PlaySound(SoundID.NPCHit1, NPC.Center);
                     for (int i = 0; i < 5; i++)
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f, 2), ProjectileType<HostileGibs>(), 10, 0).tileCollide = false;
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, NPC.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f, 2), ProjectileType<CIchor>(), 10, 0).tileCollide = false;
 
                     if (NPC.ai[3] > 250)
                         NPC.ai[3] = 0;

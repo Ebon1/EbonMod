@@ -57,14 +57,7 @@ namespace EbonianMod.NPCs.Corruption
         {
             if (NPC.frameCounter++ % 5 == 0)
             {
-                if (AIState != 2)
-                {
-                    if ((NPC.frame.Y += frameHeight) > 3 * frameHeight)
-                    {
-                        NPC.frame.Y = 0;
-                    }
-                }
-                else
+                if (AIState == 2 || NPC.IsABestiaryIconDummy)
                 {
                     if (NPC.frame.Y < 4 * frameHeight)
                     {
@@ -73,6 +66,13 @@ namespace EbonianMod.NPCs.Corruption
                     if ((NPC.frame.Y += frameHeight) > 6 * frameHeight)
                     {
                         NPC.frame.Y = 4 * frameHeight;
+                    }
+                }
+                else
+                {
+                    if ((NPC.frame.Y += frameHeight) > 3 * frameHeight)
+                    {
+                        NPC.frame.Y = 0;
                     }
                 }
             }
