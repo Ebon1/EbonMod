@@ -262,7 +262,15 @@ Projectiles: {
 }
 
 NPCs: {
-	HotGarbage.DisplayName: Hot Garbage
+	HotGarbage: {
+		DisplayName: Hot Garbage
+
+		BossChecklistIntegration: {
+			SpawnInfo: Use a [i:{0}], often found in Gold Chests.
+			EntryName: HotGarbage
+		}
+	}
+
 	Glutton.DisplayName: Glutton
 	Cecitior.DisplayName: Cecitior
 	Terrortoma.DisplayName: Terrortoma
