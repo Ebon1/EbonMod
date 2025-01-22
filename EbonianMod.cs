@@ -300,6 +300,8 @@ namespace EbonianMod
 
                 DrawXareusGoop(false, sb, gd);
 
+                DrawRedGoop(false, sb, gd);
+
                 DrawGarbageFlame(false, sb, gd);
 
                 DrawXareusSpawn(false, sb, gd);
@@ -313,6 +315,8 @@ namespace EbonianMod
                 DrawRei(true, sb, gd);
 
                 DrawXareusGoop(true, sb, gd);
+
+                DrawRedGoop(true, sb, gd);
                 for (int i = 0; i < 3; i++)
                     pixelationDrawCachePost.Add(() => DrawGarbageFlame(true, sb, gd));
 
@@ -427,6 +431,29 @@ namespace EbonianMod
                         proj.ModProjectile.PreDraw(ref color);
                     }
                 }
+                sb.End();
+            }
+        }
+        public static void DrawRedGoop(bool secondPart, SpriteBatch sb, GraphicsDevice gd)
+        {
+            if (secondPart)
+            {
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/redGradient", (AssetRequestMode)1).Value;
+                gd.Textures[2] = Request<Texture2D>("EbonianMod/Extras/red", (AssetRequestMode)1).Value;
+                gd.Textures[3] = Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
+                gd.Textures[4] = Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
+                metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
+                metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.2f);
+                metaballGradientNoiseTex.Parameters["offsetX"].SetValue(1f);
+                metaballGradientNoiseTex.Parameters["offsetY"].SetValue(1f);
+                sb.Draw(Instance.renders[6], Vector2.Zero, Color.White);
+            }
+            else
+            {
+                gd.SetRenderTarget(Instance.renders[6]);
+                gd.Clear(Color.Transparent);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                RedGoopDust.DrawAll(sb);
                 sb.End();
             }
         }
