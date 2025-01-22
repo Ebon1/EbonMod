@@ -1864,7 +1864,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Reset();
                             NPC.ai[3] = MathHelper.Clamp(NPC.ai[3] + 1, 0, 20);
-                            if (NPC.ai[3] > 6 || Main.rand.Next((int)MathHelper.Clamp(phaseMult == 3 ? ((doneAttacksBefore ? 8 : 15) - (int)NPC.ai[3]) : 18, 1, 20)) < 4)
+                            if (NPC.ai[3] > 4 || Main.rand.Next((int)MathHelper.Clamp(phaseMult == 3 ? ((doneAttacksBefore ? 8 : 15) - (int)NPC.ai[3]) : 18, 1, 20)) < 4)
                             {
                                 NPC.ai[3] = 0;
                                 PickAttack();
