@@ -32,7 +32,7 @@ namespace EbonianMod.Items.Accessories
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.NightVisionHelmet).AddIngredient(ItemID.Ectoplasm, 40).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.NightVisionHelmet).AddIngredient(ItemID.SoulofFright, 15).AddTile(TileID.MythrilAnvil).Register();
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
@@ -63,6 +63,7 @@ namespace EbonianMod.Items.Accessories
         {
             EbonianPlayer modPlayer = player.GetModPlayer<EbonianPlayer>();
             modPlayer.rei = true;
+            player.nightVision = true;
             if (player.ownedProjectileCounts[ProjectileType<ReiCapeP>()] < 1)
             {
                 Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, Vector2.Zero, ProjectileType<ReiCapeP>(), 0, 0, player.whoAmI);

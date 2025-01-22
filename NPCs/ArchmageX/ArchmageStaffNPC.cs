@@ -16,6 +16,11 @@ namespace EbonianMod.NPCs.ArchmageX
         public override string Texture => "EbonianMod/Items/Weapons/Magic/StaffOfX";
         public override void SetStaticDefaults()
         {
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
             NPCID.Sets.NoTownNPCHappiness[Type] = true;
         }
         public override void SetDefaults()

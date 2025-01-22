@@ -93,7 +93,7 @@ namespace EbonianMod.NPCs.Crimson
                         Gore.NewGore(NPC.GetSource_FromThis(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/WormyGore3").Type, NPC.scale);
                         NPC.NewNPC(NPC.GetSource_FromThis(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCType<Parasite>());
                     }
-                    NPC.StrikeInstantKill();
+                    NPC.SimpleStrikeNPC(NPC.lifeMax * 2, 0);
                 }
             }
         }

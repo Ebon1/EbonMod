@@ -14,6 +14,7 @@ namespace EbonianMod.Items.Accessories
     [AutoloadEquip(EquipType.Back)]
     public class EbonianHeart : ModItem
     {
+        public override LocalizedText Tooltip => base.Tooltip.WithFormatArgs(5, 1, 5); // Defense reduction, Minion increase, Summon damage increase
         public override void SetDefaults()
         {
             Item.accessory = true;

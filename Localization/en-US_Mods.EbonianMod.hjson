@@ -399,7 +399,7 @@ Items: {
 	}
 
 	SanguineSlasher: {
-		Tooltip: Restores 25 health when biting an enemy
+		Tooltip: Restores {0} health when biting an enemy
 		DisplayName: Fleshfang
 	}
 
@@ -550,9 +550,9 @@ Items: {
 	EbonianHeart: {
 		Tooltip:
 			'''
-			Reduces defense by 5
-			Increases the max number of minions by 1
-			Increases summon damage by 5%
+			Reduces defense by {0}
+			Increases the max number of minions by {1}
+			Increases summon damage by {2}%
 			Summons a corrupted heart that follows you and shoots cursed flames at nearby enemies
 			'''
 		DisplayName: Rotten Heart
@@ -702,7 +702,7 @@ Items: {
 
 	Chainsword: {
 		DisplayName: Junkyard Chainsword
-		Tooltip: Ignores 3 points of enemy defense
+		Tooltip: Ignores {0} points of enemy defense
 	}
 
 	CecitiorClawSummon: {
@@ -887,6 +887,39 @@ Items: {
 			{$CommonItemTooltip.Whips}
 			'Smells kinda fishy'
 			'''
+	}
+
+	WoolenBoots: {
+		DisplayName: Woolen Boots
+		Tooltip:
+			'''
+			Increases whip damage by {0}%
+			Increases whip speed by {1}%
+			'''
+	}
+
+	WoolenCoat: {
+		DisplayName: Woolen Coat
+		Tooltip:
+			'''
+			Increases summon damage by {0}%
+			Increases your max number of minions by {1}
+			'''
+	}
+
+	WoolenUshanka: {
+		DisplayName: Woolen Ushanka
+		Tooltip: Increases summon damage by {0}%
+		SetBonus:
+			'''
+			Increases your max number of minions by {0}
+			Provides immunity to chill and freezing effects
+			'''
+	}
+
+	Wool: {
+		DisplayName: Wool
+		Tooltip: ""
 	}
 }
 
