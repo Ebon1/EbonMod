@@ -28,8 +28,8 @@ namespace EbonianMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.knockBack = 10f;
-            Item.width = 168;
-            Item.height = 178;
+            Item.width = 60;
+            Item.height = 60;
             Item.crit = 40;
             Item.damage = 19;
             Item.useAnimation = 2;
