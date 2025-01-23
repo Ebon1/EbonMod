@@ -1299,6 +1299,7 @@ namespace EbonianMod.NPCs.Garbage
         float waveTimer, waveTimer2, vfxOffset;
         public override bool PreDraw(ref Color lightColor)
         {
+            if (Projectile.timeLeft > 497) return false;
             List<VertexPositionColorTexture> vertices = new();
 
             vfxOffset -= 0.015f;
@@ -1550,7 +1551,6 @@ namespace EbonianMod.NPCs.Garbage
             }
             if (Projectile.ai[2] < 1f)
                 Projectile.ai[2] += 0.05f;
-            Projectile.rotation = Projectile.velocity.ToRotation();
             if (alpha < 0.1f)
                 for (int i = 0; i < Projectile.oldPos.Length; i++)
                     Projectile.oldPos[i] = Projectile.position;
@@ -1568,7 +1568,10 @@ namespace EbonianMod.NPCs.Garbage
 
             Projectile.ai[0]++;
             if (Projectile.ai[0] < 50)
+            {
+                Projectile.rotation = -Vector2.UnitY.ToRotation();
                 Projectile.velocity.Y -= 0.5f + Projectile.velocity.Y * 0.01f;
+            }
             else if (Projectile.ai[0] > 50 && Projectile.ai[0] < 540)
             {
                 alpha = Lerp(alpha, 0, 0.1f);
@@ -1580,6 +1583,7 @@ namespace EbonianMod.NPCs.Garbage
                     Projectile.Center = targetPos - new Vector2(0, 800);
                 alpha = Lerp(alpha, 1, 0.1f);
                 Projectile.velocity.Y += 0.3f;
+                Projectile.rotation = Projectile.velocity.ToRotation();
             }
         }
     }

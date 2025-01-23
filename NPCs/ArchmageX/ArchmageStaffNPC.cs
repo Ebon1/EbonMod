@@ -134,7 +134,7 @@ namespace EbonianMod.NPCs.ArchmageX
 
             EbonianPlayer p = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
             float dist = Main.LocalPlayer.Distance(NPC.Center);
-            if (NPC.downedMartians && GetInstance<EbonianSystem>().downedXareus)
+            if (NPC.downedMartians && GetInstance<EbonianSystem>().xareusFuckingDies && GetInstance<EbonianSystem>().downedXareus)
             {
                 if (!GetInstance<EbonianSystem>().gotTheStaff)
                 {
@@ -420,7 +420,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     break;
                 }
             }
-            return !NPC.downedMartians && !NPC.AnyNPCs(NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0 && !projExists && !(p.timesDiedToXareus == 0 && NPC.ai[1] < 3700) && NPC.ai[2] < 1001;
+            return !NPC.downedMartians && !GetInstance<EbonianSystem>().xareusFuckingDies && !NPC.AnyNPCs(NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0 && !projExists && !(p.timesDiedToXareus == 0 && NPC.ai[1] < 3700) && NPC.ai[2] < 1001;
         }
         public override void SetChatButtons(ref string button, ref string button2)
         {
