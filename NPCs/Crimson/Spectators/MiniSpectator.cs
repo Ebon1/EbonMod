@@ -117,7 +117,7 @@ namespace EbonianMod.NPCs.Crimson.Spectators
             NPC.despawnEncouraged = false;
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
-            if (stalkBase == Vector2.Zero || Helper.TRay.CastLength(stalkBase, Vector2.UnitY, 10) > 7)
+            if (stalkBase == Vector2.Zero || Helper.TRay.CastLength(stalkBase, Vector2.UnitY, 32) > 16)
             {
                 Vector2 direction = Vector2.UnitY.RotatedBy(MathHelper.PiOver4 + MathHelper.PiOver4 * 0.25f);
                 int attempts = 0;

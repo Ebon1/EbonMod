@@ -33,7 +33,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Projectile.friendly = false;
             Projectile.hostile = true;
 
-            Projectile.Size = new Vector2(150);
+            Projectile.Size = new Vector2(100);
             //Projectile.scale = 0.2f;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;

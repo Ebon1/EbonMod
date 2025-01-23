@@ -34,6 +34,7 @@ using EbonianMod.Items.Weapons.Summoner;
 using EbonianMod.Items.Tiles.Trophies;
 using Terraria.GameContent.UI;
 using Terraria.Graphics.CameraModifiers;
+using EbonianMod.NPCs.ArchmageX;
 
 namespace EbonianMod.NPCs.Garbage
 {
@@ -469,6 +470,7 @@ namespace EbonianMod.NPCs.Garbage
                 NPC.noTileCollide = false;*/
             if (AIState == Death)
             {
+
                 NPC.rotation = Lerp(NPC.rotation, 0, 0.1f);
                 if (NPC.Grounded())
                 {
@@ -484,6 +486,8 @@ namespace EbonianMod.NPCs.Garbage
                     if (AITimer > -30)
                         AITimer2++;
                 }
+                else
+                    NPC.velocity.Y++;
                 if (AITimer == 0)
                 {
                     EbonianSystem.ScreenShakeAmount = 20;
@@ -515,7 +519,12 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer == 20)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(NPC.direction * 10, 0), ProjectileType<HotGarbageNuke>(), 0, 0);
+                    for (int i = 0; i < 40; i++)
+                    {
+                        Dust.NewDustPerfect(NPC.Center - new Vector2(Main.rand.NextFloat(-30, 30), 20), DustID.Smoke, -Vector2.UnitY.RotatedByRandom(PiOver4) * Main.rand.NextFloat(5, 20));
+                    }
+                    SoundEngine.PlaySound(EbonianSounds.firework.WithVolumeScale(2), NPC.Center);
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 50), Vector2.Zero, ProjectileType<HotGarbageNuke>(), 0, 0);
                 }
                 Main.musicNoCrossFade[MusicLoader.GetMusicSlot(Mod, "Sounds/Music/GarbageSiren")] = true;
                 Main.musicNoCrossFade[0] = true;
@@ -570,11 +579,8 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer % 20 == 0 && AITimer > 30 && AITimer < 630)
                 {
-                    for (int i = -1; i < 2; i++)
-                    {
-                        Projectile fire = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), pos - Vector2.UnitY * 1000, new Vector2(i * Main.rand.NextFloat(2, 30) * Main.rand.NextFloat(1f, 2f), Main.rand.NextFloat(-5, 1)), ProjectileType<GarbageGiantFlame>(), 15, 0);
-                        fire.timeLeft = 200;
-                    }
+                    Projectile fire = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), pos - Vector2.UnitY * 1000, new Vector2(Main.rand.NextFloat(-30, 30) * Main.rand.NextFloat(1f, 2f), Main.rand.NextFloat(-5, 1)), ProjectileType<GarbageGiantFlame>(), 15, 0);
+                    fire.timeLeft = 200;
                 }
             }
             else if (AIState == Intro)
@@ -1330,24 +1336,28 @@ namespace EbonianMod.NPCs.Garbage
             Texture2D hazard = Helper.GetExtraTexture("hazardUnblurred");
             Texture2D textGlow = Helper.GetExtraTexture("textGlow");
             Texture2D circle = Helper.GetExtraTexture("explosion2");
-            Texture2D blur = Helper.GetExtraTexture("seamlessNoise2");
+            Texture2D exclamation = Helper.GetExtraTexture("exclamation");
             float _alpha = Utils.GetLerpValue(0, 2, waveTimer);
             float alpha2 = Clamp((float)Math.Sin(_alpha * Math.PI) * 1, 0, 1f);
 
             float chevron_alpha = Utils.GetLerpValue(0, 1, waveTimer2);
             float chevron_alpha2 = Clamp((float)Math.Sin(chevron_alpha * Math.PI) * 1, 0, 1f);
-            waveTimer += 0.02f * (waveTimer.Safe() + (alpha2.Safe()));
+            if (Projectile.ai[0] > 60)
+                waveTimer += 0.02f * (waveTimer.Safe() + (alpha2.Safe()));
             if (waveTimer > 2)
                 waveTimer = 0;
 
             waveTimer2 += 0.019f * (waveTimer2.Safe());
             if (waveTimer2 > 1)
                 waveTimer2 = 0;
+
+            Color color = Color.Lerp(Color.Maroon, Color.Red, Lerp(0, 1, Clamp((Projectile.ai[0]) / 600, 0, 1)));
+            Color color2 = Color.Lerp(Color.Black, Color.DarkRed, Lerp(0, 1, Clamp((Projectile.ai[0]) / 600, 0, 1)));
             if (targetPos != Vector2.Zero)
             {
                 Main.spriteBatch.Draw(circle, targetPos - Main.screenPosition, null, Color.Black * Projectile.ai[2] * 0.4f, 0, circle.Size() / 2, 4.8f, SpriteEffects.None, 0);
 
-                Main.spriteBatch.Draw(circle, targetPos - Main.screenPosition, null, Color.Red * chevron_alpha2 * 0.2f, 0, circle.Size() / 2, 4.7f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(circle, targetPos - Main.screenPosition, null, color * chevron_alpha2 * 0.25f, Main.GameUpdateCount * 0.003f, circle.Size() / 2, 4.7f, SpriteEffects.None, 0);
 
 
                 Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Red * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 600) / 60f, 0, 1)));
@@ -1355,17 +1365,37 @@ namespace EbonianMod.NPCs.Garbage
                 Main.spriteBatch.Reload(BlendState.Additive);
                 Main.spriteBatch.Draw(pulse, targetPos - Main.screenPosition, null, Color.DarkRed * Projectile.ai[2], 0, pulse.Size() / 2, 4.5f, SpriteEffects.None, 0);
 
-                Main.spriteBatch.Draw(ring, targetPos - Main.screenPosition, null, Color.Red * (chevron_alpha2 * 0.5f), 0, ring.Size() / 2, chevron_alpha * 10, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ring, targetPos - Main.screenPosition, null, color2 * (chevron_alpha2 * 0.5f), 0, ring.Size() / 2, chevron_alpha * 10, SpriteEffects.None, 0);
 
                 //Main.spriteBatch.Draw(pulse, targetPos - Main.screenPosition, null, Color.Maroon * alpha2, 0, pulse.Size() / 2, waveTimer * 2, SpriteEffects.None, 0);
-                for (int j = 0; j < 10; j++)
-                    for (int i = 0; i < 24; i++)
+                if (chevronTimer2++ % 15 == 0)
+                    chevronTimer++;
+                for (int j = 1; j < 10; j++)
+                {
+                    chevronAlphas[j] = Lerp(chevronAlphas[j], 0f, 0.01f);
+                    if (chevronAlphas[j].CloseTo(0, 0.05f)) chevronAlphas[j] = 0f;
+                    if ((chevronTimer % 20 == j) && chevronTimer2 % 15 == 0)
                     {
-                        float angle = Helper.CircleDividedEqually(i, 24);
-                        float scaleOff = MathF.Cos((j - Main.GlobalTimeWrappedHourly) * 20) * 0.1f;
-                        Vector2 offset = Vector2.Lerp(Vector2.Zero, (pulse.Height * 2) * Vector2.One, waveTimer2) + ((j - 1.5f) * 100) * Vector2.One;
-                        Main.spriteBatch.Draw(chevron, targetPos + offset.RotatedBy(angle) - Main.screenPosition, null, Color.DarkRed * chevron_alpha2 * 0.75f * Lerp(2, 0, Clamp(targetPos.Distance(targetPos + offset.RotatedBy(angle)) / (pulse.Height * 2.4f), 0, 1)), angle + PiOver4, chevron.Size() / 2, new Vector2(Clamp(chevron_alpha2 + (float)(j - 1) / 5, 0, 1), MathF.Pow(Clamp(chevron_alpha2 + (float)(j - 1) / 5, 0, 1), 2)) * (0.5f + scaleOff), SpriteEffects.None, 0);
+                        chevronAlphas[j] = 0.6f;
                     }
+                    for (int i = 0; i < 16; i++)
+                    {
+                        float angle = Helper.CircleDividedEqually(i, 16);
+                        float scaleOff = MathF.Cos((j - Main.GlobalTimeWrappedHourly) * 20) * 0.1f;
+                        Vector2 offset = Vector2.Lerp(Vector2.Zero, (pulse.Height * 2) * Vector2.One, 0.01f) + ((j + 1) * 150) * Vector2.One;
+                        Vector2 scale = new Vector2(Clamp(chevron_alpha2 + (float)(j - 1) / 5, 0, 1), MathF.Pow(Clamp(chevron_alpha2 + (float)(j - 1) / 5, 0, 1), 2)) * (0.5f + scaleOff);
+                        Main.spriteBatch.Draw(chevron, targetPos + offset.RotatedBy(angle) - Main.screenPosition, null, color2 * chevronAlphas[j] * Lerp(1, 0, Clamp(targetPos.Distance(targetPos + offset.RotatedBy(angle)) / (pulse.Height * 2.4f), 0, 1)), angle + PiOver4, chevron.Size() / 2, 0.75f, SpriteEffects.None, 0);
+                    }
+
+                    for (int i = 0; i < 16; i++)
+                    {
+                        float angle = Helper.CircleDividedEqually(i, 16) + Helper.CircleDividedEqually(1, 32);
+                        float scaleOff = MathF.Cos((j - Main.GlobalTimeWrappedHourly) * 20) * 0.1f;
+                        Vector2 offset = Vector2.Lerp(Vector2.Zero, (pulse.Height * 2) * Vector2.One, waveTimer2) + ((j - 1.5f) * 150) * Vector2.One;
+                        Vector2 scale = new Vector2(Clamp(chevron_alpha2 + (float)(j - 1) / 5, 0, 1), MathF.Pow(Clamp(chevron_alpha2 + (float)(j - 1) / 5, 0, 1), 2)) * (0.5f + scaleOff);
+                        Main.spriteBatch.Draw(chevron, targetPos + offset.RotatedBy(angle) - Main.screenPosition, null, color2 * chevron_alpha2 * Lerp(1, 0, Clamp(targetPos.Distance(targetPos + offset.RotatedBy(angle)) / (pulse.Height * 2.4f), 0, 2)), angle + PiOver4, chevron.Size() / 2, scale, SpriteEffects.None, 0);
+                    }
+                }
             }
             string num = MathF.Round(Projectile.ai[1] / 60, 2).ToString();
             switch (num.Length)
@@ -1387,26 +1417,54 @@ namespace EbonianMod.NPCs.Garbage
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.UIScaleMatrix);
 
-            Main.spriteBatch.Draw(textGlow, new Vector2(Main.screenWidth / 2, Main.screenHeight * 0.05f), null, Color.Black, 0, new Vector2(textGlow.Width / 2, textGlow.Height / 2), 10, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(textGlow, new Vector2(Main.screenWidth / 2, Main.screenHeight * 0.05f), null, Color.Black * textAlpha, 0, new Vector2(textGlow.Width / 2, textGlow.Height / 2), 10, SpriteEffects.None, 0);
+
+            Main.spriteBatch.Draw(textGlow, new Vector2(Main.screenWidth / 2, Main.screenHeight - Main.screenHeight * 0.05f), null, Color.Black * textAlpha, 0, new Vector2(textGlow.Width / 2, textGlow.Height / 2), 10, SpriteEffects.None, 0);
 
             for (int i = -(int)(Main.screenWidth / hazard.Width); i < (int)(Main.screenWidth / hazard.Width); i++)
             {
                 for (int j = 0; j < 2; j++)
                 {
-                    Main.spriteBatch.Draw(hazard, new Vector2(Main.screenWidth / 2 + (i * hazard.Width) - waveTimer * hazard.Width, Main.screenHeight * 0.0325f), null, Color.Red * 2, 0, new Vector2(hazard.Width / 2, hazard.Height / 2), 1, SpriteEffects.None, 0);
-                    Main.spriteBatch.Draw(hazard, new Vector2(Main.screenWidth / 2 + (i * hazard.Width) + waveTimer * hazard.Width, Main.screenHeight * 0.122f), null, Color.Red * 2, 0, new Vector2(hazard.Width / 2, hazard.Height / 2), 1, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(hazard, (Main.rand.NextVector2Circular(50, 50) * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1))) + new Vector2(Main.screenWidth / 2 + (i * hazard.Width) - Lerp(0, waveTimer, Clamp(Projectile.ai[0] / 120, 0, 1)) * hazard.Width - Main.screenWidth * hazardDistanceMult * 2, Main.screenHeight * 0.0325f), null, color * 2 * textAlpha, 0, new Vector2(hazard.Width / 2, hazard.Height / 2), 1, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(hazard, (Main.rand.NextVector2Circular(50, 50) * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1))) + new Vector2(Main.screenWidth / 2 + (i * hazard.Width) + Lerp(0, waveTimer, Clamp(Projectile.ai[0] / 120, 0, 1)) * hazard.Width + Main.screenWidth * hazardDistanceMult * 2, Main.screenHeight * 0.122f), null, color * 2 * textAlpha, 0, new Vector2(hazard.Width / 2, hazard.Height / 2), 1, SpriteEffects.None, 0);
+
+                    Vector2 exPos = (Main.rand.NextVector2Circular(50, 50) * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1))) + new Vector2(Main.screenWidth / 2 + (i * exclamation.Width) + waveTimer * exclamation.Width * (i < 0 ? 1 : -1), Main.screenHeight * 0.078f);
+                    Main.spriteBatch.Draw(exclamation, exPos, null, color * 2 * textAlpha * Lerp(0, 2, Clamp(MathF.Abs(exPos.X - Main.screenWidth / 2) / 5000, 0, 1)), 0, new Vector2(exclamation.Width / 2, exclamation.Height / 2), 0.1f, SpriteEffects.None, 0);
                 }
             }
-            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, extraString + strin, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString((extraString + "0.00").ToString()).X / 2, Main.screenHeight * 0.05f), Color.Red);
+
+            for (int i = -(int)(Main.screenWidth / hazard.Width); i < (int)(Main.screenWidth / hazard.Width); i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    Main.spriteBatch.Draw(hazard, (Main.rand.NextVector2Circular(50, 50) * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1))) + new Vector2(Main.screenWidth / 2 + (i * hazard.Width) + Lerp(0, waveTimer, Clamp(Projectile.ai[0] / 120, 0, 1)) * hazard.Width + Main.screenWidth * hazardDistanceMult * 2, Main.screenHeight - Main.screenHeight * 0.0325f - 100), null, color * 2 * textAlpha, 0, new Vector2(hazard.Width / 2, hazard.Height / 2), 1, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(hazard, (Main.rand.NextVector2Circular(50, 50) * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1))) + new Vector2(Main.screenWidth / 2 + (i * hazard.Width) - Lerp(0, waveTimer, Clamp(Projectile.ai[0] / 120, 0, 1)) * hazard.Width - Main.screenWidth * hazardDistanceMult * 2, Main.screenHeight - Main.screenHeight * 0.122f - 100), null, color * 2 * textAlpha, 0, new Vector2(hazard.Width / 2, hazard.Height / 2), 1, SpriteEffects.None, 0);
+
+                    Vector2 exPos = (Main.rand.NextVector2Circular(50, 50) * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1))) + new Vector2(Main.screenWidth / 2 + (i * exclamation.Width) + waveTimer * exclamation.Width * (i < 0 ? 1 : -1), Main.screenHeight - Main.screenHeight * 0.078f - 100);
+                    Main.spriteBatch.Draw(exclamation, exPos, null, color * 2 * textAlpha * Lerp(0, 2, Clamp(MathF.Abs(exPos.X - Main.screenWidth / 2) / 5000, 0, 1)), 0, new Vector2(exclamation.Width / 2, exclamation.Height / 2), 0.1f, SpriteEffects.None, 0);
+                }
+            }
+            string warningText = "EVACUATE IMMEDIATELY";
+            if (Main.LocalPlayer.Center.Distance(targetPos) < 4500 / 2 - 100)
+            {
+                if (Projectile.ai[1] < 180)
+                    warningText = "RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN";
+            }
+            else
+                warningText = "GOOD JOB!";
+
+            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, warningText, (Main.rand.NextVector2Circular(50, 50) * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1))) + new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(warningText).X / 2, Main.screenHeight - Main.screenHeight * 0.1f - 100), color * textAlpha);
+
+            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, extraString + strin, (Main.rand.NextVector2Circular(50, 50) * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1))) + new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString((extraString + "0.00").ToString()).X / 2, Main.screenHeight * 0.055f), color * textAlpha);
 
             Main.spriteBatch.Reload(BlendState.Additive);
-            Main.spriteBatch.Draw(ring2, Main.ScreenSize.ToVector2() / 2 - new Vector2(0, 100) + Main.rand.NextVector2Circular(60, 60) * numberAlpha, null, Color.Maroon * numberAlpha * 0.25f, 0, ring2.Size() / 2, 2.5f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(ring2, Main.ScreenSize.ToVector2() / 2 - new Vector2(0, 100) + Main.rand.NextVector2Circular(60, 60) * numberAlpha, null, Color.Maroon * numberAlpha * 0.25f, 0, ring2.Size() / 2, 2.5f, SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(ring2, Main.ScreenSize.ToVector2() / 2 - new Vector2(0, 100 + numberScaleOff * 30) + Main.rand.NextVector2Circular(60, 60) * numberAlpha, null, Color.Maroon * numberAlpha * 0.25f, 0, ring2.Size() / 2, 2.5f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ring2, Main.ScreenSize.ToVector2() / 2 - new Vector2(0, 100 + numberScaleOff * 30) + Main.rand.NextVector2Circular(60, 60) * numberAlpha, null, Color.Maroon * numberAlpha * 0.25f, 0, ring2.Size() / 2, 2.5f, SpriteEffects.FlipHorizontally, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
 
-            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, number.ToString(), Main.ScreenSize.ToVector2() / 2 - new Vector2(0, 100) + Main.rand.NextVector2Circular(50, 50) * numberAlpha - new Vector2(FontAssets.DeathText.Value.MeasureString((number).ToString()).X / 2 * 15, FontAssets.DeathText.Value.MeasureString((number).ToString()).Y / 2 * 10), Color.Red * numberAlpha * 0.05f, 0, new Vector2(0.5f), 15, SpriteEffects.None, 0);
+            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, number.ToString(), Main.ScreenSize.ToVector2() / 2 - new Vector2(0, 100 + numberScaleOff * 30) + Main.rand.NextVector2Circular(50, 50) * numberAlpha - new Vector2(FontAssets.DeathText.Value.MeasureString((number).ToString()).X / 2 * (15 / 2 + numberScaleOff), FontAssets.DeathText.Value.MeasureString((number).ToString()).Y / 2 * (10 / 2 + numberScaleOff)), Color.Red * numberAlpha * 0.05f, 0, new Vector2(0.5f), 15 / 2 + numberScaleOff, SpriteEffects.None, 0);
 
-            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, number.ToString(), Main.ScreenSize.ToVector2() / 2 - new Vector2(0, 100) + Main.rand.NextVector2Circular(30, 30) * numberAlpha - new Vector2(FontAssets.DeathText.Value.MeasureString((number).ToString()).X / 2 * 15 / 3, FontAssets.DeathText.Value.MeasureString((number).ToString()).Y / 2 * 10 / 3), Color.Red * numberAlpha, 0, new Vector2(0.5f), 15 / 3, SpriteEffects.None, 0);
+            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, number.ToString(), Main.ScreenSize.ToVector2() / 2 - new Vector2(0, 100 + numberScaleOff * 30) + Main.rand.NextVector2Circular(30, 30) * numberAlpha - new Vector2(FontAssets.DeathText.Value.MeasureString((number).ToString()).X / 2 * (15 / 4 + numberScaleOff), FontAssets.DeathText.Value.MeasureString((number).ToString()).Y / 2 * (10 / 4 + numberScaleOff)), Color.Red * numberAlpha, 0, new Vector2(0.5f), 15 / 4 + numberScaleOff, SpriteEffects.None, 0);
 
 
             Main.spriteBatch.ApplySaved();
@@ -1417,6 +1475,7 @@ namespace EbonianMod.NPCs.Garbage
         public override void OnSpawn(IEntitySource source)
         {
             Projectile.ai[1] = 600;
+            Projectile.rotation = -Vector2.UnitY.ToRotation();
             targetPos = Projectile.Center;
         }
         public override Color? GetAlpha(Color lightColor)
@@ -1425,13 +1484,14 @@ namespace EbonianMod.NPCs.Garbage
         }
         public override void Kill(int timeLeft)
         {
+            EbonianSystem.TemporarilySetMusicTo0(400);
             SoundEngine.PlaySound(EbonianSounds.nuke);
             SoundEngine.PlaySound(EbonianSounds.garbageDeath);
             foreach (Player player in Main.player)
             {
                 if (player.active)
                 {
-                    if (player.Center.Distance(targetPos) < 4500 / 2)
+                    if (player.Center.Distance(targetPos) < 4500 / 2 - 100)
                         player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " advocated for the legalization of nuclear bombs."), 999999, 0);
                 }
 
@@ -1439,7 +1499,7 @@ namespace EbonianMod.NPCs.Garbage
 
             foreach (NPC npc in Main.npc)
             {
-                if (npc.active && npc.Center.Distance(targetPos) < 4500 / 2 && npc.type != NPCType<HotGarbage>())
+                if (npc.active && npc.Center.Distance(targetPos) < 4500 / 2 - 100 && npc.type != NPCType<HotGarbage>() && npc.type != NPCType<ArchmageStaffNPC>())
                 {
                     npc.life = 0;
                     npc.checkDead();
@@ -1458,9 +1518,12 @@ namespace EbonianMod.NPCs.Garbage
         {
 
         }
-        float alpha = 1, numberAlpha = 0, number, numberTimer;
+        float alpha = 1, numberAlpha = 0, number, numberTimer, textAlpha, chevronTimer, chevronTimer2, numberScaleOff = -1f, hazardDistanceMult = 1;
+        float[] chevronAlphas = new float[10];
         public override void AI()
         {
+            if (Projectile.ai[0] < 60)
+                hazardDistanceMult = Lerp(1, 0, (Projectile.ai[0]) / 60);
             foreach (Player player in Main.player)
             {
                 if (player.active)
@@ -1470,11 +1533,14 @@ namespace EbonianMod.NPCs.Garbage
                         Projectile.active = false;
                     }
             }
+            textAlpha = Lerp(textAlpha, 1, 0.05f);
             if (--numberTimer < 0)
                 numberAlpha = Lerp(numberAlpha, 0, 0.15f);
-            if (Projectile.ai[1] % 60 == 0 && Projectile.ai[0] > 60)
+            if (Projectile.ai[1] % 60 == 0 && Projectile.ai[0] > 60 && Projectile.ai[1] < 6 * 60)
             {
-                Main.instance.CameraModifiers.Add(new PunchCameraModifier(targetPos, Helper.FromAToB(targetPos, Main.LocalPlayer.Center), 25, 10, 60, 2000));
+                numberScaleOff += 0.5f;
+                SoundEngine.PlaySound(EbonianSounds.heartbeat.WithVolumeScale(5 + numberScaleOff));
+                Main.instance.CameraModifiers.Add(new PunchCameraModifier(targetPos, Helper.FromAToB(targetPos, Main.LocalPlayer.Center), 23, 10, 60, 2000));
                 numberAlpha = 1;
                 number = Projectile.ai[1] / 60;
                 numberTimer = 20;
@@ -1499,7 +1565,7 @@ namespace EbonianMod.NPCs.Garbage
 
             Projectile.ai[0]++;
             if (Projectile.ai[0] < 50)
-                Projectile.velocity.Y -= 0.5f;
+                Projectile.velocity.Y -= 0.5f + Projectile.velocity.Y * 0.01f;
             else if (Projectile.ai[0] > 50 && Projectile.ai[0] < 540)
             {
                 alpha = Lerp(alpha, 0, 0.1f);

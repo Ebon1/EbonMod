@@ -30,8 +30,20 @@ namespace EbonianMod
 {
     public class EbonianSystem : ModSystem
     {
+        public static float savedMusicVol, setMusicBackTimer, setMusicBackTimerMax;
+        public static void TemporarilySetMusicTo0(float time)
+        {
+            setMusicBackTimer = time;
+            setMusicBackTimerMax = time;
+        }
         public override void UpdateUI(GameTime gameTime)
         {
+            if (--setMusicBackTimer < 0)
+            {
+                savedMusicVol = Main.musicVolume;
+            }
+            else
+                Main.musicVolume = Lerp(savedMusicVol, 0, setMusicBackTimer / setMusicBackTimerMax);
             if (Main.WaveQuality == 0)
             {
                 Main.NewText("Ebonian Mod doesn't currently work properly when the Wave Quality is set to Off.", Main.errorColor);

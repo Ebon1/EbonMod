@@ -116,25 +116,29 @@ namespace EbonianMod.NPCs.Crimson.Spectators
                 Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0, 0);
             }
         }
+        bool found = false;
         public override void AI()
         {
             NPC.timeLeft = 10;
             NPC.despawnEncouraged = false;
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
-            if (stalkBase == Vector2.Zero || Helper.TRay.CastLength(stalkBase, Vector2.UnitY, 4) > 3)
+            if (!found && (stalkBase == Vector2.Zero || Helper.TRay.CastLength(Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 400), Vector2.UnitY, 32) > 16))
             {
                 Vector2 direction = Vector2.UnitY.RotatedBy(MathHelper.PiOver4 + MathHelper.PiOver4 * 0.25f);
                 int attempts = 0;
-                while (Helper.TRay.CastLength(NPC.Center, direction, 400) >= 399 && attempts++ <= 100)
+                while (Helper.TRay.CastLength(NPC.Center, direction, 400) >= 399 && attempts++ <= 300)
                 {
-                    NPC.Center += Vector2.UnitY * 3;
-                    if (attempts == 1)
-                        direction = Vector2.UnitY.RotatedBy(-1 * MathHelper.PiOver4 - MathHelper.PiOver4 * 0.25f);
-                    else
-                        direction = Vector2.UnitY.RotatedByRandom(MathHelper.PiOver4 + MathHelper.PiOver4 * 0.25f);
+                    NPC.Center += Vector2.UnitY * 4;
+                    NPC.Center += Vector2.UnitX * Main.rand.NextFloat(-10, 10);
+                    direction = Vector2.UnitY;
                 }
-                stalkBase = Helper.TRay.Cast(NPC.Center, direction, 400) + new Vector2(0, 40);
+                if (Helper.TRay.CastLength(Helper.TRay.Cast(NPC.Center, direction, 400), Vector2.UnitY, 32) < 16)
+                {
+                    stalkBase = Helper.TRay.Cast(NPC.Center, direction, 400) + new Vector2(0, 40);
+                    found = true;
+                }
+                Main.NewText("Ra");
                 return;
             }
             NPC.rotation = NPC.Center.FromAToB(player.Center).ToRotation() + MathHelper.Pi;

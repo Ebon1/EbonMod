@@ -560,7 +560,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     phase2 = true;
                 }
             }
-            if (NPC.velocity.Y.CloseTo(0) && !NPC.velocity.X.CloseTo(0, 0.1f))
+            if (NPC.velocity.Y.CloseTo(0) && !NPC.velocity.X.CloseTo(0, 0.1f) && !NPC.noGravity)
             {
                 int interval = 6;
                 float len = NPC.velocity.Length();
@@ -723,7 +723,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         }
                         if (AITimer < 340 || AITimer > 551)
                         {
-                            if (AITimer == 1 || AITimer > 300)
+                            if ((AITimer == 1 || AITimer > 300) && AITimer < 1000)
                                 FacePlayer();
                             NPC.dontTakeDamage = true;
                             if (AITimer < 340)

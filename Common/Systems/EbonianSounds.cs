@@ -25,6 +25,7 @@ namespace EbonianMod.Common.Systems
         None,
         bloodSpit,
         bowPull,
+            buzz,
         bowRelease,
         chargedBeam,
         chargedBeamWindUp,
@@ -93,6 +94,12 @@ namespace EbonianMod.Common.Systems
             bowRelease = Default with
             {
                 SoundPath = ebonianSoundPath + "bowRelease"
+            };
+
+            buzz = Default with
+            {
+                SoundPath = ebonianSoundPath + "buzz",
+                PitchVariance = 0
             };
 
 
