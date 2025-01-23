@@ -49,6 +49,7 @@ namespace EbonianMod.Items.Weapons.Magic
         {
             return false;
         }
+        public override Color? GetAlpha(Color lightColor) => Color.White;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Projectile.NewProjectile(source, position, Vector2.UnitX * player.direction, type, damage, knockback, player.whoAmI, 0, -player.direction, 1);

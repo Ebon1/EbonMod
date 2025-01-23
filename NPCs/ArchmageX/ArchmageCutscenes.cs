@@ -250,7 +250,7 @@ namespace EbonianMod.NPCs.ArchmageX
                 }
                 foreach (NPC npc in Main.ActiveNPCs)
                 {
-                    if (!npc.friendly && npc.type != Type)
+                    if ((!npc.friendly || npc.type == NPCType<ArchmageStaffNPC>()) && npc.type != Type)
                         npc.active = false;
                 }
                 if (AITimer % 5 == 0)
