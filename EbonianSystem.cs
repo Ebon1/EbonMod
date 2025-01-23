@@ -55,17 +55,19 @@ namespace EbonianMod
                 Lighting.Mode = Terraria.Graphics.Light.LightMode.Color;
             }
         }
-        public bool downedXareus = false, gotTheStaff = false;
+        public bool downedXareus = false, gotTheStaff = false, xareusFuckingDies = false;
         public int constantTimer;
         public override void SaveWorldData(TagCompound tag)
         {
             tag.Set("XarusDown", downedXareus);
             tag.Set("XarusDownForReal", gotTheStaff);
+            tag.Set("XarusDownForRealReal", xareusFuckingDies);
         }
         public override void LoadWorldData(TagCompound tag)
         {
             downedXareus = tag.GetBool("XarusDown");
             gotTheStaff = tag.GetBool("XarusDownForReal");
+            xareusFuckingDies = tag.GetBool("XarusDownForRealReal");
         }
         public override void PostUpdateEverything()
         {

@@ -253,9 +253,10 @@ namespace EbonianMod
         }
         void EventClear(On_NPC.orig_SetEventFlagCleared orig, ref bool eventFlag, int gameEventId)
         {
-            if (gameEventId == 3 && !eventFlag)
+            if (gameEventId == 3 && !GetInstance<EbonianSystem>().xareusFuckingDies && GetInstance<EbonianSystem>().downedXareus)
             {
                 NPC.NewNPCDirect(null, Main.player[0].Center, NPCType<ArchmageCutsceneMartian>(), 0, -1);
+                GetInstance<EbonianSystem>().xareusFuckingDies = true;
             }
             orig(ref eventFlag, gameEventId);
         }

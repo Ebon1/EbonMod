@@ -134,7 +134,7 @@ namespace EbonianMod.NPCs.ArchmageX
 
             EbonianPlayer p = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
             float dist = Main.LocalPlayer.Distance(NPC.Center);
-            if (NPC.downedMartians)
+            if (NPC.downedMartians && GetInstance<EbonianSystem>().downedXareus)
             {
                 if (!GetInstance<EbonianSystem>().gotTheStaff)
                 {
@@ -179,8 +179,10 @@ namespace EbonianMod.NPCs.ArchmageX
                         DialogueSystem.NewDialogueBox(180, NPC.Center - new Vector2(0, 60), "YOU! Become my new wielder!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
                     if (NPC.ai[1] == 1060)
                         DialogueSystem.NewDialogueBox(200, NPC.Center - new Vector2(0, 60), "You are obviously more worthy than Master Xareus! Together we will destroy galaxies!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 5, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
-
                     if (NPC.ai[1] == 1260)
+                        DialogueSystem.NewDialogueBox(200, NPC.Center - new Vector2(0, 60), "Yes, yes! I can see it now! Your name, whatever it is, and the Great Archstaff of the Tragically Deceased Master Xareus!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 5, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+
+                    if (NPC.ai[1] == 2060)
                     {
                         Item.NewItem(null, NPC.getRect(), ItemType<StaffOfX>());
 

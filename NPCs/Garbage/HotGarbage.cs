@@ -1536,14 +1536,17 @@ namespace EbonianMod.NPCs.Garbage
             textAlpha = Lerp(textAlpha, 1, 0.05f);
             if (--numberTimer < 0)
                 numberAlpha = Lerp(numberAlpha, 0, 0.15f);
-            if (Projectile.ai[1] % 60 == 0 && Projectile.ai[0] > 60 && Projectile.ai[1] < 6 * 60)
+            if (Projectile.ai[1] % 60 == 0 && Projectile.ai[0] > 60)
             {
                 numberScaleOff += 0.5f;
-                SoundEngine.PlaySound(EbonianSounds.heartbeat.WithVolumeScale(5 + numberScaleOff));
-                Main.instance.CameraModifiers.Add(new PunchCameraModifier(targetPos, Helper.FromAToB(targetPos, Main.LocalPlayer.Center), 23, 10, 60, 2000));
-                numberAlpha = 1;
-                number = Projectile.ai[1] / 60;
-                numberTimer = 20;
+                if (Projectile.ai[1] < 6 * 60)
+                {
+                    SoundEngine.PlaySound(EbonianSounds.buzz.WithPitchOffset((numberScaleOff + 1) * 0.04f));
+                    Main.instance.CameraModifiers.Add(new PunchCameraModifier(targetPos, Helper.FromAToB(targetPos, Main.LocalPlayer.Center), 23, 10, 60, 2000));
+                    numberAlpha = 1;
+                    number = Projectile.ai[1] / 60;
+                    numberTimer = 20;
+                }
             }
             if (Projectile.ai[2] < 1f)
                 Projectile.ai[2] += 0.05f;
