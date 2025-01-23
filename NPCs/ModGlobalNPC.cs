@@ -18,6 +18,7 @@ using EbonianMod.NPCs.Garbage;
 using EbonianMod.Items.Weapons.Magic;
 using EbonianMod.NPCs.Cecitior;
 using EbonianMod.Items.Armor.Vanity;
+using EbonianMod.NPCs.ArchmageX;
 
 namespace EbonianMod.NPCs
 {
@@ -46,6 +47,32 @@ namespace EbonianMod.NPCs
     }
     public class NonInstancedGlobalNPC : GlobalNPC
     {
+        public override void GetChat(NPC npc, ref string chat)
+        {
+            if (npc.type == NPCID.Wizard)
+            {
+                if (Main.rand.NextBool(10))
+                {
+                    WeightedRandom<string> _chat = new();
+                    if (GetInstance<EbonianSystem>().xareusFuckingDies)
+                        _chat.Add("Hah! The martians really did a number on old Xareus... What a fool...");
+                    else if (GetInstance<EbonianSystem>().downedXareus)
+                        _chat.Add("Hm, I see you've taken care of that foul 'Archmage'... Good job.");
+                    else if (Main.LocalPlayer.GetModPlayer<EbonianPlayer>().timesDiedToXareus > 0)
+                    {
+                        _chat.Add("So you've met the so-called 'Archmage'... He's an insult to the art of sorcery as a whole.");
+                        _chat.Add("It saddens me to see how highly that 'Archmage' views himself, what a reckless moron.");
+                    }
+                    else if (NPC.AnyNPCs(NPCType<ArchmageStaffNPC>()))
+                    {
+                        _chat.Add("You really oughta look into that abandoned looking purple shack, if I recall right, it was the home of an incredibly reckless freak.");
+                        _chat.Add("Have you still not checked up on that weird purple shack? A self proclaimed 'Archmage' dwells there...");
+                    }
+
+                    chat = _chat;
+                }
+            }
+        }
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
             if (npc.type == NPCID.Zombie)
