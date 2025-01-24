@@ -536,6 +536,7 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer >= 665 && player.Distance(NPC.Center) > 4500 / 2)
                 {
                     NPC.immortal = false;
+                    GetInstance<DownedBossSystem>().downedGarbage = true;
                     NPC.dontTakeDamage = false;
                     NPC.StrikeInstantKill();
                 }

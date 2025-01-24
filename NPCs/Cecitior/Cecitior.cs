@@ -585,6 +585,7 @@ namespace EbonianMod.NPCs.Cecitior
                     }*/
                 NPC.dontTakeDamage = false;
                 NPC.life = 0;
+                GetInstance<DownedBossSystem>().downedCecitior = true;
                 SoundEngine.PlaySound(EbonianSounds.evilOutro);
                 NPC.checkDead();
             }

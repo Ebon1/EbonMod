@@ -491,6 +491,7 @@ namespace EbonianMod.NPCs.Terrortoma
                         SoundEngine.PlaySound(EbonianSounds.evilOutro);
                         NPC.immortal = false;
                         NPC.life = 0;
+                        GetInstance<DownedBossSystem>().downedTerrortoma = true;
                         //if (!EbonianAchievementSystem.acquiredAchievement[1])
                         //  InGameNotificationsTracker.AddNotification(new EbonianAchievementNotification(1));
                         NPC.checkDead();
