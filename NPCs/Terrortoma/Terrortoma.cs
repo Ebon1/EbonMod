@@ -34,6 +34,7 @@ using EbonianMod.Items.BossTreasure;
 using EbonianMod.Items.Pets.Hightoma;
 using EbonianMod.Items.Tiles.Trophies;
 using EbonianMod.Items.Tiles;
+using EbonianMod.Items.Armor.Vanity;
 
 namespace EbonianMod.NPCs.Terrortoma
 {
@@ -59,6 +60,7 @@ namespace EbonianMod.NPCs.Terrortoma
             notExpertRule.OnSuccess(new CommonDrop(ItemType<Ostertagi>(), 1));
             npcLoot.Add(notExpertRule);
 
+            npcLoot.Add(ItemDropRule.Common(ItemType<TTomaMask>(), 4));
             npcLoot.Add(ItemDropRule.Common(ItemType<TerrortomaTrophy>(), 4));
             npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ItemType<CursedCone>(), 4));
             npcLoot.Add(ItemDropRule.MasterModeCommonDrop(ItemType<TerrortomaRelic>()));

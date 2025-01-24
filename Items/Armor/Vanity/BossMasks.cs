@@ -24,4 +24,8 @@ namespace EbonianMod.Items.Armor.Vanity
     public class XMask : BossMask { }
     [AutoloadEquip(EquipType.Head)]
     public class GarbageMask : BossMask { }
+    [AutoloadEquip(EquipType.Head)]
+    public class TTomaMask : BossMask { }
+    [AutoloadEquip(EquipType.Head)]
+    public class CeciMask : BossMask { }
 }

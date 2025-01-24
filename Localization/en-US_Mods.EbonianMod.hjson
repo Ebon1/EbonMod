@@ -936,6 +936,16 @@ Items: {
 		DisplayName: Garbage Mask
 		Tooltip: ""
 	}
+
+	CeciMask: {
+		DisplayName: Ceci Mask
+		Tooltip: ""
+	}
+
+	TTomaMask: {
+		DisplayName: T Toma Mask
+		Tooltip: ""
+	}
 }
 
 Buffs: {

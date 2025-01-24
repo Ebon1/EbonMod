@@ -31,7 +31,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useAnimation = 40;
             Item.useTime = 40;
             Item.knockBack = 4f;
-            Item.damage = 35;
+            Item.damage = 25;
             Item.noUseGraphic = true;
             Item.shoot = ProjectileType<GarbageFlailP>();
             Item.shootSpeed = 1;
