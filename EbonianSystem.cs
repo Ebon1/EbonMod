@@ -211,7 +211,7 @@ namespace EbonianMod
                     {
                         if (npc.Center.Distance(player.Center) < 800 && !NPC.AnyNPCs(NPCType<ArchmageX>()) && stickZoomLerpVal > 0)
                         {
-                            Main.screenPosition = Vector2.SmoothStep(Main.screenPosition, npc.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), stickZoomLerpVal) + new Vector2(ScreenShakeAmount * Main.rand.NextFloat(), ScreenShakeAmount * Main.rand.NextFloat());
+                            Main.screenPosition = Vector2.SmoothStep(player.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), npc.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), stickZoomLerpVal) + new Vector2(ScreenShakeAmount * Main.rand.NextFloat(), ScreenShakeAmount * Main.rand.NextFloat());
                         }
                         break;
                     }

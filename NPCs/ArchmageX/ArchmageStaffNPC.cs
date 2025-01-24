@@ -448,7 +448,7 @@ namespace EbonianMod.NPCs.ArchmageX
             else
             {
                 EbonianSystem.stickZoomLerpVal = MathHelper.SmoothStep(EbonianSystem.stickZoomLerpVal, 0, 0.2f);
-                if (EbonianSystem.stickZoomLerpVal.CloseTo(0, 0.01f)
+                if (EbonianSystem.stickZoomLerpVal.CloseTo(0, 0.01f))
                     EbonianSystem.stickZoomLerpVal = 0;
             }
             if (NPC.AnyNPCs(NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0 || GetInstance<EbonianSystem>().gotTheStaff)
