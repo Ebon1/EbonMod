@@ -225,11 +225,14 @@ namespace EbonianMod.Items.Weapons.Magic
                 rotation.ToRotationVector2() * holdOffset * ScaleFunction(swingProgress);
             if (Projectile.timeLeft > swingTime)
             {
-                player.SetCompositeArmFront(true, stretch, rotation - MathHelper.PiOver2); return;
+                if (player.gravDir != -1)
+                    player.SetCompositeArmFront(true, stretch, rotation - MathHelper.PiOver2);
+                return;
             }
             Projectile.Center = position;
             Projectile.rotation = (position - player.Center).ToRotation() + MathHelper.PiOver4;
-            player.SetCompositeArmFront(true, stretch, rotation - MathHelper.PiOver2);
+            if (player.gravDir != -1)
+                player.SetCompositeArmFront(true, stretch, rotation - MathHelper.PiOver2);
 
             if (lerpProg > -1 && swingProgress > 0.15f && swingProgress < 0.85f && Projectile.timeLeft % 2 == 0)
             {

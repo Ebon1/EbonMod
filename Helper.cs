@@ -196,7 +196,7 @@ namespace EbonianMod
         }
         public static Matrix GetMatrix()
         {
-            if (CheckGraphicsChanged())
+            //if (CheckGraphicsChanged())
             {
                 var device = Main.graphics.GraphicsDevice;
                 int width = device.Viewport.Width;
@@ -205,9 +205,9 @@ namespace EbonianMod
                 view =
                     Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up)
                     * Matrix.CreateTranslation(width / 2, height / -2, 0)
-                    * Matrix.CreateRotationZ(MathHelper.Pi)
+                    * Matrix.CreateRotationZ(Pi)
                     * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
-                projection = Matrix.CreateOrthographic(width, height, 0, 1000);
+                projection = Matrix.CreateOrthographic(width, height * Main.LocalPlayer.gravDir, 0, 1000);
             }
 
             return view * projection;

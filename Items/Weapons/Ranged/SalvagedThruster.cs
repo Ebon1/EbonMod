@@ -102,7 +102,8 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.Center = pos;
             player.heldProj = Projectile.whoAmI;
             Projectile.rotation = Projectile.velocity.ToRotation();
-            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - PiOver2);
+            if (player.gravDir != -1)
+                player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - PiOver2);
             Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(player.Center, Main.MouseWorld), 0.2f).SafeNormalize(Vector2.UnitX);
 
             Projectile.ai[2]++;

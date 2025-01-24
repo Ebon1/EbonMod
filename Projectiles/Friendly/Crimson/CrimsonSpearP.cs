@@ -121,7 +121,8 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                         Projectile.timeLeft = 2;
                 Vector2 position = player.MountedCenter +
                     Projectile.velocity * (10 * Projectile.localAI[1]);
-                player.SetCompositeArmFront(true, stretch, Projectile.velocity.ToRotation() - MathHelper.PiOver2);
+                if (player.gravDir != -1)
+                    player.SetCompositeArmFront(true, stretch, Projectile.velocity.ToRotation() - MathHelper.PiOver2);
 
                 Projectile.Center = position;
             }

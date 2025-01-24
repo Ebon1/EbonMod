@@ -155,7 +155,8 @@ namespace EbonianMod.Items.Weapons.Magic
                 player.itemTime = 2;
                 player.itemAnimation = 2;
                 player.itemRotation = Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() + (player.direction == -1 ? MathHelper.Pi : 0);
-                player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() - MathHelper.PiOver2);
+                if (player.gravDir != -1)
+                    player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() - MathHelper.PiOver2);
                 Projectile.velocity = Helper.FromAToB(player.Center, Main.MouseWorld);
                 Projectile.rotation = Projectile.velocity.ToRotation();
 

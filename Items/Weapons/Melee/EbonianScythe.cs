@@ -72,7 +72,8 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.Center = position;
             Projectile.rotation = (position - player.Center).ToRotation() + MathHelper.PiOver4;
             player.ChangeDir(Projectile.velocity.X < 0 ? -1 : 1);
-            player.SetCompositeArmFront(true, stretch, rotation - MathHelper.PiOver2);
+            if (player.gravDir != -1)
+                player.SetCompositeArmFront(true, stretch, rotation - MathHelper.PiOver2);
         }
         public override void PostDraw(Color lightColor)
         {

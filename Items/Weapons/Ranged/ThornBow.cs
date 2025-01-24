@@ -126,8 +126,10 @@ namespace EbonianMod.Items.Weapons.Ranged
             pos += (Projectile.velocity.ToRotation()).ToRotationVector2() * holdOffset;
             Projectile.Center = pos;
             Projectile.rotation = Projectile.velocity.ToRotation();
-            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2);
-            player.SetCompositeArmBack(true, Projectile.timeLeft > 50 || Projectile.timeLeft < 5 ? Player.CompositeArmStretchAmount.Quarter : Player.CompositeArmStretchAmount.None, Projectile.velocity.ToRotation() - MathHelper.PiOver2);
+            if (player.gravDir != -1)
+                player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2);
+            if (player.gravDir != -1)
+                player.SetCompositeArmBack(true, Projectile.timeLeft > 50 || Projectile.timeLeft < 5 ? Player.CompositeArmStretchAmount.Quarter : Player.CompositeArmStretchAmount.None, Projectile.velocity.ToRotation() - MathHelper.PiOver2);
             if (Projectile.timeLeft > 25)
             {
                 if (Projectile.timeLeft == maxTime - 1)

@@ -135,10 +135,11 @@ namespace EbonianMod.Items.Weapons.Ranged
             player.ChangeDir(Projectile.velocity.X < 0 ? -1 : 1);
             player.itemRotation = (Projectile.velocity.ToRotation() + Projectile.ai[0]) * player.direction;
             pos += (Projectile.velocity.ToRotation() + Projectile.ai[0]).ToRotationVector2() * holdOffset;
-            if (Projectile.ai[2] == 0)
-                player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2 + Projectile.ai[0]);
-            else
-                player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2 + Projectile.ai[0]);
+            if (player.gravDir != -1)
+                if (Projectile.ai[2] == 0)
+                    player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2 + Projectile.ai[0]);
+                else
+                    player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2 + Projectile.ai[0]);
             Projectile.rotation = (pos - player.Center).ToRotation() + Projectile.ai[0] * Projectile.spriteDirection;
             Projectile.Center = pos - Vector2.UnitY * 2;
             if (player.itemTime <= 2)

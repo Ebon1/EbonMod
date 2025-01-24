@@ -105,8 +105,10 @@ namespace EbonianMod.Items.Weapons.Melee
                 player.ChangeDir(Projectile.velocity.X < 0 ? -1 : 1);
                 player.itemRotation = Projectile.velocity.ToRotation() * player.direction;
                 pos += Projectile.velocity.ToRotation().ToRotationVector2() * holdOffset;
-                player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2);
-                Projectile.rotation = (pos - player.Center).ToRotation() + MathHelper.PiOver2 - MathHelper.PiOver4 * Projectile.spriteDirection;
+                if (player.gravDir != -1)
+                    player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2);
+                if (player.gravDir != -1)
+                    Projectile.rotation = (pos - player.Center).ToRotation() + MathHelper.PiOver2 - MathHelper.PiOver4 * Projectile.spriteDirection;
                 Projectile.Center = pos;
                 player.itemTime = 2;
                 player.itemAnimation = 2;

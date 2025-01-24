@@ -76,8 +76,10 @@ namespace EbonianMod.Items.Misc
                 stretch = Player.CompositeArmStretchAmount.Full;
                 Projectile.rotation = MathHelper.Lerp(Projectile.rotation, (Projectile.velocity.RotatedBy(MathF.Sin(Main.GlobalTimeWrappedHourly * 10) * 0.5f).ToRotation() * -player.direction) - (MathHelper.PiOver2 * player.direction), 0.1f);
             }
-            player.SetCompositeArmFront(true, stretch, Projectile.rotation + MathHelper.Pi);
-            player.SetCompositeArmBack(true, stretch, Projectile.rotation + (MathHelper.PiOver4 / 8) + MathHelper.Pi);
+            if (player.gravDir != -1)
+                player.SetCompositeArmFront(true, stretch, Projectile.rotation + MathHelper.Pi);
+            if (player.gravDir != -1)
+                player.SetCompositeArmBack(true, stretch, Projectile.rotation + (MathHelper.PiOver4 / 8) + MathHelper.Pi);
             if (Projectile.timeLeft == 22)
             {
                 int dmg = player.statLifeMax2 - 20;

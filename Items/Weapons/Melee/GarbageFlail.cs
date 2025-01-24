@@ -115,7 +115,8 @@ namespace EbonianMod.Items.Weapons.Melee
             pos += (Projectile.velocity.ToRotation()).ToRotationVector2() * holdOffset;
             Projectile.Center = pos;
             Projectile.rotation = Projectile.velocity.ToRotation() + Projectile.direction == -1 ? MathHelper.Pi : 0;
-            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2);
+            if (player.gravDir != -1)
+                player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2);
             Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(player.Center, Main.MouseWorld), lerpT).SafeNormalize(Vector2.UnitX);
 
             Projectile.ai[0] = MathHelper.Clamp(MathHelper.Lerp(Projectile.ai[0], 1, 0.05f), 0, 1);

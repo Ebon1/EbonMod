@@ -140,8 +140,10 @@ namespace EbonianMod.Items.Misc
             }
             Projectile.rotation = MathHelper.PiOver4 + (player.direction == 1 ? MathHelper.Pi : 0);
             Projectile.direction = player.direction;
-            player.SetCompositeArmFront(true, stretch, Projectile.rotation + MathHelper.Pi - MathHelper.PiOver4 - MathHelper.PiOver2);
-            player.SetCompositeArmBack(true, stretch, Projectile.rotation + (MathHelper.PiOver4 / 8) + MathHelper.Pi - MathHelper.PiOver4 - MathHelper.PiOver2);
+            if (player.gravDir != -1)
+                player.SetCompositeArmFront(true, stretch, Projectile.rotation + MathHelper.Pi - MathHelper.PiOver4 - MathHelper.PiOver2);
+            if (player.gravDir != -1)
+                player.SetCompositeArmBack(true, stretch, Projectile.rotation + (MathHelper.PiOver4 / 8) + MathHelper.Pi - MathHelper.PiOver4 - MathHelper.PiOver2);
 
         }
         public override bool PreDraw(ref Color lightColor)

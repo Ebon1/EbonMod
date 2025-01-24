@@ -170,7 +170,8 @@ namespace EbonianMod.Items.Weapons.Melee
             float start = defRot - (MathHelper.PiOver2 + MathHelper.PiOver4);
             float end = defRot + (MathHelper.PiOver2 + MathHelper.PiOver4);
             float rot = direction == 1 ? start + MathHelper.Pi * 3 / 2 * swingProgress : end - MathHelper.Pi * 3 / 2 * swingProgress;
-            player.SetCompositeArmFront(true, stretch, rot - MathHelper.PiOver2);
+            if (player.gravDir != -1)
+                player.SetCompositeArmFront(true, stretch, rot - MathHelper.PiOver2);
         }
         List<float> oldP = new List<float>(30);
         public override bool PreDraw(ref Color lightColor)
