@@ -44,7 +44,7 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ItemType<CrimCannon>(), 35));
+            npcLoot.Add(ItemDropRule.Common(ItemType<CrimCannon>(), 60));
         }
         public override void OnSpawn(IEntitySource source)
         {

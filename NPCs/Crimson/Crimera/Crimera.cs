@@ -21,7 +21,7 @@ namespace EbonianMod.NPCs.Crimson.Crimera
     {
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Melee.Spinax>(), 35));
+            npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Melee.Spinax>(), 50));
         }
 
         //public override bool HasCustomBodySegments => true;

@@ -108,7 +108,7 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Magic.GoreSceptre>(), 35));
+            npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Magic.GoreSceptre>(), 45));
         }
         public override void FindFrame(int frameHeight)
         {
