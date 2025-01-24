@@ -648,10 +648,15 @@ namespace EbonianMod.NPCs.ArchmageX
                         FacePlayer();
                         if (AITimer == 1)
                         {
-                            helicopterSlot = SoundEngine.PlaySound(EbonianSounds.helicopter.WithVolumeScale(0));
+                            helicopterSlot = SoundEngine.PlaySound(EbonianSounds.helicopter.WithVolumeScale(0.01f));
                             NPC.dontTakeDamage = true;
                             if (EbonianSystem.heardXareusIntroMonologue || GetInstance<EbonianSystem>().downedXareus)
                                 AITimer = 339;
+                        }
+
+                        if (SoundEngine.TryGetActiveSound(helicopterSlot, out var sound))
+                        {
+                            sound.Volume = 0;
                         }
                         if (AITimer < 50 || AITimer > 350)
                         {
@@ -1052,7 +1057,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             headFrame.Y = ShockedFace;
                             Vector2 pos = staffTip + Helper.FromAToB(staffTip, player.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(10, 50);
-                            Dust.NewDustPerfect(pos, DustType<SparkleDust>(), Helper.FromAToB(staffTip, pos) * Main.rand.NextFloat(3, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                            Dust.NewDustPerfect(pos, DustType<SparkleDust>(), Helper.FromAToB(staffTip, player.Center).RotatedByRandom(PiOver4) * Main.rand.NextFloat(3, 7), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
                         }
                         NPC.velocity.X += -NPC.direction * .05f;
                         NPC.velocity.X *= 0.95f;
@@ -1070,9 +1075,9 @@ namespace EbonianMod.NPCs.ArchmageX
                             {
                                 Vector2 pos = NPC.Center + Helper.FromAToB(staffTip, player.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(10, 50);
                                 if (i % 2 == 0)
-                                    Dust.NewDustPerfect(pos, DustType<SparkleDust>(), Helper.FromAToB(staffTip, pos) * Main.rand.NextFloat(10, 15), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                                    Dust.NewDustPerfect(pos, DustType<SparkleDust>(), Helper.FromAToB(staffTip, player.Center).RotatedByRandom(PiOver4) * Main.rand.NextFloat(10, 15), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
                                 else
-                                    Dust.NewDustPerfect(pos, DustType<LineDustFollowPoint>(), Helper.FromAToB(staffTip, pos) * Main.rand.NextFloat(10, 15), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
+                                    Dust.NewDustPerfect(pos, DustType<LineDustFollowPoint>(), Helper.FromAToB(staffTip, player.Center).RotatedByRandom(PiOver4) * Main.rand.NextFloat(10, 15), 0, Color.Indigo, Main.rand.NextFloat(0.05f, 0.175f));
                             }
                             if (!phase2)
                                 Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(staffTip, player.Center).RotatedByRandom(MathHelper.PiOver4) * (phaseMult == 3 ? 4 : 5f), ProjectileType<XSpirit>(), 15, 0);
