@@ -60,8 +60,9 @@ namespace EbonianMod.NPCs
                         _chat.Add("Hm, I see you've taken care of that idiotic 'Archmage'... Good job!");
                     else if (Main.LocalPlayer.GetModPlayer<EbonianPlayer>().timesDiedToXareus > 0)
                     {
-                        _chat.Add("So you've met the so-called 'Archmage'... What an insult to magic as a whole.");
-                        _chat.Add("It really saddens me to see how highly that 'Archmage' views himself, what a reckless moron.");
+                        _chat.Add("So you’ve met the so-called ‘archmage’. Pah! He couldn’t cast with an amethyst staff!");
+                        _chat.Add("The ‘apex of magic’ as he calls himself is just a monument to hubris! I’ve seen slimes more magical!");
+                        _chat.Add("That fool is still out there? Pay him little mind, or else you’ll never hear the end of it!");
                     }
                     else if (NPC.AnyNPCs(NPCType<ArchmageStaffNPC>()))
                     {

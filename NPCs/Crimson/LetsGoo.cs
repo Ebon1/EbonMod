@@ -35,11 +35,11 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Melee.SanguineSlasher>(), 20));
+            npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Melee.SanguineSlasher>(), 50));
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneCrimson ? 0.25f : 0;
+            return spawnInfo.Player.ZoneCrimson ? 0.2f : 0;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {

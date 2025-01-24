@@ -54,7 +54,7 @@ namespace EbonianMod.NPCs.Crimson
         {
             if (spawnInfo.Player.ZoneCrimson && spawnInfo.Player.ZoneOverworldHeight)
             {
-                return .5f;
+                return .4f;
             }
             else
             {

@@ -30,7 +30,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneCorrupt ? 0.2f : 0;
+            return spawnInfo.Player.ZoneCorrupt ? 0.18f : 0;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
