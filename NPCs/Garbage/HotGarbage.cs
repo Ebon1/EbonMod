@@ -542,7 +542,6 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer >= 665 && player.Distance(NPC.Center) > 4500 / 2)
                 {
                     NPC.immortal = false;
-                    GetInstance<DownedBossSystem>().downedGarbage = true;
                     NPC.dontTakeDamage = false;
                     NPC.StrikeInstantKill();
                 }
@@ -1530,6 +1529,7 @@ namespace EbonianMod.NPCs.Garbage
         public override void Kill(int timeLeft)
         {
             EbonianSystem.TemporarilySetMusicTo0(600);
+            GetInstance<DownedBossSystem>().downedGarbage = true;
             SoundEngine.PlaySound(EbonianSounds.nuke);
             SoundEngine.PlaySound(EbonianSounds.garbageDeath);
             foreach (Player player in Main.player)
@@ -1541,6 +1541,7 @@ namespace EbonianMod.NPCs.Garbage
                 }
 
             }
+
 
             foreach (NPC npc in Main.npc)
             {
