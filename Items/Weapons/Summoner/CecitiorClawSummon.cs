@@ -54,7 +54,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.Hook).AddIngredient(ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.VampireFrogStaff).AddIngredient(ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 }

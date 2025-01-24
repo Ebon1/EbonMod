@@ -33,8 +33,12 @@ namespace EbonianMod.Items.Weapons.Summoner
         {
             return true;
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.BlandWhip).AddIngredient(ItemID.Ichor, 30).AddTile(TileID.MythrilAnvil).Register();
+        }
     }
-   
+
 
 
     public class BloodlashPro : ModProjectile

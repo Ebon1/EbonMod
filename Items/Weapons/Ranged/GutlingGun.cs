@@ -18,7 +18,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             Item.DamageType = DamageClass.Ranged;
-            Item.damage = 30;
+            Item.damage = 48;
             Item.useTime = 1;
             Item.useAnimation = 10;
             Item.reuseDelay = 25;
@@ -39,7 +39,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.TheUndertaker).AddIngredient(ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.ChainGun).AddIngredient(ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -67,6 +67,12 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             ProjectileID.Sets.DontCancelChannelOnKill[Type] = true;
         }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = Helper.GetTexture(Texture);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, 30 * Projectile.frame, Projectile.width, 30), lightColor, Projectile.rotation, Projectile.Size / 2, Projectile.scale, Projectile.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically);
+            return false;
+        }
         public override bool? CanDamage() => false;
         public override void AI()
         {
@@ -92,7 +98,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() - MathHelper.PiOver2);
             Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(player.Center, Main.MouseWorld), 0.15f - MathHelper.Lerp(0.09f, 0f, Projectile.ai[0] / 4)).SafeNormalize(Vector2.UnitX);
             if (Projectile.ai[0] > 2)
-                Projectile.ai[0] -= 0.1f;
+                Projectile.ai[0] -= .6f;
             if (++Projectile.ai[1] > Projectile.ai[0])
             {
                 bool success = false;

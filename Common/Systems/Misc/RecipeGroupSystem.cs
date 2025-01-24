@@ -11,7 +11,7 @@ namespace EbonianMod.Common.Systems.Misc
         public static RecipeGroup SilverBars;
         public override void AddRecipeGroups()
         {
-            SilverBars = new RecipeGroup(() => "SilverOrTungsten", [ItemID.SilverBar, ItemID.TungstenBar]);
+            // SilverBars = new RecipeGroup(() => "SilverOrTungsten", [ItemID.SilverBar, ItemID.TungstenBar]);
         }
     }
 }

@@ -37,7 +37,7 @@ namespace EbonianMod.Items.Weapons.Melee
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.CursedFlame, 20).AddIngredient(ItemID.SoulofNight, 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.CursedFlame, 20).AddIngredient(ItemID.SoulofNight, 10).AddIngredient(ItemID.RottenChunk, 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool? CanAutoReuseItem(Player player) => false;
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

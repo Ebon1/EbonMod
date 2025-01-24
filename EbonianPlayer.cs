@@ -34,7 +34,7 @@ namespace EbonianMod
         public static EbonianPlayer Instance;
         public Vector2 stabDirection;
         public int reiBoostCool, reiBoostT, xTentCool;
-        public bool rolleg, brainAcc, heartAcc, ToxicGland, rei, reiV, sheep, xTent;
+        public bool rolleg, brainAcc, heartAcc, ToxicGland, hotShield, rei, reiV, sheep, xTent;
         public bool doomMinion, xMinion, cClawMinion, titteringMinion;
         public override bool Shoot(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -50,6 +50,8 @@ namespace EbonianMod
         }
         public override void ResetEffects()
         {
+            if (hotShield)
+                Player.CancelAllBootRunVisualEffects();
             if (NPC.AnyNPCs(NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ProjectileType<ArchmageXSpawnAnim>()] > 0)
                 Player.noBuilding = true;
             reiBoostCool--;
@@ -59,6 +61,7 @@ namespace EbonianMod
             rei = false;
             reiV = false;
             rolleg = false;
+            hotShield = false;
             doomMinion = false;
             xMinion = false;
             titteringMinion = false;
@@ -81,6 +84,8 @@ namespace EbonianMod
         {
             if (platformWhoAmI != -1)
                 Player.position.X += Platform.velocity.X;
+            if (hotShield)
+                Player.CancelAllBootRunVisualEffects();
         }
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
@@ -126,6 +131,8 @@ namespace EbonianMod
                 Player.channel = false;
                 Player.blockExtraJumps = true;
             }
+            if (hotShield)
+                Player.CancelAllBootRunVisualEffects();
         }
         public override bool CanStartExtraJump(ExtraJump jump)
         {
@@ -141,6 +148,12 @@ namespace EbonianMod
         }
         public override void PostUpdateMiscEffects()
         {
+            if (hotShield)
+            {
+                Player.CancelAllBootRunVisualEffects();
+                Player.accRunSpeed *= 0.7f;
+                Player.moveSpeed *= 0.7f;
+            }
             EbonianMod.sys.UpdateParticles();
             Player.ManageSpecialBiomeVisuals("EbonianMod:XMartian", NPC.AnyNPCs(NPCType<ArchmageCutsceneMartian>()));
             //Player.ManageSpecialBiomeVisuals("EbonianMod:Conglomerate", NPC.AnyNPCs(NPCType<Conglomerate>()));
@@ -168,9 +181,13 @@ namespace EbonianMod
         {
             if (brainAcc)
                 Player.lifeRegen += 5;
+            if (hotShield)
+                Player.CancelAllBootRunVisualEffects();
         }
         public override void PostUpdateBuffs()
         {
+            if (hotShield)
+                Player.CancelAllBootRunVisualEffects();
             if (NPC.AnyNPCs(NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ProjectileType<ArchmageXSpawnAnim>()] > 0)
                 Player.noBuilding = true;
             if (sheep)
@@ -186,6 +203,10 @@ namespace EbonianMod
         }
         public override void PostUpdate()
         {
+            if (hotShield)
+            {
+                Player.CancelAllBootRunVisualEffects();
+            }
             if (NPC.AnyNPCs(NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ProjectileType<ArchmageXSpawnAnim>()] > 0)
                 Player.noBuilding = true;
             if (flashTime > 0)

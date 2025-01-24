@@ -40,7 +40,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.channel = true;
             Item.DamageType = DamageClass.Magic;
             Item.UseSound = SoundID.Item1;
-            Item.useStyle = ItemUseStyleID.Swing;
+            Item.useStyle = ItemUseStyleID.HiddenAnimation;
             Item.rare = ItemRarityID.Yellow;
             Item.shootSpeed = 1f;
             Item.shoot = ProjectileType<StaffOfXP>();

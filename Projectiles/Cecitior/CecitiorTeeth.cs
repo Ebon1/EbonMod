@@ -126,7 +126,7 @@ namespace EbonianMod.Projectiles.Cecitior
         public override Color? GetAlpha(Color lightColor) => Color.White;
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            target.AddBuff(BuffID.Ichor, 30);
+            target.AddBuff(BuffID.Ichor, 250);
         }
         public override bool PreDraw(ref Color lightColor)
         {

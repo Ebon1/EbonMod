@@ -27,7 +27,10 @@ namespace EbonianMod.Items.Weapons.Summoner
 
             Item.channel = false;
         }
-
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.BlandWhip).AddIngredient(ItemID.CursedFlame, 30).AddTile(TileID.MythrilAnvil).Register();
+        }
         public override bool MeleePrefix()
         {
             return true;
@@ -169,7 +172,7 @@ namespace EbonianMod.Items.Weapons.Summoner
                     frame.Height = 10;
                     color = new Color(255, 255, 255, 128);
                 }
-                
+
                 element = list[i];
                 diff = list[i + 1] - element;
 

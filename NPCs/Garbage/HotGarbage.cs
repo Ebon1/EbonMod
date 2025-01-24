@@ -76,6 +76,7 @@ namespace EbonianMod.NPCs.Garbage
             notExpertRule.OnSuccess(new CommonDrop(ItemType<MailboxStaff>(), 4));
             notExpertRule.OnSuccess(new CommonDrop(ItemType<SalvagedThruster>(), 4));
             notExpertRule.OnSuccess(new CommonDrop(ItemType<GarbageFlail>(), 4));
+            notExpertRule.OnSuccess(new CommonDrop(ItemType<NastySnapper>(), 4));
             notExpertRule.OnSuccess(new CommonDrop(ItemType<PipebombI>(), 1, 20, 100));
             npcLoot.Add(notExpertRule);
 
