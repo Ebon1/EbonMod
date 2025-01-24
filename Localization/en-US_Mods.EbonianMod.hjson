@@ -717,7 +717,7 @@ Items: {
 
 	HotShield: {
 		DisplayName: Dumpster Lid
-		Tooltip: ""
+		Tooltip: Decreases movement speed by {0}%
 	}
 
 	CecitiorMaterial: {
