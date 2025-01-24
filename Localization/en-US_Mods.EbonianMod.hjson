@@ -938,12 +938,12 @@ Items: {
 	}
 
 	CeciMask: {
-		DisplayName: Ceci Mask
+		DisplayName: Cecitior Mask
 		Tooltip: ""
 	}
 
 	TTomaMask: {
-		DisplayName: T Toma Mask
+		DisplayName: Terrortoma Mask
 		Tooltip: ""
 	}
 }
