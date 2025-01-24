@@ -926,6 +926,16 @@ Items: {
 		DisplayName: Wool
 		Tooltip: ""
 	}
+
+	XMask: {
+		DisplayName: Xareus Mask
+		Tooltip: ""
+	}
+
+	GarbageMask: {
+		DisplayName: Garbage Mask
+		Tooltip: ""
+	}
 }
 
 Buffs: {

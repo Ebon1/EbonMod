@@ -36,6 +36,7 @@ using Terraria.GameContent.UI;
 using Terraria.Graphics.CameraModifiers;
 using EbonianMod.NPCs.ArchmageX;
 using System.Linq;
+using EbonianMod.Items.Armor.Vanity;
 
 namespace EbonianMod.NPCs.Garbage
 {
@@ -80,6 +81,7 @@ namespace EbonianMod.NPCs.Garbage
             notExpertRule.OnSuccess(new CommonDrop(ItemType<PipebombI>(), 1, 20, 100));
             npcLoot.Add(notExpertRule);
 
+            npcLoot.Add(ItemDropRule.Common(ItemType<GarbageMask>(), 4));
             npcLoot.Add(ItemDropRule.Common(ItemType<GarbageTrophy>(), 4));
             npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ItemType<GarbagePet>(), 4));
             npcLoot.Add(ItemDropRule.MasterModeCommonDrop(ItemType<XRelic>()));

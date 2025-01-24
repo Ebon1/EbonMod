@@ -19,6 +19,7 @@ namespace EbonianMod.Tiles.Trophies
 
         public virtual string RelicTextureName => "EbonianMod/Tiles/Trophies/MinionBossRelic";
         public override string Texture => "EbonianMod/Tiles/Trophies/RelicPedestal";
+        public virtual float YOffset => 0;
 
         public override void Load()
         {
@@ -114,7 +115,7 @@ namespace EbonianMod.Tiles.Trophies
 
             const float TwoPi = (float)Math.PI * 2f;
             float offset = (float)Math.Sin(Main.GlobalTimeWrappedHourly * TwoPi / 5f);
-            Vector2 drawPos = worldPos + offScreen - Main.screenPosition + new Vector2(0f, -40f) + new Vector2(0f, offset * 4f);
+            Vector2 drawPos = worldPos + offScreen - Main.screenPosition + new Vector2(0f, -40f) + new Vector2(0f, offset * 4f) + new Vector2(0, YOffset);
 
 
             spriteBatch.Draw(texture, drawPos, frame, color, 0f, origin, 1f, effects, 0f);
@@ -133,6 +134,7 @@ namespace EbonianMod.Tiles.Trophies
     public class GarbageRelicT : RelicsT
     {
         public override string RelicTextureName => "EbonianMod/Tiles/Trophies/" + this.Name;
+        public override float YOffset => -8;
 
     }
     public class CecitiorRelicT : RelicsT
@@ -148,6 +150,7 @@ namespace EbonianMod.Tiles.Trophies
     public class XRelicT : RelicsT
     {
         public override string RelicTextureName => "EbonianMod/Tiles/Trophies/" + this.Name;
+        public override float YOffset => -4;
 
     }
 }
