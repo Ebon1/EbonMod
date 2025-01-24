@@ -26,7 +26,7 @@ namespace EbonianMod.Projectiles.Garbage
             Projectile.height = 5;
             Projectile.aiStyle = -1;
             Projectile.friendly = false;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.hostile = true;
             Projectile.timeLeft = 350;
         }
@@ -48,6 +48,7 @@ namespace EbonianMod.Projectiles.Garbage
                 Projectile.velocity = Projectile.velocity.RotatedBy(Projectile.ai[0]) * 0.99f;
             else
             {
+                Projectile.tileCollide = true;
                 for (int i = 0; i < 5; i++)
                     Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.RainCloud);
                 if (Projectile.velocity.Length() < 16)

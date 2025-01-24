@@ -41,7 +41,8 @@ namespace EbonianMod.Projectiles.Garbage
                 SoundEngine.PlaySound(SoundID.Item177, Projectile.Center);
                 Projectile.timeLeft = 100;
             }
-            Projectile.velocity *= 0.5f;
+            Projectile.velocity.Y *= 0.5f;
+            Projectile.velocity.X = 0;
             Projectile.frame = 1;
             return false;
         }
@@ -51,6 +52,7 @@ namespace EbonianMod.Projectiles.Garbage
         }
         public override void AI()
         {
+            Projectile.tileCollide = Projectile.Center.Y > Main.player[Projectile.owner].Center.Y - 20;
             Projectile.velocity *= 1.025f;
             if (Projectile.velocity.Y > 0)
                 Projectile.velocity.X = MathHelper.Lerp(Projectile.velocity.X, 0, 0.03f);

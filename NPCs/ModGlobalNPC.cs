@@ -58,7 +58,7 @@ namespace EbonianMod.NPCs
                         _chat.Add("Hah! The martians really did a number on old Xareus... What a fool.");
                     else if (GetInstance<EbonianSystem>().downedXareus)
                         _chat.Add("Hm, I see you've taken care of that idiotic 'Archmage'... Good job!");
-                    else if (Main.LocalPlayer.GetModPlayer<EbonianPlayer>().timesDiedToXareus > 0)
+                    else if (GetInstance<EbonianSystem>().timesDiedToXareus > 0)
                     {
                         _chat.Add("So you’ve met the so-called ‘archmage’. Pah! He couldn’t cast with an amethyst staff!");
                         _chat.Add("The ‘apex of magic’ as he calls himself is just a monument to hubris! I’ve seen slimes more magical!");
@@ -69,7 +69,7 @@ namespace EbonianMod.NPCs
                         _chat.Add("You really oughta look into that abandoned looking purple shack, if I recall right, it was the home of an incredibly reckless freak.");
                         _chat.Add("Have you still not checked up on that weird purple shack? A self proclaimed 'Archmage' dwells there.");
                     }
-                    if (Main.LocalPlayer.GetModPlayer<EbonianPlayer>().timesDiedToXareus > 0)
+                    if (GetInstance<EbonianSystem>().timesDiedToXareus > 0)
                         _chat.Add("As much as I despise Xareus, his sheepening spell is quite... fascinating, to say the least.");
                     chat = _chat;
                 }

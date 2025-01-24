@@ -31,10 +31,18 @@ namespace EbonianMod
     public class EbonianSystem : ModSystem
     {
         public static float savedMusicVol, setMusicBackTimer, setMusicBackTimerMax;
+        public int timesDiedToXareus;
         public static void TemporarilySetMusicTo0(float time)
         {
             setMusicBackTimer = time;
             setMusicBackTimerMax = time;
+        }
+        public override void PostWorldGen()
+        {
+            downedXareus = false;
+            gotTheStaff = false;
+            xareusFuckingDies = false;
+            timesDiedToXareus = 0;
         }
         public override void UpdateUI(GameTime gameTime)
         {
@@ -62,12 +70,14 @@ namespace EbonianMod
             tag.Set("XarusDown", downedXareus);
             tag.Set("XarusDownForReal", gotTheStaff);
             tag.Set("XarusDownForRealReal", xareusFuckingDies);
+            tag.Set("XareusDieTimes", timesDiedToXareus);
         }
         public override void LoadWorldData(TagCompound tag)
         {
             downedXareus = tag.GetBool("XarusDown");
             gotTheStaff = tag.GetBool("XarusDownForReal");
             xareusFuckingDies = tag.GetBool("XarusDownForRealReal");
+            timesDiedToXareus = tag.GetInt("XareusDieTimes");
         }
         public override void PostUpdateEverything()
         {

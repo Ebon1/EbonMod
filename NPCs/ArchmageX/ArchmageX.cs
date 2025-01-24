@@ -507,9 +507,9 @@ namespace EbonianMod.NPCs.ArchmageX
                     AIState = Despawn;
                 }
             }
-            if (player.GetModPlayer<EbonianPlayer>().timesDiedToXareus <= 0)
+            if (GetInstance<EbonianSystem>().timesDiedToXareus <= 0)
             {
-                player.GetModPlayer<EbonianPlayer>().timesDiedToXareus = 1;
+                GetInstance<EbonianSystem>().timesDiedToXareus = 1;
             }
             if (GetArenaRect().Size().Length() > 100)
             {

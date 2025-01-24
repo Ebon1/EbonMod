@@ -33,7 +33,7 @@ namespace EbonianMod
         public Color bossColor, dialogueColor;
         public static EbonianPlayer Instance;
         public Vector2 stabDirection;
-        public int reiBoostCool, reiBoostT, timesDiedToXareus, xTentCool;
+        public int reiBoostCool, reiBoostT, xTentCool;
         public bool rolleg, brainAcc, heartAcc, ToxicGland, rei, reiV, sheep, xTent;
         public bool doomMinion, xMinion, cClawMinion, titteringMinion;
         public override bool Shoot(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -77,14 +77,6 @@ namespace EbonianMod
         public int platformDropTimer = 0;
 
         public Projectile Platform => Main.projectile[platformWhoAmI];
-        public override void SaveData(TagCompound tag)
-        {
-            tag.Set("XarusDeath", timesDiedToXareus);
-        }
-        public override void LoadData(TagCompound tag)
-        {
-            timesDiedToXareus = tag.GetInt("XarusDeath");
-        }
         public override void PreUpdateMovement()
         {
             if (platformWhoAmI != -1)

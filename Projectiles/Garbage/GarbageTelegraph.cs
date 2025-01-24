@@ -100,18 +100,18 @@ namespace EbonianMod.Projectiles.Garbage
                     float x = MathHelper.Clamp(MathHelper.SmoothStep(1, 0, (i / Projectile.ai[0]) * 5), 0, 1);
                     float f = MathHelper.Lerp(30, 0, x);
                     float alpha = MathHelper.Lerp(1, 0, x);
-                    Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.Red, i / Projectile.ai[0]) * (Projectile.ai[1] * alpha), Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.Red, i / Projectile.ai[0]) * (Projectile.ai[1] * alpha * Lerp(2, 0, i / Projectile.ai[0])), Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
                     pos += Projectile.rotation.ToRotationVector2();
 
                     for (int k = 0; k < 2; k++)
-                        Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.Red, i / Projectile.ai[0]) * (eAlpha * alpha * 0.5f), Projectile.rotation, new Vector2(0, tex.Height / 2), new Vector2(scale.X, scale.Y * f), SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.Red, i / Projectile.ai[0]) * (eAlpha * alpha * 0.5f * Lerp(2, 0, i / Projectile.ai[0])), Projectile.rotation, new Vector2(0, tex.Height / 2), new Vector2(scale.X, scale.Y * f), SpriteEffects.None, 0);
 
                     for (int j = -1; j < 2; j++)
                     {
                         if (j == 0) continue;
 
                         for (int k = 0; k < 4; k++)
-                            Main.spriteBatch.Draw(tex, pos + Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.PiOver2) * (f * Projectile.ai[2] * j) - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.Red, i / Projectile.ai[0]) * (eAlpha * alpha), Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
+                            Main.spriteBatch.Draw(tex, pos + Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.PiOver2) * (f * Projectile.ai[2] * j) - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.Red, i / Projectile.ai[0]) * (eAlpha * alpha * Lerp(2, 0, i / Projectile.ai[0])), Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
                     }
                 }
             }
@@ -128,7 +128,7 @@ namespace EbonianMod.Projectiles.Garbage
 
             Projectile.rotation = Projectile.velocity.ToRotation();
             if (Projectile.ai[0] == 0)
-                Projectile.ai[0] = Helper.TRay.CastLength(Projectile.Center, Projectile.rotation.ToRotationVector2(), 2000);
+                Projectile.ai[0] = 1300;
         }
     }
 }

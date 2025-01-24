@@ -21,9 +21,10 @@ namespace EbonianMod.Projectiles.Garbage
         }
         public override void SetDefaults()
         {
-            Projectile.aiStyle = 14;
-            AIType = ProjectileID.StickyGlowstick;
+            Projectile.aiStyle = 2;
+            AIType = ProjectileID.Shuriken;
             Projectile.width = 18;
+            Projectile.tileCollide = false;
             Projectile.timeLeft = 100;
             Projectile.height = 36;
         }
@@ -58,6 +59,12 @@ namespace EbonianMod.Projectiles.Garbage
         {
             if (savedP == 0)
                 savedP = Main.LocalPlayer.Center.Y;
+            Projectile.tileCollide = Projectile.Center.Y > savedP - 20;
+            if (Projectile.tileCollide)
+            {
+                Projectile.aiStyle = 14;
+                AIType = ProjectileID.StickyGlowstick;
+            }
             Dust.NewDustPerfect(Projectile.Center - new Vector2(-8, 15).RotatedBy(Projectile.rotation), DustID.Torch);
             if (Projectile.timeLeft == 30)
             {

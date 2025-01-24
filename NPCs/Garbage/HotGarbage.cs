@@ -35,6 +35,7 @@ using EbonianMod.Items.Tiles.Trophies;
 using Terraria.GameContent.UI;
 using Terraria.Graphics.CameraModifiers;
 using EbonianMod.NPCs.ArchmageX;
+using System.Linq;
 
 namespace EbonianMod.NPCs.Garbage
 {
@@ -252,7 +253,7 @@ namespace EbonianMod.NPCs.Garbage
             }
             else if ((AIState == Death && AITimer > 40) || AIState == SlamSlamSlam || (AIState == Dash && !(AITimer3 >= 22)) || AIState == BigDash || (AIState == PipeBombAirstrike && AITimer > 25) || (AIState == MassiveLaser && AITimer > 25))
             {
-                if (NPC.velocity.Length() > 1)
+                if ((AIState == PipeBombAirstrike || AIState == SlamSlamSlam ? AITimer > 200 : NPC.velocity.Length() > 4))
                 {
                     NPC.frame.X = 80;
                     if (NPC.frameCounter % 5 == 0)
@@ -304,6 +305,8 @@ namespace EbonianMod.NPCs.Garbage
                 NPC.frame.X = 160;
                 if (NPC.frameCounter % 5 == 0)
                 {
+                    if (NPC.frame.Y == frameHeight)
+                        SoundEngine.PlaySound(SoundID.Item37, NPC.Center);
                     if (NPC.frame.Y > 0)
                     {
                         NPC.frame.Y -= frameHeight;
@@ -428,7 +431,7 @@ namespace EbonianMod.NPCs.Garbage
         }
         public override void AI()
         {
-            if (AIState != Idle)
+            if (AIState != Idle && AIState != SlamSlamSlam && AIState != PipeBombAirstrike)
                 NPC.noTileCollide = false;
             Player player = Main.player[NPC.target];
             if (redFrames.Contains(new Vector2(NPC.frame.X, NPC.frame.Y)))
@@ -504,6 +507,8 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     if (NPC.frameCounter % 5 == 0)
                     {
+                        if (NPC.frame.Y == 76)
+                            SoundEngine.PlaySound(SoundID.Item37, NPC.Center);
                         if (NPC.frame.Y > 0)
                         {
                             NPC.frame.Y -= 76;
@@ -748,9 +753,10 @@ namespace EbonianMod.NPCs.Garbage
                 NPC.damage = 60;
                 if (AITimer < 50)
                     NPC.velocity.Y--;
+                if (AITimer < 200)
+                    NPC.noTileCollide = true;
                 if (AITimer >= 50 && AITimer < 200)
                 {
-                    NPC.noTileCollide = true;
                     if (AITimer < 176)
                         pos = player.Center - new Vector2(-player.velocity.X * 20, 500);
                     NPC.direction = NPC.spriteDirection = 1;
@@ -764,7 +770,6 @@ namespace EbonianMod.NPCs.Garbage
                     Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.UnitY, ProjectileType<GarbageTelegraph>(), 0, 0);
                 if (AITimer == 200)
                 {
-                    NPC.noTileCollide = false;
                     SoundEngine.PlaySound(EbonianSounds.exolDash, NPC.Center);
                     for (int i = -4; i < 4; i++)
                     {
@@ -772,12 +777,16 @@ namespace EbonianMod.NPCs.Garbage
                     }
                     NPC.velocity = new Vector2(0, 35);
                 }
-                if (AITimer > 200 && !NPC.collideY)
+                if (AITimer > 200 && NPC.Center.Y > player.Center.Y - NPC.width * 0.4f)
+                {
+                    NPC.noTileCollide = false;
+                }
+                if (AITimer > 200 && !NPC.collideY && NPC.noTileCollide)
                 {
                     NPC.Center += Vector2.UnitX * Main.rand.NextFloat(-1, 1);
                     NPC.velocity.Y += 0.015f;
                 }
-                if ((NPC.collideY || NPC.Grounded(offsetX: 0.5f)) && AITimer2 == 0 && AITimer >= 200)
+                if (!NPC.noTileCollide && (NPC.collideY || NPC.Grounded(offsetX: 0.5f)) && AITimer2 == 0 && AITimer >= 200)
                 {
                     SoundEngine.PlaySound(SoundID.Item62, NPC.Center);
                     NPC.velocity = -Vector2.UnitY * 3;
@@ -828,7 +837,7 @@ namespace EbonianMod.NPCs.Garbage
                     SoundEngine.PlaySound(EbonianSounds.exolDash, NPC.Center);
                 if (AITimer < 12)
                 {
-                    NPC.velocity += new Vector2(Helper.FromAToB(NPC.Center, player.Center).X * 1.6f, -1.2f);
+                    NPC.velocity += new Vector2(((Helper.FromAToB(NPC.Center, player.Center).X < 0) ? -3 : 3) * 1.6f, -1.2f);
                 }
                 if (AITimer % 6 == 0)
                 {
@@ -851,7 +860,10 @@ namespace EbonianMod.NPCs.Garbage
                 if (NextAttack2 == FallOver)
                     NPC.rotation -= ToRadians(-0.9f * 5 * NPC.direction);
                 if (AITimer == 1)
+                {
+                    SoundEngine.PlaySound(SoundID.DD2_BookStaffCast, NPC.Center);
                     Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ProjectileType<GreenShockwave>(), 0, 0);
+                }
 
             }
             else if (AIState == SpewFire)
@@ -1000,6 +1012,8 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     if (NPC.frameCounter % 5 == 0)
                     {
+                        if (NPC.frame.Y == 76)
+                            SoundEngine.PlaySound(SoundID.Item37, NPC.Center);
                         if (NPC.frame.Y > 0)
                         {
                             NPC.frame.Y -= 76;
@@ -1112,15 +1126,16 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer == 200)
                 {
-                    NPC.noTileCollide = false;
                     SoundEngine.PlaySound(EbonianSounds.exolDash, NPC.Center);
                     NPC.velocity = new Vector2(0, 50);
                 }
-                if (AITimer > 200 && !NPC.collideY)
+                if (AITimer > 200 && NPC.Center.Y > player.Center.Y - NPC.width * 0.4f)
+                    NPC.noTileCollide = false;
+                if (AITimer > 200 && !NPC.collideY && NPC.noTileCollide)
                 {
                     NPC.position.Y += NPC.velocity.Y;
                 }
-                if ((NPC.collideY || NPC.Grounded(offsetX: 0.5f)) && AITimer2 == 0 && AITimer >= 200)
+                if (!NPC.noTileCollide && (NPC.collideY || NPC.Grounded(offsetX: 0.5f)) && AITimer2 == 0 && AITimer >= 200)
                 {
                     SoundEngine.PlaySound(SoundID.Item62, NPC.Center);
                     NPC.velocity = -Vector2.UnitY * 3;
@@ -1359,7 +1374,9 @@ namespace EbonianMod.NPCs.Garbage
             {
                 Main.spriteBatch.Draw(circle, targetPos - Main.screenPosition, null, Color.Black * Projectile.ai[2] * 0.4f, 0, circle.Size() / 2, 4.8f, SpriteEffects.None, 0);
 
-                Main.spriteBatch.Draw(circle, targetPos - Main.screenPosition, null, color * chevron_alpha2 * 0.25f, Main.GameUpdateCount * 0.003f, circle.Size() / 2, 4.7f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(circle, targetPos - Main.screenPosition, null, color * chevron_alpha2 * 0.125f, Main.GameUpdateCount * -0.01f, circle.Size() / 2, 4.7f, SpriteEffects.None, 0);
+
+                Main.spriteBatch.Draw(circle, targetPos - Main.screenPosition, null, color * chevron_alpha2 * 0.125f, Main.GameUpdateCount * 0.01f, circle.Size() / 2, 4.7f, SpriteEffects.None, 0);
 
 
                 Main.spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Red * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 600) / 60f, 0, 1)));
@@ -1367,7 +1384,7 @@ namespace EbonianMod.NPCs.Garbage
                 Main.spriteBatch.Reload(BlendState.Additive);
                 Main.spriteBatch.Draw(pulse, targetPos - Main.screenPosition, null, Color.DarkRed * Projectile.ai[2], 0, pulse.Size() / 2, 4.5f, SpriteEffects.None, 0);
 
-                Main.spriteBatch.Draw(ring, targetPos - Main.screenPosition, null, color2 * (chevron_alpha2 * 0.5f), 0, ring.Size() / 2, chevron_alpha * 10, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ring, targetPos - Main.screenPosition, null, color2 * ((chevron_alpha2 * 0.5f) + SmoothStep(0, 1, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1))), 0, ring.Size() / 2, chevron_alpha * 10 + SmoothStep(0, 4, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1)), SpriteEffects.None, 0);
 
                 //Main.spriteBatch.Draw(pulse, targetPos - Main.screenPosition, null, Color.Maroon * alpha2, 0, pulse.Size() / 2, waveTimer * 2, SpriteEffects.None, 0);
                 if (chevronTimer2++ % 15 == 0)
@@ -1412,7 +1429,6 @@ namespace EbonianMod.NPCs.Garbage
 
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
 
-            Main.EntitySpriteDraw(Helper.GetTexture(Texture), Projectile.Center - Main.screenPosition, null, Color.White * alpha, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None);
             Main.spriteBatch.SaveCurrent();
 
 
@@ -1447,18 +1463,43 @@ namespace EbonianMod.NPCs.Garbage
                 }
             }
             string warningText = "EVACUATE IMMEDIATELY";
+            bool run = false;
             if (Main.LocalPlayer.Center.Distance(targetPos) < 4500 / 2 - 100)
             {
-                if (Projectile.ai[1] < 180)
-                    warningText = "RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN RUN";
+                if (leftAgain)
+                    warningText = "This is NOT funny PLEASE GET OUT!";
+                else if (left)
+                {
+                    warningText = "WHAT ARE YOU DOING!?";
+                }
+                else if (Projectile.ai[1] < 180)
+                {
+                    run = true;
+                    warningText = "RUN";
+                    for (int i = 0; i < (int)((Projectile.ai[0] - 480) / 4); i++)
+                    {
+                        warningText += " RUN";
+                    }
+                }
             }
             else
-                warningText = "GOOD JOB!";
+            {
+                if (reentered)
+                    warningText = "Phew...";
+                else
+                    warningText = "GOOD JOB!";
+            }
 
-            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, warningText, (Main.rand.NextVector2Circular(50, 50) * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1))) + new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(warningText).X / 2, Main.screenHeight - Main.screenHeight * 0.1f - 100), color * textAlpha);
-
-            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, extraString + strin, (Main.rand.NextVector2Circular(50, 50) * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1))) + new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString((extraString + "0.00").ToString()).X / 2, Main.screenHeight * 0.055f), color * textAlpha);
-
+            for (int j = 0; j < 2; j++)
+            {
+                DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, warningText, (Main.rand.NextVector2Circular(50, 50) * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1))) + new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(warningText).X / 2, Main.screenHeight - Main.screenHeight * 0.1f - 100), color * textAlpha);
+                if (run)
+                {
+                    DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, warningText, (Main.rand.NextVector2Circular(50, 50) * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1))) + new Vector2(-Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(warningText).X / 2, Main.screenHeight * 0.055f), color * textAlpha);
+                    DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, warningText, (Main.rand.NextVector2Circular(50, 50) * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1))) + new Vector2(Main.screenWidth + Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(warningText).X / 2, Main.screenHeight * 0.055f), color * textAlpha);
+                }
+                DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, extraString + strin, (Main.rand.NextVector2Circular(15, 15) * onNumberShakeMult * (numberScaleOff * 0.2f + 1)) + (Main.rand.NextVector2Circular(50, 50) * SmoothStep(0, 1, Clamp((Projectile.ai[0] - 500) / 180f, 0, 1))) + new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString((extraString + "0.00").ToString()).X / 2, Main.screenHeight * 0.055f), color * textAlpha);
+            }
             Main.spriteBatch.Reload(BlendState.Additive);
             Main.spriteBatch.Draw(ring2, Main.ScreenSize.ToVector2() / 2 - new Vector2(0, 100 + numberScaleOff * 30) + Main.rand.NextVector2Circular(60, 60) * numberAlpha, null, Color.Maroon * numberAlpha * 0.25f, 0, ring2.Size() / 2, 2.5f, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(ring2, Main.ScreenSize.ToVector2() / 2 - new Vector2(0, 100 + numberScaleOff * 30) + Main.rand.NextVector2Circular(60, 60) * numberAlpha, null, Color.Maroon * numberAlpha * 0.25f, 0, ring2.Size() / 2, 2.5f, SpriteEffects.FlipHorizontally, 0);
@@ -1470,6 +1511,7 @@ namespace EbonianMod.NPCs.Garbage
 
 
             Main.spriteBatch.ApplySaved();
+            Main.EntitySpriteDraw(Helper.GetTexture(Texture), Projectile.Center - Main.screenPosition, null, Color.White * alpha, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None);
 
             return false;
         }
@@ -1486,7 +1528,7 @@ namespace EbonianMod.NPCs.Garbage
         }
         public override void Kill(int timeLeft)
         {
-            EbonianSystem.TemporarilySetMusicTo0(400);
+            EbonianSystem.TemporarilySetMusicTo0(600);
             SoundEngine.PlaySound(EbonianSounds.nuke);
             SoundEngine.PlaySound(EbonianSounds.garbageDeath);
             foreach (Player player in Main.player)
@@ -1520,8 +1562,9 @@ namespace EbonianMod.NPCs.Garbage
         {
 
         }
-        float alpha = 1, numberAlpha = 0, number, numberTimer, textAlpha, chevronTimer, chevronTimer2, numberScaleOff = -1f, hazardDistanceMult = 1;
+        float alpha = 1, numberAlpha = 0, number, numberTimer, textAlpha, chevronTimer, chevronTimer2, numberScaleOff = -1f, hazardDistanceMult = 1, onNumberShakeMult;
         float[] chevronAlphas = new float[10];
+        bool changedCam, left, reentered, leftAgain;
         public override void AI()
         {
             if (Projectile.ai[0] < 60)
@@ -1535,12 +1578,15 @@ namespace EbonianMod.NPCs.Garbage
                         Projectile.active = false;
                     }
             }
-            textAlpha = Lerp(textAlpha, 1, 0.05f);
+            textAlpha = Lerp(textAlpha, 1, 0.15f);
             if (--numberTimer < 0)
                 numberAlpha = Lerp(numberAlpha, 0, 0.15f);
+
+            onNumberShakeMult = Lerp(onNumberShakeMult, 0, 0.15f);
             if (Projectile.ai[1] % 60 == 0 && Projectile.ai[0] > 60)
             {
                 numberScaleOff += 0.5f;
+                onNumberShakeMult = 1;
                 if (Projectile.ai[1] < 6 * 60)
                 {
                     SoundEngine.PlaySound(EbonianSounds.buzz.WithPitchOffset((numberScaleOff + 1) * 0.04f));
@@ -1550,6 +1596,19 @@ namespace EbonianMod.NPCs.Garbage
                     numberTimer = 20;
                 }
             }
+
+            if (Projectile.ai[1] < 180 && Projectile.ai[1] > 60 && !changedCam && Main.LocalPlayer.Center.Distance(targetPos) > 4500 / 2)
+            {
+                EbonianSystem.ChangeCameraPos(targetPos, (int)Projectile.ai[1] + 10);
+                changedCam = true;
+            }
+            if (Main.LocalPlayer.Center.Distance(targetPos) > 4500 / 2 - 100)
+            {
+                if (reentered) leftAgain = true;
+                left = true;
+            }
+            else if (left)
+                reentered = true;
             if (Projectile.ai[2] < 1f)
                 Projectile.ai[2] += 0.05f;
             if (alpha < 0.1f)

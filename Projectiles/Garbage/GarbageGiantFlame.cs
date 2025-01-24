@@ -77,7 +77,7 @@ namespace EbonianMod.Projectiles.Garbage
             Projectile.height = 30;
             Projectile.aiStyle = 2;
             Projectile.friendly = false;
-            Projectile.tileCollide = true;
+            Projectile.tileCollide = false;
             Projectile.hostile = true;
             Projectile.timeLeft = 350;
         }
@@ -89,7 +89,8 @@ namespace EbonianMod.Projectiles.Garbage
         }
         public override void AI()
         {
-
+            if (Projectile.Center.Y >= Main.LocalPlayer.Center.Y - 50)
+                Projectile.tileCollide = true;
         }
     }
 }

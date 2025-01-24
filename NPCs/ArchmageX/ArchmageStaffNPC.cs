@@ -198,9 +198,10 @@ namespace EbonianMod.NPCs.ArchmageX
             }
             else
             {
-                if (p.timesDiedToXareus <= 0) // re add later
+                Main.NewText(GetInstance<EbonianSystem>().downedXareus);
+                if (GetInstance<EbonianSystem>().timesDiedToXareus <= 0) // re add later
                 {
-                    if (p.timesDiedToXareus == 0)
+                    if (GetInstance<EbonianSystem>().timesDiedToXareus == 0)
                     {
                         if (dist > 400 && dist < 700 && p.Player.Center.Y.CloseTo(NPC.Center.Y - 30, 100))
                         {
@@ -307,7 +308,7 @@ namespace EbonianMod.NPCs.ArchmageX
                                 DialogueSystem.NewDialogueBox(200, NPC.Center - new Vector2(0, 60), "You! Please.. Please take me! My master REFUSES to utilize my grandeur!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 3);
                             if (NPC.ai[1] == 3600)
                             {
-                                Main.LocalPlayer.GetModPlayer<EbonianPlayer>().timesDiedToXareus = -1;
+                                GetInstance<EbonianSystem>().timesDiedToXareus = -1;
                                 DialogueSystem.NewDialogueBox(140, NPC.Center - new Vector2(0, 60), "He's not here! He won't even notice!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.75f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                             }
                         }
@@ -420,7 +421,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     break;
                 }
             }
-            return !NPC.downedMartians && !GetInstance<EbonianSystem>().xareusFuckingDies && !NPC.AnyNPCs(NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0 && !projExists && !(p.timesDiedToXareus == 0 && NPC.ai[1] < 3700) && NPC.ai[2] < 1001;
+            return !NPC.downedMartians && !GetInstance<EbonianSystem>().xareusFuckingDies && !NPC.AnyNPCs(NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0 && !projExists && !(GetInstance<EbonianSystem>().timesDiedToXareus == 0 && NPC.ai[1] < 3700) && NPC.ai[2] < 1001;
         }
         public override void SetChatButtons(ref string button, ref string button2)
         {

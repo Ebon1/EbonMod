@@ -15,6 +15,12 @@ namespace EbonianMod.Common.Systems.Misc
         {
             downedXareusCheck = GetInstance<EbonianSystem>().downedXareus;
         }
+        public override void PostWorldGen()
+        {
+            downedGarbage = false;
+            downedCecitior = false;
+            downedTerrortoma = false;
+        }
         public override void SaveWorldData(TagCompound tag)
         {
             tag.Set("GarbageDown", downedGarbage);
