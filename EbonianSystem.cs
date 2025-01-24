@@ -228,7 +228,7 @@ namespace EbonianMod
                 }
             }
 
-            if (NPC.AnyNPCs(NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0)
+            if (!NPC.AnyNPCs(NPCType<ArchmageStaffNPC>()) || NPC.AnyNPCs(NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0)
             {
                 stickZoomLerpVal = MathHelper.Lerp(stickZoomLerpVal, 0, 0.1f);
                 if (stickZoomLerpVal < 0.01f)

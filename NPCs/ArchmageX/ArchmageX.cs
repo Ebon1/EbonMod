@@ -648,6 +648,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         FacePlayer();
                         if (AITimer == 1)
                         {
+                            helicopterSlot = SoundEngine.PlaySound(EbonianSounds.helicopter.WithVolumeScale(0));
                             NPC.dontTakeDamage = true;
                             if (EbonianSystem.heardXareusIntroMonologue || GetInstance<EbonianSystem>().downedXareus)
                                 AITimer = 339;
@@ -679,7 +680,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/xareus");
                             headFrame.Y = AngryFace;
-                            if (!EbonianSystem.heardXareusIntroMonologue)
+                            if (!EbonianSystem.heardXareusIntroMonologue && !GetInstance<EbonianSystem>().downedXareus)
                                 currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "YOU FIEND!!! I'LL DESTROY YOU IN EVERY WAY PHYSICALLY POSSIBLE!!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
                             {
@@ -2081,10 +2082,13 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer < 405)
                             rightArmRot = Helper.LerpAngle(rightArmRot, Helper.FromAToB(NPC.Center, NPC.Center - Vector2.UnitY.RotatedBy(NPC.direction * 0.5f) * 100, reverse: true).ToRotation() + rightHandOffsetRot, 0.2f);
 
-                        if (AITimer == 40)
-                            helicopterSlot = SoundEngine.PlaySound(EbonianSounds.helicopter);
+
                         if (AITimer >= 40 && AITimer <= 440)
                         {
+                            if (SoundEngine.TryGetActiveSound(helicopterSlot, out var sound))
+                            {
+                                sound.Volume = MathHelper.Lerp(sound.Volume, 1, 0.1f);
+                            }
                             headFrame.Y = AssholeFace;
                             if (AITimer > 80 && AITimer % 10 == 0 && AITimer < 120 || AITimer == 170)
                             {
@@ -2533,7 +2537,7 @@ namespace EbonianMod.NPCs.ArchmageX
         {
             if (SoundEngine.TryGetActiveSound(helicopterSlot, out var sound))
             {
-                sound.Stop();
+                sound.Volume = 0;
             }
             headOffIncrementOffset = Main.rand.NextFloat(500);
             AITimer = 0;

@@ -377,6 +377,7 @@ namespace EbonianMod.NPCs.ArchmageX
                 }
                 if (AITimer == 1900)
                 {
+                    GetInstance<EbonianSystem>().xareusFuckingDies = true;
                     Main.musicVolume = vol;
                     NPC.life = 0; for (int i = 0; i < 80; i++)
                     {

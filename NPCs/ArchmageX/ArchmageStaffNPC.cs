@@ -138,6 +138,8 @@ namespace EbonianMod.NPCs.ArchmageX
             {
                 if (!GetInstance<EbonianSystem>().gotTheStaff)
                 {
+                    if (NPC.ai[1] < 1960)
+                        staffAlpha = Lerp(staffAlpha, 1, 0.1f);
                     if (dist < 300 && p.Player.Center.Y.CloseTo(NPC.Center.Y - 30, 100) && NPC.ai[1] <= 0)
                         NPC.ai[1] = 1;
                     if (NPC.ai[1] > 0)
@@ -181,8 +183,14 @@ namespace EbonianMod.NPCs.ArchmageX
                         DialogueSystem.NewDialogueBox(200, NPC.Center - new Vector2(0, 60), "You are obviously more worthy than Master Xareus! Together we will destroy galaxies!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 5, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                     if (NPC.ai[1] == 1260)
                         DialogueSystem.NewDialogueBox(200, NPC.Center - new Vector2(0, 60), "Yes, yes! I can see it now! Your name, whatever it is, and the Great Archstaff of the Tragically Deceased Master Xareus!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 5, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+                    if (NPC.ai[1] == 1480)
+                        DialogueSystem.NewDialogueBox(150, NPC.Center - new Vector2(0, 60), "Power beyond anything ever conceived by minds even eldritch!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 5, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+                    if (NPC.ai[1] == 1650)
+                        DialogueSystem.NewDialogueBox(200, NPC.Center - new Vector2(0, 60), "Glory! And fame! We will be unstoppable!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 5, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+                    if (NPC.ai[1] == 1850)
+                        DialogueSystem.NewDialogueBox(200, NPC.Center - new Vector2(0, 60), "RAAAAAAAAAAAAAAAAAAAAAAAAAAAGHHHHHHHHHH!!!!!!!!!!!!!!", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 5, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
 
-                    if (NPC.ai[1] == 2060)
+                    if (NPC.ai[1] == 1885)
                     {
                         Item.NewItem(null, NPC.getRect(), ItemType<StaffOfX>());
 
@@ -198,7 +206,6 @@ namespace EbonianMod.NPCs.ArchmageX
             }
             else
             {
-                Main.NewText(GetInstance<EbonianSystem>().downedXareus);
                 if (GetInstance<EbonianSystem>().timesDiedToXareus <= 0) // re add later
                 {
                     if (GetInstance<EbonianSystem>().timesDiedToXareus == 0)
