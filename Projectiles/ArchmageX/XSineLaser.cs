@@ -102,7 +102,7 @@ namespace EbonianMod.Projectiles.ArchmageX
                 {
                     a = Projectile.ai[1];
                 }
-                for (int i = 0; i < n; i++)
+                for (int i = 0; i < n; i += 2)
                 {
                     if (i == n - 1)
                         x = 0;
@@ -132,9 +132,8 @@ namespace EbonianMod.Projectiles.ArchmageX
                             {
                                 if (!Collision.CanHitLine(Projectile.Center, 1, 1, points[i], 1, 1))
                                     continue;
-                                if (Main.rand.NextBool())
-                                    Dust.NewDustPerfect(points[i], DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], points[i]) * Main.rand.NextFloat(4, 8), 0, default, 0.5f * s);
-                                if (Main.rand.NextBool(4) && i % 4 == 0)
+                                Dust.NewDustPerfect(points[i], DustType<XGoopDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], points[i]) * Main.rand.NextFloat(4, 8), 0, default, 0.5f * s);
+                                if (Main.rand.NextBool(4) && i % 2 == 0)
                                     Dust.NewDustPerfect(points[i], DustType<SparkleDust>(), Helper.FromAToB(i == 0 ? Projectile.Center : points[i - 1], points[i]) * Main.rand.NextFloat(4, 8), 0, Color.Indigo * s, Main.rand.NextFloat(0.1f, 0.15f) * s);
                             }
                             s -= i / (float)points.Count * 0.01f;
@@ -176,11 +175,13 @@ namespace EbonianMod.Projectiles.ArchmageX
             if (Projectile.damage != 0)
                 Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Indigo * Projectile.scale, Main.GameUpdateCount * -0.003f, tex.Size() / 2, 0.2f * 2, SpriteEffects.None, 0);
             float s = 1;
+            float _s = 0;
             if (points.Count > 2)
             {
                 VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[(points.Count - 1) * 6];
                 for (int i = 0; i < points.Count - 1; i++)
                 {
+                    _s = SmoothStep(0, 1, Clamp((float)i / 15, 0, 1));
                     Vector2 start = points[i];
                     Vector2 end = points[i + 1];
                     float num = Vector2.Distance(points[i], points[i + 1]);
@@ -190,7 +191,7 @@ namespace EbonianMod.Projectiles.ArchmageX
 
                     Color color = Color.Indigo * (s * Projectile.scale);
                     if (Projectile.damage == 0)
-                        color = Color.White * (s * Projectile.scale);
+                        color = Color.White * (s * Projectile.scale * _s * 3);
 
                     if (!Collision.CanHitLine(Projectile.Center, 1, 1, points[i], 1, 1))
                         color = Color.Transparent;
@@ -215,7 +216,8 @@ namespace EbonianMod.Projectiles.ArchmageX
 
                     s -= i / (float)points.Count * 0.01f;
                 }
-                Helper.DrawTexturedPrimitives(vertices, PrimitiveType.TriangleList, bolt);
+                if (vertices.Count() > 2)
+                    Helper.DrawTexturedPrimitives(vertices, PrimitiveType.TriangleList, bolt);
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;

@@ -396,7 +396,7 @@ namespace EbonianMod.Common.Systems
 
             sheep_player = Default with
             {
-                SoundPath = ebonianSoundPath + "sheep0",
+                SoundPath = ebonianSoundPath + "sheep",
                 PitchVariance = 0.5f,
                 Variants = new int[] { 0, 1 }
             };
@@ -435,6 +435,8 @@ namespace EbonianMod.Common.Systems
             {
                 SoundPath = ebonianSoundPath + "Music/Outros/evilOutro",
                 PitchVariance = 0,
+                Volume = 0.5f,
+                MaxInstances = 1,
                 Type = SoundType.Music
             };
 
@@ -442,6 +444,8 @@ namespace EbonianMod.Common.Systems
             {
                 SoundPath = ebonianSoundPath + "Music/Outros/xareusOutro",
                 PitchVariance = 0,
+                Volume = 0.5f,
+                MaxInstances = 1,
                 Type = SoundType.Music
             };
 

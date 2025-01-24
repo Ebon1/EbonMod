@@ -71,9 +71,9 @@ namespace EbonianMod.NPCs.ArchmageX
             Main.spriteBatch.Reload(BlendState.Additive);
             for (int i = 0; i < 4; i++)
             {
-                Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha), 0, tex3.Size() / 2, (glareAlpha) * .6f * 2, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha * 0.5f), 0, tex3.Size() / 2, (glareAlpha) * 1.6f * 2, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha * 0.1f) * 10, 0, tex3.Size() / 2, (glareAlpha) * 1.6f * 2, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha), 0, tex3.Size() / 2, (glareAlpha) * .6f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha * 0.5f), 0, tex3.Size() / 2, (glareAlpha) * 1.6f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.White * (glareAlpha * 0.1f) * 10, 0, tex3.Size() / 2, (glareAlpha) * 2f, SpriteEffects.None, 0);
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
