@@ -71,6 +71,7 @@ namespace EbonianMod.Common.Systems
         firework,
         magicSlash,
         sheep,
+            sheep_player,
         shriek,
         vaccum,
         ghizasWheel,
@@ -388,7 +389,16 @@ namespace EbonianMod.Common.Systems
             sheep = Default with
             {
                 SoundPath = ebonianSoundPath + "sheep",
-                PitchVariance = 0.5f
+                PitchVariance = 0.5f,
+                Variants = new int[] { 0, 1, 2 }
+            };
+
+
+            sheep_player = Default with
+            {
+                SoundPath = ebonianSoundPath + "sheep0",
+                PitchVariance = 0.5f,
+                Variants = new int[] { 0, 1 }
             };
 
 

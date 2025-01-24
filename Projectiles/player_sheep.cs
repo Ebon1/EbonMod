@@ -37,7 +37,7 @@ namespace EbonianMod.Projectiles
         }
         public override void OnSpawn(IEntitySource source)
         {
-            SoundEngine.PlaySound(EbonianSounds.sheep);
+            SoundEngine.PlaySound(EbonianSounds.sheep_player);
             for (int i = 0; i < 30; i++)
             {
                 Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.Smoke);
