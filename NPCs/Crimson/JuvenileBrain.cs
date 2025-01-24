@@ -74,7 +74,7 @@ namespace EbonianMod.NPCs.Crimson
             Vector2 orig = new Vector2((float)(Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Width / 2), (float)(Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Height / Main.npcFrameCount[NPC.type] / 2));
             SpriteEffects spriteEffects2;
             Rectangle frame6 = NPC.frame;
-            Color col = Color.White * ((MathF.Sin(Main.GlobalTimeWrappedHourly * 3) + 2) * 0.5f);
+            Color col = drawColor * ((MathF.Sin(Main.GlobalTimeWrappedHourly * 3) + 2) * 0.5f);
             for (int num213 = 0; num213 < 4; num213++)
             {
                 Vector2 position9 = NPC.position;

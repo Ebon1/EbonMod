@@ -105,6 +105,7 @@ namespace EbonianMod.Items.Weapons.Melee
                 glowAlpha = MathHelper.Lerp(glowAlpha, 0, 0.2f);
                 Projectile.extraUpdates = 3;
             }
+            Lighting.AddLight(Projectile.Center, glowAlpha, glowAlpha * 0.6f, 0);
             lerpProg = MathHelper.Lerp(lerpProg, 1.05f, 0.275f);
             swingProgress = MathHelper.Lerp(swingProgress, Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft)), MathHelper.Clamp(lerpProg, -.1f, 1));
             Projectile.scale = 1 + Clamp(MathF.Sin(Pi * swingProgress) * 2, 0, 0.4f);

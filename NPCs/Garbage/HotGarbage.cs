@@ -1490,6 +1490,9 @@ namespace EbonianMod.NPCs.Garbage
                     warningText = "Phew...";
                 else
                     warningText = "GOOD JOB!";
+
+                if (Projectile.ai[1] < 120)
+                    warningText = "HERE IT COMES";
             }
 
             for (int j = 0; j < 2; j++)

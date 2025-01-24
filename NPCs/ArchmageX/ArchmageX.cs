@@ -671,7 +671,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         {
                             Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<XExplosionTiny>(), 0, 0);
                             Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<XExplosion>(), 0, 0);
-                            //SoundEngine.PlaySound(SoundID.Item16, NPC.Center);
+                            SoundEngine.PlaySound(SoundID.Item16, NPC.Center);
                         }
                         if (AITimer == 50)
                         {
