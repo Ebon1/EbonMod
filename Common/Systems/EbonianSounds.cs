@@ -434,13 +434,15 @@ namespace EbonianMod.Common.Systems
             evilOutro = Default with
             {
                 SoundPath = ebonianSoundPath + "Music/Outros/evilOutro",
-                PitchVariance = 0
+                PitchVariance = 0,
+                Type = SoundType.Music
             };
 
             xareusOutro = Default with
             {
                 SoundPath = ebonianSoundPath + "Music/Outros/xareusOutro",
-                PitchVariance = 0
+                PitchVariance = 0,
+                Type = SoundType.Music
             };
 
 
