@@ -85,11 +85,11 @@ namespace EbonianMod.NPCs.Terrortoma
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.lifeMax = 18000;
+            NPC.lifeMax = 22000;
             NPC.boss = true;
             NPC.damage = 0;
             NPC.noTileCollide = true;
-            NPC.defense = 20;
+            NPC.defense = 26;
             NPC.value = Item.buyPrice(0, 10);
             NPC.knockBackResist = 0;
             NPC.width = 118;
