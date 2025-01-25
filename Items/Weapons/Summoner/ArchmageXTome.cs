@@ -33,6 +33,7 @@ namespace EbonianMod.Items.Weapons.Summoner
             Item.height = 28;
             Item.useTime = 36;
             Item.useAnimation = 36;
+            Item.autoReuse = true;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3;
