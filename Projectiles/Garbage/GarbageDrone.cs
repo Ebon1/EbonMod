@@ -171,6 +171,7 @@ namespace EbonianMod.Projectiles.Garbage
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI) => behindNPCs.Add(index);
         public override void OnSpawn(IEntitySource source)
         {
+            sound = SoundID.DD2_LightningAuraZap.WithVolumeScale(0.5f);
             end = Projectile.Center;
         }
         public override bool ShouldUpdatePosition()
@@ -192,7 +193,8 @@ namespace EbonianMod.Projectiles.Garbage
         bool RunOnce;
         List<Vector2> points = new List<Vector2>();
         Vector2 end;
-        public override void AI() //growing laser, originates from fixed point
+        SoundStyle sound;
+        public override void AI()
         {
             Projectile.direction = end.X > Projectile.Center.X ? 1 : -1;
             Projectile.rotation = Projectile.velocity.ToRotation();
@@ -255,8 +257,6 @@ namespace EbonianMod.Projectiles.Garbage
                     }
 
 
-                    SoundStyle sound = SoundID.DD2_LightningAuraZap;
-                    sound.Volume = 0.5f;
                     SoundEngine.PlaySound(sound, Projectile.Center);
                 }
             }

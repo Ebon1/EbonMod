@@ -123,7 +123,7 @@ namespace EbonianMod.Projectiles.ArchmageX
 
                 float __off = Projectile.localAI[0];
                 if (__off > 1) __off = -__off + 1;
-                float _off = __off + i;
+                float _off = (__off + i)%1f;
 
                 Color col = Color.White * 0.5f * s;
                 if (Projectile.ai[0] > 0)

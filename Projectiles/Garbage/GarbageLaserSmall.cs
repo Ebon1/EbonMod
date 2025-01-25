@@ -86,7 +86,7 @@ namespace EbonianMod.Projectiles.Garbage
             float rot = Helper.FromAToB(start, end).ToRotation();
 
             float s = 0f;
-            for (float i = 0; i < 1; i += 0.002f)
+            for (float i = 0; i < 1; i += 0.0025f)
             {
                 if (i < 0.5f)
                     s = MathHelper.Clamp(i * 3.5f, 0, 0.5f);
@@ -95,6 +95,7 @@ namespace EbonianMod.Projectiles.Garbage
 
                 float __off = Projectile.ai[1];
                 if (__off > 1) __off = -__off + 1;
+
                 float _off = __off + i;
 
                 Color col = Color.Lerp(Color.DarkRed, Color.Orange, i) * (s * s * 4);
@@ -206,7 +207,8 @@ namespace EbonianMod.Projectiles.Garbage
 
                 float __off = Projectile.ai[1];
                 if (__off > 1) __off = -__off + 1;
-                float _off = __off + i;
+
+                float _off = Clamp((__off + i) % 1f, 0, 1);
 
                 Color col = Color.Lerp(Color.Red, Color.OrangeRed, i) * (s * s * 4);
                 vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(0, 70, i * 3), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
@@ -313,7 +315,8 @@ namespace EbonianMod.Projectiles.Garbage
 
                 float __off = Projectile.ai[1];
                 if (__off > 1) __off = -__off + 1;
-                float _off = __off + i;
+
+                float _off = Clamp((__off + i) % 1f, 0, 1);
 
                 Color col = Color.Lerp(Color.DarkRed, Color.Orange, i) * (s * s * 4);
                 vertices.Add(Helper.AsVertex(start + off * i + new Vector2(50 + MathHelper.SmoothStep(0, 50, i * 3), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));

@@ -27,35 +27,57 @@ namespace EbonianMod.Projectiles.Garbage
             Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.ai[0] > 0)
             {
-                Texture2D tex = Helper.GetExtraTexture("laser4");
                 Texture2D chevron = Helper.GetExtraTexture("chevron_single");
-                Vector2 pos = Projectile.Center;
-                Vector2 scale = new Vector2(1f, Projectile.ai[1]);
+                Vector2 pos = Projectile.Center - Projectile.rotation.ToRotationVector2() * 180;
                 float progress = Utils.GetLerpValue(0, 40, Projectile.timeLeft);
                 float eAlpha = MathHelper.Lerp(1, 0, Projectile.ai[2]);
-                for (float i = 0; i < Projectile.ai[0]; i++)
+                for (float i = 0; i < Projectile.ai[0]; i += 60)
                 {
                     float x = MathHelper.Clamp(MathHelper.SmoothStep(1, 0, (i / Projectile.ai[0]) * 5), 0, 1);
                     float f = MathHelper.Lerp(40, 0, x);
                     float alpha = MathHelper.Lerp(1, 0, x);
                     float chevS = MathHelper.Clamp(MathHelper.Lerp(0.5f, 3, i / Projectile.ai[0]), 0, 1);
                     //Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.Red, i / Projectile.ai[0]) * (Projectile.ai[1] * alpha), Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
-                    pos += Projectile.rotation.ToRotationVector2();
+                    pos += Projectile.rotation.ToRotationVector2() * 60;
 
-                    if (i % 80 == 0)
-                    {
-                        Vector2 chevP = pos + Projectile.rotation.ToRotationVector2() * ((Projectile.ai[2] * 240) + (progress * 10));
-                        for (int k = 0; k < 4; k++)
-                            Main.spriteBatch.Draw(chevron, chevP - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.Red, i / Projectile.ai[0]) * (Projectile.ai[1] * eAlpha * 4 * MathHelper.Clamp(alpha + 0.5f, 0, 1)), Projectile.rotation, new Vector2(0, chevron.Height / 2), Projectile.ai[2] * chevS * 0.65f, SpriteEffects.None, 0);
-                    }
+                    Vector2 chevP = pos + Projectile.rotation.ToRotationVector2() * ((Projectile.ai[2] * 240) + (progress * 10));
+                    for (int k = 0; k < 4; k++)
+                        Main.spriteBatch.Draw(chevron, chevP - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.Red, i / Projectile.ai[0]) * (Projectile.ai[1] * eAlpha * 10), Projectile.rotation, new Vector2(0, chevron.Height / 2), Projectile.ai[2] * 0.65f, SpriteEffects.None, 0);
+                }
+            }
 
-                    for (int j = -4; j < 5; j += 2)
-                    {
-                        if (j == 0) continue;
+            if (Projectile.ai[0] > 0)
+            {
+                Texture2D tex = Helper.GetExtraTexture("laser4");
+                Vector2 start = Projectile.Center;
+                Vector2 end = Projectile.Center + Projectile.velocity * Projectile.ai[0];
+                Vector2 scale = new Vector2(1f, Projectile.ai[1]);
+                float eAlpha = MathHelper.Lerp(1, 0, Projectile.ai[2]);
+                List<VertexPositionColorTexture> vertices2 = new();
+                List<VertexPositionColorTexture> vertices3 = new();
+                for (float i = 0; i < Projectile.ai[0]; i++)
+                {
+                    float x = MathHelper.Clamp(MathHelper.SmoothStep(1, 0, (i / Projectile.ai[0]) * 5), 0, 1);
+                    float f = 100;// MathHelper.Lerp(100, 0, x);
+                    float alpha = MathHelper.Lerp(1, 0, x);
+                    Color col = Color.Lerp(Color.Red, Color.IndianRed, i / Projectile.ai[0]) * (Projectile.ai[1] * alpha * Lerp(2, 0, i / Projectile.ai[0]));
 
-                        for (int k = 0; k < 4; k++)
-                            Main.spriteBatch.Draw(tex, pos + Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.PiOver2) * (f * Projectile.ai[2] * j) - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.Red, i / Projectile.ai[0]) * (eAlpha * alpha), Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
-                    }
+                    Vector2 pos = Vector2.Lerp(start, end, (float)i / Projectile.ai[0]) - Main.screenPosition;
+                    col = Color.Lerp(Color.Red, Color.IndianRed, i / Projectile.ai[0]) * (eAlpha * alpha * Lerp(2, 0, i / Projectile.ai[0]));
+
+                    pos = Vector2.Lerp(start, end, (float)i / Projectile.ai[0]) + Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.PiOver2) * (f * Projectile.ai[2]) - Main.screenPosition;
+                    vertices2.Add(Helper.AsVertex(pos + new Vector2(4, 0).RotatedBy(Projectile.velocity.ToRotation() + PiOver2), col, new Vector2(0, 0)));
+                    vertices2.Add(Helper.AsVertex(pos + new Vector2(4, 0).RotatedBy(Projectile.velocity.ToRotation() - PiOver2), col, new Vector2(1, 1)));
+
+                    pos = Vector2.Lerp(start, end, (float)i / Projectile.ai[0]) + Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.PiOver2) * (f * -Projectile.ai[2]) - Main.screenPosition;
+                    vertices3.Add(Helper.AsVertex(pos + new Vector2(4, 0).RotatedBy(Projectile.velocity.ToRotation() + PiOver2), col, new Vector2(0, 0)));
+                    vertices3.Add(Helper.AsVertex(pos + new Vector2(4, 0).RotatedBy(Projectile.velocity.ToRotation() - PiOver2), col, new Vector2(1, 1)));
+                }
+
+                if (vertices2.Count > 2 && vertices3.Count > 2)
+                {
+                    Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("Tentacle"), false);
+                    Helper.DrawTexturedPrimitives(vertices3.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("Tentacle"), false);
                 }
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -92,27 +114,40 @@ namespace EbonianMod.Projectiles.Garbage
             if (Projectile.ai[0] > 0)
             {
                 Texture2D tex = Helper.GetExtraTexture("laser4");
-                Vector2 pos = Projectile.Center;
+                Vector2 start = Projectile.Center;
+                Vector2 end = Projectile.Center + Projectile.velocity * Projectile.ai[0];
                 Vector2 scale = new Vector2(1f, Projectile.ai[1]);
                 float eAlpha = MathHelper.Lerp(1, 0, Projectile.ai[2]);
+                List<VertexPositionColorTexture> vertices = new();
+                List<VertexPositionColorTexture> vertices2 = new();
+                List<VertexPositionColorTexture> vertices3 = new();
                 for (float i = 0; i < Projectile.ai[0]; i++)
                 {
                     float x = MathHelper.Clamp(MathHelper.SmoothStep(1, 0, (i / Projectile.ai[0]) * 5), 0, 1);
                     float f = MathHelper.Lerp(30, 0, x);
                     float alpha = MathHelper.Lerp(1, 0, x);
-                    Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.Red, i / Projectile.ai[0]) * (Projectile.ai[1] * alpha * Lerp(2, 0, i / Projectile.ai[0])), Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
-                    pos += Projectile.rotation.ToRotationVector2();
+                    Color col = Color.Lerp(Color.Maroon, Color.Red, i / Projectile.ai[0]) * (Projectile.ai[1] * alpha * Lerp(2, 0, i / Projectile.ai[0]));
 
-                    for (int k = 0; k < 2; k++)
-                        Main.spriteBatch.Draw(tex, pos - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.Red, i / Projectile.ai[0]) * (eAlpha * alpha * 0.5f * Lerp(2, 0, i / Projectile.ai[0])), Projectile.rotation, new Vector2(0, tex.Height / 2), new Vector2(scale.X, scale.Y * f), SpriteEffects.None, 0);
+                    Vector2 pos = Vector2.Lerp(start, end, (float)i / Projectile.ai[0]) - Main.screenPosition;
+                    vertices.Add(Helper.AsVertex(pos + new Vector2(4, 0).RotatedBy(Projectile.velocity.ToRotation() + PiOver2), col, new Vector2(0, 0)));
+                    vertices.Add(Helper.AsVertex(pos + new Vector2(4, 0).RotatedBy(Projectile.velocity.ToRotation() - PiOver2), col, new Vector2(1, 1)));
 
-                    for (int j = -1; j < 2; j++)
-                    {
-                        if (j == 0) continue;
+                    col = Color.Lerp(Color.Maroon, Color.Red, i / Projectile.ai[0]) * (eAlpha * alpha * Lerp(2, 0, i / Projectile.ai[0]));
 
-                        for (int k = 0; k < 4; k++)
-                            Main.spriteBatch.Draw(tex, pos + Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.PiOver2) * (f * Projectile.ai[2] * j) - Main.screenPosition, null, Color.Lerp(Color.Maroon, Color.Red, i / Projectile.ai[0]) * (eAlpha * alpha * Lerp(2, 0, i / Projectile.ai[0])), Projectile.rotation, new Vector2(0, tex.Height / 2), scale, SpriteEffects.None, 0);
-                    }
+                    pos = Vector2.Lerp(start, end, (float)i / Projectile.ai[0]) + Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.PiOver2) * (f * Projectile.ai[2]) - Main.screenPosition;
+                    vertices2.Add(Helper.AsVertex(pos + new Vector2(4, 0).RotatedBy(Projectile.velocity.ToRotation() + PiOver2), col, new Vector2(0, 0)));
+                    vertices2.Add(Helper.AsVertex(pos + new Vector2(4, 0).RotatedBy(Projectile.velocity.ToRotation() - PiOver2), col, new Vector2(1, 1)));
+
+                    pos = Vector2.Lerp(start, end, (float)i / Projectile.ai[0]) + Projectile.rotation.ToRotationVector2().RotatedBy(MathHelper.PiOver2) * (f * -Projectile.ai[2]) - Main.screenPosition;
+                    vertices3.Add(Helper.AsVertex(pos + new Vector2(4, 0).RotatedBy(Projectile.velocity.ToRotation() + PiOver2), col, new Vector2(0, 0)));
+                    vertices3.Add(Helper.AsVertex(pos + new Vector2(4, 0).RotatedBy(Projectile.velocity.ToRotation() - PiOver2), col, new Vector2(1, 1)));
+                }
+
+                if (vertices.Count > 2 && vertices2.Count > 2 && vertices3.Count > 2)
+                {
+                    Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("Tentacle"), false);
+                    Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("Tentacle"), false);
+                    Helper.DrawTexturedPrimitives(vertices3.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("Tentacle"), false);
                 }
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);

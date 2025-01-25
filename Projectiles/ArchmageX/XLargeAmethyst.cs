@@ -98,7 +98,7 @@ namespace EbonianMod.Projectiles.ArchmageX
 
                     float __off = vfxOffset;
                     if (__off > 1) __off = -__off + 1;
-                    float _off = __off + mult;
+                    float _off = (__off + mult)%1f;
                     vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 + (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount + i * 4) * 0.03f) - Main.screenPosition + new Vector2(20 * mult * s, 0).RotatedBy(Projectile.velocity.ToRotation() - MathHelper.PiOver2), col, new Vector2(_off, 1)));
                     vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 + (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount + i * 4) * 0.03f) - Main.screenPosition + new Vector2(20 * mult * s, 0).RotatedBy(Projectile.velocity.ToRotation() + MathHelper.PiOver2), col, new Vector2(_off, 0)));
 

@@ -9,6 +9,7 @@ using Terraria.GameContent;
 using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
+using XPT.Core.Audio.MP3Sharp.Decoding.Decoders.LayerIII;
 
 namespace EbonianMod.Items.Weapons.Summoner
 {
@@ -55,7 +56,7 @@ namespace EbonianMod.Items.Weapons.Summoner
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.WhipSettings.Segments = 15;
-            Projectile.WhipSettings.RangeMultiplier = 0.43f;
+            Projectile.WhipSettings.RangeMultiplier = 0.5f;
             Projectile.stopsDealingDamageAfterPenetrateHits = true;
         }
 
@@ -78,6 +79,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
             Projectile.Center = Main.GetPlayerArmPosition(Projectile) + Projectile.velocity * Timer;
             Projectile.spriteDirection = Projectile.velocity.X >= 0f ? 1 : -1;
+
 
             Timer++;
 
