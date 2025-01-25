@@ -65,7 +65,7 @@ namespace EbonianMod.Items.Weapons.Melee
         {
             ProjectileID.Sets.DontCancelChannelOnKill[Type] = true;
             EbonianMod.projectileFinalDrawList.Add(Type);
-            ProjectileID.Sets.TrailCacheLength[Type] = 90;
+            ProjectileID.Sets.TrailCacheLength[Type] = 70;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
         public override void SetExtraDefaults()
@@ -73,8 +73,8 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.width = 64;
             Projectile.height = 64;
             useHeld = false;
-            swingTime = 180;
-            Projectile.extraUpdates = 4;
+            swingTime = 270;
+            Projectile.extraUpdates = 5;
             holdOffset = 38;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = swingTime;
@@ -118,6 +118,10 @@ namespace EbonianMod.Items.Weapons.Melee
                     }
 
             }
+            if (Projectile.timeLeft == 160)
+            {
+
+            }
             if (Projectile.timeLeft == 20)
             {
                 if (player.active && player.channel && !player.dead && !player.CCed && !player.noItems)
@@ -125,15 +129,17 @@ namespace EbonianMod.Items.Weapons.Melee
                     if (player.whoAmI == Main.myPlayer)
                     {
                         Vector2 dir = Vector2.Normalize(Main.MouseWorld - player.Center);
-                        Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, hit ? MathHelper.Clamp(Projectile.ai[0], 0f, 0.5f) : 0, (-Projectile.ai[1]));
+                        Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, (false && hit && player.ownedProjectileCounts[ProjectileType<PhantasmalGreatswordP2>()] <= 2) ? MathHelper.Clamp(Projectile.ai[0], 0f, 0.5f) : 0, (-Projectile.ai[1]));
                         proj.rotation = Projectile.rotation;
                         proj.Center = Projectile.Center;
 
-                        if (hit)
+                        if (hit && player.ownedProjectileCounts[ProjectileType<PhantasmalGreatswordP2>()] <= 2)
                         {
-                            Projectile proj2 = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, ProjectileType<PhantasmalGreatswordP2>(), Projectile.damage, Projectile.knockBack, player.whoAmI, -.5f + Projectile.ai[0], (-Projectile.ai[1]));
+                            Projectile proj2 = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center + Projectile.velocity * 50, dir, ProjectileType<PhantasmalGreatswordP2>(), Projectile.damage, Projectile.knockBack, player.whoAmI, -.5f + Projectile.ai[0], (-Projectile.ai[1]));
                             proj2.rotation = Projectile.rotation;
-                            proj2.Center = Projectile.Center;
+                            proj2.Center = Projectile.Center + Projectile.velocity * 50;
+                            //float _rot = PiOver4 * direction + Main.rand.NextFloat(-PiOver4 * 0.3f, PiOver4 * 0.3f);
+                            //Projectile.NewProjectileDirect(null, player.Center - Projectile.velocity.RotatedBy(_rot) * holdOffset * 6, Projectile.velocity.RotatedBy(_rot) * 50, ProjectileType<PhantasmalWave>(), Projectile.damage, 0, Projectile.owner, -8, direction).timeLeft = 59;
                         }
                     }
                     Projectile.active = false;
@@ -150,6 +156,7 @@ namespace EbonianMod.Items.Weapons.Melee
         float visualOff;
         public override bool PreDraw(ref Color lightColor)
         {
+            if (lightColor != Color.Transparent) return false;
             visualOff -= 0.05f;
             if (visualOff <= 0)
                 visualOff = 1;
@@ -176,7 +183,7 @@ namespace EbonianMod.Items.Weapons.Melee
                 if (oldPositions.Count > 3)
                 {
                     if (Projectile.ai[1] == -1)
-                        for (int i = 0; i < Projectile.oldPos.Length - 2; i++)
+                        for (int i = 0; i < oldPositions.Count - 2; i++)
                         {
                             if (Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i + 1] != Vector2.Zero)
                             {
@@ -185,10 +192,9 @@ namespace EbonianMod.Items.Weapons.Melee
                                 float rot2 = Projectile.oldRot[i] - MathHelper.PiOver4;
                                 Vector2 end = player.Center + rot2.ToRotationVector2().RotatedBy(MathHelper.ToRadians(10 * swingProgress)) * (Projectile.height + holdOffset);
                                 Vector2 start = Vector2.Lerp(player.Center, end, Lerp(0, 1, MathF.Pow(s, 2)));
-                                Color col = Color.Lerp(Color.Magenta * 0.7f, Color.Indigo, (float)i / (float)oldPositions.Count) * cS * alpha * Clamp(MathF.Sin(swingProgress * MathHelper.Pi) * 0.5f, 0, 1) * 2 * SmoothStep(1, 0, s);
-                                float __off = visualOff + s;
-                                if (__off > 1) __off = -__off + 1;
-                                float _off = __off;
+                                Color col = Color.Lerp(Color.White * 0.7f, Color.White, (float)i / (float)oldPositions.Count) * cS * alpha * Clamp(MathF.Sin(swingProgress * MathHelper.Pi) * 0.5f, 0, 1) * 2 * SmoothStep(1, 0, s) * 5 * cS;
+
+                                float _off = MathF.Abs((s) % 1f);
 
                                 vertices.Add(Helper.AsVertex(start - Main.screenPosition, col, new Vector2(_off, 1)));
                                 vertices.Add(Helper.AsVertex(end - Main.screenPosition, col, new Vector2(_off, 0)));
@@ -196,7 +202,7 @@ namespace EbonianMod.Items.Weapons.Melee
                             }
                         }
                     else
-                        for (int i = Projectile.oldPos.Length - 2; i > 0; i--)
+                        for (int i = oldPositions.Count - 2; i > 0; i--)
                         {
                             if (Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i + 1] != Vector2.Zero)
                             {
@@ -205,10 +211,9 @@ namespace EbonianMod.Items.Weapons.Melee
                                 float rot2 = Projectile.oldRot[i] - MathHelper.PiOver4;
                                 Vector2 end = player.Center + rot2.ToRotationVector2().RotatedBy(MathHelper.ToRadians(-20 * swingProgress)) * (Projectile.height + holdOffset);
                                 Vector2 start = Vector2.Lerp(player.Center, end, Lerp(0, 1, MathF.Pow(s, 2)));
-                                Color col = Color.Lerp(Color.Magenta * 0.7f, Color.Indigo, s) * cS * alpha * Clamp(MathF.Sin(swingProgress * MathHelper.Pi) * 0.5f, 0, 1) * 2 * SmoothStep(1, 0, s);
-                                float __off = visualOff + s;
-                                if (__off > 1) __off = -__off + 1;
-                                float _off = __off;
+                                Color col = Color.Lerp(Color.White * 0.7f, Color.White, s) * cS * alpha * Clamp(MathF.Sin(swingProgress * MathHelper.Pi) * 0.5f, 0, 1) * 2 * SmoothStep(1, 0, s) * 5 * cS;
+
+                                float _off = MathF.Abs((s) % 1f);
 
                                 vertices.Add(Helper.AsVertex(start - Main.screenPosition, col, new Vector2(_off, 1)));
                                 vertices.Add(Helper.AsVertex(end - Main.screenPosition, col, new Vector2(_off, 0)));
@@ -222,18 +227,6 @@ namespace EbonianMod.Items.Weapons.Melee
                 }
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
-
-
-            Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
-            Vector2 orig = texture.Size() / 2;
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.White, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), orig, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
-            if (glowAlpha > 0 && glowBlend != null)
-            {
-                Texture2D glow = Helper.GetTexture(GlowTexture);
-                Main.spriteBatch.Reload(glowBlend);
-                Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.White * glowAlpha, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), glow.Size() / 2, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
-                Main.spriteBatch.Reload(BlendState.AlphaBlend);
-            }
             return false;
         }
         public override float Ease(float x)
@@ -247,6 +240,17 @@ namespace EbonianMod.Items.Weapons.Melee
         }
         public override void PostDraw(Color lightColor)
         {
+            Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
+            Vector2 orig = texture.Size() / 2;
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.White, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), orig, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+            if (glowAlpha > 0 && glowBlend != null)
+            {
+                Texture2D glow = Helper.GetTexture(GlowTexture);
+                Main.spriteBatch.Reload(glowBlend);
+                Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.White * glowAlpha, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), glow.Size() / 2, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+                Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            }
+
             Player player = Main.player[Projectile.owner];
             Texture2D slash = Helper.GetExtraTexture("Extras2/slash_06_half");
             float mult = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
@@ -303,12 +307,23 @@ namespace EbonianMod.Items.Weapons.Melee
         {
             return 0.7f + (float)Math.Sin(progress * Math.PI) * 0.5f;
         }
-        Vector2 startP;
+        Vector2 startP, startP2;
+        float alpha;
         public override void AI()
         {
+            if (Projectile.timeLeft == 160)
+            {
+                //Projectile.NewProjectile(null, startP, Projectile.velocity * 20, ProjectileType<PhantasmalWave>(), Projectile.damage, 0, Projectile.owner, 1, Projectile.scale * 1.5f);
+
+                if (Projectile.ai[2] < 4)
+                    Projectile.NewProjectile(null, Projectile.Center + Projectile.velocity * 50 * Projectile.scale, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0] + 0.1f, -Projectile.ai[1], Projectile.ai[2] + 1);
+            }
+
             Projectile.scale = 1 + Projectile.ai[0];
             if (startP == Vector2.Zero)
+            {
                 startP = Projectile.Center;
+            }
             float direction = Projectile.ai[1];
             float swingProgress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
             float defRot = Projectile.velocity.ToRotation();
@@ -319,18 +334,149 @@ namespace EbonianMod.Items.Weapons.Melee
                 rotation.ToRotationVector2() * holdOffset * Projectile.scale * ScaleFunction(swingProgress);
             Projectile.Center = position;
             Projectile.rotation = (position - startP).ToRotation() + MathHelper.PiOver4;
-            Projectile.ai[2] = MathHelper.Clamp((float)Math.Sin(swingProgress * Math.PI) * 2f, 0, 1);
+            alpha = MathHelper.Clamp((float)Math.Sin(swingProgress * Math.PI) * 2f, 0, 1);
 
         }
         public override Color? GetAlpha(Color lightColor) => Color.White;
         public override bool PreDraw(ref Color lightColor)
         {
+            if (lightColor != Color.Transparent) return false;
+            Main.spriteBatch.Reload(BlendState.Additive);
+
+
+            float swingProgress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
+            if (Projectile.oldPos.Length > 2)
+            {
+                Texture2D tex2 = Helper.GetExtraTexture("trail_04");
+                List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
+                List<Vector2> oldPositions = new List<Vector2>(Projectile.oldPos.Length);
+                for (int i = 0; i < Projectile.oldPos.Length; i++)
+                {
+                    if (Projectile.oldPos[i] != Vector2.Zero)
+                        oldPositions.Add(Projectile.oldPos[i]);
+                    else
+                        break;
+                }
+                if (oldPositions.Count > 3)
+                {
+                    if (Projectile.ai[1] == -1)
+                        for (int i = 0; i < oldPositions.Count - 2; i++)
+                        {
+                            if (Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i + 1] != Vector2.Zero)
+                            {
+                                float s = MathHelper.SmoothStep(0, 1f, (float)i / (float)oldPositions.Count);
+                                float cS = MathF.Pow(MathHelper.Lerp(1, 0, (float)i / (float)oldPositions.Count) * alpha, 2);
+                                float rot2 = Projectile.oldRot[i] - MathHelper.PiOver4;
+                                Vector2 end = startP + rot2.ToRotationVector2().RotatedBy(MathHelper.ToRadians(-2 - 6 * MathF.Sin(swingProgress * Pi) * Projectile.scale)) * ((Projectile.height + holdOffset) * Projectile.scale * 0.8f);
+                                Vector2 start = Vector2.Lerp(startP, end, Lerp(0, 1, MathF.Pow(s, 2)));
+                                Color col = Color.Lerp(Color.White * 0.7f, Color.White, (float)i / (float)oldPositions.Count) * cS * Clamp(MathF.Sin(swingProgress * MathHelper.Pi) * 0.5f, 0, 1) * 2 * SmoothStep(1, 0, s) * 5 * cS;
+
+                                float _off = MathF.Abs((s) % 1f);
+
+                                vertices.Add(Helper.AsVertex(start - Main.screenPosition, col, new Vector2(_off, 1)));
+                                vertices.Add(Helper.AsVertex(end - Main.screenPosition, col, new Vector2(_off, 0)));
+
+                            }
+                        }
+                    else
+                        for (int i = oldPositions.Count - 2; i > 0; i--)
+                        {
+                            if (Projectile.oldPos[i] != Vector2.Zero && Projectile.oldPos[i + 1] != Vector2.Zero)
+                            {
+                                float s = MathHelper.SmoothStep(0, 1f, (float)i / (float)oldPositions.Count);
+                                float cS = MathF.Pow(MathHelper.Lerp(1, 0, (float)i / (float)oldPositions.Count) * alpha, 2);
+                                float rot2 = Projectile.oldRot[i] - MathHelper.PiOver4;
+                                Vector2 end = startP + rot2.ToRotationVector2().RotatedBy(MathHelper.ToRadians(2 + 6 * MathF.Sin(swingProgress * Pi) * Projectile.scale)) * ((Projectile.height + holdOffset) * Projectile.scale * 0.8f);
+                                Vector2 start = Vector2.Lerp(startP, end, Lerp(0, 1, MathF.Pow(s, 2)));
+                                Color col = Color.Lerp(Color.White * 0.7f, Color.White, s) * cS * Clamp(MathF.Sin(swingProgress * MathHelper.Pi) * 0.5f, 0, 1) * 2 * SmoothStep(1, 0, s) * 5 * cS;
+
+                                float _off = MathF.Abs((s) % 1f);
+
+                                vertices.Add(Helper.AsVertex(start - Main.screenPosition, col, new Vector2(_off, 1)));
+                                vertices.Add(Helper.AsVertex(end - Main.screenPosition, col, new Vector2(_off, 0)));
+                            }
+                        }
+                }
+                if (vertices.Count > 3)
+                {
+                    for (int i = 0; i < 3; i++)
+                        Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, tex2, false);
+                }
+            }
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+
             Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
             Main.spriteBatch.Reload(BlendState.Additive);
             Vector2 orig = texture.Size() / 2;
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.Indigo * Projectile.ai[2], Projectile.rotation + (Projectile.ai[1] == 1 ? 0 : MathHelper.PiOver2 * 3), orig, Projectile.scale, Projectile.ai[1] == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.White * alpha * 4, Projectile.rotation + (Projectile.ai[1] == 1 ? 0 : MathHelper.PiOver2 * 3), orig, Projectile.scale, Projectile.ai[1] == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
+        }
+    }
+    public class PhantasmalWave : ModProjectile
+    {
+        public override string Texture => Helper.Empty;
+        public override void SetStaticDefaults()
+        {
+            ProjectileID.Sets.TrailCacheLength[Type] = 40;
+            ProjectileID.Sets.TrailingMode[Type] = 2;
+        }
+        public override void SetDefaults()
+        {
+            Projectile.height = 80;
+            Projectile.width = 80;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.DamageType = DamageClass.Melee;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.extraUpdates = 2;
+            Projectile.localNPCHitCooldown = 120;
+            Projectile.timeLeft = 80;
+        }
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.ShadowFlame, 30);
+        }
+        public override bool? CanDamage()
+        {
+            return true;
+        }
+        public override bool ShouldUpdatePosition()
+        {
+            return true;
+        }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            if (lightColor != Color.Transparent) return false;
+            Texture2D tex = Helper.GetExtraTexture("Extras2/slash_06");
+            Main.spriteBatch.Reload(BlendState.Additive);
+            float fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
+            for (int i = 0; i < Projectile.oldPos.Length; i++)
+            {
+                float mult = MathF.Pow(1f - fadeMult * i, 2);
+                Main.spriteBatch.Draw(tex, Projectile.oldPos[i] + Projectile.Size / 2 - Projectile.velocity.ToRotation().ToRotationVector2() * (tex.Height / 3 * mult - tex.Height / 3) - Main.screenPosition, null, Color.White * Projectile.ai[2] * mult * increment * 4, Projectile.velocity.ToRotation(), tex.Size() / 2, Projectile.ai[0] * 0.7f * Projectile.scale, SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            return false;
+        }
+        float increment = 0.6f;
+        public override void AI()
+        {
+            if (Projectile.timeLeft % 3 == 0)
+            {
+                Projectile.velocity *= 0.9f;
+                increment *= 0.9f;
+            }
+            Projectile.scale = Projectile.ai[1];
+            //Projectile.Center = Main.player[Projectile.owner].Center + Projectile.velocity * Projectile.ai[1];
+            Projectile.ai[0] = Lerp(Projectile.ai[0], 0, 0.005f);
+            Projectile.ai[2] = Lerp(Projectile.ai[2], 1, 0.1f);
+            float Ease(float x)
+            {
+                return 1 - MathF.Sqrt(1 - MathF.Pow(x, 2));
+            }
         }
     }
 }

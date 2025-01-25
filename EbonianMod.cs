@@ -30,6 +30,7 @@ using Microsoft.CodeAnalysis;
 using Terraria.DataStructures;
 using EbonianMod.Common.Systems.Misc;
 using EbonianMod.NPCs.ArchmageX;
+using EbonianMod.Items.Weapons.Melee;
 
 namespace EbonianMod
 {
@@ -426,7 +427,7 @@ namespace EbonianMod
                 XGoopDust.DrawAll(sb);
                 foreach (Projectile proj in Main.projectile)
                 {
-                    if (proj.active && proj.timeLeft > 0 && proj.type == ProjectileType<ArchmageChargeUp>())
+                    if (proj.active && proj.timeLeft > 0 && (proj.type == ProjectileType<ArchmageChargeUp>() || proj.type == ProjectileType<PhantasmalGreatswordP>() || proj.type == ProjectileType<PhantasmalWave>() || proj.type == ProjectileType<PhantasmalGreatswordP2>()))
                     {
                         Color color = Color.Transparent;
                         proj.ModProjectile.PreDraw(ref color);
