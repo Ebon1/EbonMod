@@ -365,6 +365,8 @@ namespace EbonianMod.NPCs.Terrortoma
                 Next = Main.rand.Next(8, 16);
             else
                 Next = Main.rand.Next((!hasDonePhase2ApeShitMode ? 9 : 16));
+
+            Next = DoubleDash;
         }
         public override void AI()
         {
@@ -832,9 +834,10 @@ namespace EbonianMod.NPCs.Terrortoma
                     SoundEngine.PlaySound(EbonianSounds.chomp1, NPC.Center);
                     EbonianSystem.ScreenShakeAmount = 5f;
 
-                    for (int i = -6; i < 7; i += (hasDonePhase2ApeShitMode ? 1 : 2))
+                    for (int i = 0; i < 10; i += (hasDonePhase2ApeShitMode ? 1 : 2))
                     {
-                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, new Vector2(0, -5).RotatedBy(i * 0.1f), ProjectileType<OstertagiWorm>(), 24, 0, 0, i * Main.rand.NextFloat(0.15f, 0.5f));
+                        float angle = Helper.CircleDividedEqually(i, 10);
+                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, angle.ToRotationVector2() * Main.rand.NextFloat(5, 7), ProjectileType<OstertagiWorm>(), 24, 0, 0);
                         a.friendly = false;
                         a.hostile = true;
                         Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Bottom, new Vector2(0, 0), ProjectileType<GluttonImpact>(), 50, 0, 0, 0);
