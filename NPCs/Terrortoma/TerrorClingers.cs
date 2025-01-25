@@ -19,6 +19,7 @@ using EbonianMod.Projectiles.Friendly.Corruption;
 using EbonianMod.Items.Misc;
 using Terraria.GameContent;
 using EbonianMod.NPCs.Corruption.Ebonflies;
+using EbonianMod.NPCs.Corruption;
 
 namespace EbonianMod.NPCs.Terrortoma
 {
@@ -72,6 +73,7 @@ namespace EbonianMod.NPCs.Terrortoma
             get => NPC.ai[2];
             set => NPC.ai[2] = value;
         }
+        float AITimer3;
         private Vector2 terrortomaCenter;
         float bloomAlpha;
         public override void AI()
@@ -84,6 +86,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 NPC.life = 0;
             }
             float AIState = center.ai[0];
+            bool phase2 = center.life <= center.lifeMax - center.lifeMax / 3 + 3500;
             float CenterAITimer = center.ai[1];
             terrortomaCenter = center.Center;
             if (!player.active || player.dead || center.ai[0] == -12124)
@@ -156,7 +159,7 @@ namespace EbonianMod.NPCs.Terrortoma
             {
                 NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
                 Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
-                if (AIState == 6)
+                if (AIState == 6 || AIState == 14)
                 {
                     pos = center.Center - new Vector2(85, 85).RotatedBy(center.rotation);
                 }
@@ -167,8 +170,9 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else
             {
-                if (AIState == 0 || AIState == 1 || AIState == -2 || AIState == 4 || AIState == 999)
+                if (AIState == 0 || AIState == 1 || AIState == 15 || AIState == 9 || AIState == 14 || AIState == 10 || AIState == 13 || AIState == 11 || AIState == -2 || AIState == 4 || AIState == 999)
                 {
+                    AITimer3 = 0;
                     AITimer = 0;
                     NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
                     Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
@@ -212,17 +216,17 @@ namespace EbonianMod.NPCs.Terrortoma
                                             }
                                             if (AITimer2 > 30)
                                             {
-                                                for (int j = -5; j < 6; j++)
+                                                for (int j = -5 - phase2.ToInt(); j < 6 + phase2.ToInt(); j++)
                                                 {
-                                                    if (j == 0) continue;
+                                                    if (!phase2 && j == 0) continue;
                                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY.RotatedBy(MathHelper.ToRadians(MathHelper.Lerp(-100, 100, (float)(j + 5) / 10))) * 10, ProjectileType<TFlameThrower3>(), 20, 0);
                                                 }
                                             }
                                             else
                                             {
-                                                for (int j = -3; j < 4; j++)
+                                                for (int j = -3 - phase2.ToInt(); j < 4 + phase2.ToInt(); j++)
                                                 {
-                                                    if (j == 0) continue;
+                                                    if (!phase2 && j == 0) continue;
                                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), npc.Center, Vector2.UnitY.RotatedBy(j * 0.5f) * 10, ProjectileType<TFlameThrower3>(), 20, 0);
                                                 }
                                             }
@@ -269,6 +273,54 @@ namespace EbonianMod.NPCs.Terrortoma
                                         }
                                     }
                                     else AITimer2 = 0;
+                                }
+                            }
+                            break;
+                        case 12:
+                            {
+                                AITimer++;
+                                if (AITimer < 80)
+                                {
+                                    AITimer3 = 0;
+                                    if (AITimer > 30)
+                                        NPC.velocity = Vector2.Lerp(NPC.velocity, -Vector2.UnitY.RotatedBy(PiOver4 * 0.3f) * 10, 0.02f);
+                                    else
+                                    {
+                                        NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
+                                        Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
+                                        Vector2 target = pos;
+                                        Vector2 moveTo = target - NPC.Center;
+                                        NPC.velocity = (moveTo) * 0.1f;
+                                    }
+                                }
+                                else if (AITimer > 80 && AITimer3 < 4)
+                                {
+
+                                    Vector2 to = Helper.TRay.Cast(NPC.Center - new Vector2(0, 50), Vector2.UnitY, 800);
+                                    if (AITimer2 < 0.5f)
+                                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, to) * 40, 0.05f);
+                                    AITimer2 = Lerp(AITimer2, 0, 0.1f);
+                                    if (NPC.Distance(to) < NPC.width && AITimer2 < 0.5f)
+                                    {
+                                        SoundEngine.PlaySound(EbonianSounds.eggplosion, NPC.Center);
+                                        NPC.velocity = new Vector2(Main.rand.NextFloat(0, 50) * (Helper.FromAToB(NPC.Center, player.Center).X > 0 ? 1 : -1), -50); ;
+                                        Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0);
+                                        center.velocity = Helper.FromAToB(NPC.Center, center.Center) * 15;
+                                        AITimer3++;
+                                        for (int i = -2; i < 2; i++)
+                                        {
+                                            Projectile.NewProjectile(null, NPC.Center, new Vector2(Main.rand.NextFloat(-1.25f, 1.25f), -1) * 5, ProjectileType<TFlameThrower4>(), 25, 0);
+                                        }
+                                        AITimer2 = 1;
+                                    }
+                                }
+                                else
+                                {
+                                    NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
+                                    Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
+                                    Vector2 target = pos;
+                                    Vector2 moveTo = target - NPC.Center;
+                                    NPC.velocity = (moveTo) * 0.1f;
                                 }
                             }
                             break;
@@ -348,8 +400,8 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.noTileCollide = true;
             NPC.defense = 10;
             NPC.knockBackResist = 0;
-            NPC.width = 46;
-            NPC.height = 50;
+            NPC.width = 58;
+            NPC.height = 62;
             NPC.npcSlots = 1f;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
@@ -382,6 +434,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 NPC.life = 0;
             }
             float AIState = center.ai[0];
+            bool phase2 = center.life <= center.lifeMax - center.lifeMax / 3 + 3500;
             float CenterAITimer = center.ai[1];
             terrortomaCenter = center.Center;
             if (!player.active || player.dead || center.ai[0] == -12124)
@@ -452,7 +505,8 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             if (center.ai[2] == 1 && NPC.ai[3] == 0)
             {
-                bloomAlpha = 1f;
+                if (center.ai[0] != 15)
+                    bloomAlpha = 1f;
                 NPC.ai[3] = 1;
             }
             if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
@@ -466,7 +520,7 @@ namespace EbonianMod.NPCs.Terrortoma
             if ((center.ai[2] != 1 && center.ai[2] <= 2) || center.ai[2] == 4)
             {
                 Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
-                if (AIState == 6)
+                if (AIState == 6 || AIState == 14)
                 {
                     pos = center.Center - new Vector2(-85, 85).RotatedBy(center.rotation);
                 }
@@ -477,12 +531,13 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else
             {
-                if (AIState == 0 || AIState == 1 || AIState == -2 || AIState == 4 || AIState == 999 || AIState == 5)
+                if (AIState == 0 || AIState == 1 || AIState == 12 || AIState == 9 || AIState == 14 || AIState == 10 || AIState == 13 || AIState == 11 || AIState == -2 || AIState == 4 || AIState == 999 || AIState == 5)
                 {
                     Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
                     NPC.velocity = (moveTo) * 0.05f;
+                    NPC.scale = Lerp(NPC.scale, 1, 0.1f);
                 }
                 if (center.ai[2] != 4)
                 {
@@ -561,6 +616,66 @@ namespace EbonianMod.NPCs.Terrortoma
                                 }
                             }
                             break;
+                        case 15:
+                            {
+                                AITimer++;
+                                if (AITimer < 100)
+                                {
+                                    if (AITimer < 85)
+                                    {
+                                        Vector2 pos = NPC.Center + new Vector2(0, 300).RotatedByRandom(TwoPi);
+                                        Dust.NewDustPerfect(pos, DustType<LineDustFollowPoint>(), Helper.FromAToB(pos, NPC.Center) * Main.rand.NextFloat(4, 10), newColor: Color.LawnGreen, Scale: Main.rand.NextFloat(0.06f, 0.2f)).customData = NPC.Center + new Vector2(0, 20);
+
+                                        Dust.NewDustPerfect(pos, DustID.CursedTorch, Helper.FromAToB(pos, NPC.Center) * Main.rand.NextFloat(4, 10)).noGravity = true;
+                                    }
+                                    if (AITimer > 50)
+                                        NPC.Center = savedP + Main.rand.NextVector2Circular(30, 30) * (NPC.scale - 1);
+                                    NPC.scale = Lerp(NPC.scale, 2, 0.01f);
+
+                                    if (AITimer == 50) savedP = NPC.Center;
+
+                                    if (AITimer < 50)
+                                    {
+                                        Vector2 pos = center.Center + new Vector2(-150, -85).RotatedBy(center.rotation);
+                                        Vector2 target = pos;
+                                        Vector2 moveTo = target - NPC.Center;
+                                        NPC.velocity = (moveTo) * 0.05f;
+                                    }
+                                    else
+                                        NPC.velocity *= 0.8f;
+                                }
+                                else
+                                {
+                                    NPC.velocity *= 0.8f;
+                                    if (AITimer < 107)
+                                        NPC.scale = Lerp(NPC.scale, 0.5f, 0.5f);
+                                    else
+                                        NPC.scale = Lerp(NPC.scale, 1f, 0.1f);
+                                }
+                                if (AITimer == 100)
+                                {
+                                    Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0);
+
+                                    for (int i = 0; i < 5; i++)
+                                    {
+                                        float angle = Helper.CircleDividedEqually(i, 5);
+                                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, angle.ToRotationVector2() * Main.rand.NextFloat(5, 7), ProjectileType<OstertagiWorm>(), 24, 0, 0);
+                                        a.friendly = false;
+                                        a.hostile = true;
+                                    }
+
+                                    for (int i = 0; i < 5; i++)
+                                    {
+                                        float angle = Helper.CircleDividedEqually(i, 5);
+                                        NPC tit = NPC.NewNPCDirect(null, NPC.Center, NPCType<Regorger>(), ai3: 1);
+                                        tit.velocity = angle.ToRotationVector2() * 10;
+                                        tit.lifeMax *= 6;
+                                        tit.life = tit.lifeMax;
+                                        //tit.Size
+                                    }
+                                }
+                            }
+                            break;
                     }
                 }
                 else
@@ -572,6 +687,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
             }
         }
+        Vector2 savedP;
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {
             NPC _center = Main.npc[(int)NPC.ai[0]];
@@ -710,6 +826,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 NPC.life = 0;
             }
             float AIState = center.ai[0];
+            bool phase2 = center.life <= center.lifeMax - center.lifeMax / 3 + 3500;
             float CenterAITimer = center.ai[1];
             if (center.ai[0] == -1)
             {
@@ -779,7 +896,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 {
                     NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
                     Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
-                    if (AIState == 6)
+                    if (AIState == 6 || AIState == 14)
                     {
                         pos = center.Center - new Vector2(0, 85).RotatedBy(center.rotation);
                     }
@@ -790,7 +907,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 else
                 {
-                    if (AIState == 0 || AIState == 1 || AIState == -2 || AIState == 4 || AIState == 999)
+                    if (AIState == 0 || AIState == 1 || AIState == 15 || AIState == 12 || AIState == 9 || AIState == 14 || AIState == 10 || AIState == 13 || AIState == 11 || AIState == -2 || AIState == 4 || AIState == 999)
                     {
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
                         Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);

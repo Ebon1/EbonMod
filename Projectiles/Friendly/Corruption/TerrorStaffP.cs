@@ -108,6 +108,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                 Projectile.velocity.X = 0;
                 return false;
             }
+
             Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Helper.TRay.Cast(Projectile.Center, Vector2.UnitY, Main.screenWidth), Vector2.Zero, ProjectileType<TExplosion>(), 0, 0);
             Terraria.Audio.SoundEngine.PlaySound(EbonianSounds.eggplosion, Projectile.Center);
             return true;
@@ -121,6 +122,8 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                 else Projectile.frame = 0;
             }
             Projectile.velocity.Y += 0.25f;
+
+            for (int i = 0; i < 3; i++) Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.CorruptionThorns, Projectile.velocity.X * 0.4f, Projectile.velocity.Y * 0.4f).noGravity = true;
         }
     }
 }

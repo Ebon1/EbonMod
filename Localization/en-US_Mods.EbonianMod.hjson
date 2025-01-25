@@ -261,6 +261,9 @@ Projectiles: {
 	XBoltFriendly2.DisplayName: X Bolt Friendly2
 	RedMistVFX.DisplayName: Red Mist V F X
 	PhantasmalWave.DisplayName: Phantasmal Wave
+	TFlameThrower2_Inverted.DisplayName: T Flame Thrower2_ Inverted
+	TerrortomaScream.DisplayName: Terrortoma Scream
+	TFlameThrowerHoming.DisplayName: T Flame Thrower Homing
 }
 
 NPCs: {

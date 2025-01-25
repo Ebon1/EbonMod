@@ -43,6 +43,10 @@ namespace EbonianMod.Items.Misc
         {
             return false;
         }
+        public override bool AllowPrefix(int pre)
+        {
+            return false;
+        }
     }
     public class SelfStabP : ModProjectile
     {

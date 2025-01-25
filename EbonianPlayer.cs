@@ -33,7 +33,7 @@ namespace EbonianMod
         public Color bossColor, dialogueColor;
         public static EbonianPlayer Instance;
         public Vector2 stabDirection;
-        public int reiBoostCool, reiBoostT, xTentCool;
+        public int reiBoostCool, reiBoostT, xTentCool, consistentTimer;
         public bool rolleg, brainAcc, heartAcc, ToxicGland, hotShield, rei, reiV, sheep, xTent;
         public bool doomMinion, xMinion, cClawMinion, titteringMinion;
         public override bool Shoot(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -148,6 +148,7 @@ namespace EbonianMod
         }
         public override void PostUpdateMiscEffects()
         {
+            consistentTimer++;
             if (hotShield)
             {
                 Player.CancelAllBootRunVisualEffects();

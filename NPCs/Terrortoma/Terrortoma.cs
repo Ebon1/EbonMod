@@ -35,6 +35,9 @@ using EbonianMod.Items.Pets.Hightoma;
 using EbonianMod.Items.Tiles.Trophies;
 using EbonianMod.Items.Tiles;
 using EbonianMod.Items.Armor.Vanity;
+using EbonianMod.Dusts;
+using Humanizer;
+using Terraria.Graphics.CameraModifiers;
 
 namespace EbonianMod.NPCs.Terrortoma
 {
@@ -82,10 +85,14 @@ namespace EbonianMod.NPCs.Terrortoma
                 PortraitPositionYOverride = 0f,
             };*/
         }
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
+        {
+            NPC.lifeMax = (int)(NPC.lifeMax * balance * bossAdjustment);
+        }
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.lifeMax = 22000;
+            NPC.lifeMax = 30000;
             NPC.boss = true;
             NPC.damage = 0;
             NPC.noTileCollide = true;
@@ -118,14 +125,14 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else
             {
-                if ((!isLaughing && AIState != -12124 && AIState != Intro))
+                if (((AIState == EyeHomingFlames ? true : !isLaughing) && AIState != -12124 && AIState != Intro))
                 {
                     Texture2D tex = Request<Texture2D>(Texture + "_Bloom").Value;
                     spriteBatch.Reload(BlendState.Additive);
                     spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.LawnGreen * bloomAlpha, NPC.rotation, tex.Size() / 2 - new Vector2(0, 2).RotatedBy(NPC.rotation), NPC.scale, SpriteEffects.None, 0);
                     spriteBatch.Reload(BlendState.AlphaBlend);
-
-                    spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value, NPC.Center - pos, NPC.frame, NPC.IsABestiaryIconDummy ? Color.White : lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
+                    if (!isLaughing)
+                        spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value, NPC.Center - pos, NPC.frame, NPC.IsABestiaryIconDummy ? Color.White : lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
                 }
                 if (isLaughing || AIState == -12124)
                 {
@@ -163,7 +170,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 eyePosition += dist * fromTo;
                 spriteBatch.Draw(tex, eyePosition - screenPos, null, Color.White, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
             }
-            if (AIState != -12124 && AIState != Intro && !isLaughing)
+            if (AIState != -12124 && AIState != Intro && (AIState == EyeHomingFlames ? true : !isLaughing))
             {
                 float dist = MathHelper.Clamp(Helper.FromAToB(eyeOGPosition, player.Center, false).Length() * 0.1f, 0, 6);
                 if (AIState == Death)
@@ -177,11 +184,12 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 else
                     eyePosition += dist * fromTo;
-                spriteBatch.Draw(tex, eyePosition - screenPos, null, Color.White, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
+                if (!isLaughing)
+                    spriteBatch.Draw(tex, eyePosition - screenPos, null, Color.White, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
 
                 Texture2D tex2 = Helper.GetExtraTexture("crosslight");
                 Main.spriteBatch.Reload(BlendState.Additive);
-                Main.spriteBatch.Draw(tex2, eyePosition - Main.screenPosition, null, Color.LawnGreen * glareAlpha, 0, tex2.Size() / 2, glareAlpha * 0.2f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex2, isLaughing ? eyeOGPosition : eyePosition - Main.screenPosition, null, Color.LawnGreen * glareAlpha, 0, tex2.Size() / 2, glareAlpha * 0.2f, SpriteEffects.None, 0);
                 if (AIState == Death)
                 {
                     Texture2D tex3 = Helper.GetExtraTexture("Extras2/flare_01");
@@ -197,9 +205,10 @@ namespace EbonianMod.NPCs.Terrortoma
         //npc.rotation = npc.velocity.ToRotation() - MathHelper.PiOver2;
         //Vector2 toPlayer = player.Center - npc.Center;
         //npc.rotation = toPlayer.ToRotation() - MathHelper.PiOver2;
+        bool angry = false;
         public override void FindFrame(int frameHeight)
         {
-            if (AIState == Death)
+            if (AIState == Death || angry)
             {
                 if (++NPC.frameCounter < 5)
                     NPC.frame.Y = 12 * frameHeight;
@@ -299,28 +308,30 @@ namespace EbonianMod.NPCs.Terrortoma
         private float angle = 0;
         private bool hasDonePhase2ApeShitMode = false;
 
-        public const int ApeShitMode = 999, Idle = -2, Death = -1, Intro = 0, Vilethorn = 1, DifferentClingerAttacks = 2, HeadSlam = 3, CursedFlamesRain = 4, Pendulum = 5, ThrowUpVilethorns = 6, DoubleDash = 7, Ostertagi = 8;
+        public const int ApeShitMode = 999, Idle = -2, Death = -1, Intro = 0, Vilethorn = 1, DifferentClingerAttacks = 2, HeadSlam = 3,
+            CursedFlamesRain = 4, Pendulum = 5, ThrowUpVilethorns = 6, DoubleDash = 7, Ostertagi = 8, FlamesFallUp = 9, GeyserSweep = 10,
+            EyeHomingFlames = 11, RangedHeadSlam = 12, CursedDollCopy = 13, ShadowOrbVomit = 14, TitteringSpawn = 15;
         float rotation;
         bool ded;
         float Next = 1;
         float OldState;
-        const int attackNum = 8;
+        const int attackNum = 15;
         public float[] pattern = new float[attackNum];
         public float[] oldPattern = new float[attackNum];
         public override void OnSpawn(IEntitySource source)
         {
-            for (int i = 0; i < attackNum; i++)
+            for (int i = 0; i < attackNum - 8; i++)
             {
-                pattern[i] = Main.rand.Next(1, attackNum + 1);
+                pattern[i] = Main.rand.Next(1, attackNum - (hasDonePhase2ApeShitMode ? 0 : 8) + 1);
             }
         }
         public void GenerateNewPattern()
         {
-            for (int i = 0; i < attackNum; i++)
+            for (int i = 0; i < attackNum - (hasDonePhase2ApeShitMode ? 0 : 8); i++)
             {
-                pattern[i] = Main.rand.Next(1, attackNum + 1);
+                pattern[i] = Main.rand.Next(1, (hasDonePhase2ApeShitMode ? 9 : 16));
             }
-            for (int i = 0; i < attackNum; i++)
+            for (int i = 0; i < attackNum - (hasDonePhase2ApeShitMode ? 0 : 8); i++)
             {
                 int attempts = 0;
                 while (++attempts < 100 && (pattern.Count(p => p == pattern[i]) != 1 || pattern[i] == 0) || oldPattern.Last() == pattern.First())
@@ -331,7 +342,7 @@ namespace EbonianMod.NPCs.Terrortoma
         }
         public void SwitchToRandom()
         {
-            if (pattern.Any())
+            /*if (pattern.Any())
             {
                 if (AIState == pattern[attackNum - 1])
                 {
@@ -349,6 +360,11 @@ namespace EbonianMod.NPCs.Terrortoma
                     Next = pattern[pattern.ToList().IndexOf((int)OldState) + 1];
                 }
             }
+            */
+            if (hasDonePhase2ApeShitMode && Main.rand.NextBool())
+                Next = Main.rand.Next(8, 16);
+            else
+                Next = Main.rand.Next((!hasDonePhase2ApeShitMode ? 9 : 16));
         }
         public override void AI()
         {
@@ -382,7 +398,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
             }
             if (glareAlpha > 0) glareAlpha -= 0.025f;
-            if (NPC.life <= NPC.lifeMax / 2 && !hasDonePhase2ApeShitMode)
+            if (NPC.life <= NPC.lifeMax - NPC.lifeMax / 3 + 3500 && !hasDonePhase2ApeShitMode)
             {
                 glareAlpha = 1f;
                 AIState = ApeShitMode;
@@ -570,12 +586,12 @@ namespace EbonianMod.NPCs.Terrortoma
                         }
                     SoundEngine.PlaySound(EbonianSounds.terrortomaLaugh, NPC.Center);
                 }
-                if (AITimer < 100)
-                    NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 4;
+                if (NPC.Distance(player.Center) > 200)
+                    NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 100) + Helper.FromAToB(player.Center, NPC.Center) * 100) * 13, 0.1f);
                 else NPC.velocity *= 0.9f;
                 isLaughing = AITimer < 100;
                 rotation = Vector2.UnitY.ToRotation() - MathHelper.PiOver2;
-                if (AITimer > 150)
+                if (AITimer > 190)
                 {
                     NPC.velocity = Vector2.Zero;
                     AIState = Next;
@@ -638,7 +654,7 @@ namespace EbonianMod.NPCs.Terrortoma
                             }
                         }
                     }
-                    if (AITimer2 % 50 == 4)
+                    if (AITimer2 % 50 == 14)
                     {
                         SoundEngine.PlaySound(EbonianSounds.terrortomaDash, NPC.Center);
                         for (int i = 0; i < 40; i++)
@@ -648,11 +664,17 @@ namespace EbonianMod.NPCs.Terrortoma
                     }
                     if (AITimer2 % 50 < 10)
                     {
-                        NPC.velocity += Helper.FromAToB(NPC.Center, player.Center) * 2;
+                        rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() - PiOver2;
+                        NPC.velocity -= Helper.FromAToB(NPC.Center, player.Center) * (AITimer2 % 50) * 0.3f;
+                    }
+                    if (AITimer2 % 50 < 30 && AITimer % 50 > 10)
+                    {
+                        if (AITimer % 50 > 20)
+                            rotation = NPC.velocity.ToRotation() - MathHelper.PiOver2;
+                        NPC.velocity += Helper.FromAToB(NPC.Center, player.Center) * 3;
                     }
                     if (AITimer2 % 50 > 40)
                         NPC.velocity *= 0.9f;
-                    rotation = NPC.velocity.ToRotation() - MathHelper.PiOver2;
                 }
                 if (AITimer >= 290)
                 {
@@ -710,7 +732,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     NPC.velocity = (moveTo) * 0.0445f;
                     if (++AITimer2 % 60 == 0)
                     {
-                        for (int i = 0; i <= 5 + (Main.expertMode ? 5 : 0); i++)
+                        for (int i = 0; i <= 5; i++)
                         {
                             Projectile projectile = Main.projectile[Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, new Vector2(Main.rand.NextFloat(-10f, 10f), -10), ProjectileType<TFlameThrower2>(), 20, 1f, Main.myPlayer)];
                             projectile.tileCollide = false;
@@ -809,6 +831,14 @@ namespace EbonianMod.NPCs.Terrortoma
                 {
                     SoundEngine.PlaySound(EbonianSounds.chomp1, NPC.Center);
                     EbonianSystem.ScreenShakeAmount = 5f;
+
+                    for (int i = -6; i < 7; i += (hasDonePhase2ApeShitMode ? 1 : 2))
+                    {
+                        Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, new Vector2(0, -5).RotatedBy(i * 0.1f), ProjectileType<OstertagiWorm>(), 24, 0, 0, i * Main.rand.NextFloat(0.15f, 0.5f));
+                        a.friendly = false;
+                        a.hostile = true;
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Bottom, new Vector2(0, 0), ProjectileType<GluttonImpact>(), 50, 0, 0, 0);
+                    }
                     Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Bottom, new Vector2(0, 0), ProjectileType<GluttonImpact>(), 50, 0, 0, 0);
                 }
                 if (AITimer >= 170) { NPC.velocity *= 0.1f; }
@@ -866,6 +896,204 @@ namespace EbonianMod.NPCs.Terrortoma
                     ResetState();
                 }
             }
+            else if (AIState == FlamesFallUp)
+            {
+                if (AITimer == 80)
+                    glareAlpha = 1;
+                if (AITimer < 80)
+                {
+                    if (NPC.Distance(player.Center) > 200)
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200)) * 30, 0.02f);
+                    else NPC.velocity *= 0.9f;
+                    Vector2 pos = NPC.Center + new Vector2(0, 300).RotatedByRandom(PiOver2 * 0.7f);
+                    Dust.NewDustPerfect(pos, DustType<LineDustFollowPoint>(), Helper.FromAToB(pos, NPC.Center) * Main.rand.NextFloat(4, 10), newColor: Color.LawnGreen, Scale: Main.rand.NextFloat(0.06f, 0.2f)).customData = NPC.Center + new Vector2(0, 20);
+
+                    Dust.NewDustPerfect(pos, DustID.CursedTorch, Helper.FromAToB(pos, NPC.Center) * Main.rand.NextFloat(4, 10)).noGravity = true;
+                }
+                else NPC.velocity *= 0.9f;
+                if (AITimer >= 100 && AITimer < 190)
+                {
+                    Projectile.NewProjectile(null, NPC.Center + Vector2.UnitY.RotatedByRandom(PiOver4) * 20, Vector2.UnitY.RotatedByRandom(PiOver4) * Main.rand.NextFloat(3, 8), ProjectileType<TFlameThrower>(), 30, 0);
+                    if (AITimer % 4 == 0)
+                    {
+                        SoundEngine.PlaySound(SoundID.Item34, NPC.Center);
+                        if (AITimer < 170)
+                            Projectile.NewProjectile(null, NPC.Center + Vector2.UnitY.RotatedByRandom(PiOver4) * 20, new Vector2(Main.rand.NextFloat(-20, 20), Main.rand.NextFloat(-23, -16)), ProjectileType<TFlameThrower2_Inverted>(), 30, 0);
+                    }
+                }
+                if (AITimer >= 210)
+                {
+                    ResetState();
+                }
+            }
+            else if (AIState == GeyserSweep)
+            {
+                if (AITimer < 80)
+                {
+                    rotation = -PiOver4;
+                    lastPos = player.Center;
+                    Vector2 to = Helper.TRay.Cast(player.Center + new Vector2(750, -400), Vector2.UnitY, 800, true) - new Vector2(200);
+                    if (NPC.Distance(to) > 200)
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, to) * 30, 0.1f);
+                    else NPC.velocity *= 0.9f;
+                    Vector2 pos = NPC.Center + new Vector2(0, 300).RotatedByRandom(PiOver2 * 0.7f);
+                    Dust.NewDustPerfect(pos, DustType<LineDustFollowPoint>(), Helper.FromAToB(pos, NPC.Center) * Main.rand.NextFloat(4, 10), newColor: Color.LawnGreen, Scale: Main.rand.NextFloat(0.06f, 0.2f)).customData = NPC.Center + new Vector2(0, 20);
+
+                    Dust.NewDustPerfect(pos, DustID.CursedTorch, Helper.FromAToB(pos, NPC.Center) * Main.rand.NextFloat(4, 10)).noGravity = true;
+                }
+                if (AITimer == 85)
+                {
+                    bloomAlpha = 1;
+                    glareAlpha = 1;
+                }
+                if (AITimer > 100)
+                {
+                    Vector2 to = Helper.TRay.Cast(lastPos + new Vector2(-750, -400), Vector2.UnitY, 800, true) - new Vector2(200);
+                    if (NPC.Distance(to) > 200)
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, to) * 30, 0.02f);
+                    else
+                    {
+                        AITimer++;
+                        NPC.velocity *= 0.9f;
+                    }
+
+
+                    Projectile.NewProjectile(null, NPC.Center + Vector2.UnitY.RotatedByRandom(PiOver4) * 20, Vector2.UnitY.RotatedBy(NPC.rotation).RotatedByRandom(PiOver4) * Main.rand.NextFloat(3, 8), ProjectileType<TFlameThrower>(), 30, 0);
+                    if (AITimer % 3 == 0)
+                        SoundEngine.PlaySound(SoundID.Item34, NPC.Center);
+                    if (AITimer % 9 == 0 && AITimer > 120 && NPC.Distance(to) > 200)
+                    {
+                        Projectile.NewProjectile(null, Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 500, true), -Vector2.UnitY, ProjectileType<TFlameThrower4>(), 30, 0);
+                    }
+
+                }
+                if (AITimer >= 210)
+                {
+                    ResetState();
+                }
+            }
+            else if (AIState == RangedHeadSlam)
+            {
+                SelectedClinger = 3;
+                angry = true;
+                if (AITimer == 1)
+                {
+                    lastPos = player.Center + new Vector2(Main.rand.NextFloat(-50, 50), 0);
+                }
+                Vector2 to = Helper.TRay.Cast(lastPos, Vector2.UnitY, 800, true) - new Vector2(0, 300);
+                if (NPC.Distance(to) > 100)
+                    NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, to) * 30, 0.1f);
+                else NPC.velocity *= 0.9f;
+
+                if (AITimer >= 400)
+                {
+                    ResetState();
+                }
+            }
+            else if (AIState == CursedDollCopy)
+            {
+                if (NPC.Distance(player.Center) > 200)
+                    NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 200)) * 30, 0.02f);
+                else NPC.velocity *= 0.9f;
+                if (AITimer < 175)
+                {
+                    if (AITimer == 1)
+                    {
+                        glareAlpha = 1;
+                        SoundEngine.PlaySound(EbonianSounds.shriek.WithPitchOffset(-1f).WithVolumeScale(1.6f), NPC.Center);
+                        SoundEngine.PlaySound(EbonianSounds.shriek.WithPitchOffset(-0.6f).WithVolumeScale(1.6f), NPC.Center);
+                    }
+                    if (AITimer % 20 == 0)
+                        Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 10, 6, 30, 1000));
+                    angry = true;
+                    if (AITimer % 3 == 0)
+                        Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<TerrortomaScream>(), 0, 0);
+                }
+                else angry = false;
+                if (AITimer > 40 && AITimer % 12 == 0 && AITimer < 170)
+                {
+                    Vector2 pos = player.Center - new Vector2(Main.rand.NextFloat(-1000, 1000), 700);
+                    Projectile.NewProjectile(null, pos, new Vector2(Helper.FromAToB(pos, player.Center).X * Main.rand.NextFloat(8), Main.rand.NextFloat(3, 10)), ProjectileType<TFlameThrower2>(), 20, 0);
+
+                    pos = player.Center + new Vector2(1000 * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), -20);
+                    if (AITimer % 48 == 0)
+                        Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, player.Center) * 16, ProjectileType<TerrorVilethorn1>(), 20, 0);
+                }
+                if (AITimer >= 180)
+                {
+                    ResetState();
+                }
+            }
+            else if (AIState == ShadowOrbVomit)
+            {
+                SelectedClinger = 4;
+                if (AITimer == 1)
+                    bloomAlpha = 1f;
+                rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2;
+                if (AITimer == 40 || (AITimer > 80 && AITimer % 5 == 0 && AITimer <= 150))
+                {
+                    if (AITimer % 15 == 0 || AITimer == 40)
+                        SoundEngine.PlaySound(SoundID.NPCDeath13.WithPitchOffset(.4f + Main.rand.NextFloat(-.3f, .1f)), NPC.Center);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + (rotation + PiOver2).ToRotationVector2().RotatedByRandom(PiOver4) * 25, (NPC.rotation + MathHelper.PiOver2).ToRotationVector2().RotatedByRandom(PiOver4 * 0.6f) * Main.rand.NextFloat(5, 20), ProjectileType<TerrorStaffPEvil>(), 20, 0, 0);
+                }
+
+                if (AITimer >= 180)
+                {
+                    ResetState();
+                }
+            }
+            else if (AIState == TitteringSpawn)
+            {
+                SelectedClinger = 1;
+
+                if (AITimer == 1)
+                {
+                    lastPos = player.Center + new Vector2(Main.rand.NextFloat(-50, 50), 0);
+                }
+                Vector2 to = Helper.TRay.Cast(lastPos, Vector2.UnitY, 800, true) - new Vector2(0, 200);
+                if (NPC.Distance(to) > 100)
+                    NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, to) * 30, 0.1f);
+                else NPC.velocity *= 0.9f;
+
+
+                if (AITimer >= 180)
+                {
+                    ResetState();
+                }
+            }
+            else if (AIState == EyeHomingFlames)
+            {
+                Vector2 eyePos = NPC.Center - new Vector2(-7, 14).RotatedBy(NPC.rotation);
+                isLaughing = true;
+                if ((AITimer % 30 == 0 || AITimer == 1) && AITimer <= 200)
+                    SoundEngine.PlaySound(EbonianSounds.terrortomaLaugh, NPC.Center);
+
+                if (AITimer == 1)
+                    SoundEngine.PlaySound(EbonianSounds.BeamWindUp, NPC.Center);
+                if (AITimer == 55)
+                {
+                    glareAlpha = 1;
+                    Projectile.NewProjectile(null, eyePos, Vector2.Zero, ProjectileType<GreenChargeUp>(), 0, 0);
+                }
+                if (AITimer == 100)
+                    lastPos = player.Center;
+                if (AITimer > 120)
+                {
+                    if (AITimer < 200 && AITimer % 15 == 0)
+                    {
+                        bloomAlpha = 1;
+                        SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(-1f), NPC.Center);
+                        Projectile.NewProjectile(null, eyePos, Main.rand.NextVector2CircularEdge(5, 5) * Main.rand.NextFloat(0.5f, 1), ProjectileType<TFlameThrowerHoming>(), 30, 0);
+                    }
+                    if (AITimer < 170 && AITimer % 5 == 0)
+                        Projectile.NewProjectile(null, eyePos, Helper.FromAToB(NPC.Center, player.Center) * Main.rand.NextFloat(0.5f, 1.5f), ProjectileType<RegorgerBolt>(), 30, 0);
+                }
+
+                if (AITimer >= 250)
+                {
+                    ResetState();
+                }
+            }
         }
         void ResetState()
         {
@@ -875,8 +1103,10 @@ namespace EbonianMod.NPCs.Terrortoma
             SwitchToRandom();
             AIState = Idle;
             NPC.damage = 0;
+            rotation = 0;
             NPC.velocity = Vector2.Zero;
             isLaughing = false;
+            angry = false;
         }
         Vector2 lastPos;
     }

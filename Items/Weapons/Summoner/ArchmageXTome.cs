@@ -75,7 +75,20 @@ namespace EbonianMod.Items.Weapons.Summoner
             Projectile.minionSlots = 1;
             Projectile.Size = new(1, 1);
         }
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = TextureAssets.Projectile[ProjectileType<XAmethystShard>()].Value;
+            Texture2D glow = Helper.GetTexture("Projectiles/ArchmageX/XAmethystShard_Glow");
+            Main.spriteBatch.Reload(BlendState.Additive);
+            for (int i = 0; i < 2; i++)
+                Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation + Projectile.minionPos, glow.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Reload(BlendState.AlphaBlend);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation + Projectile.minionPos, tex.Size() / 2, Projectile.scale, SpriteEffects.None, 0);
+
+            return false;
+        }
         public override bool? CanDamage() => false;
+        Vector2 basePos;
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
@@ -137,20 +150,17 @@ namespace EbonianMod.Items.Weapons.Summoner
                 int atts = 0;
                 Projectile.ai[0]++;
                 if (vel.Length() > 0)
-                    Projectile.Center = targetPos + vel.RotatedByRandom(MathHelper.PiOver4) * 150;
+                    basePos = targetPos + vel.RotatedByRandom(MathHelper.PiOver4) * 150;
                 else
-                    Projectile.Center = targetPos + Main.rand.NextVector2Unit() * 150;
+                    basePos = targetPos + Main.rand.NextVector2Unit() * 150;
                 while (++atts < 200 && !Collision.CanHit(Projectile, player))
-                    Projectile.Center = targetPos + Main.rand.NextVector2Unit() * 150;
+                    basePos = targetPos + Main.rand.NextVector2Unit() * 150;
                 if ((Projectile.ai[0] + Projectile.minionPos * 7) % 50 == 0)
                 {
-                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center + targetVel * 2, Helper.FromAToB(Projectile.Center + targetVel * 2, targetPos + targetVel) * 13, ProjectileType<XTomeP>(), Projectile.damage, 0f, player.whoAmI, index);
+                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), basePos + targetVel * 2, Helper.FromAToB(basePos + targetVel * 2, targetPos + targetVel) * 13, ProjectileType<XTomeP>(), Projectile.damage, 0f, player.whoAmI, index);
                 }
             }
-            else
-            {
-                Projectile.Center = player.Center;
-            }
+            Projectile.Center = player.Center + Vector2.UnitY.RotatedBy((player.ownedProjectileCounts[Type] > 1 ? Helper.CircleDividedEqually(Projectile.minionPos, player.ownedProjectileCounts[Type]) : 0) + ToRadians(player.GetModPlayer<EbonianPlayer>().consistentTimer * 3)) * (50 + MathF.Sin(player.GetModPlayer<EbonianPlayer>().consistentTimer * .1f + Projectile.minionPos) * 5);
         }
     }
     public class XTomeP : ModProjectile
@@ -205,7 +215,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
                     float __off = vfxOffset;
                     if (__off > 1) __off = -__off + 1;
-                    float _off = (__off + mult)%1f;
+                    float _off = (__off + mult) % 1f;
                     vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(25 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i - 1], Projectile.oldPos[i]).ToRotation() + MathHelper.PiOver2), col, new Vector2(_off, 0)));
                     vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(25 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i - 1], Projectile.oldPos[i]).ToRotation() - MathHelper.PiOver2), col, new Vector2(_off, 1)));
                 }
