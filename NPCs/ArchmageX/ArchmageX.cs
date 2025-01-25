@@ -168,6 +168,7 @@ namespace EbonianMod.NPCs.ArchmageX
 
             spriteBatch.Draw(headGlow, NPC.Center + new Vector2(NPC.direction == -1 ? 6 : 12, -38 + headYOff * 0.5f).RotatedBy(NPC.rotation) - screenPos, headFrame, Color.White, headRotation, new Vector2(36, 42) / 2, NPC.scale, NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             spriteBatch.Draw(headGlow, NPC.Center + new Vector2(NPC.direction == -1 ? 6 : 12, -38).RotatedBy(NPC.rotation) - screenPos, headFrame, Color.White, headRotation, new Vector2(36, 42) / 2, NPC.scale, NPC.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+
             return false;
         }
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -1625,6 +1626,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         }
                         if (AITimer >= (phase2 ? (phaseMult == 3 ? 200 : 151) : (phaseMult == 1 ? 100 : 76)))
                         {
+                            NPC.ai[3] = 0;
                             Reset();
                             PickAttack();
                         }

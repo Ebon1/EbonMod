@@ -37,16 +37,16 @@ namespace EbonianMod
     public class EbonianMod : Mod
     {
         public static EbonianMod Instance;
-        public static Effect Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur,
+        public static Effect bloom, softBloom, Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur,
             TrailShader, RTAlpha, Crack, Blur, RTOutline, metaballGradient, metaballGradientNoiseTex, invisibleMask, PullingForce, displacementMap, waterEffect, spherize;
         public readonly List<Effect> Effects = new List<Effect>()
         {
-            Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha,
+            bloom,softBloom, Tentacle, TentacleBlack, TentacleRT, ScreenDistort, SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1, Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha,
             Crack, Blur, RTOutline, metaballGradient,metaballGradientNoiseTex, invisibleMask, PullingForce,  displacementMap, waterEffect, spherize
     };
         public static List<int> projectileFinalDrawList = new List<int>();
         public static List<int> climbableProj = new List<int>();
-        public RenderTarget2D blurrender, invisRender, affectedByInvisRender;
+        public RenderTarget2D blurrender, invisRender, affectedByInvisRender, softBloomRender, intenseBloomRender;
         public RenderTarget2D[] renders = new RenderTarget2D[8];
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
@@ -151,6 +151,8 @@ namespace EbonianMod
         public static List<Action> addPixelationDrawCachePre = [];
         public static List<Action> addPixelationDrawCachePost = [];
         public static List<Action> finalDrawCache = [];
+        public static List<Action> intenseBloomCache = [];
+        public static List<Action> softBloomCache = [];
         public override void Unload()
         {
             sys = null;
@@ -182,11 +184,18 @@ namespace EbonianMod
 
             finalDrawCache.Clear();
             finalDrawCache = [];
+
+            intenseBloomCache.Clear();
+            intenseBloomCache = [];
+
+            softBloomCache.Clear();
+            softBloomCache = [];
         }
         public override void Load()
         {
             sys = new();
             Instance = this;
+            bloom = Request<Effect>("EbonianMod/Effects/bloom", (AssetRequestMode)1).Value;
             Test1 = Request<Effect>("EbonianMod/Effects/Test1", (AssetRequestMode)1).Value;
             HorizBlur = Request<Effect>("EbonianMod/Effects/horizBlur", (AssetRequestMode)1).Value;
             Blur = Request<Effect>("EbonianMod/Effects/Blur", (AssetRequestMode)1).Value;
@@ -339,7 +348,7 @@ namespace EbonianMod
             {
                 if (proj.active && proj.timeLeft > 1 && proj.type == ProjectileType<ReiCapeP>())
                 {
-                    Color color = new Color(69, 420, 0, 1);
+                    Color color = Color.Transparent;
                     proj.ModProjectile.PostDraw(color);
                 }
             }
@@ -354,6 +363,9 @@ namespace EbonianMod
                 DrawBlurredContent(sb, gd);
 
                 DrawInvisMasks(sb, gd);
+
+                //DrawSoftBloomContent(sb, gd);
+                DrawIntenseBloomContent(sb, gd);
             }
             DrawPixelatedContent(true, false, sb, gd);
             DrawPixelatedContent(true, true, sb, gd);
@@ -387,6 +399,7 @@ namespace EbonianMod
                 RTOutline.Parameters["m"].SetValue(0.62f);
                 RTOutline.Parameters["n"].SetValue(0.01f);
                 RTOutline.Parameters["offset"].SetValue(new Vector2(Main.GlobalTimeWrappedHourly * 0.005f, 0));
+
                 sb.Draw(Instance.renders[0], Vector2.Zero, Color.White);
             }
             else
@@ -409,6 +422,7 @@ namespace EbonianMod
         {
             if (secondPart)
             {
+
                 gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/darkShadowflameGradient", (AssetRequestMode)1).Value;
                 gd.Textures[2] = Request<Texture2D>("EbonianMod/Extras/space_full", (AssetRequestMode)1).Value;
                 gd.Textures[3] = Request<Texture2D>("EbonianMod/Extras/seamlessNoiseHighContrast", (AssetRequestMode)1).Value;
@@ -594,6 +608,85 @@ namespace EbonianMod
             sb.Draw(Instance.blurrender, Vector2.Zero, Color.White);
             sb.End();
         }
+
+        /*public static void DrawSoftBloomContent(SpriteBatch sb, GraphicsDevice gd)
+        {
+            gd.SetRenderTarget(Main.screenTargetSwap);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
+            sb.End();
+
+            gd.SetRenderTarget(Instance.softBloomRender);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+            foreach (Action draw in softBloomCache)
+            {
+                draw?.Invoke();
+            }
+            sb.End();
+            gd.SetRenderTarget(Main.screenTarget);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
+            sb.End();
+            sb.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+            softBloom.CurrentTechnique.Passes[0].Apply();
+            softBloom.Parameters["uResolution"].SetValue(Main.ScreenSize.ToVector2());
+            softBloom.Parameters["distance"].SetValue(0.005f);
+            softBloom.Parameters["intensity"].SetValue(.005f);
+
+
+            sb.Draw(Instance.softBloomRender, Vector2.Zero, Color.White);
+            sb.End();
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+            foreach (Action draw in softBloomCache)
+            {
+                draw?.Invoke();
+            }
+            softBloomCache.Clear();
+            sb.End();
+        }*/
+        public static void DrawIntenseBloomContent(SpriteBatch sb, GraphicsDevice gd)
+        {
+            gd.SetRenderTarget(Main.screenTargetSwap);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            sb.Draw(Main.screenTarget, Vector2.Zero, Color.White);
+            sb.End();
+
+            gd.SetRenderTarget(Instance.intenseBloomRender);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+            foreach (Action draw in intenseBloomCache)
+            {
+                draw?.Invoke();
+            }
+            sb.End();
+            gd.SetRenderTarget(Main.screenTarget);
+            gd.Clear(Color.Transparent);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            sb.Draw(Main.screenTargetSwap, Vector2.Zero, Color.White);
+            sb.End();
+            sb.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+            bloom.CurrentTechnique.Passes[0].Apply();
+            bloom.Parameters["uResolution"].SetValue(Main.ScreenSize.ToVector2());
+            bloom.Parameters["distance"].SetValue(0.0005f);
+            bloom.Parameters["intensity"].SetValue(.05f);
+
+
+            sb.Draw(Instance.intenseBloomRender, Vector2.Zero, Color.White);
+            sb.End();
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+            foreach (Action draw in intenseBloomCache)
+            {
+                draw?.Invoke();
+            }
+            intenseBloomCache.Clear();
+            sb.End();
+        }
         public static void DrawInvisMasks(SpriteBatch sb, GraphicsDevice gd)
         {
 
@@ -605,7 +698,7 @@ namespace EbonianMod
 
             gd.SetRenderTarget(Instance.affectedByInvisRender);
             gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
             foreach (Action draw in affectedByInvisibleMaskCache)
             {
                 draw?.Invoke();
@@ -615,7 +708,7 @@ namespace EbonianMod
 
             gd.SetRenderTarget(Instance.invisRender);
             gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
             foreach (Action draw in invisibleMaskCache)
             {
                 draw?.Invoke();
@@ -708,9 +801,18 @@ namespace EbonianMod
                         affectedByInvisRender.Dispose();
                     if (blurrender != null && !blurrender.IsDisposed)
                         blurrender.Dispose();
+
+                    if (intenseBloomRender != null && !intenseBloomRender.IsDisposed)
+                        blurrender.Dispose();
+
+                    if (softBloomRender != null && !softBloomRender.IsDisposed)
+                        blurrender.Dispose();
+
                     invisRender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                     affectedByInvisRender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                     blurrender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                    softBloomRender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                    intenseBloomRender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                 });
         }
 
