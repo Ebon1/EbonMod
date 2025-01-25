@@ -26,7 +26,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
         public override void SetDefaults()
         {
-            Item.damage = 23;
+            Item.damage = 11;
             Item.DamageType = DamageClass.Summon;
             Item.mana = 10;
             Item.width = 26;
@@ -141,7 +141,7 @@ namespace EbonianMod.Items.Weapons.Summoner
                     Projectile.Center = targetPos + Main.rand.NextVector2Unit() * 150;
                 while (++atts < 200 && !Collision.CanHit(Projectile, player))
                     Projectile.Center = targetPos + Main.rand.NextVector2Unit() * 150;
-                if ((Projectile.ai[0] + Projectile.minionPos * 7) % 30 == 0)
+                if ((Projectile.ai[0] + Projectile.minionPos * 7) % 50 == 0)
                 {
                     Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center + targetVel * 2, Helper.FromAToB(Projectile.Center + targetVel * 2, targetPos + targetVel) * 13, ProjectileType<XTomeP>(), Projectile.damage, 0f, player.whoAmI, index);
                 }
