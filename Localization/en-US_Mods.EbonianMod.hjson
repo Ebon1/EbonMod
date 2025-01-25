@@ -693,7 +693,11 @@ Items: {
 
 	PhantasmalGreatsword: {
 		DisplayName: Archmage Xareus' Shadowflame Skysplitter
-		Tooltip: Crafted by Archmage Xareus... As a wall decoration
+		Tooltip: 
+		'''
+		Projects shadowflame versions of the sword on hit
+		Crafted by Archmage Xareus... As a wall decoration
+		'''
 	}
 
 	GhizasWheel: {

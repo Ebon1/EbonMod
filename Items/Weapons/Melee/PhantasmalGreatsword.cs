@@ -170,7 +170,7 @@ namespace EbonianMod.Items.Weapons.Melee
             float swingProgress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
             if (Projectile.oldPos.Length > 2)
             {
-                Texture2D tex2 = Helper.GetExtraTexture("trail_04");
+                Texture2D tex2 = Helper.GetExtraTexture("TrailShape_LongSolidWavy");
                 List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
                 List<Vector2> oldPositions = new List<Vector2>(Projectile.oldPos.Length);
                 for (int i = 0; i < Projectile.oldPos.Length; i++)
@@ -190,7 +190,7 @@ namespace EbonianMod.Items.Weapons.Melee
                                 float s = MathHelper.SmoothStep(0, 1f, (float)i / (float)oldPositions.Count);
                                 float cS = MathF.Pow(MathHelper.Lerp(1, 0, (float)i / (float)oldPositions.Count), 2);
                                 float rot2 = Projectile.oldRot[i] - MathHelper.PiOver4;
-                                Vector2 end = player.Center + rot2.ToRotationVector2().RotatedBy(MathHelper.ToRadians(10 * swingProgress)) * (Projectile.height + holdOffset);
+                                Vector2 end = player.Center + rot2.ToRotationVector2().RotatedBy(MathHelper.ToRadians(10 * swingProgress)) * (Projectile.height + holdOffset * 0.5f);
                                 Vector2 start = Vector2.Lerp(player.Center, end, Lerp(0, 1, MathF.Pow(s, 2)));
                                 Color col = Color.Lerp(Color.White * 0.7f, Color.White, (float)i / (float)oldPositions.Count) * cS * alpha * Clamp(MathF.Sin(swingProgress * MathHelper.Pi) * 0.5f, 0, 1) * 2 * SmoothStep(1, 0, s) * 5 * cS;
 
@@ -209,7 +209,7 @@ namespace EbonianMod.Items.Weapons.Melee
                                 float s = MathHelper.SmoothStep(0, 1f, (float)i / (float)oldPositions.Count);
                                 float cS = MathF.Pow(MathHelper.Lerp(1, 0, (float)i / (float)oldPositions.Count), 2);
                                 float rot2 = Projectile.oldRot[i] - MathHelper.PiOver4;
-                                Vector2 end = player.Center + rot2.ToRotationVector2().RotatedBy(MathHelper.ToRadians(-20 * swingProgress)) * (Projectile.height + holdOffset);
+                                Vector2 end = player.Center + rot2.ToRotationVector2().RotatedBy(MathHelper.ToRadians(-20 * swingProgress)) * (Projectile.height + holdOffset * 0.5f);
                                 Vector2 start = Vector2.Lerp(player.Center, end, Lerp(0, 1, MathF.Pow(s, 2)));
                                 Color col = Color.Lerp(Color.White * 0.7f, Color.White, s) * cS * alpha * Clamp(MathF.Sin(swingProgress * MathHelper.Pi) * 0.5f, 0, 1) * 2 * SmoothStep(1, 0, s) * 5 * cS;
 
@@ -240,16 +240,20 @@ namespace EbonianMod.Items.Weapons.Melee
         }
         public override void PostDraw(Color lightColor)
         {
-            Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
-            Vector2 orig = texture.Size() / 2;
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.White, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), orig, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
-            if (glowAlpha > 0 && glowBlend != null)
+
+            EbonianMod.finalDrawCache.Add(() =>
             {
-                Texture2D glow = Helper.GetTexture(GlowTexture);
-                Main.spriteBatch.Reload(glowBlend);
-                Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.White * glowAlpha, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), glow.Size() / 2, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
-                Main.spriteBatch.Reload(BlendState.AlphaBlend);
-            }
+                Texture2D texture = TextureAssets.Projectile[Projectile.type].Value;
+                Vector2 orig = texture.Size() / 2;
+                Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, texture.Width, texture.Height), Color.White, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), orig, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+                if (glowAlpha > 0 && glowBlend != null)
+                {
+                    Texture2D glow = Helper.GetTexture(GlowTexture);
+                    Main.spriteBatch.Reload(glowBlend);
+                    Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, null, Color.White * glowAlpha, Projectile.rotation + (Projectile.ai[1] == -1 ? 0 : MathHelper.PiOver2 * 3), glow.Size() / 2, Projectile.scale, Projectile.ai[1] == -1 ? SpriteEffects.None : SpriteEffects.FlipVertically, 0);
+                    Main.spriteBatch.Reload(BlendState.AlphaBlend);
+                }
+            });
 
             Player player = Main.player[Projectile.owner];
             Texture2D slash = Helper.GetExtraTexture("Extras2/slash_06_half");
@@ -296,7 +300,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.width = 168;
             Projectile.height = 178;
             swingTime = 55 * 4;
-            Projectile.extraUpdates = 4;
+            Projectile.extraUpdates = 2;
             holdOffset = 115;
         }
         public virtual float Ease(float f)
@@ -309,6 +313,10 @@ namespace EbonianMod.Items.Weapons.Melee
         }
         Vector2 startP, startP2;
         float alpha;
+        public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
+        {
+            target.AddBuff(BuffID.ShadowFlame, 10);
+        }
         public override void AI()
         {
             if (Projectile.timeLeft == 160)
@@ -347,7 +355,7 @@ namespace EbonianMod.Items.Weapons.Melee
             float swingProgress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
             if (Projectile.oldPos.Length > 2)
             {
-                Texture2D tex2 = Helper.GetExtraTexture("trail_04");
+                Texture2D tex2 = Helper.GetExtraTexture("TrailShape_LongSolidWavy");
                 List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
                 List<Vector2> oldPositions = new List<Vector2>(Projectile.oldPos.Length);
                 for (int i = 0; i < Projectile.oldPos.Length; i++)
@@ -355,6 +363,27 @@ namespace EbonianMod.Items.Weapons.Melee
                     if (Projectile.oldPos[i] != Vector2.Zero)
                         oldPositions.Add(Projectile.oldPos[i]);
                     else
+                        break;
+                }
+                float sizeOffset = 0.84f + .2f * MathF.Pow(MathF.Sin(swingProgress * Pi), 1);
+                float rotOffset = ToRadians(4 + 35 * MathF.Pow(MathF.Sin(swingProgress * Pi) * 0.7f, 3));
+                switch (Projectile.ai[2])
+                {
+                    case 1:
+                        sizeOffset = 0.93f + 0.05f * MathF.Pow(MathF.Sin(swingProgress * Pi), 3);
+                        rotOffset = ToRadians(4 + 25 * MathF.Pow(MathF.Sin(swingProgress * Pi) * 0.7f, 3));
+                        break;
+                    case 2:
+                        sizeOffset = 0.75f + .3f * MathF.Pow(MathF.Sin(swingProgress * Pi), 1);
+                        rotOffset = ToRadians(4 + 20 * MathF.Pow(MathF.Sin(swingProgress * Pi) * 0.7f, 3));
+                        break;
+                    case 3:
+                        sizeOffset = 0.75f + .3f * MathF.Pow(MathF.Sin(swingProgress * Pi), 1);
+                        rotOffset = ToRadians(4 + 15 * MathF.Pow(MathF.Sin(swingProgress * Pi) * 0.7f, 3));
+                        break;
+                    case 4:
+                        sizeOffset = 0.75f + .3f * MathF.Pow(MathF.Sin(swingProgress * Pi), 1);
+                        rotOffset = ToRadians(4 + 15 * MathF.Pow(MathF.Sin(swingProgress * Pi) * 0.7f, 3));
                         break;
                 }
                 if (oldPositions.Count > 3)
@@ -367,7 +396,7 @@ namespace EbonianMod.Items.Weapons.Melee
                                 float s = MathHelper.SmoothStep(0, 1f, (float)i / (float)oldPositions.Count);
                                 float cS = MathF.Pow(MathHelper.Lerp(1, 0, (float)i / (float)oldPositions.Count) * alpha, 2);
                                 float rot2 = Projectile.oldRot[i] - MathHelper.PiOver4;
-                                Vector2 end = startP + rot2.ToRotationVector2().RotatedBy(MathHelper.ToRadians(-2 - 6 * MathF.Sin(swingProgress * Pi) * Projectile.scale)) * ((Projectile.height + holdOffset) * Projectile.scale * 0.8f);
+                                Vector2 end = startP + rot2.ToRotationVector2().RotatedBy(-rotOffset) * ((Projectile.height + holdOffset * 0.5f) * Projectile.scale * sizeOffset);
                                 Vector2 start = Vector2.Lerp(startP, end, Lerp(0, 1, MathF.Pow(s, 2)));
                                 Color col = Color.Lerp(Color.White * 0.7f, Color.White, (float)i / (float)oldPositions.Count) * cS * Clamp(MathF.Sin(swingProgress * MathHelper.Pi) * 0.5f, 0, 1) * 2 * SmoothStep(1, 0, s) * 5 * cS;
 
@@ -386,7 +415,7 @@ namespace EbonianMod.Items.Weapons.Melee
                                 float s = MathHelper.SmoothStep(0, 1f, (float)i / (float)oldPositions.Count);
                                 float cS = MathF.Pow(MathHelper.Lerp(1, 0, (float)i / (float)oldPositions.Count) * alpha, 2);
                                 float rot2 = Projectile.oldRot[i] - MathHelper.PiOver4;
-                                Vector2 end = startP + rot2.ToRotationVector2().RotatedBy(MathHelper.ToRadians(2 + 6 * MathF.Sin(swingProgress * Pi) * Projectile.scale)) * ((Projectile.height + holdOffset) * Projectile.scale * 0.8f);
+                                Vector2 end = startP + rot2.ToRotationVector2().RotatedBy(rotOffset) * ((Projectile.height + holdOffset * 0.5f) * Projectile.scale * sizeOffset);
                                 Vector2 start = Vector2.Lerp(startP, end, Lerp(0, 1, MathF.Pow(s, 2)));
                                 Color col = Color.Lerp(Color.White * 0.7f, Color.White, s) * cS * Clamp(MathF.Sin(swingProgress * MathHelper.Pi) * 0.5f, 0, 1) * 2 * SmoothStep(1, 0, s) * 5 * cS;
 

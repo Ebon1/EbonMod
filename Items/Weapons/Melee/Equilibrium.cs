@@ -189,21 +189,6 @@ namespace EbonianMod.Items.Weapons.Melee
             Vector2 scale = new Vector2(Projectile.scale * Projectile.scale + f * 0.05f, .65f * Projectile.scale + f * 0.15f) * .2f;
 
 
-
-            if (oldP.Count > 2)
-            {
-                float fadeMult = 1 / (float)oldP.Count;
-                for (int i = 0; i < oldP.Count; i++)
-                {
-                    Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
-
-                    EbonianMod.SpriteRotation.Parameters["scale"].SetValue(scale * 1.15f);
-                    EbonianMod.SpriteRotation.Parameters["uColor"].SetValue((Color.White * (fadeMult * i * fadeMult * i * f * 0.15f)).ToVector4());
-                    EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(oldP[i]);
-                    Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.velocity.ToRotation(), orig, Projectile.scale * (4f), Projectile.ai[1] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
-                    Main.spriteBatch.Reload(effect: null);
-                }
-            }
             Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
 
             EbonianMod.SpriteRotation.Parameters["scale"].SetValue(scale);
@@ -216,7 +201,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Main.spriteBatch.Reload(effect: null);
 
 
-            if (oldP.Count < 20) return false;
+            if (oldP.Count < 17) return false;
 
             swingProgress = Ease(Utils.GetLerpValue(0f, swingTime + 50, Projectile.timeLeft + 50));
             swingProgressInv = MathHelper.Lerp(1, 0, swingProgress);
@@ -225,9 +210,11 @@ namespace EbonianMod.Items.Weapons.Melee
             Texture2D tex = Helper.GetExtraTexture("Extras2/slash_06");
 
             Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
+            float rotOffset = Lerp(-1.7f, 0, MathF.Pow(MathF.Sin(swingProgress * Pi), 2));
             EbonianMod.SpriteRotation.Parameters["scale"].SetValue(scale);
             EbonianMod.SpriteRotation.Parameters["uColor"].SetValue((Color.Black * (f * f * 0.2f)).ToVector4());
-            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(oldP[oldP.Count - 20] - MathHelper.PiOver2);
+            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(oldP[oldP.Count - 6] - MathHelper.PiOver2 + rotOffset);
+            EbonianMod.SpriteRotation.Parameters["hasPerspective"].SetValue(false);
             for (float i = -5; i < 5; i++)
                 Main.EntitySpriteDraw(tex, Projectile.Center + Projectile.velocity.RotatedBy(MathHelper.PiOver2) * i * 4 - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation(), tex.Size() / 2, Projectile.scale * (4.5f), Projectile.ai[1] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             Main.spriteBatch.Reload(effect: null);
@@ -236,7 +223,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
             EbonianMod.SpriteRotation.Parameters["scale"].SetValue(scale);
             EbonianMod.SpriteRotation.Parameters["uColor"].SetValue((Color.Lerp(Color.Gold, Color.Maroon, 2 - f * 2) * (f * 0.25f)).ToVector4());
-            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(oldP[oldP.Count - 20] - MathHelper.PiOver2);
+            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(oldP[oldP.Count - 6] - MathHelper.PiOver2 + rotOffset);
             for (float i = -5; i < 5; i++)
                 Main.EntitySpriteDraw(tex, Projectile.Center + Projectile.velocity.RotatedBy(MathHelper.PiOver2) * i * 4 - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation(), tex.Size() / 2, Projectile.scale * (5f), Projectile.ai[1] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             Main.spriteBatch.Reload(effect: null);
@@ -244,7 +231,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
             EbonianMod.SpriteRotation.Parameters["scale"].SetValue(scale);
             EbonianMod.SpriteRotation.Parameters["uColor"].SetValue((Color.Lerp(Color.GreenYellow, Color.SandyBrown, 2 - f * 2) * (f * 0.225f)).ToVector4());
-            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(oldP[oldP.Count - 20] - MathHelper.PiOver2);
+            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(oldP[oldP.Count - 6] - MathHelper.PiOver2 + rotOffset);
             for (float i = -5; i < 5; i++)
                 Main.EntitySpriteDraw(tex, Projectile.Center + Projectile.velocity.RotatedBy(MathHelper.PiOver2) * i * 4 - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation(), tex.Size() / 2, Projectile.scale * (4f), Projectile.ai[1] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             Main.spriteBatch.Reload(effect: null);
@@ -320,34 +307,11 @@ namespace EbonianMod.Items.Weapons.Melee
             float rot = angle + (Projectile.ai[1] == 1 ? 0 : MathHelper.Pi) + MathHelper.PiOver2;
             //Vector2 scale = new Vector2(Projectile.scale * Projectile.scale, .75f * Projectile.scale + (Projectile.ai[1] == 1 ? swingProgress : swingProgressInv) * 0.15f) * .2f;
 
-            Vector2 scale = new Vector2(Projectile.scale * Projectile.scale + f * 0.05f, .65f * Projectile.scale + f * 0.15f) * .2f;
+            Vector2 scale = new Vector2(Projectile.scale * Projectile.scale + f * 0.05f, .65f * Projectile.scale + f * 0.15f) * .3f;
 
 
 
-            if (oldP.Count > 2)
-            {
-                float fadeMult = 1 / (float)oldP.Count;
-                for (int i = 0; i < oldP.Count; i++)
-                {
-                    Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
-
-                    EbonianMod.SpriteRotation.Parameters["scale"].SetValue(scale * 1.15f);
-                    EbonianMod.SpriteRotation.Parameters["uColor"].SetValue((Color.White * (fadeMult * i * fadeMult * i * f * 0.15f * (0.5f * f))).ToVector4());
-                    EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(oldP[i]);
-                    Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.velocity.ToRotation(), orig, Projectile.scale * (4f), Projectile.ai[1] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
-                    Main.spriteBatch.Reload(effect: null);
-                }
-            }
-            Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
-
-            EbonianMod.SpriteRotation.Parameters["scale"].SetValue(scale);
-            EbonianMod.SpriteRotation.Parameters["uColor"].SetValue((Color.White * (0.5f * f)).ToVector4());
-            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(rot);
-            Main.EntitySpriteDraw(texture, Projectile.Center + Projectile.velocity.RotatedBy(MathHelper.PiOver2) - Main.screenPosition, null, Color.Maroon * 0.2f, Projectile.velocity.ToRotation(), orig, Projectile.scale * (5f), Projectile.ai[1] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
-            Main.spriteBatch.Reload(effect: null);
-
-
-            if (oldP.Count < 20) return false;
+            if (oldP.Count < 17) return false;
 
             swingProgress = Ease(Utils.GetLerpValue(0f, swingTime + 50, Projectile.timeLeft + 50));
             swingProgressInv = MathHelper.Lerp(1, 0, swingProgress);
@@ -355,25 +319,26 @@ namespace EbonianMod.Items.Weapons.Melee
 
             Texture2D tex = Helper.GetExtraTexture("Extras2/slash_06");
 
+            float rotOffset = Lerp(-1.7f, 0, MathF.Pow(MathF.Sin(swingProgress * Pi), 2));
             Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
             EbonianMod.SpriteRotation.Parameters["scale"].SetValue(scale);
-            EbonianMod.SpriteRotation.Parameters["uColor"].SetValue((Color.Black * (f * f * 0.2f) * (0.5f * f)).ToVector4());
-            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(oldP[oldP.Count - 20] - MathHelper.PiOver2);
+            EbonianMod.SpriteRotation.Parameters["uColor"].SetValue((Color.Black * (f * f) * (0.5f * f)).ToVector4());
+            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(oldP[oldP.Count - 6] - MathHelper.PiOver2 + rotOffset);
             Main.EntitySpriteDraw(tex, Projectile.Center + Projectile.velocity.RotatedBy(MathHelper.PiOver2) - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation(), tex.Size() / 2, Projectile.scale * (4.5f), Projectile.ai[1] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             Main.spriteBatch.Reload(effect: null);
 
             Main.spriteBatch.Reload(BlendState.Additive);
             Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
             EbonianMod.SpriteRotation.Parameters["scale"].SetValue(scale);
-            EbonianMod.SpriteRotation.Parameters["uColor"].SetValue((Color.Lerp(Color.Gold, Color.Maroon, 2 - f * 2) * (f * 0.25f) * (0.5f * f)).ToVector4());
-            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(oldP[oldP.Count - 20] - MathHelper.PiOver2);
+            EbonianMod.SpriteRotation.Parameters["uColor"].SetValue(((Projectile.ai[1] == -1 ? Color.Maroon : Color.LawnGreen) * (f) * (0.5f * f)).ToVector4());
+            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(oldP[oldP.Count - 6] - MathHelper.PiOver2 + rotOffset);
             Main.EntitySpriteDraw(tex, Projectile.Center + Projectile.velocity.RotatedBy(MathHelper.PiOver2) - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation(), tex.Size() / 2, Projectile.scale * (5f), Projectile.ai[1] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             Main.spriteBatch.Reload(effect: null);
 
             Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
             EbonianMod.SpriteRotation.Parameters["scale"].SetValue(scale);
-            EbonianMod.SpriteRotation.Parameters["uColor"].SetValue((Color.Lerp(Color.GreenYellow, Color.SandyBrown, 2 - f * 2) * (f * 0.225f) * (0.5f * f)).ToVector4());
-            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(oldP[oldP.Count - 20] - MathHelper.PiOver2);
+            EbonianMod.SpriteRotation.Parameters["uColor"].SetValue(((Projectile.ai[1] == -1 ? Color.Red : Color.DarkGreen) * (f) * (0.5f * f)).ToVector4());
+            EbonianMod.SpriteRotation.Parameters["rotation"].SetValue(oldP[oldP.Count - 6] - MathHelper.PiOver2 + rotOffset);
             Main.EntitySpriteDraw(tex, Projectile.Center + Projectile.velocity.RotatedBy(MathHelper.PiOver2) - Main.screenPosition, null, Color.White, Projectile.velocity.ToRotation(), tex.Size() / 2, Projectile.scale * (4f), Projectile.ai[1] == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
             Main.spriteBatch.Reload(effect: null);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -388,7 +353,7 @@ namespace EbonianMod.Items.Weapons.Melee
             float end = defRot + (MathHelper.PiOver2 + MathHelper.PiOver4);
             float rot = direction == 1 ? start + MathHelper.Pi * 3 / 2 * swingProgress : end - MathHelper.Pi * 3 / 2 * swingProgress;
             Vector2 _start = Projectile.Center;
-            Vector2 _end = Projectile.Center + rot.ToRotationVector2() * (Projectile.height * 0.8f);
+            Vector2 _end = Projectile.Center + rot.ToRotationVector2() * (Projectile.height);
             float a = 0;
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), _start, _end, projHitbox.Width / 4, ref a);
         }
