@@ -128,6 +128,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                     Projectile.timeLeft = maxTime;
                 }
             }
+            if (player.HeldItem.type != ItemType<FangSlinger>()) player.itemTime = 0; player.itemAnimation = 0;
             Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
             Vector2 pos = player.RotatedRelativePoint(player.MountedCenter);
             player.ChangeDir(Projectile.velocity.X < 0 ? -1 : 1);
