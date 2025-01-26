@@ -900,10 +900,12 @@ namespace EbonianMod.NPCs.Cecitior
                 }
                 if (AITimer >= 25 && AITimer < 50)
                 {
+                    if (AITimer < 37)
+                        savedPos = player.Center + (phase2 ? player.velocity : Vector2.Zero);
                     if (AITimer2 % 2 != (phase2 ? 1 : 0))
-                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center, false) / 5f;
+                        NPC.velocity = Helper.FromAToB(NPC.Center, savedPos, false) / 5f;
                     else
-                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center, false) / 5f;
+                        NPC.velocity = Helper.FromAToB(NPC.Center, savedPos, false) / 5f;
                 }
                 if (AITimer == 50)
                 {
