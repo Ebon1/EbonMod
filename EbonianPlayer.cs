@@ -82,8 +82,8 @@ namespace EbonianMod
         public Projectile Platform => Main.projectile[platformWhoAmI];
         public override void PreUpdateMovement()
         {
-            if (platformWhoAmI != -1)
-                Player.position.X += Platform.velocity.X;
+            //if (platformWhoAmI != -1)
+            //  Player.position.X += Platform.velocity.X;
 
         }
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
@@ -242,15 +242,6 @@ namespace EbonianMod
                 bossMaxProgress = 0;
                 bossColor = Color.White;
             }
-            /*if (timeSlowProgress > 0)
-                timeSlowProgress -= EbonianMod.timeSkips + 1;
-            if (timeSlowProgress <= 0)
-            {
-                timeSlowProgress = 0;
-                EbonianMod.timeSkips = 0;
-            }
-            if (timeSlowProgress < EbonianMod.timeSkips && EbonianMod.timeSkips > 0)
-                EbonianMod.timeSkips--;*/
             if (dialogueProg > 0)
                 dialogueProg--;
             if (dialogueProg == 0)

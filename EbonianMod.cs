@@ -301,9 +301,9 @@ namespace EbonianMod
                 Main.spriteBatch.End();
             }
 
+            var old = gd.GetRenderTargets();
             if (!Main.gameMenu && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro) && gd.GetRenderTargets().Contains(Main.screenTarget))
             {
-                var old = gd.GetRenderTargets();
                 gd.SetRenderTarget(Main.screenTargetSwap);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
@@ -314,7 +314,7 @@ namespace EbonianMod
 
                 DrawXareusGoop(false, sb, gd);
 
-                DrawRedGoop(false, sb, gd);
+                //DrawRedGoop(false, sb, gd);
 
                 DrawGarbageFlame(false, sb, gd);
 

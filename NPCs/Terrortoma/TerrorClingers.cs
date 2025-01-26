@@ -554,7 +554,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                 AITimer++;
                                 if (AITimer % 25 == 0)
                                 {
-                                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * Main.rand.NextFloat(5, 7), ProjectileType<OstertagiWorm>(), 30, 0, 0);
+                                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * Main.rand.NextFloat(5, 7), ProjectileType<OstertagiWorm>(), 20, 0, 0);
                                     a.friendly = false;
                                     a.hostile = true;
                                 }

@@ -108,7 +108,7 @@ namespace EbonianMod
             int textIndex2 = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Map / Minimap")) + 1;
             layers.Insert(textIndex, new LegacyGameInterfaceLayer("EbonianMod: BossText", () =>
             {
-                Helper.DrawBossTitle();
+                //Helper.DrawBossTitle();
 
                 return true;
             }, InterfaceScaleType.UI));
