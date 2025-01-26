@@ -102,7 +102,7 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
                 {
                     if (npc.Center.Distance(NPC.Center) < npc.width * npc.scale)
                     {
-                        NPC.velocity += NPC.Center.FromAToB(npc.Center, true, true) * 0.25f;
+                        NPC.velocity += NPC.Center.FromAToB(npc.Center, true, true) * 0.5f;
                     }
                     if (npc.Center == NPC.Center)
                     {
@@ -110,7 +110,8 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
                     }
                 }
             }
-            if (Main.LocalPlayer.Center.Distance(NPC.Center) < 900)
+            if (Main.LocalPlayer.Center.Distance(NPC.Center) < 200)
+            {
                 if (++NPC.ai[3] > 100 * NPC.scale)
                 {
                     NPC.aiStyle = -1;
@@ -130,6 +131,9 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
                         NPC.StrikeInstantKill();
                     }
                 }
+            }
+            if (!NPC.dontTakeDamage)
+                NPC.velocity += NPC.Center.FromAToB(Main.LocalPlayer.Center, true) * 1.5f;
         }
         public override bool CheckDead()
         {
