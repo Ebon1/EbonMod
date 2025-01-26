@@ -23,6 +23,7 @@ namespace EbonianMod.NPCs.Crimson
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
+                new FlavorTextBestiaryInfoElement("Type: Infected Creatures"),
                 new FlavorTextBestiaryInfoElement("Latchers are surprisingly clever entities, often bunching up in order to mimic other things, only to burst apart and bombard the enemy all at once. These usually come in the form of slimes, but a few rare cases have detailed them taking humanoid shapes."),
             });
         }
