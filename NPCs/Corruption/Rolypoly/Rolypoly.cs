@@ -86,7 +86,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
                     break;
             }
             texNum = Main.rand.Next(9999999);
-            NPC.Size = new Vector2(60, 60) * NPC.scale;
+            NPC.Size = new Vector2(100, 100) * NPC.scale;
             verlet = new Verlet(NPC.Center, 16, amount, 0, false, false, 4, true, 8);
 
             for (int i = 0; i < 7; i++)
