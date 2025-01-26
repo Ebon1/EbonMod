@@ -756,7 +756,7 @@ namespace EbonianMod.NPCs.Garbage
                     NPC.velocity.Y--;
                 if (AITimer < 200)
                     NPC.noTileCollide = true;
-                if (AITimer >= 50 && AITimer < 200)
+                if (AITimer >= 50 && AITimer < 181)
                 {
                     if (AITimer < 176)
                         pos = player.Center - new Vector2(-player.velocity.X * 20, 500);

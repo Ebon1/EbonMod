@@ -855,7 +855,6 @@ namespace EbonianMod.NPCs.Cecitior
                 if (AITimer >= NPC.life / 260 + 10)
                 {
                     AIState = Next;
-                    AIState = Chomp;
                     NPC.velocity = Vector2.Zero;
                     AITimer = 0;
                     AITimer2 = 0;
