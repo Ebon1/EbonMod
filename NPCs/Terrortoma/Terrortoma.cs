@@ -96,7 +96,7 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.boss = true;
             NPC.damage = 0;
             NPC.noTileCollide = true;
-            NPC.defense = 26;
+            NPC.defense = 33;
             NPC.value = Item.buyPrice(0, 10);
             NPC.knockBackResist = 0;
             NPC.width = 118;
@@ -205,10 +205,16 @@ namespace EbonianMod.NPCs.Terrortoma
                 Main.spriteBatch.Reload(BlendState.AlphaBlend);
 
             }
+            Vector2 drawOrigin = new Vector2(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value.Width * 0.5f, NPC.height * 0.5f);
             if (isLaughing || AIState == -12124)
             {
-                Vector2 drawOrigin = new Vector2(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value.Width * 0.5f, NPC.height * 0.5f);
-                spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrortomaLaughing").Value, NPC.Center - screenPos, laughFrame, drawColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
+                if (!NPC.IsABestiaryIconDummy)
+                    spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrortomaLaughing").Value, NPC.Center - screenPos, laughFrame, drawColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
+            }
+            if (AIState == Intro)
+            {
+                if (!NPC.IsABestiaryIconDummy)
+                    spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrortomaSpawn").Value, NPC.Center - screenPos, introFrame, drawColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
             }
         }
         //npc.rotation = npc.velocity.ToRotation() - MathHelper.PiOver2;
@@ -377,7 +383,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     Next = Intro;
                 else
                 {
-                    if (hasDonePhase2ApeShitMode && Main.rand.NextBool())
+                    if (hasDonePhase2ApeShitMode && Main.rand.NextBool(3))
                         Next = Main.rand.Next(8, 16);
                     else
                         Next = Main.rand.Next(1, (!hasDonePhase2ApeShitMode ? 9 : 16));
@@ -591,21 +597,21 @@ namespace EbonianMod.NPCs.Terrortoma
                     if (hasDonePhase2ApeShitMode)
                         for (int i = 0; i < 3; i++)
                         {
-                            Vector2 rainPos = new Vector2(player.Center.X + 1920 / 2 * Main.rand.NextFloat(-1, 1), player.Center.Y + (1080 + 300) / 2);
-                            Vector2 rainPos2 = new Vector2(player.Center.X + 1920 / 2 * Main.rand.NextFloat(-1, 1), player.Center.Y - 300 * 2);
-                            Vector2 rainPos3 = new Vector2(player.Center.X - 300 / 2, player.Center.Y + 1080 * Main.rand.NextFloat(-.5f, .5f));
-                            Vector2 rainPos4 = new Vector2(player.Center.X + 1920 / 2 + 300, player.Center.Y + 1080 * Main.rand.NextFloat(-.5f, .5f));
+                            Vector2 rainPos = player.Center + new Vector2(900 * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), Main.rand.NextFloat(500));
+                            Vector2 rainPos2 = player.Center + new Vector2(900 * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), Main.rand.NextFloat(500));
+                            Vector2 rainPos3 = player.Center + new Vector2(500 * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), -800);
+                            Vector2 rainPos4 = player.Center + new Vector2(500 * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), -800);
                             if (Main.rand.NextBool(5))
                             {
                                 if (Main.rand.NextBool())
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, new Vector2(0, -10), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, Helper.FromAToB(rainPos, player.Center), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                                 else
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, new Vector2(0, 10), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, Helper.FromAToB(rainPos2, player.Center), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
 
                                 if (Main.rand.NextBool())
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos3, new Vector2(10, 0), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos3, Helper.FromAToB(rainPos3, player.Center), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                                 else
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos4, new Vector2(-10, 0), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos4, Helper.FromAToB(rainPos4, player.Center), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                             }
                         }
                     SoundEngine.PlaySound(EbonianSounds.terrortomaLaugh, NPC.Center);
@@ -648,33 +654,35 @@ namespace EbonianMod.NPCs.Terrortoma
                     {
                         if (++AITimer2 % 25 == 0)
                         {
-                            Vector2 rainPos = new Vector2(player.Center.X + 1920 * Main.rand.NextFloat(-0.5f, 0.5f), player.Center.Y + 1300);
-                            Vector2 rainPos2 = new Vector2(player.Center.X + 1920 * Main.rand.NextFloat(-0.5f, 0.5f), player.Center.Y - 600);
+                            Vector2 rainPos = player.Center + new Vector2(900 * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), Main.rand.NextFloat(500));
+                            Vector2 rainPos2 = player.Center + new Vector2(900 * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), Main.rand.NextFloat(500));
+                            Vector2 rainPos3 = player.Center + new Vector2(500 * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), -800);
+                            Vector2 rainPos4 = player.Center + new Vector2(500 * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), -800);
                             if (Main.rand.NextBool())
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, new Vector2(0, -10), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, Helper.FromAToB(rainPos, player.Center), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                             else
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, new Vector2(0, 10), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, Helper.FromAToB(rainPos2, player.Center), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                         }
                     }
                     else
                     {
                         if (++AITimer2 % 20 == 0)
                         {
-                            Vector2 rainPos = new Vector2(player.Center.X + 1920 / 2 * Main.rand.NextFloat(-1, 1), player.Center.Y + (1080 + 300) / 2);
-                            Vector2 rainPos2 = new Vector2(player.Center.X + 1920 / 2 * Main.rand.NextFloat(-1, 1), player.Center.Y - 300 * 2);
-                            Vector2 rainPos3 = new Vector2(player.Center.X - 300 / 2, player.Center.Y + 1080 * Main.rand.NextFloat(-.5f, .5f));
-                            Vector2 rainPos4 = new Vector2(player.Center.X + 1920 / 2 + 300, player.Center.Y + 1080 * Main.rand.NextFloat(-.5f, .5f));
+                            Vector2 rainPos = player.Center + new Vector2(900 * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), Main.rand.NextFloat(500));
+                            Vector2 rainPos2 = player.Center + new Vector2(900 * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), Main.rand.NextFloat(500));
+                            Vector2 rainPos3 = player.Center + new Vector2(500 * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), -800);
+                            Vector2 rainPos4 = player.Center + new Vector2(500 * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), -800);
                             if (Main.rand.NextBool())
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, new Vector2(0, -10), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos, Helper.FromAToB(rainPos, player.Center), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                             else
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, new Vector2(0, 10), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos2, Helper.FromAToB(rainPos2, player.Center), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
 
                             if (Main.rand.NextBool(5))
                             {
                                 if (Main.rand.NextBool())
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos3, new Vector2(10, 0), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos3, Helper.FromAToB(rainPos3, player.Center), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                                 else
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos4, new Vector2(-10, 0), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos4, Helper.FromAToB(rainPos4, player.Center), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                             }
                         }
                     }
@@ -792,9 +800,9 @@ namespace EbonianMod.NPCs.Terrortoma
                     if (Main.rand.NextBool(5))
                     {
                         if (Main.rand.NextBool())
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos3, new Vector2(10, 0), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos3, Helper.FromAToB(rainPos3, player.Center), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                         else
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos4, new Vector2(-10, 0), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos4, Helper.FromAToB(rainPos4, player.Center), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                     }
                 }
                 Vector2 toPlayer = player.Center - NPC.Center;
@@ -1042,7 +1050,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     Vector2 pos = player.Center - new Vector2(Main.rand.NextFloat(-700, 700), 700);
                     Projectile.NewProjectile(null, pos, new Vector2(Helper.FromAToB(pos, player.Center).X * Main.rand.NextFloat(8), Main.rand.NextFloat(3, 10)), ProjectileType<TFlameThrower2>(), 20, 0);
 
-                    pos = player.Center + new Vector2(1000 * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), -20);
+                    pos = player.Center + new Vector2(900 * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), -20);
                     if (AITimer % 48 == 0)
                         Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, player.Center) * 16, ProjectileType<TerrorVilethorn1>(), 20, 0);
                 }
@@ -1085,6 +1093,7 @@ namespace EbonianMod.NPCs.Terrortoma
 
                 if (AITimer >= 180)
                 {
+                    finishedPattern = true;
                     ResetState();
                 }
             }
@@ -1118,7 +1127,6 @@ namespace EbonianMod.NPCs.Terrortoma
 
                 if (AITimer >= 250)
                 {
-                    finishedPattern = true;
                     ResetState();
                 }
             }
