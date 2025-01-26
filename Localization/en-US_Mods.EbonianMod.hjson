@@ -750,7 +750,11 @@ Items: {
 
 	PipebombI: {
 		DisplayName: Pipebomb
-		Tooltip: "'I wonder what happens if I-'"
+		Tooltip:
+			'''
+			Can be used to harm Town NPCs
+			'I wonder what happens if I-'
+			'''
 	}
 
 	SpudCannon: {

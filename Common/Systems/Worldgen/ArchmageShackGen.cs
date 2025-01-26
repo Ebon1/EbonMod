@@ -113,7 +113,7 @@ namespace EbonianMod.Common.Systems.Worldgen
             List<int> tempHeightsR = new List<int>();
             for (int i = Main.maxTilesX / 2 - 440; i < Main.maxTilesX / 2 - 145; i++)
             {
-                int tempY = 135;
+                int tempY = 160;
                 while (!Main.tile[i, tempY].HasTile || (Main.tile[i, tempY].HasTile && !Main.tileSolid[Main.tile[i, tempY].TileType]) || Main.tile[i, tempY].TileType == TileID.Cloud || Main.tile[i, tempY].TileType == TileID.Plants || Main.tile[i, tempY].TileType == TileID.Cactus || Main.tile[i, tempY].TileType == TileID.Trees || Main.tile[i, tempY].TileType == TileID.Sunplate)
                     tempY++;
                 while (Main.tile[i, tempY + 1].TileType == TileID.Cloud || Main.tile[i, tempY + 2].TileType == TileID.Cloud || Main.tile[i, tempY + 3].TileType == TileID.Cloud || Main.tile[i, tempY + 4].TileType == TileID.Cloud || Main.tile[i, tempY + 5].TileType == TileID.Cloud || Main.tile[i, tempY + 6].TileType == TileID.Cloud)
@@ -122,7 +122,7 @@ namespace EbonianMod.Common.Systems.Worldgen
             }
             for (int i = Main.maxTilesX / 2 + 145; i < Main.maxTilesX / 2 + 440; i++)
             {
-                int tempY = 135;
+                int tempY = 160;
                 while (!Main.tile[i, tempY].HasTile || (Main.tile[i, tempY].HasTile && !Main.tileSolid[Main.tile[i, tempY].TileType]) || Main.tile[i, tempY].TileType == TileID.Cloud || Main.tile[i, tempY].TileType == TileID.Plants || Main.tile[i, tempY].TileType == TileID.Cactus || Main.tile[i, tempY].TileType == TileID.Trees || Main.tile[i, tempY].TileType == TileID.Sunplate)
                     tempY++;
                 while (Main.tile[i, tempY + 1].TileType == TileID.Cloud || Main.tile[i, tempY + 2].TileType == TileID.Cloud || Main.tile[i, tempY + 3].TileType == TileID.Cloud || Main.tile[i, tempY + 4].TileType == TileID.Cloud || Main.tile[i, tempY + 5].TileType == TileID.Cloud || Main.tile[i, tempY + 6].TileType == TileID.Cloud)
@@ -138,12 +138,12 @@ namespace EbonianMod.Common.Systems.Worldgen
             //int side = ((tempHeightsL.Max() - tempHeightsL.Min()) > (tempHeightsR.Max() - tempHeightsR.Min())) ? 1 : -1;
             int boundaries = 440 - 145;
             int x = Main.maxTilesX / 2 + 145 * side;
-            int _y = 110;
+            int _y = 160;
             int atts = 0;
             bool failed = false;
             while (atts < boundaries)
             {
-                int y = 110;
+                int y = 160;
                 List<int> _heights = new List<int>();
                 for (int it = -3; it < 39; it++)
                 {
@@ -182,11 +182,11 @@ namespace EbonianMod.Common.Systems.Worldgen
             if (failed)
             {
                 atts = 0;
-                _y = 110;
+                _y = 140;
                 x = Main.maxTilesX / 2 + 145 * -side;
                 while (atts < boundaries)
                 {
-                    int y = 110;
+                    int y = 140;
                     List<int> _heights = new List<int>();
                     for (int it = -3; it < 39; it++)
                     {
