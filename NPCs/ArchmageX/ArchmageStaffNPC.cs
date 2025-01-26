@@ -154,20 +154,23 @@ namespace EbonianMod.NPCs.ArchmageX
                     {
                         if (GetArenaRect().Size().Length() > 100)
                         {
-                            if (p.Player.Distance(GetArenaRect().Center()) > 450)
+                            if (p.Player.Distance(GetArenaRect().Center()) > 300)
                             {
                                 Helper.TPNoDust(GetArenaRect().Center(), p.Player);
                             }
                             else
                             {
-                                while (p.Player.Center.X < GetArenaRect().X)
-                                    p.Player.Center += Vector2.UnitX * 2;
+                                if (dist < 500)
+                                {
+                                    while (p.Player.Center.X < GetArenaRect().X)
+                                        p.Player.Center += Vector2.UnitX * 2;
 
-                                while (p.Player.Center.X > GetArenaRect().X + GetArenaRect().Width)
-                                    p.Player.Center -= Vector2.UnitX * 2;
+                                    while (p.Player.Center.X > GetArenaRect().X + GetArenaRect().Width)
+                                        p.Player.Center -= Vector2.UnitX * 2;
 
-                                while (p.Player.Center.Y < GetArenaRect().Y)
-                                    p.Player.Center += Vector2.UnitY * 2;
+                                    while (p.Player.Center.Y < GetArenaRect().Y)
+                                        p.Player.Center += Vector2.UnitY * 2;
+                                }
                             }
                         }
                     }
