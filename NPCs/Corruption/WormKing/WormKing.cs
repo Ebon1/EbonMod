@@ -143,6 +143,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
         {
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
+            if (player.Distance(NPC.Center) > 1800) return;
             if (stalkBase == Vector2.Zero)
             {
                 Vector2 direction = Vector2.UnitY;

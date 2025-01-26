@@ -135,6 +135,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
         {
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
+            if (player.Distance(NPC.Center) > 1800) return;
             NPC.direction = NPC.velocity.X < 0 ? -1 : 1;
             if (verlet[0] == null)
                 return;

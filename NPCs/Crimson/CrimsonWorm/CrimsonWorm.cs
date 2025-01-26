@@ -95,6 +95,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             if (NPC.life > NPC.lifeMax)
                 NPC.life = NPC.lifeMax;
             Player player = Main.player[NPC.target];
+            if (player.Distance(NPC.Center) > 1800) return;
             NPC.ai[3]++;
             if (NPC.ai[3] < 200 && NPC.ai[3] > 180)
                 NPC.velocity *= 0.9f;

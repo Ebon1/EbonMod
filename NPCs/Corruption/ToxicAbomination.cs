@@ -123,6 +123,7 @@ namespace EbonianMod.NPCs.Corruption
             }
             else
             {
+                if (player.Distance(NPC.Center) > 1800) return;
                 if (AITimer == 405)
                     Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0);
 

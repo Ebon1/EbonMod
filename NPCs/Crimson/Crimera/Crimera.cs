@@ -74,6 +74,7 @@ namespace EbonianMod.NPCs.Crimson.Crimera
         public override void ExtraAI()
         {
             Player player = Main.player[NPC.target];
+            if (player.Distance(NPC.Center) > 1800) return;
             NPC.ai[2]++;
             if (NPC.ai[2] == 300)
                 offset = Main.rand.NextFloat(1.5f, 3);
