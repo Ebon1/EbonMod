@@ -967,8 +967,9 @@ namespace EbonianMod.NPCs.Terrortoma
                 if (AITimer < 80)
                 {
                     rotation = -PiOver4;
-                    lastPos = player.Center;
-                    Vector2 to = Helper.TRay.Cast(player.Center + new Vector2(750, -200), Vector2.UnitY, 800, true) - new Vector2(200);
+                    if (AITimer < 20)
+                        lastPos = player.Center;
+                    Vector2 to = Helper.TRay.Cast(lastPos + new Vector2(750, -200), Vector2.UnitY, 800, true) - new Vector2(200);
                     if (NPC.Distance(to) > 200)
                         NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, to) * 30, 0.1f);
                     else NPC.velocity *= 0.9f;

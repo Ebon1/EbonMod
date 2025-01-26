@@ -517,7 +517,7 @@ namespace EbonianMod.NPCs.Terrortoma
             {
                 if (CenterAITimer % 120 == 0)
                 {
-                    NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), NPCType<BloatedEbonfly>());
+                    NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), NPCType<BloatedEbonfly>()).dontTakeDamage = true;
                 }
             }
             if ((center.ai[2] != 1 && center.ai[2] <= 2) || center.ai[2] == 4)
@@ -563,13 +563,13 @@ namespace EbonianMod.NPCs.Terrortoma
                                 }
                                 if (AITimer == 50)
                                 {
-                                    NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), NPCType<BloatedEbonfly>());
+                                    NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), NPCType<BloatedEbonfly>()).dontTakeDamage = true;
                                     //float angle = Helper.CircleDividedEqually(i, 6) + off;
                                     //Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.One.RotatedBy(angle), ProjectileType<TSpike>(), 15, 0);
                                 }
                                 if (AITimer == 80)
                                 {
-                                    NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), NPCType<BloatedEbonfly>());
+                                    NPC.NewNPCDirect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(NPC.width / 2, NPC.height / 2), NPCType<BloatedEbonfly>()).dontTakeDamage = true;
                                     //float angle = Helper.CircleDividedEqually(i, 8) + off;
                                     //Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.One.RotatedBy(angle), ProjectileType<TSpike>(), 15, 0);
                                 }

@@ -126,6 +126,7 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
                         Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 50, 0);
                         a.friendly = true;
                         a.hostile = true;
+                        NPC.dontTakeDamage = false;
                         NPC.StrikeInstantKill();
                     }
                 }
