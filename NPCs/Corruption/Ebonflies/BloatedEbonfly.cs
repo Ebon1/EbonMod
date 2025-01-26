@@ -132,8 +132,8 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
                     }
                 }
             }
-            if (!NPC.dontTakeDamage)
-                NPC.velocity += NPC.Center.FromAToB(Main.LocalPlayer.Center, true) * 1.5f;
+            if (!NPC.dontTakeDamage && NPC.velocity.Length() < 15)
+                NPC.velocity += NPC.Center.FromAToB(Main.LocalPlayer.Center, true) * .8f;
         }
         public override bool CheckDead()
         {
