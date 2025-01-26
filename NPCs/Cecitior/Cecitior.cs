@@ -216,7 +216,7 @@ namespace EbonianMod.NPCs.Cecitior
                         if (AIState == Phase2ClawGrab && AITimer2 == 1)
                         {
                             claw[i].verlet.Draw(spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_8");
-                            claw[i].verlet.Draw(spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0_Glow", endTex: "NPCs/Cecitior/Hook/CecitiorHook_8_Glow", useColor: true, color: Color.White);
+                            claw[i].verlet.Draw(spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_8_Glow", useColor: true, color: Color.White);
                         }
                         else
                         {

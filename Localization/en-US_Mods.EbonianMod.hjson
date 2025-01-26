@@ -321,7 +321,12 @@ NPCs: {
 	TrumpetHead.DisplayName: Trumpet
 	TrumpetBody.DisplayName: Trumpet
 	Rolypoly.DisplayName: Rolypoly
-	ArchmageX.DisplayName: Xareus
+
+	ArchmageX: {
+		DisplayName: Xareus
+		BossLogDisplayName: The Archmage
+	}
+
 	JuvenileBrain.DisplayName: Neurobite
 	WormKing.DisplayName: Worm King
 	MiniTrumpetBody.DisplayName: Cornet
