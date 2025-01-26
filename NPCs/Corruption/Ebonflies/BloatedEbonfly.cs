@@ -111,7 +111,7 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
                     }
                 }
             }
-            if (Main.LocalPlayer.Center.Distance(NPC.Center) < 350 || (NPC.dontTakeDamage && ++AITimer > 60 * 8))
+            if (Main.LocalPlayer.Center.Distance(NPC.Center) < 450 || (NPC.dontTakeDamage && ++AITimer > 60 * 8))
             {
                 if (++NPC.ai[3] > 100 * NPC.scale)
                 {
