@@ -19,6 +19,7 @@ using EbonianMod.Projectiles;
 using EbonianMod.Tiles;
 using EbonianMod.NPCs.ArchmageX;
 using EbonianMod.Projectiles.ArchmageX;
+using EbonianMod.Buffs;
 
 
 namespace EbonianMod
@@ -50,8 +51,7 @@ namespace EbonianMod
         }
         public override void ResetEffects()
         {
-            if (hotShield)
-                Player.CancelAllBootRunVisualEffects();
+
             if (NPC.AnyNPCs(NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ProjectileType<ArchmageXSpawnAnim>()] > 0)
                 Player.noBuilding = true;
             reiBoostCool--;
@@ -84,8 +84,7 @@ namespace EbonianMod
         {
             if (platformWhoAmI != -1)
                 Player.position.X += Platform.velocity.X;
-            if (hotShield)
-                Player.CancelAllBootRunVisualEffects();
+
         }
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
@@ -99,6 +98,11 @@ namespace EbonianMod
                         npc.checkDead();
                     }
                 }
+            }
+            if (Player.HasBuff<Sheepened>())
+            {
+                modifiers.DisableSound();
+                SoundEngine.PlaySound(SoundID.NPCHit1, Player.Center);
             }
         }
         public override void PostUpdateRunSpeeds()
@@ -182,13 +186,11 @@ namespace EbonianMod
         {
             if (brainAcc)
                 Player.lifeRegen += 5;
-            if (hotShield)
-                Player.CancelAllBootRunVisualEffects();
+
         }
         public override void PostUpdateBuffs()
         {
-            if (hotShield)
-                Player.CancelAllBootRunVisualEffects();
+
             if (NPC.AnyNPCs(NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ProjectileType<ArchmageXSpawnAnim>()] > 0)
                 Player.noBuilding = true;
             if (sheep)
@@ -198,7 +200,14 @@ namespace EbonianMod
                 foreach (Projectile proj in Main.ActiveProjectiles)
                 {
                     if (proj.active && proj.type == ProjectileType<player_sheep>())
+                    {
                         proj.Center = Player.Bottom + new Vector2(0, -14);
+                        if (Player.velocity.Y < 0)
+                            Collision.StepUp(ref proj.position, ref Player.velocity, proj.width, proj.height, ref proj.stepSpeed, ref proj.gfxOffY);
+                        else
+                            Collision.StepDown(ref proj.position, ref Player.velocity, proj.width, proj.height, ref proj.stepSpeed, ref proj.gfxOffY);
+
+                    }
                 }
             }
         }
