@@ -87,7 +87,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                 player.itemTime = 2;
                 player.itemAnimation = 2;
             }
-            if (player.HeldItem.type != ItemType<GutlingGun>()) player.itemTime = 0; player.itemAnimation = 0;
+            if (player.HeldItem.type != ItemType<GutlingGun>()) { player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill(); }
             Projectile.timeLeft = 10;
             Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
             Vector2 pos = player.RotatedRelativePoint(player.MountedCenter);

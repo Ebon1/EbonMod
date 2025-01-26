@@ -129,7 +129,7 @@ namespace EbonianMod.Items.Weapons.Melee
                 player.itemTime = 2;
                 player.itemAnimation = 2;
             }
-            if (player.HeldItem.type != ItemType<GhizasWheel>()) player.itemTime = 0; player.itemAnimation = 0;
+            if (player.HeldItem.type != ItemType<GhizasWheel>()) {player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill();}
             Projectile.ai[2]--;
 
             Vector2 wheelPos = Projectile.Center + new Vector2(22, -16).RotatedBy(Projectile.rotation);

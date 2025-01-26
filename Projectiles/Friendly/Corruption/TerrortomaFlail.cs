@@ -108,7 +108,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
 
             player.itemAnimation = 10;
             player.itemTime = 10;
-            if (player.HeldItem.type != ItemType<TerrorFlail>()) player.itemTime = 0; player.itemAnimation = 0;
+            if (player.HeldItem.type != ItemType<TerrorFlail>()) {player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill();}
             player.ChangeDir(Projectile.Center.X > player.Center.X ? 1 : -1);
             Projectile.direction = Projectile.Center.X > player.Center.X ? 1 : -1;
             Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;

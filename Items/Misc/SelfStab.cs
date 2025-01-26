@@ -86,7 +86,7 @@ namespace EbonianMod.Items.Misc
             if (!player.active || player.dead || player.CCed || player.noItems)
                 return;
             player.itemTime = 2;
-            player.itemAnimation = 2; if (player.HeldItem.type != ItemType<SelfStab>()) player.itemTime = 0; player.itemAnimation = 0;
+            player.itemAnimation = 2; if (player.HeldItem.type != ItemType<SelfStab>()) {player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill();}
             Player.CompositeArmStretchAmount stretch = Player.CompositeArmStretchAmount.None;
             if (Projectile.timeLeft == 22)
             {
