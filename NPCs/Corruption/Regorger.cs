@@ -34,7 +34,7 @@ namespace EbonianMod.NPCs.Corruption
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneCorrupt && Main.hardMode ? 0.1f : 0;
+            return spawnInfo.Player.ZoneCorrupt && Main.hardMode ? 0.05f : 0;
         }
         public override void SetDefaults()
         {

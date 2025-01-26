@@ -66,7 +66,7 @@ namespace EbonianMod.NPCs.Crimson
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneCrimson ? 0.15f : 0;
+            return spawnInfo.Player.ZoneCrimson ? 0.05f : 0;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {

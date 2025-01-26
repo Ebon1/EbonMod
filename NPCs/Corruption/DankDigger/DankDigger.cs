@@ -40,7 +40,7 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneCorrupt && spawnInfo.Player.ZoneDirtLayerHeight ? 0.15f : 0;
+            return spawnInfo.Player.ZoneCorrupt && spawnInfo.Player.ZoneDirtLayerHeight ? 0.08f : 0;
         }
         public override bool byHeight => true;
         public override int BodyType => NPCType<DankDiggerBody>();

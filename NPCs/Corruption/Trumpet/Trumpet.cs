@@ -93,7 +93,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneCorrupt && !NPC.AnyNPCs(Type) ? 0.04f : 0;
+            return spawnInfo.Player.ZoneCorrupt && !NPC.AnyNPCs(Type) ? 0.02f : 0;
         }
     }
     public class TrumpetBody : WormBody

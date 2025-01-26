@@ -31,7 +31,7 @@ namespace EbonianMod.NPCs.Crimson
         {
             if (spawnInfo.Player.ZoneCrimson)
             {
-                return .2f;
+                return .07f;
             }
             else
             {

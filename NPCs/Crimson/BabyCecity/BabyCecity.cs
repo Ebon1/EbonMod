@@ -46,7 +46,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneCrimson && Main.hardMode && spawnInfo.Player.ZoneOverworldHeight ? 0.045f : 0;
+            return spawnInfo.Player.ZoneCrimson && Main.hardMode && spawnInfo.Player.ZoneOverworldHeight ? 0.035f : 0;
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {

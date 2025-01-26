@@ -39,7 +39,7 @@ namespace EbonianMod.NPCs.Crimson.Spectators
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return (spawnInfo.Player.ZoneCrimson) ? 0.15f : 0;
+            return (spawnInfo.Player.ZoneCrimson) ? 0.1f : 0;
         }
         /*public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {

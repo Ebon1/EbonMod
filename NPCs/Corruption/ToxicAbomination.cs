@@ -30,7 +30,7 @@ namespace EbonianMod.NPCs.Corruption
         {
             if (spawnInfo.Player.ZoneCorrupt && Main.hardMode)
             {
-                return .2f;
+                return .08f;
             }
             else
             {

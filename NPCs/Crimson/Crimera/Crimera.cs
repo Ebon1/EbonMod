@@ -54,7 +54,7 @@ namespace EbonianMod.NPCs.Crimson.Crimera
         {
             if (spawnInfo.Player.ZoneCrimson && Main.hardMode)
             {
-                return .15f;
+                return .1f;
             }
             else
             {

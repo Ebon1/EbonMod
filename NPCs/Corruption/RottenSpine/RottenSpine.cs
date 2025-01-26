@@ -37,7 +37,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
         {
             if (spawnInfo.Player.ZoneCorrupt && spawnInfo.Player.ZoneRockLayerHeight && Main.hardMode)
             {
-                return .15f;
+                return .07f;
             }
             else
             {

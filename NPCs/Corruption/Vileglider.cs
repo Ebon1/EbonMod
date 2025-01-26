@@ -27,7 +27,7 @@ namespace EbonianMod.NPCs.Corruption
         {
             if (spawnInfo.Player.ZoneCorrupt)
             {
-                return .25f;
+                return .08f;
             }
             else
             {
