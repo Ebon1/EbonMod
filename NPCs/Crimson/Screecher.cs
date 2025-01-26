@@ -184,7 +184,7 @@ namespace EbonianMod.NPCs.Crimson
                 }
                 if (AITimer % 5 == 0 && AITimer > 15 && AITimer < 100)
                 {
-                    Projectile.NewProjectileDirect(null, NPC.Center - new Vector2(NPC.direction * -10, 8), new Vector2(NPC.direction * Main.rand.NextFloat(2, 6), 0).RotatedByRandom(MathHelper.PiOver4), ProjectileID.BloodNautilusShot, 30, 0).tileCollide = true;
+                    Projectile.NewProjectileDirect(null, NPC.Center - new Vector2(NPC.direction * -10, 8), new Vector2(NPC.direction * Main.rand.NextFloat(2, 6), 0).RotatedByRandom(MathHelper.PiOver4), ProjectileID.BloodNautilusShot, 17, 0).tileCollide = true;
                 }
                 if (player.Center.Distance(NPC.Center) > 100 && AITimer < 100)
                     AITimer += 2;
