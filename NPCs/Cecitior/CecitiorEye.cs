@@ -235,7 +235,7 @@ namespace EbonianMod.NPCs.Cecitior
                     break;
                 case 2:
                     AITimer++;
-                    if (AITimer < 61 && AITimer > 1)
+                    if (AITimer > 100 && AITimer < 200)
                     {
                         if (leftie)
                             NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(center.localAI[0], center.localAI[1]) + new Vector2(100).RotatedBy(angle), false) / 10f;
@@ -244,20 +244,20 @@ namespace EbonianMod.NPCs.Cecitior
                         frantic = false;
                         focalPoint = NPC.Center + Helper.FromAToB(center.Center, NPC.Center) * 400;
                         timer++;
-                        if ((AITimer == 30 || (halfEyesPhase2 && AITimer == 15)) && leftie)
+                        if ((AITimer == 130 || (halfEyesPhase2 && AITimer == 115)) && leftie)
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center), ProjectileType<EyeVFX>(), 0, 0);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center) * 3, ProjectileType<CecitiorEyeP>(), 30, 0);
                         }
 
-                        if ((AITimer == 60 || (halfEyesPhase2 && AITimer == 45)) && !leftie)
+                        if ((AITimer == 160 || (halfEyesPhase2 && AITimer == 145)) && !leftie)
                         {
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center), ProjectileType<EyeVFX>(), 0, 0);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center) * 3, ProjectileType<CecitiorEyeP>(), 30, 0);
                         }
 
                     }
-                    else if (AITimer > 100 && AITimer < 200)
+                    if (AITimer < 61 && AITimer > 1)
                     {
                         frantic = false;
                         focalPoint = NPC.Center + Vector2.UnitY * 100;
@@ -269,7 +269,7 @@ namespace EbonianMod.NPCs.Cecitior
                             a.friendly = false;
                         }
                     }
-                    else
+                    if (AITimer > 200)
                         NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 5f;
                     /*else if (AITimer > 200)
                     {
