@@ -46,7 +46,7 @@ namespace EbonianMod.Projectiles
             if (!modifyCooldown)
                 Projectile.localNPCHitCooldown = swingTime;
             Projectile.timeLeft = swingTime;
-            baseHoldOffset = holdOffset * Main.LocalPlayer.GetAdjustedItemScale(Main.LocalPlayer.HeldItem);
+            baseHoldOffset = holdOffset;//* Main.LocalPlayer.GetAdjustedItemScale(Main.LocalPlayer.HeldItem);
         }
         public virtual float Ease(float f)
         {
