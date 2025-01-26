@@ -161,6 +161,25 @@ namespace EbonianMod
                 if (effect != null && !effect.IsDisposed)
                     effect.Dispose();
             }
+            for (int i = 0; i < renders.Length; i++)
+            {
+                if (renders[i] != null && !renders[i].IsDisposed)
+                    renders[i].Dispose();
+                renders[i] = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+            }
+            if (invisRender != null && !invisRender.IsDisposed)
+                invisRender.Dispose();
+            if (affectedByInvisRender != null && !affectedByInvisRender.IsDisposed)
+                affectedByInvisRender.Dispose();
+            if (blurrender != null && !blurrender.IsDisposed)
+                blurrender.Dispose();
+
+            if (intenseBloomRender != null && !intenseBloomRender.IsDisposed)
+                blurrender.Dispose();
+
+            if (softBloomRender != null && !softBloomRender.IsDisposed)
+                blurrender.Dispose();
+
             invisibleMaskCache.Clear();
             invisibleMaskCache = [];
 
