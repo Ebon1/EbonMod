@@ -52,6 +52,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             return player.ownedProjectileCounts[Item.shoot] < 1;
         }
+        public override bool? CanAutoReuseItem(Player player) => false;
     }
     public class ThornBowP : ModProjectile
     {
@@ -114,7 +115,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             }
             else
             {
-                if (Projectile.timeLeft == 1 && player.channel)
+                if (Projectile.timeLeft == 1 && player.channel && !(!player.active || player.dead || player.CCed || player.noItems || !player.channel || player.HeldItem.type != ItemType<ThornBow>()))
                 {
                     Projectile.timeLeft = maxTime;
                 }

@@ -167,7 +167,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         }
         public override void PostDraw(Color lightColor)
         {
-            if (lightColor != Color.Transparent)
+            if (lightColor == Color.Transparent)
                 DrawSmoke(Main.spriteBatch);
         }
     }
@@ -228,6 +228,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         int seed;
         public override void PostDraw(Color lightColor)
         {
+            if (lightColor != Color.Transparent) return;
             if (seed == 0) seed = Main.rand.Next(9421814);
             Texture2D tex = Helper.GetExtraTexture("cone2");
             Texture2D tex2 = Helper.GetExtraTexture("Extras2/trace_02");

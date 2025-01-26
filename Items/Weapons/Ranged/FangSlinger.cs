@@ -50,6 +50,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.NewProjectile(source, position, velocity, ProjectileType<FangSlingerP>(), damage, knockback, player.whoAmI);
             return false;
         }
+        public override bool? CanAutoReuseItem(Player player) => false;
         public override bool CanUseItem(Player player)
         {
             return player.ownedProjectileCounts[Item.shoot] < 1;
@@ -126,7 +127,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             {
                 player.itemTime = 2;
                 player.itemAnimation = 2;
-                if (Projectile.timeLeft == 1 && player.channel)
+                if (Projectile.timeLeft == 1 && player.channel && !(!player.active || player.dead || player.CCed || player.noItems || !player.channel || player.HeldItem.type != ItemType<FangSlinger>()))
                 {
                     Projectile.timeLeft = maxTime;
                 }
