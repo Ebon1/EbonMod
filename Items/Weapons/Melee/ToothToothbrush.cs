@@ -42,6 +42,10 @@ namespace EbonianMod.Items.Weapons.Melee
         {
             return false;
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.Bone, 20).AddIngredient(ItemID.ViciousPowder, 10).AddTile(TileID.Anvils).Register();
+        }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Projectile.NewProjectile(source, position, Vector2.UnitX * player.direction, type, damage, knockback, player.whoAmI, 0, -player.direction, 1);
