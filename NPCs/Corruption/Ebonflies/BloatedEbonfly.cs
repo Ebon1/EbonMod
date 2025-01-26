@@ -18,7 +18,7 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
     {
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ItemType<WaspPaintingI>(), 90));
+            npcLoot.Add(ItemDropRule.Common(ItemType<WaspPaintingI>(), 200));
         }
         public override void SetStaticDefaults()
         {

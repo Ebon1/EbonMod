@@ -648,9 +648,10 @@ namespace EbonianMod.NPCs.Terrortoma
                     bloomAlpha = 1f;
                 NPC.damage = 65;
                 NPC.localAI[0] = 100;
+                AITimer2++;
                 if (AITimer < 250 && AITimer >= 50)
                 {
-                    if (!hasDonePhase2ApeShitMode)
+                    /*if (!hasDonePhase2ApeShitMode)
                     {
                         if (++AITimer2 % 25 == 0)
                         {
@@ -685,7 +686,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), rainPos4, Helper.FromAToB(rainPos4, player.Center), ProjectileType<TerrorVilethorn1>(), 20, 0, 0);
                             }
                         }
-                    }
+                    }*/
                     if (AITimer2 % 50 == 14)
                     {
                         SoundEngine.PlaySound(EbonianSounds.terrortomaDash, NPC.Center);
@@ -703,7 +704,8 @@ namespace EbonianMod.NPCs.Terrortoma
                     {
                         if (AITimer % 50 > 20)
                             rotation = NPC.velocity.ToRotation() - MathHelper.PiOver2;
-                        NPC.velocity += Helper.FromAToB(NPC.Center, player.Center) * 3;
+                        if (AITimer % 50 == 14)
+                            NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 25;
                     }
                     if (AITimer2 % 50 > 40)
                         NPC.velocity *= 0.9f;
