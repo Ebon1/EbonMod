@@ -66,7 +66,7 @@ namespace EbonianMod.NPCs.Overworld.Critters
         {
             lastClicked--;
             if (Main.rand.NextBool(2000))
-                SoundEngine.PlaySound(EbonianSounds.sheep.WithVolumeScale(0.5f), NPC.Center);
+                SoundEngine.PlaySound(EbonianSounds.sheep.WithVolumeScale(0.35f), NPC.Center);
             if (Main.LocalPlayer.Center.Distance(NPC.Center) < 175 && new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 5, 5).Intersects(NPC.getRect()) && Main.mouseRight && lastClicked < 0 && Main.LocalPlayer.HeldItem.dye > 0 && dyeId != Main.LocalPlayer.HeldItem.type)
             {
                 dyeId = Main.LocalPlayer.HeldItem.type;
