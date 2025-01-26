@@ -116,11 +116,11 @@ namespace EbonianMod.NPCs.Corruption
                         NPC.rotation = Helper.LerpAngle(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 0.25f);
                     else
                         NPC.rotation = NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0);
-                    if (AITimer >= 10)
-                        NPC.velocity += Helper.FromAToB(NPC.Center, player.Center) * 3;
+                    if (AITimer == 10)
+                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 30;
                     if (AITimer > 15)
                     {
-                        SoundEngine.PlaySound(EbonianSounds.chomp2.WithPitchOffset(0.25f), NPC.Center);
+                        SoundEngine.PlaySound(EbonianSounds.chomp2.WithPitchOffset(0.25f).WithVolumeScale(0.5f), NPC.Center);
                         AITimer = 0;
                         AIState++;
                     }
