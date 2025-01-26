@@ -12,6 +12,7 @@ using Terraria.ID;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.Utilities;
+using Terraria.Graphics.CameraModifiers;
 
 namespace EbonianMod.Projectiles.VFXProjectiles
 {
@@ -44,7 +45,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override void OnSpawn(IEntitySource source)
         {
             seed = Main.rand.Next(int.MaxValue / 2);
-            EbonianSystem.ScreenShakeAmount = 4;
+            Main.instance.CameraModifiers.Add(new PunchCameraModifier(Projectile.Center, Main.rand.NextVector2Unit(), 4, 6, 30, 1000));
 
             SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
 
@@ -174,7 +175,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         }
         public override void OnSpawn(IEntitySource source)
         {
-            EbonianSystem.ScreenShakeAmount = 3;
+            Main.instance.CameraModifiers.Add(new PunchCameraModifier(Projectile.Center, Main.rand.NextVector2Unit(), 3, 6, 30, 1000));
 
             SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
 

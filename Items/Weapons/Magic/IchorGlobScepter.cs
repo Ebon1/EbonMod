@@ -6,6 +6,7 @@ using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -196,7 +197,7 @@ namespace EbonianMod.Items.Weapons.Magic
             if (Projectile.timeLeft < 20)
                 Projectile.ai[0] = MathHelper.Lerp(Projectile.ai[0], 1, 0.021f);
             if (Projectile.timeLeft == 20)
-                EbonianSystem.ScreenShakeAmount = 5;
+                Main.instance.CameraModifiers.Add(new PunchCameraModifier(Projectile.Center, Main.rand.NextVector2Unit(), 5, 6, 30, 1000));
             Projectile.rotation += 0.1f;
             Projectile.velocity *= 0.8f;
             Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, DustID.Blood, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, Scale: 1f);

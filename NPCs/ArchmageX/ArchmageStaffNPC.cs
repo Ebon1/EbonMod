@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -317,7 +318,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             if (NPC.ai[1] == 2490)
                             {
                                 rantFactor = 15;
-                                EbonianSystem.ScreenShakeAmount = 6;
+                                Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 6, 6, 30, 1000));
                                 d = DialogueSystem.NewDialogueBox(150, NPC.Center - new Vector2(0, 60), "I'M A WEAPON! I AM MEANT TO SCRATCH! I'M NOT A DISPLAY PIECE", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                             }
 

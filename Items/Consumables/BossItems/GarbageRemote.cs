@@ -19,6 +19,7 @@ using System.Collections;
 using static tModPorter.ProgressUpdate;
 using EbonianMod.Common.Systems;
 using EbonianMod.Items.Consumables.Food;
+using Terraria.Graphics.CameraModifiers;
 
 namespace EbonianMod.Items.Consumables.BossItems
 {
@@ -91,7 +92,7 @@ namespace EbonianMod.Items.Consumables.BossItems
         public override void Kill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
-            EbonianSystem.ScreenShakeAmount = 10;
+            Main.instance.CameraModifiers.Add(new PunchCameraModifier(Projectile.Center, Main.rand.NextVector2Unit(), 10, 6, 30, 1000));
             Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileID.DaybreakExplosion, 50, 0);
             a.hostile = true;
             a.friendly = false;
@@ -151,7 +152,7 @@ namespace EbonianMod.Items.Consumables.BossItems
             }
             if (Projectile.timeLeft == 155)
             {
-                EbonianSystem.ScreenShakeAmount = 5;
+                Main.instance.CameraModifiers.Add(new PunchCameraModifier(Projectile.Center, Main.rand.NextVector2Unit(), 5, 6, 30, 1000));
                 Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<BigGrayShockwave>(), 0, 0);
                 end = Projectile.Center + new Vector2(0, -Main.screenHeight);
                 Vector2 dir = (end - start).RotatedBy(MathHelper.PiOver2);

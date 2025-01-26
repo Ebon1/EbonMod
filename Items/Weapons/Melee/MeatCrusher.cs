@@ -14,6 +14,7 @@ using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Projectiles.Friendly.Corruption;
 using Terraria.Audio;
 using EbonianMod.Items.Materials;
+using Terraria.Graphics.CameraModifiers;
 //using EbonianMod.Worldgen.Subworlds;
 //
 
@@ -98,7 +99,7 @@ namespace EbonianMod.Items.Weapons.Melee
                 if (Projectile.ai[0] == 0 && Helper.TRay.CastLength(Projectile.Center, Vector2.UnitY, 100) < 15)
                 {
                     Projectile.ai[0] = 1;
-                    EbonianSystem.ScreenShakeAmount = 5;
+                    Main.instance.CameraModifiers.Add(new PunchCameraModifier(Projectile.Center, Main.rand.NextVector2Unit(), 5, 6, 30, 1000));
                     Projectile.timeLeft = 15;
                     SoundEngine.PlaySound(SoundID.Item70, Projectile.Center);
                     for (int i = 0; i < 5; i++)
@@ -133,7 +134,7 @@ namespace EbonianMod.Items.Weapons.Melee
         bool _hit;
         public override void OnHit(NPC target, NPC.HitInfo hit, int damageDone)
         {
-            EbonianSystem.ScreenShakeAmount = 2;
+            Main.instance.CameraModifiers.Add(new PunchCameraModifier(Projectile.Center, Main.rand.NextVector2Unit(), 2, 6, 30, 1000));
             if (!_hit)
             {
                 lerpProg = -.25f;

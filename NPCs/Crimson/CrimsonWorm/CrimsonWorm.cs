@@ -21,6 +21,7 @@ using Terraria.GameContent.ItemDropRules;
 using EbonianMod.Items.Weapons.Magic;
 using EbonianMod.Items.Tiles;
 using EbonianMod.Projectiles.Cecitior;
+using Terraria.Graphics.CameraModifiers;
 
 namespace EbonianMod.NPCs.Crimson.CrimsonWorm
 {
@@ -196,7 +197,8 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             if (hitinfo.Damage > NPC.life && NPC.life <= 0)
             {
                 Main.BestiaryTracker.Kills.RegisterKill(NPC);
-                EbonianSystem.ScreenShakeAmount = 5;
+
+                Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 6, 6, 30, 1000));
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 0.05f, Find<ModGore>("EbonianMod/CrimsonWormSkull").Type, NPC.scale);
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 0.05f, Find<ModGore>("EbonianMod/CrimsonWormJaw").Type, NPC.scale);
             }

@@ -14,6 +14,7 @@ using EbonianMod.Projectiles.VFXProjectiles;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;
 using EbonianMod.Common.Systems;
+using Terraria.Graphics.CameraModifiers;
 
 namespace EbonianMod.Items.Misc
 {
@@ -141,7 +142,8 @@ namespace EbonianMod.Items.Misc
                 {
                     Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, dir * Main.rand.NextFloat(1, 5), ProjectileType<OstertagiWorm>(), 5, 0);
 
-                    EbonianSystem.ScreenShakeAmount = 2;
+
+                    Main.instance.CameraModifiers.Add(new PunchCameraModifier(player.Center, Main.rand.NextVector2Unit(), 2, 6, 30, 1000));
 
                     SoundEngine.PlaySound(EbonianSounds.fleshHit with { PitchVariance = 0.3f, Volume = 0.3f }, player.Center);
 
@@ -157,7 +159,8 @@ namespace EbonianMod.Items.Misc
                 {
                     Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, dir * Main.rand.NextFloat(1, 5), ProjectileType<OstertagiWorm>(), 5, 0);
 
-                    EbonianSystem.ScreenShakeAmount = 2;
+
+                    Main.instance.CameraModifiers.Add(new PunchCameraModifier(player.Center, Main.rand.NextVector2Unit(), 2, 6, 30, 1000));
 
                     SoundEngine.PlaySound(EbonianSounds.fleshHit with { PitchVariance = 0.3f, Volume = 0.3f }, player.Center);
 
@@ -173,7 +176,8 @@ namespace EbonianMod.Items.Misc
                 {
                     Projectile.NewProjectile(player.GetSource_FromThis(), player.Center, dir * Main.rand.NextFloat(1, 5), ProjectileType<OstertagiWorm>(), 5, 0);
 
-                    EbonianSystem.ScreenShakeAmount = 2;
+
+                    Main.instance.CameraModifiers.Add(new PunchCameraModifier(player.Center, Main.rand.NextVector2Unit(), 2, 6, 30, 1000));
 
                     SoundEngine.PlaySound(EbonianSounds.fleshHit with { PitchVariance = 0.3f, Volume = 0.3f }, player.Center);
 
@@ -214,7 +218,8 @@ namespace EbonianMod.Items.Misc
 
         public override void OnSpawn(IEntitySource source)
         {
-            EbonianSystem.ScreenShakeAmount = 3;
+
+            Main.instance.CameraModifiers.Add(new PunchCameraModifier(Projectile.Center, Main.rand.NextVector2Unit(), 5, 6, 30, 1000));
 
             SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
 

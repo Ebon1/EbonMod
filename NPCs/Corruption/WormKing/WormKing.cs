@@ -20,6 +20,7 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -283,7 +284,8 @@ namespace EbonianMod.NPCs.Corruption.WormKing
                             if (AITimer < 50)
                                 AITimer = 51;
                             AITimer2 = 1;
-                            EbonianSystem.ScreenShakeAmount = 5;
+
+                            Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 6, 6, 30, 1000));
                             NPC.velocity = Vector2.UnitY * -17.5f;
 
                             scaleX = 1.2f;

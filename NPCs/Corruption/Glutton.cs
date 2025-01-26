@@ -19,6 +19,7 @@ using System.Net.Sockets;
 using EbonianMod.Common.Systems;
 using EbonianMod.Projectiles.Enemy.Corruption;
 using EbonianMod.Items.Materials;
+using Terraria.Graphics.CameraModifiers;
 
 namespace EbonianMod.NPCs.Corruption
 {
@@ -218,7 +219,8 @@ namespace EbonianMod.NPCs.Corruption
                 NPC.velocity.Y += .5f;
                 if (AITimer == 30 || AITimer == 75)
                 {
-                    EbonianSystem.ScreenShakeAmount = 5;
+
+                    Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 6, 6, 30, 1000));
                     SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
                     Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ProjectileType<GluttonImpact>(), 20, 2.5f, 0, 0);
                     a.friendly = false;
@@ -242,7 +244,8 @@ namespace EbonianMod.NPCs.Corruption
                         Vector2 pos = NPC.Bottom + new Vector2(NPC.direction * Main.rand.NextFloat(-30, 30), 0);
                         Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, player.Center).RotatedBy(-MathHelper.PiOver4 * 0.3f).RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(5, 10), ProjectileType<TerrorVilethorn1>(), 20, 0);
                     }
-                    EbonianSystem.ScreenShakeAmount = 5;
+
+                    Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 6, 6, 30, 1000));
                     SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
                     Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ProjectileType<GluttonImpact>(), 20, 2.5f, 0, 0);
                     a.friendly = false;
@@ -263,7 +266,8 @@ namespace EbonianMod.NPCs.Corruption
                     eyeBeamAlpha = MathHelper.Lerp(eyeBeamAlpha, 1, 0.1f);
                 if (AITimer == 30)
                 {
-                    EbonianSystem.ScreenShakeAmount = 5;
+
+                    Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 6, 6, 30, 1000));
                     SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
                     Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ProjectileType<GluttonImpact>(), 20, 2.5f, 0, 0);
                     a.friendly = false;
@@ -284,7 +288,8 @@ namespace EbonianMod.NPCs.Corruption
                 {
                     if (AITimer % 2 == 0)
                     {
-                        EbonianSystem.ScreenShakeAmount = 5;
+
+                        Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 6, 6, 30, 1000));
                         SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(0.4f).WithVolumeScale(1.2f), NPC.Center);
                         Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Helper.FromAToB(NPC.Center + new Vector2(56 * NPC.direction, 22), storedPlayerPos).RotatedByRandom(MathHelper.PiOver4 * 0.35f) * Main.rand.NextFloat(2, 13), ProjectileType<TFlameThrower>(), 10, 0);
                     }

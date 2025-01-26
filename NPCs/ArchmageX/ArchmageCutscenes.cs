@@ -15,6 +15,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Skies;
+using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -421,7 +422,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     beamAlpha = 1f;
                     AITimer2 = 0;
                     SoundEngine.PlaySound(SoundID.Zombie104, NPC.Center);
-                    EbonianSystem.ScreenShakeAmount = 15;
+                    Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 15, 6, 30, 1000));
                 }
                 if (AITimer > 600)
                     beamAlpha = MathHelper.Lerp(beamAlpha, 0, 0.3f);

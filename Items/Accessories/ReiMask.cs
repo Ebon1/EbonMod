@@ -14,6 +14,7 @@ using Terraria.Audio;
 using EbonianMod.Common.Systems;
 using EbonianMod.Common;
 using Terraria.Localization;
+using Terraria.Graphics.CameraModifiers;
 
 namespace EbonianMod.Items.Accessories
 {
@@ -93,7 +94,9 @@ namespace EbonianMod.Items.Accessories
                             }
                             Helper.TPNoDust(Main.MouseWorld - new Vector2(0, 40), player);
                             Projectile.NewProjectile(null, Main.MouseWorld, Vector2.Zero, ProjectileType<ReiExplosion>(), 50, 0, player.whoAmI);
-                            EbonianSystem.ScreenShakeAmount = 5;
+
+                            Main.instance.CameraModifiers.Add(new PunchCameraModifier(npc.Center, Main.rand.NextVector2Unit(), 5, 6, 30, 1000));
+
                             SoundEngine.PlaySound(EbonianSounds.reiTP, Main.MouseWorld);
                             modPlayer.reiBoostCool = 60;
                             player.AddImmuneTime(ImmunityCooldownID.General, 30);

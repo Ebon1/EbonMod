@@ -1073,7 +1073,7 @@ namespace EbonianMod.NPCs.ArchmageX
                                 headFrame.Y = phase2 ? DisappointedFace : NeutralFace;
                             SoundEngine.PlaySound(EbonianSounds.xSpirit, staffTip);
                             NPC.damage = 30;
-                            EbonianSystem.ScreenShakeAmount = 6;
+                            Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 6, 6, 30, 1000));
                             for (int i = 0; i < 20; i++)
                             {
                                 Vector2 pos = NPC.Center + Helper.FromAToB(staffTip, player.Center).RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(10, 50);
@@ -1936,7 +1936,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             AITimer2 += 0.1f;
                             headFrame.Y = ShockedFace;
                             SoundEngine.PlaySound(EbonianSounds.xSpirit, NPC.Center);
-                            EbonianSystem.ScreenShakeAmount = 6;
+                            Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 6, 6, 30, 1000));
                             Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center).RotatedByRandom(MathHelper.PiOver2 * 0.7f * AITimer2) * Main.rand.NextFloat(7, 12) * (phaseMult == 3 ? 0.8f : 0.6f), ProjectileType<XSpiritNoHome>(), 15, 0, -1, 0.25f);
                         }
                         if (AITimer == 140)

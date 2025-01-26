@@ -13,6 +13,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -102,7 +103,8 @@ namespace EbonianMod.Items.Misc
                 player.Hurt(info);
                 player.immuneTime = 0;
                 SoundEngine.PlaySound(EbonianSounds.fleshHit, player.Center);
-                EbonianSystem.ScreenShakeAmount = 5;
+
+                Main.instance.CameraModifiers.Add(new PunchCameraModifier(Projectile.Center, Main.rand.NextVector2Unit(), 5, 6, 30, 1000));
                 player.GetModPlayer<EbonianPlayer>().stabDirection = new Vector2(-player.direction, Main.rand.NextFloat(-1, 0));
                 for (int i = 0; i < 5; i++)
                 {
