@@ -19,7 +19,7 @@ namespace EbonianMod.NPCs.Crimson.Jellyfish
             NPC.lifeMax = 1000;
             NPC.damage = 0;
             NPC.noTileCollide = true;
-            NPC.defense = 20;
+            NPC.defense = 10;
             NPC.knockBackResist = 0;
             NPC.width = 82;
             NPC.height = 78;

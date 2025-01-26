@@ -46,7 +46,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.width = 136;
             NPC.height = 136;
             NPC.damage = 10;
-            NPC.defense = 30;
+            NPC.defense = 17;
             NPC.lifeMax = 2000;
             NPC.aiStyle = -1;
             NPC.HitSound = SoundID.DD2_DrakinHurt;

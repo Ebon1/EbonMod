@@ -36,7 +36,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.width = 68;
             NPC.height = 38;
             NPC.damage = 46;
-            NPC.defense = 12;
+            NPC.defense = 4;
             NPC.lifeMax = 90;
             NPC.aiStyle = 3;
             AIType = 218;

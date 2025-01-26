@@ -33,7 +33,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.height = 32;
             NPC.aiStyle = 0;
             NPC.damage = 7;
-            NPC.defense = 30;
+            NPC.defense = 7;
             NPC.lifeMax = 300;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;

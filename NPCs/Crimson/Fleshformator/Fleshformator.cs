@@ -28,7 +28,7 @@ namespace EbonianMod.NPCs.Crimson.Fleshformator
             NPC.width = 58;
             NPC.height = 42;
             NPC.damage = 0;
-            NPC.defense = 10;
+            NPC.defense = 5;
             NPC.lifeMax = 2800;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = EbonianSounds.fleshHit;

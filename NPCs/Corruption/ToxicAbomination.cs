@@ -54,7 +54,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.buffImmune[24] = true;
             NPC.noTileCollide = false;
             NPC.value = Item.buyPrice(0, 0, 20);
-            NPC.defense = 25;
+            NPC.defense = 12;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {

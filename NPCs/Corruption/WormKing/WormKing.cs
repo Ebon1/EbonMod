@@ -53,7 +53,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
             NPC.lifeMax = 2500;
             NPC.damage = 0;
             NPC.noTileCollide = true;
-            NPC.defense = 20;
+            NPC.defense = 15;
             NPC.knockBackResist = 0;
             NPC.width = 114;
             NPC.height = 116;
