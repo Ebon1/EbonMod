@@ -127,7 +127,7 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
                         stingerTarget = Vector2.Lerp(stingerTarget, player.Center, 0.35f);
                         if (stingerTarget.Distance(player.Center) < 10)
                         {
-                            player.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), 15, NPC.direction);
+                            player.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), 20, NPC.direction);
                             player.AddBuff(BuffID.Ichor, 400);
                         }
                     }
