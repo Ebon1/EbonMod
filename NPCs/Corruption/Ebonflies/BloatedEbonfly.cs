@@ -94,6 +94,7 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
         }
         float glowAlpha = 0;
         Vector2 lastPos;
+        float AITimer;
         public override void PostAI()
         {
             foreach (NPC npc in Main.ActiveNPCs)
@@ -110,7 +111,7 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
                     }
                 }
             }
-            if (Main.LocalPlayer.Center.Distance(NPC.Center) < 350)
+            if (Main.LocalPlayer.Center.Distance(NPC.Center) < 350 || (NPC.dontTakeDamage && ++AITimer > 60 * 8))
             {
                 if (++NPC.ai[3] > 100 * NPC.scale)
                 {
