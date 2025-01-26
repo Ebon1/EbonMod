@@ -70,7 +70,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = Helper.GetTexture(Texture);
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, 30 * Projectile.frame, Projectile.width, 30), lightColor, Projectile.rotation, Projectile.Size / 2, Projectile.scale, Projectile.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically);
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, Projectile.Size / 2, Projectile.scale, Projectile.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically);
             return false;
         }
         public override bool? CanDamage() => false;
