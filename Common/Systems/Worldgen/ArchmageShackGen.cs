@@ -85,6 +85,12 @@ namespace EbonianMod.Common.Systems.Worldgen
                         Tile tile = Main.tile[i, j];
                         tile.ResetToType((ushort)TileType<ArchmageStaffTile>());
                     }
+
+                    if (Main.tile[i, j].TileType == TileID.AlchemyTable)
+                    {
+                        Tile tile = Main.tile[i, j];
+                        tile.Clear(TileDataType.Tile);
+                    }
                 }
             }
             for (int i = arenaPos.X - 2; i < arenaPos.X + 84; i++)

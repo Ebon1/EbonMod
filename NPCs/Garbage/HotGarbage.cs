@@ -54,7 +54,7 @@ namespace EbonianMod.NPCs.Garbage
             NPC.width = 80;
             NPC.height = 74;
             NPC.damage = 0;
-            NPC.defense = 16;
+            NPC.defense = 10;
             NPC.lifeMax = 5250;
             NPC.knockBackResist = 0f;
             NPC.HitSound = SoundID.NPCHit4;
@@ -1549,7 +1549,7 @@ namespace EbonianMod.NPCs.Garbage
 
             foreach (NPC npc in Main.ActiveNPCs)
             {
-                if (npc.active && npc.Center.Distance(targetPos) < 4500 / 2 - 100 && npc.type != NPCType<Cecitior.Cecitior>() && npc.type != NPCType<HotGarbage>() && npc.type != NPCType<ArchmageStaffNPC>())
+                if (npc.active && npc.Center.Distance(targetPos) < 4500 / 2 - 100 && npc.type != NPCType<Cecitior.Cecitior>() && npc.type != NPCType<Terrortoma.Terrortoma>() && !npc.dontTakeDamage && npc.type != NPCType<HotGarbage>() && npc.type != NPCType<ArchmageStaffNPC>())
                 {
                     npc.life = 0;
                     npc.checkDead();

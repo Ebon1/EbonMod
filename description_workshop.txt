@@ -1,0 +1,34 @@
+[h1]Ebonian Mod v0.1[/h1]
+is [b]WIP[/b] Mod that plans on adding random nonsense with an unsurprising focus on... the Corruption and Crimson (They're far from everything though!)
+
+[h2]Misc Info:[/h2] [list]
+[*] [b]NO MULTIPLAYER COMPATIBILITY!!!!!!!!!!![/b]
+
+[*] Join our [url=https://discord.gg/DexM5QuV7c]discord[/url] for updates and announcements!
+
+[*] Currently the mod contains 4 bosses, over 85 items and 30 enemies, but it will grow with time. 
+    
+[*] Play on [b]Expert[/b] for the best experience.
+    
+[*] Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2802867430]Fargo's Best of Both Worlds.[/url]
+
+[*] Functional with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2861542679]Remnants Mod[/url], however some minor issues may show up
+[/list]
+
+[h2]Credits:[/h2] [list]
+[*] Programmers: [url=https://www.youtube.com/@Ebon1]Ebon[/url], Darkmango, Quarzz
+
+[*] Artists: Max 1287, Roll'eG, Endexyz, Mjoonlight, YoguTheYogurt, fg, Vade, The Possum, AstroWyrm, pil, Decrypt
+
+[*] Ideas and Concepts: Sten, Nicola, Theonetruedog, Taco, mano amim, Dennis (Mystic Giant), Uncon Arts and most people listed in the other categories 
+
+[*] Music: [url=https://www.youtube.com/@yurio_music]Yuri O[/url]
+
+[*] Past / Misc Contributions: TCHNuke, Ralken, Moonburn, Riflezen, naka, Magma, Sulph
+
+[*] Testers: The Isopod Maniac (EggsBenedict624), Mr.Gerd26, Lacalidot, WokrThe, GamerFizzy, Chox
+[/list]
+
+[img]https://i.imgur.com/U8iUlza.png[/img]
+[quote=tModLoader EbonianMod]
+Developed By Ebon[/quote]
