@@ -225,7 +225,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     while (atts++ < 400 && (Main.tile[NPC.Center.ToTileCoordinates().X, NPC.Center.ToTileCoordinates().Y].HasTile || Helper.TRay.CastLength(NPC.Center, Vector2.UnitY, 700) < 650))
                         NPC.Center -= Vector2.UnitY * 8;
                     startP = NPC.Center;
-                    foreach (NPC npc in Main.npc)
+                    foreach (NPC npc in Main.ActiveNPCs)
                     {
                         if (npc.active && npc.type == NPCID.MartianSaucer)
                         {
@@ -235,7 +235,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (npc.active && !npc.friendly && npc.type != Type)
                             npc.active = false;
                     }
-                    foreach (Projectile p in Main.projectile)
+                    foreach (Projectile p in Main.ActiveProjectiles)
                     {
                         if (p.active && !p.friendly)
                             p.active = false;

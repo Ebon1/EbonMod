@@ -167,7 +167,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         }
         public override void PostDraw(Color lightColor)
         {
-            if (lightColor == new Color(69, 420, 0, 1))
+            if (lightColor != Color.Transparent)
                 DrawSmoke(Main.spriteBatch);
         }
     }

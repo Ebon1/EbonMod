@@ -57,7 +57,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
                 //float rot = MathHelper.ToRadians(Projectile.ai[1] * (Projectile.ai[2] == 0 ? 1 : Projectile.ai[2]));
                 Vector2 vel = Projectile.velocity.SafeNormalize(Vector2.UnitY);
                 bool found = false;
-                foreach (NPC npc in Main.npc)
+                foreach (NPC npc in Main.ActiveNPCs)
                 {
                     if (npc.active && !npc.dontTakeDamage && !npc.friendly && npc.Center.Distance(Projectile.Center) < 1500)
                     {

@@ -57,13 +57,14 @@ namespace EbonianMod.NPCs.Corruption.Rotling
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.Size = new Vector2(10, 14);
             NPC.damage = 0;
+            quiet = true;
             NPC.aiStyle = -1;
             NPC.lifeMax = 15;
             NPC.value = Item.buyPrice(0, 0, 0, 1);
         }
+        int soundTimer;
         public override void ExtraAI()
         {
-            NPC.soundDelay = 10;
         }
         public override void Init()
         {

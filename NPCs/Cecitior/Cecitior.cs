@@ -84,7 +84,7 @@ namespace EbonianMod.NPCs.Cecitior
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.lifeMax = 11000;
+            NPC.lifeMax = 8000;
             NPC.damage = 40;
             NPC.noTileCollide = true;
             NPC.dontTakeDamage = true;
@@ -214,12 +214,21 @@ namespace EbonianMod.NPCs.Cecitior
                     if (i == (int)AITimer3)
                     {
                         if (AIState == Phase2ClawGrab && AITimer2 == 1)
+                        {
                             claw[i].verlet.Draw(spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_8");
+                            claw[i].verlet.Draw(spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_8_Glow", useColor: true, color: Color.White);
+                        }
                         else
+                        {
                             claw[i].verlet.Draw(spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_" + hookFrame);
+                            claw[i].verlet.Draw(spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_" + hookFrame + "_Glow", useColor: true, color: Color.White);
+                        }
                     }
                     else
+                    {
                         claw[i].verlet.Draw(spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_" + hookFrame);
+                        claw[i].verlet.Draw(spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_" + hookFrame + "_Glow", useColor: true, color: Color.White);
+                    }
 
                     /*Texture2D tex = Helper.GetTexture("Projectiles/Cecitior/CecitiorBombThing_Extra");
                     //Main.EntitySpriteDraw(tex, claw[i].position - Main.screenPosition, null, Color.Black * 0.1f * claw[i].orbAlpha, Main.GameUpdateCount * 0.03f, tex.Size() / 2, 0.7f, SpriteEffects.None);
@@ -274,8 +283,13 @@ namespace EbonianMod.NPCs.Cecitior
                     }
                 }
                 Texture2D part = Helper.GetTexture("NPCs/Cecitior/Cecitior_Part");
+                Texture2D partGlow = Helper.GetTexture("NPCs/Cecitior/Cecitior_Part_Glow");
+                Texture2D glow = Helper.GetTexture("NPCs/Cecitior/Cecitior_Glow");
                 spriteBatch.Draw(part, NPC.Center + new Vector2(30, 4) + openOffset - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center + new Vector2(30, 4) + openOffset) * 1.25f), openRotation, part.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(part, NPC.Center + new Vector2(30, 4) + openOffset - screenPos, null, Color.White, openRotation, part.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+
                 spriteBatch.Draw(tex, NPC.Center - openOffset - screenPos, NPC.frame, new Color(Lighting.GetSubLight(NPC.Center - openOffset) * 1.25f), NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(glow, NPC.Center - openOffset - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
                 return false;
             }
             return true;
@@ -473,7 +487,7 @@ namespace EbonianMod.NPCs.Cecitior
                 cachedSound = SoundEngine.PlaySound(selected, NPC.Center);
             }
             int eyeCount = 0;
-            foreach (NPC npc in Main.npc)
+            foreach (NPC npc in Main.ActiveNPCs)
             {
                 if (npc.active && npc.type == eyeType)
                     eyeCount++;
@@ -834,9 +848,9 @@ namespace EbonianMod.NPCs.Cecitior
                     NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 70), false) / 45f;
                 else
                 {
-                    if (AITimer < 30)
-                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + Helper.FromAToB(player.Center, NPC.Center) * 100) * 2;
-                    else NPC.velocity *= 0.9f;
+                    if (AITimer < 70 && NPC.Distance(player.Center) > 200)
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 100) + Helper.FromAToB(player.Center, NPC.Center) * 100) * 15, 0.1f);
+                    else NPC.velocity *= 0.8f;
                 }
                 if (AITimer >= NPC.life / 260 + 10)
                 {

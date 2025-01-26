@@ -37,11 +37,11 @@ namespace EbonianMod.NPCs.Cecitior
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.lifeMax = 2000;
+            NPC.lifeMax = 3000;
             NPC.dontTakeDamage = true;
             NPC.damage = 0;
             NPC.noTileCollide = true;
-            NPC.defense = 15;
+            NPC.defense = 30;
             NPC.knockBackResist = 0;
             NPC.width = 32;
             NPC.height = 32;
@@ -92,9 +92,13 @@ namespace EbonianMod.NPCs.Cecitior
             if (NPC.IsABestiaryIconDummy || !center.active || center.type != NPCType<Cecitior>())
                 return;
             Texture2D a = Helper.GetTexture("NPCs/Cecitior/CecitiorChain_base");
+            Texture2D glow = Helper.GetTexture("NPCs/Cecitior/CecitiorChain_base_Glow");
             Texture2D b = Helper.GetTexture("NPCs/Cecitior/CecitiorEye");
             if (verlet != null)
+            {
                 spriteBatch.Draw(a, verlet.firstP.position - new Vector2(0, 20).RotatedBy(Helper.FromAToB(verlet.firstP.position, verlet.points[5].position, reverse: true).ToRotation() - 1.57f) - screenPos, null, drawColor, Helper.FromAToB(verlet.firstP.position, verlet.points[5].position, reverse: true).ToRotation() - 1.57f, a.Size() / 2, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(glow, verlet.firstP.position - new Vector2(0, 20).RotatedBy(Helper.FromAToB(verlet.firstP.position, verlet.points[5].position, reverse: true).ToRotation() - 1.57f) - screenPos, null, drawColor, Helper.FromAToB(verlet.firstP.position, verlet.points[5].position, reverse: true).ToRotation() - 1.57f, a.Size() / 2, 1, SpriteEffects.None, 0);
+            }
             spriteBatch.Draw(b, NPC.Center - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
         }
         public override void FindFrame(int frameHeight)
@@ -194,7 +198,7 @@ namespace EbonianMod.NPCs.Cecitior
             NPC center = Main.npc[(int)NPC.ai[0]];
             Player player = Main.player[center.target];
             int eyeCount = 0;
-            foreach (NPC npc in Main.npc)
+            foreach (NPC npc in Main.ActiveNPCs)
             {
                 if (npc.active && npc.type == Type)
                     eyeCount++;

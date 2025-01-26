@@ -70,7 +70,7 @@ namespace EbonianMod.Common.Systems.Misc
             float weight = 4.5f;
             Func<bool> downed = () => GetInstance<DownedBossSystem>().downedXareusCheck;
 
-            Func<LocalizedText> spawnInfo = () => Language.GetText("Interact with the Archstaff in the Mysterious Shack.");
+            Func<LocalizedText> spawnInfo = () => Language.GetText("Interact with the Archstaff in the Mysterious Shack, after unlocking the basement with a [i:" + ItemID.LargeAmethyst + "].");
 
             var customPortrait = (SpriteBatch sb, Rectangle rect, Color color) =>
             {
@@ -81,7 +81,7 @@ namespace EbonianMod.Common.Systems.Misc
 
             Dictionary<string, object> dictionary = new()
             {
-                ["displayName"] = Language.GetText("Mods.EbonianMod.NPCs.ArchmageX.DisplayName"),
+                ["displayName"] = Language.GetText("Mods.EbonianMod.NPCs.ArchmageX.BossLogDisplayName"),
                 ["spawnInfo"] = spawnInfo,
                 ["customPortrait"] = customPortrait
             };

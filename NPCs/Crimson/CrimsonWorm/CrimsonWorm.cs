@@ -194,6 +194,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         {
             if (hitinfo.Damage > NPC.life && NPC.life <= 0)
             {
+                Main.BestiaryTracker.Kills.RegisterKill(NPC);
                 EbonianSystem.ScreenShakeAmount = 5;
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 0.05f, Find<ModGore>("EbonianMod/CrimsonWormSkull").Type, NPC.scale);
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * 0.05f, Find<ModGore>("EbonianMod/CrimsonWormJaw").Type, NPC.scale);

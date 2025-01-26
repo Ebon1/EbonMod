@@ -85,7 +85,7 @@ namespace EbonianMod.NPCs.Corruption
         }
         public override void PostAI()
         {
-            foreach (NPC npc in Main.npc)
+            foreach (NPC npc in Main.ActiveNPCs)
             {
                 if (npc.active && npc.whoAmI != NPC.whoAmI)
                 {

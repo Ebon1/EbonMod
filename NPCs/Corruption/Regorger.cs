@@ -106,6 +106,11 @@ namespace EbonianMod.NPCs.Corruption
         Vector2 p;
         public override void AI()
         {
+            if (NPC.ai[3] != 0)
+            {
+                NPC.life--;
+                if (NPC.life < 2) NPC.SimpleStrikeNPC(3, 0);
+            }
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
             NPC.spriteDirection = NPC.direction = -1;

@@ -110,7 +110,7 @@ namespace EbonianMod.Projectiles.Terrortoma
 
                 float __off = visual1;
                 if (__off > 1) __off = -__off + 1;
-                float _off = (__off + i)%1f;
+                float _off = __off + i;
 
                 float __off2 = visual2;
                 if (__off2 > 1) __off = -__off + 1;

@@ -59,6 +59,11 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
         float rot, rotFactor;
         int amount;
         float lerpFactor = 1f;
+        public override void ModifyHoverBoundingBox(ref Rectangle boundingBox)
+        {
+            boundingBox.Height = 65;
+            boundingBox.Y += boundingBox.Height * 2;
+        }
         public override void OnSpawn(IEntitySource source)
         {
             NPC.scale = Main.rand.Next(new float[] { 0.75f, 0.75f, 0.75f, 0.75f, 0.55f, 0.55f });
@@ -100,6 +105,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
                 }
                 Verlet v = verlet;
                 v.gravity = 0;
+                v.stiffness = 1;
                 S_VerletSystem.verlets.Add(new SpawnableVerlet(v, new VerletDrawData(Texture + "_Tex", _textureVariation: true, _maxVariants: 3, _variantSeed: texNum), new Vector2(Main.rand.NextFloat(1, 7) * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), Main.rand.NextFloat(-20, 5)), 800));
             }
             for (int i = 0; i < (NPC.scale > 0.55f ? 7 : 2); i++)
@@ -112,6 +118,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
                     }
                     Verlet v = extraVerlets[i];
                     v.gravity = 0;
+                    v.stiffness = 1;
                     S_VerletSystem.verlets.Add(new SpawnableVerlet(v, new VerletDrawData(Texture + "_Tex", _textureVariation: true, _maxVariants: 3, _variantSeed: texNum), new Vector2(Main.rand.NextFloat(1, 7) * (Main.rand.NextFloatDirection() > 0 ? 1 : -1), Main.rand.NextFloat(-20, 5)), 800));
                 }
             return true;

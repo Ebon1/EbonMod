@@ -110,7 +110,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(player.Center, Main.MouseWorld), 0.1f - MathHelper.Lerp(0.09f, 0f, Projectile.ai[0] / 350)).SafeNormalize(Vector2.UnitX);
 
             List<NPC> npcs = new List<NPC>();
-            foreach (NPC npc in Main.npc)
+            foreach (NPC npc in Main.ActiveNPCs)
             {
                 if (npc.active && npc.CanBeChasedBy(Projectile) && !npc.boss && !NPCID.Sets.ShouldBeCountedAsBoss[npc.type] && !restrictedTypes.Contains(npc.type))
                 {

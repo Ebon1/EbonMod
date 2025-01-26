@@ -43,6 +43,10 @@ namespace EbonianMod.Items.Misc
         {
             return false;
         }
+        public override bool AllowPrefix(int pre)
+        {
+            return false;
+        }
     }
     public class SelfStabP : ModProjectile
     {
@@ -169,7 +173,7 @@ namespace EbonianMod.Items.Misc
             player.GetDamage(DamageClass.Generic).Flat += 10;
             player.lifeRegen = 0;
             player.lifeRegenTime = 0;
-            Vector2 dir = player.GetModPlayer<EbonianPlayer>().stabDirection.RotatedByRandom(MathHelper.PiOver4 / 2);
+            Vector2 dir = player.GetModPlayer<EbonianPlayer>().stabDirection.RotatedByRandom(MathHelper.PiOver4 / 2) * (Main.rand.NextBool(5) ? -1 : 1);
             if (player.buffTime[buffIndex] > 60 * 50)
             {
                 if (player.buffTime[buffIndex] % 15 == 0)

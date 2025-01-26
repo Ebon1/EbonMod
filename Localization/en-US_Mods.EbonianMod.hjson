@@ -258,9 +258,12 @@ Projectiles: {
 	PipebombPSentry.DisplayName: Pipebomb
 	SalvagedThrusterP.DisplayName: Salvaged Thruster
 	NastySnapperPro.DisplayName: Nasty Snapper Pro
-	XBoltFriendly2.DisplayName: X Bolt Friendly2
+	XBoltFriendly2.DisplayName: Bolt
 	RedMistVFX.DisplayName: Red Mist V F X
 	PhantasmalWave.DisplayName: Phantasmal Wave
+	TFlameThrower2_Inverted.DisplayName: Flame
+	TerrortomaScream.DisplayName: Terrortoma Scream
+	TFlameThrowerHoming.DisplayName: Flame
 }
 
 NPCs: {
@@ -318,7 +321,12 @@ NPCs: {
 	TrumpetHead.DisplayName: Trumpet
 	TrumpetBody.DisplayName: Trumpet
 	Rolypoly.DisplayName: Rolypoly
-	ArchmageX.DisplayName: Xareus
+
+	ArchmageX: {
+		DisplayName: Xareus
+		BossLogDisplayName: The Archmage
+	}
+
 	JuvenileBrain.DisplayName: Neurobite
 	WormKing.DisplayName: Worm King
 	MiniTrumpetBody.DisplayName: Cornet

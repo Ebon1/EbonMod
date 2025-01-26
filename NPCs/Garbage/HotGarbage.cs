@@ -115,7 +115,6 @@ namespace EbonianMod.NPCs.Garbage
             spriteBatch.Draw(glow, drawPos, NPC.frame, Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
             if (AIState != Intro && AIState != Idle && AIState != OpenLid && AIState != SpewFire && AIState != CloseLid && AIState != ActualDeath && AIState != FallOver && AIState != SpewFire2 && AIState != BouncingBarrels && NPC.frame.X == 80)
                 spriteBatch.Draw(fire, drawPos + new Vector2(NPC.width * -NPC.direction + (NPC.direction == 1 ? 9 : 0), 2).RotatedBy(NPC.rotation) * NPC.scale, new Rectangle(0, NPC.frame.Y - 76 * 3, 70, 76), Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
-
             spriteBatch.Reload(BlendState.Additive);
 
             for (int i = 0; i < 4; i++)
@@ -1435,7 +1434,7 @@ namespace EbonianMod.NPCs.Garbage
 
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.EffectMatrix);
 
             Main.spriteBatch.Draw(textGlow, new Vector2(Main.screenWidth / 2, Main.screenHeight * 0.05f), null, Color.Black * textAlpha, 0, new Vector2(textGlow.Width / 2, textGlow.Height / 2), 10, SpriteEffects.None, 0);
 
@@ -1548,7 +1547,7 @@ namespace EbonianMod.NPCs.Garbage
             }
 
 
-            foreach (NPC npc in Main.npc)
+            foreach (NPC npc in Main.ActiveNPCs)
             {
                 if (npc.active && npc.Center.Distance(targetPos) < 4500 / 2 - 100 && npc.type != NPCType<HotGarbage>() && npc.type != NPCType<ArchmageStaffNPC>())
                 {
@@ -1606,7 +1605,7 @@ namespace EbonianMod.NPCs.Garbage
 
             if (Projectile.ai[1] < 180 && Projectile.ai[1] > 60 && !changedCam && Main.LocalPlayer.Center.Distance(targetPos) > 4500 / 2)
             {
-                EbonianSystem.ChangeCameraPos(targetPos, (int)Projectile.ai[1] + 10);
+                EbonianSystem.ChangeCameraPos(targetPos, (int)Projectile.ai[1] + 10, 1);
                 changedCam = true;
             }
             if (Main.LocalPlayer.Center.Distance(targetPos) > 4500 / 2 - 100)

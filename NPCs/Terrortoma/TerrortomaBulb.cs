@@ -43,6 +43,7 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.knockBackResist = 0f;
+            NPC.chaseable = false;
         }
         public override void OnSpawn(IEntitySource source)
         {
@@ -87,6 +88,7 @@ namespace EbonianMod.NPCs.Terrortoma
         SlotId cachedSound;
         public override void AI()
         {
+            NPC.chaseable = false;
             NPC.timeLeft = 10;
             NPC.despawnEncouraged = false;
             SoundStyle selected = EbonianSounds.flesh0;

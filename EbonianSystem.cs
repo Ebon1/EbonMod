@@ -34,6 +34,7 @@ namespace EbonianMod
         public int timesDiedToXareus;
         public static void TemporarilySetMusicTo0(float time)
         {
+            savedMusicVol = Main.musicVolume;
             setMusicBackTimer = time;
             setMusicBackTimerMax = time;
         }
@@ -84,7 +85,7 @@ namespace EbonianMod
             xareusFightCooldown--;
             constantTimer++;
 
-            if (constantTimer % 600 == 0)
+            if (constantTimer % 1000 == 0)
                 if (!NPC.AnyNPCs(NPCType<ArchmageStaffNPC>()))
                 {
                     for (int i = Main.maxTilesX / 2 - 440; i < Main.maxTilesX / 2 + 440; i++)
@@ -108,7 +109,7 @@ namespace EbonianMod
             int textIndex2 = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Map / Minimap")) + 1;
             layers.Insert(textIndex, new LegacyGameInterfaceLayer("EbonianMod: BossText", () =>
             {
-                Helper.DrawBossTitle();
+                //Helper.DrawBossTitle();
 
                 return true;
             }, InterfaceScaleType.UI));
@@ -215,7 +216,7 @@ namespace EbonianMod
 
             if (NPC.AnyNPCs(NPCType<ArchmageStaffNPC>()) && !isChangingCameraPos)
             {
-                foreach (NPC npc in Main.npc)
+                foreach (NPC npc in Main.ActiveNPCs)
                 {
                     if (npc.active && npc.type == NPCType<ArchmageStaffNPC>())
                     {

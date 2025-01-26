@@ -1,6 +1,10 @@
 [i:522] WIP Mod that plans on adding random nonsense with an unsurprising focus on... the Corruption and Crimson (They're far from everything though!)
 
-[i:1332] Currently the mod contains 4 bossfights, 85 items and over 30 enemies but will grow with time.
+[i:1332] Currently the mod contains 4 bossfights, 85 items and over 30 enemies but will grow with time. 
+	
+[i:3319] Play on Expert for the best experience.
+	
+[i:59] Fargo's Both Evils hasn't been tested but there's no reason for it not to work.
 
 [i:4] NO MULTIPLAYER COMPATIBILITY!!!!!!!!!!!
 

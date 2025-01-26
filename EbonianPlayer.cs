@@ -19,6 +19,7 @@ using EbonianMod.Projectiles;
 using EbonianMod.Tiles;
 using EbonianMod.NPCs.ArchmageX;
 using EbonianMod.Projectiles.ArchmageX;
+using EbonianMod.Buffs;
 
 
 namespace EbonianMod
@@ -33,7 +34,7 @@ namespace EbonianMod
         public Color bossColor, dialogueColor;
         public static EbonianPlayer Instance;
         public Vector2 stabDirection;
-        public int reiBoostCool, reiBoostT, xTentCool;
+        public int reiBoostCool, reiBoostT, xTentCool, consistentTimer;
         public bool rolleg, brainAcc, heartAcc, ToxicGland, hotShield, rei, reiV, sheep, xTent;
         public bool doomMinion, xMinion, cClawMinion, titteringMinion;
         public override bool Shoot(Item item, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -50,8 +51,7 @@ namespace EbonianMod
         }
         public override void ResetEffects()
         {
-            if (hotShield)
-                Player.CancelAllBootRunVisualEffects();
+
             if (NPC.AnyNPCs(NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ProjectileType<ArchmageXSpawnAnim>()] > 0)
                 Player.noBuilding = true;
             reiBoostCool--;
@@ -82,16 +82,15 @@ namespace EbonianMod
         public Projectile Platform => Main.projectile[platformWhoAmI];
         public override void PreUpdateMovement()
         {
-            if (platformWhoAmI != -1)
-                Player.position.X += Platform.velocity.X;
-            if (hotShield)
-                Player.CancelAllBootRunVisualEffects();
+            //if (platformWhoAmI != -1)
+            //  Player.position.X += Platform.velocity.X;
+
         }
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
             if (NPC.AnyNPCs(NPCType<TinyBrain>()))
             {
-                foreach (NPC npc in Main.npc)
+                foreach (NPC npc in Main.ActiveNPCs)
                 {
                     if (npc.active && npc.type == NPCType<TinyBrain>())
                     {
@@ -99,6 +98,11 @@ namespace EbonianMod
                         npc.checkDead();
                     }
                 }
+            }
+            if (Player.HasBuff<Sheepened>())
+            {
+                modifiers.DisableSound();
+                SoundEngine.PlaySound(SoundID.NPCHit1, Player.Center);
             }
         }
         public override void PostUpdateRunSpeeds()
@@ -148,6 +152,7 @@ namespace EbonianMod
         }
         public override void PostUpdateMiscEffects()
         {
+            consistentTimer++;
             if (hotShield)
             {
                 Player.CancelAllBootRunVisualEffects();
@@ -181,23 +186,28 @@ namespace EbonianMod
         {
             if (brainAcc)
                 Player.lifeRegen += 5;
-            if (hotShield)
-                Player.CancelAllBootRunVisualEffects();
+
         }
         public override void PostUpdateBuffs()
         {
-            if (hotShield)
-                Player.CancelAllBootRunVisualEffects();
+
             if (NPC.AnyNPCs(NPCType<ArchmageX>()) || Player.ownedProjectileCounts[ProjectileType<ArchmageXSpawnAnim>()] > 0)
                 Player.noBuilding = true;
             if (sheep)
             {
                 Player.height = Player.width;
                 Player.position.Y += Player.width + 2;
-                foreach (Projectile proj in Main.projectile)
+                foreach (Projectile proj in Main.ActiveProjectiles)
                 {
                     if (proj.active && proj.type == ProjectileType<player_sheep>())
+                    {
                         proj.Center = Player.Bottom + new Vector2(0, -14);
+                        if (Player.velocity.Y < 0)
+                            Collision.StepUp(ref proj.position, ref Player.velocity, proj.width, proj.height, ref proj.stepSpeed, ref proj.gfxOffY);
+                        else
+                            Collision.StepDown(ref proj.position, ref Player.velocity, proj.width, proj.height, ref proj.stepSpeed, ref proj.gfxOffY);
+
+                    }
                 }
             }
         }
@@ -232,15 +242,6 @@ namespace EbonianMod
                 bossMaxProgress = 0;
                 bossColor = Color.White;
             }
-            /*if (timeSlowProgress > 0)
-                timeSlowProgress -= EbonianMod.timeSkips + 1;
-            if (timeSlowProgress <= 0)
-            {
-                timeSlowProgress = 0;
-                EbonianMod.timeSkips = 0;
-            }
-            if (timeSlowProgress < EbonianMod.timeSkips && EbonianMod.timeSkips > 0)
-                EbonianMod.timeSkips--;*/
             if (dialogueProg > 0)
                 dialogueProg--;
             if (dialogueProg == 0)

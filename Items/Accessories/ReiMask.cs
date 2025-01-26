@@ -78,7 +78,7 @@ namespace EbonianMod.Items.Accessories
             }
             if (EbonianKeybinds.ReiDash.JustReleased && modPlayer.reiBoostCool <= 0)
             {
-                foreach (NPC npc in Main.npc)
+                foreach (NPC npc in Main.ActiveNPCs)
                 {
                     if (npc.active && !npc.friendly)
                     {

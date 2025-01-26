@@ -18,7 +18,7 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
     {
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ItemType<WaspPaintingI>(), 90));
+            npcLoot.Add(ItemDropRule.Common(ItemType<WaspPaintingI>(), 200));
         }
         public override void SetStaticDefaults()
         {
@@ -96,7 +96,7 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
         Vector2 lastPos;
         public override void PostAI()
         {
-            foreach (NPC npc in Main.npc)
+            foreach (NPC npc in Main.ActiveNPCs)
             {
                 if (npc.active && npc.whoAmI != NPC.whoAmI)
                 {
@@ -126,6 +126,7 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
                         Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 50, 0);
                         a.friendly = true;
                         a.hostile = true;
+                        NPC.dontTakeDamage = false;
                         NPC.StrikeInstantKill();
                     }
                 }
