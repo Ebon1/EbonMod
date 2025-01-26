@@ -138,6 +138,7 @@ namespace EbonianMod.NPCs
     /// </summary>
     public abstract class WormHead : Worm
     {
+        public bool quiet = false;
         public sealed override WormSegmentType SegmentType => WormSegmentType.Head;
 
         public virtual bool extraAiAsIndex { get; set; }
@@ -495,7 +496,7 @@ namespace EbonianMod.NPCs
 
                 NPC.soundDelay = (int)num1;
                 if (!CanFly)
-                    SoundEngine.PlaySound(SoundID.WormDig, NPC.position);
+                    SoundEngine.PlaySound(quiet ? SoundID.WormDigQuiet : SoundID.WormDig, NPC.position);
             }
         }
 
