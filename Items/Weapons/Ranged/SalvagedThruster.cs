@@ -82,6 +82,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                 player.itemTime = 2;
                 player.itemAnimation = 2;
             }
+            if (player.HeldItem.type != ItemType<SalvagedThruster>()) player.itemTime = 0; player.itemAnimation = 0;
             if (Projectile.frame == 1)
                 for (float j = 1; j < Projectile.oldPos.Length; j++)
                     for (float i = 0; i < 1; i += (j == 1 ? 0.3f : 0.1f))

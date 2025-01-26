@@ -47,7 +47,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneCorrupt ? 0.05f : 0;
+            return spawnInfo.Player.ZoneCorrupt && Main.hardMode ? 0.05f : 0;
         }
         public override void FindFrame(int frameHeight)
         {

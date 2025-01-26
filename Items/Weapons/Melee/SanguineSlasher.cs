@@ -74,6 +74,7 @@ namespace EbonianMod.Items.Weapons.Melee
                 player.itemTime = 2;
                 player.itemAnimation = 2;
             }
+            if (player.HeldItem.type != ItemType<SanguineSlasher>()) player.itemTime = 0; player.itemAnimation = 0;
             if (Projectile.ai[2] != 0)
             {
                 ExtraAI();
