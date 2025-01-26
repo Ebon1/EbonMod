@@ -1,8 +1,10 @@
-[h1]Ebonian Mod v0.1.0.3[/h1]
+[h1]Ebonian Mod v1.0.1[/h1]
 is [b]WIP[/b] Mod that plans on adding random nonsense with an unsurprising focus on... the Corruption and Crimson (They're far from everything though!)
 
 [h2]Misc Info:[/h2] [list]
 [*] [b]NO MULTIPLAYER COMPATIBILITY!!!!!!!!!!![/b]
+
+[*] Despite the "1.0", the mod is far from finished, it's just stable enough to be considered a 1.0 release, and each major update will move on to 2.x, 3.x, etc.
 
 [*] Join our [url=https://discord.gg/DexM5QuV7c]discord[/url] for updates and announcements!
 
