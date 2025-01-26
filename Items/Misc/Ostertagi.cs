@@ -68,7 +68,7 @@ namespace EbonianMod.Items.Misc
                 return;
             Player.CompositeArmStretchAmount stretch = Player.CompositeArmStretchAmount.None;
             player.itemTime = 2;
-            player.itemAnimation = 2; if (player.HeldItem.type != ItemType<Ostertagi>()) {player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill();}
+            player.itemAnimation = 2; if (player.HeldItem.type != ItemType<Ostertagi>()) { Projectile.Kill(); }
 
             Projectile.velocity = -Vector2.UnitY;
             if (Projectile.timeLeft > 27)

@@ -147,7 +147,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                 player.itemTime = 2;
                 player.itemAnimation = 2;
             }
-            if (player.HeldItem.type != ItemType<EbonianGun>()) {player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill();}
+            if (player.HeldItem.type != ItemType<EbonianGun>()) { Projectile.Kill(); }
             if (Projectile.ai[2] == 0)
                 player.heldProj = Projectile.whoAmI;
         }

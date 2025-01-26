@@ -120,7 +120,7 @@ namespace EbonianMod.Items.Weapons.Magic
             if (Projectile.ai[1] > 0)
                 Projectile.ai[1] -= 0.1f;
             Player player = Main.player[Projectile.owner];
-            if (!player.active || player.dead || player.CCed || player.noItems || !player.channel || !player.CheckMana(Projectile.ai[2] >= 20 ? 1 : (int)(20 - (Projectile.ai[2] / 2))))
+            if (!player.active || player.dead || player.CCed || player.noItems  || !player.channel || !player.channel || !player.CheckMana(Projectile.ai[2] >= 20 ? 1 : (int)(20 - (Projectile.ai[2] / 2))))
             {
                 Projectile.Kill();
                 return;

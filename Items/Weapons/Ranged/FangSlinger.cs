@@ -116,19 +116,21 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             Lighting.AddLight(Projectile.Center, 0.25f, 0, 0);
             Player player = Main.player[Projectile.owner];
-            if (!player.active || player.dead || player.CCed || player.noItems)
+            if (player.HeldItem.type != ItemType<FangSlinger>()) { Main.NewText("rag"); Projectile.Kill(); return; }
+            if (!player.active || player.dead || player.CCed || player.noItems || !player.channel)
             {
                 Projectile.Kill();
                 return;
             }
             else
             {
+                player.itemTime = 2;
+                player.itemAnimation = 2;
                 if (Projectile.timeLeft == 1 && player.channel)
                 {
                     Projectile.timeLeft = maxTime;
                 }
             }
-            if (player.HeldItem.type != ItemType<FangSlinger>()) { player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill(); }
             Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
             Vector2 pos = player.RotatedRelativePoint(player.MountedCenter);
             player.ChangeDir(Projectile.velocity.X < 0 ? -1 : 1);
@@ -189,6 +191,9 @@ namespace EbonianMod.Items.Weapons.Ranged
                 else
                     Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 0, 0.2f);
             }
+
+            player.itemTime = 2;
+            player.itemAnimation = 2;
         }
     }
 }

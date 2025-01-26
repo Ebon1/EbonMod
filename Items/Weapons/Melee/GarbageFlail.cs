@@ -92,7 +92,7 @@ namespace EbonianMod.Items.Weapons.Melee
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            if (!player.active || player.dead || player.CCed || player.noItems || !player.channel)
+            if (!player.active || player.dead || player.CCed || player.noItems  || !player.channel || !player.channel)
             {
                 Projectile.Kill();
                 return;

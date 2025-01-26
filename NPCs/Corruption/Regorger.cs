@@ -34,7 +34,7 @@ namespace EbonianMod.NPCs.Corruption
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneCorrupt ? 0.2f : 0;
+            return spawnInfo.Player.ZoneCorrupt && Main.hardMode ? 0.1f : 0;
         }
         public override void SetDefaults()
         {
@@ -112,6 +112,7 @@ namespace EbonianMod.NPCs.Corruption
                 if (NPC.life < 2) NPC.SimpleStrikeNPC(3, 0);
             }
             Player player = Main.player[NPC.target];
+            if (NPC.Distance(player.Center) > 1000) return;
             NPC.TargetClosest(false);
             NPC.spriteDirection = NPC.direction = -1;
             switch (AIState)

@@ -143,7 +143,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             }
             player.itemTime = 2;
             player.itemAnimation = 2;
-            if (player.HeldItem.type != ItemType<Spinax>()) {player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill();}
+            if (player.HeldItem.type != ItemType<Spinax>()) { Projectile.Kill(); }
             if (player.gravDir != -1)
                 player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Helper.FromAToB(player.Center, Projectile.Center).ToRotation() - MathHelper.PiOver2);
             if (Projectile.ai[1] == 1 || Projectile.ai[1] == 0)

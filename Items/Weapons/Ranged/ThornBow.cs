@@ -107,7 +107,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            if (!player.active || player.dead || player.CCed || player.noItems)
+            if (!player.active || player.dead || player.CCed || player.noItems || !player.channel)
             {
                 Projectile.Kill();
                 return;
@@ -119,7 +119,9 @@ namespace EbonianMod.Items.Weapons.Ranged
                     Projectile.timeLeft = maxTime;
                 }
             }
-            if (player.HeldItem.type != ItemType<ThornBow>()) { player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill(); }
+            player.itemTime = 2;
+            player.itemAnimation = 2;
+            if (player.HeldItem.type != ItemType<ThornBow>()) { Projectile.Kill(); }
             Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
             Vector2 pos = player.RotatedRelativePoint(player.MountedCenter);
             player.ChangeDir(Projectile.velocity.X < 0 ? -1 : 1);
