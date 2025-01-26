@@ -116,8 +116,8 @@ namespace EbonianMod
             }
             if (rei)
             {
-                Player.maxRunSpeed += 2.5f;
-                Player.accRunSpeed += 2.5f;
+                Player.maxRunSpeed += .5f;
+                Player.accRunSpeed += .5f;
             }
             if (sheep)
             {

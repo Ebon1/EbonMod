@@ -855,6 +855,7 @@ namespace EbonianMod.NPCs.Cecitior
                 if (AITimer >= NPC.life / 260 + 10)
                 {
                     AIState = Next;
+                    AIState = Chomp;
                     NPC.velocity = Vector2.Zero;
                     AITimer = 0;
                     AITimer2 = 0;
@@ -898,16 +899,16 @@ namespace EbonianMod.NPCs.Cecitior
                     }
                     NPC.velocity = Helper.FromAToB(NPC.Center, player.Center, false) / 10f;
                 }
-                if (AITimer >= 25 && AITimer < 50)
+                if (AITimer >= 25 && AITimer < (50 + (phase2 ? 7 : 0)))
                 {
-                    if (AITimer < 37)
-                        savedPos = player.Center + (phase2 ? player.velocity : Vector2.Zero);
+                    if (AITimer < 53)
+                        savedPos = player.Center + (phase2 ? player.velocity * 5 : Vector2.Zero);
                     if (AITimer2 % 2 != (phase2 ? 1 : 0))
                         NPC.velocity = Helper.FromAToB(NPC.Center, savedPos, false) / 5f;
                     else
                         NPC.velocity = Helper.FromAToB(NPC.Center, savedPos, false) / 5f;
                 }
-                if (AITimer == 50)
+                if (AITimer == 50 + (phase2 ? 7 : 0))
                 {
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - openOffset, Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0);
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + openOffset, Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0);
