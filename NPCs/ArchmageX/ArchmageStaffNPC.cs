@@ -154,7 +154,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     {
                         if (GetArenaRect().Size().Length() > 100)
                         {
-                            if (p.Player.Distance(GetArenaRect().Center()) > 1200)
+                            if (p.Player.Distance(GetArenaRect().Center()) > 450)
                             {
                                 Helper.TPNoDust(GetArenaRect().Center(), p.Player);
                             }
