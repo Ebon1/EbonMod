@@ -34,6 +34,7 @@ namespace EbonianMod
         public int timesDiedToXareus;
         public static void TemporarilySetMusicTo0(float time)
         {
+            savedMusicVol = Main.musicVolume;
             setMusicBackTimer = time;
             setMusicBackTimerMax = time;
         }
