@@ -91,7 +91,7 @@ namespace EbonianMod
         {
             if (NPC.AnyNPCs(NPCType<TinyBrain>()))
             {
-                foreach (NPC npc in Main.npc)
+                foreach (NPC npc in Main.ActiveNPCs)
                 {
                     if (npc.active && npc.type == NPCType<TinyBrain>())
                     {
@@ -195,7 +195,7 @@ namespace EbonianMod
             {
                 Player.height = Player.width;
                 Player.position.Y += Player.width + 2;
-                foreach (Projectile proj in Main.projectile)
+                foreach (Projectile proj in Main.ActiveProjectiles)
                 {
                     if (proj.active && proj.type == ProjectileType<player_sheep>())
                         proj.Center = Player.Bottom + new Vector2(0, -14);

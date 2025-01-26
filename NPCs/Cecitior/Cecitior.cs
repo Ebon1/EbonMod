@@ -487,7 +487,7 @@ namespace EbonianMod.NPCs.Cecitior
                 cachedSound = SoundEngine.PlaySound(selected, NPC.Center);
             }
             int eyeCount = 0;
-            foreach (NPC npc in Main.npc)
+            foreach (NPC npc in Main.ActiveNPCs)
             {
                 if (npc.active && npc.type == eyeType)
                     eyeCount++;

@@ -1547,7 +1547,7 @@ namespace EbonianMod.NPCs.Garbage
             }
 
 
-            foreach (NPC npc in Main.npc)
+            foreach (NPC npc in Main.ActiveNPCs)
             {
                 if (npc.active && npc.Center.Distance(targetPos) < 4500 / 2 - 100 && npc.type != NPCType<HotGarbage>() && npc.type != NPCType<ArchmageStaffNPC>())
                 {

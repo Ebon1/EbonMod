@@ -105,7 +105,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.aiStyle = (AITimer < 400 ? 5 : -1);
             if (AITimer < 400)
             {
-                foreach (NPC npc in Main.npc)
+                foreach (NPC npc in Main.ActiveNPCs)
                 {
                     if (npc.active && npc.whoAmI != NPC.whoAmI)
                     {

@@ -236,12 +236,12 @@ namespace EbonianMod.NPCs.Terrortoma
             if (NPC.life <= 0 && !ded)
             {
                 NPC.life = 1;
-                foreach (Projectile projectile in Main.projectile)
+                foreach (Projectile projectile in Main.ActiveProjectiles)
                 {
                     if (projectile.hostile && projectile.active)
                         projectile.Kill();
                 }
-                foreach (NPC npc in Main.npc)
+                foreach (NPC npc in Main.ActiveNPCs)
                 {
                     if (npc.type == NPCType<BloatedEbonfly>() && npc.active)
                     {

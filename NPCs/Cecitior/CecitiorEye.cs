@@ -198,7 +198,7 @@ namespace EbonianMod.NPCs.Cecitior
             NPC center = Main.npc[(int)NPC.ai[0]];
             Player player = Main.player[center.target];
             int eyeCount = 0;
-            foreach (NPC npc in Main.npc)
+            foreach (NPC npc in Main.ActiveNPCs)
             {
                 if (npc.active && npc.type == Type)
                     eyeCount++;

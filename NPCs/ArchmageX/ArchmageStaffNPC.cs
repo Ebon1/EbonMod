@@ -444,7 +444,7 @@ namespace EbonianMod.NPCs.ArchmageX
         {
             bool projExists = false;
             EbonianPlayer p = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
-            foreach (Projectile proj in Main.projectile)
+            foreach (Projectile proj in Main.ActiveProjectiles)
             {
                 if (proj.active && proj.type == ProjectileType<ArchmageXSpawnAnim>())
                 {

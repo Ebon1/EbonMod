@@ -54,7 +54,7 @@ namespace EbonianMod
         {
             var modSelf = self.GetModPlayer<EbonianPlayer>();
 
-            if (self.grappling[0] < 0)
+            /*if (self.grappling[0] < 0)
             {
                 modSelf.platformDropTimer--;
 
@@ -104,7 +104,7 @@ namespace EbonianMod
                     modSelf.platformTimer--;
                     modSelf.platformWhoAmI = -1;
                 }
-            }
+            }*/ // Projectile Platform logic, unused for now
 
             orig(self);
         }
@@ -119,7 +119,7 @@ namespace EbonianMod
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             orig(self, iNPCIndex, behindTiles);
-            foreach (Projectile projectile in Main.projectile)
+            foreach (Projectile projectile in Main.ActiveProjectiles)
             {
                 if (projectile.active && (projectile.type == ProjectileType<TExplosion>()/* || projectile.type == ProjectileType<ScreenFlash>()*/))
                 {
@@ -132,7 +132,7 @@ namespace EbonianMod
         public void DrawBehindTilesAndWalls(Terraria.On_Main.orig_DrawBG orig, global::Terraria.Main self)
         {
             orig(self);
-            /*foreach (Projectile projectile in Main.projectile)
+            /*foreach (Projectile projectile in Main.ActiveProjectiles)
             {
                 if (projectile.active && (projectile.type == ProjectileType<EBoulder>() || projectile.type == ProjectileType<EBoulder2>()))
                 {
@@ -327,7 +327,7 @@ namespace EbonianMod
 
                 DrawXareusGoop(true, sb, gd);
 
-                DrawRedGoop(true, sb, gd);
+                //DrawRedGoop(true, sb, gd);
                 for (int i = 0; i < 3; i++)
                     pixelationDrawCachePost.Add(() => DrawGarbageFlame(true, sb, gd));
 
@@ -344,7 +344,7 @@ namespace EbonianMod
             ReiSmoke.DrawAll(sb);
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, MiscDrawingMethods.Subtractive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-            foreach (Projectile proj in Main.projectile)
+            foreach (Projectile proj in Main.ActiveProjectiles)
             {
                 if (proj.active && proj.timeLeft > 1 && proj.type == ProjectileType<ReiCapeP>())
                 {
@@ -354,21 +354,27 @@ namespace EbonianMod
             }
             sb.End();
 
-            DrawPixelatedContent(false, false, sb, gd);
-            DrawPixelatedContent(false, true, sb, gd);
+            if (pixelationDrawCachePre.Any())
+                DrawPixelatedContent(false, false, sb, gd);
+            if (addPixelationDrawCachePre.Any())
+                DrawPixelatedContent(false, true, sb, gd);
             orig(self);
 
             if (!Main.gameMenu && !(Lighting.Mode == Terraria.Graphics.Light.LightMode.Trippy && Lighting.Mode == Terraria.Graphics.Light.LightMode.Retro) && gd.GetRenderTargets().Contains(Main.screenTarget))
             {
-                DrawBlurredContent(sb, gd);
+                if (blurDrawCache.Any())
+                    DrawBlurredContent(sb, gd);
 
-                DrawInvisMasks(sb, gd);
+                if (affectedByInvisibleMaskCache.Any() && invisibleMaskCache.Any())
+                    DrawInvisMasks(sb, gd);
 
                 //DrawSoftBloomContent(sb, gd);
-                DrawIntenseBloomContent(sb, gd);
+                //DrawIntenseBloomContent(sb, gd);
             }
-            DrawPixelatedContent(true, false, sb, gd);
-            DrawPixelatedContent(true, true, sb, gd);
+            if (pixelationDrawCachePost.Any())
+                DrawPixelatedContent(true, false, sb, gd);
+            if (addPixelationDrawCachePost.Any())
+                DrawPixelatedContent(true, true, sb, gd);
 
             DrawAdditiveDusts(sb, gd);
 
@@ -407,7 +413,7 @@ namespace EbonianMod
                 gd.SetRenderTarget(Instance.renders[0]);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                foreach (Projectile proj in Main.projectile)
+                foreach (Projectile proj in Main.ActiveProjectiles)
                 {
                     if (proj.active && proj.timeLeft > 0 && proj.type == ProjectileType<ReiCapeP>())
                     {
@@ -439,7 +445,7 @@ namespace EbonianMod
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 XGoopDust.DrawAll(sb);
-                foreach (Projectile proj in Main.projectile)
+                foreach (Projectile proj in Main.ActiveProjectiles)
                 {
                     if (proj.active && proj.timeLeft > 0 && (proj.type == ProjectileType<ArchmageChargeUp>() || proj.type == ProjectileType<PhantasmalGreatswordP>() || proj.type == ProjectileType<PhantasmalWave>() || proj.type == ProjectileType<PhantasmalGreatswordP2>()))
                     {
@@ -506,7 +512,7 @@ namespace EbonianMod
                 gd.SetRenderTarget(Instance.renders[3]);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                foreach (Projectile proj in Main.projectile)
+                foreach (Projectile proj in Main.ActiveProjectiles)
                 {
                     if (proj.active && proj.timeLeft > 0 && (proj.type == ProjectileType<GarbageFlame>() || proj.type == ProjectileType<GarbageGiantFlame>() || proj.type == ProjectileType<GarbageLaserSmall3>() || proj.type == ProjectileType<GarbageLaserSmall2>() || proj.type == ProjectileType<GarbageLaserSmall1>()))
                     {
@@ -537,7 +543,7 @@ namespace EbonianMod
                 gd.SetRenderTarget(Instance.renders[4]);
                 gd.Clear(Color.Transparent);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-                foreach (Projectile proj in Main.projectile)
+                foreach (Projectile proj in Main.ActiveProjectiles)
                 {
                     if (proj.active && proj.timeLeft > 0 && proj.type == ProjectileType<ArchmageXSpawnAnim>())
                     {
@@ -567,7 +573,7 @@ namespace EbonianMod
             {
                 Main.spriteBatch.Draw(Helper.GetExtraTexture("Line"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * FlashAlpha * 2);
             }
-            foreach (Projectile projectile in Main.projectile)
+            foreach (Projectile projectile in Main.ActiveProjectiles)
             {
                 if (projectile.active && (projectileFinalDrawList.Contains(projectile.type)))
                 {

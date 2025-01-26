@@ -84,7 +84,7 @@ namespace EbonianMod
             xareusFightCooldown--;
             constantTimer++;
 
-            if (constantTimer % 600 == 0)
+            if (constantTimer % 1000 == 0)
                 if (!NPC.AnyNPCs(NPCType<ArchmageStaffNPC>()))
                 {
                     for (int i = Main.maxTilesX / 2 - 440; i < Main.maxTilesX / 2 + 440; i++)
@@ -215,7 +215,7 @@ namespace EbonianMod
 
             if (NPC.AnyNPCs(NPCType<ArchmageStaffNPC>()) && !isChangingCameraPos)
             {
-                foreach (NPC npc in Main.npc)
+                foreach (NPC npc in Main.ActiveNPCs)
                 {
                     if (npc.active && npc.type == NPCType<ArchmageStaffNPC>())
                     {

@@ -130,7 +130,7 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
             }
             foreach (VerletPoint pos in verlet.points)
             {
-                foreach (NPC npc in Main.npc)
+                foreach (NPC npc in Main.ActiveNPCs)
                 {
                     if (npc.active && !npc.friendly && !npc.dontTakeDamage)
                         if (new Rectangle((int)pos.position.X, (int)pos.position.Y, 8, 8).Intersects(npc.getRect()) && npc.immune[player.whoAmI] == 0)

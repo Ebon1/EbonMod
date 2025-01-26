@@ -102,7 +102,7 @@ namespace EbonianMod.Projectiles.Dev
                     if (Helper.TRay.CastLength(Projectile.Center, Vector2.UnitY, 1000) < Projectile.height * 2)
                     {
                         timer = 50;
-                        foreach (NPC npc in Main.npc)
+                        foreach (NPC npc in Main.ActiveNPCs)
                         {
                             if (npc.active && !npc.friendly && !npc.dontTakeDamage && npc.Center.Distance(Projectile.Center) < 1000)
                             {

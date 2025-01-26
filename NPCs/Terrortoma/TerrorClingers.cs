@@ -717,7 +717,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             Texture2D tex = Request<Texture2D>(Texture + "_Bloom").Value;
             spriteBatch.Reload(BlendState.Additive);
-            spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.LawnGreen * bloomAlpha, NPC.rotation, tex.Size() / 2 + new Vector2(0, 2).RotatedBy(NPC.rotation), NPC.scale * 1.05f, SpriteEffects.None, 0);
+            spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.LawnGreen * bloomAlpha, NPC.rotation, tex.Size() / 2, NPC.scale * 1.05f, SpriteEffects.None, 0);
             spriteBatch.Reload(BlendState.AlphaBlend);
             return true;
 

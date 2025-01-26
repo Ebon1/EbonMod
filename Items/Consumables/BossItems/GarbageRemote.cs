@@ -103,7 +103,7 @@ namespace EbonianMod.Items.Consumables.BossItems
         float rot;
         public override void AI()
         {
-            foreach (NPC npc in Main.npc)
+            foreach (NPC npc in Main.ActiveNPCs)
             {
                 if (npc.active && npc.type == NPCType<HotGarbage>())
                 {
@@ -186,7 +186,7 @@ namespace EbonianMod.Items.Consumables.BossItems
 
                     /*if (Projectile.timeLeft < 120)
                     {
-                        foreach (NPC npc in Main.npc)
+                        foreach (NPC npc in Main.ActiveNPCs)
                         {
                             if (npc.active && npc.type == NPCType<HotGarbage>())
                             {

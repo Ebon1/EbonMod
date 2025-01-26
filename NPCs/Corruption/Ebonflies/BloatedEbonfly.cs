@@ -96,7 +96,7 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
         Vector2 lastPos;
         public override void PostAI()
         {
-            foreach (NPC npc in Main.npc)
+            foreach (NPC npc in Main.ActiveNPCs)
             {
                 if (npc.active && npc.whoAmI != NPC.whoAmI)
                 {

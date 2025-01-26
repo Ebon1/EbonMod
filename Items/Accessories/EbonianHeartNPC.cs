@@ -63,7 +63,7 @@ namespace EbonianMod.Items.Accessories
             Vector2 pos = player.Center + new Vector2(player.direction == 1 ? -40 : 40, -80);
             NPC.Center = Vector2.Lerp(NPC.Center, pos, 0.2f);
             if (++NPC.ai[0] % 40 == 0 && NPC.ai[0] > 0)
-                foreach (NPC npc in Main.npc)
+                foreach (NPC npc in Main.ActiveNPCs)
                 {
                     if (npc.active && !npc.friendly && !npc.dontTakeDamage && npc.Center.Distance(NPC.Center) < 1000 && npc.type != NPCID.TargetDummy)
                     {
