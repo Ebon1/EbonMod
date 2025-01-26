@@ -55,7 +55,7 @@ namespace EbonianMod.NPCs.Garbage
             NPC.height = 74;
             NPC.damage = 0;
             NPC.defense = 10;
-            NPC.lifeMax = 5250;
+            NPC.lifeMax = 4750;
             NPC.knockBackResist = 0f;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.buffImmune[BuffID.OnFire] = true;
