@@ -47,7 +47,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.defense = 5;
-            NPC.lifeMax = 250;
+            NPC.lifeMax = 150;
             NPC.damage = 30;
             NPC.ai[3] = Main.rand.Next(2);
             NPC.value = Item.buyPrice(0, 0, 3);
@@ -113,6 +113,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
             AITimer++;
+            if (NPC.Center.Distance(player.Center) > 1000) return;
             switch (AIState)
             {
                 case Halt:

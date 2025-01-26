@@ -122,6 +122,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
             AITimer++;
+            if (NPC.Center.Distance(player.Center) > 1000) return;
             switch (AIState)
             {
                 case Halt:
