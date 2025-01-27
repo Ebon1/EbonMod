@@ -61,6 +61,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.buffImmune[24] = true;
+            NPC.buffImmune[BuffID.Confused] = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.netAlways = true;
             NPC.hide = true;

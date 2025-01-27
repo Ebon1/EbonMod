@@ -110,6 +110,8 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.DeathSound = SoundID.NPCDeath1;
             Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/EvilMiniboss");
             NPC.buffImmune[24] = true;
+            NPC.buffImmune[BuffID.CursedInferno] = true;
+            NPC.buffImmune[BuffID.Confused] = true;
             NPC.netAlways = true;
             NPC.behindTiles = true;
             NPC.dontTakeDamage = true;

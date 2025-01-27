@@ -40,6 +40,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
             NPC.value = 60f;
             NPC.knockBackResist = 0.5f;
             NPC.aiStyle = -1;
+            NPC.buffImmune[BuffID.Confused] = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.buffImmune[BuffID.Ichor] = true;

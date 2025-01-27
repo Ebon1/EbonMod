@@ -60,6 +60,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.value = 60f;
             NPC.knockBackResist = 0f;
             NPC.aiStyle = -1;
+            NPC.buffImmune[BuffID.Confused] = true;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
             NPC.value = Item.buyPrice(0, 15);

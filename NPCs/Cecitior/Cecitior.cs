@@ -102,6 +102,7 @@ namespace EbonianMod.NPCs.Cecitior
             NPC.DeathSound = death;
             NPC.buffImmune[24] = true;
             NPC.buffImmune[BuffID.Ichor] = true;
+            NPC.buffImmune[BuffID.Confused] = true;
             NPC.netAlways = true;
             NPC.hide = true;
             NPC.value = Item.buyPrice(0, 10);

@@ -59,6 +59,10 @@ namespace EbonianMod.NPCs.Garbage
             NPC.knockBackResist = 0f;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.buffImmune[BuffID.OnFire] = true;
+            NPC.buffImmune[BuffID.OnFire3] = true;
+            NPC.buffImmune[BuffID.Frostburn] = true;
+            NPC.buffImmune[BuffID.Frostburn2] = true;
+            NPC.buffImmune[BuffID.Confused] = true;
             //NPC.DeathSound = EbonianSounds.garbageDeath;
             NPC.aiStyle = -1;
             NPC.noGravity = false;

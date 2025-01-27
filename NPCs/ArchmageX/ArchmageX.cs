@@ -57,6 +57,7 @@ namespace EbonianMod.NPCs.ArchmageX
             NPC.dontTakeDamage = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
+            NPC.buffImmune[BuffID.Confused] = true;
             NPC.BossBar = GetInstance<XBar>();
             Music = 0;
         }
