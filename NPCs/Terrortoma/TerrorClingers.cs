@@ -209,7 +209,7 @@ namespace EbonianMod.NPCs.Terrortoma
                             }
                             if (AITimer >= 101)
                             {
-                                center.ai[2] = Main.rand.Next(3);
+                                center.ai[2] = 4;
                                 AITimer = 0;
                             }
                             break;
@@ -593,7 +593,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                 }
                                 if (AITimer >= 100)
                                 {
-                                    center.ai[2] = 2;
+                                    center.ai[2] = 4;
                                     AITimer = 0;
                                     AITimer2 = 0;
                                 }
@@ -789,9 +789,8 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.noGravity = true;
             NPC.buffImmune[24] = true;
             NPC.netAlways = true;
-            NPC.hide = true;
+            NPC.behindTiles = true;
         }
-        public override void DrawBehind(int index) => Main.instance.DrawCacheNPCsBehindNonSolidTiles.Add(index);
 
         private Vector2 terrortomaCenter;
         Vector2 lastPos;
@@ -804,7 +803,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 Texture2D tex = Helper.GetExtraTexture("Extras2/magic_03");
                 spriteBatch.Reload(BlendState.Additive);
                 alpha = MathHelper.Clamp(alpha, 0, 1f);
-                spriteBatch.Draw(tex, lastPos - screenPos, null, Color.LawnGreen * 0.65f * alpha, Main.GameUpdateCount * 0.02f, tex.Size() / 2, 0.3f * alpha * 2, SpriteEffects.None, 0);
+                //spriteBatch.Draw(tex, lastPos - screenPos, null, Color.LawnGreen * 0.65f * alpha, Main.GameUpdateCount * 0.02f, tex.Size() / 2, 0.3f * alpha * 2, SpriteEffects.None, 0);
                 spriteBatch.Reload(BlendState.AlphaBlend);
             }
         }
@@ -821,6 +820,7 @@ namespace EbonianMod.NPCs.Terrortoma
             if (NPC.Center == Vector2.Zero && center.Center != Vector2.Zero)
                 NPC.Center = center.Center;
         }
+        Vector2 savedP2;
         public override void AI()
         {
 
@@ -921,6 +921,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 if (alpha > 0f) alpha -= 0.01f;
                 if ((center.ai[2] != 2 && center.ai[2] <= 2) || center.ai[2] == 4)
                 {
+                    alpha = 0;
                     NPC.rotation = Helper.LerpAngle(NPC.rotation, center.rotation, 0.2f);
                     Vector2 pos = center.Center + new Vector2(0, 105).RotatedBy(center.rotation);
                     if (AIState == 6 || AIState == 14)
@@ -951,8 +952,24 @@ namespace EbonianMod.NPCs.Terrortoma
                                 {
                                     NPC.damage = 100;
                                     AITimer++;
+                                    if (AITimer < 75 && AITimer > 30)
+                                    {
+                                        NPC.rotation = Helper.LerpAngle(NPC.rotation, NPC.Center.FromAToB(player.Center).ToRotation() - MathHelper.PiOver2, 0.1f);
+                                        if (AITimer < 45)
+                                        {
+                                            savedP2 = Helper.FromAToB(center.Center, NPC.Center, false);
+                                            NPC.velocity -= Helper.FromAToB(NPC.Center, lastPos) * 1.6f;
+                                        }
+                                        else
+                                        {
+                                            NPC.velocity *= 0.8f;
+                                            NPC.Center = center.Center + savedP2 + Main.rand.NextVector2Circular(SmoothStep(0, AITimer - 45, (AITimer - 45) / 30) * 0.9f, SmoothStep(0, AITimer - 45, (AITimer - 45) / 30) * 0.9f);
+                                        }
+                                    }
                                     if (AITimer < 65)
+                                    {
                                         lastPos = player.Center + player.velocity * 4;
+                                    }
                                     if (AITimer == 50)
                                     {
                                         NPC.velocity = Vector2.Zero;
@@ -960,14 +977,17 @@ namespace EbonianMod.NPCs.Terrortoma
                                     }
                                     if (AITimer == 75)
                                     {
-                                        NPC.velocity = Helper.FromAToB(NPC.Center, lastPos) * 30;
+                                        Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0);
+                                        NPC.velocity = Helper.FromAToB(NPC.Center, lastPos) * 35;
                                     }
                                     if (AITimer > 75)
                                     {
-                                        NPC.Center += NPC.velocity * 0.75f;
-                                        if (NPC.Center.Distance(lastPos) < NPC.width * 0.75f && AITimer < 95)
+                                        if (AITimer < 95)
+                                            NPC.rotation = Helper.LerpAngle(NPC.rotation, NPC.velocity.ToRotation() - MathHelper.PiOver2, 0.1f);
+                                        //NPC.Center += NPC.velocity * 0.75f;
+                                        if (NPC.Center.Distance(lastPos) < NPC.width * 0.75f && AITimer < 90)
                                         {
-                                            AITimer = 95;
+                                            AITimer = 90;
                                         }
                                     }
                                     if (AITimer > 95 || AITimer < 50)
@@ -978,9 +998,9 @@ namespace EbonianMod.NPCs.Terrortoma
                                         Vector2 moveTo = target - NPC.Center;
                                         NPC.velocity = (moveTo) * 0.05f;
                                     }
-                                    else NPC.rotation = Helper.LerpAngle(NPC.rotation, NPC.velocity.ToRotation() - MathHelper.PiOver2, 0.1f);
                                     if (AITimer >= 100)
                                     {
+                                        lerpSpeed = 0.005f;
                                         center.ai[2] = 4;
                                         AITimer = 0;
                                     }

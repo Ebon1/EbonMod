@@ -402,6 +402,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 Next = OldState + 1;
             }
 
+            Next = DifferentClingerAttacks;
         }
         public override void AI()
         {
@@ -733,8 +734,13 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else if (AIState == DifferentClingerAttacks)
             {
-                if (SelectedClinger == 4)
-                    SelectedClinger = Main.rand.Next(3);
+                if (SelectedClinger == 4 && AITimer < 290)
+                {
+                    int[] allowedClingers = [0, 1, 2];
+                    if (NPC.Center.Distance(player.Center) > 900)
+                        allowedClingers = [0, 1];
+                    SelectedClinger = Main.rand.Next(allowedClingers);
+                }
                 NPC.damage = 0;
                 NPC.localAI[0] = 0;
                 if (AITimer <= 300)
