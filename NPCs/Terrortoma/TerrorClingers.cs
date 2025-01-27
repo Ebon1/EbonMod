@@ -44,6 +44,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 new FlavorTextBestiaryInfoElement("These creatures were the heads of infected corpses, they connect to the Terrortoma with part of the Eater of World's spine. The glow tricks living things into thinking it's an eye, but it is a tiny spark of flame deep in its maw."),
             });
         }
+        float lerpSpeed;
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
@@ -87,6 +88,7 @@ namespace EbonianMod.NPCs.Terrortoma
             {
                 NPC.life = 0;
             }
+            lerpSpeed = Lerp(lerpSpeed, (center.ai[0] == 0 ? 0.05f : 0.2f), 0.1f);
             float AIState = center.ai[0];
             bool phase2 = center.life <= center.lifeMax - center.lifeMax / 3 + 3500;
             float CenterAITimer = center.ai[1];
@@ -167,7 +169,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 Vector2 target = pos;
                 Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * (center.ai[0] == 0 ? 0.05f : 0.2f);
+                NPC.velocity = (moveTo) * lerpSpeed;
                 NPC.ai[3] = 0;
             }
             else
@@ -180,7 +182,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
-                    NPC.velocity = (moveTo) * (center.ai[0] == 0 ? 0.05f : 0.2f);
+                    NPC.velocity = (moveTo) * lerpSpeed;
                 }
                 if (center.ai[2] != 4)
                 {
@@ -196,6 +198,14 @@ namespace EbonianMod.NPCs.Terrortoma
                                 {
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * 2, ProjectileType<TFlameThrower4>(), 20, 0, ai2: AITimer - 100);
                                 }
+                            }
+                            else
+                            {
+                                NPC.rotation = Helper.LerpAngle(NPC.rotation, center.rotation, 0.2f);
+                                Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
+                                Vector2 target = pos;
+                                Vector2 moveTo = target - NPC.Center;
+                                NPC.velocity = (moveTo) * lerpSpeed;
                             }
                             if (AITimer >= 101)
                             {
@@ -400,6 +410,7 @@ namespace EbonianMod.NPCs.Terrortoma
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
         }
+        float lerpSpeed;
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
@@ -442,6 +453,7 @@ namespace EbonianMod.NPCs.Terrortoma
             {
                 NPC.life = 0;
             }
+            lerpSpeed = Lerp(lerpSpeed, (center.ai[0] == 0 ? 0.05f : 0.2f), 0.1f);
             float AIState = center.ai[0];
             bool phase2 = center.life <= center.lifeMax - center.lifeMax / 3 + 3500;
             float CenterAITimer = center.ai[1];
@@ -535,7 +547,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 Vector2 target = pos;
                 Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * (center.ai[0] == 0 ? 0.05f : 0.2f);
+                NPC.velocity = (moveTo) * lerpSpeed;
                 NPC.ai[3] = 0;
             }
             else
@@ -545,7 +557,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
-                    NPC.velocity = (moveTo) * (center.ai[0] == 0 ? 0.05f : 0.2f);
+                    NPC.velocity = (moveTo) * lerpSpeed;
                     NPC.scale = Lerp(NPC.scale, 1, 0.1f);
                 }
                 if (center.ai[2] != 4)
@@ -760,6 +772,7 @@ namespace EbonianMod.NPCs.Terrortoma
             NPCID.Sets.TrailCacheLength[NPC.type] = 4;
             NPCID.Sets.TrailingMode[NPC.type] = 0;
         }
+        float lerpSpeed;
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
@@ -838,6 +851,7 @@ namespace EbonianMod.NPCs.Terrortoma
             {
                 NPC.life = 0;
             }
+            lerpSpeed = Lerp(lerpSpeed, (center.ai[0] == 0 ? 0.05f : 0.3f), 0.1f);
             float AIState = center.ai[0];
             bool phase2 = center.life <= center.lifeMax - center.lifeMax / 3 + 3500;
             float CenterAITimer = center.ai[1];
@@ -915,7 +929,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     }
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
-                    NPC.velocity = (moveTo) * (center.ai[0] == 0 ? 0.05f : 0.3f);
+                    NPC.velocity = (moveTo) * lerpSpeed;
                     NPC.ai[3] = 0;
                 }
                 else
@@ -926,7 +940,7 @@ namespace EbonianMod.NPCs.Terrortoma
                         Vector2 pos = center.Center + new Vector2(0, 105).RotatedBy(center.rotation);
                         Vector2 target = pos;
                         Vector2 moveTo = target - NPC.Center;
-                        NPC.velocity = (moveTo) * 0.3f;
+                        NPC.velocity = (moveTo) * lerpSpeed;
                     }
                     if (center.ai[2] != 4)
                     {
