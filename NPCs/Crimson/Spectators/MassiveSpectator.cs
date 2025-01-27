@@ -62,7 +62,7 @@ namespace EbonianMod.NPCs.Crimson.Spectators
             NPC.lifeMax = 1000;
             NPC.damage = 0;
             NPC.noTileCollide = true;
-            NPC.defense = 20;
+            NPC.defense = 3;
             NPC.knockBackResist = 0;
             NPC.width = 46;
             NPC.height = 44;
