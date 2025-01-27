@@ -31,6 +31,7 @@ using Terraria.DataStructures;
 using EbonianMod.Common.Systems.Misc;
 using EbonianMod.NPCs.ArchmageX;
 using EbonianMod.Items.Weapons.Melee;
+using EbonianMod.Projectiles;
 
 namespace EbonianMod
 {
@@ -272,8 +273,12 @@ namespace EbonianMod
         }
         void DrawPlayer(On_VanillaPlayerDrawLayer.orig_Draw orig, PlayerDrawLayer self, ref PlayerDrawSet drawInfo)
         {
-            if (drawInfo.drawPlayer.GetModPlayer<EbonianPlayer>().sheep)
+            if (drawInfo.drawPlayer.GetModPlayer<EbonianPlayer>().sheep || drawInfo.drawPlayer.ownedProjectileCounts[ProjectileType<player_sheep>()] > 0)
+            {
+                self.Hide();
+                drawInfo.hideEntirePlayer = true;
                 return;
+            }
             orig(self, ref drawInfo);
         }
         void FilterManager_EndCapture(On_FilterManager.orig_EndCapture orig, FilterManager self, RenderTarget2D finalTexture, RenderTarget2D screenTarget1, RenderTarget2D screenTarget2, Color clearColor)

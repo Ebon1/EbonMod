@@ -42,6 +42,10 @@ namespace EbonianMod.NPCs.Crimson.Spectators
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
+            int associatedNPCType = NPCType<Cecitior.Cecitior>();
+            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
+
+
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
                 new FlavorTextBestiaryInfoElement("Type: Organ"),
