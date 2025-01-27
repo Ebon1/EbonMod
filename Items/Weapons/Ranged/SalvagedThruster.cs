@@ -66,7 +66,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * (Projectile.width / 2 + Helper.TRay.CastLength(Projectile.Center, Projectile.velocity, 100)), 50, ref a);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * (Projectile.width / 2 + Helper.TRay.CastLength(Projectile.Center, Projectile.velocity, 200)), 50, ref a);
         }
         public override void AI()
         {
@@ -90,7 +90,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                         for (float k = 0; k < 1; k += (j == 1 ? 1 : 0.5f))
                         {
                             Vector2 vel = Vector2.Lerp(Projectile.oldRot[(int)j - 1].ToRotationVector2(), Projectile.oldRot[(int)j].ToRotationVector2(), k);
-                            Dust.NewDustPerfect(Projectile.Center - new Vector2(0, 2 * Projectile.direction).RotatedBy(Projectile.rotation) + player.velocity + Main.rand.NextVector2Circular(5 + 10 * i, 5 + 10 * i) + vel * Lerp(Projectile.width / 2, Helper.TRay.CastLength(Projectile.Center, Projectile.velocity, 100), i), DustID.Torch, vel.RotatedByRandom(PiOver4 * Clamp(i * 2, 0.8f, 2) + PiOver4 * i) * Main.rand.NextFloat(2, 7) + player.velocity * 0.1f, Scale: Main.rand.NextFloat(2, 3) * Clamp(k, 0.75f, 1) * (j == 1 ? 0.75f : 1)).noGravity = j != 1;
+                            Dust.NewDustPerfect(Projectile.Center - new Vector2(0, 2 * Projectile.direction).RotatedBy(Projectile.rotation) + player.velocity + Main.rand.NextVector2Circular(5 + 10 * i, 5 + 10 * i) + vel * Lerp(Projectile.width / 2, Helper.TRay.CastLength(Projectile.Center, Projectile.velocity, 200), i), DustID.Torch, vel.RotatedByRandom(PiOver4 * Clamp(i * 2, 0.8f, 2) + PiOver4 * i) * Main.rand.NextFloat(2, 7) + player.velocity * 0.1f, Scale: Main.rand.NextFloat(2, 3) * Clamp(k, 0.75f, 1) * (j == 1 ? 0.75f : 1)).noGravity = j != 1;
                         }
                     }
 
