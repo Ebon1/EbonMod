@@ -844,14 +844,11 @@ namespace EbonianMod.NPCs.Cecitior
                     claw[2].position = Vector2.Lerp(claw[2].position, NPC.Center - openOffset + new Vector2(-110, 55).RotatedBy(MathF.Sin(Main.GlobalTimeWrappedHourly) * 0.4f), 0.2f);
                 }
                 AITimer2 = 1;
-                if (!phase2)
-                    NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 70), false) / 45f;
-                else
-                {
-                    if (AITimer < 70 && NPC.Distance(player.Center) > 200)
-                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 100) + Helper.FromAToB(player.Center, NPC.Center) * 100) * 15, 0.1f);
-                    else NPC.velocity *= 0.8f;
-                }
+
+                if (AITimer < 70 && NPC.Distance(player.Center) > 200)
+                    NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 100) + Helper.FromAToB(player.Center, NPC.Center) * 100) * 15, 0.1f);
+                else NPC.velocity *= 0.8f;
+
                 if (AITimer >= NPC.life / 260 + 10)
                 {
                     AIState = Next;
