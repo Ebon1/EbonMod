@@ -687,7 +687,7 @@ namespace EbonianMod.NPCs.Terrortoma
                             }
                         }
                     }*/
-                    if (AITimer2 % 50 == 14)
+                    if (AITimer2 == 14)
                     {
                         SoundEngine.PlaySound(EbonianSounds.terrortomaDash, NPC.Center);
                         for (int i = 0; i < 40; i++)
@@ -695,20 +695,22 @@ namespace EbonianMod.NPCs.Terrortoma
                             Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CursedTorch, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                         }
                     }
-                    if (AITimer2 % 50 < 10)
+                    if (AITimer2 < 10)
                     {
                         rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() - PiOver2;
                         NPC.velocity -= Helper.FromAToB(NPC.Center, player.Center) * (AITimer2 % 50) * 0.3f;
                     }
-                    if (AITimer2 % 50 < 30 && AITimer % 50 > 10)
+                    if (AITimer2 < 30 && AITimer > 10)
                     {
-                        if (AITimer % 50 > 20)
+                        if (AITimer2 > 20)
                             rotation = NPC.velocity.ToRotation() - MathHelper.PiOver2;
-                        if (AITimer % 50 == 14)
+                        if (AITimer2 == 14)
                             NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 25;
                     }
-                    if (AITimer2 % 50 > 40)
+                    if (AITimer2 > 40)
                         NPC.velocity *= 0.9f;
+
+                    if (AITimer2 > 50) AITimer2 = 0;
                 }
                 if (AITimer >= 290)
                 {
