@@ -635,6 +635,11 @@ namespace EbonianMod.NPCs.Cecitior
                     openRotation += MathHelper.ToRadians(2);
                     rotation -= MathHelper.ToRadians(2);
                 }
+                if (AITimer == 1)
+                {
+                    SoundEngine.PlaySound(EbonianSounds.fleshHit, NPC.Center);
+                    SoundEngine.PlaySound(EbonianSounds.terrortomaFlesh, NPC.Center);
+                }
                 if (AITimer > 115 && AITimer < 160)
                 {
                     if (AITimer % 5 == 0)
@@ -858,8 +863,6 @@ namespace EbonianMod.NPCs.Cecitior
                 if (AITimer >= NPC.life / 260 + 10)
                 {
                     AIState = Next;
-                    if (phase2)
-                        AIState = Phase2ClawBodySlam;
                     NPC.velocity = Vector2.Zero;
                     AITimer = 0;
                     AITimer2 = 0;
@@ -991,6 +994,9 @@ namespace EbonianMod.NPCs.Cecitior
                 if (AITimer == 40)
                 {
                     NPC.velocity = Vector2.Zero;
+
+                    SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
+                    SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
                     for (int i = 0; i < 6; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 12);
@@ -1005,6 +1011,7 @@ namespace EbonianMod.NPCs.Cecitior
                 if (AITimer == 50 && halfEyesPhase2)
                 {
                     NPC.velocity = Vector2.Zero;
+                    SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
                     for (int i = 0; i < 6; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 12);
@@ -1018,6 +1025,7 @@ namespace EbonianMod.NPCs.Cecitior
                 }
                 if (AITimer == 60 && phase2)
                 {
+                    SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
                     for (int i = 0; i < 6; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 12);
@@ -1146,6 +1154,8 @@ namespace EbonianMod.NPCs.Cecitior
                 {
                     AITimer2 -= 0.55f;
                     NPC.velocity = Vector2.Zero;
+                    if (AITimer % 3 == 0)
+                        SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
                     for (int i = -1; i < 2; i++)
                     {
                         if (i == 0)
@@ -1239,6 +1249,8 @@ namespace EbonianMod.NPCs.Cecitior
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2CircularEdge(30, 30), Main.rand.NextVector2Unit(), ProjectileType<EyeVFX>(), 0, 0);
                 if (AITimer >= 30 && AITimer <= 80 && AITimer % 5 == 0)
                 {
+                    if (AITimer % 15 == 0)
+                        SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2CircularEdge(30, 30), Main.rand.NextVector2Unit() * 2, ProjectileType<CecitiorEyeP>(), 30, 0);
                 }
                 if (AITimer >= 80)
@@ -1661,6 +1673,7 @@ namespace EbonianMod.NPCs.Cecitior
                         EbonianSystem.ScreenShakeAmount = 5;
                         NPC.velocity = Vector2.UnitY * -17.5f;
 
+                        SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                         for (int i = 0; i < 6; i++)
                         {
                             Projectile p = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(7, 7), ProjectileType<Gibs>(), 40, 0, 0, 0);
@@ -1728,6 +1741,7 @@ namespace EbonianMod.NPCs.Cecitior
 
                             if (AITimer3 == 1)
                             {
+                                SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                                 for (int i = 0; i < 2; i++)
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0);
                                 for (int i = 0; i < 16; i++)

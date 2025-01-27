@@ -534,6 +534,10 @@ namespace EbonianMod.NPCs.Garbage
                     {
                         Dust.NewDustPerfect(NPC.Center - new Vector2(Main.rand.NextFloat(-30, 30), 20), DustID.Smoke, -Vector2.UnitY.RotatedByRandom(PiOver4) * Main.rand.NextFloat(5, 20));
                     }
+                    foreach (Projectile proj in Main.ActiveProjectiles)
+                    {
+                        if (proj.hostile && proj.type != ProjectileType<HotGarbageNuke>()) proj.Kill();
+                    }
                     SoundEngine.PlaySound(EbonianSounds.firework.WithVolumeScale(2), NPC.Center);
                     Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 50), Vector2.Zero, ProjectileType<HotGarbageNuke>(), 0, 0);
                 }

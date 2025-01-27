@@ -43,6 +43,7 @@ namespace EbonianMod.Items.Weapons.Melee
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             dir = -dir;
+            SoundEngine.PlaySound(SoundID.Item1.WithVolumeScale(0.4f), player.Center);
             Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0, dir, 1);
             return false;
         }
@@ -93,6 +94,7 @@ namespace EbonianMod.Items.Weapons.Melee
             {
                 if (player.whoAmI == Main.myPlayer)
                 {
+                    SoundEngine.PlaySound(SoundID.Item1.WithVolumeScale(0.4f), Projectile.Center);
                     Vector2 dir = Vector2.Normalize(Main.MouseWorld - player.Center);
                     Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), player.Center, dir, Projectile.type, Projectile.damage, Projectile.knockBack, player.whoAmI, (Projectile.ai[0] > 5 ? -1 : Projectile.ai[0]) + 1, (-Projectile.ai[1]));
                     proj.rotation = Projectile.rotation;

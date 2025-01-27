@@ -88,7 +88,7 @@ namespace EbonianMod.NPCs.Terrortoma
             {
                 NPC.life = 0;
             }
-            lerpSpeed = Lerp(lerpSpeed, (center.ai[0] == 0 ? 0.05f : 0.2f), 0.1f);
+            lerpSpeed = Lerp(lerpSpeed, (center.ai[0] == 0 ? 0.05f : 0.1f), 0.1f);
             float AIState = center.ai[0];
             bool phase2 = center.life <= center.lifeMax - center.lifeMax / 3 + 3500;
             float CenterAITimer = center.ai[1];
@@ -454,7 +454,7 @@ namespace EbonianMod.NPCs.Terrortoma
             {
                 NPC.life = 0;
             }
-            lerpSpeed = Lerp(lerpSpeed, (center.ai[0] == 0 ? 0.05f : 0.2f), 0.1f);
+            lerpSpeed = Lerp(lerpSpeed, (center.ai[0] == 0 ? 0.05f : 0.1f), 0.1f);
             float AIState = center.ai[0];
             bool phase2 = center.life <= center.lifeMax - center.lifeMax / 3 + 3500;
             float CenterAITimer = center.ai[1];
@@ -853,7 +853,7 @@ namespace EbonianMod.NPCs.Terrortoma
             {
                 NPC.life = 0;
             }
-            lerpSpeed = Lerp(lerpSpeed, (center.ai[0] == 0 ? 0.05f : 0.3f), 0.1f);
+            lerpSpeed = Lerp(lerpSpeed, (center.ai[0] == 0 ? 0.05f : 0.15f), 0.1f);
             float AIState = center.ai[0];
             bool phase2 = center.life <= center.lifeMax - center.lifeMax / 3 + 3500;
             float CenterAITimer = center.ai[1];

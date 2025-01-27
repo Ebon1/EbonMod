@@ -191,8 +191,9 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            if (Main.player[Projectile.owner].GetModPlayer<EbonianPlayer>().rei)
+            if (Main.player[Projectile.owner].GetModPlayer<EbonianPlayer>().rei || Main.player[Projectile.owner].GetModPlayer<EbonianPlayer>().reiV)
                 Projectile.timeLeft = 10;
+            else Projectile.Kill();
             if (Main.player[Projectile.owner].GetModPlayer<EbonianPlayer>().sheep)
                 Projectile.Kill();
             Projectile.Center = player.RotatedRelativePoint(player.MountedCenter) + new Vector2(5 * Projectile.ai[0], 19);

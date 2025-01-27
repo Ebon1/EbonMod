@@ -55,7 +55,7 @@ namespace EbonianMod.Projectiles.Garbage
             Projectile.ai[1] -= 0.04f;
             if (Projectile.ai[1] <= 0)
                 Projectile.ai[1] = 1;
-            Projectile.ai[1] = MathHelper.Clamp(Projectile.ai[1], float.Epsilon, 1 - float.Epsilon);
+            Projectile.ai[1] = MathHelper.Clamp(Projectile.ai[1], 0, 1 - float.Epsilon);
             SoundStyle style = SoundID.Item13;
             SoundStyle style2 = SoundID.Item34;
             style.MaxInstances = 0;

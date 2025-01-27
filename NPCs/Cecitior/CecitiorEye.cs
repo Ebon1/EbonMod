@@ -248,12 +248,14 @@ namespace EbonianMod.NPCs.Cecitior
                         timer++;
                         if ((AITimer == 130 || (halfEyesPhase2 && AITimer == 115)) && leftie)
                         {
+                            SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center), ProjectileType<EyeVFX>(), 0, 0);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center) * 3, ProjectileType<CecitiorEyeP>(), 30, 0);
                         }
 
                         if ((AITimer == 160 || (halfEyesPhase2 && AITimer == 145)) && !leftie)
                         {
+                            SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center), ProjectileType<EyeVFX>(), 0, 0);
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(center.Center, NPC.Center) * 3, ProjectileType<CecitiorEyeP>(), 30, 0);
                         }
@@ -323,7 +325,10 @@ namespace EbonianMod.NPCs.Cecitior
                     NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + new Vector2(200).RotatedBy(angle + MathHelper.ToRadians(timer * (halfEyesPhase2 ? 3 : 1))), false) / 3;
                     focalPoint = player.Center;
                     if (center.ai[1] % (halfEyesPhase2 ? 20 : 50) == 0 && center.ai[1] > 1)
+                    {
+                        SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
                         Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 7f, ProjectileType<CecitiorTeeth>(), 30, 0);
+                    }
                     break;
                 case 6:
                     NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 10f;
