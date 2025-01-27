@@ -401,8 +401,6 @@ namespace EbonianMod.NPCs.Terrortoma
             {
                 Next = OldState + 1;
             }
-
-            Next = DifferentClingerAttacks;
         }
         public override void AI()
         {

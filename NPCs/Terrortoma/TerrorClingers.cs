@@ -209,6 +209,7 @@ namespace EbonianMod.NPCs.Terrortoma
                             }
                             if (AITimer >= 101)
                             {
+                                lerpSpeed = 0.005f;
                                 center.ai[2] = 4;
                                 AITimer = 0;
                             }
@@ -593,6 +594,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                 }
                                 if (AITimer >= 100)
                                 {
+                                    lerpSpeed = 0.005f;
                                     center.ai[2] = 4;
                                     AITimer = 0;
                                     AITimer2 = 0;
@@ -977,7 +979,6 @@ namespace EbonianMod.NPCs.Terrortoma
                                     }
                                     if (AITimer == 75)
                                     {
-                                        Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0);
                                         NPC.velocity = Helper.FromAToB(NPC.Center, lastPos) * 35;
                                     }
                                     if (AITimer > 75)
@@ -987,6 +988,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                         //NPC.Center += NPC.velocity * 0.75f;
                                         if (NPC.Center.Distance(lastPos) < NPC.width * 0.75f && AITimer < 90)
                                         {
+                                            Projectile.NewProjectile(null, lastPos, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0);
                                             AITimer = 90;
                                         }
                                     }
