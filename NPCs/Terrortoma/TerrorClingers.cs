@@ -190,7 +190,7 @@ namespace EbonianMod.NPCs.Terrortoma
                             {
                                 NPC.rotation = MathHelper.Lerp(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2, 0.2f);
                                 NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center + new Vector2(120).RotatedBy(MathHelper.ToRadians(AITimer * 4f)), false) * 0.25f, 0.3f);
-                                if (AITimer % 10 == 0)
+                                if (AITimer % 10 == 0 && AITimer > 40)
                                 {
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, player.Center) * 2, ProjectileType<TFlameThrower4>(), 20, 0, ai2: AITimer - 100);
                                 }
