@@ -183,8 +183,8 @@ namespace EbonianMod.NPCs.Corruption
         public override void AI()
         {
             Player player = Main.player[NPC.target];
-            if (player.Distance(NPC.Center) > 1800) return;
             NPC.TargetClosest(AIState != 3);
+            if (player.Distance(NPC.Center) > 1800) return;
             if (AIState != 3)
                 NPC.spriteDirection = NPC.direction;
             if (AIState == Walk)
