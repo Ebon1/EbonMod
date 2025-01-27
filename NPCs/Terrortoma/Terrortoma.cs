@@ -712,7 +712,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     if (AITimer2 > 40)
                         NPC.velocity *= 0.9f;
 
-                    if (AITimer2 > 50) AITimer2 = 0;
+                    if (AITimer2 > 70) AITimer2 = 0;
                 }
                 if (AITimer >= 290)
                 {

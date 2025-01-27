@@ -69,20 +69,9 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
         }
         public override void Kill(int timeLeft)
         {
-            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<BloodShockwave>(), Projectile.damage, 0, Projectile.owner);
+            Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<BloodExplosionWSprite>(), Projectile.damage, 0, Projectile.owner);
             a.hostile = true;
             a.friendly = false;
-            float speedY = Projectile.velocity.Y * -10;
-            Projectile proj = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.position.X, Projectile.position.Y + speedY, 0, speedY, 814, (int)(Projectile.damage * 0.75), 0, Projectile.owner, 0, 0)];
-            proj.hostile = true;
-            proj.penetrate = 1;
-            proj.friendly = false;
-            for (int num686 = 0; num686 < 30; num686++)
-            {
-                int num687 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Blood, Projectile.velocity.X, Projectile.velocity.Y, 100, default(Color), 1.7f);
-                Main.dust[num687].noGravity = true;
-                Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Blood, Projectile.velocity.X, Projectile.velocity.Y, 100);
-            }
         }
 
         public override void SetDefaults()
@@ -95,7 +84,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             Projectile.hostile = true;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 60;
+            Projectile.timeLeft = 200;
             Projectile.scale = 1f;
         }
         public override void AI()
@@ -105,6 +94,27 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             dust = Main.dust[Terraria.Dust.NewDust(position, 20, 20, 5, 0, 0, 0, new Color(255, 255, 255), 0.5f)];
             Projectile.rotation += 0.5f;
             Projectile.velocity *= 0.95f;
+
+            if (Projectile.timeLeft == 170)
+            {
+                Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<BloodExplosionWSprite>(), Projectile.damage, 0, Projectile.owner);
+                a.hostile = true;
+                a.friendly = false;
+            }
+            if (Projectile.timeLeft % 10 == 0 && Projectile.timeLeft < 170)
+            {
+                float speedY = Projectile.velocity.Y * -10;
+                Projectile proj = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, new Vector2(Main.rand.NextFloatDirection() * 3, 10), 814, (int)(Projectile.damage * 0.75), 0, Projectile.owner, 0, 0)];
+                proj.hostile = true;
+                proj.penetrate = 1;
+                proj.friendly = false;
+                for (int num686 = 0; num686 < 30; num686++)
+                {
+                    int num687 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Blood, Projectile.velocity.X, Projectile.velocity.Y, 100, default(Color), 1.7f);
+                    Main.dust[num687].noGravity = true;
+                    Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Blood, Projectile.velocity.X, Projectile.velocity.Y, 100);
+                }
+            }
         }
     }
 }

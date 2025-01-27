@@ -202,8 +202,8 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                     Projectile.ai[2] = 1;
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 0), ProjectileType<FatSmash>(), 0, 0, 0, 0);
 
-                    for (int i = -5; i < 5; i++)
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(i * 2, -8), ProjectileType<CecitiorTeeth>(), 20, 0, 0, 0);
+                    for (int i = -6; i < 6; i++)
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(i * 4, -MathF.Abs(i) * 2), ProjectileType<CecitiorTeeth>(), 20, 0, 0, 0);
                     player.velocity = Projectile.rotation.ToRotationVector2().RotatedByRandom(PiOver4) * -10f;
                     Projectile.Kill();
                     SoundEngine.PlaySound(Main.rand.NextBool() ? EbonianSounds.chomp0 : EbonianSounds.chomp1, Projectile.Center);

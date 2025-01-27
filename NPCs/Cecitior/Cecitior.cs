@@ -144,6 +144,7 @@ namespace EbonianMod.NPCs.Cecitior
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D glow = Helper.GetTexture("NPCs/Cecitior/Cecitior_Glow");
+            Texture2D tex = TextureAssets.Npc[Type].Value;
             if (verlet[0] != null)
             {
                 for (int i = 0; i < 5; i++)
@@ -244,7 +245,6 @@ namespace EbonianMod.NPCs.Cecitior
             }
             if (NPC.frame.Y == 6 * 102)//(openOffset.Length() > 0.25f || openOffset.Length() < -0.25f || openRotation != 0)
             {
-                Texture2D tex = TextureAssets.Npc[Type].Value;
                 Texture2D teeth = Helper.GetTexture("NPCs/Cecitior/CecitiorTeeth");
                 Texture2D partTeeth = Helper.GetTexture("NPCs/Cecitior/CecitiorTeeth2");
                 spriteBatch.Draw(teeth, NPC.Center - openOffset - new Vector2(0, -2) - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center - openOffset)), NPC.rotation, teeth.Size() / 2, NPC.scale, SpriteEffects.None, 0);
@@ -293,8 +293,9 @@ namespace EbonianMod.NPCs.Cecitior
                 spriteBatch.Draw(glow, NPC.Center - openOffset - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
                 return false;
             }
+            spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
             spriteBatch.Draw(glow, NPC.Center - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
-            return true;
+            return false;
         }
         int hookFrame = 1;
         public override void FindFrame(int frameHeight)
@@ -848,7 +849,7 @@ namespace EbonianMod.NPCs.Cecitior
                 AITimer2 = 1;
 
                 if (AITimer < 70 && NPC.Distance(player.Center) > 200)
-                    NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 100) + Helper.FromAToB(player.Center, NPC.Center) * 100) * 15, 0.1f);
+                    NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 100) + Helper.FromAToB(player.Center, NPC.Center) * 100) * 15, 0.15f);
                 else NPC.velocity *= 0.8f;
 
                 if (AITimer >= NPC.life / 260 + 10)
