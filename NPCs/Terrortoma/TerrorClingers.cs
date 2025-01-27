@@ -938,7 +938,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                     NPC.damage = 100;
                                     AITimer++;
                                     if (AITimer < 65)
-                                        lastPos = player.Center + player.velocity * 2;
+                                        lastPos = player.Center + player.velocity * 4;
                                     if (AITimer == 50)
                                     {
                                         NPC.velocity = Vector2.Zero;
@@ -949,7 +949,13 @@ namespace EbonianMod.NPCs.Terrortoma
                                         NPC.velocity = Helper.FromAToB(NPC.Center, lastPos) * 30;
                                     }
                                     if (AITimer > 75)
+                                    {
                                         NPC.Center += NPC.velocity * 0.75f;
+                                        if (NPC.Center.Distance(lastPos) < NPC.width * 0.75f && AITimer < 95)
+                                        {
+                                            AITimer = 95;
+                                        }
+                                    }
                                     if (AITimer > 95 || AITimer < 50)
                                     {
                                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
