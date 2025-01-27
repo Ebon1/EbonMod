@@ -15,6 +15,7 @@ namespace EbonianMod.Projectiles.Terrortoma
         public override string Texture => "EbonianMod/Extras/Empty";
         public override void SetStaticDefaults()
         {
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 1000;
             ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
@@ -89,6 +90,7 @@ namespace EbonianMod.Projectiles.Terrortoma
     {
         public override void SetStaticDefaults()
         {
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 1000;
             ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
@@ -164,6 +166,7 @@ namespace EbonianMod.Projectiles.Terrortoma
     {
         public override void SetStaticDefaults()
         {
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 1000;
             ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
@@ -242,6 +245,7 @@ namespace EbonianMod.Projectiles.Terrortoma
     {
         public override void SetStaticDefaults()
         {
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 1000;
             ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
@@ -333,6 +337,7 @@ namespace EbonianMod.Projectiles.Terrortoma
     {
         public override void SetStaticDefaults()
         {
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 1000;
             ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
         }
@@ -404,9 +409,9 @@ namespace EbonianMod.Projectiles.Terrortoma
     {
         public override void SetStaticDefaults()
         {
+            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 1000;
             ProjectileID.Sets.TrailCacheLength[Type] = 30;
             ProjectileID.Sets.TrailingMode[Type] = 2;
-            ProjectileID.Sets.DrawScreenCheckFluff[Type] = 2000;
         }
         public override void OnHitPlayer(Player target, Player.HurtInfo hit)
         {
