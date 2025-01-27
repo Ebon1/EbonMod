@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using EbonianMod.NPCs.Corruption;
 using EbonianMod.Common.Systems;
 using EbonianMod.NPCs.Cecitior;
+using EbonianMod.Projectiles.Cecitior;
 
 namespace EbonianMod.Projectiles.Friendly.Crimson
 {
@@ -198,8 +199,12 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                 player.velocity = Helper.FromAToB(player.Center, Projectile.Center) * 25;
                 if (player.Center.Distance(Projectile.Center) < 50)
                 {
+                    Projectile.ai[2] = 1;
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, 0), ProjectileType<FatSmash>(), 0, 0, 0, 0);
-                    player.velocity = Projectile.rotation.ToRotationVector2() * -10f;
+
+                    for (int i = -5; i < 5; i++)
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(i * 2, -8), ProjectileType<CecitiorTeeth>(), 20, 0, 0, 0);
+                    player.velocity = Projectile.rotation.ToRotationVector2().RotatedByRandom(PiOver4) * -10f;
                     Projectile.Kill();
                     SoundEngine.PlaySound(Main.rand.NextBool() ? EbonianSounds.chomp0 : EbonianSounds.chomp1, Projectile.Center);
                 }

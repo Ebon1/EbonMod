@@ -1074,6 +1074,7 @@ namespace EbonianMod.NPCs.Cecitior
                 {
                     if (tongue.ai[1] == 1 && tongue.active)
                     {
+                        if (tongue.ai[2] == 1) NPC.velocity = NPC.velocity.RotatedBy(ToRadians(2)) * 0.97f;
                         NPC.damage = 15;
                         AITimer -= 0.5f;
                     }
