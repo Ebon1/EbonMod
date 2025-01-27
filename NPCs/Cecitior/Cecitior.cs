@@ -855,6 +855,8 @@ namespace EbonianMod.NPCs.Cecitior
                 if (AITimer >= NPC.life / 260 + 10)
                 {
                     AIState = Next;
+                    if (phase2)
+                        AIState = Phase2ClawBodySlam;
                     NPC.velocity = Vector2.Zero;
                     AITimer = 0;
                     AITimer2 = 0;
@@ -1157,6 +1159,8 @@ namespace EbonianMod.NPCs.Cecitior
             }
             else if (AIState == ThrowUpBlood)
             {
+                if (lastAi == AIState)
+                    ResetState();
                 lastAi = (int)AIState;
                 if (claw[0].verlet != null && phase2)
                 {
@@ -1182,7 +1186,7 @@ namespace EbonianMod.NPCs.Cecitior
                     AITimer2 -= 4;
                     NPC.velocity = Vector2.Zero;
                     if (halfEyesPhase2)
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 3, -6), ProjectileType<CIchor>(), 30, 0);
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 0.5f, -6), ProjectileType<CIchor>(), 30, 0);
                     Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 5, -5), ProjectileType<CHeart>(), 30, 0);
                     a.friendly = false;
                     a.hostile = true;
@@ -1650,6 +1654,15 @@ namespace EbonianMod.NPCs.Cecitior
                         EbonianSystem.ScreenShakeAmount = 5;
                         NPC.velocity = Vector2.UnitY * -17.5f;
 
+                        for (int i = 0; i < 6; i++)
+                        {
+                            Projectile p = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(7, 7), ProjectileType<Gibs>(), 40, 0, 0, 0);
+                            p.friendly = false;
+                            p.hostile = true;
+                            Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(4, 4), ProjectileType<CecitiorEyeP>(), 40, 0, 0, 0);
+                        }
+
+
                         Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ProjectileType<FatSmash>(), 0, 0, 0, 0);
                         SoundEngine.PlaySound(Main.rand.NextBool() ? EbonianSounds.chomp0 : EbonianSounds.chomp1, NPC.Center);
                     }
@@ -1695,14 +1708,17 @@ namespace EbonianMod.NPCs.Cecitior
                             Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ProjectileType<FatSmash>(), 0, 0, 0, 0);
                             if (AITimer3 == 0)
                             {
-                                for (int i = 0; i < 6; i++)
+                                for (int i = 0; i < 2; i++)
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0);
+                                for (int i = 0; i < 10; i++)
                                 {
-                                    Projectile p = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(7, 7), ProjectileType<Gibs>(), 40, 0, 0, 0);
+                                    Projectile p = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(14, 14), ProjectileType<Gibs>(), 40, 0, 0, 0);
                                     p.friendly = false;
                                     p.hostile = true;
-                                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(4, 4), ProjectileType<CecitiorEyeP>(), 40, 0, 0, 0);
+                                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), new Vector2(Main.rand.NextFloat(-4f, 4), Main.rand.NextFloat(-7, -3)), ProjectileType<CIchor>(), 40, 0, 0, 0);
                                 }
                             }
+
                             if (AITimer3 == 1)
                             {
                                 for (int i = 0; i < 2; i++)

@@ -167,7 +167,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 Vector2 target = pos;
                 Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.05f;
+                NPC.velocity = (moveTo) * 0.2f;
                 NPC.ai[3] = 0;
             }
             else
@@ -180,7 +180,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
-                    NPC.velocity = (moveTo) * 0.1f;
+                    NPC.velocity = (moveTo) * 0.2f;
                 }
                 if (center.ai[2] != 4)
                 {
@@ -535,7 +535,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 Vector2 target = pos;
                 Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.05f;
+                NPC.velocity = (moveTo) * 0.2f;
                 NPC.ai[3] = 0;
             }
             else
@@ -545,7 +545,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
-                    NPC.velocity = (moveTo) * 0.05f;
+                    NPC.velocity = (moveTo) * 0.2f;
                     NPC.scale = Lerp(NPC.scale, 1, 0.1f);
                 }
                 if (center.ai[2] != 4)
@@ -915,7 +915,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     }
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
-                    NPC.velocity = (moveTo) * 0.05f;
+                    NPC.velocity = (moveTo) * 0.2f;
                     NPC.ai[3] = 0;
                 }
                 else
@@ -926,7 +926,7 @@ namespace EbonianMod.NPCs.Terrortoma
                         Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
                         Vector2 target = pos;
                         Vector2 moveTo = target - NPC.Center;
-                        NPC.velocity = (moveTo) * 0.05f;
+                        NPC.velocity = (moveTo) * 0.2f;
                     }
                     if (center.ai[2] != 4)
                     {
