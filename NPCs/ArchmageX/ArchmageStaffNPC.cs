@@ -142,7 +142,7 @@ namespace EbonianMod.NPCs.ArchmageX
 
             EbonianPlayer p = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
             float dist = Main.LocalPlayer.Distance(NPC.Center);
-            if (NPC.downedMartians && GetInstance<EbonianSystem>().xareusFuckingDies && GetInstance<EbonianSystem>().downedXareus)
+            if (NPC.downedMartians && GetInstance<EbonianSystem>().xareusFuckingDies && GetInstance<EbonianSystem>().downedXareus && !NPC.AnyNPCs(NPCType<ArchmageCutsceneMartian>()))
             {
                 if (!GetInstance<EbonianSystem>().gotTheStaff)
                 {
@@ -150,30 +150,6 @@ namespace EbonianMod.NPCs.ArchmageX
                         staffAlpha = Lerp(staffAlpha, 1, 0.1f);
                     if (dist < 300 && p.Player.Center.Y.CloseTo(NPC.Center.Y - 30, 100) && NPC.ai[3] <= 0)
                         NPC.ai[3] = 1;
-                    if (NPC.ai[3] > 0)
-                    {
-                        if (GetArenaRect().Size().Length() > 100)
-                        {
-                            if (p.Player.Distance(GetArenaRect().Center()) > 300)
-                            {
-                                Helper.TPNoDust(GetArenaRect().Center(), p.Player);
-                            }
-                            else
-                            {
-                                if (dist < 500)
-                                {
-                                    while (p.Player.Center.X < GetArenaRect().X)
-                                        p.Player.Center += Vector2.UnitX * 2;
-
-                                    while (p.Player.Center.X > GetArenaRect().X + GetArenaRect().Width)
-                                        p.Player.Center -= Vector2.UnitX * 2;
-
-                                    while (p.Player.Center.Y < GetArenaRect().Y)
-                                        p.Player.Center += Vector2.UnitY * 2;
-                                }
-                            }
-                        }
-                    }
                     if (NPC.ai[3] > 0)
                         NPC.ai[1]++;
                     if (NPC.ai[1] == 100)
