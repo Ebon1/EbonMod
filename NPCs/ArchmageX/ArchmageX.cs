@@ -420,15 +420,10 @@ namespace EbonianMod.NPCs.ArchmageX
         int frameBeforeBlink;
         SlotId helicopterSlot;
         FloatingDialogueBox currentDialogue;
-        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
-        {
-            if (ProjectileID.Sets.CultistIsResistantTo[projectile.type])
-                modifiers.FinalDamage *= .7f;
-        }
         public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
             modifiers.CritDamage -= 0.4f;
-            modifiers.FinalDamage *= (phaseMult == 3 ? .65f : .83f);
+            modifiers.FinalDamage *= (phaseMult == 3 ? .7f : .85f);
         }
         public override bool CheckDead()
         {
