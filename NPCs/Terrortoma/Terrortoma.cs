@@ -121,6 +121,7 @@ namespace EbonianMod.NPCs.Terrortoma
         {
             Texture2D laughTex = Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrortomaLaughing").Value;
             Texture2D tomaTex = Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value;
+            Texture2D spawnTex = Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrortomaSpawn").Value;
             Player player = Main.player[NPC.target];
             Vector2 drawOrigin = new Vector2(tomaTex.Width * 0.5f, NPC.height * 0.5f);
             if (NPC.IsABestiaryIconDummy)
@@ -155,7 +156,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 if (AIState == Intro)
                 {
-                    spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrortomaSpawn").Value, NPC.Center - pos, introFrame, lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
+                    spriteBatch.Draw(spawnTex, NPC.Center - pos, introFrame, lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
                 }
             }
             //else
@@ -168,6 +169,9 @@ namespace EbonianMod.NPCs.Terrortoma
         {
             Player player = Main.player[NPC.target];
             Texture2D tex = Helper.GetTexture("NPCs/Terrortoma/TerrorEye");
+            Texture2D laughTex = Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrortomaLaughing").Value;
+            Texture2D tomaTex = Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value;
+            Texture2D spawnTex = Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrortomaSpawn").Value;
             Vector2 eyeOGPosition = NPC.Center - new Vector2(-7, 14).RotatedBy(NPC.rotation);
             Vector2 eyePosition = NPC.Center - new Vector2(-7, 14).RotatedBy(NPC.rotation);
             Vector2 fromTo = Helper.FromAToB(eyeOGPosition, player.Center);
