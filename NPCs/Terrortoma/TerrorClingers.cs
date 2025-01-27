@@ -988,10 +988,11 @@ namespace EbonianMod.NPCs.Terrortoma
                                         //NPC.Center += NPC.velocity * 0.75f;
                                         if (NPC.Center.Distance(lastPos) < NPC.width * 0.75f && AITimer < 90)
                                         {
-                                            Projectile.NewProjectile(null, lastPos, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0);
                                             AITimer = 90;
                                         }
                                     }
+                                    if (AITimer == 95)
+                                        Projectile.NewProjectile(null, NPC.Center + NPC.velocity, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0);
                                     if (AITimer > 95 || AITimer < 50)
                                     {
                                         NPC.rotation = Helper.LerpAngle(NPC.rotation, 0, 0.2f);

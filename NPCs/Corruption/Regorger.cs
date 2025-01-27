@@ -113,7 +113,7 @@ namespace EbonianMod.NPCs.Corruption
             }
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
-            if (NPC.Distance(player.Center) > 1000) return;
+            if (NPC.Distance(player.Center) > 1700) return;
             NPC.spriteDirection = NPC.direction = -1;
             switch (AIState)
             {
