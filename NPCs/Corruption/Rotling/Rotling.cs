@@ -56,7 +56,7 @@ namespace EbonianMod.NPCs.Corruption.Rotling
         {
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.Size = new Vector2(10, 14);
-            NPC.damage = 0;
+            NPC.damage = 1;
             quiet = true;
             NPC.aiStyle = -1;
             NPC.lifeMax = 15;

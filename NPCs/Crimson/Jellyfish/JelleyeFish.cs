@@ -29,6 +29,10 @@ namespace EbonianMod.NPCs.Crimson.Jellyfish
             NPC.netAlways = true;
             NPC.value = Item.buyPrice(0, 0, 20);
         }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return spawnInfo.Player.ZoneCrimson && spawnInfo.Player.ZoneOverworldHeight ? 0.08f : 1;
+        }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
