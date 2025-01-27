@@ -143,6 +143,7 @@ namespace EbonianMod.NPCs.Cecitior
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            Texture2D glow = Helper.GetTexture("NPCs/Cecitior/Cecitior_Glow");
             if (verlet[0] != null)
             {
                 for (int i = 0; i < 5; i++)
@@ -285,7 +286,6 @@ namespace EbonianMod.NPCs.Cecitior
                 }
                 Texture2D part = Helper.GetTexture("NPCs/Cecitior/Cecitior_Part");
                 Texture2D partGlow = Helper.GetTexture("NPCs/Cecitior/Cecitior_Part_Glow");
-                Texture2D glow = Helper.GetTexture("NPCs/Cecitior/Cecitior_Glow");
                 spriteBatch.Draw(part, NPC.Center + new Vector2(30, 4) + openOffset - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center + new Vector2(30, 4) + openOffset) * 1.25f), openRotation, part.Size() / 2, NPC.scale, SpriteEffects.None, 0);
                 spriteBatch.Draw(partGlow, NPC.Center + new Vector2(30, 4) + openOffset - screenPos, null, Color.White, openRotation, part.Size() / 2, NPC.scale, SpriteEffects.None, 0);
 
@@ -293,6 +293,7 @@ namespace EbonianMod.NPCs.Cecitior
                 spriteBatch.Draw(glow, NPC.Center - openOffset - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
                 return false;
             }
+            spriteBatch.Draw(glow, NPC.Center - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
             return true;
         }
         int hookFrame = 1;
