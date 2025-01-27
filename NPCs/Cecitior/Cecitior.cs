@@ -1182,8 +1182,8 @@ namespace EbonianMod.NPCs.Cecitior
                     AITimer2 -= 4;
                     NPC.velocity = Vector2.Zero;
                     if (halfEyesPhase2)
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 0.5f, -6), ProjectileType<CIchor>(), 30, 0);
-                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 2, -5), ProjectileType<CHeart>(), 30, 0);
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 3, -6), ProjectileType<CIchor>(), 30, 0);
+                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, new Vector2(AITimer2 * 5, -5), ProjectileType<CHeart>(), 30, 0);
                     a.friendly = false;
                     a.hostile = true;
 

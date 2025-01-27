@@ -119,11 +119,13 @@ namespace EbonianMod.NPCs.Terrortoma
         Rectangle introFrame = new Rectangle(0, 0, 118, 108), laughFrame = new Rectangle(0, 0, 118, 108);
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color lightColor)
         {
+            Texture2D laughTex = Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrortomaLaughing").Value;
+            Texture2D tomaTex = Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value;
             Player player = Main.player[NPC.target];
-            Vector2 drawOrigin = new Vector2(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value.Width * 0.5f, NPC.height * 0.5f);
+            Vector2 drawOrigin = new Vector2(tomaTex.Width * 0.5f, NPC.height * 0.5f);
             if (NPC.IsABestiaryIconDummy)
             {
-                spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value, NPC.Center - pos, NPC.frame, NPC.IsABestiaryIconDummy ? Color.White : lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(tomaTex, NPC.Center - pos, NPC.frame, NPC.IsABestiaryIconDummy ? Color.White : lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
             }
             else
             {
@@ -136,7 +138,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 if (isLaughing || AIState == -12124)
                 {
-                    spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrortomaLaughing").Value, NPC.Center - pos, laughFrame, lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
+                    spriteBatch.Draw(laughTex, NPC.Center - pos, laughFrame, lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
                 }
                 if (((AIState == EyeHomingFlames ? true : !isLaughing) && AIState != -12124 && AIState != Intro))
                 {
@@ -145,11 +147,11 @@ namespace EbonianMod.NPCs.Terrortoma
                     spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, null, Color.LawnGreen * bloomAlpha, NPC.rotation, tex.Size() / 2 - new Vector2(0, 2).RotatedBy(NPC.rotation), NPC.scale, SpriteEffects.None, 0);
                     spriteBatch.Reload(BlendState.AlphaBlend);
                     if (!isLaughing)
-                        spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value, NPC.Center - pos, NPC.frame, NPC.IsABestiaryIconDummy ? Color.White : lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
+                        spriteBatch.Draw(tomaTex, NPC.Center - pos, NPC.frame, NPC.IsABestiaryIconDummy ? Color.White : lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
                 }
                 if (isLaughing || AIState == -12124)
                 {
-                    spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrortomaLaughing").Value, NPC.Center - pos, laughFrame, lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
+                    spriteBatch.Draw(laughTex, NPC.Center - pos, laughFrame, lightColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
                 }
                 if (AIState == Intro)
                 {
@@ -207,11 +209,11 @@ namespace EbonianMod.NPCs.Terrortoma
                 Main.spriteBatch.Reload(BlendState.AlphaBlend);
 
             }
-            Vector2 drawOrigin = new Vector2(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/Terrortoma").Value.Width * 0.5f, NPC.height * 0.5f);
+            Vector2 drawOrigin = new Vector2(tomaTex.Width * 0.5f, NPC.height * 0.5f);
             if (isLaughing || AIState == -12124)
             {
                 if (!NPC.IsABestiaryIconDummy)
-                    spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Terrortoma/TerrortomaLaughing").Value, NPC.Center - screenPos, laughFrame, drawColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
+                    spriteBatch.Draw(laughTex, NPC.Center - screenPos, laughFrame, drawColor, NPC.rotation, drawOrigin, NPC.scale, SpriteEffects.None, 0);
             }
             if (AIState == Intro)
             {
@@ -712,7 +714,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     if (AITimer2 > 40)
                         NPC.velocity *= 0.9f;
 
-                    if (AITimer2 > 70) AITimer2 = 0;
+                    if (AITimer2 > 62) AITimer2 = 0;
                 }
                 if (AITimer >= 290)
                 {

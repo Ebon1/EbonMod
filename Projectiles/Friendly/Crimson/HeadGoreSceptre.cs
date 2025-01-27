@@ -104,7 +104,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             if (Projectile.timeLeft % 10 == 0 && Projectile.timeLeft < 170)
             {
                 float speedY = Projectile.velocity.Y * -10;
-                Projectile proj = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, new Vector2(Main.rand.NextFloatDirection() * 3, 10), 814, (int)(Projectile.damage * 0.75), 0, Projectile.owner, 0, 0)];
+                Projectile proj = Main.projectile[Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, new Vector2(Main.rand.NextFloatDirection() * Main.rand.NextFloat(1.5f), 10), 814, (int)(Projectile.damage * 0.75), 0, Projectile.owner, 0, 0)];
                 proj.hostile = true;
                 proj.penetrate = 1;
                 proj.friendly = false;
