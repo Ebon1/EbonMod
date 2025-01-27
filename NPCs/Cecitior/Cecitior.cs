@@ -218,18 +218,18 @@ namespace EbonianMod.NPCs.Cecitior
                         if (AIState == Phase2ClawGrab && AITimer2 == 1)
                         {
                             claw[i].verlet.Draw(spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_8");
-                            claw[i].verlet.Draw(spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_8_Glow", useColor: true, color: Color.White);
+                            claw[i].verlet.Draw(spriteBatch, "Extras/Empty", endTex: "NPCs/Cecitior/Hook/CecitiorHook_8_Glow", useColor: true, color: Color.White);
                         }
                         else
                         {
                             claw[i].verlet.Draw(spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_" + hookFrame);
-                            claw[i].verlet.Draw(spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_" + hookFrame + "_Glow", useColor: true, color: Color.White);
+                            claw[i].verlet.Draw(spriteBatch, "Extras/Empty", endTex: "NPCs/Cecitior/Hook/CecitiorHook_" + hookFrame + "_Glow", useColor: true, color: Color.White);
                         }
                     }
                     else
                     {
                         claw[i].verlet.Draw(spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_" + hookFrame);
-                        claw[i].verlet.Draw(spriteBatch, "NPCs/Cecitior/Hook/CecitiorHook_0", endTex: "NPCs/Cecitior/Hook/CecitiorHook_" + hookFrame + "_Glow", useColor: true, color: Color.White);
+                        claw[i].verlet.Draw(spriteBatch, "Extras/Empty", endTex: "NPCs/Cecitior/Hook/CecitiorHook_" + hookFrame + "_Glow", useColor: true, color: Color.White);
                     }
 
                     /*Texture2D tex = Helper.GetTexture("Projectiles/Cecitior/CecitiorBombThing_Extra");
@@ -752,7 +752,7 @@ namespace EbonianMod.NPCs.Cecitior
                     NPC.dontTakeDamage = false;
                     for (int i = 0; i < 3; i++)
                     {
-                        claw[i] = new CecitiorClaw(NPC.Center, new Verlet(NPC.Center, 12, 22, 0.15f, stiffness: 30));
+                        claw[i] = new CecitiorClaw(NPC.Center, new Verlet(NPC.Center, 12, 22, 0.15f, stiffness: 50));
                     }
                     SoundEngine.PlaySound(EbonianSounds.fleshHit with { Pitch = -0.3f, PitchVariance = 0.2f }, player.Center);
 

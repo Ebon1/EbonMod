@@ -94,12 +94,14 @@ namespace EbonianMod.NPCs.Cecitior
             Texture2D a = Helper.GetTexture("NPCs/Cecitior/CecitiorChain_base");
             Texture2D glow = Helper.GetTexture("NPCs/Cecitior/CecitiorChain_base_Glow");
             Texture2D b = Helper.GetTexture("NPCs/Cecitior/CecitiorEye");
+            Texture2D glow2 = Helper.GetTexture("NPCs/Cecitior/CecitiorEye_Glow");
             if (verlet != null)
             {
                 spriteBatch.Draw(a, verlet.firstP.position - new Vector2(0, 20).RotatedBy(Helper.FromAToB(verlet.firstP.position, verlet.points[5].position, reverse: true).ToRotation() - 1.57f) - screenPos, null, drawColor, Helper.FromAToB(verlet.firstP.position, verlet.points[5].position, reverse: true).ToRotation() - 1.57f, a.Size() / 2, 1, SpriteEffects.None, 0);
                 spriteBatch.Draw(glow, verlet.firstP.position - new Vector2(0, 20).RotatedBy(Helper.FromAToB(verlet.firstP.position, verlet.points[5].position, reverse: true).ToRotation() - 1.57f) - screenPos, null, drawColor, Helper.FromAToB(verlet.firstP.position, verlet.points[5].position, reverse: true).ToRotation() - 1.57f, a.Size() / 2, 1, SpriteEffects.None, 0);
             }
             spriteBatch.Draw(b, NPC.Center - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(glow2, NPC.Center - Main.screenPosition, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
         }
         public override void FindFrame(int frameHeight)
         {

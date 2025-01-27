@@ -27,6 +27,8 @@ namespace EbonianMod.NPCs.Terrortoma
     {
         public override void SetStaticDefaults()
         {
+
+            NPCID.Sets.MustAlwaysDraw[Type] = true;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Hide = true
@@ -362,7 +364,9 @@ namespace EbonianMod.NPCs.Terrortoma
                 distance = distToProj.Length();
 
                 //Draw chain
-                spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Terrortoma/ClingerChain").Value, center - pos,
+
+                if (new Rectangle((int)center.X, (int)center.Y, 5, 5).Intersects(new Rectangle((int)Main.screenPosition.X - 200, (int)Main.screenPosition.Y - 200, Main.screenWidth + 200, Main.screenHeight + 200)))
+                    spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Terrortoma/ClingerChain").Value, center - pos,
                     new Rectangle(0, 0, 26, 20), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
                     new Vector2(26 * 0.5f, 20 * 0.5f), 1f, SpriteEffects.None, 0);
             }
@@ -388,6 +392,8 @@ namespace EbonianMod.NPCs.Terrortoma
         private float angle = 0;
         public override void SetStaticDefaults()
         {
+
+            NPCID.Sets.MustAlwaysDraw[Type] = true;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 Hide = true
@@ -714,9 +720,11 @@ namespace EbonianMod.NPCs.Terrortoma
                 distance = distToProj.Length();
 
                 //Draw chain
-                spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Terrortoma/ClingerChain").Value, center - pos,
-                    new Rectangle(0, 0, 26, 20), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
-                    new Vector2(26 * 0.5f, 20 * 0.5f), 1f, SpriteEffects.None, 0);
+
+                if (new Rectangle((int)center.X, (int)center.Y, 5, 5).Intersects(new Rectangle((int)Main.screenPosition.X - 200, (int)Main.screenPosition.Y - 200, Main.screenWidth + 200, Main.screenHeight + 200)))
+                    spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Terrortoma/ClingerChain").Value, center - pos,
+                        new Rectangle(0, 0, 26, 20), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
+                        new Vector2(26 * 0.5f, 20 * 0.5f), 1f, SpriteEffects.None, 0);
             }
             Texture2D tex = Request<Texture2D>(Texture + "_Bloom").Value;
             spriteBatch.Reload(BlendState.Additive);
@@ -739,6 +747,8 @@ namespace EbonianMod.NPCs.Terrortoma
         }
         public override void SetStaticDefaults()
         {
+
+            NPCID.Sets.MustAlwaysDraw[Type] = true;
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 CustomTexturePath = "EbonianMod/NPCs/Terrortoma/TerrorClinger_Bestiary",
@@ -1045,9 +1055,11 @@ namespace EbonianMod.NPCs.Terrortoma
                 distance = distToProj.Length();
 
                 //Draw chain
-                spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Terrortoma/ClingerChain").Value, center - pos,
-                    new Rectangle(0, 0, 26, 20), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
-                    new Vector2(26 * 0.5f, 20 * 0.5f), 1f, SpriteEffects.None, 0);
+
+                if (new Rectangle((int)center.X, (int)center.Y, 5, 5).Intersects(new Rectangle((int)Main.screenPosition.X - 200, (int)Main.screenPosition.Y - 200, Main.screenWidth + 200, Main.screenHeight + 200)))
+                    spriteBatch.Draw(Mod.Assets.Request<Texture2D>("NPCs/Terrortoma/ClingerChain").Value, center - pos,
+                        new Rectangle(0, 0, 26, 20), Lighting.GetColor((int)center.X / 16, (int)center.Y / 16), projRotation,
+                        new Vector2(26 * 0.5f, 20 * 0.5f), 1f, SpriteEffects.None, 0);
             }
             Texture2D tex = Request<Texture2D>(Texture + "_Bloom").Value;
             spriteBatch.Reload(BlendState.Additive);
