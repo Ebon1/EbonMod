@@ -321,7 +321,7 @@ namespace EbonianMod.NPCs.Cecitior
                     NPC.velocity = Helper.FromAToB(NPC.Center, player.Center + new Vector2(200).RotatedBy(angle + MathHelper.ToRadians(timer * (halfEyesPhase2 ? 3 : 1))), false) / 3;
                     focalPoint = player.Center;
                     if (center.ai[1] % (halfEyesPhase2 ? 20 : 50) == 0 && center.ai[1] > 1)
-                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 0.5f, ProjectileType<CecitiorTeeth>(), 30, 0);
+                        Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 7f, ProjectileType<CecitiorTeeth>(), 30, 0);
                     break;
                 case 6:
                     NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle), false) / 10f;
