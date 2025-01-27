@@ -768,7 +768,10 @@ namespace EbonianMod.NPCs.Garbage
                 if (AITimer == 2)
                     SoundEngine.PlaySound(SoundID.Zombie67, NPC.Center);
                 if (AITimer == 181)
+                {
+                    NPC.velocity = Vector2.Zero;
                     Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.UnitY, ProjectileType<GarbageTelegraph>(), 0, 0);
+                }
                 if (AITimer == 200)
                 {
                     SoundEngine.PlaySound(EbonianSounds.exolDash, NPC.Center);
