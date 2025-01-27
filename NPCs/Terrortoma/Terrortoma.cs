@@ -626,7 +626,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 if (NPC.Distance(player.Center) > 200)
                     NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 100) + Helper.FromAToB(player.Center, NPC.Center) * 100) * 13, 0.1f);
-                else NPC.velocity *= 0.9f;
+                else NPC.velocity *= 0.97f;
                 isLaughing = AITimer < 100;
                 rotation = Vector2.UnitY.ToRotation() - MathHelper.PiOver2;
                 if (AITimer > 190)

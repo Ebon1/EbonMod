@@ -850,7 +850,7 @@ namespace EbonianMod.NPCs.Cecitior
 
                 if (AITimer < 70 && NPC.Distance(player.Center) > 200)
                     NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 100) + Helper.FromAToB(player.Center, NPC.Center) * 100) * 15, 0.15f);
-                else NPC.velocity *= 0.8f;
+                else NPC.velocity *= 0.97f;
 
                 if (AITimer >= NPC.life / 260 + 10)
                 {

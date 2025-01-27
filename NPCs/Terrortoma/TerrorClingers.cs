@@ -159,7 +159,7 @@ namespace EbonianMod.NPCs.Terrortoma
             if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
             if ((center.ai[2] != 0 && center.ai[2] <= 2) || center.ai[2] == 4)
             {
-                NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
+                NPC.rotation = Helper.LerpAngle(NPC.rotation, center.rotation, 0.2f);
                 Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
                 if (AIState == 6 || AIState == 14)
                 {
@@ -167,7 +167,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 Vector2 target = pos;
                 Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.2f;
+                NPC.velocity = (moveTo) * (center.ai[0] == 0 ? 0.05f : 0.2f);
                 NPC.ai[3] = 0;
             }
             else
@@ -176,11 +176,11 @@ namespace EbonianMod.NPCs.Terrortoma
                 {
                     AITimer3 = 0;
                     AITimer = 0;
-                    NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
+                    NPC.rotation = Helper.LerpAngle(NPC.rotation, center.rotation, 0.2f);
                     Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
-                    NPC.velocity = (moveTo) * 0.2f;
+                    NPC.velocity = (moveTo) * (center.ai[0] == 0 ? 0.05f : 0.2f);
                 }
                 if (center.ai[2] != 4)
                 {
@@ -190,7 +190,7 @@ namespace EbonianMod.NPCs.Terrortoma
                             AITimer++;
                             if (AITimer > 30)
                             {
-                                NPC.rotation = MathHelper.Lerp(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2, 0.2f);
+                                NPC.rotation = Helper.LerpAngle(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2, 0.2f);
                                 NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center + new Vector2(120).RotatedBy(MathHelper.ToRadians(AITimer * 4f)), false) * 0.25f, 0.3f);
                                 if (AITimer % 10 == 0 && AITimer > 50)
                                 {
@@ -244,7 +244,7 @@ namespace EbonianMod.NPCs.Terrortoma
                             }
                             else
                             {
-                                NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
+                                NPC.rotation = Helper.LerpAngle(NPC.rotation, center.rotation, 0.2f);
                                 Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
                                 Vector2 target = pos;
                                 Vector2 moveTo = target - NPC.Center;
@@ -264,7 +264,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                 Vector2 moveTo = target - NPC.Center;
                                 NPC.velocity = (moveTo) * 0.05f;
 
-                                NPC.rotation = MathHelper.Lerp(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2, 0.2f);
+                                NPC.rotation = Helper.LerpAngle(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2, 0.2f);
                                 AITimer++;
                                 if (AITimer > 100) AITimer = 0;
                                 if (AITimer >= 25)
@@ -291,7 +291,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                         NPC.velocity = Vector2.Lerp(NPC.velocity, -Vector2.UnitY.RotatedBy(PiOver4 * 0.3f) * 10, 0.02f);
                                     else
                                     {
-                                        NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
+                                        NPC.rotation = Helper.LerpAngle(NPC.rotation, center.rotation, 0.2f);
                                         Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
                                         Vector2 target = pos;
                                         Vector2 moveTo = target - NPC.Center;
@@ -321,7 +321,7 @@ namespace EbonianMod.NPCs.Terrortoma
                                 }
                                 else
                                 {
-                                    NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
+                                    NPC.rotation = Helper.LerpAngle(NPC.rotation, center.rotation, 0.2f);
                                     Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
                                     Vector2 target = pos;
                                     Vector2 moveTo = target - NPC.Center;
@@ -333,7 +333,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 else
                 {
-                    NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
+                    NPC.rotation = Helper.LerpAngle(NPC.rotation, center.rotation, 0.2f);
                     Vector2 pos = center.Center + new Vector2(85, 85).RotatedBy(center.rotation);
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
@@ -535,7 +535,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 Vector2 target = pos;
                 Vector2 moveTo = target - NPC.Center;
-                NPC.velocity = (moveTo) * 0.2f;
+                NPC.velocity = (moveTo) * (center.ai[0] == 0 ? 0.05f : 0.2f);
                 NPC.ai[3] = 0;
             }
             else
@@ -545,7 +545,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
-                    NPC.velocity = (moveTo) * 0.2f;
+                    NPC.velocity = (moveTo) * (center.ai[0] == 0 ? 0.05f : 0.2f);
                     NPC.scale = Lerp(NPC.scale, 1, 0.1f);
                 }
                 if (center.ai[2] != 4)
@@ -612,7 +612,7 @@ namespace EbonianMod.NPCs.Terrortoma
                             }
                             else
                             {
-                                NPC.rotation = MathHelper.Lerp(NPC.rotation, center.rotation, 0.2f);
+                                NPC.rotation = Helper.LerpAngle(NPC.rotation, center.rotation, 0.2f);
                                 Vector2 pos = center.Center + new Vector2(-85, 85).RotatedBy(center.rotation);
                                 Vector2 target = pos;
                                 Vector2 moveTo = target - NPC.Center;
@@ -907,26 +907,26 @@ namespace EbonianMod.NPCs.Terrortoma
                 if (alpha > 0f) alpha -= 0.01f;
                 if ((center.ai[2] != 2 && center.ai[2] <= 2) || center.ai[2] == 4)
                 {
-                    NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
-                    Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
+                    NPC.rotation = Helper.LerpAngle(NPC.rotation, center.rotation, 0.2f);
+                    Vector2 pos = center.Center + new Vector2(0, 105).RotatedBy(center.rotation);
                     if (AIState == 6 || AIState == 14)
                     {
                         pos = center.Center - new Vector2(0, 85).RotatedBy(center.rotation);
                     }
                     Vector2 target = pos;
                     Vector2 moveTo = target - NPC.Center;
-                    NPC.velocity = (moveTo) * 0.2f;
+                    NPC.velocity = (moveTo) * (center.ai[0] == 0 ? 0.05f : 0.3f);
                     NPC.ai[3] = 0;
                 }
                 else
                 {
                     if (AIState == 0 || AIState == 1 || AIState == 15 || AIState == 12 || AIState == 9 || AIState == 14 || AIState == 10 || AIState == 13 || AIState == 11 || AIState == -2 || AIState == 4 || AIState == 999)
                     {
-                        NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
-                        Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
+                        NPC.rotation = Helper.LerpAngle(NPC.rotation, center.rotation, 0.2f);
+                        Vector2 pos = center.Center + new Vector2(0, 105).RotatedBy(center.rotation);
                         Vector2 target = pos;
                         Vector2 moveTo = target - NPC.Center;
-                        NPC.velocity = (moveTo) * 0.2f;
+                        NPC.velocity = (moveTo) * 0.3f;
                     }
                     if (center.ai[2] != 4)
                     {
@@ -958,13 +958,13 @@ namespace EbonianMod.NPCs.Terrortoma
                                     }
                                     if (AITimer > 95 || AITimer < 50)
                                     {
-                                        NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
-                                        Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
+                                        NPC.rotation = Helper.LerpAngle(NPC.rotation, 0, 0.2f);
+                                        Vector2 pos = center.Center + new Vector2(0, 105).RotatedBy(center.rotation);
                                         Vector2 target = pos;
                                         Vector2 moveTo = target - NPC.Center;
                                         NPC.velocity = (moveTo) * 0.05f;
                                     }
-                                    else NPC.rotation = MathHelper.Lerp(NPC.rotation, NPC.velocity.ToRotation() - MathHelper.PiOver2, 0.1f);
+                                    else NPC.rotation = Helper.LerpAngle(NPC.rotation, NPC.velocity.ToRotation() - MathHelper.PiOver2, 0.1f);
                                     if (AITimer >= 100)
                                     {
                                         center.ai[2] = 4;
@@ -975,7 +975,7 @@ namespace EbonianMod.NPCs.Terrortoma
                             case 3:
                                 {
                                     NPC.damage = 100;
-                                    NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
+                                    NPC.rotation = Helper.LerpAngle(NPC.rotation, 0, 0.2f);
                                     Vector2 pos = center.Center + new Vector2(0, 125).RotatedBy(center.rotation);
                                     Vector2 target = pos;
                                     Vector2 moveTo = target - NPC.Center;
@@ -1019,8 +1019,8 @@ namespace EbonianMod.NPCs.Terrortoma
                     }
                     else
                     {
-                        NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.2f);
-                        Vector2 pos = center.Center + new Vector2(0, 85).RotatedBy(center.rotation);
+                        NPC.rotation = Helper.LerpAngle(NPC.rotation, 0, 0.2f);
+                        Vector2 pos = center.Center + new Vector2(0, 105).RotatedBy(center.rotation);
                         Vector2 target = pos;
                         Vector2 moveTo = target - NPC.Center;
                         NPC.velocity = (moveTo) * 0.05f;
