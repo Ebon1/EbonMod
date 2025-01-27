@@ -85,12 +85,12 @@ namespace EbonianMod.Items.Weapons.Ranged
             if (player.HeldItem.type != ItemType<SalvagedThruster>()) { player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill(); }
             if (Projectile.frame == 1)
                 for (float j = 1; j < Projectile.oldPos.Length; j++)
-                    for (float i = 0; i < 1; i += (j == 1 ? 0.3f : 0.1f))
+                    for (float i = 0; i < 1; i += (j == 1 ? 0.15f : 0.05f))
                     {
                         for (float k = 0; k < 1; k += (j == 1 ? 1 : 0.5f))
                         {
                             Vector2 vel = Vector2.Lerp(Projectile.oldRot[(int)j - 1].ToRotationVector2(), Projectile.oldRot[(int)j].ToRotationVector2(), k);
-                            Dust.NewDustPerfect(Projectile.Center - new Vector2(0, 2 * Projectile.direction).RotatedBy(Projectile.rotation) + player.velocity + Main.rand.NextVector2Circular(5 + 10 * i, 5 + 10 * i) + vel * Lerp(Projectile.width / 2, Helper.TRay.CastLength(Projectile.Center, Projectile.velocity, 200), i), DustID.Torch, vel.RotatedByRandom(PiOver4 * Clamp(i * 2, 0.8f, 2) + PiOver4 * i) * Main.rand.NextFloat(2, 7) + player.velocity * 0.1f, Scale: Main.rand.NextFloat(2, 3) * Clamp(k, 0.75f, 1) * (j == 1 ? 0.75f : 1)).noGravity = j != 1;
+                            Dust.NewDustPerfect(Projectile.Center - new Vector2(0, 2 * Projectile.direction).RotatedBy(Projectile.rotation) + player.velocity + Main.rand.NextVector2Circular(5 + 10 * i * 1.5f, 5 + 10 * i * 1.5f) + vel * Lerp(Projectile.width / 2, Helper.TRay.CastLength(Projectile.Center, Projectile.velocity, 200), i), DustID.Torch, vel.RotatedByRandom(PiOver4 * Clamp(i * 2, 0.8f, 2) + PiOver4 * i) * Main.rand.NextFloat(2, 7) + player.velocity * 0.1f, Scale: Main.rand.NextFloat(2, 3) * Clamp(k, 0.75f, 1) * (j == 1 ? 0.75f : 1) + i).noGravity = j != 1;
                         }
                     }
 
