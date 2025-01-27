@@ -84,7 +84,7 @@ namespace EbonianMod.NPCs.Garbage
             npcLoot.Add(ItemDropRule.Common(ItemType<GarbageMask>(), 4));
             npcLoot.Add(ItemDropRule.Common(ItemType<GarbageTrophy>(), 4));
             npcLoot.Add(ItemDropRule.MasterModeDropOnAllPlayers(ItemType<GarbagePet>(), 4));
-            npcLoot.Add(ItemDropRule.MasterModeCommonDrop(ItemType<XRelic>()));
+            npcLoot.Add(ItemDropRule.MasterModeCommonDrop(ItemType<GarbageRelic>()));
 
             npcLoot.Add(ItemDropRule.BossBag(ItemType<GarbageBagI>()));
         }
