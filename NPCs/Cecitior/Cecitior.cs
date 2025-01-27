@@ -141,10 +141,12 @@ namespace EbonianMod.NPCs.Cecitior
                 verlet[i] = new(NPC.Center, 2, 18, 1 * scale, true, true, (int)(2.5f * scale));
             }
         }
+        float shakeVal;
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D glow = Helper.GetTexture("NPCs/Cecitior/Cecitior_Glow");
             Texture2D tex = TextureAssets.Npc[Type].Value;
+            Vector2 shakeOffset = Main.rand.NextVector2Circular(shakeVal, shakeVal);
             if (verlet[0] != null)
             {
                 for (int i = 0; i < 5; i++)
@@ -247,8 +249,8 @@ namespace EbonianMod.NPCs.Cecitior
             {
                 Texture2D teeth = Helper.GetTexture("NPCs/Cecitior/CecitiorTeeth");
                 Texture2D partTeeth = Helper.GetTexture("NPCs/Cecitior/CecitiorTeeth2");
-                spriteBatch.Draw(teeth, NPC.Center - openOffset - new Vector2(0, -2) - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center - openOffset)), NPC.rotation, teeth.Size() / 2, NPC.scale, SpriteEffects.None, 0);
-                spriteBatch.Draw(partTeeth, NPC.Center + new Vector2(30, 4) + openOffset - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center + openOffset)), openRotation, partTeeth.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(teeth, NPC.Center + shakeOffset - openOffset - new Vector2(0, -2) - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center - openOffset)), NPC.rotation, teeth.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(partTeeth, NPC.Center - shakeOffset + new Vector2(30, 4) + openOffset - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center + openOffset)), openRotation, partTeeth.Size() / 2, NPC.scale, SpriteEffects.None, 0);
                 if (verlet[0] != null)
                 {
                     for (int i = 0; i < 5; i++)
@@ -286,11 +288,11 @@ namespace EbonianMod.NPCs.Cecitior
                 }
                 Texture2D part = Helper.GetTexture("NPCs/Cecitior/Cecitior_Part");
                 Texture2D partGlow = Helper.GetTexture("NPCs/Cecitior/Cecitior_Part_Glow");
-                spriteBatch.Draw(part, NPC.Center + new Vector2(30, 4) + openOffset - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center + new Vector2(30, 4) + openOffset) * 1.25f), openRotation, part.Size() / 2, NPC.scale, SpriteEffects.None, 0);
-                spriteBatch.Draw(partGlow, NPC.Center + new Vector2(30, 4) + openOffset - screenPos, null, Color.White, openRotation, part.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(part, NPC.Center - shakeOffset + new Vector2(30, 4) + openOffset - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center + new Vector2(30, 4) + openOffset) * 1.25f), openRotation, part.Size() / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(partGlow, NPC.Center - shakeOffset + new Vector2(30, 4) + openOffset - screenPos, null, Color.White, openRotation, part.Size() / 2, NPC.scale, SpriteEffects.None, 0);
 
-                spriteBatch.Draw(tex, NPC.Center - openOffset - screenPos, NPC.frame, new Color(Lighting.GetSubLight(NPC.Center - openOffset) * 1.25f), NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
-                spriteBatch.Draw(glow, NPC.Center - openOffset - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(tex, NPC.Center + shakeOffset - openOffset - screenPos, NPC.frame, new Color(Lighting.GetSubLight(NPC.Center - openOffset) * 1.25f), NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(glow, NPC.Center + shakeOffset - openOffset - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
                 return false;
             }
             spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
@@ -440,6 +442,7 @@ namespace EbonianMod.NPCs.Cecitior
             AITimer2 = 0;
             AITimer3 = 0;
             SwitchToRandom();
+            shakeVal = 0;
             AIState = Idle;
             NPC.damage = 0;
             rotation = 0;
@@ -902,6 +905,7 @@ namespace EbonianMod.NPCs.Cecitior
                 }
                 if (AITimer >= 25 && AITimer < (50 + (phase2 ? 7 : 0)))
                 {
+                    shakeVal = Lerp(shakeVal, (phase2 ? 30 : 15), 0.1f);
                     if (AITimer < 53)
                         savedPos = player.Center + (phase2 ? player.velocity * 5 : Vector2.Zero);
                     if (AITimer2 % 2 != (phase2 ? 1 : 0))
@@ -918,6 +922,7 @@ namespace EbonianMod.NPCs.Cecitior
                 }
                 if (AITimer == 65)
                 {
+                    shakeVal = 0;
                     open = false;
                 }
                 if (AITimer > 65)
@@ -1031,6 +1036,8 @@ namespace EbonianMod.NPCs.Cecitior
                     //SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center + openOffset);
                     NPC.velocity = Vector2.Zero;
                 }
+                if (AITimer < 75 && AITimer > 40)
+                    shakeVal = Lerp(shakeVal, (phase2 ? 30 : 15), 0.0f);
                 if (AITimer == 75)
                 {
                     open = false;
