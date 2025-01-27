@@ -714,7 +714,7 @@ namespace EbonianMod.NPCs.Terrortoma
                             rotation = NPC.velocity.ToRotation() - MathHelper.PiOver2;
                         if (AITimer2 == 14)
                         {
-                            for (int i = -3; i < 4; i++)
+                            for (int i = -3; i < 4; i += (Main.expertMode ? 1 : 2))
                             {
                                 Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center).RotatedBy(i * 0.3f) * 10, ProjectileType<TFlameThrower4>(), 20, 0);
                             }
