@@ -21,7 +21,6 @@ namespace EbonianMod.NPCs.Crimson.Crimera
     {
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Melee.Spinax>(), 50));
             npcLoot.Add(ItemDropRule.Common(ItemID.Ichor, 2, 1, 4));
         }
 

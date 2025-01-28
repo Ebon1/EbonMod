@@ -53,6 +53,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
         {
             npcLoot.Add(ItemDropRule.Common(ItemType<CecitiorMaterial>(), 2, 1, 3));
             npcLoot.Add(ItemDropRule.Common(ItemID.Ichor, 1, 5, 15));
+            npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Melee.Spinax>(), 5));
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
