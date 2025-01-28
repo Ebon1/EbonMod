@@ -121,15 +121,16 @@ namespace EbonianMod.NPCs.Corruption
                         NPC.velocity -= Helper.FromAToB(NPC.Center, player.Center) * 0.6f;
                     if (AITimer == 10)
                     {
+                        SoundEngine.PlaySound(EbonianSounds.terrortomaDash.WithPitchOffset(0.25f).WithVolumeScale(0.5f), NPC.Center);
                         for (int i = 0; i < 10; i++)
                         {
                             Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CursedTorch, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                         }
-                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 30;
+                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 10;
                     }
-                    if (AITimer > 15)
+                    if (AITimer > 30)
                     {
-                        SoundEngine.PlaySound(EbonianSounds.terrortomaDash.WithPitchOffset(0.25f).WithVolumeScale(0.5f), NPC.Center);
+                        //
                         AITimer = 0;
                         AIState++;
                     }
