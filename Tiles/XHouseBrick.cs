@@ -44,4 +44,53 @@ namespace EbonianMod.Tiles
             num = fail ? 1 : 3;
         }
     }
+
+    public class XHouseBrickReplica : ModTile
+    {
+        public override void SetStaticDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = true;
+            Main.tileBlockLight[Type] = true;
+            Main.tileBrick[Type] = true;
+
+            TileID.Sets.BlockMergesWithMergeAllBlock[Type] = true;
+            DustType = DustID.Venom;
+            MineResist = 1;
+            MinPick = 0;
+            HitSound = SoundID.Tink;
+            AddMapEntry(Color.Indigo);
+        }
+        public override bool CanExplode(int i, int j)
+        {
+            return false;
+        }
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = fail ? 1 : 3;
+        }
+    }
+
+    public class XHouseBrickReplicaItem : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+        }
+        public override void SetDefaults()
+        {
+            Item.width = 16;
+            Item.height = 16;
+            Item.maxStack = Item.CommonMaxStack;
+            Item.rare = 0;
+            Item.useTurn = true;
+            Item.rare = 0;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.rare = 2;
+            Item.useTime = 10;
+            Item.useStyle = 1;
+            Item.consumable = true;
+            Item.createTile = TileType<XHouseBrickReplica>();
+        }
+    }
 }

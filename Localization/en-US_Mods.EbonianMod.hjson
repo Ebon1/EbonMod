@@ -963,6 +963,11 @@ Items: {
 		DisplayName: Terrortoma Mask
 		Tooltip: ""
 	}
+
+	XHouseBrickReplicaItem: {
+		DisplayName: Archmage Brick
+		Tooltip: ""
+	}
 }
 
 Buffs: {
