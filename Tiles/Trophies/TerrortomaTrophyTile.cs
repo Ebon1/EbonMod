@@ -30,9 +30,9 @@ namespace EbonianMod.Tiles.Trophies
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (plinkTimer > 0)
+            if (plinkTimer[i, j] > 0)
             {
-                plinkTimer -= 0.1f;
+                plinkTimer[i, j] -= 0.1f;
             }
 
             Tile tile = Main.tile[i, j];
@@ -45,7 +45,7 @@ namespace EbonianMod.Tiles.Trophies
                 new Rectangle(tile.TileFrameX, tile.TileFrameY, 16, 16),
                 Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
 
-            if (plinkTimer <= 0)
+            if (plinkTimer[i, j] <= 0)
             {
                 spriteBatch.Draw(
                     Request<Texture2D>(Texture + "_Glow").Value,
@@ -57,12 +57,14 @@ namespace EbonianMod.Tiles.Trophies
             return false;
         }
 
-        float plinkTimer = 0;
+        float[,] plinkTimer = new float[Main.maxTilesX, Main.maxTilesY];
 
         public override void RandomUpdate(int i, int j)
         {
-            SoundEngine.PlaySound(EbonianSounds.blink, new Vector2(i * 16, j * 16));
-            plinkTimer = 1;
+            if (new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight).Intersects(new Rectangle(i * 16, j * 16, 16, 16))
+                && Main.tile[i, j].TileFrameX == 0 && Main.tile[i, j].TileFrameY == 0)
+                SoundEngine.PlaySound(EbonianSounds.blink, new Vector2(i * 16, j * 16));
+            plinkTimer[i, j] = 1;
         }
     }
 }
