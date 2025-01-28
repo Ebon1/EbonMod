@@ -160,7 +160,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                     heightMod = 1f - (NPC.velocity.Length() * 0.03f);
                     widthMod = 1f + (NPC.velocity.Length() * 0.03f);
                     if (NPC.velocity.Length() < 10)
-                        NPC.velocity.X += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).RotatedBy(off == -1 ? -PiOver4 : 0).X * 0.004f * off;
+                        NPC.velocity.X += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).X * 0.004f * off;
                     if (NPC.Center.X.CloseTo(player.Center.X, NPC.height) && AITimer > 3)
                         AITimer = 21;
                     if (AITimer > 20)
@@ -173,7 +173,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                     heightMod = 1f + (NPC.velocity.Length() * 0.03f);
                     widthMod = 1f - (NPC.velocity.Length() * 0.03f);
                     if (NPC.velocity.Length() < 10)
-                        NPC.velocity.Y += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).RotatedBy(off == -1 ? -PiOver4 : 0).Y * 0.004f * off;
+                        NPC.velocity.Y += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).Y * 0.004f * off;
                     if (NPC.Center.Y.CloseTo(player.Center.Y, NPC.width) && AITimer > 3)
                         AITimer = 21;
                     if (AITimer > 20)

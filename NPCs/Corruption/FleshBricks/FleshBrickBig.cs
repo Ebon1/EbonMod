@@ -100,7 +100,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
             NPC.TargetClosest(false);
             AITimer++;
             if (NPC.Center.Distance(player.Center) > 1000) return;
-            float off = Helper.TRay.CastLength(NPC.Center, NPC.Center.FromAToB(player.Center), 400) < 200 ? -1 : 1;
+            float off = Helper.TRay.CastLength(NPC.Center, NPC.Center.FromAToB(player.Center), 400) < 399 ? -1 : 1;
             switch (AIState)
             {
                 case Halt:
@@ -136,7 +136,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                     heightMod = 1f - (NPC.velocity.Length() * 0.02f);
                     widthMod = 1f + (NPC.velocity.Length() * 0.02f);
                     if (NPC.velocity.Length() < 5)
-                        NPC.velocity.X += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).RotatedBy(off == -1 ? -PiOver4 : 0).X * 0.003f * off;
+                        NPC.velocity.X += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).X * 0.003f * off;
                     if (NPC.Center.X.CloseTo(player.Center.X, NPC.height / 2) && AITimer > 3)
                         AITimer = 31;
                     if (AITimer > 30)
@@ -149,7 +149,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                     heightMod = 1f + (NPC.velocity.Length() * 0.02f);
                     widthMod = 1f - (NPC.velocity.Length() * 0.02f);
                     if (NPC.velocity.Length() < 5)
-                        NPC.velocity.Y += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).RotatedBy(off == -1 ? -PiOver4 : 0).Y * 0.003f * off;
+                        NPC.velocity.Y += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).Y * 0.003f * off;
                     if (NPC.Center.Y.CloseTo(player.Center.Y, NPC.width / 2) && AITimer > 3)
                         AITimer = 31;
                     if (AITimer > 30)
