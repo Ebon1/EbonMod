@@ -150,9 +150,13 @@ namespace EbonianMod.NPCs.Corruption.WormKing
                 Vector2 direction = Vector2.UnitY;
                 int attempts = 0;
                 stalkBase = Helper.TRay.Cast(NPC.Center - new Vector2(0, 500), direction, 2000) + new Vector2(0, 100);
-                if (AIState == Idle && Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 50) < 32)
-                    stalkBase = Helper.TRay.Cast(NPC.Center - new Vector2(0, 1000), direction, 2000) + new Vector2(0, 100);
             }
+            if (AIState == Idle && Helper.TRay.CastLength(NPC.Top, -Vector2.UnitY, NPC.height * 3) < NPC.height * 2.9f)
+            {
+                stalkBase = Helper.TRay.Cast(NPC.Center - new Vector2(0, 1400), Vector2.UnitY, 2000) + new Vector2(0, 100);
+                NPC.Center = stalkBase - new Vector2(0, 800);
+            }
+
             if (player.Distance(NPC.Center) > 1800) return;
             if (verlet != null)
                 verlet.Update(stalkBase, NPC.Center);
@@ -164,12 +168,13 @@ namespace EbonianMod.NPCs.Corruption.WormKing
             {
                 case Idle:
                     {
-                        NPC.ai[3]++;
+                        if (player.Distance(NPC.Center) < 600)
+                            NPC.ai[3]++;
                         NPC.Center = Vector2.Lerp(NPC.Center, stalkBase - new Vector2(MathF.Sin(NPC.ai[3] * 0.02f) * 200, 300 + (MathF.Cos(NPC.ai[3] * 0.02f) * 50)), 0.1f);
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, MathF.Sin(NPC.ai[3] * 0.02f), 0.1f);
                         if (AITimer > Main.rand.Next(200, 400))
                         {
-                            if (player.Distance(NPC.Center) > 400)
+                            if (player.Distance(NPC.Center) > 300)
                             {
                                 if (Main.rand.NextBool(2))
                                     AIState = Ostertagi;

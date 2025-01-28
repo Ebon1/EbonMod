@@ -561,7 +561,6 @@ namespace EbonianMod.NPCs.Cecitior
                         sound.Stop();
                     }
                     SoundEngine.PlaySound(EbonianSounds.cecitiorClose, NPC.Center);
-                    SoundEngine.PlaySound(EbonianSounds.fleshHit, NPC.Center);
                     EbonianSystem.ScreenShakeAmount = 5;
                 }
                 if (openOffset != Vector2.Zero && AIState != ThrowUpBlood && AIState != LaserRain && NPC.frame.Y == 6 * 102)
@@ -945,7 +944,6 @@ namespace EbonianMod.NPCs.Cecitior
                         if (openOffset != Vector2.Zero)
                         {
                             SoundEngine.PlaySound(EbonianSounds.cecitiorClose, NPC.Center);
-                            SoundEngine.PlaySound(EbonianSounds.fleshHit, NPC.Center);
                             EbonianSystem.ScreenShakeAmount = 5;
                         }
                         openRotation = 0;
