@@ -145,13 +145,15 @@ namespace EbonianMod.NPCs.Corruption.WormKing
         {
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
-            if (player.Distance(NPC.Center) > 1800) return;
             if (stalkBase == Vector2.Zero)
             {
                 Vector2 direction = Vector2.UnitY;
                 int attempts = 0;
                 stalkBase = Helper.TRay.Cast(NPC.Center - new Vector2(0, 500), direction, 2000) + new Vector2(0, 100);
+                if (AIState == Idle && Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 50) < 32)
+                    stalkBase = Helper.TRay.Cast(NPC.Center - new Vector2(0, 1000), direction, 2000) + new Vector2(0, 100);
             }
+            if (player.Distance(NPC.Center) > 1800) return;
             if (verlet != null)
                 verlet.Update(stalkBase, NPC.Center);
 
