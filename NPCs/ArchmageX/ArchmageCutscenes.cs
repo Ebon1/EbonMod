@@ -233,7 +233,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             npc.life = 0;
                             npc.checkDead();
                         }
-                        if (npc.active && !npc.friendly && npc.type != Type)
+                        if (npc.active && !npc.friendly && npc.type != Type && npc.aiStyle != NPCAIStyleID.CelestialPillar)
                             npc.active = false;
                     }
                     foreach (Projectile p in Main.ActiveProjectiles)
