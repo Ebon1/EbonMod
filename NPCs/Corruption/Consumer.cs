@@ -39,7 +39,7 @@ namespace EbonianMod.NPCs.Corruption
         {
             NPC.width = 72;
             NPC.height = 48;
-            NPC.damage = 50;
+            NPC.damage = 40;
             NPC.defense = 6;
             NPC.lifeMax = 130;
             NPC.aiStyle = -1;
@@ -87,10 +87,12 @@ namespace EbonianMod.NPCs.Corruption
             if (hitinfo.Damage > NPC.life && NPC.life <= 0)
             {
                 for (int i = 0; i < 4; i++)
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/CorruptionBrickGibs2").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/CorruptionBrickGibs4").Type, NPC.scale);
-                Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/CorruptionBrickGibs0").Type, NPC.scale);
+                {
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CorruptionBrickGibs2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CorruptionBrickGibs4").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/CorruptionBrickGibs0").Type, NPC.scale);
+                }
             }
         }
         public override void AI()
@@ -104,7 +106,7 @@ namespace EbonianMod.NPCs.Corruption
                 case 0:
                     AITimer++;
                     if (AITimer < 200)
-                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center) * 3.5f, 0.01f);
+                        NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center) * 5f, 0.01f);
                     if (AITimer > 200)
                         NPC.velocity *= 0.9f;
                     NPC.rotation = NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0);
@@ -130,7 +132,7 @@ namespace EbonianMod.NPCs.Corruption
                         {
                             Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CursedTorch, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                         }
-                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 10;
+                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 17;
                     }
                     if (AITimer > 30)
                     {
