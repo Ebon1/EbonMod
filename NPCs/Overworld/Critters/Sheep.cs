@@ -65,7 +65,7 @@ namespace EbonianMod.NPCs.Overworld.Critters
         public override void AI()
         {
             lastClicked--;
-            if (Main.rand.NextBool(2000))
+            if (Main.rand.NextBool(2000) && NPC.Center.Distance(Main.LocalPlayer.Center) < 600)
                 SoundEngine.PlaySound(EbonianSounds.sheep.WithVolumeScale(0.35f), NPC.Center);
             if (Main.LocalPlayer.Center.Distance(NPC.Center) < 175 && new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 5, 5).Intersects(NPC.getRect()) && Main.mouseRight && lastClicked < 0 && Main.LocalPlayer.HeldItem.dye > 0 && dyeId != Main.LocalPlayer.HeldItem.type)
             {
@@ -114,7 +114,7 @@ namespace EbonianMod.NPCs.Overworld.Critters
         }
         public override void OnSpawn(IEntitySource source)
         {
-            if (Main.rand.NextBool(4))
+            if (Main.rand.NextBool(4) && NPC.Center.Distance(Main.LocalPlayer.Center) < 600)
                 SoundEngine.PlaySound(EbonianSounds.sheep, NPC.Center);
 
             WeightedRandom<int> dye = new();
