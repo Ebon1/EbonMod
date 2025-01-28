@@ -98,6 +98,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
         {
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
+            float dir = 0;
             AITimer++;
             if (NPC.Center.Distance(player.Center) > 1000) return;
             float off = Helper.TRay.CastLength(NPC.Center, NPC.Center.FromAToB(player.Center), 400) < 399 ? -1 : 1;
@@ -110,7 +111,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                     }
                     widthMod = MathHelper.Lerp(widthMod, 1, 0.1f);
                     heightMod = MathHelper.Lerp(heightMod, 1, 0.1f);
-                    if (NPC.Center.X - player.Center.X < NPC.width / 2 && NPC.Center.X - player.Center.X > -NPC.width / 2)
+                    if (NPC.Center.X - player.Center.X < NPC.width && NPC.Center.X - player.Center.X > -NPC.width)
                         NextState = Y;
                     else if (NPC.Center.Y - player.Center.Y < NPC.height / 2 && NPC.Center.Y - player.Center.Y > -NPC.height / 2)
                         NextState = X;
@@ -125,18 +126,30 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                         else
                             AIState = X;
 
-                        if (off == -1 && NextState == X)
-                            AIState = Y;
-                        else if (off == -1 && NextState == Y)
-                            AIState = X;
+                        //if (off == -1 && NextState == X)
+                        //    AIState = Y;
+                        //else if (off == -1 && NextState == Y)
+                        //  AIState = X;
                         AITimer = 0;
                     }
                     break;
                 case X:
+
                     heightMod = 1f - (NPC.velocity.Length() * 0.02f);
                     widthMod = 1f + (NPC.velocity.Length() * 0.02f);
-                    if (NPC.velocity.Length() < 5)
-                        NPC.velocity.X += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).X * 0.003f * off;
+                    if (off == -1)
+                    {
+                        if (player.Center.Y.CloseTo(NPC.Center.Y, NPC.width * 2))
+                        {
+                            if (!Collision.CanHit(NPC, player))
+                                dir = -PiOver4 + (Helper.FromAToB(NPC.Center, player.Center).Y > 0 ? Pi : 0);
+                            else if (!Collision.CanHit(NPC, player))
+                                dir = PiOver4 + (Helper.FromAToB(NPC.Center, player.Center).Y > 0 ? Pi : 0);
+                            else dir = 0;
+                        }
+                    }
+                    if (NPC.velocity.Length() < 4)
+                        NPC.velocity += new Vector2(Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).X * 0.003f, 0).RotatedBy(dir);
                     if (NPC.Center.X.CloseTo(player.Center.X, NPC.height / 2) && AITimer > 3)
                         AITimer = 31;
                     if (AITimer > 30)
@@ -148,8 +161,17 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                 case Y:
                     heightMod = 1f + (NPC.velocity.Length() * 0.02f);
                     widthMod = 1f - (NPC.velocity.Length() * 0.02f);
-                    if (NPC.velocity.Length() < 5)
-                        NPC.velocity.Y += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).Y * 0.003f * off;
+                    if (off == -1)
+                    {
+                        if (player.Center.X.CloseTo(NPC.Center.X, NPC.width * 2))
+                        {
+                            if (!Collision.CanHit(NPC, player))
+                                dir = (Helper.FromAToB(NPC.Center, player.Center).X > 0 ? -1 : 1) * PiOver4 + (Helper.FromAToB(NPC.Center, player.Center).Y > 0 ? Pi : 0);
+                            else dir = 0;
+                        }
+                    }
+                    if (NPC.velocity.Length() < 4)
+                        NPC.velocity += new Vector2(0, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 64) + NPC.Center.FromAToB(player.Center - new Vector2(0, 64)) * 200, false).Y * 0.003f).RotatedBy(dir);
                     if (NPC.Center.Y.CloseTo(player.Center.Y, NPC.width / 2) && AITimer > 3)
                         AITimer = 31;
                     if (AITimer > 30)

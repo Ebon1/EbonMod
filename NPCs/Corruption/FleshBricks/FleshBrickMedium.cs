@@ -43,7 +43,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
             NPC.noGravity = true;
             NPC.knockBackResist = 0.8f;
             NPC.aiStyle = -1;
-            NPC.noTileCollide = true;
+            NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.defense = 5;
@@ -115,6 +115,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
             AITimer++;
             if (NPC.Center.Distance(player.Center) > 1000) return;
             float off = Helper.TRay.CastLength(NPC.Center, NPC.Center.FromAToB(player.Center), 400) < 200 ? -1 : 1;
+            float dir = 0;
             switch (AIState)
             {
                 case Halt:
@@ -140,17 +141,24 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                         else
                             AIState = X;
                         AITimer = 0;
-                        if (off == -1 && NextState == X)
-                            AIState = Y;
-                        else if (off == -1 && NextState == Y)
-                            AIState = X;
                     }
                     break;
                 case X:
                     heightMod = 1f - (NPC.velocity.Length() * 0.015f);
                     widthMod = 1f + (NPC.velocity.Length() * 0.015f);
-                    if (NPC.velocity.Length() < 15)
-                        NPC.velocity.X += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).X * 0.003f * off;
+                    if (off == -1)
+                    {
+                        if (player.Center.Y.CloseTo(NPC.Center.Y, NPC.width * 2))
+                        {
+                            if (!Collision.CanHit(NPC, player))
+                                dir = -PiOver4 + (Helper.FromAToB(NPC.Center, player.Center).Y > 0 ? Pi : 0);
+                            else if (!Collision.CanHit(NPC, player))
+                                dir = PiOver4 + (Helper.FromAToB(NPC.Center, player.Center).Y > 0 ? Pi : 0);
+                            else dir = 0;
+                        }
+                    }
+                    if (NPC.velocity.Length() < 5)
+                        NPC.velocity += new Vector2(Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).X * 0.003f, 0).RotatedBy(dir);
                     if (NPC.Center.X.CloseTo(player.Center.X, NPC.height) && AITimer > 3)
                         AITimer = 31;
                     if (AITimer > 30)
@@ -162,8 +170,17 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                 case Y:
                     heightMod = 1f + (NPC.velocity.Length() * 0.015f);
                     widthMod = 1f - (NPC.velocity.Length() * 0.015f);
-                    if (NPC.velocity.Length() < 15)
-                        NPC.velocity.Y += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).Y * 0.003f * off;
+                    if (off == -1)
+                    {
+                        if (player.Center.X.CloseTo(NPC.Center.X, NPC.width * 2))
+                        {
+                            if (!Collision.CanHit(NPC, player))
+                                dir = (Helper.FromAToB(NPC.Center, player.Center).X > 0 ? -1 : 1) * PiOver4 + (Helper.FromAToB(NPC.Center, player.Center).Y > 0 ? Pi : 0);
+                            else dir = 0;
+                        }
+                    }
+                    if (NPC.velocity.Length() < 5)
+                        NPC.velocity += new Vector2(0, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 64) + NPC.Center.FromAToB(player.Center - new Vector2(0, 64)) * 200, false).Y * 0.003f).RotatedBy(dir);
                     if (NPC.Center.Y.CloseTo(player.Center.Y, NPC.width) && AITimer > 3)
                         AITimer = 31;
                     if (AITimer > 30)
