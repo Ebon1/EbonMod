@@ -82,6 +82,10 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
             MoveSpeed = 2.5f;
             Acceleration = 0.1f;
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.RottenChunk, 2, 1, 4));
+        }
     }
     public class DankDiggerBody : WormBody
     {

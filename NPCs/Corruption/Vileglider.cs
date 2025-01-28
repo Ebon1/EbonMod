@@ -23,6 +23,10 @@ namespace EbonianMod.NPCs.Corruption
                 new FlavorTextBestiaryInfoElement("Vilegliders strike when least expected, diving from above to swarm their prey. Their attacks are viciously precise, often leaving no trace of their victims behind."),
             });
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.RottenChunk, 2, 1, 4));
+        }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.Player.ZoneCorrupt)

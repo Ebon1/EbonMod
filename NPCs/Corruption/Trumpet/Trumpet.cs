@@ -36,6 +36,11 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
                 new FlavorTextBestiaryInfoElement("A trumpet's job within the corruption macroorganism is to tend to the fauna below it. Unlike most infected creatures, they seem completely unbothered by your presence."),
             });
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.CursedFlame, 1, 4, 15));
+            npcLoot.Add(ItemDropRule.Common(ItemType<TerrortomaMaterial>(), 2, 1, 3));
+        }
         public override bool CheckDead()
         {
             for (int j = 0; j < 3; j++)
@@ -94,10 +99,6 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
             CanFly = true;
             MoveSpeed = 5.5f;
             Acceleration = 0.15f;
-        }
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ItemDropRule.Common(ItemType<TerrortomaMaterial>(), 2, 1, 3));
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

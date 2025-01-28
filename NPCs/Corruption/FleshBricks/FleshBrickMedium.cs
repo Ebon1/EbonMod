@@ -37,6 +37,10 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                 new FlavorTextBestiaryInfoElement("Sedimentaries are theorized to be walls of the corruption's casms at an early stage in development. Like everything else in the corruption, even the mud and stone you walk on can be traced to the hive-organism itself."),
             });
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.RottenChunk, 2, 1, 4));
+        }
         public override void SetDefaults()
         {
             NPC.Size = new(68, 68);

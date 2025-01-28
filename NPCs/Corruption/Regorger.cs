@@ -104,6 +104,10 @@ namespace EbonianMod.NPCs.Corruption
             }
         }
         Vector2 p;
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.CursedFlame, 2, 1, 3));
+        }
         public override void AI()
         {
             if (NPC.ai[3] != 0)

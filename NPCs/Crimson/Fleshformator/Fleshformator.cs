@@ -44,6 +44,10 @@ namespace EbonianMod.NPCs.Crimson.Fleshformator
         {
             return spawnInfo.Player.ZoneCrimson && spawnInfo.Player.ZoneRockLayerHeight && Main.hardMode ? 0.2f : 0;
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.Ichor, 2, 1, 4));
+        }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {

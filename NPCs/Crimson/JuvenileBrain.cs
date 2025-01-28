@@ -29,6 +29,10 @@ namespace EbonianMod.NPCs.Crimson
                 new FlavorTextBestiaryInfoElement("It uses a primitive form of neurokinesis to trick its prey into seeing mirror images of itself. This confusion allows the Neuromaw to strike while its target is vulnerable to attack."),
             });
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.TissueSample, 5, 1, 4));
+        }
         public override void HitEffect(NPC.HitInfo hit)
         {
             if ((hit.Damage >= NPC.life && NPC.life <= 0))
@@ -66,7 +70,7 @@ namespace EbonianMod.NPCs.Crimson
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneCrimson ? 0.05f : 0;
+            return spawnInfo.Player.ZoneCrimson && NPC.downedBoss2 ? 0.05f : 0;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color drawColor)
         {

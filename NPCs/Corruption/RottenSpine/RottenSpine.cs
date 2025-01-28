@@ -33,6 +33,10 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.CursedFlame, 2, 1, 4));
+        }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.Player.ZoneCorrupt && spawnInfo.Player.ZoneRockLayerHeight && Main.hardMode)

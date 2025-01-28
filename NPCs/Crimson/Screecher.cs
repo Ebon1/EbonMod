@@ -26,6 +26,10 @@ namespace EbonianMod.NPCs.Crimson
                 new FlavorTextBestiaryInfoElement("Medium sized, skinless creatures that roam the crimson as walking alarms of a sort. Their nerves are nearly exposed, allowing them to sense even the slightest disturbance and alert the crimson to it."),
             });
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.Vertebrae, 2, 1, 4));
+        }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

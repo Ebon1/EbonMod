@@ -23,6 +23,10 @@ namespace EbonianMod.NPCs.Corruption
         {
             return Main.player[NPC.target].Center.Y < NPC.Center.Y;
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.RottenChunk, 2, 1, 4));
+        }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {

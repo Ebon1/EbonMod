@@ -61,6 +61,10 @@ namespace EbonianMod.NPCs.Crimson.Crimera
                 return 0;
             }
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.Ichor, 2, 1, 4));
+        }
         public override bool useNormalMovement => !(NPC.ai[2] > 300 && NPC.ai[2] < 650);
         float offset;
         public override void SendExtraAI(BinaryWriter writer)

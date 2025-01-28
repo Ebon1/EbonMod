@@ -31,6 +31,10 @@ namespace EbonianMod.NPCs.Corruption
         {
             return spawnInfo.Player.ZoneCorrupt && NPC.downedBoss2 ? 0.08f : 0;
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.ShadowScale, 4, 1, 4));
+        }
         public override void SetDefaults()
         {
             NPC.width = 72;

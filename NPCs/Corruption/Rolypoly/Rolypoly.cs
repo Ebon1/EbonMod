@@ -40,6 +40,12 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
                 new FlavorTextBestiaryInfoElement("Bundled together, these corrupt worms share a collective and much greater mind at the cost of their mobility.\nHowever, by the time they become permanently entangled, their combined mind concludes that such a form is rather stupid."),
             });
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.RottenChunk, 2, 1, 8));
+            npcLoot.Add(ItemDropRule.Common(ItemID.Deathweed, 4, 1, 8));
+            npcLoot.Add(ItemDropRule.Common(ItemID.ShadowScale, 6, 1, 4));
+        }
         public override void SetDefaults()
         {
             NPC.Size = new Vector2(25, 25);

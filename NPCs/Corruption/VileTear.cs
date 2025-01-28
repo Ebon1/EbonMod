@@ -64,6 +64,7 @@ namespace EbonianMod.NPCs.Corruption
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
+            npcLoot.Add(ItemDropRule.Common(ItemID.CursedFlame, 1, 10, 25));
             npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Melee.CorruptionClaw>(), 3));
             npcLoot.Add(ItemDropRule.Common(ItemType<TerrortomaMaterial>(), 2, 1, 3));
         }

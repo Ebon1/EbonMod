@@ -27,6 +27,10 @@ namespace EbonianMod.NPCs.Corruption
             });
         }
 
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.CursedFlame, 2, 1, 4));
+        }
         public override void SetDefaults()
         {
             NPC.width = 51;

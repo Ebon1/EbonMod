@@ -12,6 +12,7 @@ using System.IO.Pipes;
 using System.IO;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
+using EbonianMod.Items.Materials;
 
 namespace EbonianMod.NPCs.Corruption.FleshBricks
 {
@@ -30,6 +31,10 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                 new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
                 new FlavorTextBestiaryInfoElement("Sedimentaries are theorized to be walls of the corruption's casms at an early stage in development. Like everything else in the corruption, even the mud and stone you walk on can be traced to the hive-organism itself."),
             });
+        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemType<TerrortomaMaterial>(), 6, 1, 3));
         }
         public override void SetDefaults()
         {

@@ -36,6 +36,7 @@ namespace EbonianMod.NPCs.Crimson
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Melee.SanguineSlasher>(), 50));
+            npcLoot.Add(ItemDropRule.Common(ItemID.Vertebrae, 2, 1, 4));
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

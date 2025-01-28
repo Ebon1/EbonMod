@@ -81,6 +81,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         {
             npcLoot.Add(ItemDropRule.Common(ItemType<CecitiorMaterial>(), 2, 1, 3));
             npcLoot.Add(ItemDropRule.Common(ItemType<WormPaintingI>(), 10));
+            npcLoot.Add(ItemDropRule.Common(ItemID.Ichor, 1, 10, 30));
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

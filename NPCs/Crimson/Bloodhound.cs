@@ -25,6 +25,10 @@ namespace EbonianMod.NPCs.Crimson
                 new FlavorTextBestiaryInfoElement("The Crimson's attempt to learn from dogs. These hunters are often used to follow unsuspecting souls out of the crimson back to their homes to find more biomass."),
             });
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.Vertebrae, 2, 1, 4));
+        }
 
         public override void SetDefaults()
         {

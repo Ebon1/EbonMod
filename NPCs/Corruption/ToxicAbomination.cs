@@ -26,6 +26,10 @@ namespace EbonianMod.NPCs.Corruption
                 new FlavorTextBestiaryInfoElement("It stores toxic gases from the carrion it consumes, using this buildup to launch itself at great speeds toward its next target, creating an explosion-like burst of force in the process."),
             });
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemID.CursedFlame, 2, 1, 4));
+        }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.Player.ZoneCorrupt && Main.hardMode)
