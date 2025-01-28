@@ -53,7 +53,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 10;
+            Projectile.localNPCHitCooldown = 25;
             Projectile.Size = new Vector2(44, 28);
         }
         public override void SetStaticDefaults()
@@ -121,7 +121,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                 {
                     if (player.inventory[j].ammo == AmmoID.Gel && player.inventory[j].stack > 0)
                     {
-                        if (player.inventory[j].maxStack > 1 && Projectile.ai[2] % 30 == 0)
+                        if (player.inventory[j].maxStack > 1 && Projectile.ai[2] % 10 == 0)
                             player.inventory[j].stack--;
                         success = true;
                         break;
