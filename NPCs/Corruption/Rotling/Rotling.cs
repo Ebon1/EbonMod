@@ -32,11 +32,8 @@ namespace EbonianMod.NPCs.Corruption.Rotling
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ItemID.RottenChunk, 12, 1, 3));
-        }
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
             npcLoot.Add(ItemDropRule.Common(ItemType<VileNoodleBox>(), 50, 1, 3));
+            npcLoot.Add(ItemDropRule.Common(ItemID.RottenChunk, 12, 1, 3));
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

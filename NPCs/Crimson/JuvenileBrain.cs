@@ -32,6 +32,7 @@ namespace EbonianMod.NPCs.Crimson
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ItemID.TissueSample, 5, 1, 4));
+            npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Magic.GoreSceptre>(), 45));
         }
         public override void HitEffect(NPC.HitInfo hit)
         {
@@ -109,10 +110,6 @@ namespace EbonianMod.NPCs.Crimson
         {
             get => NPC.ai[1];
             set => NPC.ai[1] = value;
-        }
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ItemDropRule.Common(ItemType<Items.Weapons.Magic.GoreSceptre>(), 45));
         }
         public override void FindFrame(int frameHeight)
         {

@@ -28,6 +28,7 @@ namespace EbonianMod.NPCs.Crimson
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ItemID.Vertebrae, 2, 1, 4));
+            npcLoot.Add(ItemDropRule.Common(ItemType<CrimCannon>(), 60));
         }
 
         public override void SetDefaults()
@@ -45,10 +46,6 @@ namespace EbonianMod.NPCs.Crimson
             NPC.aiStyle = 26;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
-        }
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ItemDropRule.Common(ItemType<CrimCannon>(), 60));
         }
         public override void OnSpawn(IEntitySource source)
         {

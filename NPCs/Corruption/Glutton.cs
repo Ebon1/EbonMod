@@ -43,6 +43,7 @@ namespace EbonianMod.NPCs.Corruption
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.Common(ItemID.CursedFlame, 1, 10, 20));
+            npcLoot.Add(ItemDropRule.Common(ItemType<TerrortomaMaterial>(), 2, 1, 3));
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -125,10 +126,6 @@ namespace EbonianMod.NPCs.Corruption
                         NPC.frame.Y = 6 * frameHeight;
                 }
             }
-        }
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ItemDropRule.Common(ItemType<TerrortomaMaterial>(), 2, 1, 3));
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color lightColor)
         {
