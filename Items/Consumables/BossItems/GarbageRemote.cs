@@ -35,7 +35,7 @@ namespace EbonianMod.Items.Consumables.BossItems
             Item.width = 20;
             Item.height = 20;
             Item.maxStack = 1;
-            Item.value = 1000000;
+            Item.value = 1000;
             Item.rare = ItemRarityID.Blue;
             Item.useAnimation = 30;
             Item.useTime = 30;

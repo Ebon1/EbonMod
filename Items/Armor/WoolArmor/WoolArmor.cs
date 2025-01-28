@@ -42,8 +42,8 @@ namespace EbonianMod.Items.Armor.WoolArmor
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.CrimtaneBar, 10).AddIngredient<Wool>(20).AddTile(TileID.Anvils).Register();
-            CreateRecipe().AddIngredient(ItemID.DemoniteBar, 10).AddIngredient<Wool>(20).AddTile(TileID.Anvils).Register();
+            CreateRecipe().AddIngredient(ItemID.CrimtaneBar, 10).AddIngredient<Wool>(2).AddTile(TileID.Anvils).Register();
+            CreateRecipe().AddIngredient(ItemID.DemoniteBar, 10).AddIngredient<Wool>(2).AddTile(TileID.Anvils).Register();
         }
     }
     [AutoloadEquip(EquipType.Body)]
@@ -65,8 +65,8 @@ namespace EbonianMod.Items.Armor.WoolArmor
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.CrimtaneBar, 15).AddIngredient<Wool>(30).AddTile(TileID.Anvils).Register();
-            CreateRecipe().AddIngredient(ItemID.DemoniteBar, 15).AddIngredient<Wool>(30).AddTile(TileID.Anvils).Register();
+            CreateRecipe().AddIngredient(ItemID.CrimtaneBar, 15).AddIngredient<Wool>(6).AddTile(TileID.Anvils).Register();
+            CreateRecipe().AddIngredient(ItemID.DemoniteBar, 15).AddIngredient<Wool>(6).AddTile(TileID.Anvils).Register();
         }
     }
     [AutoloadEquip(EquipType.Legs)]
@@ -88,8 +88,8 @@ namespace EbonianMod.Items.Armor.WoolArmor
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.CrimtaneBar, 10).AddIngredient<Wool>(25).AddTile(TileID.Anvils).Register();
-            CreateRecipe().AddIngredient(ItemID.DemoniteBar, 10).AddIngredient<Wool>(25).AddTile(TileID.Anvils).Register();
+            CreateRecipe().AddIngredient(ItemID.CrimtaneBar, 10).AddIngredient<Wool>(3).AddTile(TileID.Anvils).Register();
+            CreateRecipe().AddIngredient(ItemID.DemoniteBar, 10).AddIngredient<Wool>(3).AddTile(TileID.Anvils).Register();
         }
     }
 }

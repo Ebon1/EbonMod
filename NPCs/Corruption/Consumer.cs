@@ -44,7 +44,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.knockBackResist = 0.5f;
             NPC.noGravity = true;
             NPC.buffImmune[BuffID.CursedInferno] = true;
-            NPC.noTileCollide = true;
+            NPC.noTileCollide = false;
             NPC.behindTiles = true;
             NPC.hide = true;
             NPC.value = Item.buyPrice(0, 0, 2);

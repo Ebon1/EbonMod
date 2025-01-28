@@ -114,6 +114,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
             NPC.TargetClosest(false);
             AITimer++;
             if (NPC.Center.Distance(player.Center) > 1000) return;
+            float off = Helper.TRay.CastLength(NPC.Center, NPC.Center.FromAToB(player.Center), 400) < 200 ? -1 : 1;
             switch (AIState)
             {
                 case Halt:
@@ -139,13 +140,17 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                         else
                             AIState = X;
                         AITimer = 0;
+                        if (off == -1 && NextState == X)
+                            AIState = Y;
+                        else if (off == -1 && NextState == Y)
+                            AIState = X;
                     }
                     break;
                 case X:
                     heightMod = 1f - (NPC.velocity.Length() * 0.015f);
                     widthMod = 1f + (NPC.velocity.Length() * 0.015f);
                     if (NPC.velocity.Length() < 15)
-                        NPC.velocity.X += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).X * 0.003f;
+                        NPC.velocity.X += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).RotatedBy(off == -1 ? -PiOver4 : 0).X * 0.003f * off;
                     if (NPC.Center.X.CloseTo(player.Center.X, NPC.height) && AITimer > 3)
                         AITimer = 31;
                     if (AITimer > 30)
@@ -158,7 +163,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
                     heightMod = 1f + (NPC.velocity.Length() * 0.015f);
                     widthMod = 1f - (NPC.velocity.Length() * 0.015f);
                     if (NPC.velocity.Length() < 15)
-                        NPC.velocity.Y += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).Y * 0.003f;
+                        NPC.velocity.Y += Helper.FromAToB(NPC.Center, player.Center + NPC.Center.FromAToB(player.Center) * 200, false).RotatedBy(off == -1 ? -PiOver4 : 0).Y * 0.003f * off;
                     if (NPC.Center.Y.CloseTo(player.Center.Y, NPC.width) && AITimer > 3)
                         AITimer = 31;
                     if (AITimer > 30)
