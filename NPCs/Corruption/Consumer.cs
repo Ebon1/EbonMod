@@ -117,11 +117,19 @@ namespace EbonianMod.NPCs.Corruption
                         NPC.rotation = Helper.LerpAngle(NPC.rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0), 0.25f);
                     else
                         NPC.rotation = NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0);
+                    if (AITimer < 10)
+                        NPC.velocity -= Helper.FromAToB(NPC.Center, player.Center) * 0.6f;
                     if (AITimer == 10)
+                    {
+                        for (int i = 0; i < 10; i++)
+                        {
+                            Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.CursedTorch, Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+                        }
                         NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 30;
+                    }
                     if (AITimer > 15)
                     {
-                        SoundEngine.PlaySound(EbonianSounds.chomp2.WithPitchOffset(0.25f).WithVolumeScale(0.5f), NPC.Center);
+                        SoundEngine.PlaySound(EbonianSounds.terrortomaDash.WithPitchOffset(0.25f).WithVolumeScale(0.5f), NPC.Center);
                         AITimer = 0;
                         AIState++;
                     }
