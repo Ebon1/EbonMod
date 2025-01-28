@@ -92,5 +92,9 @@ namespace EbonianMod.Tiles
             Item.consumable = true;
             Item.createTile = TileType<XHouseBrickReplica>();
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.Amethyst, 2).AddTile(TileID.HeavyWorkBench).Register();
+        }
     }
 }
