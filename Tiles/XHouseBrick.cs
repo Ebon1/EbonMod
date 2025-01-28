@@ -94,7 +94,7 @@ namespace EbonianMod.Tiles
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.Amethyst, 2).AddTile(TileID.HeavyWorkBench).Register();
+            CreateRecipe(4).AddIngredient(ItemID.Amethyst, 2).AddTile(TileID.HeavyWorkBench).Register();
         }
     }
 }

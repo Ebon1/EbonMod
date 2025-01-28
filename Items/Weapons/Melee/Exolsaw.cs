@@ -20,7 +20,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.consumable = false;
             Item.Size = new(20);
             Item.useAnimation = 17;
-            Item.crit = 20;
+            Item.crit = 15;
             Item.useTime = 17;
             Item.DamageType = DamageClass.Melee;
             Item.damage = 19;

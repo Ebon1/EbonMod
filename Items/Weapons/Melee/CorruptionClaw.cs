@@ -19,7 +19,7 @@ namespace EbonianMod.Items.Weapons.Melee
         {
             Item.knockBack = 10f;
             Item.width = Item.height = 80;
-            Item.crit = 30;
+            Item.crit = 10;
             Item.damage = 50;
             Item.useAnimation = 40;
             Item.useTime = 40;
