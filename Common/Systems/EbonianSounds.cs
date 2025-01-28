@@ -155,6 +155,25 @@ namespace EbonianMod.Common.Systems
             };
 
 
+            cecitiorOpen = Default with
+            {
+                SoundPath = ebonianSoundPath + "cecitiorOpen",
+                MaxInstances = 1
+            };
+
+            cecitiorCloseShort = Default with
+            {
+                SoundPath = ebonianSoundPath + "cecitiorCloseShort",
+                MaxInstances = 1
+            };
+
+
+            cecitiorClose = Default with
+            {
+                SoundPath = ebonianSoundPath + "cecitiorClose",
+                MaxInstances = 1
+            };
+
             eggplosion = Default with
             {
                 SoundPath = ebonianSoundPath + "eggplosion"

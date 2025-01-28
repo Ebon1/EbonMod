@@ -1,4 +1,5 @@
 ﻿using EbonianMod.Common.Systems;
+using EbonianMod.Items.Materials;
 using EbonianMod.NPCs.Crimson.CrimsonWorm;
 using EbonianMod.Projectiles.Terrortoma;
 using Microsoft.Xna.Framework;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -49,6 +51,8 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
         {
             if (NPC.ai[2] == 0)
                 NPC.ai[2] = NPC.Center.X - Main.player[NPC.target].Center.X > 0 ? -1 : 1;
+            if (!Main.player[NPC.target].ZoneCorrupt && NPC.Distance(Main.player[NPC.target].Center) > 1500)
+                Despawn();
             NPC.timeLeft = 10;
             NPC.direction = NPC.spriteDirection = NPC.ai[2] < 0 ? 1 : -1;
             NPC.ai[3] += 0.05f;
@@ -91,9 +95,13 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
             MoveSpeed = 5.5f;
             Acceleration = 0.15f;
         }
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.Common(ItemType<TerrortomaMaterial>(), 2, 1, 3));
+        }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.Player.ZoneCorrupt && !NPC.AnyNPCs(Type) ? 0.02f : 0;
+            return spawnInfo.Player.ZoneCorrupt && Main.hardMode && !NPC.AnyNPCs(Type) ? 0.02f : 0;
         }
     }
     public class TrumpetBody : WormBody

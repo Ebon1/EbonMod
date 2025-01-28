@@ -556,7 +556,7 @@ namespace EbonianMod.NPCs.Cecitior
                 //NPC.damage = 40;
                 if ((openOffset.Length() < 2.5f && openOffset.Length() > 1f) || (openOffset.Length() > -2.5f && openOffset.Length() < -1f))
                 {
-                    if (SoundEngine.TryGetActiveSound(openSlot, out ActiveSound? sound))
+                    if (SoundEngine.TryGetActiveSound(openSound, out var sound) && AITimer > 60)
                     {
                         sound.Stop();
                     }
@@ -893,6 +893,7 @@ namespace EbonianMod.NPCs.Cecitior
                     claw[1].position = Vector2.Lerp(claw[1].position, NPC.Center + openOffset + new Vector2(165, 45).RotatedBy(MathF.Sin(Main.GlobalTimeWrappedHourly) * 0.4f), 0.2f);
                     claw[2].position = Vector2.Lerp(claw[2].position, NPC.Center - openOffset + new Vector2(-110, 55).RotatedBy(MathF.Sin(Main.GlobalTimeWrappedHourly) * 0.4f), 0.2f);
                 }
+                if (AITimer == 1) openSound = SoundEngine.PlaySound(EbonianSounds.cecitiorOpen, NPC.Center);
                 if (open)
                 {
                     if (AITimer2 % 2 != (phase2 ? 1 : 0))
@@ -903,7 +904,6 @@ namespace EbonianMod.NPCs.Cecitior
                 if (AITimer < 25)
                 {
                     open = true;
-                    if (AITimer == 24) openSound = SoundEngine.PlaySound(EbonianSounds.cecitiorOpen, NPC.Center);
                     if (AITimer2 % 2 != (phase2 ? 1 : 0))
                     {
                         openRotation = MathHelper.Lerp(openRotation, MathHelper.ToRadians(90), 0.5f);
@@ -944,7 +944,7 @@ namespace EbonianMod.NPCs.Cecitior
                     {
                         if (openOffset != Vector2.Zero)
                         {
-                            SoundEngine.PlaySound(EbonianSounds.chomp2, NPC.Center);
+                            SoundEngine.PlaySound(EbonianSounds.cecitiorClose, NPC.Center);
                             SoundEngine.PlaySound(EbonianSounds.fleshHit, NPC.Center);
                             EbonianSystem.ScreenShakeAmount = 5;
                         }
@@ -989,11 +989,12 @@ namespace EbonianMod.NPCs.Cecitior
                     claw[2].position = Vector2.Lerp(claw[2].position, NPC.Center - openOffset + new Vector2(-110, 55).RotatedBy(MathF.Sin(Main.GlobalTimeWrappedHourly) * 0.4f), 0.2f);
                 }
                 AITimer++;
+                if (AITimer == 1)
+                    openSound = SoundEngine.PlaySound(EbonianSounds.cecitiorOpen, NPC.Center);
                 if (AITimer < 20)
                 {
-                    if (AITimer == 19) openSound = SoundEngine.PlaySound(EbonianSounds.cecitiorOpen, NPC.Center);
                     open = true;
-
+                    shakeVal = Lerp(shakeVal, 10, 0.1f);
                     openOffset += Vector2.UnitX * 13;
                     NPC.velocity = Helper.FromAToB(NPC.Center, player.Center, false) / 8f;
                 }
