@@ -150,7 +150,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
             {
                 Vector2 direction = Vector2.UnitY;
                 int attempts = 0;
-                stalkBase = Helper.TRay.Cast(NPC.Center, direction, 2000) + new Vector2(0, 100);
+                stalkBase = Helper.TRay.Cast(NPC.Center - new Vector2(0, 500), direction, 2000) + new Vector2(0, 100);
             }
             if (verlet != null)
                 verlet.Update(stalkBase, NPC.Center);
@@ -233,7 +233,8 @@ namespace EbonianMod.NPCs.Corruption.WormKing
                                 scaleX = 0.9f;
                                 scaleY = 1.1f;
                             }
-                            NPC.NewNPCDirect(null, NPC.Center, NPCType<BloatedEbonfly>());
+                            if (!NPC.Grounded())
+                                NPC.NewNPCDirect(null, NPC.Center, NPCType<BloatedEbonfly>());
                         }
                         if (AITimer > 90)
                         {

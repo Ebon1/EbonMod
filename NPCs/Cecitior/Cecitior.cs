@@ -387,7 +387,7 @@ namespace EbonianMod.NPCs.Cecitior
         const int PhaseTransition = -4, PrePreDeath = -3, Death = -2, PreDeath = -1, Intro = 0, Idle = 1, EyeBehaviour = 2, Chomp = 3, Teeth = 4, EyeBehaviour2 = 5, LaserRain = 6, ThrowUpBlood = 7, Tongue = 8,
             Phase2ThrowUpEyes = 9, Phase2Claw = 10, Phase2ClawGrab = 11, Phase2ClawMultiple = 12, Phase2GrabBomb = 13, Phase2ClawBodySlam = 14;
 
-        SlotId cachedSound;
+        SlotId cachedSound, openSound;
         Vector2 savedPos, savedClawPos;
         const int attackNum = 14;
         public float[] pattern = new float[attackNum];
@@ -556,7 +556,11 @@ namespace EbonianMod.NPCs.Cecitior
                 //NPC.damage = 40;
                 if ((openOffset.Length() < 2.5f && openOffset.Length() > 1f) || (openOffset.Length() > -2.5f && openOffset.Length() < -1f))
                 {
-                    SoundEngine.PlaySound(EbonianSounds.chomp2, NPC.Center);
+                    if (SoundEngine.TryGetActiveSound(openSlot, out ActiveSound? sound))
+                    {
+                        sound.Stop();
+                    }
+                    SoundEngine.PlaySound(EbonianSounds.cecitiorClose, NPC.Center);
                     SoundEngine.PlaySound(EbonianSounds.fleshHit, NPC.Center);
                     EbonianSystem.ScreenShakeAmount = 5;
                 }
@@ -899,6 +903,7 @@ namespace EbonianMod.NPCs.Cecitior
                 if (AITimer < 25)
                 {
                     open = true;
+                    if (AITimer == 24) openSound = SoundEngine.PlaySound(EbonianSounds.cecitiorOpen, NPC.Center);
                     if (AITimer2 % 2 != (phase2 ? 1 : 0))
                     {
                         openRotation = MathHelper.Lerp(openRotation, MathHelper.ToRadians(90), 0.5f);
@@ -986,6 +991,7 @@ namespace EbonianMod.NPCs.Cecitior
                 AITimer++;
                 if (AITimer < 20)
                 {
+                    if (AITimer == 19) openSound = SoundEngine.PlaySound(EbonianSounds.cecitiorOpen, NPC.Center);
                     open = true;
 
                     openOffset += Vector2.UnitX * 13;
