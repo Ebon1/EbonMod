@@ -105,7 +105,7 @@ namespace EbonianMod.Projectiles.Minions
 
                 if (Projectile.ai[2] == 20)
                 {
-                    Projectile p = Projectile.NewProjectileDirect(null, savedP + Helper.FromAToB(savedP, savedP2) * 110, Helper.FromAToB(savedP, savedP2), ProjectileType<CecitiorClawSlash>(), 30, 0);
+                    Projectile p = Projectile.NewProjectileDirect(null, savedP + Helper.FromAToB(savedP, savedP2) * 110, Helper.FromAToB(savedP, savedP2), ProjectileType<CecitiorClawSlash>(), Projectile.damage, 0);
                     p.friendly = true;
                     p.hostile = false;
                     p.DamageType = DamageClass.Summon;
