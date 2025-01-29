@@ -117,7 +117,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             Lighting.AddLight(Projectile.Center, 0.25f, 0, 0);
             Player player = Main.player[Projectile.owner];
-            if (player.HeldItem.type != ItemType<FangSlinger>()) { Main.NewText("rag"); Projectile.Kill(); return; }
+            if (player.HeldItem.type != ItemType<FangSlinger>()) { Projectile.Kill(); return; }
             if (!player.active || player.dead || player.CCed || player.noItems || !player.channel)
             {
                 Projectile.Kill();

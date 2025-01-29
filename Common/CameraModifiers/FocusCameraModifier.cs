@@ -36,7 +36,6 @@ namespace EbonianMod.Common.CameraModifiers
             {
                 lerpT = _easingFunction.Invoke(Clamp(MathF.Sin(Pi * Utils.GetLerpValue(0, _framesToLast, _framesLasted)) * _lerpMult, 0, 1));
             }
-            Main.NewText(_framesLasted, Color.Lerp(Color.Green, Color.Red, lerpT));
             Vector2 pos = Vector2.Lerp(cameraInfo.CameraPosition, _pos, lerpT);
 
             cameraInfo.CameraPosition = Vector2.Lerp(cameraInfo.CameraPosition, pos, _snappingRate);
