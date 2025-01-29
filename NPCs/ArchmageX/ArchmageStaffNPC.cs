@@ -114,6 +114,7 @@ namespace EbonianMod.NPCs.ArchmageX
         }
         FloatingDialogueBox d = null;
         float rantFactor = 0;
+        bool initiatedMartianCutscene;
         public override void AI()
         {
             NPC.DiscourageDespawn(120);
@@ -148,9 +149,9 @@ namespace EbonianMod.NPCs.ArchmageX
                 {
                     if (NPC.ai[3] < 1960)
                         staffAlpha = Lerp(staffAlpha, 1, 0.1f);
-                    if (dist < 300 && p.Player.Center.Y.CloseTo(NPC.Center.Y - 30, 100) && NPC.ai[3] <= 0)
-                        NPC.ai[3] = 1;
-                    if (NPC.ai[3] > 0)
+                    if (dist < 300 && p.Player.Center.Y.CloseTo(NPC.Center.Y - 30, 100) && !initiatedMartianCutscene)
+                        initiatedMartianCutscene = true;
+                    if (initiatedMartianCutscene)
                         NPC.ai[1]++;
                     if (NPC.ai[1] == 100)
                         d = DialogueSystem.NewDialogueBox(60, NPC.Center - new Vector2(0, 60), "...", Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.75f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);

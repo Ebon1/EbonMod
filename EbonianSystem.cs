@@ -232,7 +232,8 @@ namespace EbonianMod
                     pos = currentZoomForChangedZoom2;
                 }
                 Transform.Zoom = Vector2.Lerp(pos, new Vector2(zoomAmount), lerpT);
-                zoomChangeLength--;
+                if (!Main.gameInactive && !Main.gamePaused)
+                    zoomChangeLength--;
             }
             else
             {

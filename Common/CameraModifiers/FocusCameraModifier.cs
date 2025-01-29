@@ -40,7 +40,8 @@ namespace EbonianMod.Common.CameraModifiers
             Vector2 pos = Vector2.Lerp(cameraInfo.CameraPosition, _pos, lerpT);
 
             cameraInfo.CameraPosition = Vector2.Lerp(cameraInfo.CameraPosition, pos, _snappingRate);
-            _framesLasted++;
+            if (!Main.gameInactive && !Main.gamePaused)
+                _framesLasted++;
             if (_framesLasted >= _framesToLast)
                 Finished = true;
         }
