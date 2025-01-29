@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.Creative;
 namespace EbonianMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Back)]
@@ -21,6 +22,10 @@ namespace EbonianMod.Items.Accessories
             Item.rare = 4;
             Item.defense = -5;
             Item.expert = true;
+        }
+        public override void SetStaticDefaults()
+        {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Collections.Generic;
+using Terraria.GameContent.Creative;
 namespace EbonianMod.Items.Accessories
 {
     public class BrainAcc : ModItem
@@ -14,6 +15,10 @@ namespace EbonianMod.Items.Accessories
             Item.rare = 4;
             Item.expert = true;
             Item.defense = 10;
+        }
+        public override void SetStaticDefaults()
+        {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public int timer = 0;
         public override void UpdateAccessory(Player player, bool hideVisual)
