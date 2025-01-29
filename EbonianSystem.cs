@@ -163,7 +163,7 @@ namespace EbonianMod
                         stickPos = npc.Center;
                         if (npc.Center.Distance(player.Center) < 800 && stickZoomLerpVal > 0)
                         {
-                            Main.screenPosition = Vector2.SmoothStep(player.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), npc.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), stickZoomLerpVal) + new Vector2(ScreenShakeAmount * Main.rand.NextFloat(), ScreenShakeAmount * Main.rand.NextFloat());
+                            Main.screenPosition = Vector2.SmoothStep(player.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), npc.Center - new Vector2(Main.screenWidth / 2 + stickZoomXOffset, Main.screenHeight / 2), stickZoomLerpVal) + new Vector2(ScreenShakeAmount * Main.rand.NextFloat(), ScreenShakeAmount * Main.rand.NextFloat());
                         }
                         break;
                     }
@@ -175,9 +175,19 @@ namespace EbonianMod
                 stickZoomLerpVal = MathHelper.Lerp(stickZoomLerpVal, 0, 0.05f);
                 if (stickZoomLerpVal < 0.01f)
                     stickZoomLerpVal = 0;
+
+                stickZoomXOffset = Lerp(stickZoomXOffset, 0, 0.1f);
+
+                if (stickZoomXOffset < 0.01f)
+                    stickZoomXOffset = 0;
+
+                stickLerpOffset = Lerp(stickLerpOffset, 0, 0.1f);
+
+                if (stickLerpOffset < 0.01f)
+                    stickLerpOffset = 0;
             }
         }
-        public static float stickZoomLerpVal;
+        public static float stickZoomLerpVal, stickZoomXOffset, stickLerpOffset;
         float zoomBefore;
         public static float zoomAmount, zoomLerpMult;
         public static Func<float, float> zoomFunctionIn, zoomFunctionOut;

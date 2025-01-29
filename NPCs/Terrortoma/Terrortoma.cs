@@ -423,11 +423,15 @@ namespace EbonianMod.NPCs.Terrortoma
                 if (!player.active || player.dead && AIState != Death)//|| !player.ZoneCorrupt)
                 {
 
-                    AIState = -12124;
-                    NPC.velocity = new Vector2(0, 10f);
-                    if (NPC.timeLeft > 60)
+                    if (AIState != -12124)
                     {
-                        NPC.timeLeft = 60;
+                        SoundEngine.PlaySound(EbonianSounds.terrortomaLaugh, NPC.Center);
+                        AIState = -12124;
+                    }
+                    NPC.velocity = new Vector2(0, 10f);
+                    if (NPC.timeLeft > 120)
+                    {
+                        NPC.timeLeft = 120;
                     }
                     return;
                 }
@@ -476,14 +480,7 @@ namespace EbonianMod.NPCs.Terrortoma
             if (AIState == -12124)
             {
                 isLaughing = true;
-                NPC.velocity = new Vector2(0, 10f);
-                if (player.ZoneCorrupt)
-                {
-                    AITimer = 0;
-                    NPC.velocity = Vector2.Zero;
-                    if (NPC.life > NPC.lifeMax / 2)
-                        AIState = Vilethorn;
-                }
+                NPC.velocity = new Vector2(0, 5f);
             }
             else if (AIState == Death)
             {

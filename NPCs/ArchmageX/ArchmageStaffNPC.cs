@@ -35,6 +35,7 @@ namespace EbonianMod.NPCs.ArchmageX
             NPC.noGravity = true;
             NPC.aiStyle = -1;
             NPC.rotation = MathHelper.PiOver2;
+            NPC.chaseable = true;
             NPC.townNPC = true;
             NPC.friendly = true;
             TownNPCStayingHomeless = true;
@@ -464,9 +465,28 @@ namespace EbonianMod.NPCs.ArchmageX
                         break;
                     }
                 }
+                if (projExists)
+                {
+                    EbonianSystem.stickZoomXOffset = Lerp(EbonianSystem.stickZoomXOffset, -88, 0.1f);
+
+                    EbonianSystem.stickLerpOffset = Lerp(EbonianSystem.stickLerpOffset, 1, 0.1f);
+                }
+                else
+                {
+                    EbonianSystem.stickZoomXOffset = Lerp(EbonianSystem.stickZoomXOffset, 0, 0.1f);
+
+                    if (EbonianSystem.stickZoomXOffset < 0.01f)
+                        EbonianSystem.stickZoomXOffset = 0;
+
+                    EbonianSystem.stickLerpOffset = Lerp(EbonianSystem.stickLerpOffset, 0, 0.1f);
+
+                    if (EbonianSystem.stickLerpOffset < 0.01f)
+                        EbonianSystem.stickLerpOffset = 0;
+                }
+
 
                 if (!NPC.AnyNPCs(NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0 && !GetInstance<EbonianSystem>().gotTheStaff)
-                    EbonianSystem.stickZoomLerpVal = MathHelper.SmoothStep(EbonianSystem.stickZoomLerpVal, Clamp(MathHelper.SmoothStep(1f, 0, Main.LocalPlayer.Center.Distance(NPC.Center) / (800f + (projExists ? 500 : 0))), 0, 1), 0.2f);
+                    EbonianSystem.stickZoomLerpVal = MathHelper.SmoothStep(EbonianSystem.stickZoomLerpVal, Clamp(MathHelper.SmoothStep(1f, 0, (Main.LocalPlayer.Center.Distance(NPC.Center) / (800f) + EbonianSystem.stickLerpOffset)), 0, 1), 0.2f);
             }
             else
             {

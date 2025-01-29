@@ -477,6 +477,7 @@ namespace EbonianMod.NPCs.Cecitior
             NPC.damage = 0;
             rotation = 0;
             openRotation = 0;
+            open = false;
             openOffset = Vector2.Zero;
             NPC.velocity = Vector2.Zero;
         }
