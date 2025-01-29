@@ -88,6 +88,13 @@ namespace EbonianMod
         }
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
+            if (reiBoostCool > 20)
+            {
+                modifiers.Cancel();
+                Player.AddImmuneTime(ImmunityCooldownID.General, 40);
+                Player.AddImmuneTime(ImmunityCooldownID.Bosses, 40);
+                Player.AddImmuneTime(ImmunityCooldownID.DD2OgreKnockback, 40);
+            }
             if (NPC.AnyNPCs(NPCType<TinyBrain>()))
             {
                 foreach (NPC npc in Main.ActiveNPCs)
@@ -96,6 +103,7 @@ namespace EbonianMod
                     {
                         npc.life = 0;
                         npc.checkDead();
+                        break;
                     }
                 }
             }
