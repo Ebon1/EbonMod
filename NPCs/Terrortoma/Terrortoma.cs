@@ -490,6 +490,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 SelectedClinger = 4;
                 NPC.damage = 0;
                 NPC.timeLeft = 2;
+                isLaughing = false;
                 if (AITimer < 250)
                 {
                     NPC.velocity = Vector2.Zero;

@@ -142,7 +142,7 @@ namespace EbonianMod.NPCs.Cecitior
                         scale = 1;
                         break;
                 }
-                verlet[i] = new(NPC.Center, 2, 18, 1 * scale, true, true, (int)(1.5f * scale));
+                verlet[i] = new(NPC.Center, 2, 15, 1 * scale, true, true, (int)(5f * scale));
             }
         }
         float shakeVal;
@@ -832,7 +832,7 @@ namespace EbonianMod.NPCs.Cecitior
                     GenerateNewPattern();
                     NPC.boss = true;
                     Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/EvilMiniboss");
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 250, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
+                    EbonianSystem.ChangeCameraPos(NPC.Center, 280, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
                     for (int i = 0; i < 200; i++)
                     {
                         Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6), Scale: 3);
