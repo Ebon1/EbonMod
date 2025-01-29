@@ -11,6 +11,7 @@ global using ReLogic.Content;
 global using EbonianMod.Common;
 global using EbonianMod.Common.Systems;
 global using EbonianMod.Common.Systems.Misc;
+global using static EbonianMod.Common.Easings;
 
 // Terraria
 global using Terraria;

@@ -184,8 +184,8 @@ namespace EbonianMod.Projectiles.ArchmageX
                     _s = SmoothStep(0, 1, Clamp((float)i / 15, 0, 1));
                     Vector2 start = points[i];
                     Vector2 end = points[i + 1];
-                    float num = Vector2.Distance(points[i], points[i + 1]);
-                    Vector2 vector = (end - start) / num;
+                    float dist = Vector2.Distance(points[i], points[i + 1]);
+                    Vector2 vector = (end - start) / dist;
                     Vector2 vector2 = start;
                     float rotation = vector.ToRotation();
 

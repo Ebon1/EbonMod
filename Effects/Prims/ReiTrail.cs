@@ -35,10 +35,10 @@ namespace EbonianMod.Effects.Prims
 
         private float StripWidth(float progressOnStrip)
         {
-            float num = 1f;
+            float t = 1f;
             float lerpValue = Utils.GetLerpValue(0f, 0.2f, progressOnStrip, clamped: true);
-            num *= 1f - (1f - lerpValue) * (1f - lerpValue);
-            return MathHelper.Lerp(0f, 10, num);
+            t *= 1f - (1f - lerpValue) * (1f - lerpValue);
+            return MathHelper.Lerp(0f, 10, t);
         }
     }
 }

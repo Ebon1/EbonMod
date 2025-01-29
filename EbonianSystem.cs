@@ -25,6 +25,8 @@ using Terraria.IO;
 using static Terraria.ModLoader.ModContent;
 using EbonianMod.NPCs.ArchmageX;
 using EbonianMod.Tiles;
+using Terraria.Graphics.CameraModifiers;
+using EbonianMod.Common.CameraModifiers;
 
 namespace EbonianMod
 {
@@ -44,6 +46,13 @@ namespace EbonianMod
             gotTheStaff = false;
             xareusFuckingDies = false;
             timesDiedToXareus = 0;
+        }
+        public static bool heardXareusIntroMonologue;
+        public static int xareusFightCooldown;
+        public override void Load()
+        {
+            heardXareusIntroMonologue = false;
+            xareusFightCooldown = 0;
         }
         public override void UpdateUI(GameTime gameTime)
         {
@@ -130,75 +139,6 @@ namespace EbonianMod
                 EbonianMod.FlashAlpha -= EbonianMod.FlashAlphaDecrement;
             else
                 EbonianMod.FlashAlphaDecrement = 0.01f;
-            if (!isChangingCameraPos && !isChangingZoom)
-            {
-                zoomBefore = Main.GameZoomTarget;
-                zoomAmount = 0;
-            }
-            if (isChangingZoom)
-            {
-                if (--zoomChangeLength > 0)
-                {
-                    if (zoomAmount != 1 && zoomAmount > zoomBefore)
-                    {
-                        Main.GameZoomTarget = Utils.Clamp(Main.GameZoomTarget + 0.05f, 1f, zoomAmount);
-                    }
-                    if (zoomChangeTransition <= 1f)
-                    {
-                        zoomChangeTransition += 0.025f;
-                    }
-                }
-                else if (zoomChangeTransition >= 0)
-                {
-                    if (Main.GameZoomTarget > zoomBefore)
-                    {
-                        Main.GameZoomTarget -= 0.05f;
-                    }
-                    zoomChangeTransition -= 0.025f;
-                }
-                else isChangingZoom = false;
-            }
-            else
-            {
-                zoomChangeLength = 0;
-                zoomChangeTransition = 0;
-            }
-            if (isChangingCameraPos)
-            {
-                if (CameraChangeLength > 0)
-                {
-                    if (zoomAmount != 1)
-                    {
-                        Main.GameZoomTarget = MathHelper.SmoothStep(Main.GameZoomTarget, zoomAmount, CameraChangeTransition);
-                    }
-                    if (CameraChangeTransition <= 1f)
-                    {
-                        Main.screenPosition = Vector2.SmoothStep(cameraChangeStartPoint, CameraChangePos, CameraChangeTransition += 0.025f);
-                    }
-                    else
-                    {
-                        Main.screenPosition = CameraChangePos;
-                    }
-                    CameraChangeLength--;
-                }
-                else if (CameraChangeTransition >= 0)
-                {
-                    if (Main.GameZoomTarget > zoomBefore)
-                    {
-                        Main.GameZoomTarget -= 0.05f;
-                    }
-                    Main.screenPosition = Vector2.SmoothStep((stickZoomLerpVal > 0 ? cameraChangeStartPoint : player.Center - Main.ScreenSize.ToVector2() / 2), CameraChangePos, CameraChangeTransition -= 0.05f);
-                }
-                else
-                    isChangingCameraPos = false;
-            }
-            else
-            {
-                CameraChangeLength = 0;
-                cameraChangeStartPoint = Vector2.Zero;
-                CameraChangeTransition = 0;
-                CameraChangePos = Vector2.Zero;
-            }
             if (!Main.gameMenu)
             {
                 ShakeTimer++;
@@ -214,13 +154,14 @@ namespace EbonianMod
                 ShakeTimer = 0;
             }
 
-            if (NPC.AnyNPCs(NPCType<ArchmageStaffNPC>()) && !isChangingCameraPos)
+            if (NPC.AnyNPCs(NPCType<ArchmageStaffNPC>()))
             {
                 foreach (NPC npc in Main.ActiveNPCs)
                 {
                     if (npc.active && npc.type == NPCType<ArchmageStaffNPC>())
                     {
-                        if (npc.Center.Distance(player.Center) < 800 && !NPC.AnyNPCs(NPCType<ArchmageX>()) && stickZoomLerpVal > 0)
+                        stickPos = npc.Center;
+                        if (npc.Center.Distance(player.Center) < 800 && stickZoomLerpVal > 0)
                         {
                             Main.screenPosition = Vector2.SmoothStep(player.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), npc.Center - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), stickZoomLerpVal) + new Vector2(ScreenShakeAmount * Main.rand.NextFloat(), ScreenShakeAmount * Main.rand.NextFloat());
                         }
@@ -231,41 +172,94 @@ namespace EbonianMod
 
             if (!NPC.AnyNPCs(NPCType<ArchmageStaffNPC>()) || NPC.AnyNPCs(NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0)
             {
-                stickZoomLerpVal = MathHelper.Lerp(stickZoomLerpVal, 0, 0.1f);
+                stickZoomLerpVal = MathHelper.Lerp(stickZoomLerpVal, 0, 0.05f);
                 if (stickZoomLerpVal < 0.01f)
                     stickZoomLerpVal = 0;
             }
         }
         public static float stickZoomLerpVal;
         float zoomBefore;
-        public static float zoomAmount;
-        public static Vector2 cameraChangeStartPoint;
-        public static Vector2 CameraChangePos;
-        public static float CameraChangeTransition, zoomChangeTransition;
-        public static int CameraChangeLength, zoomChangeLength;
-        public static bool isChangingCameraPos, isChangingZoom;
-        public static void ChangeZoom(float zoom, int len)
+        public static float zoomAmount, zoomLerpMult;
+        public static Func<float, float> zoomFunctionIn, zoomFunctionOut;
+        public static bool useCurrentZoomIn, useCurrentZoomOut;
+        public static Vector2 currentZoomForChangedZoom, currentZoomForChangedZoom2;
+        public static Vector2 cameraChangePos, stickPos;
+        public static int cameraChangeLength;
+        public static int zoomChangeLength, zoomChangeLengthMax;
+        public static void ChangeZoom(int length, ZoomInfo zoom)
         {
-            zoomAmount = zoom;
-            zoomChangeLength = len;
-            isChangingZoom = true;
-            zoomChangeTransition = 0;
+            zoomAmount = zoom.zoomAmount;
+            zoomLerpMult = zoom.zoomLerpMult;
+            zoomFunctionIn = zoom.zoomEaseIn;
+            zoomFunctionOut = zoom.zoomEaseOut;
+            useCurrentZoomIn = zoom.isCurrentZoomIn;
+            useCurrentZoomOut = zoom.isCurrentZoomOut;
+            zoomChangeLength = length;
+            zoomChangeLengthMax = length;
+            currentZoomForChangedZoom2 = Main.GameViewMatrix.Zoom;
         }
-        public static void ChangeCameraPos(Vector2 pos, int length, float zoom = 1.65f)
+        public static void ChangeCameraPos(Vector2 pos, int length, ZoomInfo? zoom = null, float lerpMult = 2, Func<float, float> easingFunction = null, float snappingRate = 1)
         {
-            cameraChangeStartPoint = Main.screenPosition;
-            CameraChangeLength = length;
-            CameraChangePos = pos - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
-            isChangingCameraPos = true;
-            CameraChangeTransition = 0;
-            zoomAmount = zoom;
+            if (zoom != null)
+            {
+                ChangeZoom(length, zoom.Value);
+            }
+            Main.instance.CameraModifiers.Add(new FocusCameraModifier(pos, length, lerpMult, easingFunction, snappingRate));
         }
-        public static bool heardXareusIntroMonologue;
-        public static int xareusFightCooldown;
-        public override void Load()
+
+        public static void ChangeCameraPos(Vector2 pos, int length, float zoom,
+            float lerpMult = 2, Func<float, float> easingFunction = null, float snappingRate = 1) =>
+            ChangeCameraPos(pos, length, new ZoomInfo(zoom, 0.05f), lerpMult, easingFunction, snappingRate);
+
+        public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
         {
-            heardXareusIntroMonologue = false;
-            xareusFightCooldown = 0;
+            if (zoomChangeLength > 0 && zoomAmount > 0)
+            {
+                float lerpT = Clamp(MathF.Sin(Pi * Utils.GetLerpValue(zoomChangeLengthMax, 0, zoomChangeLength)) * zoomLerpMult, 0, 1);
+                if (zoomFunctionIn != null && zoomChangeLength > zoomChangeLengthMax / 2)
+                    lerpT = zoomFunctionIn.Invoke(Clamp(MathF.Sin(Pi * Utils.GetLerpValue(zoomChangeLengthMax, 0, zoomChangeLength)) * zoomLerpMult, 0, 1));
+
+                if (zoomFunctionOut != null && zoomChangeLength <= zoomChangeLengthMax / 2)
+                    lerpT = zoomFunctionOut.Invoke(Clamp(MathF.Sin(Pi * Utils.GetLerpValue(zoomChangeLengthMax, 0, zoomChangeLength)) * zoomLerpMult, 0, 1));
+
+                Vector2 pos = currentZoomForChangedZoom;
+                if (useCurrentZoomIn && zoomChangeLength > zoomChangeLengthMax / 2)
+                {
+                    pos = currentZoomForChangedZoom2;
+                }
+                if (useCurrentZoomOut && zoomChangeLength <= zoomChangeLengthMax / 2)
+                {
+                    pos = currentZoomForChangedZoom2;
+                }
+                Transform.Zoom = Vector2.Lerp(pos, new Vector2(zoomAmount), lerpT);
+                zoomChangeLength--;
+            }
+            else
+            {
+                zoomBefore = Main.GameZoomTarget;
+                zoomAmount = 0;
+                zoomChangeLength = 0;
+                zoomChangeLengthMax = 0;
+                currentZoomForChangedZoom = Transform.Zoom;
+                zoomFunctionIn = null;
+                zoomFunctionOut = null;
+            }
+        }
+    }
+    public struct ZoomInfo
+    {
+        public float zoomAmount;
+        public float zoomLerpMult;
+        public Func<float, float> zoomEaseIn, zoomEaseOut;
+        public bool isCurrentZoomIn, isCurrentZoomOut;
+        public ZoomInfo(float _zoomAmount, float lerpMult = 2, Func<float, float> easingFunctionIn = null, Func<float, float> easingFunctionOut = null, bool _isCurrentZoomIn = false, bool _isCurrentZoomOut = false)
+        {
+            zoomAmount = _zoomAmount;
+            zoomEaseIn = easingFunctionIn;
+            zoomEaseOut = easingFunctionOut;
+            zoomLerpMult = lerpMult;
+            isCurrentZoomIn = _isCurrentZoomIn;
+            isCurrentZoomOut = _isCurrentZoomOut;
         }
     }
 }

@@ -80,23 +80,22 @@ namespace EbonianMod.NPCs.Crimson
             SpriteEffects spriteEffects2;
             Rectangle frame6 = NPC.frame;
             Color col = drawColor * ((MathF.Sin(Main.GlobalTimeWrappedHourly * 3) + 2) * 0.5f);
-            for (int num213 = 0; num213 < 4; num213++)
+            for (int i = 0; i < 4; i++)
             {
-                Vector2 position9 = NPC.position;
-                float num214 = Math.Abs(NPC.Center.X - Main.player[Main.myPlayer].Center.X);
-                float num215 = Math.Abs(NPC.Center.Y - Main.player[Main.myPlayer].Center.Y);
-                if (num213 == 0 || num213 == 2)
+                Vector2 startP = NPC.position;
+                float len = Math.Abs(NPC.Center.X - Main.player[Main.myPlayer].Center.X);
+                if (i == 0 || i == 2)
                 {
-                    position9.X = Main.player[Main.myPlayer].Center.X + num214;
+                    startP.X = Main.player[Main.myPlayer].Center.X + len;
                     spriteEffects2 = SpriteEffects.None;
                 }
                 else
                 {
-                    position9.X = Main.player[Main.myPlayer].Center.X - num214;
+                    startP.X = Main.player[Main.myPlayer].Center.X - len;
                     spriteEffects2 = SpriteEffects.FlipHorizontally;
                 }
-                position9.X -= (float)(NPC.width / 2);
-                Main.spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value, new Vector2(position9.X - pos.X + (float)(NPC.width / 2) - (float)Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Width * NPC.scale / 2f + orig.X * NPC.scale, position9.Y - pos.Y + (float)NPC.height - (float)Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Height * NPC.scale / (float)Main.npcFrameCount[NPC.type] + 4f + orig.Y * NPC.scale + NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(frame6), col, NPC.rotation * .1f, orig, NPC.scale, spriteEffects2, 0);
+                startP.X -= (float)(NPC.width / 2);
+                Main.spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value, new Vector2(startP.X - pos.X + (float)(NPC.width / 2) - (float)Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Width * NPC.scale / 2f + orig.X * NPC.scale, startP.Y - pos.Y + (float)NPC.height - (float)Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Height * NPC.scale / (float)Main.npcFrameCount[NPC.type] + 4f + orig.Y * NPC.scale + NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(frame6), col, NPC.rotation * .1f, orig, NPC.scale, spriteEffects2, 0);
             }
             return false;
         }

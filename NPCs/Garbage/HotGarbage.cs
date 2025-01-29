@@ -362,6 +362,7 @@ namespace EbonianMod.NPCs.Garbage
                 NPC.immortal = true;
                 NPC.dontTakeDamage = true;
                 //EbonianSystem.ChangeCameraPos(NPC.Center, 250, );
+
                 EbonianSystem.ScreenShakeAmount = 5;
                 ded = true;
                 AITimer = -75;
@@ -488,15 +489,23 @@ namespace EbonianMod.NPCs.Garbage
                     {
                         pos = NPC.Center;
                         Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/GarbageSiren");
-                        EbonianSystem.ChangeCameraPos(NPC.Center, 100, 1.7f);
+                        EbonianSystem.ChangeCameraPos(NPC.Center - new Vector2(0, 50), 130, null, 1.4f, InOutQuart);
                     }
                     if (AITimer == -30)
+                    {
+                        EbonianSystem.ChangeZoom(80, new ZoomInfo(2.5f, 1f, InOutElastic, InOutCirc));
                         Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<ChargeUp>(), 0, 0);
+                    }
                     if (AITimer > -30)
                         AITimer2++;
                 }
                 else
-                    NPC.velocity.Y++;
+                {
+                    if (AITimer < 20)
+                        NPC.velocity.Y++;
+                }
+                if (AITimer > 20)
+                    JumpCheck();
                 if (AITimer == 0)
                 {
                     EbonianSystem.ScreenShakeAmount = 20;
@@ -558,18 +567,11 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     NPC.active = false;
                 }
-                int num899 = 130;
-                int num900 = 130;
-                Vector2 position5 = new Vector2(NPC.Center.X - (float)(num899 / 2), NPC.position.Y + (float)NPC.height - (float)num900);
                 if (AITimer2 == 7)
                     SoundEngine.PlaySound(EbonianSounds.exolDash, NPC.Center);
-                if (Collision.SolidCollision(position5, num899, num900))
-                {
-                    NPC.velocity.Y = -5.75f;
-                }
                 if (AITimer2 < 22 && AITimer2 >= 0)
                 {
-                    NPC.velocity.X = Lerp(NPC.velocity.X, 20f * NPC.direction, 0.15f);
+                    NPC.velocity.X = Lerp(NPC.velocity.X, 14f * NPC.direction, 0.15f);
                 }
                 if (AITimer2 >= 22)
                 {
@@ -617,7 +619,7 @@ namespace EbonianMod.NPCs.Garbage
                         player.JumpMovement();
                         player.velocity.Y = -10;
                         Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + NPC.height * 0.5f * Vector2.UnitY, new Vector2(0, 0), ProjectileType<GarbageImpact>(), 0, 0, 0, 0);
-                        EbonianSystem.ChangeCameraPos(NPC.Center, 70, 1f);
+                        EbonianSystem.ChangeCameraPos(NPC.Center - new Vector2(0, 50), 120, null, 1.5f, InOutQuart);
                     }
                     if (AITimer == 15)
                     {
@@ -625,7 +627,8 @@ namespace EbonianMod.NPCs.Garbage
                     }
                     if (AITimer == 45)
                     {
-                        EbonianSystem.ChangeCameraPos(NPC.Center, 40, 2f);
+                        EbonianSystem.ChangeZoom(75, new ZoomInfo(2, 1f, InOutBounce, InOutCirc));
+                        //EbonianSystem.ChangeCameraPos(NPC.Center, 40, 2f);
                         for (int i = 0; i < 3; i++)
                             Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0);
                     }
@@ -1616,7 +1619,7 @@ namespace EbonianMod.NPCs.Garbage
 
             if (Projectile.ai[1] < 180 && Projectile.ai[1] > 60 && !changedCam && Main.LocalPlayer.Center.Distance(targetPos) > 4500 / 2)
             {
-                EbonianSystem.ChangeCameraPos(targetPos, (int)Projectile.ai[1] + 10, 1);
+                EbonianSystem.ChangeCameraPos(targetPos, (int)Projectile.ai[1] + 40, null, easingFunction: InOutCirc);
                 changedCam = true;
             }
             if (Main.LocalPlayer.Center.Distance(targetPos) > 4500 / 2 - 100)

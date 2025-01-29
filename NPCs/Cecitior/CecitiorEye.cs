@@ -225,10 +225,19 @@ namespace EbonianMod.NPCs.Cecitior
             switch (center.ai[0])
             {
                 case 0:
-                    if (center.ai[1] < 60)
+                    if (center.ai[1] > 50 && center.ai[1] < 170)
+                    {
                         focalPoint = center.Center;
+                        if (leftie)
+                            NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(center.localAI[0], center.localAI[1]) + new Vector2(160).RotatedBy(angle + MathF.Sin(center.ai[1])), false) / 10f;
+                        else
+                            NPC.velocity = Helper.FromAToB(NPC.Center, center.Center - new Vector2(center.localAI[0], center.localAI[1]) + new Vector2(160).RotatedBy(angle - MathF.Sin(center.ai[1])), false) / 10f;
+                    }
                     else
+                    {
+                        NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle + (center.ai[1] < 0 ? MathHelper.ToRadians(timer) : MathHelper.ToRadians(Main.GameUpdateCount))), false) / 10f;
                         focalPoint = Vector2.Lerp(focalPoint, player.Center, 0.45f);
+                    }
                     break;
                 case 1:
                     NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2(100).RotatedBy(angle + (center.ai[1] < 0 ? MathHelper.ToRadians(timer) : MathHelper.ToRadians(Main.GameUpdateCount))), false) / 10f;

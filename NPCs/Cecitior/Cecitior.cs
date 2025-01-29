@@ -113,32 +113,36 @@ namespace EbonianMod.NPCs.Cecitior
         {
             Main.instance.DrawCacheNPCsOverPlayers.Add(index);
         }
-        Verlet[] verlet = new Verlet[5];
+        Verlet[] verlet = new Verlet[10];
         public override void OnSpawn(IEntitySource source)
         {
             for (int i = 0; i < attackNum; i++)
             {
                 pattern[i] = Main.rand.Next(1, attackNum + 1);
             }
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 10; i++)
             {
                 float scale = 2;
                 switch (i)
                 {
                     case 1:
+                    case 5:
                         scale = 4;
                         break;
                     case 2:
+                    case 6:
                         scale = 2;
                         break;
                     case 3:
+                    case 7:
                         scale = 3;
                         break;
                     case 4:
+                    case 8:
                         scale = 1;
                         break;
                 }
-                verlet[i] = new(NPC.Center, 2, 18, 1 * scale, true, true, (int)(2.5f * scale));
+                verlet[i] = new(NPC.Center, 2, 18, 1 * scale, true, true, (int)(1.5f * scale));
             }
         }
         float shakeVal;
@@ -168,13 +172,38 @@ namespace EbonianMod.NPCs.Cecitior
                             break;
                         case 3:
                             scale = 3;
-                            offset = new Vector2(-15, -10);
+                            offset = new Vector2(-15, 10);
                             offset2 = new Vector2(10, -20);
                             break;
                         case 4:
                             scale = 1;
                             offset = new Vector2(1, 20);
-                            offset2 = new Vector2(4, 32);
+                            offset2 = new Vector2(4, -32);
+                            break;
+                        case 5:
+                            scale = 3;
+                            offset = new Vector2(-20, -20);
+                            offset2 = new Vector2(-6, 32);
+                            break;
+                        case 6:
+                            scale = 2;
+                            offset = new Vector2(10, -10);
+                            offset2 = new Vector2(4, 12);
+                            break;
+                        case 7:
+                            scale = 4;
+                            offset = new Vector2(10, -20);
+                            offset2 = new Vector2(-4, 32);
+                            break;
+                        case 8:
+                            scale = 2;
+                            offset = new Vector2(10, -25);
+                            offset2 = new Vector2(-14, 32);
+                            break;
+                        case 9:
+                            scale = 1;
+                            offset = new Vector2(1, -20);
+                            offset2 = new Vector2(4, 22);
                             break;
                     }
                     verlet[i].Update(NPC.Center + offset2 - openOffset, NPC.Center + openOffset + new Vector2(30, 4) + offset);
@@ -245,10 +274,13 @@ namespace EbonianMod.NPCs.Cecitior
                 }
 
             }
+
+            Texture2D teeth = Helper.GetTexture("NPCs/Cecitior/CecitiorTeeth");
+            Texture2D partTeeth = Helper.GetTexture("NPCs/Cecitior/CecitiorTeeth2");
+            Texture2D part = Helper.GetTexture("NPCs/Cecitior/Cecitior_Part");
+            Texture2D partGlow = Helper.GetTexture("NPCs/Cecitior/Cecitior_Part_Glow");
             if (NPC.frame.Y == 6 * 102)//(openOffset.Length() > 0.25f || openOffset.Length() < -0.25f || openRotation != 0)
             {
-                Texture2D teeth = Helper.GetTexture("NPCs/Cecitior/CecitiorTeeth");
-                Texture2D partTeeth = Helper.GetTexture("NPCs/Cecitior/CecitiorTeeth2");
                 spriteBatch.Draw(teeth, NPC.Center + shakeOffset - openOffset - new Vector2(0, -2) - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center - openOffset)), NPC.rotation, teeth.Size() / 2, NPC.scale, SpriteEffects.None, 0);
                 spriteBatch.Draw(partTeeth, NPC.Center - shakeOffset + new Vector2(30, 4) + openOffset - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center + openOffset)), openRotation, partTeeth.Size() / 2, NPC.scale, SpriteEffects.None, 0);
                 if (verlet[0] != null)
@@ -286,8 +318,6 @@ namespace EbonianMod.NPCs.Cecitior
                             verlet[i].Draw(spriteBatch, "Extras/maroon", scale: scale);
                     }
                 }
-                Texture2D part = Helper.GetTexture("NPCs/Cecitior/Cecitior_Part");
-                Texture2D partGlow = Helper.GetTexture("NPCs/Cecitior/Cecitior_Part_Glow");
                 spriteBatch.Draw(part, NPC.Center - shakeOffset + new Vector2(30, 4) + openOffset - screenPos, null, new Color(Lighting.GetSubLight(NPC.Center + new Vector2(30, 4) + openOffset) * 1.25f), openRotation, part.Size() / 2, NPC.scale, SpriteEffects.None, 0);
                 spriteBatch.Draw(partGlow, NPC.Center - shakeOffset + new Vector2(30, 4) + openOffset - screenPos, null, Color.White, openRotation, part.Size() / 2, NPC.scale, SpriteEffects.None, 0);
 
@@ -338,7 +368,7 @@ namespace EbonianMod.NPCs.Cecitior
                 rotation = 0f;
                 openOffset = Vector2.Zero;
                 AITimer2 = 0;
-                EbonianSystem.ChangeCameraPos(NPC.Center, 180);
+                EbonianSystem.ChangeCameraPos(NPC.Center, 180, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
                 NPC.dontTakeDamage = true;
             }
             return AIState == Death;
@@ -721,6 +751,9 @@ namespace EbonianMod.NPCs.Cecitior
                             {
                                 verlet[(int)AITimer3].segments[10].cut = true;
                                 verlet[(int)AITimer3].stiffness = 1;
+
+                                verlet[(int)AITimer3 + 5].segments[10].cut = true;
+                                verlet[(int)AITimer3 + 5].stiffness = 1;
                             }
                             AITimer = 0;
                             AITimer3++;
@@ -728,8 +761,8 @@ namespace EbonianMod.NPCs.Cecitior
                         }
                         else
                         {
-                            verlet[4].segments[10].cut = true;
-                            verlet[4].stiffness = 1;
+                            verlet[9].segments[10].cut = true;
+                            verlet[9].stiffness = 1;
                             AITimer3 = 0;
                             AITimer2 = 0;
                             AIState = Death;
@@ -744,16 +777,16 @@ namespace EbonianMod.NPCs.Cecitior
                 if (AITimer == 1)
                 {
                     savedPos = NPC.Center;
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 80, 1.2f);
+                    NPC.velocity = Vector2.Zero;
+                    //EbonianSystem.ChangeCameraPos(NPC.Center, 80, 1.2f);
+                    EbonianSystem.ChangeCameraPos(NPC.Center, 110, null, 1.5f, InOutSine);
                 }
+                if (AITimer == 63)
+                    EbonianSystem.ChangeZoom(50, new ZoomInfo(2, 1f, InOutSine, InOutSine, true));
                 if (AITimer < 60)
                 {
                     NPC.dontTakeDamage = true;
                     NPC.Center = savedPos + Main.rand.NextVector2Circular(AITimer * 0.25f, AITimer * 0.25f);
-                }
-                if (AITimer == 40)
-                {
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 60, 2f);
                 }
                 if (AITimer < 53 && AITimer > 40)
                 {
@@ -768,11 +801,11 @@ namespace EbonianMod.NPCs.Cecitior
                     }
                     SoundEngine.PlaySound(EbonianSounds.fleshHit with { Pitch = -0.3f, PitchVariance = 0.2f }, player.Center);
 
-                    for (int k = 0; k < 15; k++)
+                    for (int k = 0; k < 25; k++)
                     {
                         Dust.NewDustPerfect(NPC.Center, DustID.Blood, Vector2.UnitX.RotatedByRandom(1) * Main.rand.NextFloat(7, 15), 0, default, Main.rand.NextFloat(1, 2));
                     }
-                    for (int k = 0; k < 15; k++)
+                    for (int k = 0; k < 25; k++)
                     {
                         Dust.NewDustPerfect(NPC.Center, DustID.Blood, -Vector2.UnitX.RotatedBy(0.25f).RotatedByRandom(0.5f) * Main.rand.NextFloat(7, 15), 0, default, Main.rand.NextFloat(1, 2));
                     }
@@ -799,11 +832,19 @@ namespace EbonianMod.NPCs.Cecitior
                     GenerateNewPattern();
                     NPC.boss = true;
                     Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/EvilMiniboss");
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 200);
+                    EbonianSystem.ChangeCameraPos(NPC.Center, 250, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
+                    for (int i = 0; i < 200; i++)
+                    {
+                        Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6), Scale: 3);
+                    }
+                }
+                if (AITimer == 55)
+                {
+                    openSound = SoundEngine.PlaySound(EbonianSounds.cecitiorOpen, NPC.Center);
                     for (int i = 0; i < 6; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 6) + MathHelper.ToRadians(15);
-                        NPC.NewNPCDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(100).RotatedBy(angle), NPCType<CecitiorEye>(), 0, NPC.whoAmI, i);
+                        NPC.NewNPCDirect(NPC.GetSource_FromThis(), NPC.Center + new Vector2(1).RotatedBy(angle), NPCType<CecitiorEye>(), 0, NPC.whoAmI, i);
                     }
                 }
                 if (AITimer == 80)
@@ -816,14 +857,15 @@ namespace EbonianMod.NPCs.Cecitior
                     open = true;
                     if (AITimer >= 80 && AITimer % 10 == 0)
                         Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0);
-                    if (openOffset.X < 10)
+                    if (openOffset.X < 30)
                     {
                         openOffset.X += 2.5f;
                     }
                     if (AITimer > 80)
                     {
-                        openRotation = MathHelper.ToRadians(MathF.Sin(AITimer * 1.25f) * 10);
-                        rotation = MathHelper.ToRadians(MathF.Sin(-AITimer * 1.5f) * 10);
+                        openRotation = MathHelper.ToRadians(MathF.Sin(AITimer * 1.5f) * 15);
+                        NPC.rotation = MathHelper.ToRadians(MathF.Sin(-AITimer * 1.5f) * 15);
+                        rotation = MathHelper.ToRadians(MathF.Sin(-AITimer * 1.5f) * 15);
                     }
                 }
                 if (AITimer >= 160)

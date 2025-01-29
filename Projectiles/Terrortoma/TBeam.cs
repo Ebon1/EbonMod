@@ -58,7 +58,7 @@ namespace EbonianMod.Projectiles.Terrortoma
                 Main.dust[dust].velocity = Main.rand.NextVector2Circular(5, 5);
                 Main.dust[dust].noGravity = true;
             }
-            Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], .035f, 0.015f);
+            Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], .015f, 0.015f);
 
             Projectile.ai[0] = MathHelper.SmoothStep(Projectile.ai[0], 2048, 0.35f);
 

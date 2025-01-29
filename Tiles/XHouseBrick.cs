@@ -81,9 +81,7 @@ namespace EbonianMod.Tiles
             Item.width = 16;
             Item.height = 16;
             Item.maxStack = Item.CommonMaxStack;
-            Item.rare = 0;
             Item.useTurn = true;
-            Item.rare = 0;
             Item.autoReuse = true;
             Item.useAnimation = 15;
             Item.rare = 2;

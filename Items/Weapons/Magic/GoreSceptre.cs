@@ -120,7 +120,7 @@ namespace EbonianMod.Items.Weapons.Magic
             if (Projectile.ai[1] > 0)
                 Projectile.ai[1] -= 0.1f;
             Player player = Main.player[Projectile.owner];
-            if (!player.active || player.dead || player.CCed || player.noItems  || !player.channel || !player.channel || !player.CheckMana(Projectile.ai[2] >= 20 ? 1 : (int)(20 - (Projectile.ai[2] / 2))))
+            if (!player.active || player.dead || player.CCed || player.noItems || !player.channel || !player.channel || !player.CheckMana(Projectile.ai[2] >= 20 ? 1 : (int)(20 - (Projectile.ai[2] / 2))))
             {
                 Projectile.Kill();
                 return;
@@ -153,7 +153,7 @@ namespace EbonianMod.Items.Weapons.Magic
                 player.ChangeDir(Projectile.direction);
                 Projectile.timeLeft = 2;
                 player.itemTime = 2;
-                player.itemAnimation = 2; if (player.HeldItem.type != ItemType<GoreSceptre>()) {player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill();}
+                player.itemAnimation = 2; if (player.HeldItem.type != ItemType<GoreSceptre>()) { player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill(); }
                 player.itemRotation = Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() + (player.direction == -1 ? MathHelper.Pi : 0);
                 if (player.gravDir != -1)
                     player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() - MathHelper.PiOver2);
@@ -252,8 +252,8 @@ namespace EbonianMod.Items.Weapons.Magic
                 {
                     Vector2 start = points[i];
                     Vector2 end = points[i + 1];
-                    float num = Vector2.Distance(points[i], points[i + 1]);
-                    Vector2 vector = (end - start) / num;
+                    float dist = Vector2.Distance(points[i], points[i + 1]);
+                    Vector2 vector = (end - start) / dist;
                     Vector2 vector2 = start;
                     float rotation = vector.ToRotation();
 

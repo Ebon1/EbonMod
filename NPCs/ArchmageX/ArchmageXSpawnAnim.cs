@@ -59,6 +59,7 @@ namespace EbonianMod.NPCs.ArchmageX
         }
         public override void OnKill(int timeLeft)
         {
+            EbonianSystem.xareusFightCooldown = 500;
             for (int i = 0; i < 15; i++)
                 Projectile.NewProjectile(null, Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(10, 20), ProjectileType<XAnimeSlash>(), 0, 0, -1, 0, Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(0.1f, 0.3f));
 
@@ -105,7 +106,6 @@ namespace EbonianMod.NPCs.ArchmageX
                 }
             }
 
-            EbonianSystem.xareusFightCooldown = 500;
             Projectile.scale = MathHelper.Lerp(Projectile.scale, 4, 0.01f);
             int fac = 12;
             if (Projectile.timeLeft < 140)
@@ -147,21 +147,22 @@ namespace EbonianMod.NPCs.ArchmageX
             if (Projectile.timeLeft == 399)
             {
                 SoundEngine.PlaySound(EbonianSounds.buildup, Projectile.Center);
-                EbonianSystem.ChangeCameraPos(Projectile.Center, 120, 1f);
+                //EbonianSystem.ChangeCameraPos(Projectile.Center, 460, null, 2, InOutQuint);
             }
             if (Projectile.timeLeft == 299)
-                EbonianSystem.ChangeCameraPos(Projectile.Center, 120, 1.3f);
+                EbonianSystem.ChangeZoom(120, new ZoomInfo(1.4f, 1.1f, InOutCirc, Rigid1, true));
             if (Projectile.timeLeft == 199)
-                EbonianSystem.ChangeCameraPos(Projectile.Center, 120, 1.6f);
-            if (Projectile.timeLeft == 99)
-                EbonianSystem.ChangeCameraPos(Projectile.Center, 100, 2f);
+                EbonianSystem.ChangeZoom(220, new ZoomInfo(2, 1.1f, InOutCirc, Rigid1, true, true));
             if (Projectile.timeLeft == 130)
                 SoundEngine.PlaySound(EbonianSounds.BeamWindUp.WithPitchOffset(-0.5f), Projectile.Center);
 
             if (Projectile.timeLeft == 40)
             {
+                EbonianSystem.xareusFightCooldown = 0;
                 Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<ArchmageChargeUp>(), 0, 0);
             }
+            if (Projectile.timeLeft == 25)
+                EbonianSystem.ChangeZoom(40, new ZoomInfo(2, 1.1f, Rigid1, InOutSine, true));
         }
     }
     public class SpawnAnimMusic : ModBiome

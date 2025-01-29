@@ -422,8 +422,8 @@ namespace EbonianMod.NPCs.ArchmageX
         }
         public override bool CanChat()
         {
-            bool projExists = false;
             EbonianPlayer p = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
+            bool projExists = false;
             foreach (Projectile proj in Main.ActiveProjectiles)
             {
                 if (proj.active && proj.type == ProjectileType<ArchmageXSpawnAnim>())
@@ -454,8 +454,18 @@ namespace EbonianMod.NPCs.ArchmageX
         {
             if (Main.LocalPlayer.Center.Distance(NPC.Center) < 700)
             {
+                bool projExists = false;
+                foreach (Projectile proj in Main.ActiveProjectiles)
+                {
+                    if (proj.active && proj.type == ProjectileType<ArchmageXSpawnAnim>())
+                    {
+                        projExists = true;
+                        break;
+                    }
+                }
+
                 if (!NPC.AnyNPCs(NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0 && !GetInstance<EbonianSystem>().gotTheStaff)
-                    EbonianSystem.stickZoomLerpVal = MathHelper.SmoothStep(EbonianSystem.stickZoomLerpVal, MathHelper.SmoothStep(1f, 0, Main.LocalPlayer.Center.Distance(NPC.Center) / 800f), 0.2f);
+                    EbonianSystem.stickZoomLerpVal = MathHelper.SmoothStep(EbonianSystem.stickZoomLerpVal, Clamp(MathHelper.SmoothStep(1f, 0, Main.LocalPlayer.Center.Distance(NPC.Center) / (800f + (projExists ? 500 : 0))), 0, 1), 0.2f);
             }
             else
             {
@@ -465,7 +475,7 @@ namespace EbonianMod.NPCs.ArchmageX
             }
             if (NPC.AnyNPCs(NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0 || GetInstance<EbonianSystem>().gotTheStaff)
             {
-                staffAlpha = MathHelper.Lerp(staffAlpha, 0f, 0.02f);
+                staffAlpha = MathHelper.Lerp(staffAlpha, 0f, 0.1f);
             }
             else
                 staffAlpha = MathHelper.Lerp(staffAlpha, 1f, 0.2f);

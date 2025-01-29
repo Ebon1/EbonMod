@@ -1,4 +1,5 @@
-﻿using EbonianMod.Common.Systems;
+﻿using EbonianMod.Common.CameraModifiers;
+using EbonianMod.Common.Systems;
 using EbonianMod.Common.Systems.Misc.Dialogue;
 using EbonianMod.Projectiles.ArchmageX;
 using EbonianMod.Projectiles.VFXProjectiles;
@@ -211,6 +212,7 @@ namespace EbonianMod.NPCs.ArchmageX
                 return;
             }
         }
+        FocusCameraModifier modifier;
         public override void AI()
         {
             if (!NPC.AnyNPCs(NPCID.MartianSaucer))
@@ -241,7 +243,8 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (p.active && !p.friendly)
                             p.active = false;
                     }
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 500, 1.2f);
+                    modifier = new FocusCameraModifier(NPC.Center, 750, 2.5f, InOutSine);
+                    Main.instance.CameraModifiers.Add(modifier);
                     Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<XExplosion>(), 0, 0);
                     Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<XExplosionTiny>(), 0, 0);
                     for (int i = 0; i < 20; i++)
@@ -339,35 +342,32 @@ namespace EbonianMod.NPCs.ArchmageX
                 if (AITimer == 180)
                 {
                     NPC.boss = true;
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 120, 1.5f);
                     headFrame.Y = SmirkFace;
                     DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "I'VE AWOKEN MY TRUE POWER!!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                 }
                 if (AITimer == 300)
                 {
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 300, 1.05f);
                     headFrame.Y = DisappointedFace;
                     DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "And with this power....", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                 }
                 if (AITimer == 380)
                 {
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 300, 1.05f);
                     DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "You....", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
                 }
-                if (AITimer == 410)
-                    EbonianSystem.ChangeCameraPos(NPC.Center - new Vector2(0, 200), 300, 1.05f);
+                if (AITimer > 410 && AITimer < 680 && modifier != null)
+                    modifier._pos = Vector2.Lerp(modifier._pos, NPC.Center - new Vector2(0, 200) - new Vector2(Main.screenWidth, Main.screenHeight) / 2, 0.02f);
                 if (AITimer == 460)
                 {
                     DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "Will....", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
                 }
+                if (AITimer > 680 && AITimer < 750 && modifier != null)
+                    modifier._pos = Vector2.Lerp(modifier._pos, NPC.Center - new Vector2(0, 200) - new Vector2(Main.screenWidth, Main.screenHeight) / 2, 0.1f);
                 if (AITimer == 680)
                 {
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 300, 1.05f);
                     DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "...", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
                 }
                 if (AITimer == 750)
                 {
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 100, 1.05f);
                     DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "Ow.", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
                 }
                 if (AITimer > 800)

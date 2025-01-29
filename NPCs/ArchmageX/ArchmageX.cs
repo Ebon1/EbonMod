@@ -395,12 +395,24 @@ namespace EbonianMod.NPCs.ArchmageX
             }
             else
             {
-                Next = oldAttack + 1;
-                if (Next > (phase2 ? (phaseMult == 3 ? 17 : 15) : 11))
+                Next = oldAttack + 1 * (phaseMult == 3 ? -1 : 1);
+                if (phaseMult == 3)
                 {
-                    doneAttacksBefore = true;
-                    PickAttack();
-                    return;
+                    if (Next < PhantasmalSpirit)
+                    {
+                        doneAttacksBefore = true;
+                        PickAttack();
+                        return;
+                    }
+                }
+                else
+                {
+                    if (Next > (phase2 ? 15 : 11))
+                    {
+                        doneAttacksBefore = true;
+                        PickAttack();
+                        return;
+                    }
                 }
             }
             AIState = Idle;
@@ -465,7 +477,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     if (AIState == Idle)
                     {
                         doneAttacksBefore = false;
-                        Next = PhantasmalSpirit;
+                        Next = BONK;
                         NPC.defense += 7;
                         phaseMult = 3;
                     }
@@ -1038,7 +1050,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 40)
                         {
                             if (phaseMult == 3 && !doneAttacksBefore)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "Do you ever quit?!... PHANTASMAL SPIRITS!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "PHANTASMAL SPIRITS!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else if (oldAttack != AIState)
                             {
                                 currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "PHANTASMAL SPIRITS!!!!!" : "Phantasmal Spirits!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
@@ -2373,7 +2385,7 @@ namespace EbonianMod.NPCs.ArchmageX
                     {
                         if (AITimer == 40)
                             if (oldAttack != AIState && AITimer3 == 0)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), doneAttacksBefore ? "I'M SO TIRED OF YOUR NONSENSE!" : "LOOK WHAT YOU'RE MAKING ME DO!!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), doneAttacksBefore ? "I'M SO TIRED OF YOUR NONSENSE!" : "Do you ever quit?!... LOOK WHAT YOU'RE MAKING ME DO!!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
                                 currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "GOD DAMN YOU!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
 

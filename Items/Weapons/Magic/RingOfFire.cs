@@ -143,7 +143,7 @@ namespace EbonianMod.Items.Weapons.Magic
             }
         }
     }
-    public class RingOfFireP2 : ModProjectile
+    public class RingOfFireP2 : ModProjectile // shout out to vanilla code
     {
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {

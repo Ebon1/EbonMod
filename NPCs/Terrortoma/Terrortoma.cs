@@ -196,7 +196,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 else
                     eyePosition += dist * fromTo;
                 if (!isLaughing)
-                    spriteBatch.Draw(tex, eyePosition - screenPos, null, Color.White, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(tex, eyePosition - screenPos, null, drawColor, 0, Vector2.One * 2, 1, SpriteEffects.None, 0);
 
                 Texture2D tex2 = Helper.GetExtraTexture("crosslight");
                 Main.spriteBatch.Reload(BlendState.Additive);
@@ -275,7 +275,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 NPC.frameCounter = 0;
                 NPC.immortal = true;
                 NPC.dontTakeDamage = true;
-                EbonianSystem.ChangeCameraPos(NPC.Center, 150);
+                EbonianSystem.ChangeCameraPos(NPC.Center, 170, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
                 EbonianSystem.ScreenShakeAmount = 20;
                 ded = true;
                 AITimer = AITimer2 = 0;
@@ -398,7 +398,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else
             {
-                Next = OldState + 1;
+                Next = OldState + 1 * (hasDonePhase2ApeShitMode ? -1 : 1);
             }
         }
         public override void AI()
@@ -495,6 +495,20 @@ namespace EbonianMod.NPCs.Terrortoma
                     NPC.velocity = Vector2.Zero;
                     rotation = 0;
                 }
+                if (AITimer < 205 && AITimer >= 30)
+                {
+                    rotation = 0;
+                    if (AITimer == 30)
+                    {
+                        SoundEngine.PlaySound(EbonianSounds.shriek.WithPitchOffset(-1f).WithVolumeScale(1.6f), NPC.Center);
+                        SoundEngine.PlaySound(EbonianSounds.shriek.WithPitchOffset(-0.6f).WithVolumeScale(1.6f), NPC.Center);
+                    }
+                    if (AITimer % 20 == 0)
+                        Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 30, 12, 30, 1000));
+                    angry = true;
+                    if (AITimer % 5 == 0)
+                        Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<TerrortomaScream>(), 0, 0);
+                }
                 if (AITimer >= 250 && AITimer < 450)
                 {
                     if (AITimer % 10 == 0)
@@ -562,7 +576,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 if (AITimer == 1)
                 {
                     //Helper.SetBossTitle(120, "Terrortoma", Color.LawnGreen, "The Conglomerate", 0);
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 100);
+                    EbonianSystem.ChangeCameraPos(NPC.Center, 130, new ZoomInfo(2, 1.6f, InOutQuad), 1.5f, easingFunction: InOutCirc);
                     //add sound later
                 }
                 if (AITimer2 == 0 && AITimer % 5 == 0 && introFrame.Y < introFrame.Height * 15)
@@ -640,17 +654,18 @@ namespace EbonianMod.NPCs.Terrortoma
                 NPC.velocity = Vector2.Zero;
                 isLaughing = false;
                 NPC.rotation = Helper.LerpAngle(NPC.rotation, 0, 0.1f);
+                if (AITimer == 30)
+                    EbonianSystem.ChangeCameraPos(NPC.Center, 200, new ZoomInfo(2, 1.1f, InOutQuad, InOutCirc), 1.5f, InOutQuart);
                 if (AITimer < 205 && AITimer >= 30)
                 {
-                    //if (AITimer == 30)
-                    //  EbonianSystem.ChangeCameraPos(NPC.Center, 150);
+                    rotation = 0;
                     if (AITimer == 30)
                     {
                         SoundEngine.PlaySound(EbonianSounds.shriek.WithPitchOffset(-1f).WithVolumeScale(1.6f), NPC.Center);
                         SoundEngine.PlaySound(EbonianSounds.shriek.WithPitchOffset(-0.6f).WithVolumeScale(1.6f), NPC.Center);
                     }
                     if (AITimer % 20 == 0)
-                        Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 20, 6, 30, 1000));
+                        Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 30, 12, 30, 1000));
                     angry = true;
                     if (AITimer % 5 == 0)
                         Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<TerrortomaScream>(), 0, 0);
@@ -659,7 +674,7 @@ namespace EbonianMod.NPCs.Terrortoma
 
                 if (AITimer >= 230)
                 {
-                    AIState = Vilethorn; //vilethorn = dash
+                    AIState = TitteringSpawn; //vilethorn = dash
                     AITimer = 0;
                 }
             }
@@ -706,6 +721,8 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 if (AITimer >= 290)
                 {
+                    if (hasDonePhase2ApeShitMode)
+                        finishedPattern = true;
                     ResetState();
                 }
             }
@@ -1095,7 +1112,6 @@ namespace EbonianMod.NPCs.Terrortoma
 
                 if (AITimer >= 180)
                 {
-                    finishedPattern = true;
                     ResetState();
                 }
             }
