@@ -1432,13 +1432,14 @@ namespace EbonianMod.NPCs.ArchmageX
                             headFrame.Y = AngryFace;
                         else
                             headFrame.Y = SmirkFace;
-                        rightArmRot = Helper.LerpAngle(rightArmRot, MathHelper.ToRadians(AITimer * 8f), 0.15f);
+                        AITimer3 = Lerp(AITimer3, 1, 0);
+                        rightArmRot = Helper.LerpAngle(rightArmRot, MathHelper.ToRadians(AITimer * 8f), AITimer3);
                         NPC.direction = NPC.spriteDirection = ((NPC.Center + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.PiOver4 * 0.5f) * 20).X > NPC.Center.X ? -1 : 1);
                         leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                         if (AITimer == 40)
                             if (oldAttack != AIState)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? (doneAttacksBefore ? "STEAL THIS YOU BASTARD!!" : "THIS IS VERY EXPENSIVE!") : "Amethysts of Empowerment!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? (doneAttacksBefore ? "STEAL THIS!!" : "THIS IS VERY EXPENSIVE!") : "Amethysts of Empowerment!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
                                 currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "GRAAAAAAAAAH!!!!!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
 
@@ -1458,6 +1459,7 @@ namespace EbonianMod.NPCs.ArchmageX
 
                         if (AITimer >= 130)
                         {
+                            AITimer3 = 0;
                             Reset();
                             PickAttack();
                         }

@@ -456,7 +456,7 @@ namespace EbonianMod.NPCs.Garbage
                     AIState = Intro;
                     AITimer = 0;
                 }
-                if (!player.active || player.dead)
+                if ((!player.active || player.dead) && AIState != Death)
                 {
                     if (NPC.timeLeft > 10)
                     {
@@ -557,15 +557,11 @@ namespace EbonianMod.NPCs.Garbage
                     Main.musicFade[MusicLoader.GetMusicSlot(Mod, "Sounds/Music/GarbageSiren")] = 1;
                     Music = 0;
                 }
-                if (AITimer >= 665 && player.Distance(NPC.Center) > 4500 / 2)
+                if (AITimer >= 665)
                 {
                     NPC.immortal = false;
                     NPC.dontTakeDamage = false;
                     NPC.StrikeInstantKill();
-                }
-                if (AITimer >= 665 && player.Distance(NPC.Center) < 4500 / 2)
-                {
-                    NPC.active = false;
                 }
                 if (AITimer2 == 7)
                     SoundEngine.PlaySound(EbonianSounds.exolDash, NPC.Center);
@@ -1554,7 +1550,7 @@ namespace EbonianMod.NPCs.Garbage
             {
                 if (player.active)
                 {
-                    if (player.Center.Distance(targetPos) < 4500 / 2 - 100)
+                    if (player.Center.Distance(targetPos) < 4500 / 2 - 200)
                         player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " advocated for the legalization of nuclear bombs."), 999999, 0);
                 }
 

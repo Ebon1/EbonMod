@@ -181,6 +181,7 @@ namespace EbonianMod.Items.Weapons.Magic
                 if (Projectile.ai[2] >= 20)
                 {
                     player.CheckMana(1, true);
+                    player.manaRegenDelay = player.maxRegenDelay;
                 }
 
                 if (Projectile.ai[0] > 90 - Projectile.ai[2] * 3 && Projectile.ai[2] < 20)
@@ -188,6 +189,7 @@ namespace EbonianMod.Items.Weapons.Magic
                     Projectile.ai[1] = 1f;
 
                     player.CheckMana((int)(20 - (Projectile.ai[2] / 2)), true);
+                    player.manaRegenDelay = player.maxRegenDelay;
                     SoundEngine.PlaySound(EbonianSounds.heartbeat.WithVolumeScale(1.3f), end);
                     Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), end, Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0, Projectile.owner);
                     Projectile.damage++;

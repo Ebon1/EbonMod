@@ -76,7 +76,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<FlameExplosionWSprite>(), Projectile.damage / 3, 0, Projectile.owner);
             a.friendly = true;
-            a.hostile = Projectile.ai[2] == 0;
+            a.hostile = Projectile.DamageType != DamageClass.Summon;
         }
     }
 }
