@@ -60,9 +60,9 @@ namespace EbonianMod.Common.Systems.Worldgen
                 if (_y != 0)
                     break;
             }
-            for (int i = x + 1; i < x + 4; i++)
+            for (int i = x - 40; i < x + 15; i++)
             {
-                for (int j = _y; j < _y + 11; j++)
+                for (int j = _y - 40; j < _y + 15; j++)
                 {
                     if (TileID.Sets.BreakableWhenPlacing[Main.tile[i, j].TileType] || Main.tile[i, j].TileType == TileID.LargePiles || Main.tile[i, j].TileType == TileID.LargePiles2 || Main.tile[i, j].TileType == TileID.SmallPiles)
                     {

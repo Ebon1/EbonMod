@@ -113,7 +113,7 @@ namespace EbonianMod.Items.Weapons.Summoner
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
+                if (Collision.CanHitLine(player.position, player.width, player.height, npc.position, npc.width, npc.height))
                 {
                     targetDist = Vector2.Distance(Projectile.Center, targetPos);
                     targetPos = npc.Center;
@@ -130,7 +130,7 @@ namespace EbonianMod.Items.Weapons.Summoner
                     if (npc.CanBeChasedBy(this, false))
                     {
                         float distance = Vector2.Distance(npc.Center, Projectile.Center);
-                        if ((distance < targetDist || !target) && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
+                        if ((distance < targetDist || !target) && Collision.CanHitLine(player.position, player.width, player.height, npc.position, npc.width, npc.height))
                         {
                             targetDist = distance;
                             targetPos = npc.Center;

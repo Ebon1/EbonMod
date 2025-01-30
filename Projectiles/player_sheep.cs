@@ -54,7 +54,7 @@ namespace EbonianMod.Projectiles
         {
             Player player = Main.player[Projectile.owner];
             bool sheep = player.GetModPlayer<EbonianPlayer>().sheep;
-            if (!sheep) Projectile.Kill();
+            if (!sheep || player.dead || !player.active) Projectile.Kill();
             else Projectile.timeLeft = Projectile.extraUpdates * 2;
             Projectile.Center = player.Bottom + new Vector2(0, -Projectile.height / 2);
             Projectile.direction = Projectile.spriteDirection = player.direction;

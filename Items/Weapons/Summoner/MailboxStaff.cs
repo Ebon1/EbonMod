@@ -95,7 +95,7 @@ namespace EbonianMod.Items.Weapons.Summoner
             Vector2 targetPos = Projectile.position;
             Vector2 targetVel = Projectile.velocity;
             int index = -1;
-            float targetDist = 400;
+            float targetDist = 250;
             bool target = false;
             if (player.HasMinionAttackTargetNPC)
             {
