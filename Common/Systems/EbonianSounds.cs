@@ -37,6 +37,10 @@ namespace EbonianMod.Common.Systems
         cecitiorOpen,
         cecitiorClose,
         cecitiorCloseShort,
+        cecitiorIdle,
+        cecitiorSlam,
+        cecitiorSlice,
+        cecitiorSpit,
         eggplosion,
         eruption,
         exolDash,
@@ -157,21 +161,50 @@ namespace EbonianMod.Common.Systems
 
             cecitiorOpen = Default with
             {
-                SoundPath = ebonianSoundPath + "cecitiorOpen",
+                SoundPath = ebonianSoundPath + "Cecitior/cecitiorOpen",
                 MaxInstances = 1
             };
 
             cecitiorCloseShort = Default with
             {
-                SoundPath = ebonianSoundPath + "cecitiorCloseShort",
+                SoundPath = ebonianSoundPath + "Cecitior/cecitiorCloseShort",
                 MaxInstances = 1
             };
 
 
             cecitiorClose = Default with
             {
-                SoundPath = ebonianSoundPath + "cecitiorClose",
+                SoundPath = ebonianSoundPath + "Cecitior/cecitiorClose",
                 MaxInstances = 1
+            };
+
+            cecitiorIdle = Default with
+            {
+                SoundPath = ebonianSoundPath + "Cecitior/cecitiorIdle",
+                PitchVariance = 0,
+                MaxInstances = 1,
+                IsLooped = true
+            };
+
+            cecitiorSlam = Default with
+            {
+                SoundPath = ebonianSoundPath + "Cecitior/cecitiorSlam",
+                MaxInstances = 1,
+                Variants = [0, 1, 2]
+            };
+
+            cecitiorSlice = Default with
+            {
+                SoundPath = ebonianSoundPath + "Cecitior/cecitiorSlice",
+                MaxInstances = 1,
+                Variants = [0, 1, 2]
+            };
+
+            cecitiorSpit = Default with
+            {
+                SoundPath = ebonianSoundPath + "Cecitior/cecitiorSpit",
+                MaxInstances = 1,
+                Variants = [0, 1, 2, 3]
             };
 
             eggplosion = Default with
@@ -231,14 +264,14 @@ namespace EbonianMod.Common.Systems
 
             garbageAwaken = Default with
             {
-                SoundPath = ebonianSoundPath + "garbageAwaken",
+                SoundPath = ebonianSoundPath + "HotGarbage/garbageAwaken",
                 PitchVariance = 0
             };
 
 
             garbageSignal = Default with
             {
-                SoundPath = ebonianSoundPath + "garbageSignal",
+                SoundPath = ebonianSoundPath + "HotGarbage/garbageSignal",
                 PitchVariance = 0
             };
 
@@ -287,7 +320,7 @@ namespace EbonianMod.Common.Systems
 
             terrortomaDash = Default with
             {
-                SoundPath = ebonianSoundPath + "terrortomaDash"
+                SoundPath = ebonianSoundPath + "Terrortoma/terrortomaDash"
             };
 
 
@@ -305,13 +338,13 @@ namespace EbonianMod.Common.Systems
 
             terrortomaFlesh = Default with
             {
-                SoundPath = ebonianSoundPath + "terrortomaFlesh"
+                SoundPath = ebonianSoundPath + "Terrortoma/terrortomaFlesh"
             };
 
 
             cecitiorBurp = Default with
             {
-                SoundPath = ebonianSoundPath + "cecitiorBurp"
+                SoundPath = ebonianSoundPath + "Cecitior/cecitiorBurp"
             };
 
 
@@ -330,7 +363,7 @@ namespace EbonianMod.Common.Systems
 
             garbageLaser = Default with
             {
-                SoundPath = ebonianSoundPath + "garbageLaser",
+                SoundPath = ebonianSoundPath + "HotGarbage/garbageLaser",
                 PitchVariance = 0
             };
 
@@ -345,7 +378,7 @@ namespace EbonianMod.Common.Systems
 
             terrortomaLaugh = Default with
             {
-                SoundPath = ebonianSoundPath + "terrortomaLaugh",
+                SoundPath = ebonianSoundPath + "Terrortoma/terrortomaLaugh",
                 Variants = new int[] { 0, 1 },
                 PitchVariance = 0.25f,
                 Volume = 1.1f
@@ -378,13 +411,13 @@ namespace EbonianMod.Common.Systems
 
             xSpirit = Default with
             {
-                SoundPath = ebonianSoundPath + "xSpirit",
+                SoundPath = ebonianSoundPath + "Xareus/xSpirit",
                 Volume = 0.7f
             };
 
             xDeath = Default with
             {
-                SoundPath = ebonianSoundPath + "xDeath",
+                SoundPath = ebonianSoundPath + "Xareus/xDeath",
                 PitchVariance = 0.05f
             };
 

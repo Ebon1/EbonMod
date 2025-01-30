@@ -27,6 +27,7 @@ using EbonianMod.NPCs.ArchmageX;
 using EbonianMod.Tiles;
 using Terraria.Graphics.CameraModifiers;
 using EbonianMod.Common.CameraModifiers;
+using EbonianMod.NPCs.Cecitior;
 
 namespace EbonianMod
 {
@@ -92,6 +93,11 @@ namespace EbonianMod
         }
         public override void PostUpdateEverything()
         {
+            if (!NPC.AnyNPCs(NPCType<Cecitior>()))
+            {
+                if (SoundEngine.TryGetActiveSound(Cecitior.cachedSound, out var _activeSound))
+                    _activeSound.Stop();
+            }
             xareusFightCooldown--;
             constantTimer++;
 

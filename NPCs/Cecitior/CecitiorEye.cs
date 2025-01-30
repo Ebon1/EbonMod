@@ -277,6 +277,7 @@ namespace EbonianMod.NPCs.Cecitior
                         NPC.velocity = Helper.FromAToB(NPC.Center, center.Center + new Vector2((NPC.ai[1] - 3) * 200, -100), false) / 10f;
                         if (AITimer % 30 == 0)
                         {
+                            SoundEngine.PlaySound(EbonianSounds.cecitiorSpit, NPC.Center);
                             Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Vector2.UnitY * 5, ProjectileID.BloodArrow, 15, 0);
                             a.hostile = true;
                             a.friendly = false;
@@ -335,7 +336,7 @@ namespace EbonianMod.NPCs.Cecitior
                     focalPoint = player.Center;
                     if (center.ai[1] % (halfEyesPhase2 ? 20 : 50) == 0 && center.ai[1] > 1)
                     {
-                        SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
+                        SoundEngine.PlaySound(EbonianSounds.cecitiorSpit, NPC.Center);
                         Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), NPC.Center, Helper.FromAToB(NPC.Center, focalPoint) * 7f, ProjectileType<CecitiorTeeth>(), 30, 0);
                     }
                     break;

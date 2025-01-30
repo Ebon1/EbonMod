@@ -417,7 +417,8 @@ namespace EbonianMod.NPCs.Cecitior
         const int PhaseTransition = -4, PrePreDeath = -3, Death = -2, PreDeath = -1, Intro = 0, Idle = 1, EyeBehaviour = 2, Chomp = 3, Teeth = 4, EyeBehaviour2 = 5, LaserRain = 6, ThrowUpBlood = 7, Tongue = 8,
             Phase2ThrowUpEyes = 9, Phase2Claw = 10, Phase2ClawGrab = 11, Phase2ClawMultiple = 12, Phase2GrabBomb = 13, Phase2ClawBodySlam = 14;
 
-        SlotId cachedSound, openSound;
+        public static SlotId cachedSound;
+        public SlotId openSound;
         Vector2 savedPos, savedClawPos;
         const int attackNum = 14;
         public float[] pattern = new float[attackNum];
@@ -509,19 +510,13 @@ namespace EbonianMod.NPCs.Cecitior
             if (AIState != Idle && AIState != Intro && AIState != PrePreDeath && AIState != PreDeath && AIState != Death && AIState != PhaseTransition)
                 OldState = AIState;
             Player player = Main.player[NPC.target];
-            SoundStyle selected = EbonianSounds.flesh0;
-            switch (Main.rand.Next(3))
-            {
-                case 0:
-                    selected = EbonianSounds.flesh1;
-                    break;
-                case 1:
-                    selected = EbonianSounds.flesh2;
-                    break;
-            }
             if (!cachedSound.IsValid || !SoundEngine.TryGetActiveSound(cachedSound, out var activeSound) || !activeSound.IsPlaying)
             {
-                cachedSound = SoundEngine.PlaySound(selected, NPC.Center);
+                cachedSound = SoundEngine.PlaySound(EbonianSounds.cecitiorIdle.WithVolumeScale(0.35f), NPC.Center);
+            }
+            if (SoundEngine.TryGetActiveSound(cachedSound, out var __activeSound))
+            {
+                __activeSound.Pitch = Lerp(-1, 1, NPC.velocity.Length() / 13);
             }
             int eyeCount = 0;
             foreach (NPC npc in Main.ActiveNPCs)
@@ -643,6 +638,8 @@ namespace EbonianMod.NPCs.Cecitior
                 NPC.life = 0;
                 GetInstance<DownedBossSystem>().downedCecitior = true;
                 SoundEngine.PlaySound(EbonianSounds.evilOutro);
+                if (SoundEngine.TryGetActiveSound(cachedSound, out var _activeSound))
+                    _activeSound.Stop();
                 NPC.checkDead();
             }
             else if (AIState == PrePreDeath)
@@ -1043,8 +1040,8 @@ namespace EbonianMod.NPCs.Cecitior
                 {
                     NPC.velocity = Vector2.Zero;
 
-                    SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
-                    SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
+                    SoundEngine.PlaySound(EbonianSounds.cecitiorSpit, NPC.Center);
+                    SoundEngine.PlaySound(EbonianSounds.cecitiorSpit, NPC.Center);
                     for (int i = 0; i < 6; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 12);
@@ -1059,7 +1056,7 @@ namespace EbonianMod.NPCs.Cecitior
                 if (AITimer == 50 && halfEyesPhase2)
                 {
                     NPC.velocity = Vector2.Zero;
-                    SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
+                    SoundEngine.PlaySound(EbonianSounds.cecitiorSpit, NPC.Center);
                     for (int i = 0; i < 6; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 12);
@@ -1073,7 +1070,7 @@ namespace EbonianMod.NPCs.Cecitior
                 }
                 if (AITimer == 60 && phase2)
                 {
-                    SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
+                    SoundEngine.PlaySound(EbonianSounds.cecitiorSpit, NPC.Center);
                     for (int i = 0; i < 6; i++)
                     {
                         float angle = Helper.CircleDividedEqually(i, 12);
@@ -1203,7 +1200,7 @@ namespace EbonianMod.NPCs.Cecitior
                     AITimer2 -= 0.55f;
                     NPC.velocity = Vector2.Zero;
                     if (AITimer % 3 == 0)
-                        SoundEngine.PlaySound(SoundID.Item42, NPC.Center);
+                        SoundEngine.PlaySound(EbonianSounds.cecitiorSpit, NPC.Center);
                     for (int i = -1; i < 2; i++)
                     {
                         if (i == 0)
@@ -1375,7 +1372,7 @@ namespace EbonianMod.NPCs.Cecitior
                     if (AITimer3 == 0)
                     {
                         savedClawPos = claw[(int)AITimer3].position;
-                        SoundEngine.PlaySound(EbonianSounds.clawSwipe, NPC.Center);
+                        SoundEngine.PlaySound(EbonianSounds.cecitiorSlice, NPC.Center);
                     }
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), claw[(int)AITimer3].position, Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0);
                 }
@@ -1405,7 +1402,7 @@ namespace EbonianMod.NPCs.Cecitior
                                 AITimer2 = 0;
                                 AITimer = 60;
                                 savedClawPos = claw[(int)AITimer3].position;
-                                SoundEngine.PlaySound(EbonianSounds.clawSwipe, NPC.Center);
+                                SoundEngine.PlaySound(EbonianSounds.cecitiorSlice, NPC.Center);
                                 savedPos = claw[(int)AITimer3].position + Vector2.Clamp(Helper.FromAToB(claw[(int)AITimer3].position, player.Center, false), -Vector2.One * 320, Vector2.One * 320);
                             }
                             else
@@ -1419,7 +1416,7 @@ namespace EbonianMod.NPCs.Cecitior
                                 AITimer2 = 0;
                                 AITimer = 50;
                                 savedClawPos = claw[(int)AITimer3].position;
-                                SoundEngine.PlaySound(EbonianSounds.clawSwipe, NPC.Center);
+                                SoundEngine.PlaySound(EbonianSounds.cecitiorSlice, NPC.Center);
                                 savedPos = claw[(int)AITimer3].position + Vector2.Clamp(Helper.FromAToB(claw[(int)AITimer3].position, player.Center, false), -Vector2.One * 320, Vector2.One * 320);
                             }
                             else
@@ -1732,7 +1729,7 @@ namespace EbonianMod.NPCs.Cecitior
 
 
                         Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ProjectileType<FatSmash>(), 0, 0, 0, 0);
-                        SoundEngine.PlaySound(Main.rand.NextBool() ? EbonianSounds.chomp0 : EbonianSounds.chomp1, NPC.Center);
+                        SoundEngine.PlaySound(EbonianSounds.cecitiorSlam, NPC.Center);
                     }
                     if (AITimer > 65 && AITimer2 == 1)
                     {
@@ -1800,7 +1797,7 @@ namespace EbonianMod.NPCs.Cecitior
                                     Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center - new Vector2(0, 100), Main.rand.NextVector2Circular(4, 4), ProjectileType<CecitiorEyeP>(), 40, 0, 0, 0);
                                 }
                             }
-                            SoundEngine.PlaySound(Main.rand.NextBool() ? EbonianSounds.chomp0 : EbonianSounds.chomp1, NPC.Center);
+                            SoundEngine.PlaySound(EbonianSounds.cecitiorSlam, NPC.Center);
                         }
                         if (AITimer > 85 && AITimer2 == 3)
                         {

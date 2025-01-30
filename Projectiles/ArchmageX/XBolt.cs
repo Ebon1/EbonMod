@@ -137,8 +137,6 @@ namespace EbonianMod.Projectiles.ArchmageX
                 Projectile.ai[1] = 0.01f;
             }
         }
-
-        public override bool? CanDamage() => Projectile.ai[0] >= 25;
         public override void AI()
         {
             if (++Projectile.frameCounter % 25 == 0)
