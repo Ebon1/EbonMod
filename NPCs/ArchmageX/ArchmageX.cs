@@ -99,8 +99,8 @@ namespace EbonianMod.NPCs.ArchmageX
             Texture2D staff = Helper.GetTexture("Items/Weapons/Magic/StaffOfXItem");
             Texture2D bigStaff = Helper.GetTexture("Items/Weapons/Magic/StaffOfX");
             Texture2D bigStaffBloom = Helper.GetTexture("Items/Weapons/Magic/StaffOfX_Bloom");
-            Texture2D heli = Helper.GetExtraTexture("Sprites/ArchmageXHeli");
-            Texture2D heliGlow = Helper.GetExtraTexture("Sprites/ArchmageXHeli_Glow");
+            Texture2D heli = ExtraSpriteTextures.ArchmageXHeli;
+            Texture2D heliGlow = ExtraSpriteTextures.ArchmageXHeli_Glow;
 
             /*
             Vector2 staffP = NPC.Center + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.Pi - MathHelper.PiOver4 * 0.8f + (MathHelper.ToRadians((headYOff + 2) * 4) * NPC.direction)) * 6;
@@ -182,7 +182,7 @@ namespace EbonianMod.NPCs.ArchmageX
                 arenaVFXOffset = 0;
             arenaVFXOffset = MathHelper.Clamp(arenaVFXOffset, float.Epsilon, 1 - float.Epsilon);
             List<VertexPositionColorTexture> verticesR = new List<VertexPositionColorTexture>();
-            Texture2D texture = Helper.GetExtraTexture("wavyLaser2");
+            Texture2D texture = ExtraTextures.wavyLaser2;
             Vector2 startR = GetArenaRect().BottomRight() + Vector2.UnitY * 16 - Main.screenPosition;
             Vector2 offVert = (Helper.FromAToB(GetArenaRect().BottomRight() + Vector2.UnitY * 16, GetArenaRect().BottomRight() - Vector2.UnitY * 16 * 6, false));
             float rotVert = Helper.FromAToB(startR, startR + offVert).ToRotation();
@@ -221,7 +221,7 @@ namespace EbonianMod.NPCs.ArchmageX
             Rectangle rect = new Rectangle(GetArenaRect().X - (int)Main.screenPosition.X, GetArenaRect().Y - (int)Main.screenPosition.Y, GetArenaRect().Width, GetArenaRect().Height);
 
             for (int i = 0; i < 5; i++)
-                Main.spriteBatch.Draw(Helper.GetExtraTexture("pixel"), rect, Color.Indigo * arenaFlash);
+                Main.spriteBatch.Draw(ExtraTextures.pixel, rect, Color.Indigo * arenaFlash);
             Main.spriteBatch.ApplySaved();
 
         }

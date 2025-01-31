@@ -99,9 +99,9 @@ namespace EbonianMod.Projectiles.ArchmageX
 
             List<VertexPositionColorTexture> verticesTelegraph1 = new List<VertexPositionColorTexture>();
             List<VertexPositionColorTexture> verticesTelegraph2 = new List<VertexPositionColorTexture>();
-            Texture2D texture = Helper.GetExtraTexture("wavyLaser");
-            Texture2D texture2 = Helper.GetExtraTexture("Ex1");
-            Texture2D texture3 = Helper.GetExtraTexture("Tentacle");
+            Texture2D texture = ExtraTextures.wavyLaser;
+            Texture2D texture2 = ExtraTextures.Ex1;
+            Texture2D texture3 = ExtraTextures.Tentacle;
             Vector2 start = Projectile.Center - Main.screenPosition;
             Vector2 off = (Projectile.velocity.ToRotation().ToRotationVector2() * 1528);
             Vector2 end = start + off;
@@ -123,7 +123,7 @@ namespace EbonianMod.Projectiles.ArchmageX
 
                 float __off = Projectile.localAI[0];
                 if (__off > 1) __off = -__off + 1;
-                float _off = (__off + i)%1f;
+                float _off = (__off + i) % 1f;
 
                 Color col = Color.White * 0.5f * s;
                 if (Projectile.ai[0] > 0)

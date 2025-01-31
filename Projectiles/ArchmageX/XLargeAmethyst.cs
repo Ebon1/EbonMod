@@ -98,7 +98,7 @@ namespace EbonianMod.Projectiles.ArchmageX
 
                     float __off = vfxOffset;
                     if (__off > 1) __off = -__off + 1;
-                    float _off = (__off + mult)%1f;
+                    float _off = (__off + mult) % 1f;
                     vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 + (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount + i * 4) * 0.03f) - Main.screenPosition + new Vector2(20 * mult * s, 0).RotatedBy(Projectile.velocity.ToRotation() - MathHelper.PiOver2), col, new Vector2(_off, 1)));
                     vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 + (Projectile.Size / 4).RotatedBy((Main.GameUpdateCount + i * 4) * 0.03f) - Main.screenPosition + new Vector2(20 * mult * s, 0).RotatedBy(Projectile.velocity.ToRotation() + MathHelper.PiOver2), col, new Vector2(_off, 0)));
 
@@ -111,8 +111,8 @@ namespace EbonianMod.Projectiles.ArchmageX
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (vertices.Count > 2 && vertices2.Count > 2)
             {
-                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("wavyLaser"), false);
-                Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("wavyLaser"), false);
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.wavyLaser, false);
+                Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.wavyLaser, false);
             }
             Main.spriteBatch.ApplySaved();
             for (int i = 0; i < 2; i++)

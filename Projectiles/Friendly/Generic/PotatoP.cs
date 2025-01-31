@@ -86,8 +86,8 @@ namespace EbonianMod.Projectiles.Friendly.Generic
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("LintyTrail"), false);
-                    Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("FlamesSeamless"), false);
+                    Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.LintyTrail, false);
+                    Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.FlamesSeamless, false);
                 }
             }
             Main.spriteBatch.ApplySaved();
@@ -95,7 +95,7 @@ namespace EbonianMod.Projectiles.Friendly.Generic
         }
         public override void PostDraw(Color lightColor)
         {
-            Texture2D tex = Helper.GetExtraTexture("fireball");
+            Texture2D tex = ExtraTextures.fireball;
             Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.extraUpdates > 1)
                 Main.spriteBatch.Draw(tex, Projectile.Center - Projectile.velocity.ToRotation().ToRotationVector2() * 14 - Main.screenPosition, null, Color.OrangeRed, Projectile.rotation, tex.Size() / 2, 0.55f, SpriteEffects.None, 0);

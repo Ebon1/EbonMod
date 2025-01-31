@@ -39,7 +39,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public List<Vector2> oldPosSaved = new List<Vector2>(30);
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetExtraTexture("laser2");
+            Texture2D tex = ExtraTextures.laser2;
             float s = 0f;
             List<VertexInfo2> vertices = new();
             List<VertexInfo2> vertices2 = new();
@@ -149,7 +149,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         float animationOffset;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetExtraTexture("wavyLaser");
+            Texture2D tex = ExtraTextures.wavyLaser;
             float s = 0f;
             List<VertexPositionColorTexture> vertices = new();
             List<VertexPositionColorTexture> vertices2 = new();

@@ -102,7 +102,7 @@ namespace EbonianMod.Items.Weapons.Magic
         {
 
             if (seed == 0) seed = Main.rand.Next(int.MaxValue / 2);
-            Texture2D tex = Helper.GetExtraTexture("Extras2/scratch_03");
+            Texture2D tex = ExtraTextures2.scratch_03;
             float max = 40;
             Main.spriteBatch.Reload(BlendState.Additive);
             UnifiedRandom rand = new UnifiedRandom(seed);

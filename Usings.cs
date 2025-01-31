@@ -9,6 +9,7 @@ global using ReLogic.Content;
 
 // Ebonian Mod
 global using EbonianMod.Common;
+global using EbonianMod.Common.TextureLoading;
 global using EbonianMod.Common.Systems;
 global using EbonianMod.Common.Systems.Misc;
 global using static EbonianMod.Common.Easings;

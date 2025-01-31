@@ -167,10 +167,10 @@ namespace EbonianMod.Projectiles.ArchmageX
             Main.spriteBatch.Reload(SpriteSortMode.Immediate);
 
             float scale = Projectile.scale * (Projectile.damage == 0 ? 4 : 8);
-            Texture2D tex = Helper.GetExtraTexture("Extras2/star_09");
-            Texture2D bolt = Helper.GetExtraTexture("laser_purple");
+            Texture2D tex = ExtraTextures2.star_09;
+            Texture2D bolt = ExtraTextures.laser_purple;
             if (Projectile.damage == 0)
-                bolt = Helper.GetExtraTexture("laser3");
+                bolt = ExtraTextures.laser3;
             Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.damage != 0)
                 Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Indigo * Projectile.scale, Main.GameUpdateCount * -0.003f, tex.Size() / 2, 0.2f * 2, SpriteEffects.None, 0);

@@ -34,9 +34,9 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex1 = Helper.GetExtraTexture("Extras2/light_01");
-            Texture2D tex2 = Helper.GetExtraTexture("Extras2/scorch_03");
-            Texture2D tex3 = Helper.GetExtraTexture("circlething");
+            Texture2D tex1 = ExtraTextures2.light_01;
+            Texture2D tex2 = ExtraTextures2.scorch_03;
+            Texture2D tex3 = ExtraTextures.circlething;
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
             Main.spriteBatch.Reload(EbonianMod.SpriteRotation);

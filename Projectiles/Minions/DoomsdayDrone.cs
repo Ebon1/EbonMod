@@ -155,8 +155,8 @@ namespace EbonianMod.Projectiles.Minions
 
             float mult = (0.55f + (float)Math.Sin(Main.GlobalTimeWrappedHourly/* * 2*/) * 0.1f);
             float scale = Projectile.scale * 2 * mult;
-            Texture2D texture = Request<Texture2D>("EbonianMod/Extras/Line").Value;
-            Texture2D bolt = Helper.GetExtraTexture("laser4");
+            Texture2D texture = ExtraTextures.Line;
+            Texture2D bolt = ExtraTextures.laser4;
             Vector2 start = Projectile.Center;
             Vector2 end = Projectile.Center + Projectile.velocity * /*Helper.TRay.CastLength(Projectile.Center, Projectile.velocity,*/ Main.screenWidth;//);
             float num = Vector2.Distance(start, end);
@@ -169,13 +169,13 @@ namespace EbonianMod.Projectiles.Minions
                 Main.spriteBatch.Draw(bolt, vector2 - Main.screenPosition, null, Color.Maroon, rotation, bolt.Size() / 2, new Vector2(1, Projectile.scale), SpriteEffects.None, 0f);
                 vector2 = start + i * vector;
             }
-            texture = Request<Texture2D>("EbonianMod/Extras/Spotlight").Value;
+            texture = ExtraTextures.Spotlight;
 
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.Maroon, 0, new Vector2(texture.Width, texture.Height) / 2, scale, SpriteEffects.None, 0f);
 
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.White, 0, new Vector2(texture.Width, texture.Height) / 2, scale, SpriteEffects.None, 0f);
 
-            texture = Request<Texture2D>("EbonianMod/Extras/Spotlight").Value;
+            texture = ExtraTextures.Spotlight;
             for (int i = 0; i < 5; i++)
                 Main.spriteBatch.Draw(texture, end - Main.screenPosition, null, Color.Maroon, Projectile.rotation, new Vector2(texture.Width, texture.Height) / 2, scale, SpriteEffects.None, 0f);
 

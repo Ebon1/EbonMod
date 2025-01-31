@@ -34,7 +34,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetExtraTexture("explosion");
+            Texture2D tex = ExtraTextures.explosion;
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
             Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Maroon * alpha, Projectile.rotation, tex.Size() / 2, Projectile.ai[0] * 2, SpriteEffects.None, 0);
@@ -72,7 +72,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetExtraTexture("Extras2/circle_02");
+            Texture2D tex = ExtraTextures2.circle_02;
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
             Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Maroon * alpha, Projectile.rotation, tex.Size() / 2, Projectile.ai[0] * 2, SpriteEffects.None, 0);
@@ -111,7 +111,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetExtraTexture("Extras2/circle_02");
+            Texture2D tex = ExtraTextures2.circle_02;
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0] / 2);
             Color color = Color.Lerp(Color.OrangeRed, Color.Yellow, alpha);
@@ -150,7 +150,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetExtraTexture("Extras2/circle_02");
+            Texture2D tex = ExtraTextures2.circle_02;
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0] * 2);
             Color color = Color.Lerp(Color.OrangeRed, Color.Yellow, alpha);

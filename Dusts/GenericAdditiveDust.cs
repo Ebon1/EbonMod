@@ -43,7 +43,7 @@ namespace EbonianMod.Dusts
             {
                 if (d.type == DustType<GenericAdditiveDust>() && d.active)
                 {
-                    Texture2D tex = Request<Texture2D>("EbonianMod/Extras/explosion").Value;
+                    Texture2D tex = ExtraTextures.explosion;
                     if (d.customData != null)
                         sb.Draw(tex, d.position - Main.screenPosition, null, Color.White * d.scale * 5, 0, tex.Size() / 2, d.scale * 0.85f * 2, SpriteEffects.None, 0);
                     sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.customData != null ? ((int)d.customData == 2 ? d.scale * 10 : 1) : 1), 0, tex.Size() / 2, d.scale * 2, SpriteEffects.None, 0);
@@ -79,7 +79,7 @@ namespace EbonianMod.Dusts
             {
                 if (d.type == DustType<SparkleDust>() && d.active)
                 {
-                    Texture2D tex = Request<Texture2D>("EbonianMod/Extras/crosslight").Value;
+                    Texture2D tex = ExtraTextures.crosslight;
                     if (d.customData != null)
                         sb.Draw(tex, d.position - Main.screenPosition, null, Color.White * d.scale * 5, 0, tex.Size() / 2, d.scale * 0.85f * 2, SpriteEffects.None, 0);
                     sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.customData != null ? ((int)d.customData == 2 ? d.scale * 10 : 1) : 1), 0, tex.Size() / 2, d.scale * 2, SpriteEffects.None, 0);
@@ -123,7 +123,7 @@ namespace EbonianMod.Dusts
             {
                 if (d.type == DustType<LineDustFollowPoint>() && d.active)
                 {
-                    Texture2D tex = Request<Texture2D>("EbonianMod/Extras/Extras2/trace_01").Value;
+                    Texture2D tex = ExtraTextures2.trace_01;
                     sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.scale * 10), d.rotation, tex.Size() / 2, new Vector2(1, Clamp(d.velocity.Length() * 0.25f, 0, 3)) * d.scale * 2, SpriteEffects.None, 0);
                 }
             }

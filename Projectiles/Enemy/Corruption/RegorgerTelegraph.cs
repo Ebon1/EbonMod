@@ -27,7 +27,7 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
             Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.ai[0] > 0)
             {
-                Texture2D tex = Helper.GetExtraTexture("laser4");
+                Texture2D tex = ExtraTextures.laser4;
                 Vector2 pos = Projectile.Center;
                 Vector2 scale = new Vector2(1f, Projectile.ai[1]);
                 float eAlpha = MathHelper.Lerp(1, 0, Projectile.ai[2]);
@@ -80,8 +80,8 @@ namespace EbonianMod.Projectiles.Enemy.Corruption
             Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.ai[0] > 0)
             {
-                Texture2D tex = Helper.GetExtraTexture("laser4");
-                Texture2D chevron = Helper.GetExtraTexture("chevron_single");
+                Texture2D tex = ExtraTextures.laser4;
+                Texture2D chevron = ExtraTextures.chevron_single;
                 Vector2 pos = Projectile.Center;
                 Vector2 scale = new Vector2(1f, Projectile.ai[1]);
                 float progress = Utils.GetLerpValue(0, 40, Projectile.timeLeft);

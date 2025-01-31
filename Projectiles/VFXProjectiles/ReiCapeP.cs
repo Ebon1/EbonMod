@@ -82,7 +82,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             for (int i = 0; i < smoke.Length; i++)
             {
                 Smoke d = smoke[i];
-                Texture2D tex = Request<Texture2D>("EbonianMod/Extras/explosion").Value;
+                Texture2D tex = ExtraTextures.explosion;
                 sb.Draw(tex, player.RotatedRelativePoint(player.MountedCenter) - d.position - Main.screenPosition, null, Color.White * d.scale * 10, 0, tex.Size() / 2, d.scale * 2, SpriteEffects.None, 0);
             }
             //sb.Reload(BlendState.AlphaBlend);
@@ -231,8 +231,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         {
             if (lightColor != Color.Transparent) return;
             if (seed == 0) seed = Main.rand.Next(9421814);
-            Texture2D tex = Helper.GetExtraTexture("cone2");
-            Texture2D tex2 = Helper.GetExtraTexture("Extras2/trace_02");
+            Texture2D tex = ExtraTextures.cone2;
+            Texture2D tex2 = ExtraTextures2.trace_02;
             UnifiedRandom rand = new UnifiedRandom(seed);
             Main.spriteBatch.Reload(BlendState.Additive);
             float max = 40;
@@ -263,8 +263,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetExtraTexture("explosion");
-            Texture2D tex2 = Helper.GetExtraTexture("Extras2/star_09");
+            Texture2D tex = ExtraTextures.explosion;
+            Texture2D tex2 = ExtraTextures2.star_09;
             Main.spriteBatch.Reload(BlendState.Additive);
             Texture2D texture = TextureAssets.Projectile[Type].Value;
 

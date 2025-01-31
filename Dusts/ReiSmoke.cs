@@ -46,7 +46,7 @@ namespace EbonianMod.Dusts
             {
                 if (d.type == DustType<ReiSmoke>() && d.active)
                 {
-                    Texture2D tex = Request<Texture2D>("EbonianMod/Extras/explosion").Value;
+                    Texture2D tex = ExtraTextures.fireball;
                     sb.Draw(tex, d.position - Main.screenPosition, null, Color.White * d.scale * 10, 0, tex.Size() / 2, d.scale * 2, SpriteEffects.None, 0);
                 }
             }
