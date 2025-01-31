@@ -128,7 +128,7 @@ namespace EbonianMod
         }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
-            int textIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+            /*int textIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
             int textIndex2 = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Map / Minimap")) + 1;
             layers.Insert(textIndex, new LegacyGameInterfaceLayer("EbonianMod: BossText", () =>
             {
@@ -141,7 +141,7 @@ namespace EbonianMod
                 Helper.DrawDialogue();
 
                 return true;
-            }, InterfaceScaleType.UI));
+            }, InterfaceScaleType.UI));*/
         }
         public static int ShakeTimer = 0;
         public static float ScreenShakeAmount = 0;

@@ -198,7 +198,7 @@ namespace EbonianMod.Items.Weapons.Summoner
         {
             Texture2D tex = TextureAssets.Projectile[Type].Value;
             Texture2D glow = Helper.GetTexture(Texture + "_Glow");
-            Texture2D fireball = Helper.GetExtraTexture("fireball");
+            Texture2D fireball = ExtraTextures.fireball;
             Main.spriteBatch.Reload(BlendState.Additive);
             vfxOffset += 0.05f;
             if (vfxOffset >= 1)
@@ -225,7 +225,7 @@ namespace EbonianMod.Items.Weapons.Summoner
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (vertices.Count > 2)
             {
-                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("LintyTrail"), false);
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.LintyTrail, false);
             }
             Main.spriteBatch.ApplySaved();
             Main.EntitySpriteDraw(fireball, Projectile.Center - Main.screenPosition, null, Color.Indigo * Projectile.ai[2] * 0.5f, Projectile.velocity.ToRotation() + MathHelper.PiOver2, new Vector2(fireball.Width / 2, fireball.Height / 4), 1.2f + (((MathF.Sin(Main.GlobalTimeWrappedHourly * 5) + 1) / 2) * 0.4f), SpriteEffects.None, 0);

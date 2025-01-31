@@ -87,7 +87,7 @@ namespace EbonianMod.Items.Weapons.Magic
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            if (!player.active || player.dead || player.CCed || player.noItems  || !player.channel || !player.channel)
+            if (!player.active || player.dead || player.CCed || player.noItems || !player.channel || !player.channel)
             {
                 Projectile.Kill();
                 return;
@@ -97,7 +97,7 @@ namespace EbonianMod.Items.Weapons.Magic
                 player.itemTime = 2;
                 player.itemAnimation = 2;
             }
-            if (player.HeldItem.type != ItemType<VaccumWorm>()) {player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill();}
+            if (player.HeldItem.type != ItemType<VaccumWorm>()) { player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill(); }
             Projectile.timeLeft = 10;
             Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
             Vector2 pos = player.RotatedRelativePoint(player.MountedCenter);
@@ -166,7 +166,7 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D[] texture = new Texture2D[] { Helper.GetExtraTexture("Extras2/slash_06"), Helper.GetExtraTexture("Extras2/twirl_01"), Helper.GetExtraTexture("Extras2/twirl_02"), Helper.GetExtraTexture("Extras2/twirl_03"), };
+            Texture2D[] texture = new Texture2D[] { ExtraTextures2.slash_06, ExtraTextures2.twirl_01, ExtraTextures2.twirl_02, ExtraTextures2.twirl_03, };
             Main.spriteBatch.Reload(BlendState.Additive);
             Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
             for (int i = 0; i < windAlpha.Length; i++)

@@ -61,7 +61,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (vertices.Count > 2)
             {
-                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("FlamesSeamless"), false);
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.FlamesSeamless, false);
             }
             Main.spriteBatch.ApplySaved();
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -136,7 +136,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (vertices.Count > 2)
             {
-                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("laser2"), false);
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.laser2, false);
             }
             Main.spriteBatch.ApplySaved();
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -212,7 +212,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (vertices.Count > 2)
             {
-                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("laser2"), false);
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.laser2, false);
             }
             Main.spriteBatch.ApplySaved();
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -291,7 +291,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (vertices.Count > 2)
             {
-                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("laser2"), false);
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.laser2, false);
             }
             Main.spriteBatch.ApplySaved();
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -379,7 +379,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (vertices.Count > 2)
             {
-                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("FlamesSeamless"), false);
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.FlamesSeamless, false);
             }
             Main.spriteBatch.ApplySaved();
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -455,7 +455,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (vertices.Count > 2)
             {
-                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("FlamesSeamless"), false);
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.FlamesSeamless, false);
             }
             Main.spriteBatch.ApplySaved();
             Main.spriteBatch.Reload(BlendState.AlphaBlend);

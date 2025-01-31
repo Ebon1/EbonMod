@@ -121,8 +121,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
                 Main.EntitySpriteDraw(texture, position, sourceRectangle, color, Projectile.rotation + magicRotation * i, origin, (Projectile.scale - 0.8f) * 0.5f, SpriteEffects.None, 0);
             }
 
-            Texture2D tex = Helper.GetExtraTexture("cone5");
-            Texture2D tex2 = Helper.GetExtraTexture("Extras2/trace_04");
+            Texture2D tex = ExtraTextures.cone5;
+            Texture2D tex2 = ExtraTextures2.trace_04;
             UnifiedRandom rand = new UnifiedRandom(seed);
             float max = 30 * Projectile.ai[2];
             float alpha = MathHelper.Lerp(0.5f, 0, Projectile.ai[1]) * 2;
@@ -271,7 +271,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetExtraTexture("Extras2/star_08");
+            Texture2D tex = ExtraTextures2.star_08;
             float scale = MathHelper.Lerp(1, 0, Projectile.ai[0]);
 
             Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Black * (Projectile.ai[0] * 0.5f), Main.GameUpdateCount * 0.02f, tex.Size() / 2, scale * 2, SpriteEffects.None, 0);
@@ -279,7 +279,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             Main.spriteBatch.Reload(BlendState.Additive);
             for (int i = 0; i < 3; i++)
                 Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Red * Projectile.ai[0], Main.GameUpdateCount * 0.02f, tex.Size() / 2, scale * 2, SpriteEffects.None, 0);
-            tex = Helper.GetExtraTexture("Extras2/star_03");
+            tex = ExtraTextures2.star_03;
             Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Red * Projectile.ai[0], Main.GameUpdateCount * -0.01f, tex.Size() / 2, scale * 4, SpriteEffects.None, 0);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;

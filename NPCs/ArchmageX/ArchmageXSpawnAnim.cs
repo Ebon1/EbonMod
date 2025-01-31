@@ -68,7 +68,7 @@ namespace EbonianMod.NPCs.ArchmageX
         public override bool PreDraw(ref Color lightColor)
         {
             if (lightColor != Color.Transparent) return false;
-            Texture2D tex3 = Helper.GetExtraTexture("crosslight");
+            Texture2D tex3 = ExtraTextures.crosslight;
             Main.spriteBatch.Reload(BlendState.Additive);
             for (int i = 0; i < 4; i++)
             {

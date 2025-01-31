@@ -36,7 +36,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = Helper.GetExtraTexture("flare");
+            Texture2D tex = ExtraTextures.flare;
             float alpha = Projectile.ai[2];
             Main.spriteBatch.Reload(BlendState.Additive);
             Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.Indigo, Color.MediumSlateBlue * 0.7f, alpha) * alpha * 0.75f, Main.GameUpdateCount * 0.04f, tex.Size() / 2, alpha, SpriteEffects.None, 0);

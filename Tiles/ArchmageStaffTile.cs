@@ -53,7 +53,7 @@ namespace EbonianMod.Tiles
             Texture2D tex = Helper.GetTexture("Items/Weapons/Magic/StaffOfX");
             Texture2D bloom = Helper.GetTexture("Items/Weapons/Magic/StaffOfX_Bloom");
             Texture2D interact = Helper.GetTexture("Items/Weapons/Magic/StaffOfX_InteractionHover");
-            Texture2D streak = Helper.GetExtraTexture("Extras2/scratch_02");
+            Texture2D streak = ExtraTextures2.scratch_02");
             UnifiedRandom rand = new UnifiedRandom(i + j);
 
             Main.spriteBatch.SaveCurrent();
