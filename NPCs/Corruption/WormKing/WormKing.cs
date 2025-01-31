@@ -149,11 +149,11 @@ namespace EbonianMod.NPCs.Corruption.WormKing
             {
                 Vector2 direction = Vector2.UnitY;
                 int attempts = 0;
-                stalkBase = Helper.TRay.Cast(NPC.Center - new Vector2(0, 500), direction, 2000) + new Vector2(0, 100);
+                stalkBase = Helper.TRay.Cast(NPC.Center + new Vector2(MathF.Sin(NPC.ai[3] * 0.02f) * 200, 0) - new Vector2(0, 500), direction, 2000) + new Vector2(0, 100);
             }
-            if (AIState == Idle && Helper.TRay.CastLength(NPC.Top, -Vector2.UnitY, NPC.height * 3) < NPC.height * 2.9f)
+            if (AIState == Idle && Helper.TRay.CastLength(NPC.Top + new Vector2(MathF.Sin(NPC.ai[3] * 0.02f) * 200, 0), -Vector2.UnitY, NPC.height * 3) < NPC.height * 2.9f)
             {
-                stalkBase = Helper.TRay.Cast(NPC.Center - new Vector2(0, 1400), Vector2.UnitY, 2000) + new Vector2(0, 100);
+                stalkBase = Helper.TRay.Cast(NPC.Center + new Vector2(MathF.Sin(NPC.ai[3] * 0.02f) * 200, 0) - new Vector2(0, 1400), Vector2.UnitY, 2000) + new Vector2(0, 100);
                 NPC.Center = stalkBase - new Vector2(0, 800);
             }
 

@@ -61,7 +61,7 @@ namespace EbonianMod.Projectiles.Minions
             Vector2 targetPos = Projectile.position;
             Vector2 targetVel = Projectile.velocity;
             int index = -1;
-            float targetDist = 400;
+            float targetDist = 600;
             bool target = false;
             if (player.HasMinionAttackTargetNPC)
             {
@@ -100,7 +100,7 @@ namespace EbonianMod.Projectiles.Minions
             if (player.ownedProjectileCounts[Type] > 1)
                 off = Helper.CircleDividedEqually(Projectile.minionPos, player.ownedProjectileCounts[Type]);
 
-            if (target)
+            if (target && targetDist < 600)
             {
 
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, targetPos + new Vector2(0, -200).RotatedBy(off + MathF.Sin(Projectile.minionPos * 4 + Main.GlobalTimeWrappedHourly * 3) * 1.5f), false) / 40, 0.1f);
