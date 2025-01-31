@@ -37,9 +37,9 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
         public override void PostDraw(Color lightColor)
         {
             Player player = Main.player[Projectile.owner];
-            Texture2D slash = ExtraTextures2.twirl_03;
-            Texture2D stab = ExtraTextures2.trace_05;
-            Texture2D spin = ExtraTextures2.light_02;
+            Texture2D slash = Helper.GetExtraTexture("Extras2/twirl_03");
+            Texture2D stab = Helper.GetExtraTexture("Extras2/trace_05");
+            Texture2D spin = Helper.GetExtraTexture("Extras2/light_02");
             if (Projectile.localAI[0] != 0 && Projectile.localAI[0] <= 25)
             {
                 float mult = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));

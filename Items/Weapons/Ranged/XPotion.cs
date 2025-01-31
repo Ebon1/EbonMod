@@ -88,9 +88,9 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
             float alpha2 = MathHelper.Lerp(0.5f, 0, Projectile.ai[0]);
-            Texture2D ring = ExtraTextures.crosslight;
-            Texture2D explosion = ExtraTextures.explosion;
-            Texture2D flameEye2 = ExtraTextures.crosslight;
+            Texture2D ring = Helper.GetExtraTexture("crosslight");
+            Texture2D explosion = Helper.GetExtraTexture("explosion");
+            Texture2D flameEye2 = Helper.GetExtraTexture("crosslight");
             Main.spriteBatch.Reload(BlendState.Additive);
             //Main.spriteBatch.Draw(explosion, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha2 * 2, Projectile.rotation, explosion.Size() / 2, Projectile.ai[0] * 2, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(ring, Projectile.Center - Main.screenPosition, null, Color.Indigo * alpha, Projectile.rotation, ring.Size() / 2, Projectile.ai[0] * 1.1f * 3, SpriteEffects.None, 0);

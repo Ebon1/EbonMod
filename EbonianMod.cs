@@ -302,7 +302,7 @@ namespace EbonianMod
 
             if (FlashAlpha > 0)
             {
-                Main.spriteBatch.Draw(ExtraTextures.Line, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * FlashAlpha * 2);
+                Main.spriteBatch.Draw(Helper.GetExtraTexture("Line"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * FlashAlpha * 2);
             }
 
             Main.spriteBatch.End();
@@ -421,7 +421,7 @@ namespace EbonianMod
             if (secondPart)
             {
                 sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                gd.Textures[1] = ExtraTextures.space;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/space", (AssetRequestMode)1).Value;
                 RTOutline.CurrentTechnique.Passes[0].Apply();
                 RTOutline.Parameters["m"].SetValue(0.62f);
                 RTOutline.Parameters["n"].SetValue(0.01f);
@@ -450,10 +450,10 @@ namespace EbonianMod
             if (secondPart)
             {
 
-                gd.Textures[1] = ExtraTextures.darkShadowflameGradient;
-                gd.Textures[2] = ExtraTextures.space_full;
-                gd.Textures[3] = ExtraTextures.seamlessNoiseHighContrast;
-                gd.Textures[4] = ExtraTextures.alphaGradient;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/darkShadowflameGradient", (AssetRequestMode)1).Value;
+                gd.Textures[2] = Request<Texture2D>("EbonianMod/Extras/space_full", (AssetRequestMode)1).Value;
+                gd.Textures[3] = Request<Texture2D>("EbonianMod/Extras/seamlessNoiseHighContrast", (AssetRequestMode)1).Value;
+                gd.Textures[4] = Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
                 metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
                 metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.2f);
                 metaballGradientNoiseTex.Parameters["offsetX"].SetValue(1f);
@@ -481,10 +481,10 @@ namespace EbonianMod
         {
             if (secondPart)
             {
-                gd.Textures[1] = ExtraTextures.redGradient;
-                gd.Textures[2] = ExtraTextures.red;
-                gd.Textures[3] = ExtraTextures.swirlyNoise;
-                gd.Textures[4] = ExtraTextures.alphaGradient;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/redGradient", (AssetRequestMode)1).Value;
+                gd.Textures[2] = Request<Texture2D>("EbonianMod/Extras/red", (AssetRequestMode)1).Value;
+                gd.Textures[3] = Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
+                gd.Textures[4] = Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
                 metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
                 metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.2f);
                 metaballGradientNoiseTex.Parameters["offsetX"].SetValue(1f);
@@ -505,7 +505,7 @@ namespace EbonianMod
 
             if (secondPart)
             {
-                gd.Textures[1] = ExtraTextures.coherentNoise;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/coherentNoise", (AssetRequestMode)1).Value;
                 displacementMap.CurrentTechnique.Passes[0].Apply();
                 displacementMap.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.75f);
                 displacementMap.Parameters["offsetY"].SetValue(Main.GlobalTimeWrappedHourly * 0.25f);
@@ -513,17 +513,17 @@ namespace EbonianMod
                 displacementMap.Parameters["offset"].SetValue(0.0075f);
                 displacementMap.Parameters["alpha"].SetValue(0.1f);
                 sb.Draw(Instance.renders[3], Vector2.Zero, Color.White * 0.25f);
-                gd.Textures[1] = ExtraTextures.swirlyNoise;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
                 displacementMap.Parameters["offsetY"].SetValue(Main.GlobalTimeWrappedHourly * 0.34f);
                 sb.Draw(Instance.renders[3], Vector2.Zero, Color.White * 0.25f);
 
-                gd.Textures[1] = ExtraTextures.coherentNoise;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/coherentNoise", (AssetRequestMode)1).Value;
                 displacementMap.Parameters["offsetY"].SetValue(0);
                 displacementMap.Parameters["offsetX"].SetValue(Main.GlobalTimeWrappedHourly * 0.5f);
                 displacementMap.Parameters["offset"].SetValue(0.0075f);
                 displacementMap.Parameters["alpha"].SetValue(0.1f);
                 sb.Draw(Instance.renders[3], Vector2.Zero, Color.White * 0.25f);
-                gd.Textures[1] = ExtraTextures.swirlyNoise;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
                 displacementMap.Parameters["offsetX"].SetValue(Main.GlobalTimeWrappedHourly * 0.74f);
                 sb.Draw(Instance.renders[3], Vector2.Zero, Color.White * 0.25f);
 
@@ -549,10 +549,10 @@ namespace EbonianMod
 
             if (secondPart)
             {
-                gd.Textures[1] = ExtraTextures.shadowflameGradient;
-                gd.Textures[2] = ExtraTextures.space_full;
-                gd.Textures[3] = ExtraTextures.swirlyNoise;
-                gd.Textures[4] = ExtraTextures.alphaGradient;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/shadowflameGradient", (AssetRequestMode)1).Value;
+                gd.Textures[2] = Request<Texture2D>("EbonianMod/Extras/space_full", (AssetRequestMode)1).Value;
+                gd.Textures[3] = Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
+                gd.Textures[4] = Request<Texture2D>("EbonianMod/Extras/alphaGradient", (AssetRequestMode)1).Value;
                 metaballGradientNoiseTex.CurrentTechnique.Passes[0].Apply();
                 metaballGradientNoiseTex.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.1f);
                 metaballGradientNoiseTex.Parameters["offsetX"].SetValue(1f);
@@ -592,7 +592,7 @@ namespace EbonianMod
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (FlashAlpha > 0)
             {
-                Main.spriteBatch.Draw(ExtraTextures.Line, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * FlashAlpha * 2);
+                Main.spriteBatch.Draw(Helper.GetExtraTexture("Line"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * FlashAlpha * 2);
             }
             foreach (Projectile projectile in Main.ActiveProjectiles)
             {

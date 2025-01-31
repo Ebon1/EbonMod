@@ -106,7 +106,7 @@ namespace EbonianMod.NPCs.Garbage
             Texture2D drawTexture = Helper.GetTexture("NPCs/Garbage/HotGarbage");
             Texture2D glow = Helper.GetTexture("NPCs/Garbage/HotGarbage_Glow");
             Texture2D fire = Helper.GetTexture("NPCs/Garbage/HotGarbage_Fire");
-            Texture2D fireball = ExtraTextures.fireball;
+            Texture2D fireball = Helper.GetExtraTexture("fireball");
             Vector2 origin = new Vector2((drawTexture.Width / 3) * 0.5F, (drawTexture.Height / Main.npcFrameCount[NPC.type]) * 0.5F);
 
             Vector2 drawPos = new Vector2(
@@ -1355,17 +1355,17 @@ namespace EbonianMod.NPCs.Garbage
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (vertices.Count > 2)
             {
-                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.wavyLaser2, false);
+                Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("wavyLaser2"), false);
             }
             Main.spriteBatch.ApplySaved();
-            Texture2D pulse = ExtraTextures.PulseCircle2;
-            Texture2D ring = ExtraTextures.crosslight;
-            Texture2D ring2 = ExtraTextures2.slash_06;
-            Texture2D chevron = ExtraTextures.chevron;
-            Texture2D hazard = ExtraTextures.hazardUnblurred;
-            Texture2D textGlow = ExtraTextures.textGlow;
-            Texture2D circle = ExtraTextures.explosion2;
-            Texture2D exclamation = ExtraTextures.exclamation;
+            Texture2D pulse = Helper.GetExtraTexture("PulseCircle2");
+            Texture2D ring = Helper.GetExtraTexture("crosslight");
+            Texture2D ring2 = Helper.GetExtraTexture("Extras2/slash_06");
+            Texture2D chevron = Helper.GetExtraTexture("chevron");
+            Texture2D hazard = Helper.GetExtraTexture("hazardUnblurred");
+            Texture2D textGlow = Helper.GetExtraTexture("textGlow");
+            Texture2D circle = Helper.GetExtraTexture("explosion2");
+            Texture2D exclamation = Helper.GetExtraTexture("exclamation");
             float _alpha = Utils.GetLerpValue(0, 2, waveTimer);
             float alpha2 = Clamp((float)Math.Sin(_alpha * Math.PI) * 1, 0, 1f);
 

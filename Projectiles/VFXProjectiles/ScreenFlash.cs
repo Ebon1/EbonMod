@@ -38,7 +38,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Main.spriteBatch.Draw(ExtraTextures.Line, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * (Projectile.ai[0] - Projectile.ai[2]) * 2);
+            Main.spriteBatch.Draw(Helper.GetExtraTexture("Line"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * (Projectile.ai[0] - Projectile.ai[2]) * 2);
             return false;
         }
         public override void OnSpawn(IEntitySource source)

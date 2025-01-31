@@ -207,7 +207,7 @@ namespace EbonianMod.Items.Weapons.Melee
             swingProgressInv = MathHelper.Lerp(1, 0, swingProgress);
             f = MathHelper.Clamp(MathF.Sin((Projectile.ai[1] == 1 ? swingProgress : swingProgressInv) * MathF.PI) * .5f, 0, 1) * 2;
 
-            Texture2D tex = ExtraTextures2.slash_06;
+            Texture2D tex = Helper.GetExtraTexture("Extras2/slash_06");
 
             Main.spriteBatch.Reload(EbonianMod.SpriteRotation);
             float rotOffset = Lerp(-1.7f, 0, MathF.Pow(MathF.Sin(swingProgress * Pi), 2));
@@ -317,7 +317,7 @@ namespace EbonianMod.Items.Weapons.Melee
             swingProgressInv = MathHelper.Lerp(1, 0, swingProgress);
             f = MathHelper.Clamp(MathF.Sin((Projectile.ai[1] == 1 ? swingProgress : swingProgressInv) * MathF.PI) * .5f, 0, 1) * 2;
 
-            Texture2D tex = ExtraTextures2.slash_06;
+            Texture2D tex = Helper.GetExtraTexture("Extras2/slash_06");
 
             float rotOffset = Lerp(-1.7f, 0, MathF.Pow(MathF.Sin(swingProgress * Pi), 2));
             Main.spriteBatch.Reload(EbonianMod.SpriteRotation);

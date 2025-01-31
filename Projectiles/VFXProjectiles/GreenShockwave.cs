@@ -37,7 +37,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = ExtraTextures2.circle_02;
+            Texture2D tex = Helper.GetExtraTexture("Extras2/circle_02");
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
             for (int i = 0; i < 2; i++)
@@ -76,7 +76,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = ExtraTextures.PulseCircle;
+            Texture2D tex = Helper.GetExtraTexture("PulseCircle");
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
             for (int i = 0; i < 2; i++)
@@ -115,7 +115,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = ExtraTextures.PulseCircle;
+            Texture2D tex = Helper.GetExtraTexture("PulseCircle");
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0] / 2);
             for (int i = 0; i < 2; i++)
@@ -154,7 +154,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = ExtraTextures.PulseCircle;
+            Texture2D tex = Helper.GetExtraTexture("PulseCircle");
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0] / 2);
             for (int i = 0; i < 2; i++)

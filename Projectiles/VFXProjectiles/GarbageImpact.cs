@@ -44,7 +44,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = ExtraTextures.cone2;
+            Texture2D tex = Helper.GetExtraTexture("cone2");
             UnifiedRandom rand = new UnifiedRandom(seed);
             float max = 30;
             float alpha = MathHelper.Lerp(0.5f, 0, Projectile.ai[1]) * 2;

@@ -242,9 +242,9 @@ namespace EbonianMod.Items.Weapons.Magic
 
             float mult = 0.55f + (float)Math.Sin(Main.GlobalTimeWrappedHourly/* * 2*/) * 0.1f;
             float scale = Projectile.scale * 2;
-            Texture2D texture = ExtraTextures.explosion;
-            Texture2D bolt = ExtraTextures.laser2;
-            Texture2D boltTransparent = ExtraTextures.laser5;
+            Texture2D texture = Request<Texture2D>("EbonianMod/Extras/explosion").Value;
+            Texture2D bolt = Helper.GetExtraTexture("laser2");
+            Texture2D boltTransparent = Helper.GetExtraTexture("laser5");
             Main.spriteBatch.Reload(BlendState.Additive);
             float s = 1;
             if (points.Count > 2)

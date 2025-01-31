@@ -172,7 +172,7 @@ namespace EbonianMod.NPCs.Crimson.Fleshformator
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Player player = Main.player[NPC.target];
-            Texture2D tex = ExtraSpriteTextures.arrow;
+            Texture2D tex = Helper.GetExtraTexture("Sprites/arrow");
             if (player.whoAmI == Main.myPlayer)
             {
                 offset = Vector2.Lerp(offset, Vector2.Zero, 0.1f);

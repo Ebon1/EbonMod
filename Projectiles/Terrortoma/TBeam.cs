@@ -83,8 +83,8 @@ namespace EbonianMod.Projectiles.Terrortoma
         float visual1, visual2, startSize = 2f;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = ExtraTextures.FlamesSeamless;
-            Texture2D texture2 = ExtraTextures.trail_04;
+            Texture2D texture = Helper.GetExtraTexture("FlamesSeamless");
+            Texture2D texture2 = Helper.GetExtraTexture("trail_04");
             float progress = Utils.GetLerpValue(0, 165, Projectile.timeLeft);
             float i_progress = MathHelper.Clamp(MathHelper.SmoothStep(1, 0.2f, progress) * 50, 0, 1 / MathHelper.Clamp(startSize, 1, 2));
 

@@ -170,7 +170,7 @@ namespace EbonianMod.Items.Weapons.Melee
             float swingProgress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
             if (Projectile.oldPos.Length > 2)
             {
-                Texture2D tex2 = ExtraTextures.TrailShape_LongSolidWavy;
+                Texture2D tex2 = Helper.GetExtraTexture("TrailShape_LongSolidWavy");
                 List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
                 List<Vector2> oldPositions = new List<Vector2>(Projectile.oldPos.Length);
                 for (int i = 0; i < Projectile.oldPos.Length; i++)
@@ -256,13 +256,16 @@ namespace EbonianMod.Items.Weapons.Melee
             });
 
             Player player = Main.player[Projectile.owner];
+            Texture2D slash = Helper.GetExtraTexture("Extras2/slash_06_half");
             float mult = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
             float alpha = (float)Math.Sin(mult * Math.PI);
+            if (mult > 0.5f)
+                slash = Helper.GetExtraTexture("Extras2/slash_06");
             Vector2 pos = player.Center + Projectile.velocity * 90;
             /*Main.spriteBatch.Reload(BlendState.Additive);
             Main.spriteBatch.Draw(slash, pos - Main.screenPosition, null, Color.Indigo * (alpha * 0.5f), Projectile.velocity.ToRotation(), slash.Size() / 2, Projectile.scale * 1.75f, Projectile.ai[1] == -1 ? SpriteEffects.FlipVertically : SpriteEffects.None, 0f);
 
-            slash = ExtraTextures2.slash_02");
+            slash = Helper.GetExtraTexture("Extras2/slash_02");
             Main.spriteBatch.Draw(slash, pos - Main.screenPosition, null, Color.Indigo * (alpha * 0.5f), Projectile.velocity.ToRotation() - MathHelper.PiOver2, slash.Size() / 2, Projectile.scale * 1.25f, SpriteEffects.None, 0f);
             Main.spriteBatch.Reload(BlendState.AlphaBlend);*/
         }
@@ -352,7 +355,7 @@ namespace EbonianMod.Items.Weapons.Melee
             float swingProgress = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
             if (Projectile.oldPos.Length > 2)
             {
-                Texture2D tex2 = ExtraTextures.TrailShape_LongSolidWavy;
+                Texture2D tex2 = Helper.GetExtraTexture("TrailShape_LongSolidWavy");
                 List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
                 List<Vector2> oldPositions = new List<Vector2>(Projectile.oldPos.Length);
                 for (int i = 0; i < Projectile.oldPos.Length; i++)
@@ -476,7 +479,7 @@ namespace EbonianMod.Items.Weapons.Melee
         public override bool PreDraw(ref Color lightColor)
         {
             if (lightColor != Color.Transparent) return false;
-            Texture2D tex = ExtraTextures2.slash_06;
+            Texture2D tex = Helper.GetExtraTexture("Extras2/slash_06");
             Main.spriteBatch.Reload(BlendState.Additive);
             float fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             for (int i = 0; i < Projectile.oldPos.Length; i++)

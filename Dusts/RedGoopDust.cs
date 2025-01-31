@@ -39,7 +39,7 @@ namespace EbonianMod.Dusts
             {
                 if (d.type == DustType<RedGoopDust>() && d.active)
                 {
-                    Texture2D tex = ExtraTextures.fireball;
+                    Texture2D tex = Request<Texture2D>("EbonianMod/Extras/fireball").Value;
                     sb.Draw(tex, d.position - Main.screenPosition, null, (d.customData == null ? Color.White : d.color) * MathHelper.Clamp(d.scale * 2, 0, 0.3f) * Clamp(d.velocity.Length(), 0, 1), d.velocity.ToRotation() + PiOver2, tex.Size() / 2, new Vector2(1, Clamp(d.velocity.Length(), 0, 1)) * d.scale, SpriteEffects.None, 0);
                     sb.Draw(tex, d.position - Main.screenPosition, null, (d.customData == null ? Color.White : d.color) * MathHelper.Clamp(d.scale * 2, 0, 0.3f) * Clamp(d.velocity.Length(), 0, 1), d.velocity.ToRotation() + PiOver2, tex.Size() / 2, new Vector2(1, Clamp(d.velocity.Length(), 0, 1)) * d.scale, SpriteEffects.None, 0);
                 }

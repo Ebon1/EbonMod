@@ -39,7 +39,7 @@ namespace EbonianMod.Dusts
             {
                 if ((d.type == DustType<XGoopDust>() || d.type == DustType<XGoopDust2>()) && d.active)
                 {
-                    Texture2D tex = ExtraTextures2.fire_01;
+                    Texture2D tex = Request<Texture2D>("EbonianMod/Extras/Extras2/fire_01").Value;
                     sb.Draw(tex, d.position - Main.screenPosition, null, (d.customData == null ? Color.White : d.color) * MathHelper.Clamp(d.scale * 2, 0, 0.5f), d.rotation, tex.Size() / 2, d.scale * 0.2f, SpriteEffects.None, 0);
                     sb.Draw(tex, d.position - Main.screenPosition, null, (d.customData == null ? Color.White : d.color) * MathHelper.Clamp(d.scale * 2, 0, 0.5f), -d.rotation, tex.Size() / 2, d.scale * 0.2f, SpriteEffects.None, 0);
                 }
@@ -98,7 +98,7 @@ namespace EbonianMod.Dusts
             {
                 if (d.type == DustType<XGoopDustDark>() && d.active)
                 {
-                    Texture2D tex = ExtraTextures.Spotlight;
+                    Texture2D tex = Request<Texture2D>("EbonianMod/Extras/Spotlight").Value;
                     sb.Draw(tex, d.position - Main.screenPosition, null, (d.customData == null ? Color.White : d.color) * MathHelper.Clamp(d.scale * 2, 0, 1), 0, tex.Size() / 2, d.scale, SpriteEffects.None, 0);
                 }
             }

@@ -43,7 +43,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool PreDraw(ref Color lightColor)
         {
             return false;
-            Texture2D tex = ExtraTextures.cone4;
+            Texture2D tex = Helper.GetExtraTexture("cone4");
             Main.spriteBatch.Reload(BlendState.Additive);
             UnifiedRandom rand = new UnifiedRandom(seed);
             float max = 40;

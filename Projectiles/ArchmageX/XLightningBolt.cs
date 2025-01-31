@@ -148,7 +148,7 @@ namespace EbonianMod.Projectiles.ArchmageX
         {
             if (!RunOnce || points.Count < 2) return false;
 
-            Texture2D tex = ExtraTextures2.spark_05;
+            Texture2D tex = Helper.GetExtraTexture("Extras2/spark_05");
             float s = 0f;
             List<VertexPositionColorTexture> vertices = new();
             List<VertexPositionColorTexture> vertices2 = new();

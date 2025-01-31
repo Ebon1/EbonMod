@@ -797,6 +797,18 @@ namespace EbonianMod.NPCs.Terrortoma
         private Vector2 terrortomaCenter;
         Vector2 lastPos;
         private bool IsDashing = false;
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            NPC center = Main.npc[(int)NPC.ai[0]];
+            if (alpha > 0)
+            {
+                Texture2D tex = Helper.GetExtraTexture("Extras2/magic_03");
+                spriteBatch.Reload(BlendState.Additive);
+                alpha = MathHelper.Clamp(alpha, 0, 1f);
+                //spriteBatch.Draw(tex, lastPos - screenPos, null, Color.LawnGreen * 0.65f * alpha, Main.GameUpdateCount * 0.02f, tex.Size() / 2, 0.3f * alpha * 2, SpriteEffects.None, 0);
+                spriteBatch.Reload(BlendState.AlphaBlend);
+            }
+        }
         float alpha;
         float bloomAlpha;
         public float AITimer

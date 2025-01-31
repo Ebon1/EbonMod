@@ -37,8 +37,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = ExtraTextures.crosslight;
-            Texture2D tex2 = ExtraTextures2.star_04;
+            Texture2D tex = Helper.GetExtraTexture("crosslight");
+            Texture2D tex2 = Helper.GetExtraTexture("Extras2/star_04");
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
             Main.spriteBatch.Draw(tex2, Projectile.Center - Main.screenPosition, null, Color.White * 0.75f * Projectile.ai[0], Projectile.rotation, tex.Size() / 2, alpha * 4f, SpriteEffects.None, 0);

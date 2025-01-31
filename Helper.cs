@@ -700,7 +700,7 @@ namespace EbonianMod
                 float alpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
                 string text = GetDialogueText();
                 Main.spriteBatch.Reload(BlendState.Additive);
-                Main.spriteBatch.Draw(ExtraTextures.textGlow, new Vector2(Main.screenWidth / 2, (int)(Main.screenHeight * 0.2f)), null, player.dialogueColor * alpha * 0.5f, 0f, new Vector2(256) / 2, new Vector2(10, 3f), SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Request<Texture2D>("EbonianMod/Extras/textGlow").Value, new Vector2(Main.screenWidth / 2, (int)(Main.screenHeight * 0.2f)), null, player.dialogueColor * alpha * 0.5f, 0f, new Vector2(256) / 2, new Vector2(10, 3f), SpriteEffects.None, 0f);
                 Main.spriteBatch.Reload(BlendState.AlphaBlend);
                 ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, text, new Vector2(100, Main.screenHeight * 0.2f), player.dialogueColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f), Main.screenWidth - 100);
                 Main.spriteBatch.Reload(Main.DefaultSamplerState);

@@ -53,7 +53,7 @@ namespace EbonianMod.Projectiles.Cecitior
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = ExtraTextures.laser4;
+            Texture2D tex = Helper.GetExtraTexture("laser4");
             float s = 0f;
             List<VertexInfo2> vertices = new();
             List<VertexInfo2> vertices2 = new();

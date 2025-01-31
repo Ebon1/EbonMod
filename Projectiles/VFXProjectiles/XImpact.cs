@@ -49,8 +49,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex1 = ExtraTextures2.scratch_02;
-            Texture2D tex2 = ExtraTextures.cone4;
+            Texture2D tex1 = Helper.GetExtraTexture("Extras2/scratch_02");
+            Texture2D tex2 = Helper.GetExtraTexture("cone4");
             UnifiedRandom rand = new UnifiedRandom(seed);
             float max = 50;
             float alpha = MathHelper.Lerp(0.5f, 0, Projectile.ai[1]) * 2;
@@ -130,8 +130,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex1 = ExtraTextures2.scratch_02;
-            Texture2D tex2 = ExtraTextures.cone4;
+            Texture2D tex1 = Helper.GetExtraTexture("Extras2/scratch_02");
+            Texture2D tex2 = Helper.GetExtraTexture("cone4");
             UnifiedRandom rand = new UnifiedRandom(seed);
             float max = 35;
             float alpha = MathHelper.Lerp(0.5f, 0, Projectile.ai[1]) * 2;

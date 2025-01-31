@@ -27,7 +27,7 @@ namespace EbonianMod.Projectiles.Garbage
             Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.ai[0] > 0)
             {
-                Texture2D chevron = ExtraTextures.chevron_single;
+                Texture2D chevron = Helper.GetExtraTexture("chevron_single");
                 Vector2 pos = Projectile.Center - Projectile.rotation.ToRotationVector2() * 180;
                 float progress = Utils.GetLerpValue(0, 40, Projectile.timeLeft);
                 float eAlpha = MathHelper.Lerp(1, 0, Projectile.ai[2]);
@@ -48,7 +48,7 @@ namespace EbonianMod.Projectiles.Garbage
 
             if (Projectile.ai[0] > 0)
             {
-                Texture2D tex = ExtraTextures.laser4;
+                Texture2D tex = Helper.GetExtraTexture("laser4");
                 Vector2 start = Projectile.Center;
                 Vector2 end = Projectile.Center + Projectile.velocity * Projectile.ai[0];
                 Vector2 scale = new Vector2(1f, Projectile.ai[1]);
@@ -76,8 +76,8 @@ namespace EbonianMod.Projectiles.Garbage
 
                 if (vertices2.Count > 2 && vertices3.Count > 2)
                 {
-                    Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.Tentacle, false);
-                    Helper.DrawTexturedPrimitives(vertices3.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.Tentacle, false);
+                    Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("Tentacle"), false);
+                    Helper.DrawTexturedPrimitives(vertices3.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("Tentacle"), false);
                 }
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -113,7 +113,7 @@ namespace EbonianMod.Projectiles.Garbage
             Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.ai[0] > 0)
             {
-                Texture2D tex = ExtraTextures.laser4;
+                Texture2D tex = Helper.GetExtraTexture("laser4");
                 Vector2 start = Projectile.Center;
                 Vector2 end = Projectile.Center + Projectile.velocity * Projectile.ai[0];
                 Vector2 scale = new Vector2(1f, Projectile.ai[1]);
@@ -145,9 +145,9 @@ namespace EbonianMod.Projectiles.Garbage
 
                 if (vertices.Count > 2 && vertices2.Count > 2 && vertices3.Count > 2)
                 {
-                    Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.Tentacle, false);
-                    Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.Tentacle, false);
-                    Helper.DrawTexturedPrimitives(vertices3.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.Tentacle, false);
+                    Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("Tentacle"), false);
+                    Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("Tentacle"), false);
+                    Helper.DrawTexturedPrimitives(vertices3.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("Tentacle"), false);
                 }
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);

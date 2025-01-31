@@ -30,7 +30,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
             if (Projectile.ai[2] > 0)
                 EbonianMod.blurDrawCache.Add(() =>
                 {
-                    Texture2D tex = ExtraTextures.seamlessNoise2;
+                    Texture2D tex = Helper.GetExtraTexture("seamlessNoise2");
                     Main.spriteBatch.Reload(BlendState.Additive);
                     Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.White * Projectile.ai[0] * Projectile.ai[2] * 0.6f, Main.GameUpdateCount * 0.1f * Projectile.ai[0], tex.Size() / 2, Projectile.ai[2] * 0.5f, SpriteEffects.None, 0);
                     Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -71,8 +71,8 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = ExtraTextures2.light_03;
-            Texture2D OrigTex = ExtraTextures.seamlessNoise2;
+            Texture2D tex = Helper.GetExtraTexture("Extras2/light_03");
+            Texture2D OrigTex = Helper.GetExtraTexture("seamlessNoise2");
             Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.ai[2] > 0)
             {

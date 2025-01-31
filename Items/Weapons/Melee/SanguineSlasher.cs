@@ -179,7 +179,7 @@ namespace EbonianMod.Items.Weapons.Melee
             }
 
             Player player = Main.player[Projectile.owner];
-            Texture2D slash = ExtraTextures2.slash_06;
+            Texture2D slash = Helper.GetExtraTexture("Extras2/slash_06");
             float mult = Ease(Utils.GetLerpValue(0f, swingTime, Projectile.timeLeft));
             float alpha = (float)Math.Sin(mult * Math.PI);
             Vector2 pos = player.Center + Projectile.velocity * 45f;

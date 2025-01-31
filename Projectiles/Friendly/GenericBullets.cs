@@ -27,7 +27,7 @@ namespace EbonianMod.Projectiles.Friendly
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
             spriteBatch.Reload(BlendState.Additive);
-            Texture2D tex = ExtraTextures.EbonianGatlingBullet;
+            Texture2D tex = Helper.GetExtraTexture("EbonianGatlingBullet");
             spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.LawnGreen, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
             spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
@@ -59,7 +59,7 @@ namespace EbonianMod.Projectiles.Friendly
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
             spriteBatch.Reload(BlendState.Additive);
-            Texture2D tex = ExtraTextures.EbonianGatlingBullet");
+            Texture2D tex = Helper.GetExtraTexture("EbonianGatlingBullet");
             for (int i = 0; i < 3; i++)
                 spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.DarkRed, Projectile.rotation, Projectile.Size / 2, Projectile.scale, SpriteEffects.None, 0);
             spriteBatch.Reload(BlendState.AlphaBlend);
@@ -93,7 +93,7 @@ namespace EbonianMod.Projectiles.Friendly
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
             spriteBatch.Reload(BlendState.Additive);
-            Texture2D tex = ExtraTextures.explosion;
+            Texture2D tex = Helper.GetExtraTexture("explosion");
             spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Gold, Projectile.rotation, tex.Size() / 2, Projectile.scale * 0.1f, SpriteEffects.None, 0);
             spriteBatch.Reload(BlendState.AlphaBlend);
             return false;

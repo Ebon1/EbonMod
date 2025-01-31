@@ -238,7 +238,7 @@ namespace EbonianMod.Items.Consumables.BossItems
         public override bool PreDraw(ref Color lightColor)
         {
             Main.spriteBatch.Reload(BlendState.Additive);
-            /*Texture2D tex = ExtraTextures.laser4");
+            /*Texture2D tex = Helper.GetExtraTexture("laser4");
             Vector2 pos = Projectile.Center;
             for (int i = 0; i < 1080; i++)
             {
@@ -250,9 +250,9 @@ namespace EbonianMod.Items.Consumables.BossItems
 
             float mult = 0.55f + (float)Math.Sin(Main.GlobalTimeWrappedHourly/* * 2*/) * 0.1f;
             float scale = Projectile.scale * 2;
-            Texture2D texture = ExtraTextures.explosion;
-            Texture2D bolt = ExtraTextures.laser2;
-            Texture2D boltTransparent = ExtraTextures.laser5;
+            Texture2D texture = Request<Texture2D>("EbonianMod/Extras/explosion").Value;
+            Texture2D bolt = Helper.GetExtraTexture("laser2");
+            Texture2D boltTransparent = Helper.GetExtraTexture("laser5");
             Main.spriteBatch.Reload(BlendState.Additive);
             float s = 1;
             if (points.Count > 2 && Projectile.timeLeft <= 155 && Projectile.timeLeft > 125)
@@ -305,7 +305,7 @@ namespace EbonianMod.Items.Consumables.BossItems
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D a = ExtraTextures.explosion;
+            Texture2D a = Helper.GetExtraTexture("explosion");
             Main.spriteBatch.Reload(BlendState.Additive);
             var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             for (int i = 0; i < Projectile.oldPos.Length; i++)

@@ -68,8 +68,8 @@ namespace EbonianMod.Common.Achievements
             Vector2 textScale = new(0.85f);
             Vector2 pos = new Vector2(iconSize.X + iconSize.Width + 7f, GetInnerDimensions().Y - 2f);
 
-            Texture2D topTex = ExtraSpriteTextures.TopPanel");
-            Texture2D bottomTex = ExtraSpriteTextures.BottomPanel");
+            Texture2D topTex = Helper.GetExtraTexture("Sprites/TopPanel");
+            Texture2D bottomTex = Helper.GetExtraTexture("Sprites/BottomPanel");
             Color _color = IsMouseHovering ? Color.Lerp(HoverColor * 0.8f, HoverColor, offset) : Color.Lerp(Color.Gray, Color.LightGray, offset);
             color = Color.Lerp(color, _color, 0.15f);
 

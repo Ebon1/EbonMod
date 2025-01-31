@@ -37,7 +37,7 @@ namespace EbonianMod.Projectiles.ArchmageX
             Main.spriteBatch.Reload(BlendState.Additive);
             if (Projectile.ai[0] > 0)
             {
-                Texture2D tex = ExtraTextures.laser4;
+                Texture2D tex = Helper.GetExtraTexture("laser4");
                 Vector2 start = Projectile.Center;
                 Vector2 end = Projectile.Center + Projectile.velocity * Projectile.ai[0];
                 Vector2 scale = new Vector2(1f, Projectile.ai[1]);
@@ -84,9 +84,9 @@ namespace EbonianMod.Projectiles.ArchmageX
 
                 if (vertices.Count > 2 && vertices2.Count > 2 && vertices3.Count > 2)
                 {
-                    Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.LintyTrail, false);
-                    Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.LintyTrail, false);
-                    Helper.DrawTexturedPrimitives(vertices3.ToArray(), PrimitiveType.TriangleStrip, ExtraTextures.LintyTrail, false);
+                    Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("LintyTrail"), false);
+                    Helper.DrawTexturedPrimitives(vertices2.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("LintyTrail"), false);
+                    Helper.DrawTexturedPrimitives(vertices3.ToArray(), PrimitiveType.TriangleStrip, Helper.GetExtraTexture("LintyTrail"), false);
                 }
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);

@@ -84,8 +84,8 @@ namespace EbonianMod.Projectiles.ArchmageX
         public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.timeLeft > 867) return false;
-            Texture2D tex = ExtraTextures.rune_alt;
-            Texture2D bloom = ExtraTextures.rune_alt_bloom;
+            Texture2D tex = Helper.GetExtraTexture("rune_alt");
+            Texture2D bloom = Helper.GetExtraTexture("rune_alt_bloom");
 
             Main.spriteBatch.SaveCurrent();
             Main.spriteBatch.End();

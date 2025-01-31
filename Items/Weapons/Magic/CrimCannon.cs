@@ -53,7 +53,7 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D a = ExtraTextures.explosion;
+            Texture2D a = Helper.GetExtraTexture("explosion");
             Main.spriteBatch.Reload(BlendState.Additive);
             var fadeMult = Helper.Safe(1f / Projectile.oldPos.Length);
             for (int i = 0; i < Projectile.oldPos.Length; i++)

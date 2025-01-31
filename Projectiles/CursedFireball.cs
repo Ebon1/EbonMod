@@ -96,7 +96,7 @@ namespace EbonianMod.Projectiles
 
         void DrawGlow()
         {
-            Texture2D texture = ExtraTextures.Bloom;
+            Texture2D texture = Request<Texture2D>("EbonianMod/Extras/Bloom").Value;
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY);
 

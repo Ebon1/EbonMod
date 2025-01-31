@@ -70,9 +70,9 @@ namespace EbonianMod.Projectiles.Garbage
             List<VertexPositionColorTexture> vertices2 = new List<VertexPositionColorTexture>();
             List<VertexPositionColorTexture> vertices3 = new List<VertexPositionColorTexture>();
             List<VertexPositionColorTexture> vertices4 = new List<VertexPositionColorTexture>();
-            Texture2D texture = ExtraTextures2.spark_07;
-            Texture2D texture2 = ExtraTextures2.spark_06;
-            Texture2D texture3 = ExtraTextures.Ex1;
+            Texture2D texture = Helper.GetExtraTexture("Extras2/spark_07");
+            Texture2D texture2 = Helper.GetExtraTexture("Extras2/spark_06");
+            Texture2D texture3 = Helper.GetExtraTexture("Ex1");
             float progress = Utils.GetLerpValue(0, maxTime, Projectile.timeLeft);
             float i_progress = MathHelper.Clamp(MathHelper.SmoothStep(1, 0, progress) * 50, 0, 1);
             Vector2 start = Projectile.Center - Main.screenPosition;
@@ -179,8 +179,8 @@ namespace EbonianMod.Projectiles.Garbage
         {
             List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
             List<VertexPositionColorTexture> vertices2 = new List<VertexPositionColorTexture>();
-            Texture2D texture = ExtraTextures.FlamesSeamless;
-            Texture2D texture2 = ExtraTextures2.spark_08;
+            Texture2D texture = Helper.GetExtraTexture("FlamesSeamless");
+            Texture2D texture2 = Helper.GetExtraTexture("Extras2/spark_08");
             float progress = Utils.GetLerpValue(0, maxTime, Projectile.timeLeft);
             float i_progress = MathHelper.Clamp(MathHelper.SmoothStep(1, 0, progress) * 50, 0, 1);
             Vector2 start = Projectile.Center - Main.screenPosition;
@@ -280,8 +280,8 @@ namespace EbonianMod.Projectiles.Garbage
         {
             List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
             List<VertexPositionColorTexture> vertices2 = new List<VertexPositionColorTexture>();
-            Texture2D texture = ExtraTextures.FlamesSeamless;
-            Texture2D texture2 = ExtraTextures2.spark_08;
+            Texture2D texture = Helper.GetExtraTexture("FlamesSeamless");
+            Texture2D texture2 = Helper.GetExtraTexture("Extras2/spark_08");
             float progress = Utils.GetLerpValue(0, maxTime, Projectile.timeLeft);
             float i_progress = MathHelper.Clamp(MathHelper.SmoothStep(1, 0, progress) * 50, 0, 1);
             Vector2 start = Projectile.Center - Main.screenPosition;
