@@ -251,7 +251,6 @@ namespace EbonianMod
             On_Main.DrawPlayers_AfterProjectiles += PreDraw;
             On_VanillaPlayerDrawLayer.Draw += DrawPlayer;
             On_NPC.SetEventFlagCleared += EventClear;
-            On_Main.Update += Update;
             CreateRender();
 
             invisibleMaskCache ??= [];
@@ -262,18 +261,6 @@ namespace EbonianMod
             addPixelationDrawCachePre ??= [];
             addPixelationDrawCachePost ??= [];
             finalDrawCache ??= [];
-        }
-        void Update(On_Main.orig_Update orig, Main self, GameTime gameTime)
-        {
-            float oldFrameRate = Main.frameRate;
-            orig(self, gameTime);
-
-            if (Main.FrameSkipMode == Terraria.Enums.FrameSkipMode.On) EbonianSystem.deltaTime = 1;
-            else
-            {
-                float averageFrameRate = (Main.frameRate + oldFrameRate) / 2f;
-                EbonianSystem.deltaTime = Clamp((float)(gameTime.TotalGameTime.TotalSeconds - gameTime.ElapsedGameTime.TotalSeconds) / (Main.frameRate * 15), 0.1f, 1.1f);
-            }
         }
         void EventClear(On_NPC.orig_SetEventFlagCleared orig, ref bool eventFlag, int gameEventId)
         {
