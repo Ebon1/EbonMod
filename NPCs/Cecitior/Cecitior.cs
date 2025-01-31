@@ -830,7 +830,7 @@ namespace EbonianMod.NPCs.Cecitior
                     GenerateNewPattern();
                     NPC.boss = true;
                     Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/EvilMiniboss");
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 280, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
+                    EbonianSystem.ChangeCameraPos(NPC.Center, 260, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
                     for (int i = 0; i < 200; i++)
                     {
                         Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6), Scale: 3);
@@ -1124,6 +1124,7 @@ namespace EbonianMod.NPCs.Cecitior
                 }
                 if (AITimer == 40)
                 {
+                    SoundEngine.PlaySound(EbonianSounds.cecitiorSpit, NPC.Center);
                     tongue = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, Vector2.Clamp(Helper.FromAToB(NPC.Center, player.Center), new Vector2(-0.35f, 1), new Vector2(0.35f, 1)) * 1.5f, ProjectileType<LatcherPCecitior>(), 15, 0, -1, NPC.whoAmI);
                 }
                 if (AITimer < 20)
