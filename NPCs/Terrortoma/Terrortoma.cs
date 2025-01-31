@@ -96,7 +96,7 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.boss = true;
             NPC.damage = 0;
             NPC.noTileCollide = true;
-            NPC.defense = 33;
+            NPC.defense = 3;
             NPC.value = Item.buyPrice(0, 10);
             NPC.knockBackResist = 0;
             NPC.width = 118;
@@ -409,7 +409,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 OldState = AIState;
             AITimer++;
             if (bloomAlpha > 0f) bloomAlpha -= 0.025f;
-            NPC.rotation = rotation - NPC.rotation > MathHelper.Pi || rotation - NPC.rotation < -MathHelper.Pi ? rotation : MathHelper.SmoothStep(NPC.rotation, rotation, 0.25f);
+            NPC.rotation = Helper.LerpAngle(NPC.rotation, rotation, 0.25f);
             Player player = Main.player[NPC.target];
             if (!player.active || player.dead && AIState != Death)//|| !player.ZoneCorrupt)
             {
@@ -498,6 +498,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     rotation = 0;
                     if (AITimer == 30)
                     {
+                        SoundEngine.PlaySound(EbonianSounds.shriek.WithPitchOffset(-1.5f).WithVolumeScale(1.6f), NPC.Center);
                         SoundEngine.PlaySound(EbonianSounds.shriek.WithPitchOffset(-1f).WithVolumeScale(1.6f), NPC.Center);
                         SoundEngine.PlaySound(EbonianSounds.shriek.WithPitchOffset(-0.6f).WithVolumeScale(1.6f), NPC.Center);
                     }
@@ -506,6 +507,11 @@ namespace EbonianMod.NPCs.Terrortoma
                     angry = true;
                     if (AITimer % 5 == 0)
                         Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<TerrortomaScream>(), 0, 0);
+                }
+                if (AITimer < 300 && AITimer > 250)
+                {
+                    Vector2 pos = NPC.Center + new Vector2(0, Main.rand.NextFloat(500, 1000)).RotatedByRandom(PiOver2 * 0.7f).RotatedBy(NPC.rotation);
+                    Dust.NewDustPerfect(pos, DustType<LineDustFollowPoint>(), Helper.FromAToB(pos, NPC.Center).RotatedByRandom(PiOver4) * Main.rand.NextFloat(20, 50), newColor: Color.LawnGreen, Scale: Main.rand.NextFloat(0.06f, 0.2f)).customData = NPC.Center + new Vector2(0, 20);
                 }
                 if (AITimer >= 250 && AITimer < 450)
                 {
@@ -528,20 +534,25 @@ namespace EbonianMod.NPCs.Terrortoma
                     {
                         Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ambience");
                         SoundEngine.PlaySound(EbonianSounds.chargedBeamWindUp, NPC.Center);
-                        Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, (rotation + MathHelper.PiOver2).ToRotationVector2(), ProjectileType<VileTearTelegraph>(), 0, 0);
+                        Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, (rotation + PiOver4).ToRotationVector2(), ProjectileType<VileTearTelegraph>(), 0, 0);
                     }
-                    if (AITimer < 290)
-                        rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2;
-                    else
-                        rotation = Helper.LerpAngle(rotation, Helper.FromAToB(NPC.Center, player.Center).ToRotation() - MathHelper.PiOver2, 0.03f);
                     glareAlpha = MathHelper.Lerp(glareAlpha, 4f, 0.05f);
+                    if (AITimer < 305)
+                        rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() - PiOver2;
+                }
+                if (AITimer > 326 && AITimer < 480)
+                {
+                    NPC.ai[3] = Lerp(NPC.ai[3], 1, 0.01f);
+                    rotation = NPC.rotation;
+                    NPC.rotation += ToRadians(2f) * NPC.ai[3];
+                    rotation = NPC.rotation;
                 }
                 if (AITimer == 326)
                 {
                     NPC.velocity = Vector2.Zero;
                     EbonianSystem.ScreenShakeAmount = 15f;
                     SoundEngine.PlaySound(EbonianSounds.chargedBeamImpactOnly, NPC.Center);
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, (NPC.rotation + MathHelper.PiOver2).ToRotationVector2(), ProjectileType<TBeam>(), 10000, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, (NPC.rotation + PiOver4).ToRotationVector2(), ProjectileType<TBeam>(), 10000, 0);
                 }
                 if (AITimer == 480)
                     NPC.velocity = Vector2.UnitY;
@@ -649,6 +660,7 @@ namespace EbonianMod.NPCs.Terrortoma
             }
             else if (AIState == ApeShitMode)
             {
+                NPC.dontTakeDamage = true;
                 NPC.velocity = Vector2.Zero;
                 isLaughing = false;
                 NPC.rotation = Helper.LerpAngle(NPC.rotation, 0, 0.1f);
@@ -672,7 +684,8 @@ namespace EbonianMod.NPCs.Terrortoma
 
                 if (AITimer >= 230)
                 {
-                    AIState = TitteringSpawn; //vilethorn = dash
+                    NPC.dontTakeDamage = false;
+                    AIState = TitteringSpawn;
                     AITimer = 0;
                 }
             }
@@ -1014,8 +1027,8 @@ namespace EbonianMod.NPCs.Terrortoma
                         SoundEngine.PlaySound(SoundID.Item34, NPC.Center);
                     if (AITimer % 9 == 0 && AITimer > 120 && NPC.Distance(to) > 200)
                     {
-                        Projectile.NewProjectile(null, Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 500, true), -Vector2.UnitY, ProjectileType<TFlameThrower4>(), 23, 0);
-                        Projectile.NewProjectile(null, Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 500, true), Vector2.UnitY, ProjectileType<TFlameThrower4>(), 23, 0);
+                        Projectile.NewProjectile(null, Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 300, true), -Vector2.UnitY, ProjectileType<TFlameThrower4>(), 23, 0);
+                        Projectile.NewProjectile(null, Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 300, true), Vector2.UnitY, ProjectileType<TFlameThrower4>(), 23, 0);
                     }
 
                 }

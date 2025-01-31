@@ -58,7 +58,7 @@ namespace EbonianMod.Projectiles.Terrortoma
                 Main.dust[dust].velocity = Main.rand.NextVector2Circular(5, 5);
                 Main.dust[dust].noGravity = true;
             }
-            Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], .015f, 0.015f);
+            Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 1, 0.015f);
 
             Projectile.ai[0] = MathHelper.SmoothStep(Projectile.ai[0], 2048, 0.35f);
 
@@ -72,8 +72,9 @@ namespace EbonianMod.Projectiles.Terrortoma
                 visual2 = 1;
             visual2 = MathHelper.Clamp(visual2, float.Epsilon, 1 - float.Epsilon);
 
-            if (Projectile.timeLeft > 40)
-                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, Main.LocalPlayer.Center), Projectile.ai[2]);
+            Projectile.rotation += ToRadians(2) * Projectile.ai[2];
+
+            Projectile.velocity = Projectile.rotation.ToRotationVector2();
             startSize = MathHelper.Lerp(startSize, 0, 0.01f);
             //Projectile.velocity = -Projectile.velocity.RotatedBy(MathHelper.ToRadians(Projectile.ai[1]));
 
@@ -97,7 +98,7 @@ namespace EbonianMod.Projectiles.Terrortoma
             List<VertexPositionColorTexture> vertices = new List<VertexPositionColorTexture>();
             List<VertexPositionColorTexture> vertices2 = new List<VertexPositionColorTexture>();
             Vector2 start = Projectile.Center - Main.screenPosition;
-            Vector2 off = (rotation.ToRotationVector2() * (1600));
+            Vector2 off = (rotation.ToRotationVector2() * (Projectile.ai[0]));
             Vector2 end = start + off;
             float rot = Helper.FromAToB(start, end).ToRotation();
 

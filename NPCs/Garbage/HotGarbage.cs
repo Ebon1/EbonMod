@@ -1560,7 +1560,7 @@ namespace EbonianMod.NPCs.Garbage
 
             foreach (NPC npc in Main.ActiveNPCs)
             {
-                if (npc.active && npc.Center.Distance(targetPos) < 4500 / 2 - 100 && npc.type != NPCType<Cecitior.Cecitior>() && npc.type != NPCType<Terrortoma.Terrortoma>() && !npc.dontTakeDamage && npc.type != NPCType<HotGarbage>() && npc.type != NPCType<ArchmageStaffNPC>())
+                if (npc.active && npc.Center.Distance(targetPos) < 4500 / 2 - 100 && (!npc.boss || npc.type == NPCID.MoonLordCore) && !npc.dontTakeDamage && npc.type != NPCType<HotGarbage>() && npc.type != NPCType<ArchmageStaffNPC>())
                 {
                     npc.life = 0;
                     npc.checkDead();
