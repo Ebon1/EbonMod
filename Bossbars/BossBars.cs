@@ -37,6 +37,7 @@ namespace EbonianMod.Bossbars
     }
     public class TerrortomaBar : BossBar { }
     public class XBar : BossBar { }
+    public class GarbageBar : BossBar { }
 
     public class CecitiorBar : ModBossBar
     {

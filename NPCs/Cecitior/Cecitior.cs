@@ -501,6 +501,28 @@ namespace EbonianMod.NPCs.Cecitior
         int oldHP;
         public override void AI()
         {
+            if (!deathAnim && NPC.life <= 1)
+            {
+                for (int i = 0; i < claw.Length; i++)
+                {
+                    //claw[i].orbAlpha = 0f;
+                }
+                open = false;
+                deathAnim = true;
+                NPC.life = 1;
+                savedPos = NPC.Center;
+                NPC.velocity = Vector2.Zero;
+                if (tongue != null)
+                    tongue.Kill();
+                AIState = PrePreDeath;
+                AITimer = 0;
+                openRotation = 0f;
+                rotation = 0f;
+                openOffset = Vector2.Zero;
+                AITimer2 = 0;
+                EbonianSystem.ChangeCameraPos(NPC.Center, 180, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
+                NPC.dontTakeDamage = true;
+            }
             if (oldHP == 0)
                 oldHP = NPC.life;
             //if (AIState != Intro && AIState != PhaseTransition && AIState != Idle && AIState != PrePreDeath && AIState != PreDeath && AIState != Death)

@@ -96,7 +96,7 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.boss = true;
             NPC.damage = 0;
             NPC.noTileCollide = true;
-            NPC.defense = 3;
+            NPC.defense = 38;
             NPC.value = Item.buyPrice(0, 10);
             NPC.knockBackResist = 0;
             NPC.width = 118;
@@ -403,6 +403,36 @@ namespace EbonianMod.NPCs.Terrortoma
         }
         public override void AI()
         {
+            if (AIState != Death)
+            {
+                if (NPC.life <= 1 && !ded)
+                {
+                    NPC.life = 1;
+                    foreach (Projectile projectile in Main.ActiveProjectiles)
+                    {
+                        if (projectile.hostile && projectile.active)
+                            projectile.Kill();
+                    }
+                    foreach (NPC npc in Main.ActiveNPCs)
+                    {
+                        if (npc.type == NPCType<BloatedEbonfly>() && npc.active)
+                        {
+                            npc.life = 0;
+                            npc.checkDead();
+                        }
+                    }
+                    AIState = Death;
+                    NPC.frameCounter = 0;
+                    NPC.immortal = true;
+                    NPC.dontTakeDamage = true;
+                    EbonianSystem.ChangeCameraPos(NPC.Center, 170, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
+                    EbonianSystem.ScreenShakeAmount = 20;
+                    ded = true;
+                    AITimer = AITimer2 = 0;
+                    NPC.velocity = Vector2.Zero;
+                    NPC.life = 1;
+                }
+            }
             if (pattern.Contains(Intro) && AIState == Idle)
                 GenerateNewPattern();
             if (AIState != Idle && AIState != Intro)
