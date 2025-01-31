@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace EbonianMod.Tiles
 {
-    public class ModGlobalTile : GlobalTile
+    public class EbonGlobalTile : GlobalTile
     {
         public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
         {

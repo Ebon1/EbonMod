@@ -17,7 +17,7 @@ namespace EbonianMod.Buffs
         }
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.GetGlobalNPC<NPCs.ModGlobalNPC>().stunned = true;
+            npc.GetGlobalNPC<NPCs.EbonGlobalNPC>().stunned = true;
         }
     }
 }

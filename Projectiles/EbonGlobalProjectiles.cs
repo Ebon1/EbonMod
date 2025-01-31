@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace EbonianMod.Projectiles
 {
-    public class GlobalProjectiles : GlobalProjectile
+    public class EbonGlobalProjectiles : GlobalProjectile
     {
     }
 }

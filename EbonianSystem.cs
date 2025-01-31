@@ -28,6 +28,7 @@ using EbonianMod.Tiles;
 using Terraria.Graphics.CameraModifiers;
 using EbonianMod.Common.CameraModifiers;
 using EbonianMod.NPCs.Cecitior;
+using EbonianMod.Items.Weapons.Magic;
 
 namespace EbonianMod
 {
@@ -118,6 +119,11 @@ namespace EbonianMod
         public override void OnWorldLoad()
         {
             xareusFightCooldown = 0;
+
+            if (gotTheStaff)
+                ItemID.Sets.ShimmerTransformToItem[ItemID.AmethystStaff] = ItemType<StaffOfX>();
+            else
+                ItemID.Sets.ShimmerTransformToItem[ItemID.AmethystStaff] = 0;
         }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {

@@ -549,7 +549,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 {
                     Helper.DustExplosion(NPC.Center, Vector2.One, 2, Color.Gray * 0.35f, false, false, 0.4f, 0.5f, new Vector2(Main.rand.NextFloat(-7, 7), Main.rand.NextFloat(-6, -4)));
                     NPC.velocity *= 1.025f;
-                    rotation += MathHelper.ToRadians(3 * NPC.velocity.Y);
+                    rotation += Clamp(ToRadians(NPC.velocity.Y), 0, ToRadians(15));
                     if (Helper.TRay.CastLength(NPC.Center, Vector2.UnitY, 1920) < NPC.width / 2)
                     {
                         Projectile.NewProjectileDirect(NPC.InheritSource(NPC), Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 1920), Vector2.Zero, ProjectileType<TExplosion>(), 0, 0).scale = 2f;

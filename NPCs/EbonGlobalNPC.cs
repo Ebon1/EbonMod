@@ -22,7 +22,7 @@ using EbonianMod.NPCs.ArchmageX;
 
 namespace EbonianMod.NPCs
 {
-    public class ModGlobalNPC : GlobalNPC
+    public class EbonGlobalNPC : GlobalNPC
     {
         public override bool InstancePerEntity => true;
         public bool stunned;

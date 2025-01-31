@@ -10,7 +10,7 @@ namespace EbonianMod.Common.CameraModifiers
     public class FocusCameraModifier : ICameraModifier
     {
         private int _framesToLast;
-        private int _framesLasted;
+        private float _framesLasted;
         public Vector2 _pos;
         private float _lerpMult, _snappingRate;
         private Func<float, float> _easingFunction;
@@ -31,16 +31,14 @@ namespace EbonianMod.Common.CameraModifiers
 
         public void Update(ref CameraInfo cameraInfo)
         {
-            float lerpT = Clamp(MathF.Sin(Pi * Utils.GetLerpValue(0, _framesToLast, _framesLasted)) * _lerpMult, 0, 1);
-            if (_easingFunction != null)
-            {
-                lerpT = _easingFunction.Invoke(Clamp(MathF.Sin(Pi * Utils.GetLerpValue(0, _framesToLast, _framesLasted)) * _lerpMult, 0, 1));
-            }
-            Vector2 pos = Vector2.Lerp(cameraInfo.CameraPosition, _pos, lerpT);
+            _easingFunction ??= (x) => x;
+            float lerpT = _easingFunction.Invoke(Clamp(MathF.Sin(Pi * Utils.GetLerpValue(0, _framesToLast, _framesLasted)) * _lerpMult, 0, 1));
+            cameraInfo.CameraPosition = Vector2.Lerp(cameraInfo.CameraPosition, Vector2.Lerp(cameraInfo.CameraPosition, _pos, lerpT), _snappingRate);
 
-            cameraInfo.CameraPosition = Vector2.Lerp(cameraInfo.CameraPosition, pos, _snappingRate);
+            float deltaTime = (float)Main.gameTimeCache.TotalGameTime.TotalSeconds - (float)Main.gameTimeCache.ElapsedGameTime.TotalSeconds;
+
             if (!Main.gameInactive && !Main.gamePaused)
-                _framesLasted++;
+                _framesLasted += 1f * deltaTime;
             if (_framesLasted >= _framesToLast)
                 Finished = true;
         }
