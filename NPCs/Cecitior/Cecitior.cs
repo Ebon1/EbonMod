@@ -573,6 +573,8 @@ namespace EbonianMod.NPCs.Cecitior
                     if (!player.active || player.dead)// || !player.ZoneCrimson)
                     {
                         AIState = -12124;
+                        shakeVal = 0;
+                        open = false;
                         NPC.velocity = new Vector2(0, 10f);
 
                         if (claw[0].verlet != null && phase2)

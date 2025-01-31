@@ -43,7 +43,7 @@ namespace EbonianMod.Items.Accessories
         }
         public override void OnHitByProjectile(Projectile projectile, NPC.HitInfo hitinfo, int damage)
         {
-            if (projectile.timeLeft > 2 && projectile.velocity != Vector2.Zero)
+            if (projectile.timeLeft > 2 && projectile.velocity != Vector2.Zero && projectile.ModProjectile.ShouldUpdatePosition())
                 projectile.Kill();
         }
 
