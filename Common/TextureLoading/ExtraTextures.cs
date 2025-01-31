@@ -19,154 +19,154 @@ namespace EbonianMod.Common.TextureLoading
 
         public static void LoadExtraTextures1()
         {
-            black = Helper.GetExtraTexture("black");
+            black = Helper.GetExtraTexture("black", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            Bloom = Helper.GetExtraTexture("Bloom");
+            Bloom = Helper.GetExtraTexture("Bloom", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            chevron = Helper.GetExtraTexture("chevron");
+            chevron = Helper.GetExtraTexture("chevron", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            chevron_single = Helper.GetExtraTexture("chevron_single");
+            chevron_single = Helper.GetExtraTexture("chevron_single", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            Circle = Helper.GetExtraTexture("Circle");
+            Circle = Helper.GetExtraTexture("Circle", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            circlething = Helper.GetExtraTexture("circlething");
+            circlething = Helper.GetExtraTexture("circlething", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            coherentNoise = Helper.GetExtraTexture("coherentNoise");
+            coherentNoise = Helper.GetExtraTexture("coherentNoise", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            cone2 = Helper.GetExtraTexture("cone2");
+            cone2 = Helper.GetExtraTexture("cone2", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            cone4 = Helper.GetExtraTexture("cone4");
+            cone4 = Helper.GetExtraTexture("cone4", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            cone5 = Helper.GetExtraTexture("cone5");
+            cone5 = Helper.GetExtraTexture("cone5", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            cone7 = Helper.GetExtraTexture("cone7");
+            cone7 = Helper.GetExtraTexture("cone7", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            crosslight = Helper.GetExtraTexture("crosslight");
+            crosslight = Helper.GetExtraTexture("crosslight", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
 
-            darkShadowflameGradient = Helper.GetExtraTexture("darkShadowflameGradient");
+            darkShadowflameGradient = Helper.GetExtraTexture("darkShadowflameGradient", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            EbonianGatlingBullet = Helper.GetExtraTexture("EbonianGatlingBullet");
+            EbonianGatlingBullet = Helper.GetExtraTexture("EbonianGatlingBullet", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            Empty = Helper.GetExtraTexture("Empty");
+            Empty = Helper.GetExtraTexture("Empty", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            Ex1 = Helper.GetExtraTexture("Ex1");
+            Ex1 = Helper.GetExtraTexture("Ex1", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            exclamation = Helper.GetExtraTexture("exclamation");
+            exclamation = Helper.GetExtraTexture("exclamation", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            explosion = Helper.GetExtraTexture("explosion");
+            explosion = Helper.GetExtraTexture("explosion", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            explosion2 = Helper.GetExtraTexture("explosion2");
+            explosion2 = Helper.GetExtraTexture("explosion2", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            Extra_201 = Helper.GetExtraTexture("Extra_201");
+            Extra_201 = Helper.GetExtraTexture("Extra_201", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            Extra_209 = Helper.GetExtraTexture("Extra_209");
+            Extra_209 = Helper.GetExtraTexture("Extra_209", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            Fire = Helper.GetExtraTexture("Fire");
+            Fire = Helper.GetExtraTexture("Fire", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            fireball = Helper.GetExtraTexture("fireball");
+            fireball = Helper.GetExtraTexture("fireball", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            flameEye2 = Helper.GetExtraTexture("flameEye2");
+            flameEye2 = Helper.GetExtraTexture("flameEye2", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            FlamesSeamless = Helper.GetExtraTexture("FlamesSeamless");
+            FlamesSeamless = Helper.GetExtraTexture("FlamesSeamless", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
 
-            flare = Helper.GetExtraTexture("flare");
+            flare = Helper.GetExtraTexture("flare", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            GlowyLine = Helper.GetExtraTexture("GlowyLine");
+            GlowyLine = Helper.GetExtraTexture("GlowyLine", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            gradation = Helper.GetExtraTexture("gradation");
+            gradation = Helper.GetExtraTexture("gradation", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            hazardUnblurred = Helper.GetExtraTexture("hazardUnblurred");
+            hazardUnblurred = Helper.GetExtraTexture("hazardUnblurred", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            laser = Helper.GetExtraTexture("laser");
+            laser = Helper.GetExtraTexture("laser", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            laser_purple = Helper.GetExtraTexture("laser_purple");
+            laser_purple = Helper.GetExtraTexture("laser_purple", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            laser2 = Helper.GetExtraTexture("laser2");
+            laser2 = Helper.GetExtraTexture("laser2", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            laser3 = Helper.GetExtraTexture("laser3");
+            laser3 = Helper.GetExtraTexture("laser3", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            laser3_transparent = Helper.GetExtraTexture("laser3_transparent");
+            laser3_transparent = Helper.GetExtraTexture("laser3_transparent", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            laser4 = Helper.GetExtraTexture("laser4");
+            laser4 = Helper.GetExtraTexture("laser4", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            laser5 = Helper.GetExtraTexture("laser5");
+            laser5 = Helper.GetExtraTexture("laser5", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            laserMask = Helper.GetExtraTexture("laserMask");
+            laserMask = Helper.GetExtraTexture("laserMask", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            Line = Helper.GetExtraTexture("Line");
+            Line = Helper.GetExtraTexture("Line", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            LintyTrail = Helper.GetExtraTexture("LintyTrail");
+            LintyTrail = Helper.GetExtraTexture("LintyTrail", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            MagicBurst = Helper.GetExtraTexture("MagicBurst");
+            MagicBurst = Helper.GetExtraTexture("MagicBurst", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
 
-            maroon = Helper.GetExtraTexture("maroon");
+            maroon = Helper.GetExtraTexture("maroon", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            pixel = Helper.GetExtraTexture("pixel");
+            pixel = Helper.GetExtraTexture("pixel", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            Placeholder = Helper.GetExtraTexture("Placeholder");
+            Placeholder = Helper.GetExtraTexture("Placeholder", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            PulseCircle = Helper.GetExtraTexture("PulseCircle");
+            PulseCircle = Helper.GetExtraTexture("PulseCircle", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            PulseCircle2 = Helper.GetExtraTexture("PulseCircle2");
+            PulseCircle2 = Helper.GetExtraTexture("PulseCircle2", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            red = Helper.GetExtraTexture("red");
+            red = Helper.GetExtraTexture("red", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            redGradient = Helper.GetExtraTexture("redGradient");
+            redGradient = Helper.GetExtraTexture("redGradient", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            ring = Helper.GetExtraTexture("ring");
+            ring = Helper.GetExtraTexture("ring", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            ripple = Helper.GetExtraTexture("ripple");
+            ripple = Helper.GetExtraTexture("ripple", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            rune_alt = Helper.GetExtraTexture("rune_alt");
+            rune_alt = Helper.GetExtraTexture("rune_alt", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            rune_alt_bloom = Helper.GetExtraTexture("rune_alt_bloom");
+            rune_alt_bloom = Helper.GetExtraTexture("rune_alt_bloom", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            saucerBeam = Helper.GetExtraTexture("saucerBeam");
+            saucerBeam = Helper.GetExtraTexture("saucerBeam", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            seamlessNoise = Helper.GetExtraTexture("seamlessNoise");
+            seamlessNoise = Helper.GetExtraTexture("seamlessNoise", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            seamlessNoise2 = Helper.GetExtraTexture("seamlessNoise2");
+            seamlessNoise2 = Helper.GetExtraTexture("seamlessNoise2", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
 
-            seamlessNoiseHighContrast = Helper.GetExtraTexture("seamlessNoiseHighContrast");
+            seamlessNoiseHighContrast = Helper.GetExtraTexture("seamlessNoiseHighContrast", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            shadowflameGradient = Helper.GetExtraTexture("shadowflameGradient");
+            shadowflameGradient = Helper.GetExtraTexture("shadowflameGradient", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            space = Helper.GetExtraTexture("space");
+            space = Helper.GetExtraTexture("space", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            space_full = Helper.GetExtraTexture("space_full");
+            space_full = Helper.GetExtraTexture("space_full", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            speckle = Helper.GetExtraTexture("speckle");
+            speckle = Helper.GetExtraTexture("speckle", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            Spotlight = Helper.GetExtraTexture("Spotlight");
+            Spotlight = Helper.GetExtraTexture("Spotlight", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            swirlyNoise = Helper.GetExtraTexture("swirlyNoise");
+            swirlyNoise = Helper.GetExtraTexture("swirlyNoise", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            Tentacle = Helper.GetExtraTexture("Tentacle");
+            Tentacle = Helper.GetExtraTexture("Tentacle", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            textGlow = Helper.GetExtraTexture("textGlow");
+            textGlow = Helper.GetExtraTexture("textGlow", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            trail_01 = Helper.GetExtraTexture("trail_01");
+            trail_01 = Helper.GetExtraTexture("trail_01", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            trail_04 = Helper.GetExtraTexture("trail_04");
+            trail_04 = Helper.GetExtraTexture("trail_04", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            TrailShape = Helper.GetExtraTexture("TrailShape");
+            TrailShape = Helper.GetExtraTexture("TrailShape", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
 
-            TrailShape_LongSolidWavy = Helper.GetExtraTexture("TrailShape_LongSolidWavy");
+            TrailShape_LongSolidWavy = Helper.GetExtraTexture("TrailShape_LongSolidWavy", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            Vignette = Helper.GetExtraTexture("Vignette");
+            Vignette = Helper.GetExtraTexture("Vignette", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            vortex = Helper.GetExtraTexture("vortex");
+            vortex = Helper.GetExtraTexture("vortex", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            vortex3 = Helper.GetExtraTexture("vortex3");
+            vortex3 = Helper.GetExtraTexture("vortex3", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            wavyLaser = Helper.GetExtraTexture("wavyLaser");
+            wavyLaser = Helper.GetExtraTexture("wavyLaser", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            wavyLaser2 = Helper.GetExtraTexture("wavyLaser2");
+            wavyLaser2 = Helper.GetExtraTexture("wavyLaser2", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
         }
     }

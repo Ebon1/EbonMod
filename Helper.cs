@@ -375,22 +375,22 @@ namespace EbonianMod
                 return (end - start).Length();
             }
         }
-        public static Texture2D GetExtraTexture(string tex, bool altMethod = false)
+        public static Texture2D GetExtraTexture(string tex, bool altMethod = false, AssetRequestMode assetRequestMode = AssetRequestMode.AsyncLoad)
         {
             if (altMethod)
-                return GetTextureAlt("Extras/" + tex);
-            return GetTexture("Extras/" + tex);
+                return GetTextureAlt("Extras/" + tex, assetRequestMode);
+            return GetTexture("Extras/" + tex, assetRequestMode);
         }
-        public static Texture2D GetTexture(string path)
+        public static Texture2D GetTexture(string path, AssetRequestMode assetRequestMode = AssetRequestMode.AsyncLoad)
         {
             if (path.Contains("EbonianMod/"))
-                return Request<Texture2D>(path).Value;
+                return Request<Texture2D>(path, assetRequestMode).Value;
             else
-                return Request<Texture2D>("EbonianMod/" + path).Value;
+                return Request<Texture2D>("EbonianMod/" + path, assetRequestMode).Value;
         }
-        public static Texture2D GetTextureAlt(string path)
+        public static Texture2D GetTextureAlt(string path, AssetRequestMode assetRequestMode = AssetRequestMode.AsyncLoad)
         {
-            return EbonianMod.Instance.Assets.Request<Texture2D>(path).Value;
+            return EbonianMod.Instance.Assets.Request<Texture2D>(path, assetRequestMode).Value;
         }
         public static Vector4 ColorToVector4(Color color)
         {

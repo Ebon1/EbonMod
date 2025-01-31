@@ -14,27 +14,27 @@ namespace EbonianMod.Common.TextureLoading
 
         public static void LoadExtraSpriteTextures()
         {
-            Achievements = Helper.GetExtraTexture("Sprites/Achievements");
+            Achievements = Helper.GetExtraTexture("Sprites/Achievements", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            ArchmageXHeli = Helper.GetExtraTexture("Sprites/ArchmageXHeli");
+            ArchmageXHeli = Helper.GetExtraTexture("Sprites/ArchmageXHeli", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            ArchmageXHeli_Glow = Helper.GetExtraTexture("Sprites/ArchmageXHeli_Glow");
+            ArchmageXHeli_Glow = Helper.GetExtraTexture("Sprites/ArchmageXHeli_Glow", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            arrow = Helper.GetExtraTexture("Sprites/arrow");
+            arrow = Helper.GetExtraTexture("Sprites/arrow", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            BottomPanel = Helper.GetExtraTexture("Sprites/BottomPanel");
+            BottomPanel = Helper.GetExtraTexture("Sprites/BottomPanel", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            iconBorder = Helper.GetExtraTexture("Sprites/iconBorder");
+            iconBorder = Helper.GetExtraTexture("Sprites/iconBorder", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            Logo = Helper.GetExtraTexture("Sprites/Logo");
+            Logo = Helper.GetExtraTexture("Sprites/Logo", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            scrollbarBg = Helper.GetExtraTexture("Sprites/scrollbarBg");
+            scrollbarBg = Helper.GetExtraTexture("Sprites/scrollbarBg", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            smallIconHover = Helper.GetExtraTexture("Sprites/smallIconHover");
+            smallIconHover = Helper.GetExtraTexture("Sprites/smallIconHover", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            smallIconOutline = Helper.GetExtraTexture("Sprites/smallIconOutline");
+            smallIconOutline = Helper.GetExtraTexture("Sprites/smallIconOutline", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
-            TopPanel = Helper.GetExtraTexture("Sprites/TopPanel");
+            TopPanel = Helper.GetExtraTexture("Sprites/TopPanel", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
         }
     }
