@@ -92,7 +92,7 @@ namespace EbonianMod.NPCs.ArchmageX
             if (Projectile.timeLeft == 250)
             {
                 id = SoundEngine.PlaySound(EbonianSounds.xDeath, Projectile.Center);
-                d = DialogueSystem.NewDialogueBox(250, Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!").X * -0.5f, 7), "DAMN YOU!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 5f, true, DialogueAnimationIDs.ColorWhite);
+                d = DialogueSystem.NewDialogueBox(250, Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDeath").Value).X * -0.5f + 80, 7), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDeath").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 5f, true, DialogueAnimationIDs.ColorWhite);
             }
             if (Projectile.timeLeft == 170)
                 SoundEngine.PlaySound(EbonianSounds.xareusOutro);
@@ -105,8 +105,8 @@ namespace EbonianMod.NPCs.ArchmageX
             }
             if (d != null)
             {
-                d.Center = Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!").X * -0.5f, 7);
-                d.VisibleCenter = Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!").X * -0.5f, 7);
+                d.Center = Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDeath").Value).X * -0.5f + 80, 7);
+                d.VisibleCenter = Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDeath").Value).X * -0.5f + 80, 7);
             }
         }
     }

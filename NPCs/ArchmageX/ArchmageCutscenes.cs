@@ -332,43 +332,43 @@ namespace EbonianMod.NPCs.ArchmageX
                 // DIALOGUE
                 if (AITimer == 1)
                 {
-                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "SURPRISE ATTACK!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 8);
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.Martian.Line1").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 8);
                 }
                 if (AITimer == 100)
                 {
                     headFrame.Y = BlinkingFace;
-                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "WHILE YOU'VE BEEN FOOLING AROUND...", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 6);
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.Martian.Line2").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 6);
                 }
                 if (AITimer == 180)
                 {
                     NPC.boss = true;
                     headFrame.Y = SmirkFace;
-                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "I'VE AWOKEN MY TRUE POWER!!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.Martian.Line3").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                 }
                 if (AITimer == 300)
                 {
                     headFrame.Y = DisappointedFace;
-                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "And with this power....", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.Martian.Line4").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 5);
                 }
                 if (AITimer == 380)
                 {
-                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "You....", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.Martian.Line5").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
                 }
                 if (AITimer > 410 && AITimer < 680 && modifier != null)
                     modifier._pos = Vector2.Lerp(modifier._pos, NPC.Center - new Vector2(0, 200) - new Vector2(Main.screenWidth, Main.screenHeight) / 2, 0.02f);
                 if (AITimer == 460)
                 {
-                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "Will....", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.Martian.Line6").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
                 }
                 if (AITimer > 680 && AITimer < 750 && modifier != null)
                     modifier._pos = Vector2.Lerp(modifier._pos, NPC.Center - new Vector2(0, 200) - new Vector2(Main.screenWidth, Main.screenHeight) / 2, 0.1f);
                 if (AITimer == 680)
                 {
-                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "...", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.DotDotDot").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
                 }
                 if (AITimer == 750)
                 {
-                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), "Ow.", Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
+                    DialogueSystem.NewDialogueBox(80, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.Martian.Line7").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f), 4);
                 }
                 if (AITimer > 800)
                 {

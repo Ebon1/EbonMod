@@ -94,7 +94,7 @@ namespace EbonianMod.Items.Misc
                 PlayerDeathReason customReason = new()
                 {
                     SourceItem = player.HeldItem,
-                    SourceCustomReason = $"{player.name} decided to take the easy way out..."
+                    SourceCustomReason = Language.GetText("Mods.EbonianMod.DeathMessages.Suicide").Format(player.name)
                 };
                 Player.HurtInfo info = new();
                 info.Damage = dmg;

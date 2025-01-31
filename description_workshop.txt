@@ -19,6 +19,8 @@ is [b]WIP[/b] Mod that plans on adding random nonsense with an unsurprising focu
 [*] Compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2802867430]Fargo's Best of Both Worlds.[/url]
 
 [*] Functional with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2861542679]Remnants Mod[/url], however some minor issues may show up
+
+[*] Translations are possible to make.
 [/list]
 
 [h2]Credits:[/h2] [list]

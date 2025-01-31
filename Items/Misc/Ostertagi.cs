@@ -91,7 +91,7 @@ namespace EbonianMod.Items.Misc
                 PlayerDeathReason customReason = new()
                 {
                     SourceItem = player.HeldItem,
-                    SourceCustomReason = $"{player.name} didn't mind the worms."
+                    SourceCustomReason = Language.GetText("Mods.EbonianMod.DeathMessages.OstertagiDeath").Format(player.name)
                 };
                 Player.HurtInfo info = new();
                 info.Damage = dmg;

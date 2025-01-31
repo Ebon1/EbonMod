@@ -154,16 +154,16 @@ namespace EbonianMod.Items.Weapons.Magic
                     SoundEngine.PlaySound(SoundID.Item70, Projectile.Center);
                     SoundEngine.PlaySound(EbonianSounds.xSpirit, Projectile.Center);
                     WeightedRandom<string> chat = new();
-                    chat.Add("OW!");
-                    chat.Add("QUIT THAT!");
-                    chat.Add("I WASN'T DESTINED FOR THIS!");
-                    chat.Add("WHAT ARE YOU DOING!");
-                    chat.Add("STOP!");
-                    chat.Add("STOP THAT!");
-                    chat.Add("QUIT IT!");
-                    chat.Add("STOP IT!");
-                    chat.Add("OUCH!");
-                    chat.Add("DAMN YOU!");
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Yell1").Value);
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Yell2").Value);
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Yell3").Value);
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Yell4").Value);
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Yell5").Value);
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Yell6").Value);
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Yell7").Value);
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Yell8").Value);
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Yell9").Value);
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Yell10").Value);
                     DialogueSystem.NewDialogueBox(40, Projectile.Center - new Vector2(0, 40), chat, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 8f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                     Projectile.NewProjectile(null, Helper.TRay.Cast(Projectile.Center, Vector2.UnitY, 80), Vector2.Zero, ProjectileType<XImpact>(), 0, 0);
 
@@ -199,13 +199,13 @@ namespace EbonianMod.Items.Weapons.Magic
                 if (!failed)
                 {
                     WeightedRandom<string> chat = new();
-                    chat.Add("YEAH!");
-                    chat.Add("WOOO!");
-                    chat.Add("TAKE THAT!");
-                    chat.Add("AHAHAHA!");
-                    chat.Add("WOOHOOO!");
-                    chat.Add("DIEE!");
-                    chat.Add("YEAH DIE!");
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Happy1").Value);
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Happy2").Value);
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Happy3").Value);
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Happy4").Value);
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Happy5").Value);
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Happy6").Value);
+                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.Weapon.Happy7").Value);
                     DialogueSystem.NewDialogueBox(40, Projectile.Center - new Vector2(0, 40), chat, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 8f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                 }
             }

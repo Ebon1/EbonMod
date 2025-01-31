@@ -1437,9 +1437,8 @@ namespace EbonianMod.NPCs.Garbage
                     num = MathF.Round(Projectile.ai[1] / 60, 2).ToString() + ".0";
                     break;
             }
-            string strin = "" + num;
-            if (extraString != "NUKE DETONATION IN: ")
-                strin = "";
+            string strin = num;
+
 
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
 
@@ -1476,35 +1475,35 @@ namespace EbonianMod.NPCs.Garbage
                     Main.spriteBatch.Draw(exclamation, exPos, null, color * 2 * textAlpha * Lerp(0, 2, Clamp(MathF.Abs(exPos.X - Main.screenWidth / 2) / 5000, 0, 1)), 0, new Vector2(exclamation.Width / 2, exclamation.Height / 2), 0.1f, SpriteEffects.None, 0);
                 }
             }
-            string warningText = "EVACUATE IMMEDIATELY";
+            string warningText = Language.GetText("Mods.EbonianMod.Dialogue.HotGarbageDialogue.Evacuate").Value;
             bool run = false;
             if (Main.LocalPlayer.Center.Distance(targetPos) < 4500 / 2 - 100)
             {
                 if (leftAgain)
-                    warningText = "This is NOT funny PLEASE GET OUT!";
+                    warningText = Language.GetText("Mods.EbonianMod.Dialogue.HotGarbageDialogue.Unfunny").Value;
                 else if (left)
                 {
-                    warningText = "WHAT ARE YOU DOING!?";
+                    warningText = Language.GetText("Mods.EbonianMod.Dialogue.HotGarbageDialogue.Dumbass").Value;
                 }
                 else if (Projectile.ai[1] < 180)
                 {
                     run = true;
-                    warningText = "RUN";
+                    warningText = Language.GetText("Mods.EbonianMod.Dialogue.HotGarbageDialogue.Run").Value;
                     for (int i = 0; i < (int)((Projectile.ai[0] - 480) / 4); i++)
                     {
-                        warningText += " RUN";
+                        warningText += " " + Language.GetText("Mods.EbonianMod.Dialogue.HotGarbageDialogue.Run").Value;
                     }
                 }
             }
             else
             {
                 if (reentered)
-                    warningText = "Phew...";
+                    warningText = Language.GetText("Mods.EbonianMod.Dialogue.HotGarbageDialogue.Phew").Value;
                 else
-                    warningText = "GOOD JOB!";
+                    warningText = Language.GetText("Mods.EbonianMod.Dialogue.HotGarbageDialogue.GG").Value;
 
                 if (Projectile.ai[1] < 120)
-                    warningText = "HERE IT COMES";
+                    warningText = Language.GetText("Mods.EbonianMod.Dialogue.HotGarbageDialogue.HereItComes").Value;
             }
 
             for (int j = 0; j < 2; j++)
@@ -1532,7 +1531,7 @@ namespace EbonianMod.NPCs.Garbage
 
             return false;
         }
-        string extraString = "NUKE DETONATION IN: ";
+        string extraString;
         public override void OnSpawn(IEntitySource source)
         {
             Projectile.ai[1] = 600;
@@ -1554,7 +1553,7 @@ namespace EbonianMod.NPCs.Garbage
                 if (player.active)
                 {
                     if (player.Center.Distance(targetPos) < 4500 / 2 - 200)
-                        player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " advocated for the legalization of nuclear bombs."), 999999, 0);
+                        player.KillMe(PlayerDeathReason.ByCustomReason(Language.GetText("Mods.EbonianMod.DeathMessages.NukeDeath").Format(player.name)), 999999, 0);
                 }
 
             }
@@ -1593,7 +1592,7 @@ namespace EbonianMod.NPCs.Garbage
                 if (player.active)
                     if ((player.HeldItem.type == ItemID.MagicMirror || player.HeldItem.type == ItemID.RecallPotion) && player.itemAnimation > 2)
                     {
-                        player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " thought they were smart."), 12345, 0);
+                        player.KillMe(PlayerDeathReason.ByCustomReason(Language.GetText("Mods.EbonianMod.DeathMessages.NukeTP").Format(player.name)), 12345, 0);
                         Projectile.active = false;
                     }
             }
@@ -1640,7 +1639,7 @@ namespace EbonianMod.NPCs.Garbage
             {
                 Projectile.Kill();
             }
-            extraString = "NUKE DETONATION IN: ";
+            extraString = Language.GetText("Mods.EbonianMod.Dialogue.HotGarbageDialogue.Nuke") + ": ";
             Projectile.timeLeft = 2;
             float _alpha = Utils.GetLerpValue(0, 2, waveTimer);
             float alpha2 = Clamp((float)Math.Sin(_alpha * Math.PI) * 3, 0, 1f);

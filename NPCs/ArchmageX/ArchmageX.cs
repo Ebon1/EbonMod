@@ -624,23 +624,23 @@ namespace EbonianMod.NPCs.ArchmageX
                             WeightedRandom<string> chat = new WeightedRandom<string>();
                             if (!phase2)
                             {
-                                chat.Add("Your skill in losing is truly unmatched!");
-                                chat.Add("Just another moth to my glorious flame!");
-                                chat.Add("Hah! Another victory for the brilliant Archmage!");
-                                chat.Add("Would a purple laser pointer ALSO defeat you?");
-                                chat.Add("A predictable failure, THIEF!");
+                                chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDespawn1").Value);
+                                chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDespawn2").Value);
+                                chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDespawn3").Value);
+                                chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDespawn4").Value);
+                                chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDespawn5").Value);
                                 if (NPC.life > NPC.lifeMax - 2000)
                                 {
-                                    chat.Add("Wait, you're actually THAT incompetent?! I pity you.");
-                                    chat.Add("*Yawn*");
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDespawn6").Value);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDespawn7").Value);
                                 }
                             }
                             else
                             {
                                 if (phaseMult == 3)
-                                    chat.Add("GOOD GODDAMN RIDDANCE!");
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDespawn8").Value);
                                 else
-                                    chat.Add("Phew... I mean, not even close!");
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDespawn9").Value);
                             }
                             currentDialogue = DialogueSystem.NewDialogueBox(160, NPC.Center - new Vector2(0, 80), chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         }
@@ -685,39 +685,39 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 50)
                         {
                             headFrame.Y = AngryFace;
-                            currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "GET YOUR HANDS OFF, YYYOOOOUUUU!!!!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                            currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XIntro1").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         }
                         if (AITimer == 150)
                         {
                             headFrame.Y = SadFace;
-                            currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "my staff... my BELOVED STAFF, SO PRISTINE UNTIL NOW!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                            currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XIntro2").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         }
                         if (AITimer == 350)
                         {
                             Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/xareus");
                             headFrame.Y = AngryFace;
                             if (!EbonianSystem.heardXareusIntroMonologue && !GetInstance<EbonianSystem>().downedXareus)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "YOU FIEND!!! I'LL DESTROY YOU IN EVERY WAY PHYSICALLY POSSIBLE!!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XIntro3").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
                             {
                                 WeightedRandom<string> chat = new WeightedRandom<string>();
-                                chat.Add("Would you PLEASE stop that!?");
-                                chat.Add("You again?!");
-                                chat.Add("STOP TOUCHING THE STAFF!");
+                                chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XIntro4").Value);
+                                chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XIntro5").Value);
+                                chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XIntro6").Value);
                                 if (GetInstance<EbonianSystem>().downedXareus)
                                 {
-                                    chat.Add("The first time was just luck!");
-                                    chat.Add("LEAVE ME ALONE!");
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XIntro7").Value);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XIntro8").Value);
                                 }
                                 else
                                 {
                                     if (!Main.dayTime)
                                     {
-                                        chat.Add("Dude, please, it's like midnight, I'm so tired of winning...");
+                                        chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XIntro9").Value);
                                     }
                                     else
                                     {
-                                        chat.Add("I thought the first time taught you a proper lesson!");
+                                        chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XIntro10").Value);
                                     }
                                 }
                                 currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
@@ -770,7 +770,7 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 40)
                         {
                             Projectile.NewProjectile(null, staffTip, Vector2.Zero, ProjectileType<XExplosionInvis>(), 0, 0);
-                            currentDialogue = DialogueSystem.NewDialogueBox(160, NPC.Center - new Vector2(0, 80), "None of this would've happened if you just kept your grubby hands away from my things!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                            currentDialogue = DialogueSystem.NewDialogueBox(160, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XPhase2").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         }
                         if (AITimer == 100)
                         {
@@ -867,7 +867,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             Projectile.NewProjectile(null, staffTip, Vector2.Zero, ProjectileType<SheepeningOrb>(), 1, 0);
                         }
                         if (AITimer == 1110)
-                            currentDialogue = DialogueSystem.NewDialogueBox(160, NPC.Center - new Vector2(0, 80), "Phew... Almost lost my cool there..", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 2.3f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                            currentDialogue = DialogueSystem.NewDialogueBox(160, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XPhase2End").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 2.3f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         if (AITimer >= 1260)
                         {
                             Reset();
@@ -898,98 +898,101 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 40)
                         {
                             WeightedRandom<string> chat = new WeightedRandom<string>();
-                            chat.Add("If I were you, I would probably try to steal my staff too!");
-                            chat.Add("This is nothing but a slight inconvenience for the Grand Archmage!!");
-                            chat.Add("If only you were as good at fighting as you were at opening doors!");
-                            chat.Add("You're practically defeating YOURSELF!");
-                            chat.Add("Are you intentionally missing? Or is my glory blinding you?");
-                            chat.Add("You're unworthy of even witnessing my greatest magic!");
-                            chat.Add("My greatest magics would break your mind BEFORE your body!");
-                            chat.Add("I bet you can't even begin to comprehend the might of The Archmage!");
-                            chat.Add("Your greatest skill is your ability to make bad decisions!");
-                            chat.Add("If I were you, I'd bow and let me destroy you!");
-                            chat.Add("I can't believe I'm wasting all my glory on this...");
-                            chat.Add("Even if you stole it, you would never be worthy enough to wield my Magnificent Staff!");
-                            chat.Add("I'm not sure whether your futile attempts to hurt me are depressing or amusing!");
-                            chat.Add("I've yet to meet someone that can outsmart spells!");
-                            chat.Add("You're not putting a scratch on me!");
-                            chat.Add("Feel the power of my MAAAGIIIC!!!");
-                            chat.Add("You truly are an amateur among amateurs!");
-                            chat.Add("There is no mercy for thieves like you!");
-                            chat.Add("If you surrender now, I still won't consider letting you go!");
-                            chat.Add("There is no escape, weakling!");
-                            chat.Add("My power is MAXIMUM!!!!! *cough*");
-                            chat.Add("Unbelievable! I almost envy your persistence!");
-                            chat.Add("Unlike you, I am destined for supremacy!");
-                            chat.Add("My spells are my power!");
-                            chat.Add("DIE!!! HUMAN!! ENEMY!!!!!! *cough, cough*");
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt1").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt2").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt3").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt4").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt5").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt6").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt7").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt8").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt9").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt10").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt11").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt12").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt13").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt14").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt15").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt16").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt17").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt18").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt19").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt20").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt21").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt22").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt23").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt24").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt25").Value);
                             if (NPC.HasBuff(BuffID.OnFire) || NPC.HasBuff(BuffID.OnFire3))
                             {
                                 if (phase2)
                                 {
-                                    chat.Add("Q-QUIT IT WITH THE FIRE! THIS ROBE IS NEW!", 1.4f);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt26").Value, 1.4f);
 
                                 }
                                 else
                                 {
-                                    chat.Add("F-Fool! I actually E-ENJOY burning!", 1.4f);
-                                    chat.Add("Y-you think some fire is e-enough to take down the GRAND A-ARCHMAGE!?", 1.4f);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt27").Value, 1.4f);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt28").Value, 1.4f);
                                 }
                             }
                             if (phase2)
                             {
-                                chat.Add("Hey! QUIT IT! You're scratching up my robe!");
-                                chat.Add("My potions are too strong for you!");
+                                chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt29").Value);
+                                chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt30").Value);
                             }
                             if (player.HeldItem != null)
                             {
                                 if (player.HeldItem.DamageType == DamageClass.Magic)
                                 {
-                                    chat.Add("I remember a RAT that was better with magic!", 1.5);
-                                    chat.Add("Even a bunny outmatches you in magic prowess!", 1.5);
-                                    chat.Add("Maybe hone your spells before facing the Grand Archmage!", 1.5);
-                                    chat.Add("You call THAT magic?! How pitiful!", 1.5);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt31").Value, 1.5);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt32").Value, 1.5);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt33").Value, 1.5);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt34").Value, 1.5);
                                     if (Item.staff[player.HeldItem.type])
                                     {
-                                        chat.Add("My staff is bigger than yours!", 1.5);
-                                        chat.Add("You'd be better off using that staff to club me!", 1.5);
+                                        chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt35").Value, 1.5);
+                                        chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt36").Value, 1.5);
                                     }
-                                    chat.Add("For a sorcerer, your power disappoints me...", 1.5);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt37").Value, 1.5);
                                 }
                                 if (player.HeldItem.DamageType == DamageClass.Melee)
                                 {
-                                    chat.Add("A brute like you is unworthy to face someone like me!", 1.5);
-                                    chat.Add("Your strikes are but empty threats to one such as myself!", 1.5);
-                                    chat.Add("A measly blade is all you'll ever be good for!", 1.5);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt38").Value, 1.5);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt39").Value, 1.5);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt40").Value, 1.5);
                                     if (phase2)
-                                        chat.Add("Oh, WHAT?! Is the sword too heavy for your flabby noodle arms?!?", 1.5);
+                                        chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt41").Value, 1.5);
                                 }
                                 if (player.HeldItem.DamageType == DamageClass.Ranged)
                                 {
-                                    chat.Add("Stay true to your aim, then maybe you'll stand a chance!", 1.5);
-                                    chat.Add("Your firepower is nothing compared to the might of my magic!", 1.5);
-                                    chat.Add("Your aim is a disgrace to a disgrace!", 1.5);
-                                    chat.Add("Are you TRYING to hit the wall? Or just blinded by my glory?", 1.5);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt42").Value, 1.5);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt43").Value, 1.5);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt44").Value, 1.5);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt45").Value, 1.5);
                                     if (player.HeldItem.useAmmo == AmmoID.Bullet)
-                                        chat.Add("You fool! I am bulletproof!", 1.5);
+                                        chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt46").Value, 1.5);
                                     if (player.HeldItem.useAmmo == AmmoID.Arrow)
-                                        chat.Add("I would make a better archer than you!", 1.5);
+                                        chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt47").Value, 1.5);
                                     if (player.HeldItem.useAmmo == AmmoID.Rocket && player.ChooseAmmo(player.HeldItem).type == ItemID.MiniNukeI)
-                                        chat.Add("WHAT THE FUCK?!", 3);
+                                        chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt48").Value, 3);
                                     if (phase2)
-                                        chat.Add("STOP GOING FOR CHEAP SHOTS, YOU LITTLE BANDIT!", 1.5);
+                                        chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt49").Value, 1.5);
                                 }
                                 if (player.HeldItem.DamageType == DamageClass.SummonMeleeSpeed)
-                                    chat.Add("How about I whip YOU into shape?!", 1.5);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt50").Value, 1.5);
                             }
                             if (player.numMinions > 0)
                             {
-                                chat.Add("Coward! Strength in numbers is futile against ME!!!", 1.5);
-                                chat.Add("You dare face me with your sinister spawns?!", 1.5);
-                                chat.Add("You attack me with MINIONS? AT LEAST FACE ME YOURSELF!", 1.5);
-                                chat.Add("How actually DARE you! WOULD YOU LIKE IT IF I SWARMED YOU WITH MINIONS?!", 1.5);
+                                chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt51").Value, 1.5);
+                                chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt52").Value, 1.5);
+                                chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt53").Value, 1.5);
+                                chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt54").Value, 1.5);
                                 if (player.ownedProjectileCounts[ProjectileID.BabySlime] > 1)
-                                    chat.Add("Hold up, slimes?! You're THAT ill-prepared?!", 1.5);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt55").Value, 1.5);
+
+                                if (player.ownedProjectileCounts[ProjectileID.BabyBird] > 1)
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XTaunt56").Value, 1.5);
                             }
                             currentDialogue = DialogueSystem.NewDialogueBox(120, NPC.Center - new Vector2(0, 80), chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         }
@@ -1049,14 +1052,13 @@ namespace EbonianMod.NPCs.ArchmageX
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                         if (AITimer == 40)
                         {
-                            if (phaseMult == 3 && !doneAttacksBefore)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "PHANTASMAL SPIRITS!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
-                            else if (oldAttack != AIState)
+                            if (oldAttack != AIState)
                             {
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "PHANTASMAL SPIRITS!!!!!" : "Phantasmal Spirits!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack1.Angry").Value :
+                                    Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack1.Default").Value), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             }
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "AGAIN!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack1.RepeatAngry").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.AndAgain").Value), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         }
 
 
@@ -1125,9 +1127,9 @@ namespace EbonianMod.NPCs.ArchmageX
                             AITimer2 = Main.rand.Next(4);
                         if (AITimer == 40)
                             if (oldAttack != AIState)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "BURN!!" : "Shadowflame Eruption!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack2.Angry").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack2.Default").Value), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "BURN, I SAID!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack2.RepeatAngry").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.AndAgain").Value), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         if (AITimer < 180 && AITimer > 1)
                         {
                             rightArmRot = Helper.LerpAngle(rightArmRot, -Vector2.UnitY.ToRotation() - (NPC.direction == -1 ? (MathHelper.PiOver2 + MathHelper.PiOver4) : 0), 0.2f);
@@ -1216,7 +1218,8 @@ namespace EbonianMod.NPCs.ArchmageX
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f); rightArmRot = Helper.LerpAngle(rightArmRot, -Vector2.UnitY.ToRotation() - (NPC.direction == -1 ? (MathHelper.PiOver2 + MathHelper.PiOver4) : 0), 0.2f);
                         if (AITimer == 30)
                             if (oldAttack != AIState && oldAttack != AmethystBulletHell)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "RAAAAGHH!" : "Glittering Amethysts!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack3.Angry").Value :
+                                    Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack3.Default").Value), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
 
                         if (AITimer == 50)
                         {
@@ -1278,9 +1281,11 @@ namespace EbonianMod.NPCs.ArchmageX
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                         if (AITimer == 30)
                             if (oldAttack != AIState)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? (doneAttacksBefore ? "JUST DIE!!" : "SHIMMERING.. WHATEVER JUST DIE!") : "Shimmering Fusillade!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? (doneAttacksBefore ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack4.Angry").Value :
+                                    Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack4.FirstTimeAngry").Value) :
+                                    Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack4.Default").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "AGAIN!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? Language.GetText("Mod.EbonianMod.Dialogue.ArchmageXDialogue.AgainLoud").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.AndAgain").Value), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         if (AITimer == 80)
                         {
                             Projectile.NewProjectile(null, staffTip, Vector2.Zero, ProjectileType<XExplosionInvis>(), 0, 0);
@@ -1363,9 +1368,11 @@ namespace EbonianMod.NPCs.ArchmageX
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                         if (AITimer == 30)
                             if (oldAttack != AIState)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? "SHADOWFLAME!!" : (phase2 ? "Helix" : "Wave") + " of Shadowflame!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack5.Angry").Value :
+                                    (phase2 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack5.Helix").Value :
+                                    Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack5.Wave").Value), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "AGAIN!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? Language.GetText("Mod.EbonianMod.Dialogue.ArchmageXDialogue.AgainLoud").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.AndAgain").Value), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         if (AITimer < 50)
                         {
                             disposablePos[0] = player.Center;
@@ -1432,16 +1439,16 @@ namespace EbonianMod.NPCs.ArchmageX
                             headFrame.Y = AngryFace;
                         else
                             headFrame.Y = SmirkFace;
-                        AITimer3 = Lerp(AITimer3, 1, 0);
-                        rightArmRot = Helper.LerpAngle(rightArmRot, MathHelper.ToRadians(AITimer * 8f), AITimer3);
+                        rightArmRot = Helper.LerpAngle(rightArmRot, MathHelper.ToRadians(AITimer * 8f), 1);
                         NPC.direction = NPC.spriteDirection = ((NPC.Center + rightArmRot.ToRotationVector2().RotatedBy(MathHelper.PiOver4 * 0.5f) * 20).X > NPC.Center.X ? -1 : 1);
                         leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                         if (AITimer == 40)
                             if (oldAttack != AIState)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? (doneAttacksBefore ? "STEAL THIS!!" : "THIS IS VERY EXPENSIVE!") : "Amethysts of Empowerment!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? (doneAttacksBefore ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack6.Angry").Value :
+                                    Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack6.FirstTimeAngry").Value) : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack6.Default").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "GRAAAAAAAAAH!!!!!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack6.RepeatAngry").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.AndAgain").Value), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
 
                         if (AITimer % (phase2 ? (phaseMult == 3 ? 10 : 15) : (phaseMult == 1 ? 20 : 25)) == 0 && AITimer > 29 && AITimer < 91)
                         {
@@ -1494,7 +1501,8 @@ namespace EbonianMod.NPCs.ArchmageX
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                         if (AITimer == 40)
                             if (oldAttack != AIState && oldAttack != SpectralOrbs)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? "AHAHAHA!" : "Glittering Amethysts!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack7.Angry").Value :
+                                    Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack7.Default").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
 
                         if (AITimer > 60 && AITimer < 170)
                         {
@@ -1594,9 +1602,10 @@ namespace EbonianMod.NPCs.ArchmageX
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                         if (AITimer == 40)
                             if (oldAttack != AIState)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? "GET AWAY FROM ME!!" : "The Archmage's Great Amethysts!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack8.Angry").Value :
+                                    Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack8.Default").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "I HATE YOU!!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack8.RepeatAngry").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.AndAgain").Value), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         if (phaseMult < 3)
                         {
                             if (AITimer >= 60 && phase2 && AITimer % 35 == 0)
@@ -1652,15 +1661,15 @@ namespace EbonianMod.NPCs.ArchmageX
                         leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
                         if (AITimer == 40)
                             if (oldAttack != AIState && AITimer3 == 0)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? "DIE!!" : "Shadowflame Tendrils!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack9.Angry").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack9.Default").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "Just DIEEE!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack9.RepeatAngry").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.AndAgain").Value), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
 
                         if (phaseMult == 3 && AITimer3 > 0 && AITimer == 121)
                         {
-                            string dialogue = "DIE!!!!";
+                            string dialogue = Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack9.Angry2").Value;
                             if (AITimer3 == 2)
-                                dialogue = "DIE!!!!!!!!!!!!!";
+                                dialogue = Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack9.Angry3").Value;
                             currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), dialogue, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         }
                         if (AITimer < 122)
@@ -1761,15 +1770,15 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 40)
                         {
                             WeightedRandom<string> chat = new WeightedRandom<string>();
-                            chat.Add("Bleat now!");
-                            chat.Add("'Baa! Baa!'... That's you!");
-                            chat.Add("The Sheepening!");
-                            chat.Add("To the slaughter with you!");
-                            chat.Add("Polymorph!");
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack10.Default1").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack10.Default2").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack10.Default3").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack10.Default4").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack10.Default5").Value);
                             if (oldAttack != AIState)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? "GET OUT OF MY SIGHT!" : chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack10.Angry").Value : chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "GET OUT!!!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack10.RepeatAngry").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.AndAgain").Value), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         }
 
                         if (AITimer == 50)
@@ -1823,24 +1832,24 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 30 && phaseMult == 3)
                         {
                             if (NPC.ai[3] <= 0)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "TAKE THIS!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack11.Default").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
                             {
                                 WeightedRandom<string> chat = new WeightedRandom<string>();
                                 if (NPC.ai[3] == 1)
-                                    chat.Add("AND SOME OF THIS!");
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack11.Continuation1").Value);
                                 else
                                 {
                                     if (NPC.ai[3] % 2 == 0)
                                     {
-                                        chat.Add("AND SOME OF THAT!");
-                                        chat.Add("AND THAT!");
-                                        chat.Add("AND A LITTLE BIT OF THAT!");
+                                        chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack11.Continuation2").Value);
+                                        chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack11.Continuation3").Value);
+                                        chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack11.Continuation4").Value);
                                     }
                                     else
                                     {
-                                        chat.Add("AND THIS!");
-                                        chat.Add("AND A LITTLE BIT OF THIS!");
+                                        chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack11.Continuation5").Value);
+                                        chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack11.Continuation6").Value);
                                     }
                                 }
                                 currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
@@ -1921,9 +1930,9 @@ namespace EbonianMod.NPCs.ArchmageX
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, 0, 0.1f);
                         if (AITimer == 30)
                             if (oldAttack != AIState)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? ("DESTROY " + (player.HasBuff<Sheepened>() || player.HasBuff(BuffID.WolfMount) ? "IT!" : (player.Male ? "HIM!" : "HER!"))) : "Phantasmal Blast!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? ((player.HasBuff<Sheepened>() || player.HasBuff(BuffID.WolfMount) ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack12.It").Value : (player.Male ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack12.Him").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack12.Her").Value))) : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack12.Default").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "COME ON!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack12.RepeatAngry").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.AndAgain").Value), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
 
                         if (AITimer == 50)
                         {
@@ -1998,14 +2007,14 @@ namespace EbonianMod.NPCs.ArchmageX
                         if (AITimer == 80)
                         {
                             WeightedRandom<string> chat = new WeightedRandom<string>();
-                            chat.Add("Hold up, I forgot to bring something...");
-                            chat.Add("Don't mind me! I just forgot something...");
-                            chat.Add("I seem to have forgotten something...");
-                            chat.Add("Hehehehe..."); //phase 2
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack13.Default1").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack13.Default2").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack13.Default3").Value);
+                            chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack13.Default4").Value); //phase 2
                             if (oldAttack != AIState)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? "STAND STILL!" : chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack13.Angry").Value : chat, Color.Violet, -1, 0.6f, Color.Indigo * 0.6f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? "I SAID STAND STILL!" : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack13.RepeatAngry").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.AndAgain").Value), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         }
                         if (AITimer == 1) disposablePos[9] = player.Center;
                         if (AITimer < 50)
@@ -2181,7 +2190,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             if (AITimer == 460)
                             {
                                 if (oldAttack != AIState)
-                                    currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "JUST LEAVE ME ALONE!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                    currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack14.Angry").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             }
                             if (AITimer == 520)
                             {
@@ -2214,9 +2223,9 @@ namespace EbonianMod.NPCs.ArchmageX
                     {
                         if (AITimer == 40)
                             if (oldAttack != AIState)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? "YOU WILL BLEAT!" : "Shadowflame Mist!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), phaseMult == 3 ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack15.Angry").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack15.Default").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? (player.HasBuff<Sheepened>() ? "NOT ENOUGH BLEATING!" : "I SAID.. YOU WILL BLEAT!") : "And again!"), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), (phaseMult == 3 ? (player.HasBuff<Sheepened>() ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack15.RepeatAngry1").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack15.RepeatAngry2").Value) : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.AndAgain").Value), Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                         if (AITimer < 260 && AITimer > 50)
                         {
                             if (phaseMult == 3)
@@ -2281,9 +2290,9 @@ namespace EbonianMod.NPCs.ArchmageX
                     {
                         if (AITimer == 40)
                             if (oldAttack != AIState)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "STOP DODGING!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack16.Angry").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "STOP!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack16.RepeatAngry").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
 
                         headFrame.Y = AngryFace;
                         leftArmRot = Helper.LerpAngle(leftArmRot, 0, 0.3f);
@@ -2387,9 +2396,9 @@ namespace EbonianMod.NPCs.ArchmageX
                     {
                         if (AITimer == 40)
                             if (oldAttack != AIState && AITimer3 == 0)
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), doneAttacksBefore ? "I'M SO TIRED OF YOUR NONSENSE!" : "Do you ever quit?!... LOOK WHAT YOU'RE MAKING ME DO!!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), doneAttacksBefore ? Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack17.Angry").Value : Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack17.FirstTimeAngry").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
                             else
-                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), "GOD DAMN YOU!!", Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
+                                currentDialogue = DialogueSystem.NewDialogueBox(100, NPC.Center - new Vector2(0, 80), Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack17.RepeatAngry").Value, Color.Violet, -1, 0.6f, Color.Indigo * 0.5f, 4f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_OgreRoar.WithPitchOffset(0.9f + (phaseMult == 3 ? 0.1f : 0)), 5);
 
                         if (AITimer < 110)
                         {
@@ -2458,10 +2467,10 @@ namespace EbonianMod.NPCs.ArchmageX
                                     SoundEngine.PlaySound(SoundID.Item70, position);
                                     SoundEngine.PlaySound(EbonianSounds.xSpirit, position);
                                     WeightedRandom<string> chat = new();
-                                    chat.Add("WHAT ARE YOU DOING?!");
-                                    chat.Add("XAREUS?!");
-                                    chat.Add("???!");
-                                    chat.Add("HUH?!");
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack17.Staff1").Value);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack17.Staff2").Value);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack17.Staff3").Value);
+                                    chat.Add(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XAttack17.Staff4").Value);
                                     DialogueSystem.NewDialogueBox(40, position - new Vector2(-40 * NPC.direction, 70), chat, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 8f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                                     Projectile p = Projectile.NewProjectileDirect(null, Helper.TRay.Cast(position - new Vector2(0, 20), Vector2.UnitY, 80), Vector2.Zero, ProjectileType<XImpact>(), 20, 0);
                                     p.friendly = false;

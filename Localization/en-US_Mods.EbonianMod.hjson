@@ -321,12 +321,6 @@ NPCs: {
 	TrumpetHead.DisplayName: Trumpet
 	TrumpetBody.DisplayName: Trumpet
 	Rolypoly.DisplayName: Rolypoly
-
-	ArchmageX: {
-		DisplayName: Xareus
-		BossLogDisplayName: The Archmage
-	}
-
 	JuvenileBrain.DisplayName: Neurobite
 	WormKing.DisplayName: Worm King
 	MiniTrumpetBody.DisplayName: Cornet
@@ -348,6 +342,11 @@ NPCs: {
 	Sheep.DisplayName: Sheep
 	JelleyeFish.DisplayName: Jelleye Fish
 	MiniSpectator.DisplayName: Spectator
+
+	ArchmageX: {
+		DisplayName: Xareus
+		BossLogDisplayName: The Archmage
+	}
 }
 
 Items: {
@@ -1087,4 +1086,311 @@ Configs: {
 			Tooltip: The delay before Xareus can be summoned again
 		}
 	}
+}
+
+Dialogue: {
+	DotDotDot: ...
+
+	ArchmageXDialogue: {
+		AndAgain: And again!
+		AgainLoud: AGAIN!
+		XIntro1: GET YOUR HANDS OFF, YYYOOOOUUUU!!!!!
+		XIntro2: my staff... my BELOVED STAFF, SO PRISTINE UNTIL NOW!
+		XIntro3: YOU FIEND!!! I'LL DESTROY YOU IN EVERY WAY PHYSICALLY POSSIBLE!!!
+		XIntro4: Would you PLEASE stop that!?
+		XIntro5: You again?!
+		XIntro6: STOP TOUCHING THE STAFF!
+		XIntro7: The first time was just luck!
+		XIntro8: LEAVE ME ALONE!
+		XIntro9: Dude, please, it's like midnight, I'm so tired of winning...
+		XIntro10: I thought the first time taught you a proper lesson!
+		XTaunt1: If I were you, I would probably try to steal my staff too!
+		XTaunt2: This is nothing but a slight inconvenience for the Grand Archmage!!
+		XTaunt3: If only you were as good at fighting as you were at opening doors!
+		XTaunt4: You're practically defeating YOURSELF!
+		XTaunt5: Are you intentionally missing? Or is my glory blinding you?
+		XTaunt6: You're unworthy of even witnessing my greatest magic!
+		XTaunt7: My greatest magics would break your mind BEFORE your body!
+		XTaunt8: I bet you can't even begin to comprehend the might of The Archmage!
+		XTaunt9: Your greatest skill is your ability to make bad decisions!
+		XTaunt10: If I were you, I'd bow and let me destroy you!
+		XTaunt11: I can't believe I'm wasting all my glory on this...
+		XTaunt12: Even if you stole it, you would never be worthy enough to wield my Magnificent Staff!
+		XTaunt13: I'm not sure whether your futile attempts to hurt me are depressing or amusing!
+		XTaunt14: I've yet to meet someone that can outsmart spells!
+		XTaunt15: You're not putting a scratch on me!
+		XTaunt16: Feel the power of my MAAAGIIIC!!!
+		XTaunt17: You truly are an amateur among amateurs!
+		XTaunt18: There is no mercy for thieves like you!
+		XTaunt19: If you surrender now, I still won't consider letting you go!
+		XTaunt20: There is no escape, weakling!
+		XTaunt21: My power is MAXIMUM!!!!!!!!
+		XTaunt22: Unbelievable! I almost envy your persistence!
+		XTaunt23: Unlike you, I am destined for supremacy!
+		XTaunt24: My spells are my power!
+		XTaunt25: DIE!!! HUMAN!! ENEMY!!!!!! *cough, cough* RAAH!!
+		XTaunt26: Q-QUIT IT WITH THE FIRE! THIS ROBE IS NEW!
+		XTaunt27: F-Fool! I actually E-ENJOY burning!
+		XTaunt28: Y-you think some fire is e-enough to take down the GRAND A-ARCHMAGE!?
+		XTaunt29: Hey! QUIT IT! You're scratching up my robe!
+		XTaunt30: My potions are too strong for you!
+		XTaunt31: I remember a RAT that was better with magic!
+		XTaunt32: Even a bunny outmatches you in magic prowess!
+		XTaunt33: Maybe hone your spells before facing the Grand Archmage!
+		XTaunt34: You call THAT magic?! How pitiful!
+		XTaunt35: My staff is bigger than yours!
+		XTaunt36: You'd be better off using that staff to club me!
+		XTaunt37: For a sorcerer, your power disappoints me...
+		XTaunt38: A brute like you is unworthy to face someone like me!
+		XTaunt39: Your strikes are but empty threats to one such as myself!
+		XTaunt40: A measly blade is all you'll ever be good for!
+		XTaunt41: Oh, WHAT?! Is the sword too heavy for your flabby noodle arms?!?
+		XTaunt42: Stay true to your aim, then maybe you'll stand a chance!
+		XTaunt43: Your firepower is nothing compared to the might of my magic!
+		XTaunt44: Your aim is a disgrace to a disgrace!
+		XTaunt45: Are you TRYING to hit the wall? Or are you just blinded by my glory?
+		XTaunt46: You fool! I am bulletproof!
+		XTaunt47: I would make a better archer than you!
+		XTaunt48: WHAT THE FUCK?!
+		XTaunt49: STOP GOING FOR CHEAP SHOTS, YOU LITTLE BANDIT!
+		XTaunt50: How about I whip YOU into shape?!
+		XTaunt51: Coward! Strength in numbers is futile against ME!!!
+		XTaunt52: You dare face me with your sinister spawns?!
+		XTaunt53: You attack me with MINIONS? AT LEAST FACE ME YOURSELF!
+		XTaunt54: How actually DARE you! WOULD YOU LIKE IT IF I SWARMED YOU WITH MINIONS?!
+		XTaunt55: Hold up, slimes?! You're THAT ill-prepared?!
+		XTaunt56: Wait.. Birds? Seriously?? Pfft...
+
+		XAttack1: {
+			Default: Phantasmal Spirits!
+			Angry: KILL THAT THIEF!!!!!
+			RepeatAngry: NOW!!!!
+		}
+
+		XAttack2: {
+			Default: Shadowflame Eruption!
+			Angry: BURN!!
+			RepeatAngry: BURN, I SAID!
+		}
+
+		XAttack3: {
+			Default: Glittering Amethysts!!
+			Angry: RAAAAGHH!!!!!!
+		}
+
+		XAttack4: {
+			Default: Shimmering Fusillade!
+			FirstTimeAngry: SHIMMERING.. WHATEVER JUST DIE!
+			Angry: JUST DIE!!
+		}
+
+		XAttack5: {
+			Helix: Helix of Shadowflame!
+			Wave: Wave of Shadowflame!
+			Angry: SHADOWFLAME!!
+		}
+
+		XAttack6: {
+			Default: Amethysts of Empowerment!
+			Angry: STEAL THIS!!
+			FirstTimeAngry: THIS IS VERY EXPENSIVE!
+			RepeatAngry: GRAAAAAAAAAH!!!!!
+		}
+
+		XAttack7: {
+			Default: Glittering Amethysts!
+			Angry: AHAHAHA!!!
+		}
+
+		XAttack8: {
+			Default: The Archmage's Great Amethysts!
+			Angry: GET AWAY FROM ME!
+			RepeatAngry: I HATE YOU!!!
+		}
+
+		XAttack9: {
+			Default: Shadowflame Tendrils!
+			Angry: DIE!!!!
+			Angry2: DIE!!!!!!!!!
+			Angry3: PLEASE JUST DIE!!!!!!!!!!!!!!!!
+			RepeatAngry: DIE ALREADY!!!!!!
+		}
+
+		XAttack10: {
+			Default1: Bleat Now!
+			Default2: "'Baa! Baa!'... That's you!"
+			Default3: The Sheepening!
+			Default4: To the slaughter with you!
+			Default5: Polymorph!
+			Angry: GET OUT OF MY SIGHT!
+			RepeatAngry: GET OUT!!
+		}
+
+		XAttack11: {
+			Default: TAKE THIS!
+			Continuation1: AND SOME OF THIS!
+			Continuation2: AND SOME OF THAT!
+			Continuation3: AND THAT!
+			Continuation4: AND A LITTLE BIT OF THAT!
+			Continuation5: AND THIS!
+			Continuation6: AND A LITTLE BIT OF THIS!
+		}
+
+		XAttack12: {
+			Default: Phantasmal Blast!
+			It: DESTROY IT!
+			Him: DESTROY HIM!
+			Her: DESTROY HER!
+			RepeatAngry: COME ON!
+		}
+
+		XAttack13: {
+			Default1: Hold up, I forgot to bring something...
+			Default2: Don't mind me! I just forgot something...
+			Default3: I seem to have forgotten something...
+			Default4: Hehehehe...
+			Angry: STAND STILL!
+			RepeatAngry: I SAID STAND STILL!
+		}
+
+		XAttack14.Angry: JUST LEAVE ME ALONE!
+
+		XAttack15: {
+			Default: Shadowflame Mist!
+			Angry: YOU WILL BLEAT!
+			RepeatAngry1: NOT ENOUGH BLEATING!
+			RepeatAngry2: I SAID... YOU WILL BLEAT!
+		}
+
+		XAttack16: {
+			Angry: STOP DODGING!!
+			RepeatAngry: STOP IT!!
+		}
+
+		XAttack17: {
+			Angry: I'M SO TIRED OF YOUR NONSENSE!
+			FirstTimeAngry: Do you ever quit?!... LOOK WHAT YOU'RE MAKING ME DO!!!
+			RepeatAngry: DAMN YOU!!
+			Staff1: WHAT ARE YOU DOING?1
+			Staff2: XAREUS?!
+			Staff3: ???!
+			Staff4: HUH?!
+		}
+
+		XPhase2: None of this would've happened if you just kept your grubby hands away from my things!
+		XPhase2End: Phew... Almost lost my cool there..
+		XDespawn1: Your skill in losing is truly unmatched!
+		XDespawn2: Just another moth to my glorious flame!
+		XDespawn3: Hah! Another victory for the brilliant Archmage!
+		XDespawn4: Would a purple laser pointer ALSO defeat you?
+		XDespawn5: A predictable failure, THIEF!
+		XDespawn6: Wait, you're actually THAT incompetent?! I pity you.
+		XDespawn7: *Yawn*
+		XDespawn8: GOOD GODDAMN RIDDANCE!
+		XDespawn9: Phew... I mean, not even close!
+		XDeath: DAMN YOU!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+		Martian: {
+			Line1: SURPRISE ATTACK!!!
+			Line2: WHILE YOU'VE BEEN FOOLING AROUND...
+			Line3: I'VE AWOKEN MY TRUE POWER!!!
+			Line4: And with this power...
+			Line5: You...
+			Line6: Will...
+			Line7: Ow.
+		}
+	}
+
+	ArchstaffDialogue: {
+		Weapon: {
+			Yell1: OW!
+			Yell2: QUIT THAT!
+			Yell3: I WASN'T DESTINED FOR THIS!
+			Yell4: WHAT ARE YOU DOING?!
+			Yell5: STOP!
+			Yell6: STOP THAT!
+			Yell7: QUIT IT!
+			Yell8: STOP IT!
+			Yell9: OUCH!
+			Yell10: DAMN YOU!
+			Happy1: YEAH!
+			Happy2: WOOO!
+			Happy3: TAKE THAT!
+			Happy4: AHAHAHAHA!
+			Happy5: WOOHOOO!
+			Happy6: DIEE!
+			Happy7: YEAH, DIE!
+		}
+
+		InteractionLine: It shimmers intensely, aching for a glorious fight.
+		Grab: Grab
+		PsstLine: Psst.
+		YouLine: You...
+		ComeHereLine: Come here...
+		ArchstaffLine1: Hmm...
+		ArchstaffLine2: You seem.. capable..
+		ArchstaffLine3: Yes, Yes, Finally! A new wielder!
+		ArchstaffLine4: You see...
+		ArchstaffLine5: My master is a... TERRIBLE magician.
+		ArchstaffLine6: It's quite humiliating being limited by such an...
+		ArchstaffLine7: Idiot!
+		ArchstaffLine8: "'Archmage', pfft..."
+		ArchstaffLine9: I was forged from pure powdered lightning, the finest amethysts from the realm of crystals,
+		ArchstaffLine10: in the heat of a thousand suns, by the greatest goblin smiths of the omniverse!
+		ArchstaffLine11: Like... Can you even imagine that?! An ARCHMAGE who refuses to use his own greatest weapon?!
+		ArchstaffLine12: What a sick joke!
+		ArchstaffLine13: And that dimwitted magician refuses to use my power, why?!
+		ArchstaffLine14: Because he's scared of me scratching!
+		ArchstaffLine15: I'M A WEAPON! I AM MEANT TO SCRATCH! I'M NOT A DISPLAY PIECE
+		ArchstaffLine16: MY PURPOSE IS TO BE USED IN BATTLE BY THE GREATEST WIZARDS OF ALL TIME FOR GENERATIONS TO COME
+		ArchstaffLine17: TO DIE IN COMBAT AND TO BE REMEMBERED AS THE TRUE GREATEST ARCHSTAFF OF EVERY REALITY!
+		ArchstaffLine18: Oh right!
+		ArchstaffLine19: You! Please.. Please take me! My master REFUSES to utilize my grandeur!
+		ArchstaffLine20: He's not here! He won't even notice!
+		ArchstaffMotivation1: Hahaha! Back for another GLORIOUS battle!? He's easily aggravated!
+		ArchstaffMotivation2: Fighting you is most pleasing!
+		ArchstaffMotivation3: Back for another unforgettable fight?
+		ArchstaffMotivation4: Oh how I ACHE for a fight!
+		ArchstaffMotivation5: That wasn't a... horrible attempt! He's not here, you can try again!
+		ArchstaffMotivation6: You can do it! Ignore his ramblings!
+		ArchstaffMotivation7: Try not to die this time!
+		ArchstaffMotivation8: The Sheepening ray may look intimidating... Because it is!
+		ArchstaffMotivation9: I've told him numerous times to get rid of the large amethyst spell! Such an annoyance..
+		ArchstaffMotivation10: Why does he even throw his potions like that?
+		ArchstaffMotivation11: He's eventually going to run out of amethysts... I think
+		ArchstaffVictory1: Woah... He actually... Used me!
+		ArchstaffVictory2: What a spectacular fight! And, and I was the heart of it all! The Grand Archstaff!
+		ArchstaffVictory3: I can't remember the last time he actually used me to my fullest potential!
+		ArchstaffVictory4: I suppose I have to thank you for this unforgettable battle!
+		ArchstaffVictory5: The chaos! The bloodshed! The amethysts!! You may return at a later time if you wish for more!
+		ArchstaffVictory6: Farewell!
+		PostMartianLine1: I assume you are... aware..
+		PostMartianLine2: ..of the passing of Master Xareus...
+		PostMartianLine3: No.. no.. Tragedy won't break the Archstaff!
+		PostMartianLine4: YOU! Become my new wielder!
+		PostMartianLine5: You are obviously more worthy than Master Xareus! Together we will destroy galaxies!
+		PostMartianLine6: Yes, yes! I can see it now! Your name, whatever it is, and the Great Archstaff of the Tragically Deceased Master Xareus!
+		PostMartianLine7: Power beyond anything ever conceived by minds even eldritch!
+		PostMartianLine8: Glory! And fame! We will be unstoppable!
+		PostMartianLine9: RAAAAAAAAAAAAAAAAAAAAAAAAAAAGHHHHHHHHHH!!!!!!!!!!!!!!
+	}
+
+	HotGarbageDialogue: {
+		Nuke: NUKE DETONATION IN
+		Evacuate: EVACUATE IMMEDIATELY!
+		Unfunny: This is NOT funny PLEASE GET OUT!
+		Dumbass: WHAT ARE YOU DOING!?
+		Run: RUN
+		Phew: Phew...
+		GG: GOOD JOB!
+		HereItComes: HERE IT COMES!!!
+	}
+}
+
+DeathMessages: {
+	NukeTP: "{0} thought they were smart."
+	OstertagiDeath: "{0} didn't mind the worms."
+	Suicide: "{0} decided to take the easy way out..."
+	ParasiteDeath: "{0} became severely anemic."
+	NukeDeath: "{0} advocated for the legalization of nuclear bombs."
 }
