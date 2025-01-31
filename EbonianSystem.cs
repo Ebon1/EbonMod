@@ -51,6 +51,7 @@ namespace EbonianMod
         }
         public static bool heardXareusIntroMonologue;
         public static int xareusFightCooldown;
+        public static float deltaTime;
         public override void Load()
         {
             heardXareusIntroMonologue = false;
@@ -208,7 +209,7 @@ namespace EbonianMod
         public static Vector2 currentZoomForChangedZoom, currentZoomForChangedZoom2;
         public static Vector2 cameraChangePos, stickPos;
         public static int cameraChangeLength;
-        public static int zoomChangeLength, zoomChangeLengthMax;
+        public static float zoomChangeLength, zoomChangeLengthMax;
         public static void ChangeZoom(int length, ZoomInfo zoom)
         {
             zoomAmount = zoom.zoomAmount;
@@ -256,7 +257,7 @@ namespace EbonianMod
                 }
                 Transform.Zoom = Vector2.Lerp(pos, new Vector2(zoomAmount), lerpT);
                 if (!Main.gameInactive && !Main.gamePaused)
-                    zoomChangeLength--;
+                    zoomChangeLength -= deltaTime;
             }
             else
             {

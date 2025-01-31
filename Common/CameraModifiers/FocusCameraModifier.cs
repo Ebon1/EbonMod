@@ -35,10 +35,8 @@ namespace EbonianMod.Common.CameraModifiers
             float lerpT = _easingFunction.Invoke(Clamp(MathF.Sin(Pi * Utils.GetLerpValue(0, _framesToLast, _framesLasted)) * _lerpMult, 0, 1));
             cameraInfo.CameraPosition = Vector2.Lerp(cameraInfo.CameraPosition, Vector2.Lerp(cameraInfo.CameraPosition, _pos, lerpT), _snappingRate);
 
-            float deltaTime = (float)Main.gameTimeCache.TotalGameTime.TotalSeconds - (float)Main.gameTimeCache.ElapsedGameTime.TotalSeconds;
-
             if (!Main.gameInactive && !Main.gamePaused)
-                _framesLasted += 1f * deltaTime;
+                _framesLasted += EbonianSystem.deltaTime;
             if (_framesLasted >= _framesToLast)
                 Finished = true;
         }
