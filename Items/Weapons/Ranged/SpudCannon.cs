@@ -22,6 +22,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Blue;
             Item.damage = 5;
             Item.useTime = 25;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.useAnimation = 25;
             Item.UseSound = SoundID.Item20;
             Item.useAmmo = ItemType<Potato>();

@@ -30,6 +30,7 @@ namespace EbonianMod.Items.Accessories
         {
             Item.accessory = true;
             Item.rare = ItemRarityID.LightPurple;
+            Item.value = Item.buyPrice(0, 20, 0, 0);
         }
         public override void AddRecipes()
         {

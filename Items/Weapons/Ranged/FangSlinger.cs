@@ -30,6 +30,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.autoReuse = false;
             Item.noMelee = true;
             Item.channel = true;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
             Item.DamageType = DamageClass.Ranged;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.rare = ItemRarityID.Green;

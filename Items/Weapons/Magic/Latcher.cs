@@ -26,6 +26,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.DamageType = DamageClass.Magic;
             Item.noUseGraphic = true;
             Item.rare = ItemRarityID.Green;
+            Item.value = Item.buyPrice(0, 4, 0, 0);
             Item.mana = 25;
             Item.shootSpeed = 20;
         }

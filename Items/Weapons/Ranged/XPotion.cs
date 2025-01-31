@@ -31,7 +31,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 10;
-            Item.value = 1000;
+            Item.value = Item.buyPrice(0, 8, 0, 0);
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item1;
             Item.noUseGraphic = true;

@@ -29,6 +29,7 @@ namespace EbonianMod.Items.Tiles
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.createTile = TileType<Dappertoma>();
         }
     }

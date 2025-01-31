@@ -31,6 +31,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.LightRed;
             Item.useStyle = 5;
             Item.autoReuse = false;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.noUseGraphic = true;
             Item.noMelee = true;
             Item.channel = true;
@@ -119,7 +120,7 @@ namespace EbonianMod.Items.Weapons.Melee
         {
 
             Player player = Main.player[Projectile.owner];
-            if (!player.active || player.dead || player.CCed || player.noItems  || !player.channel || !player.channel)
+            if (!player.active || player.dead || player.CCed || player.noItems || !player.channel || !player.channel)
             {
                 Projectile.Kill();
                 return;
@@ -129,7 +130,7 @@ namespace EbonianMod.Items.Weapons.Melee
                 player.itemTime = 2;
                 player.itemAnimation = 2;
             }
-            if (player.HeldItem.type != ItemType<GhizasWheel>()) {player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill();}
+            if (player.HeldItem.type != ItemType<GhizasWheel>()) { player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill(); }
             Projectile.ai[2]--;
 
             Vector2 wheelPos = Projectile.Center + new Vector2(22, -16).RotatedBy(Projectile.rotation);

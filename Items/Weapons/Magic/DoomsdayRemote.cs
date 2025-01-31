@@ -29,6 +29,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.useAnimation = 70;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.knockBack = 3;
             Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.rare = ItemRarityID.Green;

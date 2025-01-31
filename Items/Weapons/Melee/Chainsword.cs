@@ -28,6 +28,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.crit = 7;
             Item.damage = 20;
             Item.useAnimation = 40;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.useTime = 40;
             Item.noUseGraphic = true;
             Item.autoReuse = false;

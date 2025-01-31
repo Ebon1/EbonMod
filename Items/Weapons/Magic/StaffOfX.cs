@@ -34,6 +34,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.damage = 350;
             Item.useAnimation = 40;
             Item.useTime = 40;
+            Item.value = Item.buyPrice(3, 0, 0, 0);
             Item.noUseGraphic = true;
             Item.autoReuse = false;
             Item.noMelee = true;

@@ -31,6 +31,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.shootSpeed = 1f;
             Item.rare = ItemRarityID.Green;
             Item.useStyle = 5;
+            Item.value = Item.buyPrice(0, 5, 0, 0);
             Item.autoReuse = false;
             Item.noUseGraphic = true;
             Item.noMelee = true;

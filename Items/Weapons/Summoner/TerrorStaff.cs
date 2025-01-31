@@ -32,7 +32,7 @@ namespace EbonianMod.Items.Weapons.Summoner
             Item.DamageType = DamageClass.Summon;
             Item.useStyle = 5;
             Item.knockBack = 10;
-            Item.value = 1000;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;

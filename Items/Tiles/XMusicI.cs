@@ -35,7 +35,7 @@ namespace EbonianMod.Items.Tiles
             Item.width = 24;
             Item.height = 24;
             Item.rare = ItemRarityID.LightRed;
-            Item.value = 100000;
+            Item.value = Item.buyPrice(0, 10, 0, 0);
             Item.accessory = true;
         }
         public override bool? PrefixChance(int pre, UnifiedRandom rand)

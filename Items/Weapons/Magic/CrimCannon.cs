@@ -29,6 +29,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.value = 0;
             Item.rare = ItemRarityID.Green;
             Item.mana = 5;
+            Item.value = Item.buyPrice(0, 3, 0, 0);
             Item.UseSound = SoundID.Item11;
             Item.autoReuse = true;
             Item.shoot = ProjectileType<CrimCannonP>();

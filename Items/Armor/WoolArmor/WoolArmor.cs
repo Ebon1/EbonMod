@@ -24,6 +24,7 @@ namespace EbonianMod.Items.Armor.WoolArmor
             Item.value = 100;
             Item.rare = ItemRarityID.Blue;
             Item.defense = 3;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
         }
         public override void UpdateArmorSet(Player player)
         {
@@ -57,6 +58,7 @@ namespace EbonianMod.Items.Armor.WoolArmor
             Item.value = 100;
             Item.rare = ItemRarityID.Blue;
             Item.defense = 4;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
         }
         public override void UpdateEquip(Player player)
         {
@@ -80,6 +82,7 @@ namespace EbonianMod.Items.Armor.WoolArmor
             Item.value = 100;
             Item.rare = ItemRarityID.Blue;
             Item.defense = 3;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
         }
         public override void UpdateEquip(Player player)
         {

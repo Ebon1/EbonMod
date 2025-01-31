@@ -31,6 +31,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.autoReuse = false;
             Item.noMelee = true;
             Item.channel = true;
+            Item.value = Item.buyPrice(0, 5, 0, 0);
             Item.DamageType = DamageClass.Melee;
             Item.UseSound = SoundID.Item1;
             Item.useStyle = ItemUseStyleID.Swing;

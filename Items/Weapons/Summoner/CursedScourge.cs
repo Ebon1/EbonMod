@@ -23,6 +23,7 @@ namespace EbonianMod.Items.Weapons.Summoner
         {
             Item.DefaultToWhip(ProjectileType<CursedScourgePro>(), 23, 2, 4, 30);
             Item.rare = ItemRarityID.Pink;
+            Item.value = Item.buyPrice(0, 10, 0, 0);
             Item.crit = -4;
 
             Item.channel = false;

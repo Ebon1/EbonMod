@@ -30,6 +30,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.useAnimation = 30;
             Item.shoot = ProjectileType<TinyFish>();
             Item.shootSpeed = 8f;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.rare = ItemRarityID.LightRed;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item11;
@@ -46,7 +47,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.Toxikarp).AddIngredient(ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.Ebonkoi).AddIngredient(ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

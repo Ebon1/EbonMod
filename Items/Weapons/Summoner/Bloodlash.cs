@@ -23,6 +23,7 @@ namespace EbonianMod.Items.Weapons.Summoner
         public override void SetDefaults()
         {
             Item.DefaultToWhip(ProjectileType<BloodlashPro>(), 23, 2, 4, 30);
+            Item.value = Item.buyPrice(0, 10, 0, 0);
             Item.rare = ItemRarityID.Pink;
             Item.crit = -4;
 

@@ -32,7 +32,7 @@ namespace EbonianMod.Items.Weapons.Summoner
             Item.noMelee = true;
             Item.knockBack = 3;
             Item.sentry = true;
-            Item.value = Item.buyPrice(0, 10, 0, 0);
+            Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item8;
             Item.shoot = ProjectileType<MailboxSentry>();

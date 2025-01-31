@@ -15,6 +15,7 @@ namespace EbonianMod.Items.Accessories
             Item.accessory = true;
             Item.rare = 4;
             Item.expert = true;
+            Item.value = Item.buyPrice(0, 15, 0, 0);
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

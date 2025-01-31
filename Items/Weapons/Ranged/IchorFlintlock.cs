@@ -33,6 +33,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.shootSpeed = 1f;
             Item.shoot = ProjectileType<IchorFlintlockP>();
 
+            Item.value = Item.buyPrice(0, 10, 0, 0);
             Item.channel = true;
         }
         public override bool CanUseItem(Player player)

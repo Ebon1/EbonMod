@@ -19,6 +19,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.CloneDefaults(ItemID.Grenade);
             Item.rare = ItemRarityID.Blue;
             Item.shootSpeed = 9;
+            Item.value = Item.buyPrice(0, 0, 10, 0);
             Item.shoot = ProjectileType<PipebombP>();
         }
     }

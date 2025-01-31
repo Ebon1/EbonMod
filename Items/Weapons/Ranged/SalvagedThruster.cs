@@ -22,6 +22,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.shootSpeed = 1f;
             Item.rare = ItemRarityID.Green;
             Item.useStyle = 5;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.autoReuse = false;
             Item.noUseGraphic = true;
             Item.noMelee = true;

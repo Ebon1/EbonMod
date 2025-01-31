@@ -27,6 +27,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Green;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item11;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.useAmmo = AmmoID.Bullet;
             Item.useTurn = false;
             //Item.autoReuse = true;

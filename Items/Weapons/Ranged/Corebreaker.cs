@@ -29,8 +29,8 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.useStyle = 5;
             Item.knockBack = 10;
-            Item.value = 1000;
             Item.rare = ItemRarityID.Orange;
+            Item.value = Item.buyPrice(0, 15, 0, 0);
             Item.UseSound = SoundID.Item14;
             Item.autoReuse = true;
             Item.shoot = ProjectileType<CorebreakerP>();

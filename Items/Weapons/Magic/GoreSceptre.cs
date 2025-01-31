@@ -35,6 +35,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.DamageType = DamageClass.Magic;
             Item.useAnimation = 2;
             Item.useStyle = 5;
+            Item.value = Item.buyPrice(0, 3, 0, 0);
             Item.knockBack = 10;
             Item.value = 1000;
             Item.rare = ItemRarityID.Green;

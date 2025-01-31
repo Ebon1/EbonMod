@@ -34,6 +34,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.value = 1000;
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.autoReuse = true;
             Item.shoot = ProjectileType<VilethornF1>();
             Item.shootSpeed = 28;

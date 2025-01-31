@@ -30,6 +30,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             //Item.reuseDelay = 45;
             Item.DamageType = DamageClass.Ranged;
             //Item.UseSound = SoundID.Item1;
+            Item.value = Item.buyPrice(0, 8, 0, 0);
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.rare = ItemRarityID.Green;
             Item.shootSpeed = 1f;

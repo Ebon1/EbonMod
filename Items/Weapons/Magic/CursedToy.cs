@@ -32,6 +32,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.LightRed;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.noMelee = true;
         }
         public override Vector2? HoldoutOffset()
@@ -40,7 +41,7 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemID.ShadowFlameHexDoll).AddIngredient(ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().AddIngredient(ItemID.GuideVoodooDoll).AddIngredient(ItemType<TerrortomaMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

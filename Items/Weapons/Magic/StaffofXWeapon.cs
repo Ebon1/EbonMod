@@ -23,7 +23,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.useAnimation = 15;
             Item.useStyle = 5;
             Item.knockBack = 10;
-            Item.value = 1000;
+            Item.value = Item.buyPrice(0, 8, 0, 0);
             Item.rare = ItemRarityID.Orange;
             Item.UseSound = SoundID.Item43;
             Item.autoReuse = true;

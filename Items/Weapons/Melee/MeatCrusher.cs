@@ -37,6 +37,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.DamageType = DamageClass.Melee;
             Item.UseSound = SoundID.Item1;
             Item.useStyle = ItemUseStyleID.Swing;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.rare = ItemRarityID.LightRed;
             Item.shootSpeed = 1f;
             Item.shoot = ProjectileType<MeatCrusherP>();

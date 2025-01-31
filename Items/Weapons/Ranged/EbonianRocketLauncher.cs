@@ -22,6 +22,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.height = 40;
             Item.reuseDelay = 10;
             Item.useTime = 20;
+            Item.value = Item.buyPrice(0, 40, 0, 0);
             Item.useAnimation = 20;
             Item.DamageType = DamageClass.Ranged;
             Item.useStyle = 5;

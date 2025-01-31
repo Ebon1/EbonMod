@@ -100,8 +100,8 @@ namespace EbonianMod.Projectiles.Friendly
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Projectile.velocity = new Vector2(Projectile.velocity.X, -oldVelocity.Y);
-            return false;
+            //Projectile.velocity = new Vector2(Projectile.velocity.X, -oldVelocity.Y);
+            return true;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
         {

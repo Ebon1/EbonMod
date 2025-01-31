@@ -15,6 +15,7 @@ namespace EbonianMod.Items.Accessories
             Item.rare = 4;
             Item.expert = true;
             Item.defense = 10;
+            Item.value = Item.buyPrice(0, 15, 0, 0);
         }
         public override void SetStaticDefaults()
         {

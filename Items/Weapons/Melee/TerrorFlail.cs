@@ -25,6 +25,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.useAnimation = 40;
             Item.useTime = 40;
             Item.knockBack = 4f;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.damage = 35;
             Item.noUseGraphic = true;
             Item.shoot = ProjectileType<TerrortomaFlail>();

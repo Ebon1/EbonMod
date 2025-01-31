@@ -28,6 +28,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.useAnimation = 32;
             Item.useTime = 32;
             Item.reuseDelay = 70;
+            Item.value = Item.buyPrice(0, 5, 0, 0);
             Item.noUseGraphic = true;
             Item.autoReuse = true;
             Item.noMelee = true;

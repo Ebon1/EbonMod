@@ -26,6 +26,7 @@ namespace EbonianMod.Items.Weapons.Melee
             Item.damage = 19;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
+            Item.value = Item.buyPrice(0, 8, 0, 0);
             Item.shoot = ProjectileType<ExolsawP>();
             Item.rare = ItemRarityID.Orange;
             Item.shootSpeed = 16f;

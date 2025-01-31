@@ -24,11 +24,11 @@ namespace EbonianMod.Items.Weapons.Melee
         {
             Item.width = 22;
             Item.height = 20;
-            Item.value = Item.sellPrice(silver: 5);
             Item.rare = ItemRarityID.Green;
             Item.noMelee = true;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAnimation = 40;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.useTime = 40;
             Item.knockBack = 4f;
             Item.damage = 25;
@@ -92,7 +92,7 @@ namespace EbonianMod.Items.Weapons.Melee
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            if (!player.active || player.dead || player.CCed || player.noItems  || !player.channel || !player.channel)
+            if (!player.active || player.dead || player.CCed || player.noItems || !player.channel || !player.channel)
             {
                 Projectile.Kill();
                 return;
@@ -102,7 +102,7 @@ namespace EbonianMod.Items.Weapons.Melee
                 player.itemTime = 2;
                 player.itemAnimation = 2;
             }
-            if (player.HeldItem.type != ItemType<GarbageFlail>()) {player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill();}
+            if (player.HeldItem.type != ItemType<GarbageFlail>()) { player.itemTime = 0; player.itemAnimation = 0; Projectile.Kill(); }
             if (SoundEngine.TryGetActiveSound(slot, out var _sound))
             {
                 _sound.Volume = MathHelper.Lerp(_sound.Volume, Projectile.ai[0] * 0.8f, 0.15f);

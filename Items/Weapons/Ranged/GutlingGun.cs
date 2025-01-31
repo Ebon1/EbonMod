@@ -27,6 +27,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.LightRed;
             Item.useStyle = 5;
             Item.useAmmo = AmmoID.Bullet;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.autoReuse = false;
             Item.noUseGraphic = true;
             Item.noMelee = true;

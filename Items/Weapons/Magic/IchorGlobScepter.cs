@@ -30,6 +30,7 @@ namespace EbonianMod.Items.Weapons.Magic
             Item.maxStack = 1;
             Item.useTime = 40;
             Item.useAnimation = 40;
+            Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 2f;
             Item.rare = ItemRarityID.LightRed;
