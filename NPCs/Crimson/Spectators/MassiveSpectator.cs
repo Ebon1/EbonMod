@@ -38,7 +38,7 @@ namespace EbonianMod.NPCs.Crimson.Spectators
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return (spawnInfo.Player.ZoneCrimson && Main.hardMode && !NPC.AnyNPCs(Type)) ? 0.5f : 0;
+            return (spawnInfo.Player.ZoneCrimson && Main.hardMode && !NPC.AnyNPCs(Type) && !NPC.AnyNPCs(NPCType<Cecitior.Cecitior>())) ? 0.5f : 0;
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
@@ -127,6 +127,7 @@ namespace EbonianMod.NPCs.Crimson.Spectators
             NPC.timeLeft = 10;
             NPC.despawnEncouraged = false;
             NPC.chaseable = false;
+            if (NPC.AnyNPCs(NPCType<Cecitior.Cecitior>())) NPC.active = false;
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
             if (!found && (stalkBase == Vector2.Zero || Helper.TRay.CastLength(Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 400), Vector2.UnitY, 32, true) > 16))

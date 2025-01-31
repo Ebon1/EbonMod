@@ -29,7 +29,7 @@ namespace EbonianMod.NPCs.Terrortoma
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return (spawnInfo.Player.ZoneCorrupt && Main.hardMode && !NPC.AnyNPCs(Type)) ? 0.5f : 0;
+            return (spawnInfo.Player.ZoneCorrupt && Main.hardMode && !NPC.AnyNPCs(Type) && !NPC.AnyNPCs(NPCType<Terrortoma>())) ? 0.5f : 0;
         }
         public override void SetDefaults()
         {
@@ -91,6 +91,7 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.chaseable = false;
             NPC.timeLeft = 10;
             NPC.despawnEncouraged = false;
+            if (NPC.AnyNPCs(NPCType<Terrortoma>())) NPC.active = false;
             SoundStyle selected = EbonianSounds.flesh0;
             switch (Main.rand.Next(3))
             {

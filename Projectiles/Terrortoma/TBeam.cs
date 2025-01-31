@@ -72,7 +72,8 @@ namespace EbonianMod.Projectiles.Terrortoma
                 visual2 = 1;
             visual2 = MathHelper.Clamp(visual2, float.Epsilon, 1 - float.Epsilon);
 
-            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, Main.LocalPlayer.Center), Projectile.ai[2]);
+            if (Projectile.timeLeft > 40)
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.FromAToB(Projectile.Center, Main.LocalPlayer.Center), Projectile.ai[2]);
             startSize = MathHelper.Lerp(startSize, 0, 0.01f);
             //Projectile.velocity = -Projectile.velocity.RotatedBy(MathHelper.ToRadians(Projectile.ai[1]));
 
