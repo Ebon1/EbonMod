@@ -62,7 +62,7 @@ namespace EbonianMod.Projectiles.Terrortoma
 
             if (Main.zenithWorld)
             {
-                for (int m = 0; m < 100; m++)
+                for (int m = 0; m < 50; m++)
                 {
                     Vector2 pos = Helper.TRay.Cast(Projectile.Center, Projectile.velocity, Projectile.ai[0]);
                     int x = pos.ToTileCoordinates().X;

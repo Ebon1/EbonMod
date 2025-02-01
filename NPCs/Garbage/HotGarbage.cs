@@ -38,6 +38,7 @@ using EbonianMod.NPCs.ArchmageX;
 using System.Linq;
 using EbonianMod.Items.Armor.Vanity;
 using EbonianMod.Bossbars;
+using EbonianMod.Tiles;
 
 namespace EbonianMod.NPCs.Garbage
 {
@@ -1583,7 +1584,9 @@ namespace EbonianMod.NPCs.Garbage
                             offY = Main.rand.Next((int)-(MathF.Abs(j) - 60), (int)(MathF.Abs(j) - 60));
                         }
                         if (k + i + offX <= 0 || k + i + offX >= Main.maxTilesX || m + j + offY <= 0 || m + j + offY >= Main.maxTilesY) continue;
-                        WorldGen.ExplodeMine(i + k + offX, m + j + offY, false);
+                        int type = Main.tile[i + k, j + m].TileType;
+                        if (type != TileType<ArchmageStaffTile>())
+                            WorldGen.ExplodeMine(i + k + offX, m + j + offY, false);
                     }
                 }
             }
