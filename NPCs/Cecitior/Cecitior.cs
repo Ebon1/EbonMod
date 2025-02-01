@@ -844,7 +844,7 @@ namespace EbonianMod.NPCs.Cecitior
                     GenerateNewPattern();
                     ResetState();
                     if (NPC.life <= 1)
-                        AIState = Death;
+                        AIState = PrePreDeath;
                     else
                         AIState = Phase2ClawGrab;
                 }
