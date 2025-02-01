@@ -42,7 +42,11 @@ namespace EbonianMod.Projectiles.Cecitior
             a.PitchVariance = 0.2f;
             a.MaxInstances = 30;
             SoundEngine.PlaySound(a, Projectile.Center);
-            SoundEngine.PlaySound(EbonianSounds.clawSwipe.WithVolumeScale(1.5f), Projectile.Center);
+
+            if (Projectile.ai[2] == 1)
+                SoundEngine.PlaySound(EbonianSounds.cecitiorSlice, Projectile.Center);
+            else
+                SoundEngine.PlaySound(EbonianSounds.clawSwipe.WithVolumeScale(1.5f), Projectile.Center);
         }
         public override void AI()
         {

@@ -102,7 +102,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
             Texture2D tex = Helper.GetTexture("NPCs/Corruption/RottenSpine/RottenSpineHead");
             spriteBatch.Draw(tex, NPC.Center - (Vector2.UnitY * tex.Height / 3).RotatedBy(NPC.rotation) - screenPos, null, drawColor, NPC.rotation, tex.Size() / 2, NPC.scale, SpriteEffects.None, 0);
 
-            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.IsABestiaryIconDummy)
                 spriteBatch.Draw(tex, NPC.Center - (Vector2.UnitY * tex.Height / 3).RotatedBy(NPC.rotation) - screenPos, null, NPC.HunterPotionColor(), NPC.rotation, tex.Size() / 2, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
@@ -148,7 +148,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
 
             spriteBatch.Draw(tex, NPC.Center - screenPos, null, drawColor, NPC.rotation, tex.Size() / 2, NPC.scale, SpriteEffects.None, 0);
 
-            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.IsABestiaryIconDummy)
             {
                 if (FollowingNPC == HeadSegment)
                     spriteBatch.Draw(main, Vector2.Lerp(NPC.Center, FollowingNPC.Center, 0.5f) - screenPos, null, NPC.HunterPotionColor(), Helper.LerpAngle(NPC.rotation, FollowingNPC.rotation, 0.5f), tex.Size() / 2, NPC.scale, SpriteEffects.None, 0);
@@ -200,7 +200,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
             Texture2D tex = Helper.GetTexture("NPCs/Corruption/RottenSpine/RottenSpineTail");
             spriteBatch.Draw(tex, NPC.Center - screenPos, null, drawColor, NPC.rotation, tex.Size() / 2, NPC.scale, SpriteEffects.None, 0);
 
-            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.IsABestiaryIconDummy)
                 spriteBatch.Draw(tex, NPC.Center - screenPos, null, NPC.HunterPotionColor(), NPC.rotation, tex.Size() / 2, NPC.scale, SpriteEffects.None, 0);
             return false;
         }

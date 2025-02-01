@@ -78,7 +78,9 @@ namespace EbonianMod.Projectiles.Terrortoma
 
         public override void PostAI()
         {
-            Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.LawnGreen, false, false, 0.04f);
+
+            for (int i = 0; i < 2; i++)
+                Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.CursedTorch, Projectile.velocity.X, Projectile.velocity.Y, Scale: 4).noGravity = true;
         }
         public override bool PreKill(int timeLeft)
         {
@@ -158,7 +160,7 @@ namespace EbonianMod.Projectiles.Terrortoma
         {
             for (int i = 0; i < 2; i++)
                 Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.CursedTorch, Projectile.velocity.X, Projectile.velocity.Y, Scale: 4).noGravity = true;
-            //Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.LawnGreen, false, false, 0.04f);
+            //
         }
     }
 
@@ -238,7 +240,7 @@ namespace EbonianMod.Projectiles.Terrortoma
                 Projectile.Center += new Vector2(Projectile.velocity.X * 5, 0);
             for (int i = 0; i < 2; i++)
                 Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.CursedTorch, Projectile.velocity.X, Projectile.velocity.Y, Scale: 4).noGravity = true;
-            //Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.LawnGreen, false, false, 0.04f);
+            //
         }
     }
     public class TFlameThrowerHoming : ModProjectile //HOME
@@ -330,7 +332,7 @@ namespace EbonianMod.Projectiles.Terrortoma
 
             for (int i = 0; i < 2; i++)
                 Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.CursedTorch, Scale: 4).noGravity = true;
-            //Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.LawnGreen, false, false, 0.04f);
+            //
         }
     }
     public class TFlameThrower3 : ModProjectile //NORMAL
@@ -402,7 +404,8 @@ namespace EbonianMod.Projectiles.Terrortoma
 
         public override void PostAI()
         {
-            Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.LawnGreen, false, false, 0.04f);
+            for (int i = 0; i < 2; i++)
+                Dust.NewDustDirect(Projectile.position, Projectile.width, Projectile.height, DustID.CursedTorch, Projectile.velocity.X, Projectile.velocity.Y, Scale: 4).noGravity = true;
         }
     }
     public class TFlameThrower4 : ModProjectile //ACCELERATE
@@ -476,7 +479,7 @@ namespace EbonianMod.Projectiles.Terrortoma
         }
         public override void PostAI()
         {
-            Helper.DustExplosion(Projectile.Center, Projectile.Size, 0, Color.LawnGreen, false, false, 0.04f);
+
             if (Projectile.ai[2] > 30)
                 Projectile.velocity *= 1.025f;
         }

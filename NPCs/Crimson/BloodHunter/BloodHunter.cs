@@ -207,7 +207,7 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
             DrawFGLegs(spriteBatch, drawColor);
 
 
-            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.IsABestiaryIconDummy)
             {
 
                 DrawBGLegs(spriteBatch, NPC.HunterPotionColor());

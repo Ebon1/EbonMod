@@ -220,7 +220,8 @@ namespace EbonianMod.Items.Misc
 
             Main.instance.CameraModifiers.Add(new PunchCameraModifier(Projectile.Center, Main.rand.NextVector2Unit(), 5, 6, 30, 1000));
 
-            SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
+            if (Projectile.ai[2] == 0)
+                SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
 
             Projectile.rotation = Main.rand.NextFloat(0, MathHelper.TwoPi);
 

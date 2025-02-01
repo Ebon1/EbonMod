@@ -94,7 +94,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
             spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, new Vector2(scaleX, scaleY), SpriteEffects.None, 0);
 
 
-            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.IsABestiaryIconDummy)
             {
                 //if (verlet != null)
                 //  verlet.Draw(spriteBatch, Texture + "_Chain", useColor: true, color: NPC.HunterPotionColor());

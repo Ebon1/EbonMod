@@ -264,6 +264,9 @@ Projectiles: {
 	TFlameThrower2_Inverted.DisplayName: Flame
 	TerrortomaScream.DisplayName: Terrortoma Scream
 	TFlameThrowerHoming.DisplayName: Flame
+	TerrortomeFlame.DisplayName: Terrortome Flame
+	TerrortomeWorm.DisplayName: Terrortome Worm
+	SawcitiorP.DisplayName: Sawcitior P
 }
 
 NPCs: {
@@ -1152,6 +1155,16 @@ Items: {
 
 	XHouseBrickReplicaItem: {
 		DisplayName: Amethyst Brick
+		Tooltip: ""
+	}
+
+	Terrortome: {
+		DisplayName: Terrortome
+		Tooltip: ""
+	}
+
+	Sawcitior: {
+		DisplayName: Saw-citior
 		Tooltip: ""
 	}
 }

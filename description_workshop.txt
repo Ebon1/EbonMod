@@ -26,7 +26,7 @@ is [b]WIP[/b] Mod that plans on adding random nonsense with an unsurprising focu
 [h2]Credits:[/h2] [list]
 [*] Programmers: [url=https://www.youtube.com/@Ebon1]Ebon[/url], Darkmango, Quarzz
 
-[*] Artists: Max 1287, Roll'eG, Endexyz, Mjoonlight, YoguTheYogurt, fg, Vade, The Possum, AstroWyrm, pil, Decrypt
+[*] Artists: Max 1287, Roll'eG, Endexyz, Mjoonlight, YoguTheYogurt, fg, Vade, The Possum, AstroWyrm, pil, Decrypt, Ralken
 
 [*] Ideas and Concepts: Sten, Nicola, Theonetruedog, Taco, mano amim, Dennis (Mystic Giant), Uncon Arts and most people listed in the other categories 
 
@@ -34,7 +34,7 @@ is [b]WIP[/b] Mod that plans on adding random nonsense with an unsurprising focu
 
 [*] Sound Design: It'sYeBoi (dronnor)
 
-[*] Past / Misc Contributions: TCHNuke, Ralken, Moonburn, Riflezen, naka, Magma, Sulph
+[*] Past / Misc Contributions: TCHNuke, Moonburn, Riflezen, naka, Magma, Sulph
 
 [*] Testers: The Isopod Maniac (EggsBenedict624), Mr.Gerd26, Lacalidot, WokrThe, GamerFizzy, Chox
 [/list]

@@ -62,6 +62,17 @@ namespace EbonianMod.Projectiles.Terrortoma
 
             Projectile.ai[0] = MathHelper.SmoothStep(Projectile.ai[0], 2048, 0.35f);
 
+            Projectile.rotation += ToRadians(2) * Projectile.ai[2];
+
+            Projectile.velocity = Projectile.rotation.ToRotationVector2();
+            //Projectile.velocity = -Projectile.velocity.RotatedBy(MathHelper.ToRadians(Projectile.ai[1]));
+
+            float progress = Utils.GetLerpValue(0, 165, Projectile.timeLeft);
+            Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 4 * (Projectile.scale + 0.5f), 0, 1);
+        }
+        float visual1, visual2, startSize = 2f;
+        public override bool PreDraw(ref Color lightColor)
+        {
             visual1 -= 0.04f;
             if (visual1 <= 0)
                 visual1 = 1;
@@ -72,18 +83,7 @@ namespace EbonianMod.Projectiles.Terrortoma
                 visual2 = 1;
             visual2 = MathHelper.Clamp(visual2, float.Epsilon, 1 - float.Epsilon);
 
-            Projectile.rotation += ToRadians(2) * Projectile.ai[2];
-
-            Projectile.velocity = Projectile.rotation.ToRotationVector2();
             startSize = MathHelper.Lerp(startSize, 0, 0.01f);
-            //Projectile.velocity = -Projectile.velocity.RotatedBy(MathHelper.ToRadians(Projectile.ai[1]));
-
-            float progress = Utils.GetLerpValue(0, 165, Projectile.timeLeft);
-            Projectile.scale = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 4 * (Projectile.scale + 0.5f), 0, 1);
-        }
-        float visual1, visual2, startSize = 2f;
-        public override bool PreDraw(ref Color lightColor)
-        {
             Texture2D texture = ExtraTextures.FlamesSeamless;
             Texture2D texture2 = ExtraTextures.trail_04;
             float progress = Utils.GetLerpValue(0, 165, Projectile.timeLeft);

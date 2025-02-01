@@ -192,7 +192,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             Texture2D tex = TextureAssets.Npc[Type].Value;
             spriteBatch.Draw(tex, NPC.Center + new Vector2(0, 2).RotatedBy(NPC.rotation) - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
 
-            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.IsABestiaryIconDummy)
                 spriteBatch.Draw(tex, NPC.Center + new Vector2(0, 2).RotatedBy(NPC.rotation) - screenPos, NPC.frame, NPC.HunterPotionColor(), NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
@@ -270,7 +270,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
                 spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
 
 
-                if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+                if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.IsABestiaryIconDummy)
                 {
                     spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, NPC.HunterPotionColor(), NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
                 }
@@ -301,7 +301,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale * scale, SpriteEffects.None, 0);
 
 
-            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.IsABestiaryIconDummy)
             {
                 spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, NPC.HunterPotionColor(), NPC.rotation, NPC.Size / 2, NPC.scale * scale, SpriteEffects.None, 0);
             }
@@ -470,7 +470,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             Texture2D tex = TextureAssets.Npc[Type].Value;
             spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2 + new Vector2(0, 4), NPC.scale, SpriteEffects.None, 0);
 
-            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.IsABestiaryIconDummy)
                 spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, NPC.HunterPotionColor(), NPC.rotation, NPC.Size / 2 + new Vector2(0, 4), NPC.scale, SpriteEffects.None, 0);
         }
         public override void ExtraAI()

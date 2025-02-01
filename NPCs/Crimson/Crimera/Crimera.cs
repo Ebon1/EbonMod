@@ -132,7 +132,7 @@ namespace EbonianMod.NPCs.Crimson.Crimera
             spriteBatch.Draw(tex, NPC.Center - (Vector2.UnitY * tex.Height / 3).RotatedBy(NPC.rotation) - screenPos, null, drawColor, NPC.rotation, new Vector2(tex.Width / 2, tex.Height / 4), NPC.scale, SpriteEffects.None, 0);
 
 
-            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.IsABestiaryIconDummy)
                 spriteBatch.Draw(tex, NPC.Center - (Vector2.UnitY * tex.Height / 3).RotatedBy(NPC.rotation) - screenPos, null, NPC.HunterPotionColor(), NPC.rotation, new Vector2(tex.Width / 2, tex.Height / 4), NPC.scale, SpriteEffects.None, 0);
             return false;
         }
@@ -164,7 +164,7 @@ namespace EbonianMod.NPCs.Crimson.Crimera
             Texture2D tex = Helper.GetTexture("NPCs/Crimson/Crimera/CrimeraBody");
             spriteBatch.Draw(tex, NPC.Center - screenPos, null, drawColor, NPC.rotation, tex.Size() / 2, NPC.scale, SpriteEffects.None, 0);
 
-            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.IsABestiaryIconDummy)
                 spriteBatch.Draw(tex, NPC.Center - screenPos, null, NPC.HunterPotionColor(), NPC.rotation, tex.Size() / 2, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
@@ -235,7 +235,7 @@ namespace EbonianMod.NPCs.Crimson.Crimera
             Texture2D tex = Helper.GetTexture("NPCs/Crimson/Crimera/CrimeraTail");
             spriteBatch.Draw(tex, NPC.Center - screenPos, null, drawColor, NPC.rotation, new Vector2(tex.Width / 2, tex.Height + 2), NPC.scale, SpriteEffects.None, 0);
 
-            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.IsABestiaryIconDummy)
                 spriteBatch.Draw(tex, NPC.Center - screenPos, null, NPC.HunterPotionColor(), NPC.rotation, new Vector2(tex.Width / 2, tex.Height + 2), NPC.scale, SpriteEffects.None, 0);
             return false;
         }

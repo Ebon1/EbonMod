@@ -520,6 +520,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 isLaughing = false;
                 if (AITimer < 250)
                 {
+                    NPC.dontTakeDamage = true;
                     NPC.velocity = Vector2.Zero;
                     rotation = 0;
                 }
@@ -564,7 +565,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     {
                         Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ambience");
                         SoundEngine.PlaySound(EbonianSounds.chargedBeamWindUp, NPC.Center);
-                        Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, (rotation).ToRotationVector2(), ProjectileType<VileTearTelegraph>(), 0, 0);
+                        Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, (rotation + PiOver2).ToRotationVector2(), ProjectileType<VileTearTelegraph>(), 0, 0);
                     }
                     glareAlpha = MathHelper.Lerp(glareAlpha, 4f, 0.05f);
                     if (AITimer < 305)
@@ -584,7 +585,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     NPC.velocity = Vector2.Zero;
                     EbonianSystem.ScreenShakeAmount = 15f;
                     SoundEngine.PlaySound(EbonianSounds.chargedBeamImpactOnly, NPC.Center);
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, (NPC.rotation).ToRotationVector2(), ProjectileType<TBeam>(), 10000, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, (NPC.rotation + PiOver2).ToRotationVector2(), ProjectileType<TBeam>(), 10000, 0);
                 }
                 if (AITimer == 480)
                     NPC.velocity = Vector2.UnitY;

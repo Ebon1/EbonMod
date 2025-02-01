@@ -83,7 +83,7 @@ namespace EbonianMod.NPCs.Corruption
             Main.EntitySpriteDraw(tex2, NPC.Center - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.Size / 2, (Vector2.One + scaleOffset) * NPC.scale, effects, 0);
 
 
-            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.IsABestiaryIconDummy)
             {
                 Main.EntitySpriteDraw(tex, NPC.Center - screenPos, NPC.frame, NPC.HunterPotionColor(), NPC.rotation, NPC.Size / 2, (Vector2.One + scaleOffset) * NPC.scale, effects, 0);
                 Main.EntitySpriteDraw(tex2, NPC.Center - screenPos, NPC.frame, NPC.HunterPotionColor(), NPC.rotation, NPC.Size / 2, (Vector2.One + scaleOffset) * NPC.scale, effects, 0);
