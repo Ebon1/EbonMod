@@ -23,12 +23,13 @@ namespace EbonianMod.Items.Weapons.Magic
         public override void SetDefaults()
         {
             Item.DamageType = DamageClass.Magic;
-            Item.damage = 30;
+            Item.damage = 40;
             Item.useTime = 1;
             Item.useAnimation = 10;
             Item.reuseDelay = 25;
             Item.shoot = ProjectileType<CursedToyP>();
             Item.shootSpeed = 4f;
+            Item.mana = 10;
             Item.rare = ItemRarityID.LightRed;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.autoReuse = true;
@@ -118,6 +119,7 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            if (Projectile.Center.Y > Main.player[Projectile.owner].Center.Y) return false;
             if (Projectile.ai[2]++ == 0)
                 Projectile.timeLeft = 40 * 4;
             Projectile.velocity *= 0.5f;

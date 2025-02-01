@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
+using EbonianMod.Tiles;
 
 namespace EbonianMod.Projectiles.Terrortoma
 {
@@ -58,6 +59,29 @@ namespace EbonianMod.Projectiles.Terrortoma
                 Main.dust[dust].velocity = Main.rand.NextVector2Circular(5, 5);
                 Main.dust[dust].noGravity = true;
             }
+
+            if (Main.zenithWorld)
+            {
+                for (int m = 0; m < 100; m++)
+                {
+                    Vector2 pos = Helper.TRay.Cast(Projectile.Center, Projectile.velocity, Projectile.ai[0]);
+                    int x = pos.ToTileCoordinates().X;
+                    int y = pos.ToTileCoordinates().Y;
+
+                    for (int i = -1; i < 2; i++)
+                    {
+                        for (int j = -1; j < 2; j++)
+                        {
+                            if (x + i <= 0 || x + i >= Main.maxTilesX || y + j <= 0 || y + j >= Main.maxTilesX) continue;
+
+                            int type = Main.tile[i + x, j + y].TileType;
+                            if (type != TileType<ArchmageStaffTile>())
+                                WorldGen.KillTile(i + x, j + y);
+                        }
+                    }
+                }
+            }
+
             Projectile.ai[2] = MathHelper.Lerp(Projectile.ai[2], 1, 0.015f);
 
             Projectile.ai[0] = MathHelper.SmoothStep(Projectile.ai[0], 2048, 0.35f);

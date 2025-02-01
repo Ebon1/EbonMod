@@ -1558,6 +1558,35 @@ namespace EbonianMod.NPCs.Garbage
 
             }
 
+            if (Main.zenithWorld)
+            {
+                int k = targetPos.ToTileCoordinates().X;
+                int m = targetPos.ToTileCoordinates().Y;
+                int radius = 70;
+                for (int i = -(radius); i < radius; i++)
+                {
+                    for (int j = -(radius) + (int)MathF.Abs(i / 2); j < radius - (int)MathF.Abs(i / 2); j++)
+                    {
+
+                        int offX = 0;
+                        int offY = 0;
+
+                        if (MathF.Abs(i) > 60)
+                        {
+                            offX = Main.rand.Next((int)-(MathF.Abs(i) - 60), (int)(MathF.Abs(i) - 60));
+                            offY = Main.rand.Next((int)-(MathF.Abs(i) - 60), (int)(MathF.Abs(i) - 60));
+                        }
+
+                        if (MathF.Abs(j) > 60)
+                        {
+                            offX = Main.rand.Next((int)-(MathF.Abs(j) - 60), (int)(MathF.Abs(j) - 60));
+                            offY = Main.rand.Next((int)-(MathF.Abs(j) - 60), (int)(MathF.Abs(j) - 60));
+                        }
+                        if (k + i + offX <= 0 || k + i + offX >= Main.maxTilesX || m + j + offY <= 0 || m + j + offY >= Main.maxTilesY) continue;
+                        WorldGen.ExplodeMine(i + k + offX, m + j + offY, false);
+                    }
+                }
+            }
 
             foreach (NPC npc in Main.ActiveNPCs)
             {

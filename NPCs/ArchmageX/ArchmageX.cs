@@ -530,20 +530,36 @@ namespace EbonianMod.NPCs.ArchmageX
             }
             if (GetArenaRect().Size().Length() > 100)
             {
-                if (Main.LocalPlayer.Distance(GetArenaRect().Center()) > 1200)
+                foreach (Player _pla in Main.ActivePlayers)
                 {
-                    Helper.TPNoDust(GetArenaRect().Center(), Main.LocalPlayer);
-                }
-                else
-                {
-                    while (Main.LocalPlayer.Center.X < GetArenaRect().X)
-                        Main.LocalPlayer.Center += Vector2.UnitX * 2;
+                    if (_pla.Distance(GetArenaRect().Center()) > 550)
+                    {
+                        Projectile.NewProjectile(null, _pla.Center, Vector2.Zero, ProjectileType<XExplosion>(), 0, 0);
+                        Projectile.NewProjectile(null, GetArenaRect().Center(), Vector2.Zero, ProjectileType<XExplosion>(), 0, 0);
 
-                    while (Main.LocalPlayer.Center.X > GetArenaRect().X + GetArenaRect().Width)
-                        Main.LocalPlayer.Center -= Vector2.UnitX * 2;
+                        if (Main.zenithWorld)
+                        {
+                            _pla.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), 200, 1);
 
-                    while (Main.LocalPlayer.Center.Y < GetArenaRect().Y)
-                        Main.LocalPlayer.Center += Vector2.UnitY * 2;
+                            _pla.Male = !_pla.Male;
+                            if (Main.netMode == 1)
+                            {
+                                NetMessage.SendData(4, -1, -1, null, _pla.whoAmI);
+                            }
+                        }
+                        Helper.TPNoDust(GetArenaRect().Center(), _pla);
+                    }
+                    else
+                    {
+                        while (_pla.Center.X < GetArenaRect().X)
+                            _pla.Center += Vector2.UnitX * 2;
+
+                        while (_pla.Center.X > GetArenaRect().X + GetArenaRect().Width)
+                            _pla.Center -= Vector2.UnitX * 2;
+
+                        while (_pla.Center.Y < GetArenaRect().Y)
+                            _pla.Center += Vector2.UnitY * 2;
+                    }
                 }
 
                 if (NPC.Distance(GetArenaRect().Center()) > 1200)

@@ -14,6 +14,7 @@ using Terraria.GameContent.ObjectInteractions;
 using EbonianMod.Projectiles.VFXProjectiles;
 using Microsoft.Xna.Framework.Graphics;
 using static System.Net.Mime.MediaTypeNames;
+using EbonianMod.Tiles;
 
 namespace EbonianMod.NPCs.ArchmageX
 {
@@ -120,6 +121,8 @@ namespace EbonianMod.NPCs.ArchmageX
                 fac = 8;
             else if (Projectile.timeLeft < 360)
                 fac = 9;
+
+
             if (Projectile.timeLeft % fac == 0 && Projectile.timeLeft > 35)
             {
                 Projectile.NewProjectile(null, Projectile.Center, Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.5f, 2) * Projectile.scale, ProjectileType<XCloudVFXExtra>(), 0, 0);

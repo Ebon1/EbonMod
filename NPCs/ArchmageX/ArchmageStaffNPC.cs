@@ -121,6 +121,9 @@ namespace EbonianMod.NPCs.ArchmageX
         {
             NPC.DiscourageDespawn(120);
 
+            NPC.shimmerWet = false;
+            NPC.shimmering = false;
+            NPC.buffImmune[BuffID.Shimmer] = true;
             rantFactor = Lerp(rantFactor, 0, 0.01f);
             if (d != null && d.timeLeft > 0 && d.Center != Vector2.Zero)
             {
