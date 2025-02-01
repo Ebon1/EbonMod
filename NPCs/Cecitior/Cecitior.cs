@@ -843,7 +843,10 @@ namespace EbonianMod.NPCs.Cecitior
                 {
                     GenerateNewPattern();
                     ResetState();
-                    AIState = Phase2ClawGrab;
+                    if (NPC.life <= 1)
+                        AIState = Death;
+                    else
+                        AIState = Phase2ClawGrab;
                 }
             }
             else if (AIState == Intro)
@@ -1735,7 +1738,7 @@ namespace EbonianMod.NPCs.Cecitior
                         NPC.velocity.Y += 3;
                         NPC.damage = 100;
                     }
-                    if (Helper.TRay.CastLength(NPC.Center, -Vector2.UnitY, NPC.height * 2, true) < NPC.height && AITimer2 == 0)
+                    if (Helper.TRay.CastLength(NPC.Center, -Vector2.UnitY, NPC.height * 2, true) < NPC.height && AITimer2 == 0 && AITimer > 45)
                     {
                         if (AITimer < 60)
                             AITimer = 61;
