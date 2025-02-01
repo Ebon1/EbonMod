@@ -36,8 +36,8 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("Bundled together, these corrupt worms share a collective and much greater mind at the cost of their mobility.\nHowever, by the time they become permanently entangled, their combined mind concludes that such a form is rather stupid."),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Evil"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.Rolypoly.Bestiary"),
             });
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)

@@ -44,8 +44,8 @@ namespace EbonianMod.NPCs.Corruption.WormKing
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("The Worm King is the result of a Rolypoly left to grow unchecked. Acting as a hive mind, it controls the worm-like creatures of the corruption, with many adventurers mistaking it for a strange tree before meeting their end."),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Evil"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.WormKing.Bestiary"),
             });
         }
         public override void SetDefaults()

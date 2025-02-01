@@ -49,8 +49,8 @@ namespace EbonianMod.NPCs.Corruption
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("A towering beast with curious traits for a corruption entity, such as its shape and face. It appears to have been much simpler once, and the reason for its strengthening is unknown."),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Evil"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.Glutton.Bestiary"),
             });
         }
         public override void SetDefaults()

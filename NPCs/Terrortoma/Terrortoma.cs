@@ -52,8 +52,8 @@ namespace EbonianMod.NPCs.Terrortoma
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
-                new FlavorTextBestiaryInfoElement("An unusual conglomerate of corrupted entities with the strange capability to show emotion. It is malformed, and not the intended result of the metamorphosis."),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Cecitoma"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.Terrortoma.Bestiary"),
             });
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)

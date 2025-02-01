@@ -31,7 +31,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Evil"),
                 new FlavorTextBestiaryInfoElement("brumpet"),
             });
         }

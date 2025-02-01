@@ -99,8 +99,8 @@ namespace EbonianMod.NPCs.Crimson.Crimera
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
-                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("A Crimera that has begun to evolve in the Crimson's time of need. It's limbs can now tunnel, and it can hurl up some of the dead blood cells which it's body generates at a breakneck pace."),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Evil"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.CrimeraHead.Bestiary"),
             });
         }
         public override void SetDefaults()

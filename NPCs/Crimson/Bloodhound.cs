@@ -21,8 +21,8 @@ namespace EbonianMod.NPCs.Crimson
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
-                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("The Crimson's attempt to learn from dogs. These hunters are often used to follow unsuspecting souls out of the crimson back to their homes to find more biomass."),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Evil"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.Bloodhound.Bestiary"),
             });
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)

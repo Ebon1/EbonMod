@@ -23,8 +23,8 @@ namespace EbonianMod.NPCs.Crimson
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
-                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("These remnants of other crimson creatures are put to better use as small vessels to bring blood to more deserving crimson entities."),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Evil"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.Parasite.Bestiary"),
             });
         }
         public override void SetDefaults()

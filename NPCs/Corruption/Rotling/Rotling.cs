@@ -43,8 +43,8 @@ namespace EbonianMod.NPCs.Corruption.Rotling
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("The Rotling is a small worm birthed from the rotting residual energy left by long dead corruption creatures."),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Evil"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.RotlingHead.Bestiary"),
             });
         }
         public override void OnKill()

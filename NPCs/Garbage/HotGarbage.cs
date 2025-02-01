@@ -99,8 +99,8 @@ namespace EbonianMod.NPCs.Garbage
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
-                new FlavorTextBestiaryInfoElement("Type: Dumpster"),
-                new FlavorTextBestiaryInfoElement("A heavily armed and armored dumpster, possibly for combat purposes, that has somehow been on fire since its conception.\n\nA note on its side reads: \"Please return to GenCorp Headquarters if lost.\""),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.HotGarbage"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.HotGarbage.Bestiary"),
             });
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color lightColor)

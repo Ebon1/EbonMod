@@ -28,8 +28,8 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                new FlavorTextBestiaryInfoElement("Type: Infected Creature"),
-                new FlavorTextBestiaryInfoElement("A strange mutation of the Ebonfly. Eating something that has been lit ablaze by the cursed inferno, it has extended its natural lifespan, but also become far more volatile."),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Evil"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.BloatedEbonfly.Bestiary"),
             });
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -125,6 +125,7 @@ namespace EbonianMod.NPCs.Corruption.Ebonflies
                     glowAlpha += 0.03f;
                     if (NPC.ai[3] > 150)
                     {
+                        Main.BestiaryTracker.Kills.RegisterKill(NPC);
                         Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 50, 0);
                         a.friendly = true;
                         a.hostile = true;

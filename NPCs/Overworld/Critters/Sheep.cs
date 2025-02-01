@@ -26,8 +26,8 @@ namespace EbonianMod.NPCs.Overworld.Critters
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
-                new FlavorTextBestiaryInfoElement("Type: Farm Animal"),
-                new FlavorTextBestiaryInfoElement("Sheep are passive, friendly animals with a thick layer of wool and an appetite for grass, sheep's wool is quite common in many colorful items of clothing and especially comfort, to the surprise of very few"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Animal"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.Sheep.Bestiary"),
             });
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)

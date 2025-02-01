@@ -274,78 +274,263 @@ NPCs: {
 			SpawnInfo: Use a [i:{0}], often found in Gold Chests.
 			EntryName: HotGarbage
 		}
+
+		Bestiary:
+			'''
+			A heavily armed and armored dumpster, possibly for combat purposes, that has somehow been on fire since its conception.
+
+
+			A note on its side reads: "Please return to GenCorp Headquarters if lost."
+			'''
 	}
 
-	Glutton.DisplayName: Glutton
-	Cecitior.DisplayName: Cecitior
-	Terrortoma.DisplayName: Terrortoma
+	Glutton: {
+		DisplayName: Glutton
+		Bestiary: A towering beast with curious traits for a corruption entity, such as its shape and face. It appears to have been much simpler once, and the reason for its strengthening is unknown.
+	}
+
+	Cecitior: {
+		DisplayName: Cecitior
+		Bestiary: A fleshy, haphazardly made construct. Despite looking akin to many other crimson monsters, this entity seems to have been created recently for an indiscernible purpose.
+	}
+
+	Terrortoma: {
+		DisplayName: Terrortoma
+		Bestiary: An unusual conglomerate of corrupted entities with the strange capability to show emotion. It is malformed, and not the intended result of the metamorphosis.
+	}
+
 	TerrorClingerSummoner.DisplayName: Clinger
 	TerrorClingerRanged.DisplayName: Clinger
-	TerrorClingerMelee.DisplayName: Clinger
+
+	TerrorClingerMelee: {
+		DisplayName: Clinger
+		Bestiary: These creatures were the heads of infected corpses, they connect to the Terrortoma, creating a sort of small hive mind together.
+	}
+
 	CrimsonWormTail.DisplayName: Gutworm
-	CrimsonWormHead.DisplayName: Gutworm
+
+	CrimsonWormHead: {
+		DisplayName: Gutworm
+		Bestiary: Gutworms would appear to be a mimicry of the Corruption's famished eaters, down to the endless hunger and inundation of ichor. They are usually quite rare, making their appearances in this region concerning at lowest.
+	}
+
 	CrimsonWormBody.DisplayName: Gutworm
 	CrimeraTail.DisplayName: Scorn
-	CrimeraHead.DisplayName: Scorn
+
+	CrimeraHead: {
+		DisplayName: Scorn
+		Bestiary: A Crimera that has begun to evolve in the Crimson's time of need. It's limbs can now tunnel, and it can hurl up some of the dead blood cells which it's body generates at a breakneck pace.
+	}
+
 	CrimeraBody.DisplayName: Scorn
 	Crimera.DisplayName: Crimera
-	VileSlime.DisplayName: Muckling
+
+	VileSlime: {
+		DisplayName: Muckling
+		Bestiary: Resembling a slime, it uses its unassuming appearance to get close to any potential prey, and lashes out with a fast moving tentacle. It is worth noting that it isn't actually a slime at all.
+	}
+
 	RottenSpineTail.DisplayName: Rotten Spine
-	RottenSpineHead.DisplayName: Rotten Spine
+
+	RottenSpineHead: {
+		DisplayName: Rotten Spine
+		Bestiary: Corruption evolution has taken its worms in a curious direction, creating a purely aggressive worm with a head on either side. How it sustains itself is unknown.
+	}
+
 	RottenSpineBody.DisplayName: Rotten Spine
 	EbonianStrider.DisplayName: Regurgitator
-	EbonFly.DisplayName: Ebonfly
-	EbonCrawler.DisplayName: Waster
-	CecitiorEye.DisplayName: Gazer
+
+	EbonFly: {
+		DisplayName: Ebonfly
+		Bestiary: An insect that prefers to fly in groups. They feed by eating dead flesh off of other surfaces. Some say that one day they will grow too big for their wings and become the worms their homeland is known for. Whether this is true or not is debatable.
+	}
+
+	EbonCrawler: {
+		DisplayName: Waster
+		Bestiary: The Waster is a product of the Corruption's failures. It is an evolutionary mishap, that's only purpose now is to unwillingly be a nest for the Ebonflies.
+	}
+
+	CecitiorEye: {
+		DisplayName: Gazer
+		Bestiary:
+			'''
+			Ocular organs used by Cecitior. The creature is haphazardly created, leaving many flaws in its existence, such as the lack of defended eyes.
+
+			One has to wonder how much of a pain it would be to get lemon there.
+			'''
+	}
+
 	TinyBrain.DisplayName: Brain
 	EbonianHeartNPC.DisplayName: Heart
-	BabyCecity.DisplayName: Crimorrhage
-	Fleshformator.DisplayName: Fleshformator
-	LetsGoo.DisplayName: Gnasher
+
+	BabyCecity: {
+		DisplayName: Crimorrhage
+		Bestiary: An evolution of an Ichor Sticker that had its limbs overtaken by the spread of the biome. Despite their appearance, they have adapted well to their sporadic evolution and symbiosis, and use it to the fullest extent possible, even more so than the unhindered monster it once was.
+	}
+
+	Fleshformator: {
+		DisplayName: Fleshformator
+		Bestiary: Fleshformators are bottom-feeders of the deep crimson. When they are born, they roam from their starting spot and latch onto a nutrient-rich area to grab onto anything they can and devour it. None have ever seen what is on the other end of a Fleshformator.
+	}
+
+	LetsGoo: {
+		DisplayName: Gnasher
+		Bestiary: The Gnasher is nothing but muscle, jaws, and the instinctual desire to devour prey of any kind.
+	}
+
 	RotlingBody.DisplayName: Rotling
-	RotlingHead.DisplayName: Rotling
+
+	RotlingHead: {
+		DisplayName: Rotling
+		Bestiary: The Rotling is a small worm birthed from the rotting residual energy left by long dead corruption creatures.
+	}
+
 	RotlingTail.DisplayName: Rotling
 	DankDiggerBody.DisplayName: Dank Digger
-	DankDiggerHead.DisplayName: Dank Digger
+
+	DankDiggerHead: {
+		DisplayName: Dank Digger
+		Bestiary: The Dank Diggers are a sign you are in the Eater of Worlds' destructive wake- whenever a shadow scale breaks, the remnant regenerates as best as it can and makes a Dank Digger.
+	}
+
 	DankDiggerTail.DisplayName: Dank Digger
-	BloatedEbonfly.DisplayName: Bloated Ebonfly
-	MassiveSpectator.DisplayName: Massive Spectator
+
+	BloatedEbonfly: {
+		DisplayName: Bloated Ebonfly
+		Bestiary: A strange mutation of the Ebonfly. Eating something that has been lit ablaze by the cursed inferno, it has extended its natural lifespan, but also become far more volatile.
+	}
+
+	MassiveSpectator: {
+		DisplayName: Massive Spectator
+		Bestiary: These towering eyes seem to be connected to something at the very base of the Crimson. They only appeared very recently, so not much else is known about them.
+		LowTaperFade: you know what else is massive?
+	}
+
 	TerrortomaBulb.DisplayName: Giant Cocoon
-	Bloodhound.DisplayName: Bloodhound
-	ClumpOfMeat.DisplayName: Clump Of Meat
-	Parasite.DisplayName: Latcher
-	FleshBrickBig.DisplayName: Sedimentary
+
+	Bloodhound: {
+		DisplayName: Bloodhound
+		Bestiary: The Crimson's attempt to learn from dogs. These hunters are often used to follow unsuspecting souls out of the crimson back to their homes to find more biomass.
+	}
+
+	ClumpOfMeat: {
+		DisplayName: Clump Of Meat
+		Bestiary: Latchers are surprisingly clever entities, often bunching up in order to mimic other things, only to burst apart and bombard the enemy all at once. These usually come in the form of slimes, but a few rare cases have detailed them taking humanoid shapes.
+	}
+
+	Parasite: {
+		DisplayName: Latcher
+		Bestiary: These remnants of other crimson creatures are put to better use as small vessels to bring blood to more deserving crimson entities.
+	}
+
+	FleshBrickBig: {
+		DisplayName: Sedimentary
+		Bestiary: Sedimentaries are theorized to be walls of the corruption's casms at an early stage in development. Like everything else in the corruption, even the mud and stone you walk on can be traced to the hive-organism itself.
+	}
+
 	FleshBrickMedium.DisplayName: Sedimentary
 	FleshBrickSmall.DisplayName: Sedimentary
 	TrumpetTail.DisplayName: Trumpet
-	TrumpetHead.DisplayName: Trumpet
+
+	TrumpetHead: {
+		DisplayName: Trumpet
+		Bestiary: A Trumpet's job within the corruption macroorganism is to tend to the fauna below it. Unlike most infected creatures, they seem completely unbothered by your presence.
+	}
+
 	TrumpetBody.DisplayName: Trumpet
-	Rolypoly.DisplayName: Rolypoly
-	JuvenileBrain.DisplayName: Neurobite
-	WormKing.DisplayName: Worm King
+
+	Rolypoly: {
+		DisplayName: Rolypoly
+		Bestiary:
+			'''
+			Bundled together, these corrupt worms share a collective and much greater mind at the cost of their mobility.
+			However, by the time they become permanently entangled, their combined mind concludes that such a form is rather stupid.
+			'''
+	}
+
+	JuvenileBrain: {
+		DisplayName: Neurobite
+		Bestiary: It uses a primitive form of neurokinesis to trick its prey into seeing mirror images of itself. This confusion allows the Neuromaw to strike while its target is vulnerable to attack.
+	}
+
+	WormKing: {
+		DisplayName: Worm King
+		Bestiary: The Worm King is the result of a Rolypoly left to grow unchecked. Acting as a hive mind, it controls the worm-like creatures of the corruption, with many adventurers mistaking it for a strange tree before meeting their end.
+	}
+
 	MiniTrumpetBody.DisplayName: Cornet
 	MiniTrumpetHead.DisplayName: Cornet
 	MiniTrumpetTail.DisplayName: Cornet
-	Consumer.DisplayName: Rotjaw
-	Regorger.DisplayName: Tittering
-	Vileglider.DisplayName: Vileglider
-	ToxicAbomination.DisplayName: Virulant
-	VileTear.DisplayName: Grinner
-	BloodHunter.DisplayName: Blood Hunter
+
+	Consumer: {
+		DisplayName: Rotjaw
+		Bestiary: Rotjaws are relentless and will dive towards their prey in the blink of an eye. Their bites can shatter large bones and durable shells effortlessly, and they often leave no scraps behind when devouring their prey.
+	}
+
+	Regorger: {
+		DisplayName: Tittering
+		Bestiary: A tittering's laugh echoes from afar, often fueling campfire tales that portray it as a mysterious cryptid. It remains unclear whether the creature's laughter is from genuine amusement or merely a biological reflex after spewing a beam of cursed flames.
+	}
+
+	Vileglider: {
+		DisplayName: Vileglider
+		Bestiary: Vilegliders strike when least expected, diving from above to swarm their prey. Their attacks are viciously precise, often leaving no trace of their victims behind.
+	}
+
+	ToxicAbomination: {
+		DisplayName: Virulant
+		Bestiary: It stores toxic gases from the carrion it consumes, using this buildup to launch itself at great speeds toward its next target, creating an explosion-like burst of force in the process.
+	}
+
+	VileTear: {
+		DisplayName: Grinner
+		Bestiary: The Grinner is a rare sight, but its imposing size and ever-present smile strikes fear into those encountering it. It takes as much pleasure in scaring its victims as it does in devouring them whole.
+	}
+
+	BloodHunter: {
+		DisplayName: Blood Hunter
+		Bestiary: A gruesome arachnid of the crimson. It prefers a less direct approach compared to its spider relatives, maintaining distance with its pincers, and a stinger tail producing a potent venom.
+	}
+
 	ArchmageXDeathAnim.DisplayName: Xareus
 	Conglomerate.DisplayName: Conglomerate
-	Mosquito.DisplayName: Bloodsucker
-	Screecher.DisplayName: Shrieker
+
+	Mosquito: {
+		DisplayName: Bloodsucker
+		Bestiary: A once nuisance turned into another monster. These creatures' bloodsucking ability makes them annoying alone, but dangerous in swarms, or for what lasting side effects they may bring.
+	}
+
+	Screecher: {
+		DisplayName: Shrieker
+		Bestiary: Medium sized, skinless creatures that roam the crimson as walking alarms of a sort. Their nerves are nearly exposed, allowing them to sense even the slightest disturbance and alert the crimson to it.
+	}
+
 	ArchmageCutsceneMartian.DisplayName: Archmage Xareus
 	ArchmageStaffNPC.DisplayName: " "
 	FleshDice.DisplayName: Flesh Dice
-	Sheep.DisplayName: Sheep
-	JelleyeFish.DisplayName: Jelleye Fish
+
+	Sheep: {
+		DisplayName: Sheep
+		Bestiary: Sheep are passive, friendly animals with a thick layer of wool and an appetite for grass, sheep's wool is quite common in many colorful items of clothing and especially comfort, to the surprise of very few
+	}
+
+	JelleyeFish: {
+		DisplayName: Jelleye Fish
+		Bestiary: Fleshy tendrils drift afloat over the crimson's blood-spattered terrain. Originating from the sanguine waters of the crimson, these mutant abominations evolved to continuously grow numerous inconsolable eyes and float in the putrid air, not unlike their aquatic ancestors. Just don't make sashimi from these.
+	}
+
 	MiniSpectator.DisplayName: Spectator
 
 	ArchmageX: {
 		DisplayName: Xareus
 		BossLogDisplayName: The Archmage
+		Bestiary:
+			'''
+			The most magnificent and brilliant sorcerer to ever walk this earth... An unmatched master of wizardry! A true magician! The Archmage!!
+
+
+			All self-proclaimed, of course.
+			'''
 	}
 }
 
@@ -1059,7 +1244,7 @@ Keybinds: {
 Biomes: {
 	SpawnAnimMusic: {
 		DisplayName: Spawn Anim Music
-		TownNPCDialogueName: the Spawn Anim Music
+		TownNPCDialogueName: lol
 	}
 }
 
@@ -1088,8 +1273,30 @@ Configs: {
 	}
 }
 
+Misc: {
+	Types: {
+		Xareus: Type: 'Master' Magician
+		Cecitoma: Type: Organic Construct
+		Evil: Type: Infected Creature
+		Organ: Type: Organ
+		HotGarbage: Type: Dumpster
+		Animal: Type: Farm Animal
+	}
+}
+
 Dialogue: {
 	DotDotDot: ...
+
+	Wizard: {
+		WizardAboutX1: "Hah! The martians really did a number on old Xareus... What a fool."
+		WizardAboutX2: "Hm, I see you've taken care of that idiotic 'Archmage'... Good job!"
+		WizardAboutX3: "So you’ve met the so-called ‘archmage’. Pah! He couldn’t cast with an amethyst staff!"
+		WizardAboutX4: "The ‘apex of magic’ as he calls himself is just a monument to hubris! I’ve seen slimes more magical!"
+		WizardAboutX5: "That fool is still out there? Pay him little mind, or else you’ll never hear the end of it!"
+		WizardAboutX6: "You really oughta look into that abandoned looking purple shack, if I recall right, it was the home of an incredibly reckless freak."
+		WizardAboutX7: "Have you still not checked up on that weird purple shack? A self proclaimed 'Archmage' dwells there."
+		WizardAboutX8: "As much as I despise Xareus, his sheepening spell is quite... fascinating, to say the least."
+	}
 
 	ArchmageXDialogue: {
 		AndAgain: And again!

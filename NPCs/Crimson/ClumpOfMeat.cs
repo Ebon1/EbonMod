@@ -23,8 +23,8 @@ namespace EbonianMod.NPCs.Crimson
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
-                new FlavorTextBestiaryInfoElement("Type: Infected Creatures"),
-                new FlavorTextBestiaryInfoElement("Latchers are surprisingly clever entities, often bunching up in order to mimic other things, only to burst apart and bombard the enemy all at once. These usually come in the form of slimes, but a few rare cases have detailed them taking humanoid shapes."),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Evil"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.ClumpOfMeat.Bestiary"),
             });
         }
         public override void SetDefaults()
@@ -94,6 +94,7 @@ namespace EbonianMod.NPCs.Crimson
                         Gore.NewGore(NPC.GetSource_FromThis(), Main.rand.NextVector2FromRectangle(NPC.getRect()), Main.rand.NextVector2Circular(5, 5), Find<ModGore>("EbonianMod/WormyGore3").Type, NPC.scale);
                         NPC.NewNPC(NPC.GetSource_FromThis(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCType<Parasite>());
                     }
+                    Main.BestiaryTracker.Kills.RegisterKill(NPC);
                     NPC.SimpleStrikeNPC(NPC.lifeMax * 2, 0);
                 }
             }

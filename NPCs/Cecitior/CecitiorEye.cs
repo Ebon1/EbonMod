@@ -25,8 +25,8 @@ namespace EbonianMod.NPCs.Cecitior
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[NPCType<Cecitior>()], quickUnlock: true);
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
-                new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
-                new FlavorTextBestiaryInfoElement("Ocular organs used by Cecitor. The creature is haphazardly created, leaving many flaws in its existence, such as the lack of defended eyes.\n\nOne has to wonder how much of a pain it would be to get lemon there."),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Cecitoma"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.CecitiorEye.Bestiary"),
             });
         }
 

@@ -56,8 +56,8 @@ namespace EbonianMod.NPCs.Cecitior
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
-                new FlavorTextBestiaryInfoElement("Type: Organic Construct"),
-                new FlavorTextBestiaryInfoElement("A fleshy, haphazardly made construct. Despite looking akin to many other crimson monsters, this entity seems to have been created recently for an indiscernible purpose."),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Cecitoma"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.Cecitior.Bestiary"),
             });
         }
         public override void SetStaticDefaults()

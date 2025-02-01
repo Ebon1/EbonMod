@@ -59,6 +59,7 @@ namespace EbonianMod.NPCs.ArchmageX
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.buffImmune[BuffID.Confused] = true;
             NPC.BossBar = GetInstance<XBar>();
+            NPC.value = Item.buyPrice(0, 30);
             Music = 0;
         }
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
@@ -69,8 +70,8 @@ namespace EbonianMod.NPCs.ArchmageX
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
-                new FlavorTextBestiaryInfoElement("Type: 'Master' Magician"),
-                new FlavorTextBestiaryInfoElement("The most magnificent and brilliant sorcerer to ever walk this earth... An unmatched master of wizardry! A true magician! The Archmage!!\n\nAll self-proclaimed, of course."),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Xareus"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.ArchmageX.Bestiary"),
             });
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
@@ -432,6 +433,11 @@ namespace EbonianMod.NPCs.ArchmageX
         int frameBeforeBlink;
         SlotId helicopterSlot;
         FloatingDialogueBox currentDialogue;
+        public override void ModifyHitByProjectile(Projectile projectile, ref NPC.HitModifiers modifiers)
+        {
+            if (ProjectileID.Sets.CultistIsResistantTo[projectile.type])
+                modifiers.FinalDamage *= .85f;
+        }
         public override void ModifyIncomingHit(ref NPC.HitModifiers modifiers)
         {
             modifiers.CritDamage -= 0.4f;

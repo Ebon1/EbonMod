@@ -48,8 +48,8 @@ namespace EbonianMod.NPCs.Crimson.Spectators
 
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
-                new FlavorTextBestiaryInfoElement("Type: Organ"),
-                new FlavorTextBestiaryInfoElement("These towering eyes seem to be connected to something at the very base of the Crimson. They only appeared very recently, so not much else is known about them."),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Organ"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.MassiveSpectator.Bestiary"),
             });
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
