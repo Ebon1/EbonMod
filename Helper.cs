@@ -69,6 +69,10 @@ namespace EbonianMod
         {
             return new Rectangle((int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height);
         }
+        public static Color HunterPotionColor(this NPC npc)
+        {
+            return Color.Lerp(Color.OrangeRed * 0.5f, Color.Transparent, Clamp(Utils.GetLerpValue(npc.Size.Length(), 0, Main.LocalPlayer.Distance(npc.Center)), 0, 1));
+        }
         public static float ClosestTo(this IEnumerable<float> collection, float target)
         {
             // NB Method will return int.MaxValue for a sequence containing no elements.

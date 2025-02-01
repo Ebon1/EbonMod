@@ -191,6 +191,9 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         {
             Texture2D tex = TextureAssets.Npc[Type].Value;
             spriteBatch.Draw(tex, NPC.Center + new Vector2(0, 2).RotatedBy(NPC.rotation) - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+                spriteBatch.Draw(tex, NPC.Center + new Vector2(0, 2).RotatedBy(NPC.rotation) - screenPos, NPC.frame, NPC.HunterPotionColor(), NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
         public override void HitEffect(NPC.HitInfo hitinfo)
@@ -267,6 +270,10 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
                 spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
 
 
+                if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+                {
+                    spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, NPC.HunterPotionColor(), NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+                }
                 //if (FollowerNPC.type == NPCType<CrimsonWormTail>())
                 //  spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowerNPC.Center, 0.5f) - screenPos, NPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowerNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
             }
@@ -292,6 +299,12 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             spriteBatch.Draw(tex, Vector2.Lerp(NPC.Center, FollowingNPC.Center, 0.5f) - screenPos, NPC.frame, drawColor, Helper.LerpAngle(NPC.rotation, FollowingNPC.rotation, 0.5f), NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
 
             spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale * scale, SpriteEffects.None, 0);
+
+
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+            {
+                spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, NPC.HunterPotionColor(), NPC.rotation, NPC.Size / 2, NPC.scale * scale, SpriteEffects.None, 0);
+            }
         }
         float scale = 1, timer, timer2;
         public override void ExtraAI()
@@ -456,6 +469,9 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
         {
             Texture2D tex = TextureAssets.Npc[Type].Value;
             spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2 + new Vector2(0, 4), NPC.scale, SpriteEffects.None, 0);
+
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+                spriteBatch.Draw(tex, NPC.Center - screenPos, NPC.frame, NPC.HunterPotionColor(), NPC.rotation, NPC.Size / 2 + new Vector2(0, 4), NPC.scale, SpriteEffects.None, 0);
         }
         public override void ExtraAI()
         {

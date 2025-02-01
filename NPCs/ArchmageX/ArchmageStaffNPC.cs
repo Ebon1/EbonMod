@@ -69,7 +69,7 @@ namespace EbonianMod.NPCs.ArchmageX
                             for (int k = -23; k < 6; k++)
                             {
                                 Main.tile[i - 31, j + k].TileType = ((ushort)TileType<XHouseBrick>());
-                                if (Main.tile[i + 31, j + k].TileType != TileID.TallGateClosed && Main.tile[i + 31, j + k].TileType != TileID.TallGateOpen)
+                                if (Main.tile[i + 31, j + k].TileType != TileID.TallGateClosed && Main.tile[i + 31, j + k].TileType != TileID.TallGateOpen && k < 6 && k > 0)
                                 {
                                     Main.tile[i + 31, j + k].TileType = ((ushort)TileType<XHouseBrick>());
                                     Tile tile = Main.tile[i + 31, j + k];
@@ -487,7 +487,7 @@ namespace EbonianMod.NPCs.ArchmageX
 
 
                 if (!NPC.AnyNPCs(NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0 && !GetInstance<EbonianSystem>().gotTheStaff)
-                    EbonianSystem.stickZoomLerpVal = MathHelper.SmoothStep(EbonianSystem.stickZoomLerpVal, Clamp(MathHelper.SmoothStep(1f, 0, (Main.LocalPlayer.Center.Distance(NPC.Center) / (800f) + EbonianSystem.stickLerpOffset)), 0, 1), 0.2f);
+                    EbonianSystem.stickZoomLerpVal = MathHelper.SmoothStep(EbonianSystem.stickZoomLerpVal, Clamp(MathHelper.SmoothStep(1f, 0, (Main.LocalPlayer.Center.Distance(NPC.Center) / (800f) - EbonianSystem.stickLerpOffset)), 0, 1), 0.2f);
             }
             else
             {
@@ -530,6 +530,15 @@ namespace EbonianMod.NPCs.ArchmageX
 
             Main.spriteBatch.Draw(tex, position, null, Color.White * staffAlpha, MathHelper.PiOver4, tex.Size() / 2, 1, SpriteEffects.None, 0);
             return false;
+        }
+    }
+    public class ShackMusic : ModBiome
+    {
+        public override SceneEffectPriority Priority => SceneEffectPriority.Environment;
+        public override int Music => MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ambience2");
+        public override bool IsBiomeActive(Player player)
+        {
+            return EbonianSystem.stickZoomLerpVal > 0.1f;
         }
     }
 }

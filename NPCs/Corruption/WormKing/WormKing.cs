@@ -92,6 +92,16 @@ namespace EbonianMod.NPCs.Corruption.WormKing
                 verlet.Draw(spriteBatch, Texture + "_Chain");
             Texture2D texture = Request<Texture2D>(Texture).Value;
             spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, new Vector2(scaleX, scaleY), SpriteEffects.None, 0);
+
+
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+            {
+                //if (verlet != null)
+                //  verlet.Draw(spriteBatch, Texture + "_Chain", useColor: true, color: NPC.HunterPotionColor());
+
+                spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, NPC.frame, NPC.HunterPotionColor(), NPC.rotation, NPC.Size / 2, new Vector2(scaleX, scaleY), SpriteEffects.None, 0);
+
+            }
             return false;
         }
         Vector2 stalkBase;
@@ -163,13 +173,13 @@ namespace EbonianMod.NPCs.Corruption.WormKing
 
             scaleX = MathHelper.Lerp(scaleX, 1, 0.1f);
             scaleY = MathHelper.Lerp(scaleY, 1, 0.1f);
-            AITimer++;
+            if (player.Distance(NPC.Center) < 600)
+                AITimer++;
             switch (AIState)
             {
                 case Idle:
                     {
-                        if (player.Distance(NPC.Center) < 600)
-                            NPC.ai[3]++;
+                        NPC.ai[3]++;
                         NPC.Center = Vector2.Lerp(NPC.Center, stalkBase - new Vector2(MathF.Sin(NPC.ai[3] * 0.02f) * 200, 300 + (MathF.Cos(NPC.ai[3] * 0.02f) * 50)), 0.1f);
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, MathF.Sin(NPC.ai[3] * 0.02f), 0.1f);
                         if (AITimer > Main.rand.Next(200, 400))

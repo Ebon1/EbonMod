@@ -45,7 +45,7 @@ namespace EbonianMod.Items.Consumables.BossItems
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            int index = tooltips.IndexOf(tooltips.FirstOrDefault(x => x.Text == "Be warned."));
+            int index = tooltips.IndexOf(tooltips.FirstOrDefault(x => x.Text == Language.GetTextValue("EbonianMod.Items.GarbageRemote.Warning")));
             tooltips[index].OverrideColor = Color.Red;
         }
         public override void AddRecipes()

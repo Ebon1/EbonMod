@@ -183,6 +183,9 @@ namespace EbonianMod.NPCs.Crimson.Jellyfish
 
             Texture2D tex = Helper.GetTexture(Texture);
             spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, scaleMult * NPC.scale, SpriteEffects.None, 0);
+
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+                spriteBatch.Draw(tex, NPC.Center - Main.screenPosition, NPC.frame, NPC.HunterPotionColor(), NPC.rotation, NPC.Size / 2, scaleMult * NPC.scale, SpriteEffects.None, 0);
             return false;
         }
     }

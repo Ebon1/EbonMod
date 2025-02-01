@@ -737,7 +737,9 @@ Items: {
 			Allows communication with the only AI to ever reach singularity 
 			Be warned.
 			'''
+		Warning: Be warned.
 		DisplayName: Dusty Quantum Computer
+		NoteForTranslators: The 'Be warned.' HAS to match in both the Warning and Tooltip
 	}
 
 	ExolWings: {
@@ -1246,6 +1248,11 @@ Biomes: {
 		DisplayName: Spawn Anim Music
 		TownNPCDialogueName: lol
 	}
+
+	ShackMusic: {
+		DisplayName: Shack Music
+		TownNPCDialogueName: the Shack Music
+	}
 }
 
 Configs: {
@@ -1288,14 +1295,14 @@ Dialogue: {
 	DotDotDot: ...
 
 	Wizard: {
-		WizardAboutX1: "Hah! The martians really did a number on old Xareus... What a fool."
-		WizardAboutX2: "Hm, I see you've taken care of that idiotic 'Archmage'... Good job!"
-		WizardAboutX3: "So you’ve met the so-called ‘archmage’. Pah! He couldn’t cast with an amethyst staff!"
-		WizardAboutX4: "The ‘apex of magic’ as he calls himself is just a monument to hubris! I’ve seen slimes more magical!"
-		WizardAboutX5: "That fool is still out there? Pay him little mind, or else you’ll never hear the end of it!"
-		WizardAboutX6: "You really oughta look into that abandoned looking purple shack, if I recall right, it was the home of an incredibly reckless freak."
-		WizardAboutX7: "Have you still not checked up on that weird purple shack? A self proclaimed 'Archmage' dwells there."
-		WizardAboutX8: "As much as I despise Xareus, his sheepening spell is quite... fascinating, to say the least."
+		WizardAboutX1: Hah! The martians really did a number on old Xareus... What a fool.
+		WizardAboutX2: Hm, I see you've taken care of that idiotic 'Archmage'... Good job!
+		WizardAboutX3: So you’ve met the so-called ‘archmage’. Pah! He couldn’t cast with an amethyst staff!
+		WizardAboutX4: The ‘apex of magic’ as he calls himself is just a monument to hubris! I’ve seen slimes more magical!
+		WizardAboutX5: That fool is still out there? Pay him little mind, or else you’ll never hear the end of it!
+		WizardAboutX6: You really oughta look into that abandoned looking purple shack, if I recall right, it was the home of an incredibly reckless freak.
+		WizardAboutX7: Have you still not checked up on that weird purple shack? A self proclaimed 'Archmage' dwells there.
+		WizardAboutX8: As much as I despise Xareus, his sheepening spell is quite... fascinating, to say the least.
 	}
 
 	ArchmageXDialogue: {

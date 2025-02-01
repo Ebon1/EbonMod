@@ -86,6 +86,11 @@ namespace EbonianMod.NPCs.Terrortoma
             }
         }
         SlotId cachedSound;
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            spriteBatch.Draw(TextureAssets.Npc[Type].Value, NPC.Center - screenPos, null, drawColor, NPC.rotation, NPC.Size / 2, NPC.scale, SpriteEffects.None, 0);
+            return false;
+        }
         public override void AI()
         {
             NPC.chaseable = false;

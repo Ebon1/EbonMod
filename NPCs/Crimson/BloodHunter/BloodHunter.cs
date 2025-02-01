@@ -195,15 +195,29 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D tex = TextureAssets.Npc[Type].Value;
+
+            SpriteEffects effect = NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
             DrawBGLegs(spriteBatch, drawColor);
 
             DrawTail(spriteBatch, drawColor);
-
-            SpriteEffects effect = NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             spriteBatch.Draw(tex, NPC.Center + bodyOffset + new Vector2(0, 8) - Main.screenPosition, null, drawColor, NPC.rotation, tex.Size() / 2, NPC.scale, effect, 0);
 
 
             DrawFGLegs(spriteBatch, drawColor);
+
+
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+            {
+
+                DrawBGLegs(spriteBatch, NPC.HunterPotionColor());
+
+                DrawTail(spriteBatch, NPC.HunterPotionColor());
+                spriteBatch.Draw(tex, NPC.Center + bodyOffset + new Vector2(0, 8) - Main.screenPosition, null, NPC.HunterPotionColor(), NPC.rotation, tex.Size() / 2, NPC.scale, effect, 0);
+
+
+                DrawFGLegs(spriteBatch, NPC.HunterPotionColor());
+            }
             return false;
         }
         void DrawTail(SpriteBatch spriteBatch, Color drawColor)

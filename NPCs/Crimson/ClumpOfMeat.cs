@@ -103,6 +103,9 @@ namespace EbonianMod.NPCs.Crimson
         {
             Texture2D tex = TextureAssets.Npc[Type].Value;
             spriteBatch.Draw(tex, NPC.Center - new Vector2(0, scale.Y * 1.1f) - screenPos, NPC.frame, drawColor, NPC.rotation, NPC.Size / 2, new Vector2(NPC.scale) + scale, SpriteEffects.None, 0);
+
+            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+                spriteBatch.Draw(tex, NPC.Center - new Vector2(0, scale.Y * 1.1f) - screenPos, NPC.frame, NPC.HunterPotionColor(), NPC.rotation, NPC.Size / 2, new Vector2(NPC.scale) + scale, SpriteEffects.None, 0);
             return false;
         }
         public override void FindFrame(int frameHeight)

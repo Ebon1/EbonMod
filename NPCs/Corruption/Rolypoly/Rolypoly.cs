@@ -218,9 +218,15 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
 
                         extraVerlets[i].Update(verlet.points[p1].position, verlet.points[p2].position);
                         extraVerlets[i].Draw(spriteBatch, Texture + "_Tex", textureVariation: true, maxVariants: 3, variantSeed: texNum);
+
+                        if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+                            extraVerlets[i].Draw(spriteBatch, Texture + "_Tex", textureVariation: true, maxVariants: 3, variantSeed: texNum, useColor: true, color: NPC.HunterPotionColor());
                     }
                 }
                 verlet.Draw(spriteBatch, Texture + "_Tex", textureVariation: true, maxVariants: 3, variantSeed: texNum);
+
+                if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+                    verlet.Draw(spriteBatch, Texture + "_Tex", textureVariation: true, maxVariants: 3, variantSeed: texNum, useColor: true, color: NPC.HunterPotionColor());
                 if (NPC.scale > 0.55f)
                     for (int i = 5; i < 7; i++)
                     {
@@ -242,6 +248,9 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
 
                             extraVerlets[i].Update(verlet.points[p1].position, verlet.points[p2].position);
                             extraVerlets[i].Draw(spriteBatch, Texture + "_Tex", textureVariation: true, maxVariants: 3, variantSeed: texNum);
+
+                            if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.isABestiaryIconDummy)
+                                extraVerlets[i].Draw(spriteBatch, Texture + "_Tex", textureVariation: true, maxVariants: 3, variantSeed: texNum, useColor: true, color: NPC.HunterPotionColor());
                         }
                     }
             }
