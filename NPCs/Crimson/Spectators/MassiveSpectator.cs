@@ -130,7 +130,7 @@ namespace EbonianMod.NPCs.Crimson.Spectators
             if (NPC.AnyNPCs(NPCType<Cecitior.Cecitior>())) NPC.active = false;
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
-            if (!found && (stalkBase == Vector2.Zero || Helper.TRay.CastLength(Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 400), Vector2.UnitY, 32, true) > 16))
+            if (!found && (stalkBase == Vector2.Zero || Helper.TRay.CastLength(Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 400), Vector2.UnitY, 32, false) > 16))
             {
                 Vector2 direction = Vector2.UnitY.RotatedBy(MathHelper.PiOver4 + MathHelper.PiOver4 * 0.25f);
                 int attempts = 0;

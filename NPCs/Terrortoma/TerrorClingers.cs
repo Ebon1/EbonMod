@@ -48,6 +48,7 @@ namespace EbonianMod.NPCs.Terrortoma
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
+            NPC.buffImmune[BuffID.Confused] = true;
             NPC.lifeMax = 12323;
             NPC.dontTakeDamage = true;
             NPC.damage = 0;
@@ -415,6 +416,7 @@ namespace EbonianMod.NPCs.Terrortoma
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
+            NPC.buffImmune[BuffID.Confused] = true;
             NPC.lifeMax = 12323;
             NPC.dontTakeDamage = true;
             NPC.damage = 0;
@@ -778,6 +780,7 @@ namespace EbonianMod.NPCs.Terrortoma
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
+            NPC.buffImmune[BuffID.Confused] = true;
             NPC.lifeMax = 12323;
             NPC.dontTakeDamage = true;
             NPC.damage = 40;

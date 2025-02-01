@@ -564,7 +564,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     {
                         Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ambience");
                         SoundEngine.PlaySound(EbonianSounds.chargedBeamWindUp, NPC.Center);
-                        Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, (rotation + PiOver4).ToRotationVector2(), ProjectileType<VileTearTelegraph>(), 0, 0);
+                        Projectile.NewProjectile(NPC.InheritSource(NPC), NPC.Center, (rotation).ToRotationVector2(), ProjectileType<VileTearTelegraph>(), 0, 0);
                     }
                     glareAlpha = MathHelper.Lerp(glareAlpha, 4f, 0.05f);
                     if (AITimer < 305)
@@ -572,6 +572,8 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 if (AITimer > 326 && AITimer < 480)
                 {
+                    if (AITimer % 3 == 0)
+                        Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<TerrortomaScream>(), 0, 0);
                     NPC.ai[3] = Lerp(NPC.ai[3], 1, 0.01f);
                     rotation = NPC.rotation;
                     NPC.rotation += ToRadians(2f) * NPC.ai[3];
@@ -582,7 +584,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     NPC.velocity = Vector2.Zero;
                     EbonianSystem.ScreenShakeAmount = 15f;
                     SoundEngine.PlaySound(EbonianSounds.chargedBeamImpactOnly, NPC.Center);
-                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, (NPC.rotation + PiOver4).ToRotationVector2(), ProjectileType<TBeam>(), 10000, 0);
+                    Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, (NPC.rotation).ToRotationVector2(), ProjectileType<TBeam>(), 10000, 0);
                 }
                 if (AITimer == 480)
                     NPC.velocity = Vector2.UnitY;
@@ -716,6 +718,8 @@ namespace EbonianMod.NPCs.Terrortoma
                 {
                     NPC.dontTakeDamage = false;
                     AIState = TitteringSpawn;
+                    if (NPC.life <= 1)
+                        AIState = Death;
                     AITimer = 0;
                 }
             }

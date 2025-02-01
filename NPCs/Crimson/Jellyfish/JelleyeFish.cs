@@ -16,7 +16,7 @@ namespace EbonianMod.NPCs.Crimson.Jellyfish
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.lifeMax = 1000;
+            NPC.lifeMax = 350;
             NPC.damage = 0;
             NPC.noTileCollide = true;
             NPC.defense = 10;

@@ -49,6 +49,8 @@ namespace EbonianMod.NPCs.Cecitior
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.buffImmune[24] = true;
+            NPC.buffImmune[BuffID.Ichor] = true;
+            NPC.buffImmune[BuffID.Confused] = true;
             SoundStyle hit = EbonianSounds.fleshHit;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = hit;
