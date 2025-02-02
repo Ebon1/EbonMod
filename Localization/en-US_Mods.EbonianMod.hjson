@@ -1478,7 +1478,7 @@ Dialogue: {
 
 		XAttack6: {
 			Default: Amethysts of Empowerment!
-			Angry: STEAL THIS!!
+			Angry: STEAL THIS YOU BASTARD!!
 			FirstTimeAngry: THIS IS VERY EXPENSIVE!
 			RepeatAngry: GRAAAAAAAAAH!!!!!
 		}
