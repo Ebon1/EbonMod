@@ -56,7 +56,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
         {
             if (NPC.ai[2] == 0)
                 NPC.ai[2] = NPC.Center.X - Main.player[NPC.target].Center.X > 0 ? -1 : 1;
-            if (!Main.player[NPC.target].ZoneCorrupt && NPC.Distance(Main.player[NPC.target].Center) > 1500)
+            if (!Main.player[NPC.target].ZoneCorrupt && NPC.Distance(Main.player[NPC.target].Center) > 900)
                 Despawn();
             NPC.timeLeft = 10;
             NPC.direction = NPC.spriteDirection = NPC.ai[2] < 0 ? 1 : -1;
@@ -86,7 +86,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
         {
             NPC.buffImmune[BuffID.CursedInferno] = true;
             NPC.CloneDefaults(NPCID.DiggerHead);
-            NPC.lifeMax = 1500;
+            NPC.lifeMax = 900;
             NPC.defense = 20;
             NPC.Size = new Vector2(58, 78);
             NPC.aiStyle = -1;
@@ -123,7 +123,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
         {
             NPC.buffImmune[BuffID.CursedInferno] = true;
             NPC.CloneDefaults(NPCID.DiggerHead);
-            NPC.lifeMax = 1500;
+            NPC.lifeMax = 900;
             NPC.defense = 20;
             NPC.Size = new Vector2(58, 78);
             NPC.aiStyle = -1;
@@ -139,6 +139,12 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
         {
             NPC.timeLeft = 10;
             NPC.direction = NPC.spriteDirection = HeadSegment.ai[2] < 0 ? 1 : -1;
+            if (FollowingNPC.type != Type)
+                NPC.rotation = FollowingNPC.rotation;
+            else if (FollowerNPC.type != Type)
+                NPC.rotation = FollowerNPC.rotation;
+            else
+                NPC.rotation = Helper.LerpAngle(FollowerNPC.rotation, FollowingNPC.rotation, 0.5f);
             if (++NPC.ai[2] % 150 == 50 + NPC.ai[3] * Main.rand.Next(1, 6))
             {
                 if (NPC.ai[3] == 0)
@@ -168,7 +174,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
         {
             NPC.buffImmune[BuffID.CursedInferno] = true;
             NPC.CloneDefaults(NPCID.DiggerHead);
-            NPC.lifeMax = 1500;
+            NPC.lifeMax = 900;
             NPC.defense = 20;
             NPC.Size = new Vector2(58, 78);
             NPC.aiStyle = -1;

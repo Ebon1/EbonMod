@@ -224,7 +224,7 @@ namespace EbonianMod.NPCs.Corruption
 
                     Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 6, 6, 30, 1000));
                     SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
-                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ProjectileType<GluttonImpact>(), 20, 2.5f, 0, 0);
+                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ProjectileType<GluttonImpact>(), 30, 2.5f, 0, 0);
                     a.friendly = false;
                     a.hostile = true;
                 }
@@ -244,12 +244,12 @@ namespace EbonianMod.NPCs.Corruption
                     for (int i = 0; i < 12; i++)
                     {
                         Vector2 pos = NPC.Bottom + new Vector2(NPC.direction * Main.rand.NextFloat(-30, 30), 0);
-                        Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, player.Center).RotatedBy(-MathHelper.PiOver4 * 0.3f).RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(5, 10), ProjectileType<TerrorVilethorn1>(), 20, 0);
+                        Projectile.NewProjectile(null, pos, Helper.FromAToB(pos, player.Center).RotatedBy(-MathHelper.PiOver4 * 0.3f).RotatedByRandom(MathHelper.PiOver4 * 0.5f) * Main.rand.NextFloat(5, 10), ProjectileType<TerrorVilethorn1>(), 30, 0);
                     }
 
                     Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 6, 6, 30, 1000));
                     SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
-                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ProjectileType<GluttonImpact>(), 20, 2.5f, 0, 0);
+                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ProjectileType<GluttonImpact>(), 30, 2.5f, 0, 0);
                     a.friendly = false;
                     a.hostile = true;
                 }
@@ -271,7 +271,7 @@ namespace EbonianMod.NPCs.Corruption
 
                     Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 6, 6, 30, 1000));
                     SoundEngine.PlaySound(SoundID.Item70, NPC.Center);
-                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ProjectileType<GluttonImpact>(), 20, 2.5f, 0, 0);
+                    Projectile a = Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Bottom + new Vector2(NPC.direction * 60, Helper.TRay.CastLength(NPC.Bottom, Vector2.UnitY, 40, true)), new Vector2(0, 0), ProjectileType<GluttonImpact>(), 30, 2.5f, 0, 0);
                     a.friendly = false;
                     a.hostile = true;
                 }
@@ -293,7 +293,7 @@ namespace EbonianMod.NPCs.Corruption
 
                         Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 6, 6, 30, 1000));
                         SoundEngine.PlaySound(EbonianSounds.xSpirit.WithPitchOffset(0.4f).WithVolumeScale(1.2f), NPC.Center);
-                        Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Helper.FromAToB(NPC.Center + new Vector2(56 * NPC.direction, 22), storedPlayerPos).RotatedByRandom(MathHelper.PiOver4 * 0.35f) * Main.rand.NextFloat(2, 13), ProjectileType<TFlameThrower>(), 10, 0);
+                        Projectile.NewProjectile(null, NPC.Center + new Vector2(56 * NPC.direction, 22), Helper.FromAToB(NPC.Center + new Vector2(56 * NPC.direction, 22), storedPlayerPos).RotatedByRandom(MathHelper.PiOver4 * 0.35f) * Main.rand.NextFloat(2, 13), ProjectileType<TFlameThrower>(), 30, 0);
                     }
                     eyeBeamAlpha = MathHelper.Lerp(eyeBeamAlpha, 0, 0.2f);
                 }

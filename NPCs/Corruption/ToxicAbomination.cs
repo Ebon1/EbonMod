@@ -50,7 +50,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.height = 82;
             NPC.npcSlots = 0.1f;
             NPC.lifeMax = 450;
-            NPC.damage = 70;
+            NPC.damage = 37;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.HitSound = SoundID.NPCHit1;
@@ -107,7 +107,7 @@ namespace EbonianMod.NPCs.Corruption
             AITimer++;
             AIType = (AITimer < 400 ? 205 : -1);
             NPC.aiStyle = (AITimer < 400 ? 5 : -1);
-            if (AITimer < 400)
+            if (AITimer < 300)
             {
                 foreach (NPC npc in Main.ActiveNPCs)
                 {
@@ -128,19 +128,19 @@ namespace EbonianMod.NPCs.Corruption
             else
             {
                 if (Main.player[NPC.target].Distance(NPC.Center) > 1800) return;
-                if (AITimer == 405)
+                if (AITimer == 305)
                     Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0);
 
-                if (AITimer < 417 && AITimer > 410)
+                if (AITimer < 317 && AITimer > 310)
                     NPC.velocity += Helper.FromAToB(NPC.Center, Main.player[NPC.target].Center) * 2.4f;
 
-                if (AITimer > 455)
+                if (AITimer > 355)
                     NPC.velocity *= 0.9f;
 
                 NPC.spriteDirection = NPC.direction = NPC.velocity.X < 0 ? -1 : 1;
                 NPC.rotation = NPC.velocity.ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0);
 
-                if (AITimer > 475)
+                if (AITimer > 375)
                 {
                     AITimer = Main.rand.Next(-200, 100);
                 }

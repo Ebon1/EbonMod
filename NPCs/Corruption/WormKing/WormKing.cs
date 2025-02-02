@@ -51,7 +51,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.lifeMax = 2500;
+            NPC.lifeMax = 2000;
             NPC.damage = 0;
             NPC.noTileCollide = true;
             NPC.defense = 15;
