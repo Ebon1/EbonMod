@@ -144,7 +144,13 @@ namespace EbonianMod.NPCs.ArchmageX
             rantFactor = Lerp(rantFactor, 0, 0.01f);
             if (d != null && d.timeLeft > 0 && d.Center != Vector2.Zero)
             {
-                d.VisibleCenter = d.Center + Main.rand.NextVector2Circular(rantFactor, rantFactor);
+
+                for (int i = 0; i < d.visibleText.Length; i++)
+                {
+                    d.charVisibleCenter[i] = NPC.Center - new Vector2(0, 60) + Main.rand.NextVector2Circular(rantFactor, rantFactor);
+                    d.Center = NPC.Center - new Vector2(0, 60) + Main.rand.NextVector2Circular(rantFactor * 4, rantFactor * 4);
+                    d.VisibleCenter = NPC.Center - new Vector2(0, 60) + Main.rand.NextVector2Circular(rantFactor * 4, rantFactor * 4);
+                }
             }
             bool hasTile = false;
             if (NPC.Center != Vector2.Zero)
@@ -305,7 +311,7 @@ namespace EbonianMod.NPCs.ArchmageX
                                 d = DialogueSystem.NewDialogueBox(135, NPC.Center - new Vector2(0, 60), Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.ArchstaffLine10").Value, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                             }
                             if (NPC.ai[1] == 1630)
-                                d = DialogueSystem.NewDialogueBox(170, NPC.Center - new Vector2(0, 60), Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.ArchstaffLine11").Value, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+                                d = DialogueSystem.NewDialogueBox(200, NPC.Center - new Vector2(0, 60), Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.ArchstaffLine11").Value, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 2, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                             if (NPC.ai[1] == 1820)
                                 d = DialogueSystem.NewDialogueBox(120, NPC.Center - new Vector2(0, 60), Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.ArchstaffLine12").Value, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                             if (NPC.ai[1] == 1950)
@@ -321,18 +327,18 @@ namespace EbonianMod.NPCs.ArchmageX
                             {
                                 rantFactor = 15;
                                 Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 6, 6, 30, 1000));
-                                d = DialogueSystem.NewDialogueBox(150, NPC.Center - new Vector2(0, 60), Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.ArchstaffLine15").Value, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+                                d = DialogueSystem.NewDialogueBox(150, NPC.Center - new Vector2(0, 60), Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.ArchstaffLine15").Value, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.3f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                             }
 
                             if (NPC.ai[1] == 2630)
                             {
                                 rantFactor = 20;
-                                d = DialogueSystem.NewDialogueBox(150, NPC.Center - new Vector2(0, 60), Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.ArchstaffLine16").Value, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+                                d = DialogueSystem.NewDialogueBox(150, NPC.Center - new Vector2(0, 60), Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.ArchstaffLine16").Value, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.2f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                             }
                             if (NPC.ai[1] == 2800)
                             {
                                 rantFactor = 30;
-                                d = DialogueSystem.NewDialogueBox(150, NPC.Center - new Vector2(0, 60), Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.ArchstaffLine17").Value, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
+                                d = DialogueSystem.NewDialogueBox(150, NPC.Center - new Vector2(0, 60), Language.GetText("Mods.EbonianMod.Dialogue.ArchstaffDialogue.ArchstaffLine17").Value, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.1f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
                             }
                             if (NPC.ai[1] == 3050)
                                 d = DialogueSystem.NewDialogueBox(120, NPC.Center - new Vector2(0, 60), Language.GetText("Mods.EbonianMod.Dialogue.DotDotDot").Value, Color.White, -1, 0.6f, Color.Magenta * 0.6f, 1.5f, true, DialogueAnimationIDs.BopDown | DialogueAnimationIDs.ColorWhite, SoundID.DD2_CrystalCartImpact.WithPitchOffset(0.9f), 2);
@@ -535,7 +541,7 @@ namespace EbonianMod.NPCs.ArchmageX
                 if (seed == 0)
                     seed = Main.rand.Next(100024018);
                 Vector2 position = NPC.Center + new Vector2(0, MathF.Sin(Main.GlobalTimeWrappedHourly * .15f) * 16)
-                    + (NPC.IsABestiaryIconDummy ? Main.rand.NextVector2Circular(rantFactor, rantFactor) : Vector2.Zero) - Main.screenPosition;
+                    + (!NPC.IsABestiaryIconDummy ? Main.rand.NextVector2Circular(rantFactor, rantFactor) : Vector2.Zero) - Main.screenPosition;
                 UnifiedRandom rand = new UnifiedRandom(seed);
 
                 Main.spriteBatch.SaveCurrent();
