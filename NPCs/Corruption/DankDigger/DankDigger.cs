@@ -50,7 +50,7 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
         {
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.Size = new Vector2(30, 32);
-            NPC.damage = 40;
+            NPC.damage = 23;
             NPC.aiStyle = -1;
             NPC.lifeMax = 150;
             NPC.defense = 15;
@@ -95,7 +95,7 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
         {
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.Size = new Vector2(30, 18);
-            NPC.damage = 40;
+            NPC.damage = 23;
             NPC.aiStyle = -1;
             NPC.lifeMax = 150;
         }
@@ -122,7 +122,7 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
         {
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.Size = new Vector2(30, 20);
-            NPC.damage = 40;
+            NPC.damage = 23;
             NPC.aiStyle = -1;
             NPC.lifeMax = 150;
         }

@@ -272,7 +272,7 @@ namespace EbonianMod.NPCs.Corruption
                 {
                     if (velocity.Length() < 3) velocity = Vector2.Normalize(velocity) * 3f;
                     {
-                        int projInt = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, ProjectileType<TFlameThrower>(), 30, 0, 0, 1);
+                        int projInt = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, ProjectileType<TFlameThrower>(), 20, 0, 0, 1);
                         Main.projectile[projInt].tileCollide = false;
                         Main.projectile[projInt].friendly = false;
                         Main.projectile[projInt].hostile = true;

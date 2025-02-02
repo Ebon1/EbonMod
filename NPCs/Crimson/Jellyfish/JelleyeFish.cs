@@ -88,7 +88,7 @@ namespace EbonianMod.NPCs.Crimson.Jellyfish
             }
             if (AITimer2 >= 100)
             {
-                Projectile.NewProjectile(null, NPC.Center, -NPC.velocity.RotatedByRandom(PiOver2) * 0.5f, ModContent.ProjectileType<HostileGibs>(), 20, 0);
+                Projectile.NewProjectile(null, NPC.Center, -NPC.velocity.RotatedByRandom(PiOver2) * 0.5f, ModContent.ProjectileType<HostileGibs>(), 10, 0);
                 if (AITimer2 == 100)
                 {
                     SoundEngine.PlaySound(SoundID.NPCHit20, NPC.Center);
