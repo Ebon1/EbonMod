@@ -109,8 +109,7 @@ namespace EbonianMod.NPCs.Corruption
                     }
                 }
             }
-            NPC.velocity = Vector2.Lerp(NPC.Center, Helper.FromAToB(NPC.Center, Main.player[NPC.target].Center) * 7, 0.07f);
-            NPC.position += NPC.velocity * 0.5f;
+            NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, Main.player[NPC.target].Center) * 10 * NPC.scale, 0.01f);
         }
         public override bool CheckDead()
         {

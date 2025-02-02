@@ -41,7 +41,7 @@ namespace EbonianMod.Items.Weapons.Melee
             for (int i = -1; i < 2; i++)
             {
                 if (i == 0) continue;
-                Projectile.NewProjectile(source, position, velocity.RotatedBy(i * PiOver4 * 0.55f), type, damage, knockback, player.whoAmI, ai1: i);
+                Projectile.NewProjectile(source, position, velocity.RotatedBy(i * PiOver4 * 0.55f) * Main.rand.NextFloat(0.98f, 1.02f), type, damage, knockback, player.whoAmI, ai1: i);
             }
             return false;
         }

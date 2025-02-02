@@ -17,7 +17,7 @@ namespace EbonianMod.Items.Weapons.Magic
     {
         public override void SetDefaults()
         {
-            Item.damage = 43;
+            Item.damage = 53;
             Item.width = 32;
             Item.height = 38;
             Item.maxStack = 1;
@@ -53,8 +53,8 @@ namespace EbonianMod.Items.Weapons.Magic
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, ai1: 3);
-            Projectile.NewProjectile(source, position, -velocity, type, damage, knockback, player.whoAmI, ai1: -3);
+            Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, ai1: 2.5f);
+            //Projectile.NewProjectile(source, position, -velocity, type, damage, knockback, player.whoAmI, ai1: -3);
             return false;
         }
         public override bool CanUseItem(Player player)
