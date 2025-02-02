@@ -209,7 +209,7 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                     }
                     player.velocity = Projectile.rotation.ToRotationVector2().RotatedByRandom(PiOver4) * -10f;
                     Projectile.Kill();
-                    SoundEngine.PlaySound(Main.rand.NextBool() ? EbonianSounds.chomp0 : EbonianSounds.chomp1, Projectile.Center);
+                    SoundEngine.PlaySound(EbonianSounds.cecitiorSlam, Projectile.Center);
                 }
             }
             else if (Projectile.ai[1] == 2)
