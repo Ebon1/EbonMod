@@ -36,7 +36,7 @@ namespace EbonianMod.Items.Accessories
             if (brains.Count <= 0)
             {
                 timer++;
-                if (timer >= 300)
+                if (timer >= 420)
                 {
                     for (int k = 0; k < 8; k++)
                     {
