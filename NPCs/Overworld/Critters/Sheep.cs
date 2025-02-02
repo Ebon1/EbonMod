@@ -6,9 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Biomes.CaveHouse;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.WorldBuilding;
 
 namespace EbonianMod.NPCs.Overworld.Critters
 {
@@ -54,8 +56,11 @@ namespace EbonianMod.NPCs.Overworld.Critters
         }
         public override void OnKill()
         {
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Circular(1, 1), Find<ModGore>("EbonianMod/SheepGore0").Type, NPC.scale);
-            Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Circular(1, 1), Find<ModGore>("EbonianMod/SheepGore1").Type, NPC.scale);
+            if (!sheared)
+            {
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Circular(1, 1), Find<ModGore>("EbonianMod/SheepGore0").Type, NPC.scale);
+                Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Circular(1, 1), Find<ModGore>("EbonianMod/SheepGore1").Type, NPC.scale);
+            }
             Gore.NewGore(NPC.GetSource_Death(), NPC.position, Main.rand.NextVector2Circular(1, 1), Find<ModGore>("EbonianMod/SheepGore2").Type, NPC.scale);
 
             for (int i = 0; i < 4; i++)
@@ -66,21 +71,73 @@ namespace EbonianMod.NPCs.Overworld.Critters
 
         }
         int dyeId = -1, lastClicked = 0;
+        bool sheared;
+        public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
+        {
+            if (item.type == ItemType<Shears>())
+            {
+                modifiers.FinalDamage *= 0;
+                if (!sheared)
+                {
+                    sheared = true;
+                    Item.NewItem(null, NPC.getRect(), ItemType<Wool>(), Main.rand.Next(2, 5));
+                    SoundEngine.PlaySound(EbonianSounds.shears, NPC.Center);
+                    SoundEngine.PlaySound(EbonianSounds.sheep, NPC.Center);
+                    for (int i = 0; i < 30; i++)
+                    {
+                        Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.Smoke);
+                        Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.Silk);
+                    }
+                }
+            }
+        }
+        public override bool? CanBeHitByItem(Player player, Item item)
+        {
+            if (sheared && item.type == ItemType<Shears>()) return false;
+            return base.CanBeHitByItem(player, item);
+        }
+        public override bool? CanCollideWithPlayerMeleeAttack(Player player, Item item, Rectangle meleeAttackHitbox)
+        {
+            return base.CanCollideWithPlayerMeleeAttack(player, item, meleeAttackHitbox);
+        }
         public override void AI()
         {
             lastClicked--;
             if (Main.rand.NextBool(2000) && NPC.Center.Distance(Main.LocalPlayer.Center) < 600)
                 SoundEngine.PlaySound(EbonianSounds.sheep.WithVolumeScale(0.35f), NPC.Center);
-            if (Main.LocalPlayer.Center.Distance(NPC.Center) < 175 && new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 5, 5).Intersects(NPC.getRect()) && Main.mouseRight && lastClicked < 0 && Main.LocalPlayer.HeldItem.dye > 0 && dyeId != Main.LocalPlayer.HeldItem.type)
+            if (Main.LocalPlayer.Center.Distance(NPC.Center) < 175 && new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 5, 5).Intersects(NPC.getRect()) && Main.mouseRight && lastClicked < 0)
             {
-                dyeId = Main.LocalPlayer.HeldItem.type;
-                SoundEngine.PlaySound(SoundID.Item176, NPC.Center);
-                for (int i = 0; i < 30; i++)
+                if (Main.LocalPlayer.HeldItem.dye > 0 && dyeId != Main.LocalPlayer.HeldItem.type && !sheared)
                 {
-                    Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.Smoke);
-                    Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.ShimmerSpark);
+                    dyeId = Main.LocalPlayer.HeldItem.type;
+                    SoundEngine.PlaySound(SoundID.Item176, NPC.Center);
+                    for (int i = 0; i < 30; i++)
+                    {
+                        Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.Smoke);
+                        Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.ShimmerSpark);
+                    }
                 }
             }
+            if (Main.LocalPlayer.dontHurtCritters)
+            {
+                if (Main.LocalPlayer.HeldItem.type == ItemType<Shears>() && Main.LocalPlayer.Center.Distance(NPC.Center) < 50)
+                {
+                    if (!sheared)
+                    {
+                        sheared = true;
+                        Item.NewItem(null, NPC.getRect(), ItemType<Wool>(), Main.rand.Next(2, 5));
+                        SoundEngine.PlaySound(EbonianSounds.shears, NPC.Center);
+                        SoundEngine.PlaySound(EbonianSounds.sheep, NPC.Center);
+                        for (int i = 0; i < 30; i++)
+                        {
+                            Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.Smoke);
+                            Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, DustID.Silk);
+                        }
+                    }
+                }
+            }
+            if (sheared)
+                NPC.catchItem = ItemType<SheepItemNaked>();
             string name = Main.LocalPlayer.name;
             name.ApplyCase(LetterCasing.LowerCase);
             if (name == "dinnerbone" || name == "grumm")
@@ -97,6 +154,8 @@ namespace EbonianMod.NPCs.Overworld.Critters
         {
             if (NPC.IsABestiaryIconDummy) return true;
             Texture2D tex = Helper.GetTexture(Texture);
+            if (sheared)
+                tex = Helper.GetTexture(Texture + "_Naked");
 
             string name = Main.LocalPlayer.name;
             name.ApplyCase(LetterCasing.LowerCase);
@@ -106,9 +165,9 @@ namespace EbonianMod.NPCs.Overworld.Critters
         }
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (NPC.IsABestiaryIconDummy) return;
+            if (NPC.IsABestiaryIconDummy || sheared) return;
             Texture2D tex = Helper.GetTexture(Texture + "_Wool");
-            if (dyeId > 0)
+            if (dyeId > 0 && !sheared)
             {
                 string name = Main.LocalPlayer.name;
                 name.ApplyCase(LetterCasing.LowerCase);
@@ -118,33 +177,41 @@ namespace EbonianMod.NPCs.Overworld.Critters
         }
         public override void OnSpawn(IEntitySource source)
         {
+            if (NPC.ai[2] == 1)
+            {
+                sheared = true;
+                NPC.ai[2] = 0;
+            }
+            else
+            {
+
+                WeightedRandom<int> dye = new();
+                dye.Add(ItemID.PinkDye, 0.01f);
+                dye.Add(ItemID.NegativeDye, 0.001f);
+                dye.Add(ItemID.BlackDye);
+                dye.Add(ItemID.BlueDye, 0.1f);
+                dye.Add(ItemID.BrownDye);
+                dye.Add(ItemID.YellowDye, 0.3f);
+                dye.Add(ItemID.BrightSilverDye);
+                dye.Add(ItemID.GreenDye, 0.2f);
+                dye.Add(ItemID.ShadowDye);
+                dye.Add(ItemID.BrightBrownDye);
+                dye.Add(ItemID.BrownAndBlackDye);
+                dye.Add(ItemID.BrownAndSilverDye);
+                dye.Add(ItemID.SkyBlueDye, 0.5f);
+                dye.Add(ItemID.OrangeandSilverDye);
+                dye.Add(ItemID.ReflectiveGoldDye, 0.025f);
+                dye.Add(-1, 8);
+                dyeId = dye;
+
+                string name = Main.LocalPlayer.name;
+                name.ApplyCase(LetterCasing.LowerCase);
+                if (name == "jeb" || name == "jeb_")
+                    dyeId = ItemID.LivingRainbowDye;
+            }
+
             if (Main.rand.NextBool(4) && NPC.Center.Distance(Main.LocalPlayer.Center) < 600)
                 SoundEngine.PlaySound(EbonianSounds.sheep, NPC.Center);
-
-            WeightedRandom<int> dye = new();
-            dye.Add(ItemID.PinkDye, 0.01f);
-            dye.Add(ItemID.NegativeDye, 0.001f);
-            dye.Add(ItemID.BlackDye);
-            dye.Add(ItemID.BlueDye, 0.1f);
-            dye.Add(ItemID.BrownDye);
-            dye.Add(ItemID.YellowDye, 0.3f);
-            dye.Add(ItemID.BrightSilverDye);
-            dye.Add(ItemID.GreenDye, 0.2f);
-            dye.Add(ItemID.ShadowDye);
-            dye.Add(ItemID.BrightBrownDye);
-            dye.Add(ItemID.BrownAndBlackDye);
-            dye.Add(ItemID.BrownAndSilverDye);
-            dye.Add(ItemID.SkyBlueDye, 0.5f);
-            dye.Add(ItemID.OrangeandSilverDye);
-            dye.Add(ItemID.ReflectiveGoldDye, 0.025f);
-            dye.Add(-1, 8);
-            dyeId = dye;
-
-            string name = Main.LocalPlayer.name;
-            name.ApplyCase(LetterCasing.LowerCase);
-            if (name == "jeb" || name == "jeb_")
-                dyeId = ItemID.LivingRainbowDye;
-
         }
         public override void FindFrame(int frameHeight)
         {

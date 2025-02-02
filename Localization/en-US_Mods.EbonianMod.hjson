@@ -1175,6 +1175,16 @@ Items: {
 		DisplayName: Saw-citior
 		Tooltip: ""
 	}
+
+	Shears: {
+		DisplayName: Shears
+		Tooltip: Can be used to obtain wool from sheep
+	}
+
+	SheepItemNaked: {
+		DisplayName: Sheep (Sheared)
+		Tooltip: ""
+	}
 }
 
 Buffs: {
