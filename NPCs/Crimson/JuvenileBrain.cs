@@ -84,21 +84,29 @@ namespace EbonianMod.NPCs.Crimson
             {
                 Vector2 startP = NPC.position;
                 float len = Math.Abs(NPC.Center.X - Main.player[Main.myPlayer].Center.X);
+
+                bool realOne = i % 2 != 0;
+
+                if (NPC.Center.X < Main.LocalPlayer.Center.X)
+                    realOne = i % 2 == 0;
+
                 if (i == 0 || i == 2)
                 {
                     startP.X = Main.player[Main.myPlayer].Center.X + len;
-                    spriteEffects2 = SpriteEffects.None;
+                    spriteEffects2 = NPC.direction * (realOne ? -1 : 1) < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                 }
                 else
                 {
                     startP.X = Main.player[Main.myPlayer].Center.X - len;
-                    spriteEffects2 = SpriteEffects.FlipHorizontally;
+                    spriteEffects2 = NPC.direction * (realOne ? -1 : 1) < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                 }
+
                 startP.X -= (float)(NPC.width / 2);
-                Main.spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value, new Vector2(startP.X - pos.X + (float)(NPC.width / 2) - (float)Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Width * NPC.scale / 2f + orig.X * NPC.scale, startP.Y - pos.Y + (float)NPC.height - (float)Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Height * NPC.scale / (float)Main.npcFrameCount[NPC.type] + 4f + orig.Y * NPC.scale + NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(frame6), col, NPC.rotation * .1f, orig, NPC.scale, spriteEffects2, 0);
+                float _alpha = realOne ? alpha : 1;
+                Main.spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value, new Vector2(startP.X - pos.X + (float)(NPC.width / 2) - (float)Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Width * NPC.scale / 2f + orig.X * NPC.scale, startP.Y - pos.Y + (float)NPC.height - (float)Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Height * NPC.scale / (float)Main.npcFrameCount[NPC.type] + 4f + orig.Y * NPC.scale + NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(frame6), col * _alpha, NPC.rotation * .1f, orig, NPC.scale, spriteEffects2, 0);
 
                 if (Main.LocalPlayer.HasBuff(BuffID.Hunter) && !NPC.IsABestiaryIconDummy)
-                    if (i == 1 || i == 3)
+                    if (realOne)
                         Main.spriteBatch.Draw(Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value, new Vector2(startP.X - pos.X + (float)(NPC.width / 2) - (float)Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Width * NPC.scale / 2f + orig.X * NPC.scale, startP.Y - pos.Y + (float)NPC.height - (float)Request<Texture2D>("EbonianMod/NPCs/Crimson/JuvenileBrain").Value.Height * NPC.scale / (float)Main.npcFrameCount[NPC.type] + 4f + orig.Y * NPC.scale + NPC.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(frame6), NPC.HunterPotionColor(), NPC.rotation * .1f, orig, NPC.scale, spriteEffects2, 0);
 
             }
@@ -117,7 +125,7 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void FindFrame(int frameHeight)
         {
-            if (AITimer <= 390 && AITimer <= 440 || NPC.IsABestiaryIconDummy)
+            if (AITimer <= 405 || NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter++;
                 if (NPC.frameCounter < 5)
@@ -143,34 +151,97 @@ namespace EbonianMod.NPCs.Crimson
             }
             else
             {
-                NPC.frameCounter++;
-                if (NPC.frameCounter < 5)
+                if (NPC.velocity.Length() < 5)
                 {
-                    NPC.frame.Y = 4 * frameHeight;
-                }
-                else if (NPC.frameCounter < 10)
-                {
-                    NPC.frame.Y = 5 * frameHeight;
+                    NPC.frameCounter++;
+                    if (NPC.frameCounter < 5)
+                    {
+                        NPC.frame.Y = 0 * frameHeight;
+                    }
+                    else if (NPC.frameCounter < 10)
+                    {
+                        NPC.frame.Y = 1 * frameHeight;
+                    }
+                    else if (NPC.frameCounter < 15)
+                    {
+                        NPC.frame.Y = 2 * frameHeight;
+                    }
+                    else if (NPC.frameCounter < 20)
+                    {
+                        NPC.frame.Y = 3 * frameHeight;
+                    }
+                    else
+                    {
+                        NPC.frameCounter = 0;
+                    }
                 }
                 else
                 {
-                    NPC.frameCounter = 0;
+                    NPC.frameCounter++;
+                    if (NPC.frameCounter < 5)
+                    {
+                        NPC.frame.Y = 4 * frameHeight;
+                    }
+                    else if (NPC.frameCounter < 10)
+                    {
+                        NPC.frame.Y = 5 * frameHeight;
+                    }
+                    else
+                    {
+                        NPC.frameCounter = 0;
+                    }
                 }
             }
         }
+        float alpha = 1;
+        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
+        {
+            Vector2 startP = NPC.position;
+            float len = Math.Abs(NPC.Center.X - Main.player[Main.myPlayer].Center.X);
+
+            if (alpha < 0.5f) return null;
+
+            if (NPC.localAI[2] % 40 < 20)
+                startP.X = Main.player[Main.myPlayer].Center.X + len;
+            else
+                startP.X = Main.player[Main.myPlayer].Center.X - len;
+
+            position = startP + NPC.Size / 2 + new Vector2(-NPC.width / 2, NPC.height / 2);
+
+            return true;
+        }
         public override void AI()
         {
+            NPC.localAI[2]++;
             Player player = Main.player[NPC.target];
-            NPC.spriteDirection = Main.player[NPC.target].Center.X > NPC.Center.X ? 1 : -1;
-            NPC.direction = Main.player[NPC.target].Center.X > NPC.Center.X ? 1 : -1;
+            NPC.TargetClosest(false);
+            if (AITimer < 406)
+            {
+                NPC.FaceTarget();
+            }
+            else
+            {
+                NPC.spriteDirection = NPC.velocity.X > 0 ? 1 : -1;
+                NPC.direction = NPC.velocity.X > 0 ? 1 : -1;
+            }
             AITimer++;
             if (AITimer >= 370)
             {
                 if (AITimer >= 395 && AITimer < 410)
                 {
-                    NPC.velocity += Helper.FromAToB(NPC.Center, player.Center);
-                    SoundEngine.PlaySound(SoundID.NPCDeath2, NPC.Center);
+                    alpha = Lerp(alpha, 0f, 0.4f);
+                    if (AITimer < 405)
+                    {
+                        NPC.velocity -= Helper.FromAToB(NPC.Center, player.Center) * 0.5f;
+                    }
+                    if (AITimer == 405)
+                    {
+                        NPC.velocity = Helper.FromAToB(NPC.Center, player.Center) * 20;
+                        SoundEngine.PlaySound(SoundID.ForceRoar.WithPitchOffset(0.7f), NPC.Center);
+                    }
                 }
+                if (AITimer > 410)
+                    NPC.velocity *= 0.99f;
                 if (AITimer > 435)
                     NPC.velocity *= 0.95f;
                 if (AITimer >= 450)
@@ -179,6 +250,7 @@ namespace EbonianMod.NPCs.Crimson
                     AITimer = 0;
                 }
             }
+            else alpha = Lerp(alpha, 1, 0.1f);
 
         }
     }
