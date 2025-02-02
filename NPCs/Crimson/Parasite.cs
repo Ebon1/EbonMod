@@ -90,6 +90,7 @@ namespace EbonianMod.NPCs.Crimson
             }
             if (IsLeeching)
             {
+                NPC.defense = 20;
                 LookAtPlayer();
                 NPC.Center = new Vector2(player.Center.X, player.position.Y) + off;
                 player.immuneNoBlink = true;

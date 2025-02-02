@@ -72,7 +72,7 @@ namespace EbonianMod.NPCs.Corruption.Rotling
             MinSegmentLength = 5;
             MaxSegmentLength = 10;
 
-            MoveSpeed = 13.5f;
+            MoveSpeed = 11.5f;
             Acceleration = 0.1f;
         }
     }

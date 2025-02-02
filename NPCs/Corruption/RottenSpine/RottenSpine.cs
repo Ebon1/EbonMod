@@ -60,7 +60,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
             if (++NPC.ai[2] % 35 == 0 && NPC.ai[2] % 550 > 200)
             {
                 SoundEngine.PlaySound(SoundID.Item20, NPC.Center);
-                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + NPC.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2) * NPC.height, -Vector2.UnitY.RotatedBy(NPC.rotation) * 10, ProjectileType<TFlameThrower>(), 10, 0).tileCollide = true; ;
+                Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center + NPC.rotation.ToRotationVector2().RotatedBy(-MathHelper.PiOver2) * NPC.height, -Vector2.UnitY.RotatedBy(NPC.rotation) * 10, ProjectileType<TFlameThrower>(), 10, 0).tileCollide = true;
             }
 
             if (NPC.ai[2] % 550 < 200)

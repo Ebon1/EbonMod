@@ -60,7 +60,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
                 Despawn();
             NPC.timeLeft = 10;
             NPC.direction = NPC.spriteDirection = NPC.ai[2] < 0 ? 1 : -1;
-            NPC.ai[3] += 0.05f;
+            NPC.ai[3] += 0.025f;
             if (NPC.Center.X - Main.player[NPC.target].Center.X > 3000)
             {
                 NPC.ai[2] = MathHelper.Lerp(NPC.ai[2], -1f, Acceleration);
@@ -80,7 +80,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
                 NPC.velocity = Vector2.Lerp(NPC.velocity, new Vector2(NPC.ai[2] * MoveSpeed, -MoveSpeed), Acceleration);
             }
             else
-                NPC.velocity = Vector2.Lerp(NPC.velocity, new Vector2(NPC.ai[2] * MoveSpeed, MathF.Sin(NPC.ai[3]) * MoveSpeed * NPC.ai[2]), Acceleration);
+                NPC.velocity = Vector2.Lerp(NPC.velocity, new Vector2(NPC.ai[2] * MoveSpeed, MathF.Sin(NPC.ai[3]) * 0.4f * MoveSpeed * NPC.ai[2]), Acceleration);
         }
         public override void SetDefaults()
         {
@@ -139,12 +139,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
         {
             NPC.timeLeft = 10;
             NPC.direction = NPC.spriteDirection = HeadSegment.ai[2] < 0 ? 1 : -1;
-            if (FollowingNPC.type != Type)
-                NPC.rotation = FollowingNPC.rotation;
-            else if (FollowerNPC.type != Type)
-                NPC.rotation = FollowerNPC.rotation;
-            else
-                NPC.rotation = Helper.LerpAngle(FollowerNPC.rotation, FollowingNPC.rotation, 0.5f);
+            NPC.rotation = Helper.FromAToB(NPC.Center, FollowingNPC.Center).ToRotation() + PiOver2;
             if (++NPC.ai[2] % 150 == 50 + NPC.ai[3] * Main.rand.Next(1, 6))
             {
                 if (NPC.ai[3] == 0)

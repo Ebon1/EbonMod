@@ -126,7 +126,7 @@ namespace EbonianMod.NPCs.Crimson
                     break;
                 case 1:
                     AITimer++;
-                    NPC.damage = 40;
+                    NPC.damage = 27;
                     if (AITimer < 10)
                         NPC.rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() + (NPC.direction == -1 ? MathHelper.Pi : 0);
                     else

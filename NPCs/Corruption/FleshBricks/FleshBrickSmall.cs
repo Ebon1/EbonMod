@@ -52,7 +52,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.defense = -1;
             NPC.lifeMax = 100;
-            NPC.damage = 30;
+            NPC.damage = 10;
             NPC.ai[3] = Main.rand.Next(3);
             NPC.value = Item.buyPrice(0, 0, 1);
         }
