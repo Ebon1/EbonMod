@@ -1185,6 +1185,46 @@ Items: {
 		DisplayName: Sheep (Sheared)
 		Tooltip: ""
 	}
+
+	WoolChairI: {
+		DisplayName: Woolen Chair
+		Tooltip: ""
+	}
+
+	WoolDoorI: {
+		DisplayName: Woolen Door
+		Tooltip: ""
+	}
+
+	WoolLampI: {
+		DisplayName: Woolen Lamp
+		Tooltip: ""
+	}
+
+	WoolTableI: {
+		DisplayName: Woolen Table
+		Tooltip: ""
+	}
+
+	WoolWorkbenchI: {
+		DisplayName: Woolen Workbench
+		Tooltip: ""
+	}
+
+	WoolWoodI: {
+		DisplayName: Woolen Wood
+		Tooltip: ""
+	}
+
+	WoolWoodPlatformI: {
+		DisplayName: Woolen Platform
+		Tooltip: ""
+	}
+
+	WoolWoodWallI: {
+		DisplayName: Woolen Wall
+		Tooltip: ""
+	}
 }
 
 Buffs: {
