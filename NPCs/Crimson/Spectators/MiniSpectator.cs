@@ -29,11 +29,10 @@ namespace EbonianMod.NPCs.Crimson.Spectators
 
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
-                //CustomTexturePath = "EbonianMod/NPCs/Crimson/Spectators/MiniSpectator_Bestiary",
+                CustomTexturePath = "EbonianMod/NPCs/Crimson/Spectators/MiniSpectator_Bestiary",
                 Position = new Vector2(7f, 24f),
                 PortraitPositionXOverride = 0f,
                 PortraitPositionYOverride = 32f,
-                Hide = true
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
         }
@@ -41,14 +40,14 @@ namespace EbonianMod.NPCs.Crimson.Spectators
         {
             return (spawnInfo.Player.ZoneCrimson) ? 0.1f : 0;
         }
-        /*public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
-                new FlavorTextBestiaryInfoElement("Type: Organ"),
-                new FlavorTextBestiaryInfoElement("These towering eyes seem to be connected to something at the very base of the Crimson. They only appeared very recently, so not much else is known about them."),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Organ"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.MiniSpectator.Bestiary"),
             });
-        }*/
+        }
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;

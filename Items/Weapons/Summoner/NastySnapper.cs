@@ -24,7 +24,7 @@ namespace EbonianMod.Items.Weapons.Summoner
 
         public override void SetDefaults()
         {
-            Item.DefaultToWhip(ProjectileType<NastySnapperPro>(), 18, 2, 6, 22);
+            Item.DefaultToWhip(ProjectileType<NastySnapperPro>(), 22, 2, 6, 22);
             Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.rare = ItemRarityID.Green;
             Item.crit = -4;

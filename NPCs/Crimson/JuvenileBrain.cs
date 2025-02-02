@@ -19,6 +19,10 @@ namespace EbonianMod.NPCs.Crimson
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Direction = 1,
+            });
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -36,6 +40,22 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void HitEffect(NPC.HitInfo hit)
         {
+
+            Vector2 startP = NPC.position;
+            float len = Math.Abs(NPC.Center.X - Main.player[NPC.target].Center.X);
+
+
+            if (NPC.Center.X < Main.player[NPC.target].Center.X)
+                startP.X = Main.player[NPC.target].Center.X + len;
+            else
+                startP.X = Main.player[NPC.target].Center.X - len;
+
+            if (alpha > 0.9f && NPC.ai[3] < 0)
+            {
+                NPC.ai[3] = 40;
+                NPC.direction = NPC.spriteDirection = -NPC.direction;
+                NPC.position = startP + NPC.velocity;
+            }
             if ((hit.Damage >= NPC.life && NPC.life <= 0))
             {
                 for (int i = 0; i < 4; i++)
@@ -53,11 +73,12 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void SetDefaults()
         {
-            NPC.width = 38;
-            NPC.height = 50;
+            NPC.width = 86 / 2;
+            NPC.height = 76;
             NPC.aiStyle = 5;
             AIType = 205;
             NPC.damage = 20;
+            NPC.knockBackResist = 0f;
             NPC.defense = 7;
             NPC.lifeMax = 100;
             NPC.HitSound = SoundID.NPCHit1;
@@ -83,7 +104,7 @@ namespace EbonianMod.NPCs.Crimson
             for (int i = 0; i < 4; i++)
             {
                 Vector2 startP = NPC.position;
-                float len = Math.Abs(NPC.Center.X - Main.player[Main.myPlayer].Center.X);
+                float len = Math.Abs(NPC.Center.X - Main.player[NPC.target].Center.X);
 
                 bool realOne = i % 2 != 0;
 
@@ -92,12 +113,12 @@ namespace EbonianMod.NPCs.Crimson
 
                 if (i == 0 || i == 2)
                 {
-                    startP.X = Main.player[Main.myPlayer].Center.X + len;
+                    startP.X = Main.player[NPC.target].Center.X + len;
                     spriteEffects2 = NPC.direction * (realOne ? -1 : 1) < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                 }
                 else
                 {
-                    startP.X = Main.player[Main.myPlayer].Center.X - len;
+                    startP.X = Main.player[NPC.target].Center.X - len;
                     spriteEffects2 = NPC.direction * (realOne ? -1 : 1) < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                 }
 
@@ -197,14 +218,16 @@ namespace EbonianMod.NPCs.Crimson
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
             Vector2 startP = NPC.position;
-            float len = Math.Abs(NPC.Center.X - Main.player[Main.myPlayer].Center.X);
+            float len = Math.Abs(NPC.Center.X - Main.player[NPC.target].Center.X);
+            return null;
+
+            if (NPC.ai[2] % 40 < 20)
+                startP.X = Main.player[NPC.target].Center.X + len;
+            else
+                startP.X = Main.player[NPC.target].Center.X - len;
+
 
             if (alpha < 0.5f) return null;
-
-            if (NPC.localAI[2] % 40 < 20)
-                startP.X = Main.player[Main.myPlayer].Center.X + len;
-            else
-                startP.X = Main.player[Main.myPlayer].Center.X - len;
 
             position = startP + NPC.Size / 2 + new Vector2(-NPC.width / 2, NPC.height / 2);
 
@@ -212,7 +235,7 @@ namespace EbonianMod.NPCs.Crimson
         }
         public override void AI()
         {
-            NPC.localAI[2]++;
+            NPC.ai[3]--;
             Player player = Main.player[NPC.target];
             NPC.TargetClosest(false);
             if (AITimer < 406)
@@ -250,7 +273,10 @@ namespace EbonianMod.NPCs.Crimson
                     AITimer = 0;
                 }
             }
-            else alpha = Lerp(alpha, 1, 0.1f);
+            else
+            {
+                alpha = Lerp(alpha, 1, 0.1f);
+            }
 
         }
     }

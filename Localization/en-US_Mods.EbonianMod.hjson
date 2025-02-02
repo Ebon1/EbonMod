@@ -509,7 +509,12 @@ NPCs: {
 	}
 
 	ArchmageCutsceneMartian.DisplayName: Archmage Xareus
-	ArchmageStaffNPC.DisplayName: " "
+
+	ArchmageStaffNPC: {
+		DisplayName: Archstaff
+		Bestiary: Of all magical elements in the world, few are quite so great as the Archstaff. A handle forged of pure-iron and mythril, with spectral bars and fallen stars poured in, wrapped in the finest archcloth, and a massive gemstone of crystallized shimmer and amethyst, able to, unlike other staves, instantly transmutate mana into magical energies and otherworldly portals, rather than using it to get magical power out of the item itself. This staff, despite its wielder, is a testament to all things magical and a culmination of all of the history within the arts, dark and light alike.
+	}
+
 	FleshDice.DisplayName: Flesh Dice
 
 	Sheep: {
@@ -522,7 +527,10 @@ NPCs: {
 		Bestiary: Fleshy tendrils drift afloat over the crimson's blood-spattered terrain. Originating from the sanguine waters of the crimson, these mutant abominations evolved to continuously grow numerous inconsolable eyes and float in the putrid air, not unlike their aquatic ancestors. Just don't make sashimi from these.
 	}
 
-	MiniSpectator.DisplayName: Spectator
+	MiniSpectator: {
+		DisplayName: Spectator
+		Bestiary: An uncommon sight in the Crimson. In all recorded cases, Spectators have seemed to have no singular focus, analyzing crimson creatures, corruption creatures, and even pure creatures, with the same lack of intensity and eerie passiveness, to the point travelers claim they wish they could tell them jokes. Notably, the ones here are focused on you.
+	}
 
 	ArchmageX: {
 		DisplayName: Xareus
@@ -1296,6 +1304,7 @@ Configs: {
 Misc: {
 	Types: {
 		Xareus: Type: 'Master' Magician
+		Staff: Type: Magic Wand
 		Cecitoma: Type: Organic Construct
 		Evil: Type: Infected Creature
 		Organ: Type: Organ

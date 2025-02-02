@@ -39,7 +39,9 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 CustomTexturePath = "EbonianMod/NPCs/Crimson/CrimsonWorm/CrimsonWorm_Bestiary",
-                PortraitPositionXOverride = -100
+                PortraitPositionXOverride = -100,
+                Direction = 1,
+                Position = new Vector2(-90, 0)
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
 

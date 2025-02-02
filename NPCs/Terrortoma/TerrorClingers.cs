@@ -768,7 +768,7 @@ namespace EbonianMod.NPCs.Terrortoma
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 CustomTexturePath = "EbonianMod/NPCs/Terrortoma/TerrorClinger_Bestiary",
-                Position = new Vector2(7f, 24f),
+                Position = new Vector2(2f, -45f),
                 PortraitPositionXOverride = 0f,
                 PortraitPositionYOverride = -45f
             };

@@ -5,10 +5,13 @@ using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Graphics.PackedVector;
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Bestiary;
 using Terraria.Graphics.CameraModifiers;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,12 +24,21 @@ namespace EbonianMod.NPCs.ArchmageX
         public override string Texture => "EbonianMod/Items/Weapons/Magic/StaffOfX";
         public override void SetStaticDefaults()
         {
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
-            {
-                Hide = true
-            };
-            NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
             NPCID.Sets.NoTownNPCHappiness[Type] = true;
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                PortraitPositionYOverride = 40,
+                PortraitPositionXOverride = -50,
+                Position = new Vector2(-50, 40)
+            });
+        }
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.Misc.Types.Staff"),
+                new FlavorTextBestiaryInfoElement("Mods.EbonianMod.NPCs.ArchmageStaffNPC.Bestiary"),
+            });
         }
         public override void SetDefaults()
         {
@@ -36,10 +48,15 @@ namespace EbonianMod.NPCs.ArchmageX
             NPC.noGravity = true;
             NPC.aiStyle = -1;
             NPC.rotation = MathHelper.PiOver2;
-            NPC.chaseable = true;
+            NPC.chaseable = false;
             NPC.townNPC = true;
             NPC.friendly = true;
             TownNPCStayingHomeless = true;
+        }
+        public override void ModifyTypeName(ref string typeName)
+        {
+            if (!NPC.IsABestiaryIconDummy)
+                typeName = " ";
         }
         Vector2 sPos;
         public override void OnSpawn(IEntitySource source)
@@ -458,80 +475,93 @@ namespace EbonianMod.NPCs.ArchmageX
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (Main.LocalPlayer.Center.Distance(NPC.Center) < 700)
-            {
-                bool projExists = false;
-                foreach (Projectile proj in Main.ActiveProjectiles)
-                {
-                    if (proj.active && proj.type == ProjectileType<ArchmageXSpawnAnim>())
-                    {
-                        projExists = true;
-                        break;
-                    }
-                }
-                if (projExists)
-                {
-                    EbonianSystem.stickZoomXOffset = Lerp(EbonianSystem.stickZoomXOffset, -88, 0.1f);
-
-                    EbonianSystem.stickLerpOffset = Lerp(EbonianSystem.stickLerpOffset, 1, 0.1f);
-                }
-                else
-                {
-                    EbonianSystem.stickZoomXOffset = Lerp(EbonianSystem.stickZoomXOffset, 0, 0.1f);
-
-                    if (EbonianSystem.stickZoomXOffset < 0.01f)
-                        EbonianSystem.stickZoomXOffset = 0;
-
-                    EbonianSystem.stickLerpOffset = Lerp(EbonianSystem.stickLerpOffset, 0, 0.1f);
-
-                    if (EbonianSystem.stickLerpOffset < 0.01f)
-                        EbonianSystem.stickLerpOffset = 0;
-                }
-
-
-                if (!NPC.AnyNPCs(NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0 && !GetInstance<EbonianSystem>().gotTheStaff)
-                    EbonianSystem.stickZoomLerpVal = MathHelper.SmoothStep(EbonianSystem.stickZoomLerpVal, Clamp(MathHelper.SmoothStep(1f, 0, (Main.LocalPlayer.Center.Distance(NPC.Center) / (800f) - EbonianSystem.stickLerpOffset)), 0, 1), 0.2f);
-            }
-            else
-            {
-                EbonianSystem.stickZoomLerpVal = MathHelper.SmoothStep(EbonianSystem.stickZoomLerpVal, 0, 0.2f);
-                if (EbonianSystem.stickZoomLerpVal.CloseTo(0, 0.01f))
-                    EbonianSystem.stickZoomLerpVal = 0;
-            }
-            if (NPC.AnyNPCs(NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0 || GetInstance<EbonianSystem>().gotTheStaff)
-            {
-                staffAlpha = MathHelper.Lerp(staffAlpha, 0f, 0.1f);
-            }
-            else
-                staffAlpha = MathHelper.Lerp(staffAlpha, 1f, 0.2f);
-            Vector2 position = NPC.Center + new Vector2(0, MathF.Sin(Main.GlobalTimeWrappedHourly * .15f) * 16) + Main.rand.NextVector2Circular(rantFactor, rantFactor) - Main.screenPosition;
             Texture2D tex = Helper.GetTexture("Items/Weapons/Magic/StaffOfX");
             Texture2D bloom = Helper.GetTexture("Items/Weapons/Magic/StaffOfX_Bloom");
             Texture2D interact = Helper.GetTexture("Items/Weapons/Magic/StaffOfX_InteractionHover");
             Texture2D streak = ExtraTextures2.scratch_02;
-            UnifiedRandom rand = new UnifiedRandom(seed);
-
-            Main.spriteBatch.SaveCurrent();
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-
-            int max = 20;
-            for (int k = 0; k < max; k++)
+            if (NPC.IsABestiaryIconDummy)
             {
-                float factor = (MathF.Sin(Main.GlobalTimeWrappedHourly + rand.Next(10000) * .02f) + 1) * 0.5f * staffAlpha;
-                float alpha = MathHelper.Clamp(MathHelper.Lerp(0.4f, -0.1f, factor) * 2, 0, 0.5f);
-                float angle = Helper.CircleDividedEqually(k, max);
-                float scale = rand.NextFloat(0.5f, 1.5f) * factor;
-                Vector2 offset = new Vector2(rand.NextFloat(50) * factor * scale, 0).RotatedBy(angle);
-                for (int l = 0; l < 2; l++)
-                    Main.spriteBatch.Draw(streak, position + new Vector2(rand.NextFloat(-80, 80), rand.NextFloat(-20, 20)) + offset, null, Color.Violet * (alpha * staffAlpha), angle, new Vector2(0, streak.Height / 2), new Vector2(alpha, factor * 2) * scale, SpriteEffects.None, 0);
+                NPC.rotation = PiOver4;
+                return true;
             }
+            else
+            {
+                if (Main.LocalPlayer.Center.Distance(NPC.Center) < 700)
+                {
+                    bool projExists = false;
+                    foreach (Projectile proj in Main.ActiveProjectiles)
+                    {
+                        if (proj.active && proj.type == ProjectileType<ArchmageXSpawnAnim>())
+                        {
+                            projExists = true;
+                            break;
+                        }
+                    }
+                    if (projExists)
+                    {
+                        EbonianSystem.stickZoomXOffset = Lerp(EbonianSystem.stickZoomXOffset, -88, 0.1f);
 
-            Main.spriteBatch.Draw(bloom, position, null, Color.Violet * ((0.5f + MathHelper.Clamp(MathF.Sin(Main.GlobalTimeWrappedHourly * .5f), 0, 0.4f)) * staffAlpha), MathHelper.PiOver4, bloom.Size() / 2, 1, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(bloom, position, null, Color.Violet * ((0.05f + (MathF.Sin(Main.GlobalTimeWrappedHourly * .55f) + .5f) * 0.3f) * staffAlpha), MathHelper.PiOver4, bloom.Size() / 2, 1.1f, SpriteEffects.None, 0);
-            Main.spriteBatch.ApplySaved();
+                        EbonianSystem.stickLerpOffset = Lerp(EbonianSystem.stickLerpOffset, 1, 0.1f);
+                    }
+                    else
+                    {
+                        EbonianSystem.stickZoomXOffset = Lerp(EbonianSystem.stickZoomXOffset, 0, 0.1f);
 
-            Main.spriteBatch.Draw(tex, position, null, Color.White * staffAlpha, MathHelper.PiOver4, tex.Size() / 2, 1, SpriteEffects.None, 0);
+                        if (EbonianSystem.stickZoomXOffset < 0.01f)
+                            EbonianSystem.stickZoomXOffset = 0;
+
+                        EbonianSystem.stickLerpOffset = Lerp(EbonianSystem.stickLerpOffset, 0, 0.1f);
+
+                        if (EbonianSystem.stickLerpOffset < 0.01f)
+                            EbonianSystem.stickLerpOffset = 0;
+                    }
+
+
+                    if (!NPC.AnyNPCs(NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0 && !GetInstance<EbonianSystem>().gotTheStaff)
+                        EbonianSystem.stickZoomLerpVal = MathHelper.SmoothStep(EbonianSystem.stickZoomLerpVal, Clamp(MathHelper.SmoothStep(1f, 0, (Main.LocalPlayer.Center.Distance(NPC.Center) / (800f) - EbonianSystem.stickLerpOffset)), 0, 1), 0.2f);
+                }
+                else
+                {
+                    EbonianSystem.stickZoomLerpVal = MathHelper.SmoothStep(EbonianSystem.stickZoomLerpVal, 0, 0.2f);
+                    if (EbonianSystem.stickZoomLerpVal.CloseTo(0, 0.01f))
+                        EbonianSystem.stickZoomLerpVal = 0;
+                }
+                if (NPC.AnyNPCs(NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0 || GetInstance<EbonianSystem>().gotTheStaff)
+                {
+                    staffAlpha = MathHelper.Lerp(staffAlpha, 0f, 0.1f);
+                }
+                else
+                    staffAlpha = MathHelper.Lerp(staffAlpha, 1f, 0.2f);
+                if (seed == 0)
+                    seed = Main.rand.Next(100024018);
+                Vector2 position = NPC.Center + new Vector2(0, MathF.Sin(Main.GlobalTimeWrappedHourly * .15f) * 16)
+                    + (NPC.IsABestiaryIconDummy ? Main.rand.NextVector2Circular(rantFactor, rantFactor) : Vector2.Zero) - Main.screenPosition;
+                UnifiedRandom rand = new UnifiedRandom(seed);
+
+                Main.spriteBatch.SaveCurrent();
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+
+                float _alpha = (NPC.IsABestiaryIconDummy ? 1 : staffAlpha);
+
+                int max = 20;
+                for (int k = 0; k < max; k++)
+                {
+                    float factor = (MathF.Sin(Main.GlobalTimeWrappedHourly + rand.Next(10000) * .02f) + 1) * 0.5f * staffAlpha;
+                    float alpha = MathHelper.Clamp(MathHelper.Lerp(0.4f, -0.1f, factor) * 2, 0, 0.5f);
+                    float angle = Helper.CircleDividedEqually(k, max);
+                    float scale = rand.NextFloat(0.5f, 1.5f) * factor;
+                    Vector2 offset = new Vector2(rand.NextFloat(50) * factor * scale, 0).RotatedBy(angle);
+                    for (int l = 0; l < 2; l++)
+                        Main.spriteBatch.Draw(streak, position + new Vector2(rand.NextFloat(-80, 80), rand.NextFloat(-20, 20)) + offset, null, Color.Violet * (alpha * _alpha), angle, new Vector2(0, streak.Height / 2), new Vector2(alpha, factor * 2) * scale, SpriteEffects.None, 0);
+                }
+
+                Main.spriteBatch.Draw(bloom, position, null, Color.Violet * ((0.5f + MathHelper.Clamp(MathF.Sin(Main.GlobalTimeWrappedHourly * .5f), 0, 0.4f)) * _alpha), MathHelper.PiOver4, bloom.Size() / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(bloom, position, null, Color.Violet * ((0.05f + (MathF.Sin(Main.GlobalTimeWrappedHourly * .55f) + .5f) * 0.3f) * _alpha), MathHelper.PiOver4, bloom.Size() / 2, 1.1f, SpriteEffects.None, 0);
+                Main.spriteBatch.ApplySaved();
+
+                Main.spriteBatch.Draw(tex, position, null, Color.White * _alpha, MathHelper.PiOver4, tex.Size() / 2, 1, SpriteEffects.None, 0);
+            }
             return false;
         }
     }

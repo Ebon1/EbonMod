@@ -16,6 +16,10 @@ namespace EbonianMod.NPCs.Corruption
         public override void SetStaticDefaults()
         {
             Main.npcFrameCount[NPC.type] = 10;
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Position = new Vector2(10, 0)
+            });
 
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)

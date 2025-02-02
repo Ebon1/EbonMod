@@ -44,9 +44,10 @@ namespace EbonianMod.NPCs.Crimson.Crimera
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 CustomTexturePath = "EbonianMod/NPCs/Crimson/Crimera/Crimera",
-                Position = new Vector2(7f, 24f),
+                Position = new Vector2(0, 40f),
                 PortraitPositionXOverride = 0f,
-                PortraitPositionYOverride = 12f
+                Rotation = PiOver2,
+                PortraitPositionYOverride = 0f
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);
         }

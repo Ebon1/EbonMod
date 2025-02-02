@@ -22,7 +22,8 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
         {
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
-                CustomTexturePath = "EbonianMod/NPCs/Crimson/BloodHunter/BloodHunter_Bestiary"
+                CustomTexturePath = "EbonianMod/NPCs/Crimson/BloodHunter/BloodHunter_Bestiary",
+                Position = new Vector2(10, 0),
             });
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -145,7 +146,7 @@ namespace EbonianMod.NPCs.Crimson.BloodHunter
             UpdateLegs();
             if (tail != null)
             {
-                if (NPC.Distance(player.Center) > 100)
+                if (NPC.Grounded() ? NPC.Distance(player.Center) > 100 : true)
                     stingerTarget = Vector2.Lerp(stingerTarget, NPC.Center + new Vector2(30 * NPC.direction, -28), 0.15f + (NPC.velocity.Length() * 0.02f));
                 tail.Update(NPC.Center - new Vector2(32 * NPC.direction, 17), stingerTarget);
             }

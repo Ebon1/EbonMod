@@ -29,6 +29,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
                 CustomTexturePath = "EbonianMod/NPCs/Corruption/RottenSpine/RottenSpine",
                 Position = new Vector2(7f, 24f),
                 PortraitPositionXOverride = 0f,
+                Rotation = -PiOver2,
                 PortraitPositionYOverride = 12f
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, drawModifier);

@@ -24,7 +24,9 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 CustomTexturePath = "EbonianMod/NPCs/Corruption/Trumpet/TrumpetBestiary",
-                PortraitPositionXOverride = -200
+                PortraitPositionXOverride = -200,
+                Direction = 1,
+                Position = new Vector2(-250, 0)
             };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(NPC.type, value);
         }

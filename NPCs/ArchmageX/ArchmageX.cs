@@ -44,6 +44,13 @@ namespace EbonianMod.NPCs.ArchmageX
     [AutoloadBossHead]
     public class ArchmageX : ModNPC
     {
+        public override void SetStaticDefaults()
+        {
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Position = new Vector2(0, 30)
+            });
+        }
         public override void SetDefaults()
         {
             NPC.Size = new Vector2(50, 78);
@@ -92,6 +99,11 @@ namespace EbonianMod.NPCs.ArchmageX
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+            {
+                AITimer++;
+                headYOff = Lerp(headYOff, MathF.Sin((AITimer + headOffIncrementOffset) * 0.025f) * 2, 0.2f);
+            }
             Texture2D tex = Helper.GetTexture(Texture);
             Texture2D singularArm = Helper.GetTexture(Texture + "_Arm");
             Texture2D head = Helper.GetTexture(Texture + "_Head");

@@ -24,7 +24,7 @@ namespace EbonianMod.NPCs.Corruption.Rotling
             var drawModifier = new NPCID.Sets.NPCBestiaryDrawModifiers()
             {
                 CustomTexturePath = "EbonianMod/NPCs/Corruption/Rotling/Rotling",
-                Position = new Vector2(7f, 24f),
+                Position = new Vector2(0, 24f),
                 PortraitPositionXOverride = 0f,
                 PortraitPositionYOverride = 12f
             };

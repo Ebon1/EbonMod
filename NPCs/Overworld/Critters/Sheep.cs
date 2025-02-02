@@ -21,6 +21,10 @@ namespace EbonianMod.NPCs.Overworld.Critters
             NPCID.Sets.TakesDamageFromHostilesWithoutBeingFriendly[Type] = true;
             NPCID.Sets.TownCritter[Type] = true;
             Main.npcCatchable[Type] = true;
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, new NPCID.Sets.NPCBestiaryDrawModifiers()
+            {
+                Direction = 1
+            });
         }
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
