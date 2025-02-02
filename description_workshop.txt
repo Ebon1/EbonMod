@@ -1,4 +1,4 @@
-[h1]Ebonian Mod v1.0.9[/h1]
+[h1]Ebonian Mod v1.1[/h1]
 is [b]WIP[/b] Mod that plans on adding random nonsense with an unsurprising focus on... the Corruption and Crimson (They're far from everything though!)
 
 [h3]If you encounter bugs, please report them in the Discord server below, replying to steam comments is incredibly inconvenient.[/h3]
@@ -6,7 +6,7 @@ is [b]WIP[/b] Mod that plans on adding random nonsense with an unsurprising focu
 [h2]Misc Info:[/h2] [list]
 [*] [b]NO MULTIPLAYER COMPATIBILITY!!!!!!!!!!![/b]
 
-[*] Despite the "1.0", the mod is far from finished, it's just stable enough to be considered a 1.0 release, and each major update will move on to 2.x, 3.x, etc.
+[*] Despite the "1.x", the mod is far from finished, it's just stable enough to be considered a 1.0 release, and each major update will move on to 2.x, 3.x, etc.
 
 [*] Join our [url=https://discord.gg/DexM5QuV7c]discord[/url] for updates and announcements!
 
@@ -20,7 +20,7 @@ is [b]WIP[/b] Mod that plans on adding random nonsense with an unsurprising focu
 
 [*] Functional with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2861542679]Remnants Mod[/url], however some minor issues may show up
 
-[*] Translation mods are possible to make.
+[*] Translation mods are possible to make, you may also join the discord and send translation files so that they can be implemented directly into the mod.
 [/list]
 
 [h2]Credits:[/h2] [list]

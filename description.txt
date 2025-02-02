@@ -11,7 +11,7 @@
 Credits:
 [i:486] Programmers: Ebon, Darkmango, Quarzz
 
-[i:1071] Artists: Max 1287, Roll'eG, Endexyz, Mjoonlight, YoguTheYogurt, fg, Vade, The Possum, AstroWyrm, pil, Decrypt
+[i:1071] Artists: Max 1287, Roll'eG, Endexyz, Mjoonlight, YoguTheYogurt, fg, Vade, The Possum, AstroWyrm, pil, Decrypt, Ralken
 
 [i:3223] Ideas and Concepts: Sten, Nicola, Theonetruedog, Taco, mano amim, Dennis (Mystic Giant), Uncon Arts and most people listed in the other categories 
 
@@ -19,6 +19,6 @@ Credits:
 
 [i:425] Sound Design: It'sYeBoi (dronnor)
 
-[i:4666] Past / Misc Contributions: TCHNuke, Ralken, Moonburn, Riflezen, naka, Magma, Sulph
+[i:4666] Past / Misc Contributions: TCHNuke, Moonburn, Riflezen, naka, Magma, Sulph
 
 [i:5451] Testers: The Isopod Maniac (EggsBenedict624), Mr.Gerd26, Lacalidot, WokrThe, GamerFizzy, Chox

@@ -74,7 +74,7 @@ namespace EbonianMod.NPCs.Overworld.Critters
         bool sheared;
         public override void ModifyHitByItem(Player player, Item item, ref NPC.HitModifiers modifiers)
         {
-            if (item.type == ItemType<Shears>())
+            if ((item.type == ItemType<Shears>() || item.type == ItemID.StylistKilLaKillScissorsIWish))
             {
                 modifiers.FinalDamage *= 0;
                 if (!sheared)
@@ -93,7 +93,7 @@ namespace EbonianMod.NPCs.Overworld.Critters
         }
         public override bool? CanBeHitByItem(Player player, Item item)
         {
-            if (sheared && item.type == ItemType<Shears>()) return false;
+            if (sheared && (item.type == ItemType<Shears>() || item.type == ItemID.StylistKilLaKillScissorsIWish)) return false;
             return base.CanBeHitByItem(player, item);
         }
         public override bool? CanCollideWithPlayerMeleeAttack(Player player, Item item, Rectangle meleeAttackHitbox)
@@ -120,7 +120,7 @@ namespace EbonianMod.NPCs.Overworld.Critters
             }
             if (Main.LocalPlayer.dontHurtCritters)
             {
-                if (Main.LocalPlayer.HeldItem.type == ItemType<Shears>() && Main.LocalPlayer.Center.Distance(NPC.Center) < 50)
+                if ((Main.LocalPlayer.HeldItem.type == ItemType<Shears>() || Main.LocalPlayer.HeldItem.type == ItemID.StylistKilLaKillScissorsIWish) && Main.LocalPlayer.Center.Distance(NPC.Center) < 50)
                 {
                     if (!sheared)
                     {
