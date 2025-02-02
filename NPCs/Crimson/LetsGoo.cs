@@ -28,7 +28,7 @@ namespace EbonianMod.NPCs.Crimson
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath2;
             NPC.value = 100f;
-            NPC.knockBackResist = 0.5f;
+            NPC.knockBackResist = 0.2f;
             NPC.noGravity = true;
             NPC.buffImmune[BuffID.Ichor] = true;
             NPC.noTileCollide = true;

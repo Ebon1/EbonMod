@@ -60,6 +60,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.buffImmune[24] = true;
+            NPC.knockBackResist = 0.2f;
             NPC.noTileCollide = false;
             NPC.value = Item.buyPrice(0, 0, 20);
             NPC.defense = 12;

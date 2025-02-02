@@ -45,7 +45,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.aiStyle = -1;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath2;
-            NPC.knockBackResist = 0.5f;
+            NPC.knockBackResist = 0.25f;
             NPC.noGravity = true;
             NPC.buffImmune[BuffID.CursedInferno] = true;
             NPC.noTileCollide = false;

@@ -238,7 +238,7 @@ namespace EbonianMod
              * Filters.Scene["EbonianMod:Conglomerate"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.25f, .1f, 0f).UseOpacity(0.45f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:Conglomerate"] = new ConglomerateSky();
             */
-            Filters.Scene["EbonianMod:HellTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.2f), EffectPriority.Medium);
+            Filters.Scene["EbonianMod:HellTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.1f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:HellTint"] = new BasicTint();
             Filters.Scene["EbonianMod:HellTint2"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(0.03f, 0f, .18f).UseOpacity(0.425f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:HellTint2"] = new BasicTint();
