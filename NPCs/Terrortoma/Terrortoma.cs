@@ -85,16 +85,12 @@ namespace EbonianMod.NPCs.Terrortoma
                 PortraitPositionYOverride = 0f,
             };*/
         }
-        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
-        {
-            NPC.lifeMax = (int)(NPC.lifeMax * balance * bossAdjustment);
-        }
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.lifeMax = 31500;
+            NPC.lifeMax = 17500;
             NPC.boss = true;
-            NPC.damage = 0;
+            NPC.damage = 40;
             NPC.noTileCollide = true;
             NPC.defense = 38;
             NPC.value = Item.buyPrice(0, 10);
@@ -102,7 +98,6 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.width = 118;
             NPC.height = 106;
             NPC.rarity = 999;
-            NPC.npcSlots = 1f;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.BossBar = GetInstance<TerrortomaBar>();
@@ -114,6 +109,13 @@ namespace EbonianMod.NPCs.Terrortoma
             NPC.buffImmune[BuffID.Confused] = true;
             NPC.netAlways = true;
             NPC.dontTakeDamage = true;
+        }
+        public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
+        {
+            if (Main.masterMode)
+                NPC.lifeMax = 14000;
+
+            NPC.lifeMax = (int)(NPC.lifeMax * balance);
         }
         Rectangle introFrame = new Rectangle(0, 0, 118, 108), laughFrame = new Rectangle(0, 0, 118, 108);
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 pos, Color lightColor)
@@ -644,6 +646,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 }
                 if (AITimer >= 300)
                 {
+                    NPC.damage = 0;
                     SwitchToRandom();
                     AIState = Idle;
                     NPC.dontTakeDamage = false;

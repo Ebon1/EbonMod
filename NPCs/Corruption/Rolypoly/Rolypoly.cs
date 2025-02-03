@@ -99,6 +99,7 @@ namespace EbonianMod.NPCs.Corruption.Rolypoly
                 extraVerlets[i] = new Verlet(NPC.Center, 16, amount - 3, 3f, true, true, 20, true, 8);
 
             NPC.value = Item.buyPrice(0, 0, (int)(40 * NPC.scale));
+
         }
         public override bool CheckDead()
         {

@@ -78,6 +78,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             NPC.Size = new Vector2(72, 64);
             NPC.aiStyle = -1;
 
+
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
@@ -353,6 +354,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             NPC.aiStyle = -1;
             NPC.lifeMax = 75;
 
+
         }
         public override void FindFrame(int frameHeight)
         {
@@ -462,6 +464,7 @@ namespace EbonianMod.NPCs.Crimson.CrimsonWorm
             NPC.dontTakeDamage = true;
             NPC.Size = new Vector2(68, 40);
             NPC.aiStyle = -1;
+
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {

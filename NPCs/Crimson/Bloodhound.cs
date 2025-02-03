@@ -46,6 +46,7 @@ namespace EbonianMod.NPCs.Crimson
             NPC.aiStyle = 26;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
+            
         }
         public override void OnSpawn(IEntitySource source)
         {

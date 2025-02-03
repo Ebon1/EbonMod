@@ -17,7 +17,7 @@ namespace EbonianMod.NPCs.Crimson.Jellyfish
         {
             NPC.aiStyle = -1;
             NPC.lifeMax = 350;
-            NPC.damage = 0;
+            NPC.damage = 20;
             NPC.noTileCollide = true;
             NPC.defense = 10;
             NPC.knockBackResist = 0;
@@ -28,6 +28,7 @@ namespace EbonianMod.NPCs.Crimson.Jellyfish
             NPC.HitSound = SoundID.NPCHit1;
             NPC.netAlways = true;
             NPC.value = Item.buyPrice(0, 0, 20);
+
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

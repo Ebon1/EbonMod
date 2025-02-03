@@ -93,6 +93,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
             NPC.Size = new Vector2(58, 78);
             NPC.aiStyle = -1;
             NPC.value = Item.buyPrice(0, 0, 70);
+
         }
         public override void Init()
         {
@@ -129,6 +130,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
             NPC.defense = 20;
             NPC.Size = new Vector2(58, 78);
             NPC.aiStyle = -1;
+
         }
         public override void HitEffect(NPC.HitInfo hit)
         {
@@ -175,6 +177,7 @@ namespace EbonianMod.NPCs.Corruption.Trumpet
             NPC.defense = 20;
             NPC.Size = new Vector2(58, 78);
             NPC.aiStyle = -1;
+
         }
         public override void HitEffect(NPC.HitInfo hit)
         {

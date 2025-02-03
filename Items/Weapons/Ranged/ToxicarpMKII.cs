@@ -25,7 +25,7 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override void SetDefaults()
         {
             Item.DamageType = DamageClass.Ranged;
-            Item.damage = 26;
+            Item.damage = 20;
             Item.useTime = 2;
             Item.useAnimation = 30;
             Item.shoot = ProjectileType<TinyFish>();

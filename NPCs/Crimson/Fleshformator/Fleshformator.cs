@@ -27,9 +27,9 @@ namespace EbonianMod.NPCs.Crimson.Fleshformator
         {
             NPC.width = 58;
             NPC.height = 42;
-            NPC.damage = 0;
+            NPC.damage = 10;
             NPC.defense = 5;
-            NPC.lifeMax = 2800;
+            NPC.lifeMax = 1800;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = EbonianSounds.fleshHit;
             NPC.value = 500f;
@@ -39,6 +39,7 @@ namespace EbonianMod.NPCs.Crimson.Fleshformator
             NPC.knockBackResist = 0f;
             NPC.behindTiles = true;
             NPC.buffImmune[BuffID.Ichor] = true;
+
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -150,6 +151,7 @@ namespace EbonianMod.NPCs.Crimson.Fleshformator
                 ogEndPos[i + 1] = pos;
                 startPos[i + 1] = NPC.Center + new Vector2(15 * i, 0).RotatedBy(NPC.rotation);
             }
+            NPC.damage = 0;
         }
         public float AIState
         {

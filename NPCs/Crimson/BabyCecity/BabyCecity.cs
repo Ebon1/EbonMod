@@ -44,6 +44,7 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.buffImmune[BuffID.Ichor] = true;
+
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

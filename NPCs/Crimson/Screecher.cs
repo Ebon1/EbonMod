@@ -46,7 +46,7 @@ namespace EbonianMod.NPCs.Crimson
         {
             NPC.width = 44;
             NPC.height = 72;
-            NPC.damage = 0;
+            NPC.damage = 10;
             NPC.defense = 8;
             NPC.lifeMax = 75;
             NPC.HitSound = SoundID.NPCHit1;
@@ -56,6 +56,7 @@ namespace EbonianMod.NPCs.Crimson
             NPC.aiStyle = -1;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
+
         }
         public override bool CheckDead()
         {
@@ -143,6 +144,7 @@ namespace EbonianMod.NPCs.Crimson
             }
             else if (AIState == Walk)
             {
+                NPC.damage = 0;
                 AITimer2++;
                 AITimer = MathHelper.Clamp(AITimer, 0, 500);
                 if (AITimer2 % 7 == 0)

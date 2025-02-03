@@ -51,8 +51,8 @@ namespace EbonianMod.NPCs.Corruption.WormKing
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.lifeMax = 2000;
-            NPC.damage = 0;
+            NPC.lifeMax = 1500;
+            NPC.damage = 20;
             NPC.noTileCollide = true;
             NPC.defense = 15;
             NPC.knockBackResist = 0;
@@ -66,6 +66,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
             NPC.netAlways = true;
             NPC.hide = true;
             NPC.value = Item.buyPrice(0, 20);
+
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -179,6 +180,7 @@ namespace EbonianMod.NPCs.Corruption.WormKing
             {
                 case Idle:
                     {
+                        NPC.damage = 0;
                         NPC.ai[3]++;
                         NPC.Center = Vector2.Lerp(NPC.Center, stalkBase - new Vector2(MathF.Sin(NPC.ai[3] * 0.02f) * 200, 300 + (MathF.Cos(NPC.ai[3] * 0.02f) * 50)), 0.1f);
                         NPC.rotation = MathHelper.Lerp(NPC.rotation, MathF.Sin(NPC.ai[3] * 0.02f), 0.1f);

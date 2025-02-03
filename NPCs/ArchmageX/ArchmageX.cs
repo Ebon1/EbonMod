@@ -55,6 +55,10 @@ namespace EbonianMod.NPCs.ArchmageX
         {
             NPC.Size = new Vector2(50, 78);
             NPC.lifeMax = 9500;
+            if (Main.expertMode)
+                NPC.lifeMax = 11000;
+            if (Main.masterMode)
+                NPC.lifeMax = 13500;
             NPC.defense = 6;
             NPC.damage = 0;
             NPC.boss = true;

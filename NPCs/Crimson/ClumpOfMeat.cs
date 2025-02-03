@@ -40,6 +40,7 @@ namespace EbonianMod.NPCs.Crimson
             NPC.aiStyle = 1;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
+            
         }
         public override bool CheckDead()
         {

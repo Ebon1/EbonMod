@@ -114,6 +114,7 @@ namespace EbonianMod.NPCs.Crimson.Crimera
             NPC.value = Item.buyPrice(0, 0, 20);
             NPC.damage = 30;
             NPC.aiStyle = -1;
+
         }
         /*public override int SpawnBodySegments(int segmentCount)
         {
@@ -177,6 +178,7 @@ namespace EbonianMod.NPCs.Crimson.Crimera
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.Size = new Vector2(30, 16);
             NPC.aiStyle = -1;
+
         }
         public override void Init()
         {
@@ -230,6 +232,7 @@ namespace EbonianMod.NPCs.Crimson.Crimera
             NPC.Size = new Vector2(66 / 1.5f, 68 / 1.5f);
             NPC.aiStyle = -1;
             NPC.damage = 0;
+
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {

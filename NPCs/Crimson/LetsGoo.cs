@@ -21,7 +21,7 @@ namespace EbonianMod.NPCs.Crimson
         {
             NPC.width = 72;
             NPC.height = 78;
-            NPC.damage = 0;
+            NPC.damage = 10;
             NPC.defense = 8;
             NPC.lifeMax = 120;
             NPC.aiStyle = -1;
@@ -32,6 +32,7 @@ namespace EbonianMod.NPCs.Crimson
             NPC.noGravity = true;
             NPC.buffImmune[BuffID.Ichor] = true;
             NPC.noTileCollide = true;
+
         }
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {

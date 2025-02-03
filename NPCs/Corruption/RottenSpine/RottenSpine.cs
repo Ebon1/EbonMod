@@ -85,6 +85,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.Size = new Vector2(66, 72);
             NPC.aiStyle = -1;
+
         }
         /*public override int SpawnBodySegments(int segmentCount)
         {
@@ -164,6 +165,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.Size = new Vector2(22, 24);
             NPC.aiStyle = -1;
+
         }
         public override void Init()
         {
@@ -195,6 +197,7 @@ namespace EbonianMod.NPCs.Corruption.RottenSpine
             NPC.CloneDefaults(NPCID.DiggerHead);
             NPC.Size = new Vector2(66 / 1.5f, 72 / 1.5f);
             NPC.aiStyle = -1;
+
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {

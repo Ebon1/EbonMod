@@ -52,6 +52,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.behindTiles = true;
             NPC.hide = true;
             NPC.value = Item.buyPrice(0, 0, 2);
+
         }
         public override void DrawBehind(int index)
         {

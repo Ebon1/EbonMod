@@ -57,6 +57,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.buffImmune[BuffID.CursedInferno] = true;
             NPC.noTileCollide = true;
             NPC.value = Item.buyPrice(0, 25);
+
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

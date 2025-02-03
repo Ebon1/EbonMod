@@ -87,6 +87,7 @@ namespace EbonianMod.NPCs.Crimson
             NPC.knockBackResist = 0.4f;
             NPC.noGravity = true;
             NPC.noTileCollide = false;
+
         }
 
 

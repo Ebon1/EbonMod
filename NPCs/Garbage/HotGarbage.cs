@@ -55,9 +55,9 @@ namespace EbonianMod.NPCs.Garbage
         {
             NPC.width = 80;
             NPC.height = 74;
-            NPC.damage = 0;
+            NPC.damage = 30;
             NPC.defense = 11;
-            NPC.lifeMax = 4750;
+            NPC.lifeMax = 2250;
             NPC.value = Item.buyPrice(0, 10);
             NPC.knockBackResist = 0f;
             NPC.HitSound = SoundID.NPCHit4;

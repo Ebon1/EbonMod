@@ -55,6 +55,7 @@ namespace EbonianMod.NPCs.Corruption.FleshBricks
             NPC.damage = 20;
             NPC.ai[3] = Main.rand.Next(2);
             NPC.value = Item.buyPrice(0, 0, 3);
+
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

@@ -40,9 +40,9 @@ namespace EbonianMod.NPCs.Corruption
         {
             NPC.width = 76;
             NPC.height = 50;
-            NPC.damage = 0;
+            NPC.damage = 10;
             NPC.defense = 7;
-            NPC.lifeMax = 100;
+            NPC.lifeMax = 230;
             NPC.aiStyle = -1;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath2;
@@ -52,6 +52,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.buffImmune[BuffID.CursedInferno] = true;
             NPC.value = Item.buyPrice(0, 0, 1);
             NPC.noTileCollide = true;
+
         }
         public override void FindFrame(int frameHeight)
         {
@@ -125,6 +126,7 @@ namespace EbonianMod.NPCs.Corruption
             {
                 case 0:
                     AITimer++;
+                    NPC.damage = 0;
                     if (AITimer < 200)
                         NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center) * 3.5f, 0.01f);
                     if (AITimer > 200)

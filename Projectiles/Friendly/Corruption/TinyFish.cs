@@ -23,6 +23,8 @@ namespace EbonianMod.Projectiles.Friendly.Corruption
             Projectile.timeLeft = 300;
             Projectile.Size = new(30, 10);
             Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 40;
         }
         public override void OnHitNPC(NPC target, NPC.HitInfo hit, int damageDone)
         {

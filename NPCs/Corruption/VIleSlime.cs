@@ -45,6 +45,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.buffImmune[BuffID.Poisoned] = true;
             NPC.buffImmune[BuffID.Confused] = false;
 
+
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

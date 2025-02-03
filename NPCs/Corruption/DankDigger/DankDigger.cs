@@ -55,6 +55,7 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
             NPC.lifeMax = 150;
             NPC.defense = 15;
             NPC.value = Item.buyPrice(0, 0, 2);
+
         }
         public override void OnKill()
         {
@@ -98,6 +99,7 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
             NPC.damage = 23;
             NPC.aiStyle = -1;
             NPC.lifeMax = 150;
+
         }
         public override void HitEffect(NPC.HitInfo hitinfo)
         {
@@ -125,6 +127,7 @@ namespace EbonianMod.NPCs.Corruption.DankDigger
             NPC.damage = 23;
             NPC.aiStyle = -1;
             NPC.lifeMax = 150;
+
         }
         public override void HitEffect(NPC.HitInfo hitinfo)
         {

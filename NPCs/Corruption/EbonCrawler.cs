@@ -39,7 +39,7 @@ namespace EbonianMod.NPCs.Corruption
         {
             NPC.width = 68;
             NPC.height = 38;
-            NPC.damage = 46;
+            NPC.damage = 36;
             NPC.defense = 4;
             NPC.lifeMax = 50;
             NPC.aiStyle = 3;
@@ -50,6 +50,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.noGravity = false;
             NPC.noTileCollide = false;
             NPC.value = Item.buyPrice(0, 0, 1);
+
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

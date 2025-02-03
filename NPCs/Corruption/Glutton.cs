@@ -57,7 +57,7 @@ namespace EbonianMod.NPCs.Corruption
         {
             NPC.width = 150;
             NPC.height = 150;
-            NPC.damage = 0;
+            NPC.damage = 10;
             NPC.defense = 15;
             NPC.lifeMax = 1200;
             NPC.HitSound = SoundID.NPCHit1;
@@ -69,6 +69,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.noGravity = false;
             NPC.noTileCollide = false;
             NPC.value = Item.buyPrice(0, 15);
+
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -190,6 +191,7 @@ namespace EbonianMod.NPCs.Corruption
                 NPC.spriteDirection = NPC.direction;
             if (AIState == Walk)
             {
+                NPC.damage = 0;
                 Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY, 1, false, 0);
                 if ((NPC.collideY && NPC.collideX))
                     NPC.velocity.Y = -10;

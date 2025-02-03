@@ -58,6 +58,7 @@ namespace EbonianMod.NPCs.Corruption
             NPC.noTileCollide = false;
             NPC.defense = 4;
             NPC.value = Item.buyPrice(0, 0, 10);
+
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
