@@ -94,7 +94,7 @@ namespace EbonianMod.Projectiles.Garbage
                     s = MathHelper.Clamp((-i + 1) * 2, 0, 0.5f);
 
                 float __off = Projectile.ai[1];
-                if (__off > 1) __off = -__off + 1;
+
 
                 float _off = __off + i;
 
@@ -167,9 +167,7 @@ namespace EbonianMod.Projectiles.Garbage
             Projectile.ai[2] = MathHelper.Clamp(Projectile.ai[2], 0, 1);
 
             Projectile.ai[1] -= 0.05f;
-            if (Projectile.ai[1] <= 0)
-                Projectile.ai[1] = 1;
-            Projectile.ai[1] = MathHelper.Clamp(Projectile.ai[1], float.Epsilon, 1 - float.Epsilon);
+
             SoundStyle style = SoundID.Item13;
             SoundStyle style2 = SoundID.Item34;
             style.MaxInstances = 0;
@@ -206,9 +204,9 @@ namespace EbonianMod.Projectiles.Garbage
                     s = MathHelper.Clamp((-i + 1) * 2, 0, 0.5f);
 
                 float __off = Projectile.ai[1];
-                if (__off > 1) __off = -__off + 1;
 
-                float _off = Clamp((__off + i) % 1f, 0, 1);
+
+                float _off = (__off + i);
 
                 Color col = Color.Lerp(Color.Red, Color.OrangeRed, i) * (s * s * 4);
                 vertices.Add(Helper.AsVertex(start + off * i + new Vector2(MathHelper.SmoothStep(0, 70, i * 3), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));
@@ -274,9 +272,7 @@ namespace EbonianMod.Projectiles.Garbage
             Projectile.ai[2] = MathHelper.Clamp(Projectile.ai[2], 0, 1);
 
             Projectile.ai[1] -= 0.05f;
-            if (Projectile.ai[1] <= 0)
-                Projectile.ai[1] = 1;
-            Projectile.ai[1] = MathHelper.Clamp(Projectile.ai[1], float.Epsilon, 1 - float.Epsilon);
+
             SoundStyle style = SoundID.Item13;
             SoundStyle style2 = SoundID.Item34;
             style.MaxInstances = 0;
@@ -314,9 +310,9 @@ namespace EbonianMod.Projectiles.Garbage
                     s = MathHelper.Clamp((-i + 1) * 2, 0, 0.5f);
 
                 float __off = Projectile.ai[1];
-                if (__off > 1) __off = -__off + 1;
 
-                float _off = Clamp((__off + i) % 1f, 0, 1);
+
+                float _off = (__off + i);
 
                 Color col = Color.Lerp(Color.DarkRed, Color.Orange, i) * (s * s * 4);
                 vertices.Add(Helper.AsVertex(start + off * i + new Vector2(50 + MathHelper.SmoothStep(0, 50, i * 3), 0).RotatedBy(rot + MathHelper.PiOver2) * i_progress, new Vector2(_off, 1), col * Projectile.scale));

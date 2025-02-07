@@ -100,8 +100,7 @@ namespace EbonianMod.Items.Weapons.Magic
                     Color col = Color.LawnGreen * mult * 2 * s;
 
                     float __off = vfxOffset;
-                    if (__off > 1) __off = -__off + 1;
-                    float _off = __off + mult;
+                    float _off = MathF.Abs(__off + mult);
                     vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(40 * mult, 0).RotatedBy(Projectile.rotation + MathHelper.PiOver2), col, new Vector2(_off, 0)));
                     vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(40 * mult, 0).RotatedBy(Projectile.rotation - MathHelper.PiOver2), col, new Vector2(_off, 1)));
                 }

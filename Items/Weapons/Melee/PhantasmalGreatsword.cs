@@ -195,7 +195,7 @@ namespace EbonianMod.Items.Weapons.Melee
                                 Vector2 start = Vector2.Lerp(player.Center, end, Lerp(0, 1, MathF.Pow(s, 2)));
                                 Color col = Color.Lerp(Color.White * 0.7f, Color.White, (float)i / (float)oldPositions.Count) * cS * alpha * Clamp(MathF.Sin(swingProgress * MathHelper.Pi) * 0.5f, 0, 1) * 2 * SmoothStep(1, 0, s) * 5 * cS;
 
-                                float _off = MathF.Abs((s) % 1f);
+                                float _off = MathF.Abs((s));
 
                                 vertices.Add(Helper.AsVertex(start - Main.screenPosition, col, new Vector2(_off, 1)));
                                 vertices.Add(Helper.AsVertex(end - Main.screenPosition, col, new Vector2(_off, 0)));
@@ -214,18 +214,23 @@ namespace EbonianMod.Items.Weapons.Melee
                                 Vector2 start = Vector2.Lerp(player.Center, end, Lerp(0, 1, MathF.Pow(s, 2)));
                                 Color col = Color.Lerp(Color.White * 0.7f, Color.White, s) * cS * alpha * Clamp(MathF.Sin(swingProgress * MathHelper.Pi) * 0.5f, 0, 1) * 2 * SmoothStep(1, 0, s) * 5 * cS;
 
-                                float _off = MathF.Abs((s) % 1f);
+                                float _off = MathF.Abs((s));
 
                                 vertices.Add(Helper.AsVertex(start - Main.screenPosition, col, new Vector2(_off, 1)));
                                 vertices.Add(Helper.AsVertex(end - Main.screenPosition, col, new Vector2(_off, 0)));
                             }
                         }
                 }
+
+                Main.spriteBatch.SaveCurrent();
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 if (vertices.Count > 3)
                 {
                     for (int i = 0; i < 3; i++)
                         Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, tex2, false);
                 }
+                Main.spriteBatch.ApplySaved();
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
@@ -398,7 +403,7 @@ namespace EbonianMod.Items.Weapons.Melee
                                 Vector2 start = Vector2.Lerp(startP, end, Lerp(0, 1, MathF.Pow(s, 2)));
                                 Color col = Color.Lerp(Color.White * 0.7f, Color.White, (float)i / (float)oldPositions.Count) * cS * Clamp(MathF.Sin(swingProgress * MathHelper.Pi) * 0.5f, 0, 1) * 2 * SmoothStep(1, 0, s) * 5 * cS;
 
-                                float _off = MathF.Abs((s) % 1f);
+                                float _off = MathF.Abs((s));
 
                                 vertices.Add(Helper.AsVertex(start - Main.screenPosition, col, new Vector2(_off, 1)));
                                 vertices.Add(Helper.AsVertex(end - Main.screenPosition, col, new Vector2(_off, 0)));
@@ -417,13 +422,16 @@ namespace EbonianMod.Items.Weapons.Melee
                                 Vector2 start = Vector2.Lerp(startP, end, Lerp(0, 1, MathF.Pow(s, 2)));
                                 Color col = Color.Lerp(Color.White * 0.7f, Color.White, s) * cS * Clamp(MathF.Sin(swingProgress * MathHelper.Pi) * 0.5f, 0, 1) * 2 * SmoothStep(1, 0, s) * 5 * cS;
 
-                                float _off = MathF.Abs((s) % 1f);
+                                float _off = MathF.Abs((s));
 
                                 vertices.Add(Helper.AsVertex(start - Main.screenPosition, col, new Vector2(_off, 1)));
                                 vertices.Add(Helper.AsVertex(end - Main.screenPosition, col, new Vector2(_off, 0)));
                             }
                         }
                 }
+                Main.spriteBatch.SaveCurrent();
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 if (vertices.Count > 3)
                 {
                     for (int i = 0; i < 3; i++)

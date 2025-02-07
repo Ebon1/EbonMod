@@ -214,8 +214,7 @@ namespace EbonianMod.Items.Weapons.Summoner
                     Color col = Color.Lerp(Color.Indigo * Projectile.ai[2] * 0.5f, Color.Gray * Projectile.ai[2], (float)(i / Projectile.oldPos.Length)) * 2 * Projectile.ai[2];
 
                     float __off = vfxOffset;
-                    if (__off > 1) __off = -__off + 1;
-                    float _off = __off + mult;
+                    float _off = MathF.Abs(__off + mult);
                     vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(25 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i - 1], Projectile.oldPos[i]).ToRotation() + MathHelper.PiOver2), col, new Vector2(_off, 0)));
                     vertices.Add(Helper.AsVertex(Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition + new Vector2(25 * mult, 0).RotatedBy(Helper.FromAToB(Projectile.oldPos[i - 1], Projectile.oldPos[i]).ToRotation() - MathHelper.PiOver2), col, new Vector2(_off, 1)));
                 }

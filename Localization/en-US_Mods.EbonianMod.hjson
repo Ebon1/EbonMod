@@ -199,9 +199,9 @@ Projectiles: {
 	GarbageLaser2.DisplayName: Flame
 	GarbageLaser3.DisplayName: Flame
 	HeatBlastVFX.DisplayName: Heat Blast
-	GarbageLaserSmall1.DisplayName: Flame
-	GarbageLaserSmall2.DisplayName: Flame
-	GarbageLaserSmall3.DisplayName: Flame
+	GarbageLaserSmall1.DisplayName: Volcanic Eruption
+	GarbageLaserSmall2.DisplayName: Volcanic Eruption
+	GarbageLaserSmall3.DisplayName: Volcanic Eruption
 	ChargeUp.DisplayName: Charge Up
 	GluttonImpact.DisplayName: Impact
 	GreenChargeUp.DisplayName: Green Charge Up

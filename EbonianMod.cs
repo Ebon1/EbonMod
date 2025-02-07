@@ -532,7 +532,7 @@ namespace EbonianMod
             {
                 gd.SetRenderTarget(Instance.renders[3]);
                 gd.Clear(Color.Transparent);
-                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
                 foreach (Projectile proj in Main.ActiveProjectiles)
                 {
                     if (proj.active && proj.timeLeft > 0 && (proj.type == ProjectileType<GarbageFlame>() || proj.type == ProjectileType<GarbageGiantFlame>() || proj.type == ProjectileType<GarbageLaserSmall3>() || proj.type == ProjectileType<GarbageLaserSmall2>() || proj.type == ProjectileType<GarbageLaserSmall1>()))
@@ -790,7 +790,7 @@ namespace EbonianMod
 
             gd.SetRenderTarget(Instance.renders[1]);
             gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, null);
+            sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone, null);
             sb.Draw(Instance.renders[5], Vector2.Zero, null, Color.White, 0, Vector2.Zero, .5f, SpriteEffects.None, 0);
             sb.End();
 
