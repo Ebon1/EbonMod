@@ -169,7 +169,7 @@ namespace EbonianMod
             }
             EbonianMod.sys.UpdateParticles();
             Player.ManageSpecialBiomeVisuals("EbonianMod:XMartian", NPC.AnyNPCs(NPCType<ArchmageCutsceneMartian>()));
-            //Player.ManageSpecialBiomeVisuals("EbonianMod:Conglomerate", NPC.AnyNPCs(NPCType<Conglomerate>()));
+            //Player.ManageSpecialBiomeVisuals("EbonianMod:Conglomerate", NPC.AnyNPCs(NPCType<NPCs.Conglomerate.Conglomerate>()));
             #region "hell stuff"
             Player.ManageSpecialBiomeVisuals("EbonianMod:HellTint", Player.ZoneUnderworldHeight);
             #endregion

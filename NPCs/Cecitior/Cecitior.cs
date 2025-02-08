@@ -417,7 +417,6 @@ namespace EbonianMod.NPCs.Cecitior
         const int PhaseTransition = -4, PrePreDeath = -3, Death = -2, PreDeath = -1, Intro = 0, Idle = 1, EyeBehaviour = 2, Chomp = 3, Teeth = 4, EyeBehaviour2 = 5, LaserRain = 6, ThrowUpBlood = 7, Tongue = 8,
             Phase2ThrowUpEyes = 9, Phase2Claw = 10, Phase2ClawGrab = 11, Phase2ClawMultiple = 12, Phase2GrabBomb = 13, Phase2ClawBodySlam = 14;
 
-        public static SlotId cachedSound;
         public SlotId openSound;
         Vector2 savedPos, savedClawPos;
         const int attackNum = 14;
@@ -532,13 +531,24 @@ namespace EbonianMod.NPCs.Cecitior
             if (AIState != Idle && AIState != Intro && AIState != PrePreDeath && AIState != PreDeath && AIState != Death && AIState != PhaseTransition)
                 OldState = AIState;
             Player player = Main.player[NPC.target];
-            if (!cachedSound.IsValid || !SoundEngine.TryGetActiveSound(cachedSound, out var activeSound) || !activeSound.IsPlaying)
+
+            if (CachedSlotIdsSystem.loopedSounds.Where(x => x.key == "CecitiorIdle").Any())
             {
-                cachedSound = SoundEngine.PlaySound(EbonianSounds.cecitiorIdle.WithVolumeScale(0.35f), NPC.Center);
+                SlotId cachedSound = CachedSlotIdsSystem.loopedSounds.Where(x => x.key == "CecitiorIdle").ElementAt(0).slotId;
+                if (!SoundEngine.TryGetActiveSound(cachedSound, out var activeSound) || !activeSound.IsPlaying)
+                {
+                    CachedSlotIdsSystem.ClearSound(CachedSlotIdsSystem.loopedSounds.Where(x => x.key == "CecitiorIdle").ElementAt(0));
+
+                    CachedSlotIdsSystem.loopedSounds.Add(new("CecitiorIdle", SoundEngine.PlaySound(EbonianSounds.cecitiorIdle.WithVolumeScale(0.35f), NPC.Center), Type));
+                }
+                if (SoundEngine.TryGetActiveSound(cachedSound, out var __activeSound))
+                {
+                    __activeSound.Pitch = Lerp(-1, 1, NPC.velocity.Length() / 13);
+                }
             }
-            if (SoundEngine.TryGetActiveSound(cachedSound, out var __activeSound))
+            else
             {
-                __activeSound.Pitch = Lerp(-1, 1, NPC.velocity.Length() / 13);
+                CachedSlotIdsSystem.loopedSounds.Add(new("CecitiorIdle", SoundEngine.PlaySound(EbonianSounds.cecitiorIdle.WithVolumeScale(0.35f), NPC.Center), Type));
             }
             int eyeCount = 0;
             foreach (NPC npc in Main.ActiveNPCs)
@@ -662,8 +672,6 @@ namespace EbonianMod.NPCs.Cecitior
                 NPC.life = 0;
                 GetInstance<DownedBossSystem>().downedCecitior = true;
                 SoundEngine.PlaySound(EbonianSounds.evilOutro);
-                if (SoundEngine.TryGetActiveSound(cachedSound, out var _activeSound))
-                    _activeSound.Stop();
                 NPC.checkDead();
             }
             else if (AIState == PrePreDeath)

@@ -93,13 +93,13 @@ namespace EbonianMod
             xareusFuckingDies = tag.GetBool("XarusDownForRealReal");
             timesDiedToXareus = tag.GetInt("XareusDieTimes");
         }
+        public static float conglomerateSkyFlash;
         public override void PostUpdateEverything()
         {
-            if (!NPC.AnyNPCs(NPCType<Cecitior>()))
-            {
-                if (SoundEngine.TryGetActiveSound(Cecitior.cachedSound, out var _activeSound))
-                    _activeSound.Stop();
-            }
+            conglomerateSkyFlash = Lerp(conglomerateSkyFlash, 0, 0.07f);
+            if (conglomerateSkyFlash < 0.05f)
+                conglomerateSkyFlash = 0;
+
             xareusFightCooldown--;
             constantTimer++;
 

@@ -34,7 +34,6 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         {
             return false;
         }
-        public override bool IsLoadingEnabled(Mod mod) => false;
         int seed;
         public override void OnSpawn(IEntitySource source)
         {
@@ -42,7 +41,6 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            return false;
             Texture2D tex = ExtraTextures.cone4;
             Main.spriteBatch.Reload(BlendState.Additive);
             UnifiedRandom rand = new UnifiedRandom(seed);

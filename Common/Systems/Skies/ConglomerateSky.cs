@@ -32,7 +32,7 @@ namespace EbonianMod.Common.Systems.Skies
         {
             GraphicsDevice gd = Main.graphics.GraphicsDevice;
             SpriteBatch sb = Main.spriteBatch;
-            Rectangle rect = new Rectangle((int)(-500), (int)(-500), Main.screenWidth + 500, Main.screenHeight + 500);
+            Rectangle rect = new Rectangle((int)(-1000), (int)(-1000), Main.screenWidth + 1000, Main.screenHeight + 1000);
             sb.SaveCurrent();
             if (!Main.gameMenu)
             {
@@ -47,11 +47,11 @@ namespace EbonianMod.Common.Systems.Skies
                     gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/waterNoise", (AssetRequestMode)1).Value;
                     gd.Textures[3] = ModContent.Request<Texture2D>("EbonianMod/Extras/vein", (AssetRequestMode)1).Value;
                     EbonianMod.waterEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 0.015f);
-                    EbonianMod.waterEffect.Parameters["totalAlpha"].SetValue(intensity);
+                    EbonianMod.waterEffect.Parameters["totalAlpha"].SetValue(intensity + EbonianSystem.conglomerateSkyFlash);
 
-                    EbonianMod.waterEffect.Parameters["offset"].SetValue(.05f);
+                    EbonianMod.waterEffect.Parameters["offset"].SetValue(.05f + EbonianSystem.conglomerateSkyFlash * 0.01f);
 
-                    EbonianMod.waterEffect.Parameters["mainScale"].SetValue(1.7f);
+                    EbonianMod.waterEffect.Parameters["mainScale"].SetValue(.7f);
                     EbonianMod.waterEffect.Parameters["secondaryScale"].SetValue(2f);
                     EbonianMod.waterEffect.Parameters["tertiaryScale"].SetValue(3.5f);
 
@@ -69,7 +69,7 @@ namespace EbonianMod.Common.Systems.Skies
                 gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/waterNoise", (AssetRequestMode)1).Value;
                 gd.Textures[3] = ModContent.Request<Texture2D>("EbonianMod/Extras/vein", (AssetRequestMode)1).Value;
                 EbonianMod.waterEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 0.03f);
-                EbonianMod.waterEffect.Parameters["totalAlpha"].SetValue(intensity * 0.1f);
+                EbonianMod.waterEffect.Parameters["totalAlpha"].SetValue(intensity * (0.1f + EbonianSystem.conglomerateSkyFlash * 0.1f));
 
                 EbonianMod.waterEffect.Parameters["offset"].SetValue(.05f);
 

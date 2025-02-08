@@ -41,6 +41,8 @@ namespace EbonianMod.Common.Systems
         cecitiorSlam,
         cecitiorSlice,
         cecitiorSpit,
+        deathrayLoop0,
+        deathrayLoop1,
         eggplosion,
         eruption,
         exolDash,
@@ -206,6 +208,21 @@ namespace EbonianMod.Common.Systems
                 SoundPath = ebonianSoundPath + "Cecitior/cecitiorSpit",
                 MaxInstances = 1,
                 Variants = [0, 1, 2, 3]
+            };
+
+            deathrayLoop0 = Default with
+            {
+                SoundPath = ebonianSoundPath + "deathrayLoop0",
+                MaxInstances = 1,
+                IsLooped = true,
+                PitchVariance = 0
+            };
+            deathrayLoop1 = Default with
+            {
+                SoundPath = ebonianSoundPath + "deathrayLoop1",
+                MaxInstances = 1,
+                IsLooped = true,
+                PitchVariance = 0
             };
 
             eggplosion = Default with
