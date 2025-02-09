@@ -537,7 +537,7 @@ NPCs: {
 	ArchmageX: {
 		DisplayName: Xareus
 		BossLogDisplayName: The Archmage
-		BossChecklistIntegration.SpawnInfo: Interact with the Archstaff in the Mysterious Shack, after unlocking the basement with a [i:ItemID.LargeAmethyst].
+		BossChecklistIntegration.SpawnInfo: Interact with the Archstaff in the Mysterious Shack, after unlocking the basement with a [i:LargeAmethyst].
 		Bestiary:
 			'''
 			The most magnificent and brilliant sorcerer to ever walk this earth... An unmatched master of wizardry! A true magician! The Archmage!!
