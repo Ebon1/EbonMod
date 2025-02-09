@@ -70,7 +70,7 @@ namespace EbonianMod.Common.Systems.Misc
             float weight = 4.5f;
             Func<bool> downed = () => GetInstance<DownedBossSystem>().downedXareusCheck;
 
-            Func<LocalizedText> spawnInfo = () => Language.GetText("Interact with the Archstaff in the Mysterious Shack, after unlocking the basement with a [i:" + ItemID.LargeAmethyst + "].");
+            Func<LocalizedText> spawnInfo = () => Language.GetText("Mods.EbonianMod.NPCs.ArchmageX.BossChecklistIntegration.SpawnInfo");
 
             var customPortrait = (SpriteBatch sb, Rectangle rect, Color color) =>
             {
@@ -101,7 +101,7 @@ namespace EbonianMod.Common.Systems.Misc
             float weight = 8.4f;
             Func<bool> downed = () => GetInstance<DownedBossSystem>().downedCecitior;
 
-            Func<LocalizedText> spawnInfo = () => Language.GetText("Kill a Massive Spectator, commonly found in Crimson.");
+            Func<LocalizedText> spawnInfo = () => Language.GetText("Mods.EbonianMod.NPCs.Cecitior.BossChecklistIntegration.SpawnInfo");
 
             var customPortrait = (SpriteBatch sb, Rectangle rect, Color color) =>
             {
@@ -132,7 +132,7 @@ namespace EbonianMod.Common.Systems.Misc
             float weight = 8.6f;
             Func<bool> downed = () => GetInstance<DownedBossSystem>().downedTerrortoma;
 
-            Func<LocalizedText> spawnInfo = () => Language.GetText("Destroy a Giant Cocoon, commonly found in the Corruption.");
+            Func<LocalizedText> spawnInfo = () => Language.GetText("Mods.EbonianMod.NPCs.Terrortoma.BossChecklistIntegration.SpawnInfo");
 
             var customPortrait = (SpriteBatch sb, Rectangle rect, Color color) =>
             {
