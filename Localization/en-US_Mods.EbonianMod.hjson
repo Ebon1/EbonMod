@@ -294,11 +294,13 @@ NPCs: {
 
 	Cecitior: {
 		DisplayName: Cecitior
+		BossChecklistIntegration.SpawnInfo: Kill a Massive Spectator, commonly found in Crimson.
 		Bestiary: A fleshy, haphazardly made construct. Despite looking akin to many other crimson monsters, this entity seems to have been created recently for an indiscernible purpose.
 	}
 
 	Terrortoma: {
 		DisplayName: Terrortoma
+		BossChecklistIntegration.SpawnInfo: Destroy a Giant Cocoon, commonly found in the Corruption.
 		Bestiary: An unusual conglomerate of corrupted entities with the strange capability to show emotion. It is malformed, and not the intended result of the metamorphosis.
 	}
 
@@ -535,6 +537,7 @@ NPCs: {
 	ArchmageX: {
 		DisplayName: Xareus
 		BossLogDisplayName: The Archmage
+		BossChecklistIntegration.SpawnInfo: Interact with the Archstaff in the Mysterious Shack, after unlocking the basement with a [i:ItemID.LargeAmethyst].
 		Bestiary:
 			'''
 			The most magnificent and brilliant sorcerer to ever walk this earth... An unmatched master of wizardry! A true magician! The Archmage!!
