@@ -267,6 +267,7 @@ Projectiles: {
 	TerrortomeFlame.DisplayName: Terrortome Flame
 	TerrortomeWorm.DisplayName: Terrortome Worm
 	SawcitiorP.DisplayName: Sawcitior P
+	Coins.DisplayName: Coins
 }
 
 NPCs: {
@@ -543,6 +544,8 @@ NPCs: {
 			All self-proclaimed, of course.
 			'''
 	}
+
+	CoinBag.DisplayName: Coin Bag
 }
 
 Items: {
