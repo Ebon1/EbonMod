@@ -238,7 +238,7 @@ namespace EbonianMod
 
         public static void ChangeCameraPos(Vector2 pos, int length, float zoom,
             float lerpMult = 2, Func<float, float> easingFunction = null, float snappingRate = 1) =>
-            ChangeCameraPos(pos, length, new ZoomInfo(zoom, 0.05f), lerpMult, easingFunction, snappingRate);
+            ChangeCameraPos(pos, length, new ZoomInfo(zoom, 2), lerpMult, easingFunction, snappingRate);
 
         public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
         {
