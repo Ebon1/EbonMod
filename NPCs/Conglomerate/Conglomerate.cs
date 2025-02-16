@@ -217,8 +217,8 @@ namespace EbonianMod.NPCs.Conglomerate
             BloodAndWormSpit = 2, HomingEyeAndVilethornVomit = 3, BloatedEbonflies = 4, CursedFlameRain = 5, Chomp = 6, ExplodingBalls = 7,
             BayleLaser = 8, SpinAroundThePlayerAndDash = 9, SpikesCloseIn = 10, BothHalvesRainCloseIn = 11, DashSpam = 12,
             OstertagiExplosion = 13, IchorBomb = 14, InstantRays = 15, ClawAtFlesh = 16, GrabAttack = 17, ClingerHipfire = 18,
-            EyeBeamPlusHomingEyes = 19, ClawTantrum = 20, CecitiorCloneDash = 21, GeyserSweep = 22, PowerOfFriendship = 23,
-            ClawGrindTheFloorAndSpawnBlood = 24, BitesEyeToRainBlood = 25, ClingerComboType1 = 26, ClingerComboType2 = 27,
+            EyeBeamPlusHomingEyes = 19, ClawTantrum = 20, CecitiorCloneDash = 21, GeyserSweep = 22, BitesEyeToRainBlood = 23,
+            PowerOfFriendship = 24, ClawGrindTheFloorAndSpawnBlood = 25, ClingerComboType1 = 26, ClingerComboType2 = 27,
             ClingerComboType3 = 28, SmallDeathRay = 29, EyeSendsWavesOfHomingEyes = 30, BigBomb = 31, EyeSpin = 32,
             SlamSpineAndEyeTogether = 33, BodySlamTantrum = 34, ClawTriangle = 35, SpineChargedFlame = 36,
             CecitiorClonesChompGrid = 37,
@@ -233,7 +233,7 @@ namespace EbonianMod.NPCs.Conglomerate
         public override void AI()
         {
             bool t = true;
-            if (NPC.life < NPC.lifeMax / 2 + NPC.lifeMax / 4 && !phase2)
+            /*if (NPC.life < NPC.lifeMax / 2 + NPC.lifeMax / 4 && !phase2)
             {
                 Reset();
                 foreach (Projectile projectile in Main.projectile)
@@ -243,7 +243,7 @@ namespace EbonianMod.NPCs.Conglomerate
                 }
                 phase2 = true;
                 Next = PhaseTransition;
-            }
+            }*/
             if (Main.dayTime)
             {
                 Main.time = 31400;
@@ -1165,7 +1165,10 @@ namespace EbonianMod.NPCs.Conglomerate
                             NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 360), false) / 10f;
                         }
                         else NPC.velocity = Vector2.Zero;
-                        if (AITimer > 40 && AITimer < 90 && AITimer % 4 == 0)
+                        if (AITimer == 40)
+                            Projectile.NewProjectile(null, NPC.Center - openOffset + Main.rand.NextVector2Circular(20, 20), Vector2.UnitY.RotatedByRandom(PiOver2 * 0.7f) * 10, ProjectileType<CIchor>(), 30, 0);
+
+                        if (AITimer > 50 && AITimer < 100 && AITimer % 4 == 0)
                         {
                             if (AITimer % 8 == 0)
                                 SoundEngine.PlaySound(SoundID.Item34, NPC.Center);
@@ -1484,25 +1487,26 @@ namespace EbonianMod.NPCs.Conglomerate
                                 NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 100) + Helper.FromAToB(player.Center, NPC.Center) * 100) * 15, 0.025f);
                             else NPC.velocity *= 0.97f;
 
-                            if (player.Distance(armVerlet.position) < 130)
+                            if (player.Distance(armVerlet.position) < 130 && sawAlpha > 0.5f)
                                 player.Hurt(PlayerDeathReason.ByNPC(NPC.whoAmI), 100, 0);
                             for (int i = 0; i < 3; i++)
                             {
                                 MoveVerlet(ref clawVerlet[i], armVerlet.position + new Vector2(0, 120).RotatedBy(Helper.CircleDividedEqually(i, 3) + ToRadians(AITimer * 15)), sawAlpha);
                             }
-
-                            MoveVerlet(ref armVerlet, player.Center, 0.05f);
-
-                            if (AITimer % 30 == 0 && AITimer < 250)
+                            if (AITimer2 < 5 || disposablePos[0] == Vector2.Zero)
+                                disposablePos[0] = armVerlet.position + Helper.FromAToB(armVerlet.position, player.Center, false) * 1.4f;
+                            else if (AITimer < 280)
                             {
-                                SoundEngine.PlaySound(EbonianSounds.cecitiorSpit, armVerlet.position);
-                                float off = Main.rand.NextFloat(Pi);
-                                for (int i = 0; i < 12; i++)
-                                {
-                                    float angle = Helper.CircleDividedEqually(i, 12) + off;
-                                    Projectile.NewProjectile(null, armVerlet.position, angle.ToRotationVector2() * 10, ProjectileType<CecitiorTeeth>(), 30, 0);
-                                }
+                                //if (AITimer2 % 2 == 0 && AITimer2 > 7 && disposablePos[0].Distance(armVerlet.position) > 200)
+                                //{
+                                //for (int i = 0; i < 3; i++)
+                                //  Projectile.NewProjectile(null, clawVerlet[i].position, Helper.FromAToB(armVerlet.position, disposablePos[0]), ProjectileType<CecitiorClawSlash>(), 20, 0);
+                                //}
+                                MoveVerlet(ref armVerlet, disposablePos[0], Lerp(0, 1, InOutCirc.Invoke(AITimer2 / 60)));
                             }
+                            if (++AITimer2 > 60)
+                                AITimer2 = 0;
+
                             if (AITimer > 250 && AITimer < 300)
                                 sawAlpha = Lerp(1, 0, InOutCirc.Invoke((AITimer - 250) / 50));
                             if (CachedSlotIdsSystem.loopedSounds.Any())
@@ -1661,15 +1665,59 @@ namespace EbonianMod.NPCs.Conglomerate
                                 Projectile.NewProjectile(null, Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 300, true) + new Vector2(0, 40), -vel, ProjectileType<CBeamSmall>(), 0, 0, ai1: -.9f);
                                 Projectile.NewProjectile(null, Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 300, true) - new Vector2(0, 40), vel, ProjectileType<CBeamSmall>(), 0, 0, ai1: -.9f);
                             }
-
                         }
                         if (AITimer >= 260)
+                        {
+                            Next = BitesEyeToRainBlood;
+                            Reset();
+                        }
+                    }
+                    break;
+
+                case BitesEyeToRainBlood:
+                    {
+                        DefaultClingerBehaviour();
+                        DefaultSpineBehaviour();
+                        DefaultArmBehaviour();
+                        DefaultClawBehaviour();
+                        if (AITimer < 40)
+                        {
+                            open = true;
+                            openOffset = Vector2.Lerp(Vector2.Zero, new Vector2(300, 0), SmoothStep(0, 1, AITimer / 40));
+                        }
+                        if (AITimer > 20 && AITimer < 90)
+                        {
+                            MoveVerlet(ref eyeVerlet,
+                                NPC.Center + Main.rand.NextVector2Circular(Lerp(0, 10, InOutCirc.Invoke((AITimer - 20) / 70)), Lerp(0, 10, InOutCirc.Invoke((AITimer - 20) / 70))),
+                                Lerp(0.2f, 1, InOutCirc.Invoke((AITimer - 20) / 70)));
+                            openRotation = 0 + Lerp(0, Main.rand.NextFloat(-.5f, .5f), InOutCirc.Invoke((AITimer - 20) / 70));
+                            NPC.rotation = rotation = 0 + Lerp(0, Main.rand.NextFloat(-.5f, .5f), InOutCirc.Invoke((AITimer - 20) / 70));
+                        }
+                        if (AITimer > 90)
+                        {
+                            openRotation = Lerp(openRotation, 0, 0.3f);
+                            rotation = Lerp(rotation, 0, 0.3f);
+                            NPC.rotation = Lerp(NPC.rotation, 0, 0.3f);
+                            open = false;
+                            if ((openOffset.Length() < 2.5f && openOffset.Length() > 1f) || (openOffset.Length() > -2.5f && openOffset.Length() < -1f))
+                            {
+                                Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 15, 6, 30, 1000));
+                                EbonianSystem.conglomerateSkyFlash = 10f;
+                                for (int i = 0; i < 20; i++)
+                                {
+                                    Projectile.NewProjectile(null, NPC.Center, Helper.CircleDividedEqually(i, 20).ToRotationVector2() * Main.rand.NextFloat(8, 18), ProjectileType<HostileGibs>(), 30, 0);
+                                }
+                            }
+                        }
+
+                        if (AITimer >= 130)
                         {
                             Next = PowerOfFriendship;
                             Reset();
                         }
                     }
                     break;
+
                 case PowerOfFriendship:
                     {
                         DefaultArmBehaviour();
@@ -1697,10 +1745,78 @@ namespace EbonianMod.NPCs.Conglomerate
                         if (AITimer > 60 && AITimer < 110 && AITimer % 10 == 0)
                         {
                             EbonianSystem.ScreenShakeAmount = (AITimer - 50) * 0.2f;
-                            EbonianSystem.conglomerateSkyFlash = (AITimer - 50) * 0.4f;
                             Projectile.NewProjectile(null, spineVerlet.position, Helper.FromAToB(spineVerlet.position, disposablePos[0]).RotatedByRandom(PiOver4 * 1.6f), ProjectileType<CBeamSmall>(), 0, 0, ai1: -.8f);
                         }
                         if (AITimer >= 200)
+                        {
+                            Next = ClawGrindTheFloorAndSpawnBlood;
+                            Reset();
+                        }
+                    }
+                    break;
+
+                case ClawGrindTheFloorAndSpawnBlood:
+                    {
+                        DefaultClingerBehaviour();
+                        DefaultSpineBehaviour();
+                        DefaultEyeBehaviour();
+
+                        if (AITimer < 90)
+                        {
+                            DefaultArmBehaviour();
+                            DefaultClawBehaviour();
+                            if (AITimer < 20)
+                                disposablePos[0] = player.Center;
+                            Vector2 to = Helper.TRay.Cast(disposablePos[0] + new Vector2(-850, -200), Vector2.UnitY, 800, true) - new Vector2(200, 400);
+                            if (NPC.Distance(to) > 200)
+                                NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, to) * 40, 0.3f);
+                            else NPC.velocity *= 0.9f;
+                            Vector2 pos = NPC.Center + new Vector2(0, 300).RotatedByRandom(PiOver2 * 0.7f);
+                        }
+
+
+                        if (AITimer > 100)
+                        {
+                            Vector2 to = Helper.TRay.Cast(disposablePos[0] + new Vector2(1050, -400), Vector2.UnitY, 800, true) - new Vector2(200, 400);
+                            if (NPC.Distance(to) > 200)
+                                NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, to) * 30, 0.02f);
+                            else
+                            {
+                                AITimer++;
+                                NPC.velocity *= 0.9f;
+                            }
+
+
+                            if (AITimer % 3 == 0 && AITimer > 120 && NPC.Distance(to) > 200)
+                            {
+                                Vector2 vel = Vector2.UnitY.RotatedByRandom(PiOver4 * 0.2f);
+                            }
+                            if (AITimer > 120 && NPC.Distance(to) > 200)
+                            {
+
+                                if (AITimer % 5 == 0)
+                                {
+                                    for (int i = 1; i < 4; i++)
+                                    {
+                                        Projectile.NewProjectile(null, armVerlet.position + NPC.velocity * 2, Helper.FromAToB(disposablePos[i], -disposablePos[i]), ProjectileType<CecitiorClawSlash>(), 20, 0);
+                                        Projectile.NewProjectile(null, armVerlet.position + NPC.velocity * 2, -Vector2.UnitY.RotatedByRandom(PiOver4) * Main.rand.NextFloat(5, 15), ProjectileType<HostileGibs>(), 20, 0);
+                                    }
+                                    for (int i = 1; i < 4; i++)
+                                        disposablePos[i] = Main.rand.NextVector2CircularEdge(130, 130);
+                                }
+
+                                MoveVerlet(ref armVerlet, Helper.TRay.Cast(NPC.Center, Vector2.UnitY, 500) - new Vector2(0, 80), 0.3f);
+                                for (int i = 0; i < 3; i++)
+                                    MoveVerlet(ref clawVerlet[i], armVerlet.position + disposablePos[i + 1], 0.5f);
+                            }
+                            else
+                            {
+                                DefaultArmBehaviour();
+                                DefaultClawBehaviour();
+                            }
+                        }
+
+                        if (AITimer >= 260)
                         {
                             Next = BloodAndWormSpit;
                             Reset();

@@ -37,19 +37,21 @@ namespace EbonianMod.Common
         };
 
 
-        public const float c1 = 1.70158f;
-        public const float c2 = c1 * 1.525f;
-
-        public const float c5 = (2 * Pi) / 4.5f;
 
         public static Func<float, float> InOutBack = (x) =>
         {
+            float c1 = 1.70158f;
+            float c2 = c1 * 1.525f;
+
+
+
             return x < 0.5
               ? (MathF.Pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2
               : (MathF.Pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
         };
         public static Func<float, float> InOutElastic = (x) =>
         {
+            float c5 = (2 * Pi) / 4.5f;
             return x == 0
  ? 0
  : x == 1
@@ -60,11 +62,11 @@ namespace EbonianMod.Common
         };
 
 
-        public const float n1 = 7.5625f;
-        public const float d1 = 2.75f;
 
         public static Func<float, float> OutBounce = (x) =>
         {
+            float n1 = 7.5625f;
+            float d1 = 2.75f;
             if (x < 1 / d1)
             {
                 return n1 * x * x;

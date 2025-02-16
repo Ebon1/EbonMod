@@ -284,6 +284,8 @@ namespace EbonianMod.Projectiles.Conglomerate
 
             if (Projectile.timeLeft == 70 && Projectile.damage == 0)
             {
+                if (EbonianSystem.conglomerateSkyFlash < 3)
+                    EbonianSystem.conglomerateSkyFlash = 3f;
                 Main.instance.CameraModifiers.Add(new PunchCameraModifier(Projectile.Center, Projectile.velocity, 13, 10, 30, 1000));
                 SoundEngine.PlaySound(EbonianSounds.exolDash, Projectile.Center);
                 Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity, Projectile.type, 30, 0, Projectile.owner, Projectile.ai[0], Projectile.ai[1] + 0.1f, Projectile.ai[2]);
