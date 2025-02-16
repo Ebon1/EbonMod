@@ -47,7 +47,7 @@ namespace EbonianMod.Common.Systems.Worldgen
                             if (chest.item[0].type == ItemType<SpudCannon>())
                             {
                                 chest.item[1].SetDefaults(ItemType<Potato>());
-                                chest.item[1].stack = Main.rand.Next(2, 20);
+                                chest.item[1].stack = Main.rand.Next(50, 200);
                             }
 
                         }

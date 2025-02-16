@@ -1,0 +1,21 @@
+v 2.0
+## Additions
+- Added a post-plantera bossfight, the Conglomerate
+
+## Changes
+- Resprited Sawcitior
+- Resprited the Trumpet
+- Hot Garbage no longer slows down in water
+- Fixed some missing translation support (Thank you Nexorchik)
+
+## Balancing
+- Increased Terrortoma's defense: 38 => 42
+- Increased Cecitior's Gazers' defense: 27 => 30
+- Increased the amount of potatoes found in a chest: 2-20 => 50-200
+- Increased the damage of the Spud Cannon: 5 => 13
+
+## Fixes
+- Fixed some texture scrolling issues
+- Fixed Cecitior's ambience not following him
+- Fixed Cecitior despawning when butchered
+- Fixed Terrortoma only having 14k HP in Master Mode

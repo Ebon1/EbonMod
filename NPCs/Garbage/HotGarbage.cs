@@ -69,6 +69,7 @@ namespace EbonianMod.NPCs.Garbage
             //NPC.DeathSound = EbonianSounds.garbageDeath;
             NPC.aiStyle = -1;
             NPC.noGravity = false;
+            NPC.waterMovementSpeed = 1f;
             NPC.BossBar = GetInstance<GarbageBar>();
             NPC.noTileCollide = false;
             NPC.boss = true;

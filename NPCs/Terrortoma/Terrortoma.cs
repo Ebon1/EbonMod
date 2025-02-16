@@ -89,10 +89,12 @@ namespace EbonianMod.NPCs.Terrortoma
         {
             NPC.aiStyle = -1;
             NPC.lifeMax = 17500;
+            if (Main.masterMode)
+                NPC.lifeMax = 14000;
             NPC.boss = true;
             NPC.damage = 40;
             NPC.noTileCollide = true;
-            NPC.defense = 38;
+            NPC.defense = 42;
             NPC.value = Item.buyPrice(0, 10);
             NPC.knockBackResist = 0;
             NPC.width = 118;
@@ -112,9 +114,6 @@ namespace EbonianMod.NPCs.Terrortoma
         }
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
         {
-            if (Main.masterMode)
-                NPC.lifeMax = 14000;
-
             NPC.lifeMax = (int)(NPC.lifeMax * balance);
         }
         Rectangle introFrame = new Rectangle(0, 0, 118, 108), laughFrame = new Rectangle(0, 0, 118, 108);

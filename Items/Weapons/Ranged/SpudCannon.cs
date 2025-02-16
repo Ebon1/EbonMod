@@ -20,7 +20,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.rare = ItemRarityID.Blue;
-            Item.damage = 5;
+            Item.damage = 13;
             Item.useTime = 25;
             Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.useAnimation = 25;

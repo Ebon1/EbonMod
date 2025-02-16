@@ -804,6 +804,7 @@ namespace EbonianMod.NPCs.Cecitior
             else if (AIState == PhaseTransition)
             {
                 AITimer++;
+                NPC.dontTakeDamage = true;
                 if (AITimer == 1)
                 {
                     savedPos = NPC.Center;
@@ -824,8 +825,6 @@ namespace EbonianMod.NPCs.Cecitior
                 }
                 if (AITimer == 63)
                 {
-                    if (NPC.life > 1)
-                        NPC.dontTakeDamage = false;
                     for (int i = 0; i < 3; i++)
                     {
                         claw[i] = new CecitiorClaw(NPC.Center, new Verlet(NPC.Center, 12, 22, 0.15f, stiffness: 50));
@@ -857,7 +856,10 @@ namespace EbonianMod.NPCs.Cecitior
                         AIState = PrePreDeath;
                     }
                     else
+                    {
+                        NPC.dontTakeDamage = false;
                         AIState = Phase2ClawGrab;
+                    }
                 }
             }
             else if (AIState == Intro)
