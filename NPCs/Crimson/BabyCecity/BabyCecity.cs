@@ -263,6 +263,11 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
 
                         if (AITimer > 45)
                             AITimer2++;
+                        else
+                        {
+                            Vector2 pos = NPC.Center + NPC.rotation.ToRotationVector2().RotatedBy(PiOver2).RotatedByRandom(PiOver4) * Main.rand.NextFloat(10, 200);
+                            Dust.NewDustPerfect(pos, DustID.IchorTorch, Helper.FromAToB(pos, NPC.Center) * Main.rand.NextFloat(10, 20));
+                        }
                         if (AITimer2 % 20 == 5)
                         {
                             SoundStyle sound = EbonianSounds.bloodSpit;
