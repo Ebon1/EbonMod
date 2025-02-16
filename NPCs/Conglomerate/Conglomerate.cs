@@ -380,11 +380,11 @@ namespace EbonianMod.NPCs.Conglomerate
                 case Idle:
                     {
                         DefaultVerletAnimation();
-                        if (AITimer < NPC.life / 1000 && NPC.Distance(player.Center) > 200)
+                        if (AITimer < NPC.life / 1200 && NPC.Distance(player.Center) > 200)
                             NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 100) + Helper.FromAToB(player.Center, NPC.Center) * 100) * 15, 0.15f);
                         else NPC.velocity *= 0.9f;
 
-                        if (AITimer >= NPC.life / 1000 + 20)
+                        if (AITimer >= NPC.life / 1200 + 20)
                         {
                             AIState = Next;
                             NPC.velocity = Vector2.Zero;
@@ -407,6 +407,7 @@ namespace EbonianMod.NPCs.Conglomerate
                         {
                             if (AITimer2 == 0)
                             {
+                                SoundEngine.PlaySound(EbonianSounds.cecitiorSpit, NPC.Center);
                                 NPC.velocity = -vel * 5;
                                 Projectile a = Projectile.NewProjectileDirect(null, NPC.Center + vel * 20, vel.RotatedByRandom(PiOver4) * Main.rand.NextFloat(8, 12), ProjectileType<CWorm>(), 30, 0, 0, Main.rand.NextFloat(0.15f, 0.5f));
                                 a.friendly = false;
@@ -480,16 +481,28 @@ namespace EbonianMod.NPCs.Conglomerate
                     break;
                 case BloatedEbonflies: // come back to this later lol
                     {
-                        Next = CursedFlameRain;
-                        Reset();
                         DefaultVerletAnimation();
-                        if (AITimer == 40)
+                        if (AITimer == 21)
                         {
-                            EbonianSystem.ScreenShakeAmount = 10f;
-                            Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0);
+                            StartScreaming();
+                            openSound = SoundEngine.PlaySound(EbonianSounds.cecitiorOpen, NPC.Center);
+                            SoundEngine.PlaySound(EbonianSounds.shriek.WithPitchOffset(-1f).WithVolumeScale(1.6f), NPC.Center);
                         }
+                        if (AITimer % 20 == 0)
+                            Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 10, 6, 30, 1000));
+                        open = true;
+                        if (openOffset.X < 25)
+                        {
+                            openOffset.X += 3.5f;
+                        }
+                        openRotation = ToRadians(MathF.Sin((AITimer + 50) * 4) * 10);
 
-                        if (AITimer == 70 || AITimer == 80 || AITimer == 140)
+                        rotation = ToRadians(MathF.Sin(-(AITimer + 50) * 4) * 10);
+                        NPC.rotation = ToRadians(MathF.Sin(-(AITimer + 50) * 4) * 10);
+                        if (AITimer % 10 == 0)
+                            Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<ConglomerateScream>(), 0, 0);
+
+                        if (AITimer == 30 || AITimer == 40 || AITimer == 50)
                         {
                             EbonianSystem.ScreenShakeAmount = 10f;
                             Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0);
@@ -497,7 +510,7 @@ namespace EbonianMod.NPCs.Conglomerate
                                 NPC.NewNPCDirect(null, NPC.Center + Vector2.One.RotatedBy(i) * 30, NPCType<BloatedEbonfly>());
                         }
 
-                        if (AITimer >= 150)
+                        if (AITimer >= 60)
                         {
                             Next = CursedFlameRain;
                             Reset();
@@ -601,9 +614,12 @@ namespace EbonianMod.NPCs.Conglomerate
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + openOffset, Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0);
 
 
-                            float off = Main.rand.NextFloat(-PiOver4, PiOver4);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - openOffset.RotatedBy(PiOver2) * 3, Helper.FromAToB(NPC.Center - openOffset.RotatedBy(PiOver2), player.Center + player.velocity) * 20, ProjectileType<CGhostCeci>(), 0, 0);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + openOffset.RotatedBy(PiOver2) * 3, Helper.FromAToB(NPC.Center + openOffset.RotatedBy(PiOver2), player.Center + player.velocity) * 20, ProjectileType<CGhostCeci>(), 0, 0);
+                            for (int i = -2; i < 3; i++)
+                            {
+                                float off = Main.rand.NextFloat(-PiOver4 * 0.3f, PiOver4 * 0.3f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - openOffset.RotatedBy(PiOver2) * 3 + openOffset * 0.25f * i, Helper.FromAToB(NPC.Center - openOffset.RotatedBy(PiOver2) + openOffset * 0.25f * i, player.Center + player.velocity).RotatedBy(off) * 20, ProjectileType<CGhostCeci>(), 0, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + openOffset.RotatedBy(PiOver2) * 3 + openOffset * 0.25f * i, Helper.FromAToB(NPC.Center + openOffset.RotatedBy(PiOver2) + openOffset * 0.25f * i, player.Center + player.velocity).RotatedBy(off) * 20, ProjectileType<CGhostCeci>(), 0, 0);
+                            }
 
                             //SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center + openOffset);
                             NPC.velocity = Vector2.Zero;
@@ -672,12 +688,12 @@ namespace EbonianMod.NPCs.Conglomerate
                     {
                         DefaultVerletAnimation();
                         rotation = -Vector2.UnitY.ToRotation() - PiOver2;
+                        Vector2 pos = player.Center + new Vector2(player.velocity.X, -75);
+                        Vector2 target = pos;
+                        Vector2 moveTo = target - NPC.Center;
+                        NPC.velocity = (moveTo) * 0.0445f;
                         if (AITimer > 60 && AITimer % (phase2 ? 2 : 3) == 0 && AITimer < 90)
                         {
-                            Vector2 pos = new Vector2(player.position.X, player.position.Y - 75);
-                            Vector2 target = pos;
-                            Vector2 moveTo = target - NPC.Center;
-                            NPC.velocity = (moveTo) * 0.0445f;
                             Projectile.NewProjectile(null, NPC.Center + -Vector2.UnitY.RotatedByRandom(PiOver4) * 30, -Vector2.UnitY.RotatedByRandom(PiOver4 * 0.3f) * Main.rand.NextFloat(4, 10), (Main.rand.NextBool() ? ProjectileType<TerrorStaffPEvil>() : ProjectileType<CecitiorBombThing>()), 20, 0);
                         }
                         if (AITimer >= 90)
@@ -889,49 +905,16 @@ namespace EbonianMod.NPCs.Conglomerate
                         }
                         else isScreaming = false;
 
-                        if (AITimer >= 50 && AITimer <= 70)
+                        if (AITimer > 70 && AITimer < 85 && AITimer % 3 == 0)
                         {
-                            for (int i = -1; i < 2; i++)
+                            for (int i = 0; i < 2; i++)
                             {
-                                if (i == 0) continue;
-                                Vector2 _pos = NPC.Center + new Vector2(i * (AITimer - 50) * 200, SmoothStep(-400, 0, MathF.Abs(i * (AITimer - 50)) / 5f));
-                                Vector2 vel = Vector2.UnitY * 15;
-                                Projectile.NewProjectile(null, _pos, vel, ProjectileType<CecitiorTeeth>(), 35, 0);
-                                Projectile.NewProjectile(null, _pos, Vector2.Zero, ProjectileType<CFlareExplosion>(), 0, 0);
+                                Vector2 _pos = player.Center + Main.rand.NextVector2CircularEdge(1200, 1200) + Main.rand.NextVector2Circular(100, 100);
+                                Vector2 vel = Helper.FromAToB(_pos, player.Center).RotatedByRandom(PiOver4 / 2f);
+                                Projectile.NewProjectile(null, _pos, vel, ProjectileType<CBeamSmall>(), 0, 0, ai1: -0.4f);
                             }
                         }
-                        if (AITimer >= 85 && AITimer <= 110)
-                        {
-                            for (int i = -1; i < 2; i++)
-                            {
-                                if (i == 0) continue;
-                                Vector2 _pos = NPC.Center + new Vector2(i * (AITimer - 85) * 200 + 100, -100 - SmoothStep(-800, 200, MathF.Abs(i * (AITimer - 85)) / 10f));
-                                Vector2 vel = -Vector2.UnitY * 15;
-                                Projectile.NewProjectile(null, _pos, vel, ProjectileType<CecitiorTeeth>(), 35, 0);
-                                Projectile.NewProjectile(null, _pos, Vector2.Zero, ProjectileType<CFlareExplosion>(), 0, 0);
-                            }
-                        }
-
-                        if (AITimer >= 135 && AITimer <= 160)
-                        {
-                            for (int i = -1; i < 2; i++)
-                            {
-                                if (i == 0) continue;
-                                Vector2 _pos = NPC.Center + new Vector2(i * (AITimer - 135) * 200 + 100, -100 - SmoothStep(-800, 200, MathF.Abs(i * (AITimer - 135)) / 10f)).RotatedBy(PiOver2);
-                                Vector2 vel = Vector2.UnitX * 15;
-                                Projectile.NewProjectile(null, _pos, vel, ProjectileType<CecitiorTeeth>(), 35, 0);
-                                Projectile.NewProjectile(null, _pos, Vector2.Zero, ProjectileType<CFlareExplosion>(), 0, 0);
-                            }
-
-                            for (int i = -1; i < 2; i++)
-                            {
-                                if (i == 0) continue;
-                                Vector2 _pos = NPC.Center + new Vector2(i * (AITimer - 135) * 200 + 100, -100 - SmoothStep(-800, 200, MathF.Abs(i * (AITimer - 135)) / 10f)).RotatedBy(-PiOver2); Vector2 vel = -Vector2.UnitX * 15;
-                                Projectile.NewProjectile(null, _pos, vel, ProjectileType<CecitiorTeeth>(), 35, 0);
-                                Projectile.NewProjectile(null, _pos, Vector2.Zero, ProjectileType<CFlareExplosion>(), 0, 0);
-                            }
-                        }
-                        if (AITimer >= 240)
+                        if (AITimer >= 140)
                         {
                             Next = BothHalvesRainCloseIn;
                             Reset();
@@ -947,7 +930,7 @@ namespace EbonianMod.NPCs.Conglomerate
                         NPC.velocity = (moveTo) * 0.0745f;
                         if (AITimer == 1)
                             openSound = SoundEngine.PlaySound(EbonianSounds.cecitiorOpen, NPC.Center);
-                        if (AITimer < 100)
+                        if (AITimer < 50)
                         {
                             NPC.dontTakeDamage = true;
                             open = true;
@@ -955,27 +938,36 @@ namespace EbonianMod.NPCs.Conglomerate
                             openRotation = Helper.LerpAngle(openRotation, PiOver2, 0.05f);
                             openOffset = Vector2.Lerp(openOffset, new Vector2(600, 0), 0.1f);
                         }
-                        if (AITimer > 100 && AITimer < 200)
+                        if (AITimer > 50 && AITimer < 150)
                         {
-                            openOffset = Vector2.Lerp(new Vector2(600, 0), new Vector2(50, 0), InOutCirc.Invoke((AITimer - 100) / 100));
+                            openOffset = Vector2.Lerp(new Vector2(600, 0), new Vector2(50, 0), InOutCirc.Invoke((AITimer - 50) / 100));
 
-                            if (AITimer > 110)
+                            if (AITimer > 60)
                             {
-                                if (AITimer % 8 == 0)
-                                    Projectile.NewProjectile(null, NPC.Center + openOffset, -Vector2.UnitY.RotatedByRandom(PiOver4 * 1.25f) * 5, ProjectileType<CFlesh>(), 30, 0);
-                                if (AITimer % 8 == 4)
-                                    Projectile.NewProjectile(null, NPC.Center - openOffset, -Vector2.UnitY.RotatedByRandom(PiOver4 * 1.25f) * 5, ProjectileType<CFlesh>(), 30, 0);
+                                if (AITimer % 10 == 0)
+                                {
+                                    Projectile.NewProjectile(null, NPC.Center + openOffset, -Vector2.UnitY.RotatedByRandom(PiOver2) * 15, ProjectileType<CFlesh>(), 30, 0);
+                                }
+                                if (AITimer % 10 == 5)
+                                {
+                                    Projectile.NewProjectile(null, NPC.Center - openOffset, -Vector2.UnitY.RotatedByRandom(PiOver2) * 15, ProjectileType<CFlesh>(), 30, 0);
+                                }
+                                if (AITimer % 15 == 0)
+                                {
+                                    Projectile.NewProjectile(null, NPC.Center + openOffset, -Vector2.UnitY.RotatedBy(-PiOver2 * 0.7f).RotatedByRandom(PiOver2) * 5, ProjectileType<TerrorVilethorn1>(), 30, 0);
+                                    Projectile.NewProjectile(null, NPC.Center - openOffset + Main.rand.NextVector2CircularEdge(5, 5), -Vector2.UnitY.RotatedBy(PiOver2 * 0.7f).RotatedByRandom(PiOver2) * 5, ProjectileType<CecitiorEyeP>(), 30, 0);
+                                }
                             }
                         }
-                        if (AITimer >= 200)
+                        if (AITimer >= 150)
                         {
                             NPC.dontTakeDamage = false;
                             rotation = 0;
                             openRotation = Helper.LerpAngle(openRotation, 0, 0.25f);
                         }
-                        if (AITimer == 220)
+                        if (AITimer == 170)
                             open = false;
-                        if (AITimer >= 250)
+                        if (AITimer >= 200)
                         {
                             Next = DashSpam;
                             Reset();
@@ -1067,7 +1059,7 @@ namespace EbonianMod.NPCs.Conglomerate
                         }
                         if (AITimer == 55)
                             Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<GreenChargeUp>(), 0, 0);
-                        if (AITimer == 120)
+                        if (AITimer == 100)
                         {
                             Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                             for (int i = 0; i < 10; i++)
@@ -1079,7 +1071,7 @@ namespace EbonianMod.NPCs.Conglomerate
                             }
                             EbonianSystem.ScreenShakeAmount = 10;
                         }
-                        if (AITimer == 140)
+                        if (AITimer == 120)
                         {
                             Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                             for (int i = 0; i < 10; i++)
@@ -1091,7 +1083,7 @@ namespace EbonianMod.NPCs.Conglomerate
                             }
                             EbonianSystem.ScreenShakeAmount = 10;
                         }
-                        if (AITimer == 160)
+                        if (AITimer == 140)
                         {
                             Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                             for (int i = 0; i < 10; i++)
@@ -1104,7 +1096,7 @@ namespace EbonianMod.NPCs.Conglomerate
                             EbonianSystem.ScreenShakeAmount = 10;
                         }
 
-                        if (AITimer >= 220)
+                        if (AITimer >= 140)
                         {
                             Next = IchorBomb;
                             Reset();
@@ -1133,7 +1125,7 @@ namespace EbonianMod.NPCs.Conglomerate
                         {
                             NPC.velocity = Vector2.Zero;
                         }
-                        if (AITimer >= 50 && AITimer <= 70 && AITimer % 10 == 0)
+                        if (AITimer >= 50 && AITimer <= 70 && AITimer % 5 == 0)
                         {
                             SoundEngine.PlaySound(EbonianSounds.cecitiorSpit, NPC.Center);
                             for (int i = -1; i < 2; i++)
@@ -1172,34 +1164,28 @@ namespace EbonianMod.NPCs.Conglomerate
                             NPC.velocity = Helper.FromAToB(NPC.Center, player.Center - new Vector2(0, 360), false) / 10f;
                         }
                         else NPC.velocity = Vector2.Zero;
-                        if (AITimer == 60)
+                        if (AITimer > 40 && AITimer < 90 && AITimer % 4 == 0)
                         {
-                            SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
-                            for (int i = -1; i < 2; i++)
-                            {
-                                Projectile.NewProjectile(null, NPC.Center + openOffset, Vector2.UnitY.RotatedBy(i * 0.5f), ProjectileType<CBeamSmall>(), 0, 0, ai1: -0.9f);
-                                Projectile.NewProjectile(null, NPC.Center - openOffset, Vector2.UnitY.RotatedBy(i * 0.5f), ProjectileType<CBeamSmall>(), 0, 0, ai1: -0.9f);
-                            }
+                            if (AITimer % 8 == 0)
+                                SoundEngine.PlaySound(SoundID.Item34, NPC.Center);
+                            Projectile.NewProjectile(null, NPC.Center + openOffset + Main.rand.NextVector2Circular(20, 20), Vector2.UnitY.RotatedByRandom(PiOver2 * 0.7f) * 10, ProjectileType<TFlameThrower>(), 30, 0);
+                            Projectile.NewProjectile(null, NPC.Center - openOffset + Main.rand.NextVector2Circular(20, 20), Vector2.UnitY.RotatedByRandom(PiOver2 * 0.7f) * 10, ProjectileType<CIchor>(), 30, 0);
                         }
                         if (AITimer < 100)
                         {
                             openRotation = Helper.LerpAngle(openRotation, -PiOver4, 0.25f);
                             NPC.rotation = Helper.LerpAngle(NPC.rotation, PiOver4, 0.25f);
+                            rotation = Helper.LerpAngle(rotation, PiOver4, 0.25f);
                         }
-                        if (AITimer >= 150)
+                        if (AITimer >= 120)
                         {
-                            openOffset.X = SmoothStep(8 * 25f, 0, (AITimer - 110) / 40);
+                            open = false;
                             openRotation = Helper.LerpAngle(openRotation, 0, 0.25f);
                             NPC.rotation = Helper.LerpAngle(NPC.rotation, 0, 0.25f);
                             rotation = Helper.LerpAngle(rotation, 0, 0.25f);
                         }
-                        if (AITimer >= 200)
-                        {
-                            openOffset = Vector2.Zero;
-                            open = false;
-                        }
 
-                        if (AITimer >= 230)
+                        if (AITimer >= 150)
                         {
                             Next = ClawAtFlesh;
                             Reset();
@@ -1240,6 +1226,7 @@ namespace EbonianMod.NPCs.Conglomerate
                                     NPC.SimpleStrikeNPC(50, 0);
                                     Projectile.NewProjectile(null, NPC.Center + Main.rand.NextVector2Circular(40, 40), Main.rand.NextVector2Circular(17, 17), ProjectileType<CFlesh>(), 30, 0);
                                     Projectile.NewProjectile(null, NPC.Center + Main.rand.NextVector2Circular(40, 40), Main.rand.NextVector2Circular(7, 7), ProjectileType<CIchor>(), 30, 0);
+                                    Projectile.NewProjectile(null, NPC.Center + Main.rand.NextVector2Circular(40, 40), Main.rand.NextVector2Circular(7, 7), ProjectileType<CecitiorEyeP>(), 30, 0);
                                     Projectile.NewProjectile(null, NPC.Center + Main.rand.NextVector2Circular(40, 40), Main.rand.NextVector2Circular(17, 17), ProjectileType<TFlameThrower2>(), 30, 0);
                                 }
                                 for (int i = 0; i < clawVerlet.Length; i++)
@@ -1289,7 +1276,7 @@ namespace EbonianMod.NPCs.Conglomerate
                                 disposablePos[0] = spineVerlet.position + Vector2.Clamp(Helper.FromAToB(spineVerlet.position, player.Center + player.velocity, false), -Vector2.One * 520, Vector2.One * 420);
                             }
                         }
-                        if (spineVerlet.position.Distance(player.Center) < 27 && AITimer2 == 0)
+                        if (spineVerlet.position.Distance(player.Center) < 27 && AITimer2 == 0 && AITimer > 55)
                         {
                             AITimer2 = 1;
                             SoundEngine.PlaySound(EbonianSounds.shriek.WithPitchOffset(-1f).WithVolumeScale(1.6f), NPC.Center);
@@ -1447,7 +1434,7 @@ namespace EbonianMod.NPCs.Conglomerate
 
                         if (AITimer > 50)
                         {
-                            if (AITimer % 20 == 0)
+                            if (AITimer % 10 == 0)
                             {
                                 SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
                                 Projectile.NewProjectile(null, eyeVerlet.position, Helper.FromAToB(eyeVerlet.position, player.Center).RotatedByRandom(PiOver4), ProjectileType<CecitiorEyeP>(), 30, 0);
@@ -1509,9 +1496,9 @@ namespace EbonianMod.NPCs.Conglomerate
                             {
                                 SoundEngine.PlaySound(EbonianSounds.cecitiorSpit, armVerlet.position);
                                 float off = Main.rand.NextFloat(Pi);
-                                for (int i = 0; i < 8; i++)
+                                for (int i = 0; i < 12; i++)
                                 {
-                                    float angle = Helper.CircleDividedEqually(i, 8) + off;
+                                    float angle = Helper.CircleDividedEqually(i, 12) + off;
                                     Projectile.NewProjectile(null, armVerlet.position, angle.ToRotationVector2() * 10, ProjectileType<CecitiorTeeth>(), 30, 0);
                                 }
                             }

@@ -137,14 +137,14 @@ namespace EbonianMod.Projectiles.Conglomerate
                 Vector2 scale = new Vector2(1, 0.5f);
                 startVel = Vector2.Lerp(startVel, Projectile.velocity, 0.5f);
                 float rot = startVel.ToRotation() + PiOver2;
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < (Type == ProjectileType<CBeamSmall>() ? 1 : 2); i++)
                 {
                     Main.spriteBatch.Draw(tex2, Projectile.Center + Projectile.velocity * 40 - Main.screenPosition, null, Color.White * alpha * 1.4f * coloredFlareAlpha, rot, tex2.Size() / 2, scale * 2, SpriteEffects.None, 0);
                     Main.spriteBatch.Draw(tex2, Projectile.Center + Projectile.velocity * 40 - new Vector2(tex2.Width, 0).RotatedBy(Projectile.velocity.ToRotation() - PiOver2) - Main.screenPosition, new Rectangle(tex2.Width / 2, 0, tex.Width / 2, tex.Height), Color.Maroon * coloredFlareAlpha * alpha * 2, rot, tex2.Size() / 2, scale * 2, SpriteEffects.None, 0);
                     Main.spriteBatch.Draw(tex2, Projectile.Center + Projectile.velocity * 40 - Main.screenPosition, new Rectangle(0, 0, tex.Width / 2, tex.Height), Color.LawnGreen * alpha * 2 * coloredFlareAlpha, rot, tex2.Size() / 2, scale * 2, SpriteEffects.None, 0);
                 }
 
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < (Type == ProjectileType<CBeamSmall>() ? 1 : 2); i++)
                 {
                     Main.spriteBatch.Draw(tex2, Projectile.Center + Projectile.velocity * 40 - Main.screenPosition, null, Color.White * flareAlpha * alpha * 2 * (Type == ProjectileType<CBeamSmall>() ? Clamp((startSize - 0.5f) * 2, 0, 1) * 5 : 1), rot + PiOver2, tex2.Size() / 2, scale * 5 * flareScaleMult, SpriteEffects.None, 0);
                     Main.spriteBatch.Draw(tex2, Projectile.Center + Projectile.velocity * 40 - Main.screenPosition, null, Color.Maroon * flareAlpha * alpha * 2 * (Type == ProjectileType<CBeamSmall>() ? Clamp((startSize - 0.5f) * 2, 0, 1) * 5 : 1), rot, tex2.Size() / 2, scale * 5 * flareScaleMult, SpriteEffects.None, 0);
@@ -152,14 +152,15 @@ namespace EbonianMod.Projectiles.Conglomerate
                 }
 
 
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < (Type == ProjectileType<CBeamSmall>() ? 1 : 3); i++)
                 {
                     Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.Red, Color.LimeGreen, 0.5f) * alpha * coloredFlareAlpha * 0.5f, 0, tex.Size() / 2, 5 + Projectile.scale, SpriteEffects.None, 0);
                     Main.spriteBatch.Draw(tex3, Projectile.Center - Main.screenPosition, null, Color.Lerp(Color.Red, Color.LimeGreen, 0.5f) * alpha * coloredFlareAlpha * 0.5f, 0, tex3.Size() / 2, 5 + Projectile.scale, SpriteEffects.None, 0);
                 }
                 Main.spriteBatch.Reload(BlendState.AlphaBlend);
-                DrawVertices(Projectile.Center, Projectile.velocity.ToRotation(), texture, texture2, i_progress, 5 * additionalAlphaOffset, Type == ProjectileType<CBeamSmall>() ? 0.005f : 0.0025f, 1, visual1);
-                DrawVertices(Projectile.Center, Projectile.velocity.ToRotation(), texture3, texture, i_progress, 5 * additionalAlphaOffset, Type == ProjectileType<CBeamSmall>() ? 0.005f : 0.0025f, 1, visual2);
+
+                DrawVertices(Projectile.Center, Projectile.velocity.ToRotation(), texture, texture2, i_progress, 5 * additionalAlphaOffset, (Type == ProjectileType<CBeamSmall>() ? 0.005f : 0.0025f), 1, visual1);
+                DrawVertices(Projectile.Center, Projectile.velocity.ToRotation(), texture3, texture, i_progress, 5 * additionalAlphaOffset, (Type == ProjectileType<CBeamSmall>() ? 0.005f : 0.0025f), 1, visual2);
             }
             return false;
         }
@@ -226,7 +227,7 @@ namespace EbonianMod.Projectiles.Conglomerate
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             if (vertices.Count >= 3 && vertices2.Count >= 3 && (Type != ProjectileType<CBeamSmall>() ? vertices3.Count >= 3 : true))
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < (Type == ProjectileType<CBeamSmall>() ? 1 : 3); i++)
                 {
                     Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, texture, false);
                     Helper.DrawTexturedPrimitives(vertices.ToArray(), PrimitiveType.TriangleStrip, texture2, false);
@@ -262,9 +263,11 @@ namespace EbonianMod.Projectiles.Conglomerate
                 if (Projectile.damage == 0)
                     flareAlpha = 0;
                 else
+                {
+                    Projectile.extraUpdates = 1;
                     flareAlpha = 0.8f;
+                }
                 flareScaleMult = 0.35f;
-                Projectile.extraUpdates = 1;
                 Projectile.velocity.Normalize();
                 startVel = Projectile.velocity;
                 Projectile.rotation = Projectile.velocity.ToRotation();
@@ -293,7 +296,7 @@ namespace EbonianMod.Projectiles.Conglomerate
                 Projectile.Center = owner.Center;
             }
             if (Projectile.damage > 0 && Projectile.timeLeft > 70 && Projectile.timeLeft < 125)
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     float fac = Main.rand.NextFloat(0.2f, 1);
 

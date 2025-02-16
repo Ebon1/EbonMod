@@ -42,6 +42,8 @@ namespace EbonianMod.NPCs.Desert
 
             if (hopCD > 0)
             {
+                if (hopCD > 77)
+                    NPC.velocity.X = NPC.direction == 1 ? 6f : -6f;
                 hopCD--;
             }
 
@@ -49,9 +51,11 @@ namespace EbonianMod.NPCs.Desert
             {
                 frameCD--;
             }
+            Collision.StepUp(ref NPC.position, ref NPC.velocity, NPC.width, NPC.height, ref NPC.stepSpeed, ref NPC.gfxOffY);
+
 
             Vector2 tileCoords = new Vector2(NPC.position.X, NPC.Center.Y + 32);
-            if (NPC.collideY)
+            if (NPC.Grounded())
             {
                 NPC.velocity.X = 0f;
 
@@ -72,7 +76,7 @@ namespace EbonianMod.NPCs.Desert
                             }
                             else
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, -2f)), ModContent.ProjectileType<Coins>(), NPC.damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, -2f)), ModContent.ProjectileType<Coins>(), NPC.damage / 3, 0f, Main.myPlayer);
                                 SoundEngine.PlaySound(SoundID.Coins, NPC.Center);
 
                                 NPC.velocity.Y = -6f;
@@ -85,7 +89,7 @@ namespace EbonianMod.NPCs.Desert
                         {
                             if (frame == 64 * 2)
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(Main.rand.NextFloat(-1f, 1f), -0.5f), ModContent.ProjectileType<Coins>(), NPC.damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(Main.rand.NextFloat(-1f, 1f), -0.5f), ModContent.ProjectileType<Coins>(), NPC.damage / 3, 0f, Main.myPlayer);
                                 SoundEngine.PlaySound(SoundID.Coins, NPC.Center);
                             }
 
@@ -110,7 +114,7 @@ namespace EbonianMod.NPCs.Desert
                     {
                         if (frame == 64 * 2 || frame == 64 * 3)
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-4f, -6f)), ModContent.ProjectileType<Coins>(), NPC.damage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-4f, -6f)), ModContent.ProjectileType<Coins>(), NPC.damage / 3, 0f, Main.myPlayer);
                             SoundEngine.PlaySound(SoundID.Coins, NPC.Center);
                         }
 
@@ -141,7 +145,7 @@ namespace EbonianMod.NPCs.Desert
 
         public override void HitEffect(NPC.HitInfo hit)
         {
-            Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(Main.rand.NextFloat(-1f, 1f), -0.5f), ModContent.ProjectileType<Coins>(), NPC.damage, 0f, Main.myPlayer);
+            Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(Main.rand.NextFloat(-1f, 1f), -0.5f), ModContent.ProjectileType<Coins>(), NPC.damage / 3, 0f, Main.myPlayer);
             SoundEngine.PlaySound(SoundID.Coins, NPC.Center);
 
             if (NPC.life <= 0)
@@ -158,11 +162,11 @@ namespace EbonianMod.NPCs.Desert
 
         public override void OnKill()
         {
-            Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(4f, -3f), ModContent.ProjectileType<Coins>(), NPC.damage, 0f, Main.myPlayer);
-            Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(2f, -4f), ModContent.ProjectileType<Coins>(), NPC.damage, 0f, Main.myPlayer);
-            Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(0f, -5f), ModContent.ProjectileType<Coins>(), NPC.damage, 0f, Main.myPlayer);
-            Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(-2f, -4f), ModContent.ProjectileType<Coins>(), NPC.damage, 0f, Main.myPlayer);
-            Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(-4f, -3f), ModContent.ProjectileType<Coins>(), NPC.damage, 0f, Main.myPlayer);
+            Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(4f, -3f), ModContent.ProjectileType<Coins>(), NPC.damage / 3, 0f, Main.myPlayer);
+            Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(2f, -4f), ModContent.ProjectileType<Coins>(), NPC.damage / 3, 0f, Main.myPlayer);
+            Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(0f, -5f), ModContent.ProjectileType<Coins>(), NPC.damage / 3, 0f, Main.myPlayer);
+            Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(-2f, -4f), ModContent.ProjectileType<Coins>(), NPC.damage / 3, 0f, Main.myPlayer);
+            Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(-4f, -3f), ModContent.ProjectileType<Coins>(), NPC.damage / 3, 0f, Main.myPlayer);
             SoundEngine.PlaySound(SoundID.Coins, NPC.Center);
         }
 
