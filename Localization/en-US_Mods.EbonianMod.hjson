@@ -553,7 +553,7 @@ NPCs: {
 			'''
 	}
 
-	CoinBag.DisplayName: Coin Bag
+	CoinBag.DisplayName: Possessed Bag
 }
 
 Items: {

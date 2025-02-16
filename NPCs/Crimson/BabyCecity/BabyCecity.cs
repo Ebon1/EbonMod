@@ -265,8 +265,8 @@ namespace EbonianMod.NPCs.Crimson.BabyCecity
                             AITimer2++;
                         else
                         {
-                            Vector2 pos = NPC.Center + NPC.rotation.ToRotationVector2().RotatedBy(PiOver2).RotatedByRandom(PiOver4) * Main.rand.NextFloat(10, 200);
-                            Dust.NewDustPerfect(pos, DustID.IchorTorch, Helper.FromAToB(pos, NPC.Center) * Main.rand.NextFloat(10, 20));
+                            Vector2 pos = NPC.Center + NPC.rotation.ToRotationVector2().RotatedBy(PiOver2).RotatedByRandom(PiOver4) * Main.rand.NextFloat(10, 100);
+                            Dust.NewDustPerfect(pos, DustID.IchorTorch, Helper.FromAToB(pos, NPC.Center) * Main.rand.NextFloat(10, 20)).noGravity = true;
                         }
                         if (AITimer2 % 20 == 5)
                         {

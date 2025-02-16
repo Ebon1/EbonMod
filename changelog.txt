@@ -1,11 +1,13 @@
 v 2.0
 ## Additions
 - Added a post-plantera bossfight, the Conglomerate
+- Added the Possessed Bag enemy
 
 ## Changes
 - Resprited Sawcitior
 - Resprited the Trumpet
 - Hot Garbage no longer slows down in water
+- Gave the Crimorrhage a telegraph before it fires ichor
 - Fixed some missing translation support (Thank you Nexorchik)
 
 ## Balancing
