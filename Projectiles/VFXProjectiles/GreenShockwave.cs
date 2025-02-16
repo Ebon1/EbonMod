@@ -37,7 +37,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         public override bool ShouldUpdatePosition() => false;
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D tex = ExtraTextures2.circle_02;
+            Texture2D tex = Projectile.ai[2] == 0 ? ExtraTextures2.circle_02 : ExtraTextures.explosion;
             Main.spriteBatch.Reload(BlendState.Additive);
             float alpha = MathHelper.Lerp(1, 0, Projectile.ai[0]);
             for (int i = 0; i < 2; i++)

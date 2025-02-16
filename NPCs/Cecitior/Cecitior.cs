@@ -532,14 +532,14 @@ namespace EbonianMod.NPCs.Cecitior
                 OldState = AIState;
             Player player = Main.player[NPC.target];
 
-            if (CachedSlotIdsSystem.loopedSounds.Where(x => x.key == "CecitiorIdle").Any())
+            if (CachedSlotIdsSystem.loopedSounds.ContainsKey("CecitiorIdle"))
             {
-                SlotId cachedSound = CachedSlotIdsSystem.loopedSounds.Where(x => x.key == "CecitiorIdle").ElementAt(0).slotId;
+                SlotId cachedSound = CachedSlotIdsSystem.loopedSounds["CecitiorIdle"].slotId;
                 if (!SoundEngine.TryGetActiveSound(cachedSound, out var activeSound) || !activeSound.IsPlaying)
                 {
-                    CachedSlotIdsSystem.ClearSound(CachedSlotIdsSystem.loopedSounds.Where(x => x.key == "CecitiorIdle").ElementAt(0));
+                    CachedSlotIdsSystem.ClearSound("CecitiorIdle");
 
-                    CachedSlotIdsSystem.loopedSounds.Add(new("CecitiorIdle", SoundEngine.PlaySound(EbonianSounds.cecitiorIdle.WithVolumeScale(0.35f), NPC.Center), Type));
+                    CachedSlotIdsSystem.loopedSounds.Add("CecitiorIdle", new(SoundEngine.PlaySound(EbonianSounds.cecitiorIdle.WithVolumeScale(0.35f), NPC.Center), Type));
                 }
                 if (SoundEngine.TryGetActiveSound(cachedSound, out var __activeSound))
                 {
@@ -548,7 +548,7 @@ namespace EbonianMod.NPCs.Cecitior
             }
             else
             {
-                CachedSlotIdsSystem.loopedSounds.Add(new("CecitiorIdle", SoundEngine.PlaySound(EbonianSounds.cecitiorIdle.WithVolumeScale(0.35f), NPC.Center), Type));
+                CachedSlotIdsSystem.loopedSounds.Add("CecitiorIdle", new(SoundEngine.PlaySound(EbonianSounds.cecitiorIdle.WithVolumeScale(0.35f), NPC.Center), Type));
             }
             int eyeCount = 0;
             foreach (NPC npc in Main.ActiveNPCs)

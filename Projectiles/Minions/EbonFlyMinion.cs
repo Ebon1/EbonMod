@@ -29,7 +29,7 @@ namespace EbonianMod.Projectiles.Minions
             Texture2D tex = Helper.GetTexture(Texture);
             Texture2D glow = Helper.GetTexture(Texture + "_Glow");
             Texture2D glow2 = Helper.GetTexture(Texture + "_Glow2");
-            SpriteEffects effects = Projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            SpriteEffects effects = Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 40, 40, 40), lightColor, Projectile.rotation, Projectile.Size / 2, Projectile.scale, effects, 0);
             Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * 40, 40, 40), Color.White, Projectile.rotation, Projectile.Size / 2, Projectile.scale, effects, 0);
             Main.spriteBatch.Reload(BlendState.Additive);

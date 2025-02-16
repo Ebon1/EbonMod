@@ -37,17 +37,14 @@ namespace EbonianMod.Dusts
                 dust.active = false;
             return false;
         }
-        public static void DrawAll(SpriteBatch sb)
+        public static void DrawAll(SpriteBatch sb, Dust d)
         {
-            foreach (Dust d in Main.dust)
+            if (d.type == DustType<GenericAdditiveDust>() && d.active)
             {
-                if (d.type == DustType<GenericAdditiveDust>() && d.active)
-                {
-                    Texture2D tex = ExtraTextures.explosion;
-                    if (d.customData != null)
-                        sb.Draw(tex, d.position - Main.screenPosition, null, Color.White * d.scale * 5, 0, tex.Size() / 2, d.scale * 0.85f * 2, SpriteEffects.None, 0);
-                    sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.customData != null ? ((int)d.customData == 2 ? d.scale * 10 : 1) : 1), 0, tex.Size() / 2, d.scale * 2, SpriteEffects.None, 0);
-                }
+                Texture2D tex = ExtraTextures.explosion;
+                if (d.customData != null)
+                    sb.Draw(tex, d.position - Main.screenPosition, null, Color.White * d.scale * 5, 0, tex.Size() / 2, d.scale * 0.85f * 2, SpriteEffects.None, 0);
+                sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.customData != null ? ((int)d.customData == 2 ? d.scale * 10 : 1) : 1), 0, tex.Size() / 2, d.scale * 2, SpriteEffects.None, 0);
             }
         }
     }
@@ -73,17 +70,14 @@ namespace EbonianMod.Dusts
                 dust.active = false;
             return false;
         }
-        public static void DrawAll(SpriteBatch sb)
+        public static void DrawAll(SpriteBatch sb, Dust d)
         {
-            foreach (Dust d in Main.dust)
+            if (d.type == DustType<SparkleDust>() && d.active)
             {
-                if (d.type == DustType<SparkleDust>() && d.active)
-                {
-                    Texture2D tex = ExtraTextures.crosslight;
-                    if (d.customData != null)
-                        sb.Draw(tex, d.position - Main.screenPosition, null, Color.White * d.scale * 5, 0, tex.Size() / 2, d.scale * 0.85f * 2, SpriteEffects.None, 0);
-                    sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.customData != null ? ((int)d.customData == 2 ? d.scale * 10 : 1) : 1), 0, tex.Size() / 2, d.scale * 2, SpriteEffects.None, 0);
-                }
+                Texture2D tex = ExtraTextures.crosslight;
+                if (d.customData != null)
+                    sb.Draw(tex, d.position - Main.screenPosition, null, Color.White * d.scale * 5, 0, tex.Size() / 2, d.scale * 0.85f * 2, SpriteEffects.None, 0);
+                sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.customData != null ? ((int)d.customData == 2 ? d.scale * 10 : 1) : 1), 0, tex.Size() / 2, d.scale * 2, SpriteEffects.None, 0);
             }
         }
     }
@@ -115,17 +109,19 @@ namespace EbonianMod.Dusts
                 dust.velocity *= 0.98f;
             if (dust.scale <= 0)
                 dust.active = false;
+            dust.fadeIn = Lerp(dust.fadeIn, 1, 0.1f);
             return false;
         }
-        public static void DrawAll(SpriteBatch sb)
+        public static void DrawAll(SpriteBatch sb, Dust d)
         {
-            foreach (Dust d in Main.dust)
+            if (d.type == DustType<LineDustFollowPoint>() && d.active)
             {
-                if (d.type == DustType<LineDustFollowPoint>() && d.active)
-                {
-                    Texture2D tex = ExtraTextures2.trace_01;
-                    sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.scale * 10), d.rotation, tex.Size() / 2, new Vector2(1, Clamp(d.velocity.Length() * 0.25f, 0, 3)) * d.scale * 2, SpriteEffects.None, 0);
-                }
+                Texture2D tex = ExtraTextures2.trace_01;
+
+                for (float i = 0; i < 10 * d.fadeIn * d.scale * 5; i++)
+                    sb.Draw(tex, d.position - d.velocity * 2 * i - Main.screenPosition, null, d.color * (d.scale * 10 * SmoothStep(1, 0, i / 10f)), d.rotation, tex.Size() / 2, new Vector2(1, Clamp(d.velocity.Length() * 0.25f, 0, 3)) * d.scale * 2, SpriteEffects.None, 0);
+
+                sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.scale * 10), d.rotation, tex.Size() / 2, new Vector2(1, Clamp(d.velocity.Length() * 0.25f, 0, 3)) * d.scale * 2, SpriteEffects.None, 0);
             }
         }
     }

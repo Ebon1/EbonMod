@@ -36,16 +36,13 @@ namespace EbonianMod.Dusts
                 dust.active = false;
             return false;
         }
-        public static void DrawAll(SpriteBatch sb)
+        public static void DrawAll(SpriteBatch sb, Dust d)
         {
-            foreach (Dust d in Main.dust)
+            if (d.type == DustType<FireDust>() && d.active)
             {
-                if (d.type == DustType<FireDust>() && d.active)
-                {
-                    Texture2D tex = Request<Texture2D>("EbonianMod/Extras/Extras2/fire_0" + d.customData).Value;
-                    sb.Draw(tex, d.position - Main.screenPosition, null, Color.White, 0, tex.Size() / 2, d.scale * 0.85f * 2, SpriteEffects.None, 0);
-                    sb.Draw(tex, d.position - Main.screenPosition, null, Color.OrangeRed, 0, tex.Size() / 2, d.scale * 2, SpriteEffects.None, 0);
-                }
+                Texture2D tex = Request<Texture2D>("EbonianMod/Extras/Extras2/fire_0" + d.customData).Value;
+                sb.Draw(tex, d.position - Main.screenPosition, null, Color.White, 0, tex.Size() / 2, d.scale * 0.85f * 2, SpriteEffects.None, 0);
+                sb.Draw(tex, d.position - Main.screenPosition, null, Color.OrangeRed, 0, tex.Size() / 2, d.scale * 2, SpriteEffects.None, 0);
             }
         }
     }
@@ -72,16 +69,13 @@ namespace EbonianMod.Dusts
                 dust.active = false;
             return false;
         }
-        public static void DrawAll(SpriteBatch sb)
+        public static void DrawAll(SpriteBatch sb, Dust d)
         {
-            foreach (Dust d in Main.dust)
+            if (d.type == DustType<ColoredFireDust>() && d.active)
             {
-                if (d.type == DustType<ColoredFireDust>() && d.active)
-                {
-                    Texture2D tex = Request<Texture2D>("EbonianMod/Extras/Extras2/fire_0" + d.customData).Value;
-                    sb.Draw(tex, d.position - Main.screenPosition, null, Color.White * d.scale * 5, 0, tex.Size() / 2, d.scale * 0.85f * 2, SpriteEffects.None, 0);
-                    sb.Draw(tex, d.position - Main.screenPosition, null, d.color * d.scale * 10, 0, tex.Size() / 2, d.scale * 2, SpriteEffects.None, 0);
-                }
+                Texture2D tex = Request<Texture2D>("EbonianMod/Extras/Extras2/fire_0" + d.customData).Value;
+                sb.Draw(tex, d.position - Main.screenPosition, null, Color.White * d.scale * 5, 0, tex.Size() / 2, d.scale * 0.85f * 2, SpriteEffects.None, 0);
+                sb.Draw(tex, d.position - Main.screenPosition, null, d.color * d.scale * 10, 0, tex.Size() / 2, d.scale * 2, SpriteEffects.None, 0);
             }
         }
     }

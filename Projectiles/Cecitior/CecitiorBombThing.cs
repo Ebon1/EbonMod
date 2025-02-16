@@ -24,16 +24,6 @@ namespace EbonianMod.Projectiles.Cecitior
             Projectile.hostile = true;
             Projectile.aiStyle = 2;
         }
-        /*public override bool PreDraw(ref Color lightColor)
-        {
-            Texture2D tex = TextureAssets.Projectile[Type].Value;
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.Black * 0.1f, Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None);
-            Main.spriteBatch.Reload(BlendState.Additive);
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.Gold * 0.7f, Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None);
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Color.White * 0.3f, Projectile.rotation, tex.Size() / 2, Projectile.scale, SpriteEffects.None);
-            Main.spriteBatch.Reload(BlendState.AlphaBlend);
-            return false;
-        }*/
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Helper.TRay.Cast(Projectile.Center, Vector2.UnitY, Main.screenWidth), Vector2.Zero, ProjectileType<IchorExplosion>(), Projectile.damage, 0);

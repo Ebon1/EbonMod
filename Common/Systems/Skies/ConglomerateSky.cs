@@ -32,7 +32,7 @@ namespace EbonianMod.Common.Systems.Skies
         {
             GraphicsDevice gd = Main.graphics.GraphicsDevice;
             SpriteBatch sb = Main.spriteBatch;
-            Rectangle rect = new Rectangle((int)(-1000), (int)(-1000), Main.screenWidth + 1000, Main.screenHeight + 1000);
+            Rectangle rect = new Rectangle(-1000, -1000, Main.screenWidth + 1000, Main.screenHeight + 1000);
             sb.SaveCurrent();
             if (!Main.gameMenu)
             {
@@ -41,15 +41,15 @@ namespace EbonianMod.Common.Systems.Skies
                     sb.Draw(Helper.GetExtraTexture("black"), rect, Color.White * intensity);
                     Main.spriteBatch.SaveCurrent();
                     Main.spriteBatch.End();
-                    sb.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone);
+                    sb.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullNone);
                     EbonianMod.waterEffect.CurrentTechnique.Passes[0].Apply();
-                    gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/swirlyNoise", (AssetRequestMode)1).Value;
-                    gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/waterNoise", (AssetRequestMode)1).Value;
-                    gd.Textures[3] = ModContent.Request<Texture2D>("EbonianMod/Extras/vein", (AssetRequestMode)1).Value;
+                    gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/swirlyNoise", AssetRequestMode.ImmediateLoad).Value;
+                    gd.Textures[2] = Request<Texture2D>("EbonianMod/Extras/waterNoise", AssetRequestMode.ImmediateLoad).Value;
+                    gd.Textures[3] = Request<Texture2D>("EbonianMod/Extras/vein", AssetRequestMode.ImmediateLoad).Value;
                     EbonianMod.waterEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 0.015f);
                     EbonianMod.waterEffect.Parameters["totalAlpha"].SetValue(intensity + EbonianSystem.conglomerateSkyFlash);
 
-                    EbonianMod.waterEffect.Parameters["offset"].SetValue(.05f + EbonianSystem.conglomerateSkyFlash * 0.01f);
+                    EbonianMod.waterEffect.Parameters["offset"].SetValue(.05f + Clamp(EbonianSystem.conglomerateSkyFlash, 0, 10) * 0.01f);
 
                     EbonianMod.waterEffect.Parameters["mainScale"].SetValue(.7f);
                     EbonianMod.waterEffect.Parameters["secondaryScale"].SetValue(2f);
@@ -63,11 +63,11 @@ namespace EbonianMod.Common.Systems.Skies
                 }
                 Main.spriteBatch.SaveCurrent();
                 Main.spriteBatch.End();
-                sb.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone);
+                sb.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullNone);
                 EbonianMod.waterEffect.CurrentTechnique.Passes[0].Apply();
-                gd.Textures[1] = ModContent.Request<Texture2D>("EbonianMod/Extras/vein", (AssetRequestMode)1).Value;
-                gd.Textures[2] = ModContent.Request<Texture2D>("EbonianMod/Extras/waterNoise", (AssetRequestMode)1).Value;
-                gd.Textures[3] = ModContent.Request<Texture2D>("EbonianMod/Extras/vein", (AssetRequestMode)1).Value;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/vein", AssetRequestMode.ImmediateLoad).Value;
+                gd.Textures[2] = Request<Texture2D>("EbonianMod/Extras/waterNoise", AssetRequestMode.ImmediateLoad).Value;
+                gd.Textures[3] = Request<Texture2D>("EbonianMod/Extras/vein", AssetRequestMode.ImmediateLoad).Value;
                 EbonianMod.waterEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 0.03f);
                 EbonianMod.waterEffect.Parameters["totalAlpha"].SetValue(intensity * (0.1f + EbonianSystem.conglomerateSkyFlash * 0.1f));
 

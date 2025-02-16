@@ -153,6 +153,11 @@ namespace EbonianMod
                 EbonianMod.FlashAlpha -= EbonianMod.FlashAlphaDecrement;
             else
                 EbonianMod.FlashAlphaDecrement = 0.01f;
+
+            if (!Main.gameInactive)
+                EbonianMod.DarkAlpha = Lerp(EbonianMod.DarkAlpha, 0, 0.1f);
+            if (EbonianMod.DarkAlpha < .05f)
+                EbonianMod.DarkAlpha = 0;
             if (!Main.gameMenu)
             {
                 ShakeTimer++;

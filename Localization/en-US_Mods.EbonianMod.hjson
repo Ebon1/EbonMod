@@ -267,6 +267,11 @@ Projectiles: {
 	TerrortomeFlame.DisplayName: Terrortome Flame
 	TerrortomeWorm.DisplayName: Terrortome Worm
 	SawcitiorP.DisplayName: Sawcitior P
+	ClawSlashGreen.DisplayName: Claw Slash Green
+	CGhostCeci.DisplayName: C Ghost Ceci
+	CBeamSmall.DisplayName: C Beam Small
+	CWorm.DisplayName: C Worm
+	BlurScream.DisplayName: Blur Scream
 }
 
 NPCs: {

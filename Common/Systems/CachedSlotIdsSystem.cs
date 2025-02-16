@@ -13,10 +13,8 @@ namespace EbonianMod.Common.Systems
         public SlotId slotId;
         public Func<bool> condition;
         public int attatchedNpcType;
-        public string key;
-        public LoopedSound(string key, SlotId slotId, int attatchedNpcType = 0, Func<bool> condition = default)
+        public LoopedSound(SlotId slotId, int attatchedNpcType = 0, Func<bool> condition = default)
         {
-            this.key = key;
             this.slotId = slotId;
             this.attatchedNpcType = attatchedNpcType;
             if (condition == default)
@@ -33,50 +31,59 @@ namespace EbonianMod.Common.Systems
     }
     public class CachedSlotIdsSystem : ModSystem
     {
-        public static List<LoopedSound> loopedSounds = new();
+        public static Dictionary<string, LoopedSound> loopedSounds = new();
         public override void PostUpdateEverything()
         {
             if (loopedSounds.Any())
-                foreach (LoopedSound loopedSound in loopedSounds)
+                foreach (KeyValuePair<string, LoopedSound> loopedSound in loopedSounds)
                 {
-                    if (loopedSound.attatchedNpcType > 0)
+                    if (loopedSound.Value.attatchedNpcType > 0)
                     {
                         foreach (NPC npc in Main.ActiveNPCs)
                         {
-                            if (npc.type == loopedSound.attatchedNpcType)
+                            if (npc.type == loopedSound.Value.attatchedNpcType)
                             {
-                                if (SoundEngine.TryGetActiveSound(loopedSound.slotId, out var _activeSound)) _activeSound.Position = npc.Center;
+                                if (SoundEngine.TryGetActiveSound(loopedSound.Value.slotId, out var _activeSound)) _activeSound.Position = npc.Center;
                                 break;
                             }
                         }
                     }
-                    if (!loopedSound.condition.Invoke())
+                    if (!loopedSound.Value.condition.Invoke())
                     {
-                        if (SoundEngine.TryGetActiveSound(loopedSound.slotId, out var _activeSound))
+                        if (SoundEngine.TryGetActiveSound(loopedSound.Value.slotId, out var _activeSound))
                             _activeSound.Stop();
                         else
                         {
-                            loopedSounds.Remove(loopedSound);
+                            loopedSounds.Remove(loopedSound.Key);
                             break;
                         }
                     }
                 }
         }
-        public static void ClearSound(LoopedSound loopedSound)
+        public static void ClearSound(string key)
         {
-            if (SoundEngine.TryGetActiveSound(loopedSound.slotId, out var _activeSound))
+            if (loopedSounds.ContainsKey(key))
+            {
+                if (SoundEngine.TryGetActiveSound(loopedSounds[key].slotId, out var _activeSound))
+                    _activeSound.Stop();
+                loopedSounds.Remove(key);
+            }
+        }
+        public static void ClearSound(KeyValuePair<string, LoopedSound> loopedSound)
+        {
+            if (SoundEngine.TryGetActiveSound(loopedSound.Value.slotId, out var _activeSound))
                 _activeSound.Stop();
 
             if (loopedSounds.Contains(loopedSound))
-                loopedSounds.Remove(loopedSound);
+                loopedSounds.Remove(loopedSound.Key);
         }
         public static void UnloadSounds()
         {
             if (loopedSounds.Any())
             {
-                foreach (LoopedSound loopedSound in loopedSounds)
+                foreach (KeyValuePair<string, LoopedSound> loopedSound in loopedSounds)
                 {
-                    if (SoundEngine.TryGetActiveSound(loopedSound.slotId, out var _activeSound))
+                    if (SoundEngine.TryGetActiveSound(loopedSound.Value.slotId, out var _activeSound))
                         _activeSound.Stop();
                 }
                 loopedSounds.Clear();

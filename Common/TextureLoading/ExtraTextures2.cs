@@ -10,7 +10,7 @@ namespace EbonianMod.Common.TextureLoading
     public static class ExtraTextures2
     {
         // Extras2 Folder 
-        public static Texture2D circle_01, circle_02, circle_03, circle_04, fire_01, fire_01_transparent, fire_02, fire_02_transparent, flame_05, flame_06, flare_01,
+        public static Texture2D circle_01, circle_02, circle_03, circle_04, fire_01, fire_01_normal, fire_01_transparent, fire_02, fire_02_transparent, flame_05, flame_06, flare_01,
         light_01, light_02, light_03, scorch_01, scorch_02, scorch_03, scratch_01, scratch_02, scratch_03, slash_01, slash_02, slash_03, slash_04, slash_05, slash_06,
         spark_01, spark_02, spark_03, spark_04, spark_05, spark_06, spark_06_hq, spark_07, spark_08, star_01, star_02, star_03, star_04, star_05, star_06, star_07,
         star_08, star_09, swag_cat, trace_01, trace_02, trace_03, trace_04, trace_05, trace_06, twirl_01, twirl_02, twirl_03;
@@ -26,6 +26,8 @@ namespace EbonianMod.Common.TextureLoading
             circle_04 = Helper.GetExtraTexture("Extras2/circle_04", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
             fire_01 = Helper.GetExtraTexture("Extras2/fire_01", assetRequestMode: AssetRequestMode.ImmediateLoad);
+
+            fire_01_normal = Helper.GetExtraTexture("Extras2/fire_01_normal", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
             fire_01_transparent = Helper.GetExtraTexture("Extras2/fire_01_transparent", assetRequestMode: AssetRequestMode.ImmediateLoad);
 

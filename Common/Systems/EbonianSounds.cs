@@ -171,14 +171,14 @@ namespace EbonianMod.Common.Systems
             cecitiorCloseShort = Default with
             {
                 SoundPath = ebonianSoundPath + "Cecitior/cecitiorCloseShort",
-                MaxInstances = 1
+                MaxInstances = 3
             };
 
 
             cecitiorClose = Default with
             {
                 SoundPath = ebonianSoundPath + "Cecitior/cecitiorClose",
-                MaxInstances = 1
+                MaxInstances = 3
             };
 
             cecitiorIdle = Default with
@@ -192,21 +192,21 @@ namespace EbonianMod.Common.Systems
             cecitiorSlam = Default with
             {
                 SoundPath = ebonianSoundPath + "Cecitior/cecitiorSlam",
-                MaxInstances = 1,
+                MaxInstances = 3,
                 Variants = [0, 1, 2]
             };
 
             cecitiorSlice = Default with
             {
                 SoundPath = ebonianSoundPath + "Cecitior/cecitiorSlice",
-                MaxInstances = 1,
+                MaxInstances = 3,
                 Variants = [0, 1, 2]
             };
 
             cecitiorSpit = Default with
             {
                 SoundPath = ebonianSoundPath + "Cecitior/cecitiorSpit",
-                MaxInstances = 1,
+                MaxInstances = 3,
                 Variants = [0, 1, 2, 3]
             };
 

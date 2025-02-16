@@ -10,12 +10,12 @@ namespace EbonianMod.Common.TextureLoading
     public static class ExtraTextures
     {
         // Extras folder
-        public static Texture2D alphaGradient, black, Bloom, chevron, chevron_single, Circle, circlething, coherentNoise, cone2, cone4, cone5, cone7, crosslight,
+        public static Texture2D alphaGradient, black, Bloom, chevron, chevron_single, Circle, circlething, coherentNoise, cone2, cone2_blur, cone4, cone5, cone7, crosslight,
         darkShadowflameGradient, EbonianGatlingBullet, Empty, Ex1, exclamation, explosion, explosion2, Extra_201, Extra_209, Fire, fireball, flameEye2, FlamesSeamless,
         flare, GlowyLine, gradation, hazardUnblurred, laser, laser_purple, laser2, laser3, laser3_transparent, laser4, laser5, laserMask, Line, LintyTrail, MagicBurst,
         maroon, pixel, Placeholder, PulseCircle, PulseCircle2, red, redGradient, ring, ripple, rune_alt, rune_alt_bloom, saucerBeam, seamlessNoise, seamlessNoise2,
-        seamlessNoiseHighContrast, shadowflameGradient, space, space_full, speckle, Spotlight, swirlyNoise, Tentacle, textGlow, trail_01, trail_04, TrailShape,
-        TrailShape_LongSolidWavy, Vignette, vortex, vortex3, wavyLaser, wavyLaser2;
+        seamlessNoise3, seamlessNoiseHighContrast, shadowflameGradient, space, space_full, speckle, Spotlight, swirlyNoise, Tentacle, textGlow, trail_01, trail_04, TrailShape,
+        TrailShape_LongSolidWavy, vein, Vignette, vortex, vortex3, wavyLaser, wavyLaser2;
 
         public static void LoadExtraTextures1()
         {
@@ -34,6 +34,8 @@ namespace EbonianMod.Common.TextureLoading
             coherentNoise = Helper.GetExtraTexture("coherentNoise", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
             cone2 = Helper.GetExtraTexture("cone2", assetRequestMode: AssetRequestMode.ImmediateLoad);
+
+            cone2_blur = Helper.GetExtraTexture("cone2_blur", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
             cone4 = Helper.GetExtraTexture("cone4", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
@@ -130,6 +132,8 @@ namespace EbonianMod.Common.TextureLoading
 
             seamlessNoise2 = Helper.GetExtraTexture("seamlessNoise2", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
+            seamlessNoise3 = Helper.GetExtraTexture("seamlessNoise3", assetRequestMode: AssetRequestMode.ImmediateLoad);
+
 
             seamlessNoiseHighContrast = Helper.GetExtraTexture("seamlessNoiseHighContrast", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
@@ -157,6 +161,8 @@ namespace EbonianMod.Common.TextureLoading
 
 
             TrailShape_LongSolidWavy = Helper.GetExtraTexture("TrailShape_LongSolidWavy", assetRequestMode: AssetRequestMode.ImmediateLoad);
+
+            vein = Helper.GetExtraTexture("vein", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
             Vignette = Helper.GetExtraTexture("Vignette", assetRequestMode: AssetRequestMode.ImmediateLoad);
 

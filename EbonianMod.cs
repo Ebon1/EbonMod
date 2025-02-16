@@ -32,6 +32,7 @@ using EbonianMod.Common.Systems.Misc;
 using EbonianMod.NPCs.ArchmageX;
 using EbonianMod.Items.Weapons.Melee;
 using EbonianMod.Projectiles;
+using EbonianMod.Projectiles.Conglomerate;
 
 namespace EbonianMod
 {
@@ -196,35 +197,35 @@ namespace EbonianMod
         {
             sys = new();
             Instance = this;
-            bloom = Request<Effect>("EbonianMod/Effects/bloom", (AssetRequestMode)1).Value;
-            Test1 = Request<Effect>("EbonianMod/Effects/Test1", (AssetRequestMode)1).Value;
-            HorizBlur = Request<Effect>("EbonianMod/Effects/horizBlur", (AssetRequestMode)1).Value;
-            Blur = Request<Effect>("EbonianMod/Effects/Blur", (AssetRequestMode)1).Value;
-            Crack = Request<Effect>("EbonianMod/Effects/crackTest", (AssetRequestMode)1).Value;
-            RTAlpha = Request<Effect>("EbonianMod/Effects/RTAlpha", (AssetRequestMode)1).Value;
-            RTOutline = Request<Effect>("EbonianMod/Effects/RTOutline", (AssetRequestMode)1).Value;
-            CrystalShine = Request<Effect>("EbonianMod/Effects/CrystalShine", (AssetRequestMode)1).Value;
-            TextGradient = Request<Effect>("EbonianMod/Effects/TextGradient", (AssetRequestMode)1).Value;
-            TextGradient2 = Request<Effect>("EbonianMod/Effects/TextGradient2", (AssetRequestMode)1).Value;
-            TextGradientY = Request<Effect>("EbonianMod/Effects/TextGradientY", (AssetRequestMode)1).Value;
-            Test2 = Request<Effect>("EbonianMod/Effects/Test2", (AssetRequestMode)1).Value;
-            Galaxy = Request<Effect>("EbonianMod/Effects/Galaxy", (AssetRequestMode)1).Value;
-            LavaRT = Request<Effect>("EbonianMod/Effects/LavaRT", (AssetRequestMode)1).Value;
-            SpriteRotation = Request<Effect>("EbonianMod/Effects/spriteRotation", (AssetRequestMode)1).Value;
-            BeamShader = Request<Effect>("EbonianMod/Effects/Beam", (AssetRequestMode)1).Value;
-            Lens = Request<Effect>("EbonianMod/Effects/Lens", (AssetRequestMode)1).Value;
-            Tentacle = Request<Effect>("EbonianMod/Effects/Tentacle", (AssetRequestMode)1).Value;
-            TentacleRT = Request<Effect>("EbonianMod/Effects/TentacleRT", (AssetRequestMode)1).Value;
-            ScreenDistort = Request<Effect>("EbonianMod/Effects/DistortMove", (AssetRequestMode)1).Value;
-            TentacleBlack = Request<Effect>("EbonianMod/Effects/TentacleBlack", (AssetRequestMode)1).Value;
-            TrailShader = Request<Effect>("EbonianMod/Effects/TrailShader", (AssetRequestMode)1).Value;
-            metaballGradient = Request<Effect>("EbonianMod/Effects/metaballGradient", (AssetRequestMode)1).Value;
-            metaballGradientNoiseTex = Request<Effect>("EbonianMod/Effects/metaballGradientNoiseTex", (AssetRequestMode)1).Value;
-            invisibleMask = Request<Effect>("EbonianMod/Effects/invisibleMask", (AssetRequestMode)1).Value;
-            PullingForce = Request<Effect>("EbonianMod/Effects/PullingForce", (AssetRequestMode)1).Value;
-            displacementMap = Request<Effect>("EbonianMod/Effects/displacementMap", (AssetRequestMode)1).Value;
-            waterEffect = Request<Effect>("EbonianMod/Effects/waterEffect", (AssetRequestMode)1).Value;
-            spherize = Request<Effect>("EbonianMod/Effects/spherize", (AssetRequestMode)1).Value;
+            bloom = Request<Effect>("EbonianMod/Effects/bloom", AssetRequestMode.ImmediateLoad).Value;
+            Test1 = Request<Effect>("EbonianMod/Effects/Test1", AssetRequestMode.ImmediateLoad).Value;
+            HorizBlur = Request<Effect>("EbonianMod/Effects/horizBlur", AssetRequestMode.ImmediateLoad).Value;
+            Blur = Request<Effect>("EbonianMod/Effects/Blur", AssetRequestMode.ImmediateLoad).Value;
+            Crack = Request<Effect>("EbonianMod/Effects/crackTest", AssetRequestMode.ImmediateLoad).Value;
+            RTAlpha = Request<Effect>("EbonianMod/Effects/RTAlpha", AssetRequestMode.ImmediateLoad).Value;
+            RTOutline = Request<Effect>("EbonianMod/Effects/RTOutline", AssetRequestMode.ImmediateLoad).Value;
+            CrystalShine = Request<Effect>("EbonianMod/Effects/CrystalShine", AssetRequestMode.ImmediateLoad).Value;
+            TextGradient = Request<Effect>("EbonianMod/Effects/TextGradient", AssetRequestMode.ImmediateLoad).Value;
+            TextGradient2 = Request<Effect>("EbonianMod/Effects/TextGradient2", AssetRequestMode.ImmediateLoad).Value;
+            TextGradientY = Request<Effect>("EbonianMod/Effects/TextGradientY", AssetRequestMode.ImmediateLoad).Value;
+            Test2 = Request<Effect>("EbonianMod/Effects/Test2", AssetRequestMode.ImmediateLoad).Value;
+            Galaxy = Request<Effect>("EbonianMod/Effects/Galaxy", AssetRequestMode.ImmediateLoad).Value;
+            LavaRT = Request<Effect>("EbonianMod/Effects/LavaRT", AssetRequestMode.ImmediateLoad).Value;
+            SpriteRotation = Request<Effect>("EbonianMod/Effects/spriteRotation", AssetRequestMode.ImmediateLoad).Value;
+            BeamShader = Request<Effect>("EbonianMod/Effects/Beam", AssetRequestMode.ImmediateLoad).Value;
+            Lens = Request<Effect>("EbonianMod/Effects/Lens", AssetRequestMode.ImmediateLoad).Value;
+            Tentacle = Request<Effect>("EbonianMod/Effects/Tentacle", AssetRequestMode.ImmediateLoad).Value;
+            TentacleRT = Request<Effect>("EbonianMod/Effects/TentacleRT", AssetRequestMode.ImmediateLoad).Value;
+            ScreenDistort = Request<Effect>("EbonianMod/Effects/DistortMove", AssetRequestMode.ImmediateLoad).Value;
+            TentacleBlack = Request<Effect>("EbonianMod/Effects/TentacleBlack", AssetRequestMode.ImmediateLoad).Value;
+            TrailShader = Request<Effect>("EbonianMod/Effects/TrailShader", AssetRequestMode.ImmediateLoad).Value;
+            metaballGradient = Request<Effect>("EbonianMod/Effects/metaballGradient", AssetRequestMode.ImmediateLoad).Value;
+            metaballGradientNoiseTex = Request<Effect>("EbonianMod/Effects/metaballGradientNoiseTex", AssetRequestMode.ImmediateLoad).Value;
+            invisibleMask = Request<Effect>("EbonianMod/Effects/invisibleMask", AssetRequestMode.ImmediateLoad).Value;
+            PullingForce = Request<Effect>("EbonianMod/Effects/PullingForce", AssetRequestMode.ImmediateLoad).Value;
+            displacementMap = Request<Effect>("EbonianMod/Effects/displacementMap", AssetRequestMode.ImmediateLoad).Value;
+            waterEffect = Request<Effect>("EbonianMod/Effects/waterEffect", AssetRequestMode.ImmediateLoad).Value;
+            spherize = Request<Effect>("EbonianMod/Effects/spherize", AssetRequestMode.ImmediateLoad).Value;
             Filters.Scene["EbonianMod:CorruptTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.68f, .56f, .73f).UseOpacity(0.35f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:CorruptTint"] = new BasicTint();
 
@@ -236,12 +237,12 @@ namespace EbonianMod
 
             Filters.Scene["EbonianMod:Conglomerate"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.25f, .1f, 0f).UseOpacity(0.45f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:Conglomerate"] = new ConglomerateSky();
-            
+
             Filters.Scene["EbonianMod:HellTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(2.55f, .97f, .31f).UseOpacity(0.1f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:HellTint"] = new BasicTint();
             Filters.Scene["EbonianMod:HellTint2"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(0.03f, 0f, .18f).UseOpacity(0.425f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:HellTint2"] = new BasicTint();
-            Filters.Scene["EbonianMod:ScreenFlash"] = new Filter(new ScreenShaderData(Request<Effect>("EbonianMod/Effects/ScreenFlash", (AssetRequestMode)1), "Flash"), EffectPriority.VeryHigh);
+            Filters.Scene["EbonianMod:ScreenFlash"] = new Filter(new ScreenShaderData(Request<Effect>("EbonianMod/Effects/ScreenFlash", AssetRequestMode.ImmediateLoad), "Flash"), EffectPriority.VeryHigh);
             Terraria.Graphics.Effects.On_FilterManager.EndCapture += FilterManager_EndCapture;
             Main.OnResolutionChanged += Main_OnResolutionChanged;
             Terraria.On_Main.DrawBG += DrawBehindTilesAndWalls;
@@ -251,6 +252,7 @@ namespace EbonianMod
             On_VanillaPlayerDrawLayer.Draw += DrawPlayer;
             On_NPC.SetEventFlagCleared += EventClear;
             On_Main.Update += Update;
+            On_Main.DrawCachedProjs += PostDraw;
             CreateRender();
 
             invisibleMaskCache ??= [];
@@ -293,10 +295,14 @@ namespace EbonianMod
             }
             orig(self, ref drawInfo);
         }
+        void PostDraw(On_Main.orig_DrawCachedProjs orig, Main self, List<int> projCache, bool startSpriteBatch)
+        {
+            orig(self, projCache, startSpriteBatch);
+
+        }
         void FilterManager_EndCapture(On_FilterManager.orig_EndCapture orig, FilterManager self, RenderTarget2D finalTexture, RenderTarget2D screenTarget1, RenderTarget2D screenTarget2, Color clearColor)
         {
             orig(self, finalTexture, screenTarget1, screenTarget2, clearColor);
-
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
 
             if (FlashAlpha > 0)
@@ -304,6 +310,10 @@ namespace EbonianMod
                 Main.spriteBatch.Draw(ExtraTextures.Line, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White * FlashAlpha * 2);
             }
 
+            if (DarkAlpha > 0)
+            {
+                Main.spriteBatch.Draw(ExtraTextures.Line, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * DarkAlpha);
+            }
             Main.spriteBatch.End();
         }
 
@@ -578,11 +588,15 @@ namespace EbonianMod
         {
 
             sb.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-            FireDust.DrawAll(sb);
-            ColoredFireDust.DrawAll(sb);
-            GenericAdditiveDust.DrawAll(sb);
-            SparkleDust.DrawAll(sb);
-            LineDustFollowPoint.DrawAll(sb);
+            foreach (Dust d in Main.dust)
+            {
+                FireDust.DrawAll(sb, d);
+                ColoredFireDust.DrawAll(sb, d);
+                GenericAdditiveDust.DrawAll(sb, d);
+                SparkleDust.DrawAll(sb, d);
+                LineDustFollowPoint.DrawAll(sb, d); //BlurDust.DrawAll(sb, d);
+                blurDrawCache.Add(() => BlurDust.DrawAll(sb, d));
+            }
             sb.End();
         }
         public static void DrawGenericPostScreen(SpriteBatch sb, GraphicsDevice gd)
@@ -618,7 +632,7 @@ namespace EbonianMod
             sb.End();
             gd.SetRenderTarget(Main.screenTargetSwap);
             gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
+            sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
             foreach (Action draw in blurDrawCache)
             {
                 draw?.Invoke();
@@ -842,6 +856,6 @@ namespace EbonianMod
                 });
         }
 
-        public static float FlashAlpha, FlashAlphaDecrement;
+        public static float FlashAlpha, FlashAlphaDecrement, DarkAlpha;
     }
 }

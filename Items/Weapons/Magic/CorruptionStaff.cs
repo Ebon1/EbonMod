@@ -44,7 +44,7 @@ namespace EbonianMod.Items.Weapons.Magic
             for (int i = -1; i < 2; i++)
             {
                 if (i == 0) continue;
-                Projectile.NewProjectile(source, position + velocity, velocity.RotatedBy(i), type, damage, knockback, ai2: i * -0.1f);
+                Projectile.NewProjectile(source, position + velocity, velocity.RotatedBy(i), type, damage, knockback, player.whoAmI, ai2: i * -0.1f);
             }
             return false;
         }
