@@ -272,6 +272,7 @@ Projectiles: {
 	CBeamSmall.DisplayName: C Beam Small
 	CWorm.DisplayName: C Worm
 	BlurScream.DisplayName: Blur Scream
+	Coins.DisplayName: Coins
 }
 
 NPCs: {
@@ -548,6 +549,8 @@ NPCs: {
 			All self-proclaimed, of course.
 			'''
 	}
+
+	CoinBag.DisplayName: Coin Bag
 }
 
 Items: {
