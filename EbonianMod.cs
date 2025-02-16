@@ -273,7 +273,7 @@ namespace EbonianMod
             else
             {
                 float averageFrameRate = (Main.frameRate + oldFrameRate) / 2f;
-                EbonianSystem.deltaTime = Clamp((float)(gameTime.TotalGameTime.TotalSeconds - gameTime.ElapsedGameTime.TotalSeconds) / (Main.frameRate * 15), 0.2f, 1.1f);
+                EbonianSystem.deltaTime = Clamp((float)(gameTime.TotalGameTime.TotalSeconds - gameTime.ElapsedGameTime.TotalSeconds) / (averageFrameRate), 0.2f, 1.1f);
             }
         }
         void EventClear(On_NPC.orig_SetEventFlagCleared orig, ref bool eventFlag, int gameEventId)

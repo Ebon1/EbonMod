@@ -20,4 +20,5 @@ v 2.0
 - Fixed some texture scrolling issues
 - Fixed Cecitior's ambience not following him
 - Fixed Cecitior despawning when butchered
+- Fixed deltaTime calculation issues
 - Fixed Terrortoma only having 14k HP in Master Mode

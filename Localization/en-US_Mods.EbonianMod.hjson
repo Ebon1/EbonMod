@@ -273,6 +273,8 @@ Projectiles: {
 	CWorm.DisplayName: C Worm
 	BlurScream.DisplayName: Blur Scream
 	Coins.DisplayName: Coins
+	SilverBasherFlash.DisplayName: Silver Basher Flash
+	SilverBasherP.DisplayName: Silver Basher P
 }
 
 NPCs: {
@@ -1234,6 +1236,11 @@ Items: {
 
 	WoolWoodWallI: {
 		DisplayName: Woolen Wall
+		Tooltip: ""
+	}
+
+	SilverBasher: {
+		DisplayName: Silver Basher
 		Tooltip: ""
 	}
 }

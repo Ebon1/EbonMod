@@ -263,6 +263,7 @@ namespace EbonianMod.NPCs.Conglomerate
                 }
                 if (!player.active || player.dead)// || !player.ZoneCrimson)
                 {
+                    DefaultVerletAnimation();
                     AIState = -12124;
                     NPC.velocity = new Vector2(0, 10f);
                     if (NPC.timeLeft > 60)
