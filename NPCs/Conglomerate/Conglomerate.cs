@@ -615,11 +615,11 @@ namespace EbonianMod.NPCs.Conglomerate
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + openOffset, Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0);
 
 
-                            for (int i = -2; i < 3; i++)
+                            for (int i = -1; i < 2; i++)
                             {
                                 float off = Main.rand.NextFloat(-PiOver4 * 0.3f, PiOver4 * 0.3f);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - openOffset.RotatedBy(PiOver2) * 3 + openOffset * 0.25f * i, Helper.FromAToB(NPC.Center - openOffset.RotatedBy(PiOver2) + openOffset * 0.25f * i, player.Center + player.velocity).RotatedBy(off) * 20, ProjectileType<CGhostCeci>(), 0, 0);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + openOffset.RotatedBy(PiOver2) * 3 + openOffset * 0.25f * i, Helper.FromAToB(NPC.Center + openOffset.RotatedBy(PiOver2) + openOffset * 0.25f * i, player.Center + player.velocity).RotatedBy(off) * 20, ProjectileType<CGhostCeci>(), 0, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center - openOffset.RotatedBy(PiOver2) * 3 + openOffset * 0.25f * i, Helper.FromAToB(NPC.Center - openOffset.RotatedBy(PiOver2) + openOffset * 0.25f * i, player.Center + player.velocity).RotatedBy(off) * 20, ProjectileType<CGhostCeci>(), 20, 0);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + openOffset.RotatedBy(PiOver2) * 3 + openOffset * 0.25f * i, Helper.FromAToB(NPC.Center + openOffset.RotatedBy(PiOver2) + openOffset * 0.25f * i, player.Center + player.velocity).RotatedBy(off) * 20, ProjectileType<CGhostCeci>(), 20, 0);
                             }
 
                             //SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center + openOffset);
@@ -978,10 +978,10 @@ namespace EbonianMod.NPCs.Conglomerate
                 case DashSpam:
                     {
                         DefaultVerletAnimation();
-                        if (AITimer < 100 && AITimer > 20)
+                        /*if (AITimer < 100 && AITimer > 20)
                             EbonianMod.DarkAlpha = Lerp(0, 0.7f, InOutCirc.Invoke((AITimer - 20) / 80));
                         else if (AITimer >= 100)
-                            EbonianMod.DarkAlpha = 0.7f;
+                            EbonianMod.DarkAlpha = 0.7f;*/
                         if (AITimer < 250 && AITimer > 20)
                         {
                             NPC.damage = 150;
@@ -1014,6 +1014,10 @@ namespace EbonianMod.NPCs.Conglomerate
                             {
                                 if (AITimer2 < 4)
                                     disposablePos[0] = player.Center;
+                                /*if (AITimer2 == 4)
+                                {
+                                    Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, disposablePos[0]) * 10, ProjectileType<CGhostCeci>(), 30, 0);
+                                }*/
                                 rotation = Helper.FromAToB(NPC.Center, player.Center).ToRotation() - PiOver2;
                                 NPC.velocity -= Helper.FromAToB(NPC.Center, player.Center) * (AITimer2 % 50) * 0.6f;
                             }
@@ -1033,7 +1037,8 @@ namespace EbonianMod.NPCs.Conglomerate
                                 }
                                 if (AITimer2 > 12 && AITimer2 % 3 == 0)
                                 {
-                                    Projectile.NewProjectile(null, NPC.Center, NPC.velocity.RotatedBy(PiOver2 * (AITimer2 % 6 == 0 ? 1 : -1)), ProjectileType<CGhostCeci>(), 30, 0);
+                                    int type = (AITimer2 % 6 == 0 ? ProjectileType<CecitiorEyeP>() : ProjectileType<TFlameThrowerHoming>());
+                                    Projectile.NewProjectile(null, NPC.Center, NPC.velocity.RotatedBy(PiOver2 * (AITimer2 % 2 == 0 ? 1 : -1)).RotatedByRandom(PiOver4) * Main.rand.NextFloat(.05f, .1f), type, 30, 0);
                                 }
                             }
                             if (AITimer2 > 35)
