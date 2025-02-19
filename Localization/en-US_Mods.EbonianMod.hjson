@@ -275,6 +275,8 @@ Projectiles: {
 	Coins.DisplayName: Coins
 	SilverBasherFlash.DisplayName: Silver Basher Flash
 	SilverBasherP.DisplayName: Silver Basher P
+	terrortomaFishingRodBobber.DisplayName: terrortoma Fishing Rod Bobber
+	cecitiorFishingRodBobber.DisplayName: cecitior Fishing Rod Bobber
 }
 
 NPCs: {
@@ -1241,6 +1243,16 @@ Items: {
 
 	SilverBasher: {
 		DisplayName: Silver Basher
+		Tooltip: ""
+	}
+
+	terrortomaFishingRod: {
+		DisplayName: Blightcaster
+		Tooltip: ""
+	}
+
+	cecitiorFishingRod: {
+		DisplayName: Bloodline
 		Tooltip: ""
 	}
 }
