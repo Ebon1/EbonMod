@@ -558,6 +558,7 @@ NPCs: {
 	}
 
 	CoinBag.DisplayName: Possessed Bag
+	Chalice.DisplayName: Chalice
 }
 
 Items: {
