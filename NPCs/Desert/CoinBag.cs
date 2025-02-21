@@ -68,14 +68,6 @@ namespace EbonianMod.NPCs.Desert
                             if (frame > 64 * 2)
                             {
                                 frame = 0;
-                            }
-
-                            if (frame < 64 * 2)
-                            {
-                                frame += 64;
-                            }
-                            else
-                            {
                                 Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, -2f)), ModContent.ProjectileType<Coins>(), NPC.damage / 3, 0f, Main.myPlayer);
                                 SoundEngine.PlaySound(SoundID.Coins, NPC.Center);
 
@@ -83,6 +75,10 @@ namespace EbonianMod.NPCs.Desert
                                 NPC.velocity.X = NPC.direction == 1 ? 6f : -6f;
 
                                 hopCD = 80;
+                            }
+                            else
+                            {
+                                frame += 64;
                             }
                         }
                         else
@@ -92,7 +88,6 @@ namespace EbonianMod.NPCs.Desert
                                 Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(NPC.Center.X, NPC.Center.Y - 16), new Vector2(Main.rand.NextFloat(-1f, 1f), -0.5f), ModContent.ProjectileType<Coins>(), NPC.damage / 3, 0f, Main.myPlayer);
                                 SoundEngine.PlaySound(SoundID.Coins, NPC.Center);
                             }
-
                             if (frame < 64 * 6)
                             {
                                 frame += 64;
@@ -106,8 +101,6 @@ namespace EbonianMod.NPCs.Desert
                                 }
                             }
                         }
-
-
                         frameCD = 5;
                     }
                     else
@@ -176,7 +169,7 @@ namespace EbonianMod.NPCs.Desert
 
             if (attacking > 0)
             {
-                tex = Helper.GetTexture(Mod.Name + "/NPCs/Desert/CoinBagShake");
+                tex = Helper.GetTexture(Mod.Name + "/NPCs/Desert/Chalice/ChaliceIdle");
             }
             else
             {
