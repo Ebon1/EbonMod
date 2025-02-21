@@ -118,7 +118,7 @@ namespace EbonianMod.Dusts
             {
                 Texture2D tex = ExtraTextures2.trace_01;
 
-                for (float i = 0; i < 10 * d.fadeIn * d.scale * 5; i++)
+                for (float i = 0; i < Clamp(10 * d.fadeIn * d.scale * 5, 0, 10); i++)
                     sb.Draw(tex, d.position - d.velocity * 2 * i - Main.screenPosition, null, d.color * (d.scale * 10 * SmoothStep(1, 0, i / 10f)), d.rotation, tex.Size() / 2, new Vector2(1, Clamp(d.velocity.Length() * 0.25f, 0, 3)) * d.scale * 2, SpriteEffects.None, 0);
 
                 sb.Draw(tex, d.position - Main.screenPosition, null, d.color * (d.scale * 10), d.rotation, tex.Size() / 2, new Vector2(1, Clamp(d.velocity.Length() * 0.25f, 0, 3)) * d.scale * 2, SpriteEffects.None, 0);

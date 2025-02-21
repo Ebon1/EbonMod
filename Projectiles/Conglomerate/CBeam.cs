@@ -47,6 +47,8 @@ namespace EbonianMod.Projectiles.Conglomerate
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0f;
+            if (Type == ProjectileType<CBeamSmall>() && Projectile.timeLeft < 80)
+                return false;
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[0], 60 * Projectile.ai[1], ref a) && Projectile.scale > 0.5f;
         }
         public bool RunOnce = true;
@@ -159,8 +161,8 @@ namespace EbonianMod.Projectiles.Conglomerate
                 }
                 Main.spriteBatch.Reload(BlendState.AlphaBlend);
 
-                DrawVertices(Projectile.Center, Projectile.velocity.ToRotation(), texture, texture2, i_progress, 5 * additionalAlphaOffset, (Type == ProjectileType<CBeamSmall>() ? 0.005f : 0.0025f), 1, visual1);
-                DrawVertices(Projectile.Center, Projectile.velocity.ToRotation(), texture3, texture, i_progress, 5 * additionalAlphaOffset, (Type == ProjectileType<CBeamSmall>() ? 0.005f : 0.0025f), 1, visual2);
+                DrawVertices(Projectile.Center, Projectile.velocity.ToRotation(), texture, texture2, i_progress, 5 * additionalAlphaOffset, (Type == ProjectileType<CBeamSmall>() ? 0.05f : 0.0025f), 1, visual1);
+                DrawVertices(Projectile.Center, Projectile.velocity.ToRotation(), texture3, texture, i_progress, 5 * additionalAlphaOffset, (Type == ProjectileType<CBeamSmall>() ? 0.05f : 0.0025f), 1, visual2);
             }
             return false;
         }
@@ -284,8 +286,8 @@ namespace EbonianMod.Projectiles.Conglomerate
 
             if (Projectile.timeLeft == 70 && Projectile.damage == 0)
             {
-                if (EbonianSystem.conglomerateSkyFlash < 3)
-                    EbonianSystem.conglomerateSkyFlash = 3f;
+                if (EbonianSystem.conglomerateSkyFlash < 8)
+                    EbonianSystem.conglomerateSkyFlash = 8f;
                 Main.instance.CameraModifiers.Add(new PunchCameraModifier(Projectile.Center, Projectile.velocity, 13, 10, 30, 1000));
                 SoundEngine.PlaySound(EbonianSounds.exolDash, Projectile.Center);
                 Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.velocity, Projectile.type, 30, 0, Projectile.owner, Projectile.ai[0], Projectile.ai[1] + 0.1f, Projectile.ai[2]);

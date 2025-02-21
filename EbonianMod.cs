@@ -49,7 +49,7 @@ namespace EbonianMod
         public static List<int> projectileFinalDrawList = new List<int>();
         public static List<int> climbableProj = new List<int>();
         public RenderTarget2D blurrender, invisRender, affectedByInvisRender, softBloomRender, intenseBloomRender;
-        public RenderTarget2D[] renders = new RenderTarget2D[8];
+        public RenderTarget2D[] renders = new RenderTarget2D[10];
         public static DynamicSpriteFont lcd;
         public static BGParticleSys sys;
         internal static void SolidTopCollision(Terraria.On_Player.orig_Update_NPCCollision orig, Player self) //https://discord.com/channels/103110554649894912/711551818194485259/998428409455714397
@@ -777,7 +777,7 @@ namespace EbonianMod
 
             gd.SetRenderTarget(Instance.renders[5]);
             gd.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null);
+            sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, null);
 
             var list = (afterEverything ? pixelationDrawCachePost : pixelationDrawCachePre);
             if (additive) list = (afterEverything ? addPixelationDrawCachePost : addPixelationDrawCachePre);

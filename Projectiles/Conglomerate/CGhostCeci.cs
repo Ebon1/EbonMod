@@ -18,8 +18,8 @@ namespace EbonianMod.Projectiles.Conglomerate
         }
         public override void SetDefaults()
         {
-            Projectile.width = 98;
-            Projectile.height = 98;
+            Projectile.width = 68;
+            Projectile.height = 68;
             Projectile.aiStyle = 0;
             Projectile.friendly = false;
             Projectile.hostile = true;
@@ -38,7 +38,7 @@ namespace EbonianMod.Projectiles.Conglomerate
                     for (float j = 0; j < 5; j++)
                     {
                         Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 5));
-                        Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + origin - Main.screenPosition, new Rectangle(0, Projectile.frame * (int)origin.Y * 2, (int)origin.X * 2, (int)origin.Y * 2), Color.Lerp(Color.Maroon, Color.LawnGreen, Projectile.frame) * mult * mult * 0.3f * Projectile.ai[2], Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + Projectile.Size / 2 - Main.screenPosition, new Rectangle(0, Projectile.frame * (int)origin.Y * 2, (int)origin.X * 2, (int)origin.Y * 2), Color.Lerp(Color.Maroon, Color.LawnGreen, Projectile.frame) * mult * mult * 0.3f * Projectile.ai[2], Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
                     }
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -67,6 +67,10 @@ namespace EbonianMod.Projectiles.Conglomerate
         }
         public override void AI()
         {
+            if (Projectile.ai[0] > 0 && Projectile.ai[0] < 3)
+            {
+                Projectile.frame = (int)Projectile.ai[0] - 1;
+            }
             if (Projectile.timeLeft < 100 && Projectile.velocity.Length() > 10)
             {
                 for (int i = 0; i < 4; i++)
