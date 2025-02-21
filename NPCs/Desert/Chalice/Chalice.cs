@@ -87,7 +87,7 @@ namespace EbonianMod.NPCs.Desert
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D texture = Helper.GetTexture(Mod.Name + "/NPCs/Desert/Chalice");
+            Texture2D texture = Helper.GetTexture(Mod.Name + "/NPCs/Desert/Chalice/Chalice");
             spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, null, drawColor, NPC.rotation, texture.Size() / 2, NPC.scale, NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return false;
         }
