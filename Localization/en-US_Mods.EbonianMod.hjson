@@ -277,6 +277,7 @@ Projectiles: {
 	SilverBasherP.DisplayName: Silver Basher P
 	terrortomaFishingRodBobber.DisplayName: terrortoma Fishing Rod Bobber
 	cecitiorFishingRodBobber.DisplayName: cecitior Fishing Rod Bobber
+	VerletBeam.DisplayName: Verlet Beam
 }
 
 NPCs: {

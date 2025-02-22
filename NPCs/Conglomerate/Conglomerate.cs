@@ -377,7 +377,7 @@ namespace EbonianMod.NPCs.Conglomerate
                         }
                         if (AITimer >= 200)
                         {
-                            Next = BloodAndWormSpit;
+                            Next = GeyserSweep;
                             Reset();
                         }
                     }
@@ -1567,13 +1567,7 @@ namespace EbonianMod.NPCs.Conglomerate
                                         CachedSlotIdsSystem.ClearSound("CSaw");
                                 }
                         }
-                        if (AITimer > 300)
-                        {
-                            DefaultArmBehaviour();
-                            DefaultClawBehaviour();
-                        }
-
-                        if (AITimer >= 350)
+                        if (AITimer >= 300)
                         {
                             Next = CecitiorCloneDash;
                             Reset();
@@ -1748,9 +1742,9 @@ namespace EbonianMod.NPCs.Conglomerate
                             {
                                 Main.instance.CameraModifiers.Add(new PunchCameraModifier(NPC.Center, Main.rand.NextVector2Unit(), 15, 6, 30, 1000));
                                 EbonianSystem.conglomerateSkyFlash = 10f;
-                                for (int i = 0; i < 10; i++)
+                                for (int i = 0; i < 15; i++)
                                 {
-                                    Projectile.NewProjectile(null, NPC.Center, Helper.CircleDividedEqually(i, 10).ToRotationVector2() * Main.rand.NextFloat(8, 18), ProjectileType<HostileGibs>(), 30, 0);
+                                    Projectile.NewProjectile(null, NPC.Center, Helper.CircleDividedEqually(i, 15).ToRotationVector2() * Main.rand.NextFloat(8, 18), ProjectileType<HostileGibs>(), 30, 0);
                                 }
                             }
                         }
@@ -1835,7 +1829,7 @@ namespace EbonianMod.NPCs.Conglomerate
                                 NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, to) * 30, 0.02f);
                             else
                             {
-                                AITimer++;
+                                AITimer += 3;
                                 NPC.velocity *= 0.9f;
                             }
 
@@ -1930,10 +1924,11 @@ namespace EbonianMod.NPCs.Conglomerate
                         }
                         if (AITimer >= 100)
                         {
-                            if (AITimer2 > Main.rand.Next(4))
+                            if (AITimer2 > Main.rand.Next(2))
                             {
                                 Next = ClingerComboType1;
                                 Reset();
+                                AITimer = 50;
                             }
                             else
                             {
@@ -2018,14 +2013,14 @@ namespace EbonianMod.NPCs.Conglomerate
                         if (AITimer < 100)
                         {
                             AITimer2++;
-
+                            AITimer3 = Lerp(0, 0.5f, InOutCirc.Invoke(AITimer / 100));
                             if (AITimer2 == 1)
                                 disposablePos[0] = Main.rand.NextVector2Unit();
                             else
                             {
                                 if (AITimer2 % 5 == 0 && AITimer > 30)
                                     Projectile.NewProjectile(null, NPC.Center, Helper.FromAToB(NPC.Center, player.Center), ProjectileType<CBeamSmall>(), 0, 0, ai1: -.9f);
-                                NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center + new Vector2(0, -700).RotatedBy(MathF.Sin(AITimer2 * 0.1f) * 2), false) * 0.1f, 0.5f);
+                                NPC.velocity = Vector2.Lerp(NPC.velocity, Helper.FromAToB(NPC.Center, player.Center + new Vector2(0, -700).RotatedBy(MathF.Sin(AITimer2 * 0.1f) * 2), false) * 0.1f, AITimer3);
                             }
                         }
                         else
@@ -2033,7 +2028,7 @@ namespace EbonianMod.NPCs.Conglomerate
 
                         if (AITimer >= 160)
                         {
-                            Next = EyeBeamPlusHomingEyes;
+                            Next = OpenAndShootStuff;
                             Reset();
                         }
                     }

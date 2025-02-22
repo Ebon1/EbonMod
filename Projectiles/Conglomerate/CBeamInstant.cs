@@ -63,7 +63,7 @@ namespace EbonianMod.Projectiles.Conglomerate
                 }
                 else
                 {
-                    Projectile.ai[1] = Lerp(Projectile.ai[1], 0, 0.05f);
+                    Projectile.ai[1] = Lerp(Projectile.ai[1], 0, 0.2f);
                 }
             }
             if (Projectile.timeLeft == 30)
@@ -72,7 +72,7 @@ namespace EbonianMod.Projectiles.Conglomerate
                     EbonianSystem.conglomerateSkyFlash = 20f;
                 EbonianSystem.conglomerateSkyFlash = 3;
                 EbonianSystem.ScreenShakeAmount = 10f;
-                Projectile.NewProjectile(null, Projectile.Center + Projectile.velocity * 10, Vector2.Zero, ModContent.ProjectileType<ConglomerateScream>(), 0, 0);
+                Projectile.NewProjectile(null, Projectile.Center + Projectile.velocity * 10, Vector2.Zero, ModContent.ProjectileType<BlurScream>(), 0, 0);
                 SoundEngine.PlaySound(EbonianSounds.exolDash, Projectile.Center);
 
                 Projectile.ai[2] = 0.5f;
@@ -95,9 +95,9 @@ namespace EbonianMod.Projectiles.Conglomerate
 
             List<VertexPositionColorTexture> verticesTelegraph1 = new List<VertexPositionColorTexture>();
             List<VertexPositionColorTexture> verticesTelegraph2 = new List<VertexPositionColorTexture>();
-            Texture2D texture = ExtraTextures.LintyTrail;
+            Texture2D texture = ExtraTextures.FlamesSeamless;
             Texture2D texture2 = ExtraTextures.Ex1;
-            Texture2D texture3 = ExtraTextures.LintyTrail;
+            Texture2D texture3 = ExtraTextures.FlamesSeamless;
             Vector2 start = Projectile.Center - Main.screenPosition;
             Vector2 off = (Projectile.velocity.ToRotation().ToRotationVector2() * 1728);
             Vector2 end = start + off;
@@ -139,8 +139,8 @@ namespace EbonianMod.Projectiles.Conglomerate
                     verticesMain1.Add(Helper.AsVertex(start + off * i + new Vector2(100, 0).RotatedBy(rot + PiOver2) * Projectile.ai[1], new Vector2(_off, 1), (Projectile.localAI[1] == 1 ? col : col2) * Projectile.ai[1] * 2));
                     verticesMain1.Add(Helper.AsVertex(start + off * i + new Vector2(100, 0).RotatedBy(rot - PiOver2) * Projectile.ai[1], new Vector2(_off, 0), (Projectile.localAI[1] == 1 ? col : col2) * Projectile.ai[1] * 2));
 
-                    col = Color.Lerp(Color.White * 0.5f, Color.Maroon * 3, Projectile.ai[2]) * (cA);
-                    col2 = Color.Lerp(Color.White * 0.5f, Color.Green * 3, Projectile.ai[2]) * (cA);
+                    col = Color.Lerp(Color.White * 0.5f, Color.Maroon * 3, Projectile.ai[1]) * (cA);
+                    col2 = Color.Lerp(Color.White * 0.5f, Color.Green * 3, Projectile.ai[1]) * (cA);
                     verticesMain2.Add(Helper.AsVertex(start + off * i + new Vector2(20, 0).RotatedBy(rot + PiOver2) * Projectile.ai[1], new Vector2(_off, 1), (Projectile.localAI[1] == 1 ? col : col2) * Projectile.ai[1]));
                     verticesMain2.Add(Helper.AsVertex(start + off * i + new Vector2(20, 0).RotatedBy(rot - PiOver2) * Projectile.ai[1], new Vector2(_off, 0), (Projectile.localAI[1] == 1 ? col : col2) * Projectile.ai[1]));
                 }
