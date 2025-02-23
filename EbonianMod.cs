@@ -594,6 +594,7 @@ namespace EbonianMod
                 ColoredFireDust.DrawAll(sb, d);
                 GenericAdditiveDust.DrawAll(sb, d);
                 SparkleDust.DrawAll(sb, d);
+                IntenseDustFollowPoint.DrawAll(sb, d);
                 LineDustFollowPoint.DrawAll(sb, d); //BlurDust.DrawAll(sb, d);
                 blurDrawCache.Add(() => BlurDust.DrawAll(sb, d));
             }

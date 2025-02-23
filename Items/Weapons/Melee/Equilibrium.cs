@@ -19,6 +19,7 @@ using EbonianMod.Items.Misc;
 using EbonianMod.Projectiles.VFXProjectiles;
 using EbonianMod.Common.Systems;
 using EbonianMod.Items.Materials;
+using EbonianMod.Dusts;
 
 namespace EbonianMod.Items.Weapons.Melee
 {
@@ -137,7 +138,9 @@ namespace EbonianMod.Items.Weapons.Melee
             player.ChangeDir(Projectile.velocity.X < 0 ? -1 : 1);
 
             if (Projectile.timeLeft == swingTime - 25 * 5)
+            {
                 SoundEngine.PlaySound(EbonianSounds.HeavySwing, Projectile.Center);
+            }
 
             if (Projectile.timeLeft <= 18 * 5)
             {

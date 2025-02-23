@@ -63,19 +63,20 @@ namespace EbonianMod.Common.Systems.Skies
                 }
                 Main.spriteBatch.SaveCurrent();
                 Main.spriteBatch.End();
-                sb.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullNone);
+                sb.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearWrap, DepthStencilState.None, RasterizerState.CullNone);
                 EbonianMod.waterEffect.CurrentTechnique.Passes[0].Apply();
-                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/vein", AssetRequestMode.ImmediateLoad).Value;
+                gd.Textures[1] = Request<Texture2D>("EbonianMod/Extras/seamlessNoise", AssetRequestMode.ImmediateLoad).Value;
                 gd.Textures[2] = Request<Texture2D>("EbonianMod/Extras/waterNoise", AssetRequestMode.ImmediateLoad).Value;
-                gd.Textures[3] = Request<Texture2D>("EbonianMod/Extras/vein", AssetRequestMode.ImmediateLoad).Value;
+                gd.Textures[3] = Request<Texture2D>("EbonianMod/Extras/swirlyNoise", AssetRequestMode.ImmediateLoad).Value;
                 EbonianMod.waterEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly * 0.03f);
                 EbonianMod.waterEffect.Parameters["totalAlpha"].SetValue(intensity * (0.1f + EbonianSystem.conglomerateSkyFlash * 0.1f));
 
                 EbonianMod.waterEffect.Parameters["offset"].SetValue(.05f);
+                EbonianMod.waterEffect.Parameters["colOverride"].SetValue(GetInstance<EbonianSystem>().conglomerateSkyColorOverride.ToVector4());
 
-                EbonianMod.waterEffect.Parameters["mainScale"].SetValue(.7f);
-                EbonianMod.waterEffect.Parameters["secondaryScale"].SetValue(1f);
-                EbonianMod.waterEffect.Parameters["tertiaryScale"].SetValue(.5f);
+                EbonianMod.waterEffect.Parameters["mainScale"].SetValue(3);
+                EbonianMod.waterEffect.Parameters["secondaryScale"].SetValue(3f);
+                EbonianMod.waterEffect.Parameters["tertiaryScale"].SetValue(3);
 
                 EbonianMod.waterEffect.Parameters["mainDirection"].SetValue(new Vector2(MathF.Sin(Main.GlobalTimeWrappedHourly * -0.015f) * 0.1f, .45f));
                 EbonianMod.waterEffect.Parameters["secondaryDirection"].SetValue(new Vector2(MathF.Sin(Main.GlobalTimeWrappedHourly * 0.015f) * 0.1f, -.55f));

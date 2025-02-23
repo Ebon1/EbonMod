@@ -42,6 +42,7 @@ namespace EbonianMod.Projectiles.Conglomerate
         }
         public override void AI()
         {
+            Lighting.AddLight(Projectile.Center, TorchID.Cursed);
             if (Projectile.Center.Distance(Main.LocalPlayer.Center) < Main.screenWidth)
                 Projectile.timeLeft = 200;
             if (startPos == Vector2.Zero)
@@ -69,9 +70,9 @@ namespace EbonianMod.Projectiles.Conglomerate
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 if (i != Projectile.oldPos.Length - 1)
-                    Main.spriteBatch.Draw(body, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.White, Projectile.oldRot[i], body.Size() / 2, 1f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(body, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, new Color(Lighting.GetSubLight(Projectile.oldPos[i] + Projectile.Size / 2)) * 1.25f, Projectile.oldRot[i], body.Size() / 2, 1f, SpriteEffects.None, 0);
                 else
-                    Main.spriteBatch.Draw(tail, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, Color.White, Projectile.oldRot[i], tail.Size() / 2, 1f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(tail, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, null, new Color(Lighting.GetSubLight(Projectile.oldPos[i] + Projectile.Size / 2)) * 1.25f, Projectile.oldRot[i], tail.Size() / 2, 1f, SpriteEffects.None, 0);
             }
             lightColor = Color.White;
             return true;

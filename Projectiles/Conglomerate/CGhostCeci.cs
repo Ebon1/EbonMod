@@ -38,7 +38,7 @@ namespace EbonianMod.Projectiles.Conglomerate
                     for (float j = 0; j < 5; j++)
                     {
                         Vector2 pos = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i - 1], (float)(j / 5));
-                        Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + Projectile.Size / 2 - Main.screenPosition, new Rectangle(0, Projectile.frame * (int)origin.Y * 2, (int)origin.X * 2, (int)origin.Y * 2), Color.Lerp(Color.Maroon, Color.LawnGreen, Projectile.frame) * mult * mult * 0.3f * Projectile.ai[2], Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, pos + Projectile.Size / 2 - Main.screenPosition, new Rectangle(0, Projectile.frame * (int)origin.Y * 2, (int)origin.X * 2, (int)origin.Y * 2), Color.Lerp(Color.Maroon, Color.LawnGreen, Projectile.frame) * mult * mult * 0.3f * alpha, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
                     }
             }
             Main.spriteBatch.Reload(BlendState.AlphaBlend);
@@ -53,10 +53,10 @@ namespace EbonianMod.Projectiles.Conglomerate
                     Main.spriteBatch.Draw(ExtraTextures.seamlessNoise3, Projectile.Center - Main.screenPosition, null, Color.White * Lerp(0, 1, Projectile.velocity.Length() / 20) * 0.2f, Main.GameUpdateCount * 0.3f, ExtraTextures.seamlessNoise3.Size() / 2, .3f, SpriteEffects.None, 0);
                 });*/
 
-            Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * TextureAssets.Projectile[Type].Value.Height / 2, TextureAssets.Projectile[Type].Value.Width, TextureAssets.Projectile[Type].Value.Height / 2), Color.White * Projectile.ai[2] * 0.2f, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(TextureAssets.Projectile[Type].Value, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.frame * TextureAssets.Projectile[Type].Value.Height / 2, TextureAssets.Projectile[Type].Value.Width, TextureAssets.Projectile[Type].Value.Height / 2), Color.White * alpha * 0.2f, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
-        public override Color? GetAlpha(Color lightColor) => Color.White * Projectile.ai[2];
+        public override Color? GetAlpha(Color lightColor) => Color.White * alpha;
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
             //overWiresUI.Add(index);
@@ -65,33 +65,49 @@ namespace EbonianMod.Projectiles.Conglomerate
         {
             Projectile.frame = Main.rand.Next(2);
         }
+        float alpha;
         public override void AI()
         {
+            if (Projectile.timeLeft > 40)
+                alpha = Lerp(alpha, 1, 0.05f);
+            if (Projectile.timeLeft < 40)
+                alpha = Lerp(alpha, 0, 0.1f);
+
             if (Projectile.ai[0] > 0 && Projectile.ai[0] < 3)
             {
                 Projectile.frame = (int)Projectile.ai[0] - 1;
             }
-            if (Projectile.timeLeft < 100 && Projectile.velocity.Length() > 10)
+
+            switch (Projectile.ai[2])
             {
-                for (int i = 0; i < 4; i++)
-                    Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustType<BlurDust>(), Projectile.velocity.X * Main.rand.NextFloat(0.5f, 1), Projectile.velocity.Y * Main.rand.NextFloat(0.5f, 1), newColor: Color.White * Lerp(0, 1, ((Projectile.velocity.Length() - 10f) / 20f)), Scale: Main.rand.NextFloat(0.1f, 0.2f));
+                case 0:
+                    {
+                        if (Projectile.timeLeft < 100 && Projectile.velocity.Length() > 10)
+                        {
+                            for (int i = 0; i < 4; i++)
+                                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustType<BlurDust>(), Projectile.velocity.X * Main.rand.NextFloat(0.5f, 1), Projectile.velocity.Y * Main.rand.NextFloat(0.5f, 1), newColor: Color.White * Lerp(0, 1, ((Projectile.velocity.Length() - 10f) / 20f)), Scale: Main.rand.NextFloat(0.1f, 0.2f));
+                        }
+                        if (Projectile.velocity.Length() > 5 && Projectile.timeLeft < 100)
+                            Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustType<LineDustFollowPoint>(), Projectile.velocity.X * Main.rand.NextFloat(0.5f, 1), Projectile.velocity.Y * Main.rand.NextFloat(0.5f, 1), newColor: Color.Lerp(Color.Maroon, Color.LawnGreen, Projectile.frame) * Lerp(0, 0.3f, ((Projectile.velocity.Length() - 5f) / 40f)), Scale: Main.rand.NextFloat(0.1f, 0.2f));
+
+                        Projectile.rotation = Projectile.velocity.ToRotation() - PiOver2;
+                        if (Projectile.timeLeft > 140 && Projectile.velocity.Length() > 0.05f)
+                            Projectile.velocity *= 0.8f;
+                        else if (Projectile.timeLeft < 100 && Projectile.velocity.Length() < 40)
+                        {
+                            Projectile.velocity = Projectile.velocity.RotatedBy(ToRadians(Projectile.ai[1])) * 1.1f;
+                            Projectile.ai[1] = Lerp(Projectile.ai[1], 0, 0.05f);
+                        }
+                        else
+                            Projectile.velocity = Projectile.velocity.RotatedBy(ToRadians(Projectile.ai[1]));
+                    }
+                    break;
+                case 1:
+                    {
+
+                    }
+                    break;
             }
-            if (Projectile.velocity.Length() > 5 && Projectile.timeLeft < 100)
-                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustType<LineDustFollowPoint>(), Projectile.velocity.X * Main.rand.NextFloat(0.5f, 1), Projectile.velocity.Y * Main.rand.NextFloat(0.5f, 1), newColor: Color.Lerp(Color.Maroon, Color.LawnGreen, Projectile.frame) * Lerp(0, 0.3f, ((Projectile.velocity.Length() - 5f) / 40f)), Scale: Main.rand.NextFloat(0.1f, 0.2f));
-            if (Projectile.timeLeft > 40)
-                Projectile.ai[2] = Lerp(Projectile.ai[2], 1, 0.05f);
-            if (Projectile.timeLeft < 40)
-                Projectile.ai[2] = Lerp(Projectile.ai[2], 0, 0.1f);
-            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
-            if (Projectile.timeLeft > 140 && Projectile.velocity.Length() > 0.05f)
-                Projectile.velocity *= 0.8f;
-            else if (Projectile.timeLeft < 100 && Projectile.velocity.Length() < 40)
-            {
-                Projectile.velocity = Projectile.velocity.RotatedBy(ToRadians(Projectile.ai[1])) * 1.1f;
-                Projectile.ai[1] = Lerp(Projectile.ai[1], 0, 0.05f);
-            }
-            else
-                Projectile.velocity = Projectile.velocity.RotatedBy(ToRadians(Projectile.ai[1]));
         }
 
     }

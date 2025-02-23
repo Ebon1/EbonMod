@@ -114,8 +114,11 @@ namespace EbonianMod.Projectiles.Conglomerate
         }
         public float visual1, visual2, visual3, startSize = 2f, coloredFlareAlpha = 1f, flareScaleMult = 1f, shakeFac = 10,
             additionalAlphaOffset = 1f;
+        int seed = 0;
         public override bool PreDraw(ref Color lightColor)
         {
+            if (seed == 0)
+                seed = Main.rand.Next(129471124);
             visual1 -= 0.035f;
             visual2 -= 0.02425f;
             visual3 -= 0.0446f;
@@ -161,8 +164,8 @@ namespace EbonianMod.Projectiles.Conglomerate
                 }
                 Main.spriteBatch.Reload(BlendState.AlphaBlend);
 
-                DrawVertices(Projectile.Center, Projectile.velocity.ToRotation(), texture, texture2, i_progress, 5 * additionalAlphaOffset, (Type == ProjectileType<CBeamSmall>() ? 0.05f : 0.0025f), 1, visual1);
-                DrawVertices(Projectile.Center, Projectile.velocity.ToRotation(), texture3, texture, i_progress, 5 * additionalAlphaOffset, (Type == ProjectileType<CBeamSmall>() ? 0.05f : 0.0025f), 1, visual2);
+                DrawVertices(Projectile.Center, Projectile.velocity.ToRotation(), texture, texture2, i_progress, 5 * additionalAlphaOffset, (Type == ProjectileType<CBeamSmall>() ? 0.05f : 0.0025f), 1, visual1 + new UnifiedRandom(seed).NextFloat());
+                DrawVertices(Projectile.Center, Projectile.velocity.ToRotation(), texture3, texture, i_progress, 5 * additionalAlphaOffset, (Type == ProjectileType<CBeamSmall>() ? 0.05f : 0.0025f), 1, visual2 + new UnifiedRandom(seed).NextFloat());
             }
             return false;
         }

@@ -36,7 +36,7 @@ namespace EbonianMod.Projectiles.Conglomerate
         }
         float alpha;
         public override bool ShouldUpdatePosition() => false;
-        public override bool? CanDamage() => Projectile.ai[1] > 0.1f;
+        public override bool? CanDamage() => Projectile.timeLeft < 30;
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float a = 0f;
