@@ -18,6 +18,7 @@ v 2.0
 
 ## Fixes
 - Fixed some texture scrolling issues
+- Fixed Potatoes dropping from any tile
 - Fixed Cecitior's ambience not following him
 - Fixed Cecitior despawning when butchered
 - Fixed deltaTime calculation issues

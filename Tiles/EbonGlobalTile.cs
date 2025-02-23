@@ -16,7 +16,7 @@ namespace EbonianMod.Tiles
     {
         public override void KillTile(int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
-            if (type == TileID.Dirt)
+            if (Main.tile[i, j].TileType == TileID.Dirt)
             {
                 if (Main.rand.NextBool(200))
                     Item.NewItem(Item.GetSource_NaturalSpawn(), new Vector2(i * 16, j * 16), ItemType<Potato>(), Main.rand.Next(1, 10));
@@ -24,12 +24,12 @@ namespace EbonianMod.Tiles
         }
         public override bool CanKillTile(int i, int j, int type, ref bool blockDamaged)
         {
-            if (type == TileID.GemLocks && Main.tile[i, j + 5].TileType == TileType<XHouseBrick>()) return false;
+            if (Main.tile[i, j].TileType == TileID.GemLocks && Main.tile[i, j + 5].TileType == TileType<XHouseBrick>()) return false;
             return base.CanKillTile(i, j, type, ref blockDamaged);
         }
         public override bool CanExplode(int i, int j, int type)
         {
-            if (type == TileID.GemLocks && Main.tile[i, j + 5].TileType == TileType<XHouseBrick>()) return false;
+            if (Main.tile[i, j].TileType == TileID.GemLocks && Main.tile[i, j + 5].TileType == TileType<XHouseBrick>()) return false;
             return base.CanExplode(i, j, type);
         }
     }
