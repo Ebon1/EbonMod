@@ -278,6 +278,11 @@ Projectiles: {
 	terrortomaFishingRodBobber.DisplayName: terrortoma Fishing Rod Bobber
 	cecitiorFishingRodBobber.DisplayName: cecitior Fishing Rod Bobber
 	VerletBeam.DisplayName: Verlet Beam
+	CrimsonBall.DisplayName: Crimson Ball
+	BallLauncherSprite.DisplayName: Ball Launcher Sprite
+	CorruptionBalls.DisplayName: Corruption Balls
+	BallLauncherSprite2.DisplayName: Ball Launcher Sprite2
+	BallLauncherCharge.DisplayName: Ball Launcher Charge
 }
 
 NPCs: {
@@ -1255,6 +1260,11 @@ Items: {
 
 	cecitiorFishingRod: {
 		DisplayName: Bloodline
+		Tooltip: ""
+	}
+
+	BallLauncher: {
+		DisplayName: Ball Launcher
 		Tooltip: ""
 	}
 }
