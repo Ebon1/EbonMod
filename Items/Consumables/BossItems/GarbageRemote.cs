@@ -50,8 +50,7 @@ namespace EbonianMod.Items.Consumables.BossItems
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemType<Potato>(), 5).AddIngredient(ItemID.SilverBar, 5).AddIngredient(ItemID.Glass, 10).AddTile(TileID.Anvils).Register();
-            CreateRecipe().AddIngredient(ItemType<Potato>(), 5).AddIngredient(ItemID.TungstenBar, 5).AddIngredient(ItemID.Glass, 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe().AddIngredient(ItemType<Potato>(), 5).AddRecipeGroup(RecipeGroups.silverGroup, 5).AddIngredient(ItemID.Glass, 10).AddTile(TileID.Anvils).Register();
         }
 
         public override bool CanUseItem(Player player)

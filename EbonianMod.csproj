@@ -12,6 +12,8 @@
 		<None Remove="Effects\FX\metaballGradientNoiseTex.fx" />
 		<None Remove="Effects\FX\ps3Test.fx" />
 		<None Remove="effects\fx\spriteRotation.fx" />
+		<None Remove="Items\Tiles\CorruptrotI.png" />
+		<None Remove="Items\Tiles\FleshichorI.png" />
 		<None Remove="NPCs\Desert\CoinBagHop.png" />
 		<None Remove="NPCs\Desert\CoinBagShake.png" />
 	</ItemGroup>
@@ -19,6 +21,8 @@
 		<None Remove="Projectiles\ArchmageX\XBolt - Copy.png" />
 		<None Remove="Projectiles\ArchmageX\XBolt_Glow - Copy.png" />
 		<None Remove="Projectiles\Enemy\Desert\CoinSheet.png" />
+		<None Remove="Tiles\CorruptrotTile.png" />
+		<None Remove="Tiles\Furniture\FleshichorTile.png" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="NPCs\Misc\" />

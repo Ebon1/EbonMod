@@ -1267,6 +1267,16 @@ Items: {
 		DisplayName: Ball Launcher
 		Tooltip: ""
 	}
+
+	CorruptrotI: {
+		DisplayName: Corruptrot Block
+		Tooltip: ""
+	}
+
+	FleshichorI: {
+		DisplayName: Fleshichor Block
+		Tooltip: ""
+	}
 }
 
 Buffs: {
