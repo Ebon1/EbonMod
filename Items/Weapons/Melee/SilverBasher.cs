@@ -57,60 +57,39 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.timeLeft = 350;
+            Projectile.timeLeft = 150;
             Projectile.tileCollide = true;
-            Projectile.velocity = Helper.FromAToB(Main.player[Projectile.owner].Center, Main.MouseWorld)*300;
-            Projectile.frame = 0;
 
         }
-        bool Exploded;
-        float Rotation=1.4f;
-
         public override void OnSpawn(IEntitySource source)
         {
-            Exploded = false;
+            Projectile.ai[1] = 1.4f;
         }
-
         public override void AI()
         {
             Lighting.AddLight(Projectile.Center, TorchID.Torch);
             Player player = Main.player[Projectile.owner];
-            foreach(Projectile projectile in Main.ActiveProjectiles)
+            foreach (Projectile projectile in Main.ActiveProjectiles)
             {
-                if(Projectile.Distance(projectile.Center)<45 && projectile != Projectile && Type == projectile.type)
+                if (Projectile.Distance(projectile.Center) < 45 && projectile != Projectile && Type == projectile.type)
                 {
-                    Projectile.velocity = Helper.FromAToB(Projectile.Center, projectile.Center)*-projectile.velocity.Length()*1.3f;
+                    Projectile.velocity = Helper.FromAToB(Projectile.Center, projectile.Center) * -projectile.velocity.Length() * 1.3f;
                     projectile.velocity *= 0.14f;
                 }
             }
             Projectile.velocity = Vector2.Lerp(Projectile.velocity, new Vector2(0, 0), 0.05f);
-            if(Exploded == false)
-            {
-                if(Main.mouseRight && player.active)
-                {
-                    Exploded = true;
-                    foreach(Projectile projectile in Main.ActiveProjectiles)
-                    {
-                        if(Type == projectile.type)
-                        {
-                            Projectile.NewProjectile(null, projectile.Center, Vector2.Zero, ProjectileType<SilverBasherFlash>(), 0, 0);
-                            projectile.timeLeft=50;
-                            projectile.frame = 1;
-                            Projectile.damage = 0;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Rotation = Lerp(Rotation, 0f, 0.1f);
-            }
-            Projectile.rotation += Rotation;
+
+            Projectile.ai[1] = Lerp(Projectile.ai[1], 0f, 0.1f);
+            Projectile.rotation += Projectile.ai[1];
         }
-        public override void Kill(int timeLeft)
+        public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Player player = Main.player[Projectile.owner];
             Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
+            return true;
+        }
+        public override void OnKill(int timeLeft)
+        {
+            Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<SilverBasherFlash>(), 0, 0);
             Projectile Proj = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<FlameExplosionWSprite>(), Projectile.damage, 100, Projectile.owner);
             Proj.friendly = true;
             Proj.hostile = false;
@@ -127,17 +106,20 @@ namespace EbonianMod.Items.Weapons.Melee
             Projectile.penetrate = -1;
             Projectile.timeLeft = 35;
         }
-        float Rotation=0.7f;
+        public override void OnSpawn(IEntitySource source)
+        {
+            Projectile.ai[1] = 0.7f;
+        }
         public override void AI()
         {
             Projectile.ai[0]++;
-            Projectile.rotation += Rotation;
-            Rotation = Lerp(Rotation, 0, 0.1f);
-            if(Projectile.ai[0]>6)
+            Projectile.rotation += Projectile.ai[1];
+            Projectile.ai[1] = Lerp(Projectile.ai[1], 0, 0.1f);
+            if (Projectile.ai[0] > 6)
             {
-                Projectile.Opacity = Lerp(Projectile.Opacity, 0, 0.15f); 
+                Projectile.Opacity = Lerp(Projectile.Opacity, 0, 0.15f);
             }
-            if(Projectile.Opacity>0.7f)
+            if (Projectile.Opacity > 0.7f)
             {
                 Lighting.AddLight(Projectile.Center, TorchID.Torch);
             }

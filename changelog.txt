@@ -1,7 +1,10 @@
 v 2.0
 ## Additions
 - Added a post-plantera bossfight, the Conglomerate
-- Added the Possessed Bag enemy
+- Added multiple new weapons
+- Added multiple new enemies
+- Added Cecitior and Terrortoma based fishing rods
+- Added Cecitior and Terrortoma based tiles
 
 ## Changes
 - Resprited Sawcitior
