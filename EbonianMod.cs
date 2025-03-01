@@ -16,9 +16,13 @@ namespace EbonianMod
         public RenderTarget2D blurrender, invisRender, affectedByInvisRender;
         public RenderTarget2D[] renders = new RenderTarget2D[10];
         public static BGParticleSys sys;
+        public EbonianMod()
+        {
+            MusicSkipsVolumeRemap = true;
+            Instance = this;
+        }
         public override void Load()
         {
-            Instance = this;
             LoadEffects();
             LoadDrawCache();
             Main.OnResolutionChanged += (Vector2 obj) => CreateRender();

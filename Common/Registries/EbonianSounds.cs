@@ -515,7 +515,6 @@ namespace EbonianMod.Common.Registries
             {
                 SoundPath = ebonianSoundPath + "Music/Outros/evilOutro",
                 PitchVariance = 0,
-                Volume = 0.5f,
                 MaxInstances = 1,
                 Type = SoundType.Music
             };
@@ -524,7 +523,6 @@ namespace EbonianMod.Common.Registries
             {
                 SoundPath = ebonianSoundPath + "Music/Outros/xareusOutro",
                 PitchVariance = 0,
-                Volume = 0.5f,
                 MaxInstances = 1,
                 Type = SoundType.Music
             };
