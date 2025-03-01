@@ -26,75 +26,88 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
         }
         public override void SetDefaults()
         {
-            Projectile.width = 12;
-            Projectile.height = 20;
+            Projectile.width = 25;
+            Projectile.height = 25;
             Projectile.aiStyle = -1;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.DamageType = DamageClass.Magic;
             Projectile.hostile = false;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 60;
+            Projectile.timeLeft = 200;
+            Projectile.hide = true;
         }
-        public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
-        {
-            Projectile.velocity = Vector2.Zero;
-            if (Projectile.ai[0] == 0)
-            {
-                Projectile.ai[0] = target.whoAmI;
-                Projectile.timeLeft = 60;
-                Projectile.ai[1] = 2;
-            }
-        }
-        /*Verlet verlet;
+
+        float Rotation=0;
+
         public override void OnSpawn(IEntitySource source)
         {
-            verlet = new(Projectile.Center, 20, 10, 1, true, true, 10);
-        }*/
+            Rotation = Helper.FromAToB(Main.player[Projectile.owner].Center, Projectile.Center).ToRotation();
+        }
+        
+        bool IsAttached;
+        Vector2 PositionOffset;
+        NPC Target;
+        float Speed=0.25f;
+
+        public override void OnHitNPC(NPC target, NPC.HitInfo hitinfo, int damage)
+        {
+            if(IsAttached == false)
+            {
+                PositionOffset = Projectile.Center-target.Center;
+                Projectile.velocity = Vector2.Zero;
+                Target = target;
+                IsAttached = true;
+            }
+        }
+
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
+        {
+            behindProjectiles.Add(index);
+        }
+        
         public override void AI()
         {
-            bool GoAway = false;
             Player player = Main.player[Projectile.owner];
-            if (Projectile.ai[1] == 2)
+            Rotation = Helper.LerpAngle(Rotation, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation(), 0.02f);
+            Projectile.ai[0]++;
+            if(IsAttached == true)
             {
-                Projectile.rotation = Helper.FromAToB(player.Center, Projectile.Center).ToRotation();
-                NPC npc = Main.npc[(int)Projectile.ai[0]];
-                if (npc.active && npc.life > 0 && player.Center.Distance(npc.Center) > npc.width)
+                Speed *= 1.08f;
+                Speed = Clamp(Speed, 0, 23);
+                Projectile.timeLeft = 2;
+                player.velocity += Helper.FromAToB(player.Center, Projectile.Center, true) * Speed;
+                Projectile.Center = Target.Center + PositionOffset;
+                if(Vector2.Distance(player.Center, Target.Center) < 100)
                 {
-                    Projectile.Center = npc.Center;
-                    if (Projectile.timeLeft % 5 == 0 && Projectile.timeLeft > 40)
+                    for(int i=0; i < (int)Speed/2; i++)
                     {
-                        player.velocity = Vector2.Clamp(Helper.FromAToB(player.Center, Projectile.Center, false) / 7, Vector2.One * -20, Vector2.One * 20);
-                        if(Vector2.Distance(player.Center, Projectile.Center) < 10)
-                        {
-                            Projectile.Kill();
-                        }
+                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), Target.Center, Main.rand.NextFloat(0, -Pi).ToRotationVector2() * Main.rand.NextFloat(3, 6), ProjectileType<Gibs>(), 15, 0);
                     }
-                }
-                else
+                    SoundEngine.PlaySound(EbonianSounds.chomp1, Projectile.Center);
+                    player.velocity *= 0.4f;
+                    Target.SimpleStrikeNPC((int)player.velocity.Length() * Main.rand.Next(7, 8), 0, false);
                     Projectile.Kill();
-            }
-            else
-            {
-                if (Projectile.timeLeft < 30)
-                {
-                    GoAway = true;
                 }
-            }
-            if(GoAway == true)
-            {
-                Projectile.rotation = Projectile.velocity.ToRotation();
-                Projectile.Center = new Vector2(Projectile.Center.Y + (player.Center.X - Projectile.Center.Y) * 0.01f, Projectile.Center.Y + (player.Center.Y - Projectile.Center.Y) * 0.01f);
-                if (Projectile.Center.Distance(player.Center) < 140)
+                if(Target == null)
                 {
                     Projectile.Kill();
+                }
+            }
+            else if(Projectile.ai[0] > 10)
+            {
+                Projectile.ai[1]++;
+                Projectile.velocity += Helper.FromAToB(Projectile.Center, player.Center) * (float)Projectile.ai[1]/2;
+                if(Vector2.Distance(player.Center, Projectile.Center) < 100)
+                {
+                    Projectile.Kill();                   
                 }
             }
         }
         public override bool PreDraw(ref Color lightColor)
         {
             Player player = Main.player[Projectile.owner];
-            Vector2 neckOrigin = player.Center;
+            Vector2 neckOrigin = new Vector2(player.Center.X, player.Center.Y) + Rotation.ToRotationVector2() * 40;
             Vector2 center = Projectile.Center;
             Vector2 distToProj = neckOrigin - Projectile.Center;
             float projRotation = distToProj.ToRotation() - 1.57f;

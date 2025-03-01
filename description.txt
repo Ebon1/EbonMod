@@ -9,7 +9,7 @@
 [i:4] NO MULTIPLAYER COMPATIBILITY!!!!!!!!!!!
 
 Credits:
-[i:486] Programmers: Ebon, Darkmango, Quarzz
+[i:486] Programmers: Ebon, Darkmango, Quarzz, Ralken
 
 [i:1071] Artists: Max 1287, Roll'eG, Endexyz, Mjoonlight, YoguTheYogurt, fg, Vade, The Possum, AstroWyrm, pil, Decrypt, Ralken
 
