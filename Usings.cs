@@ -12,7 +12,6 @@ global using EbonianMod.Common;
 global using EbonianMod.Common.Registries;
 global using EbonianMod.Common.Systems;
 global using EbonianMod.Common.Systems.Misc;
-global using EbonianMod.Common.NetCode;
 global using static EbonianMod.Common.Easings;
 
 // Terraria

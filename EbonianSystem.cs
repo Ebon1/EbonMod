@@ -27,9 +27,6 @@ namespace EbonianMod
         public static float FlashAlpha, DarkAlpha;
         public override void PostUpdateEverything()
         {
-            Main.NewText("Synced Rand: " + SyncedRand.rand.Next(100));
-            Main.NewText("Main Rand: " + Main.rand.Next(100));
-
             if (FlashAlpha > 0)
                 FlashAlpha -= 0.01f;
 

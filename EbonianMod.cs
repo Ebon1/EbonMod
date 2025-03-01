@@ -38,10 +38,6 @@ namespace EbonianMod
             ResetCache(ref finalDrawCache);
             sys = null;
         }
-        public override void HandlePacket(BinaryReader reader, int whoAmI)
-        {
-            EbonianNetCode.HandlePacket(reader, whoAmI);
-        }
         public static List<Action> invisibleMaskCache = [], affectedByInvisibleMaskCache = [],
             blurDrawCache = [], pixelationDrawCachePre = [], pixelationDrawCachePost = [],
             addPixelationDrawCachePre = [], addPixelationDrawCachePost = [], finalDrawCache = [];
