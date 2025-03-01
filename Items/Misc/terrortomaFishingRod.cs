@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EbonianMod.Items.Materials;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -40,6 +41,10 @@ namespace EbonianMod.Items.Misc
 
             lineColor = new Color(93, 73, 75);
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.WoodFishingPole).AddIngredient<TerrortomaMaterial>(10).AddTile(TileID.MythrilAnvil).Register();
+        }
     }
 
     public class cecitiorFishingRod : ModItem
@@ -72,6 +77,10 @@ namespace EbonianMod.Items.Misc
             lineOriginOffset = new Vector2(30, -25);
 
             lineColor = new Color(207, 160, 150);
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().AddIngredient(ItemID.WoodFishingPole).AddIngredient<CecitiorMaterial>(10).AddTile(TileID.MythrilAnvil).Register();
         }
     }
 

@@ -34,23 +34,23 @@ namespace EbonianMod.Items.Weapons.Ranged
         }
 
 
-    	public override bool AltFunctionUse(Player player) 
+        public override bool AltFunctionUse(Player player)
         {
-			return true;
-		}
+            return true;
+        }
 
-		public override bool CanUseItem(Player player) 
+        public override bool CanUseItem(Player player)
         {
-			if (player.altFunctionUse == 2) 
+            if (player.altFunctionUse == 2)
             {
                 Item.shoot = ProjectileType<BallLauncherCharge>();
-			}
+            }
             else
             {
                 Item.shoot = ProjectileType<BallLauncherSprite>();
             }
             return base.CanUseItem(player);
-		}
+        }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -65,13 +65,13 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             CreateRecipe().AddIngredient(ItemID.RocketLauncher).AddIngredient(ItemType<CecitiorMaterial>(), 20).AddTile(TileID.MythrilAnvil).Register();
         }
+        public override bool CanConsumeAmmo(Item ammo, Player player) => false;
     }
-    
+
 
     public class BallLauncherSprite : ModProjectile
     {
-        int frameCounter = 0;
-        int frame = 0;
+
         Vector2 Scale = new Vector2(0, 0);
 
         public override void SetDefaults()
@@ -84,7 +84,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.usesLocalNPCImmunity = true;
             Projectile.Size = new Vector2(64, 48);
         }
-
+        public override bool? CanDamage() => false;
         public override void OnSpawn(IEntitySource source)
         {
             Player player = Main.player[Projectile.owner];
@@ -109,39 +109,39 @@ namespace EbonianMod.Items.Weapons.Ranged
                 player.itemAnimation = 2;
             }
             Projectile.timeLeft = 10;
-            Projectile.Center = new Vector2(player.Center.X, player.Center.Y-10);
+            Projectile.Center = new Vector2(player.Center.X, player.Center.Y - 10);
             Projectile.ai[0]++;
 
-            if (!player.active || player.dead || player.CCed || player.noItems || player.channel == false)
+            if (!player.active || player.HeldItem.type != ItemType<BallLauncher>() || player.dead || player.CCed || player.noItems || player.channel == false)
             {
                 Projectile.Kill();
                 return;
             }
 
-            if(Projectile.ai[0] > 15)
+            if (Projectile.ai[0] > 15)
             {
-                frameCounter++;
-                if (frameCounter > 5)
+                Projectile.frameCounter++;
+                if (Projectile.frameCounter > 5)
                 {
-                    if(frame == 0)
+                    if (Projectile.frame == 0)
                     {
                         Scale = new Vector2(0.65f, 1.6f);
-                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), new Vector2(Projectile.Center.X, Projectile.Center.Y-10) + Projectile.rotation.ToRotationVector2()*30, Projectile.rotation.ToRotationVector2()*16, ProjectileType<CrimsonBall>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), new Vector2(Projectile.Center.X, Projectile.Center.Y - 10) + Projectile.rotation.ToRotationVector2() * 30, Projectile.rotation.ToRotationVector2() * 16, ProjectileType<CrimsonBall>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         SoundEngine.PlaySound(SoundID.NPCDeath13, Projectile.Center);
                         for (int j = 0; j < 58; j++)
                         {
                             if (player.inventory[j].ammo == AmmoID.Rocket && player.inventory[j].stack > 0)
                             {
-                                if (player.inventory[j].maxStack > 1 && Projectile.ai[2] % 10 == 0)
+                                if (player.inventory[j].maxStack > 1)
                                     player.inventory[j].stack--;
                                 break;
                             }
                         }
                     }
-                    frameCounter = 0;
-                    frame++;
-                    if (frame > 3)
-                        frame = 0;
+                    Projectile.frameCounter = 0;
+                    Projectile.frame++;
+                    if (Projectile.frame > 3)
+                        Projectile.frame = 0;
                 }
             }
             player.direction = player.Center.X - Main.MouseWorld.X < 0 ? 1 : -1;
@@ -151,20 +151,19 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = Helper.GetTexture(Mod.Name + "/Items/Weapons/Ranged/BallLauncherSprite");
-            Rectangle frameRect = new Rectangle(0, frame * Projectile.height, Projectile.width, Projectile.height);
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frameRect, lightColor, Projectile.rotation, new Vector2(Projectile.Size.X / 2-25, Projectile.Size.Y / 2), Scale, Main.player[Projectile.owner].direction == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically);
+            Rectangle frameRect = new Rectangle(0, Projectile.frame * Projectile.height, Projectile.width, Projectile.height);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frameRect, lightColor, Projectile.rotation, new Vector2(Projectile.Size.X / 2 - 25, Projectile.Size.Y / 2), Scale, Main.player[Projectile.owner].direction == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically);
             return false;
         }
     }
 
     public class BallLauncherCharge : ModProjectile
     {
-        int frameCounter = 0;
-        int frame = 0;
-        int ChargeMeter=1;
-        bool IsCharging = true; 
+
+        int ChargeMeter = 1;
+        bool IsCharging = true;
         Vector2 Scale = new Vector2(0, 0);
-        float ScaleNoise=1f;
+        float ScaleNoise = 1f;
 
         public override void SetDefaults()
         {
@@ -200,25 +199,30 @@ namespace EbonianMod.Items.Weapons.Ranged
                 player.itemTime = 2;
                 player.itemAnimation = 2;
             }
+            if (!player.active || player.HeldItem.type != ItemType<BallLauncher>() || player.dead || player.CCed || player.noItems)
+            {
+                Projectile.Kill();
+                return;
+            }
             Projectile.timeLeft = 10;
-            Projectile.Center = new Vector2(player.Center.X, player.Center.Y-10);
+            Projectile.Center = new Vector2(player.Center.X, player.Center.Y - 10);
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - PiOver2);
             Projectile.ai[0]++;
 
-            if(IsCharging == true)
+            if (IsCharging == true)
             {
-                Scale = Vector2.Lerp(Scale, new Vector2(Main.rand.NextFloat(2f-ScaleNoise, ScaleNoise), Main.rand.NextFloat(2f-ScaleNoise, ScaleNoise)), ScaleNoise/10);
-                if(ChargeMeter < 120)
+                Scale = Vector2.Lerp(Scale, new Vector2(Main.rand.NextFloat(2f - ScaleNoise, ScaleNoise), Main.rand.NextFloat(2f - ScaleNoise, ScaleNoise)), ScaleNoise / 10);
+                if (ChargeMeter < 120)
                 {
-                    if(Projectile.ai[0] > 15)
+                    if (Projectile.ai[0] > 15)
                     {
                         ScaleNoise += 0.004f;
-                        frameCounter++;
-                        if (frameCounter > 20 && frame < 6)
+                        Projectile.frameCounter++;
+                        if (Projectile.frameCounter > 20 && Projectile.frame < 6)
                         {
-                            frameCounter = 0;
-                            frame++;    
-                        }  
+                            Projectile.frameCounter = 0;
+                            Projectile.frame++;
+                        }
                         ChargeMeter++;
                     }
                     else
@@ -226,20 +230,20 @@ namespace EbonianMod.Items.Weapons.Ranged
                         Scale = Vector2.Lerp(Scale, new Vector2(1, 1), 0.14f);
                     }
                 }
-                if(!Main.mouseRight)
+                if (!Main.mouseRight)
                 {
-                    frame = 6;
+                    Projectile.frame = 6;
                     IsCharging = false;
-                    for(int i=0; i < ChargeMeter/15; i++)
+                    for (int i = 0; i < ChargeMeter / 15; i++)
                     {
                         Scale = new Vector2(0.55f, 1.7f);
                         SoundEngine.PlaySound(SoundID.NPCDeath13, Projectile.Center);
-                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), new Vector2(Projectile.Center.X, Projectile.Center.Y-10) + Projectile.rotation.ToRotationVector2()*30, Main.rand.NextFloat(Projectile.rotation-(PiOver2*20/ChargeMeter), Projectile.rotation+(PiOver2*20/ChargeMeter)).ToRotationVector2() * Main.rand.NextFloat(ChargeMeter/5, ChargeMeter/8), ProjectileType<CorruptionBalls>(), Projectile.damage*2, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), new Vector2(Projectile.Center.X, Projectile.Center.Y - 10) + Projectile.rotation.ToRotationVector2() * 30, Main.rand.NextFloat(Projectile.rotation - (PiOver2 * 20 / ChargeMeter), Projectile.rotation + (PiOver2 * 20 / ChargeMeter)).ToRotationVector2() * Main.rand.NextFloat(ChargeMeter / 5, ChargeMeter / 8), ProjectileType<CorruptionBalls>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
                         for (int j = 0; j < 58; j++)
                         {
                             if (player.inventory[j].ammo == AmmoID.Rocket && player.inventory[j].stack > 0)
                             {
-                                if (player.inventory[j].maxStack > 1 && Projectile.ai[2] % 10 == 0)
+                                if (player.inventory[j].maxStack > 1)
                                     player.inventory[j].stack--;
                                 break;
                             }
@@ -250,19 +254,14 @@ namespace EbonianMod.Items.Weapons.Ranged
             else
             {
                 Scale = Vector2.Lerp(Scale, new Vector2(1, 1), 0.17f);
-                frameCounter++;
-                if (frameCounter > 4)
+                Projectile.frameCounter++;
+                if (Projectile.frameCounter > 4)
                 {
-                    frameCounter = 0;
-                    frame++;
-                    if (frame > 8)
+                    Projectile.frameCounter = 0;
+                    Projectile.frame++;
+                    if (Projectile.frame > 8)
                         Projectile.Kill();
                 }
-            }
-            if (!player.active || player.dead || player.CCed || player.noItems)
-            {
-                Projectile.Kill();
-                return;
             }
             player.direction = player.Center.X - Main.MouseWorld.X < 0 ? 1 : -1;
             Projectile.rotation = AngleLerp(Projectile.rotation, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation(), 0.12f);
@@ -270,8 +269,8 @@ namespace EbonianMod.Items.Weapons.Ranged
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = Helper.GetTexture(Mod.Name + "/Items/Weapons/Ranged/BallLauncherCharge");
-            Rectangle frameRect = new Rectangle(0, frame * Projectile.height, Projectile.width, Projectile.height);
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frameRect, lightColor, Projectile.rotation, new Vector2(Projectile.Size.X / 2-25, Projectile.Size.Y / 2), Scale, Main.player[Projectile.owner].direction == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically);
+            Rectangle frameRect = new Rectangle(0, Projectile.frame * Projectile.height, Projectile.width, Projectile.height);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frameRect, lightColor, Projectile.rotation, new Vector2(Projectile.Size.X / 2 - 25, Projectile.Size.Y / 2), Scale, Main.player[Projectile.owner].direction == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically);
             return false;
         }
     }
