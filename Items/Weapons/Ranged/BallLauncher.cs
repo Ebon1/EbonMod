@@ -24,12 +24,11 @@ namespace EbonianMod.Items.Weapons.Ranged
             Item.knockBack = 10;
             Item.value = 1000;
             Item.rare = ItemRarityID.Red;
-            Item.autoReuse = true;
             Item.shootSpeed = 14;
             Item.autoReuse = false;
             Item.noUseGraphic = true;
-            Item.noMelee = true;
             Item.channel = true;
+            Item.noMelee = true;
             Item.useAmmo = AmmoID.Rocket;
         }
 
@@ -71,7 +70,7 @@ namespace EbonianMod.Items.Weapons.Ranged
     public class BallLauncherSprite : ModProjectile
     {
         int frameCounter = 0;
-        int frame = 0;
+        int frame = 3;
         Vector2 Scale = new Vector2(0, 0);
 
         public override void SetDefaults()
@@ -82,7 +81,7 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.Size = new Vector2(64, 48);
+            Projectile.Size = new Vector2(56, 48);
         }
 
         public override void OnSpawn(IEntitySource source)
@@ -92,17 +91,10 @@ namespace EbonianMod.Items.Weapons.Ranged
             Projectile.scale = 0.2f;
         }
 
-        public static float AngleLerp(float currentAngle, float targetAngle, float lerpAmount)
-        {
-            currentAngle = MathHelper.WrapAngle(currentAngle);
-            targetAngle = MathHelper.WrapAngle(targetAngle);
-            float difference = MathHelper.WrapAngle(targetAngle - currentAngle);
-            return currentAngle + difference * lerpAmount;
-        }
-
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
+            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - PiOver2);
             if (player.itemTime < 2)
             {
                 player.itemTime = 2;
@@ -145,14 +137,14 @@ namespace EbonianMod.Items.Weapons.Ranged
                 }
             }
             player.direction = player.Center.X - Main.MouseWorld.X < 0 ? 1 : -1;
-            Projectile.rotation = AngleLerp(Projectile.rotation, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation(), 0.12f);
+            Projectile.rotation = Helper.LerpAngle(Projectile.rotation, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation(), 0.12f);
             Scale = Vector2.Lerp(Scale, new Vector2(1, 1), 0.14f);
         }
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D texture = Helper.GetTexture(Mod.Name + "/Items/Weapons/Ranged/BallLauncherSprite");
             Rectangle frameRect = new Rectangle(0, frame * Projectile.height, Projectile.width, Projectile.height);
-            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frameRect, lightColor, Projectile.rotation, new Vector2(Projectile.Size.X / 2-25, Projectile.Size.Y / 2), Scale, Main.player[Projectile.owner].direction == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frameRect, lightColor, Projectile.rotation, new Vector2(Projectile.width / 2-25, Projectile.height/ 2), Scale, Main.player[Projectile.owner].direction == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically);
             return false;
         }
     }
@@ -181,20 +173,12 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             Player player = Main.player[Projectile.owner];
             Projectile.rotation = Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() + player.direction * PiOver2;
-            Projectile.scale = 1f;
-        }
-
-        public static float AngleLerp(float currentAngle, float targetAngle, float lerpAmount)
-        {
-            currentAngle = MathHelper.WrapAngle(currentAngle);
-            targetAngle = MathHelper.WrapAngle(targetAngle);
-            float difference = MathHelper.WrapAngle(targetAngle - currentAngle);
-            return currentAngle + difference * lerpAmount;
         }
 
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
+            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - PiOver2);
             if (player.itemTime < 2)
             {
                 player.itemTime = 2;
@@ -202,12 +186,11 @@ namespace EbonianMod.Items.Weapons.Ranged
             }
             Projectile.timeLeft = 10;
             Projectile.Center = new Vector2(player.Center.X, player.Center.Y-10);
-            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - PiOver2);
             Projectile.ai[0]++;
 
             if(IsCharging == true)
             {
-                Scale = Vector2.Lerp(Scale, new Vector2(Main.rand.NextFloat(2f-ScaleNoise, ScaleNoise), Main.rand.NextFloat(2f-ScaleNoise, ScaleNoise)), ScaleNoise/10);
+                Scale = Vector2.Lerp(Scale, new Vector2(Main.rand.NextFloat(2f-ScaleNoise, ScaleNoise), Main.rand.NextFloat(2f-ScaleNoise, ScaleNoise)), ScaleNoise/8);
                 if(ChargeMeter < 120)
                 {
                     if(Projectile.ai[0] > 15)
@@ -265,7 +248,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                 return;
             }
             player.direction = player.Center.X - Main.MouseWorld.X < 0 ? 1 : -1;
-            Projectile.rotation = AngleLerp(Projectile.rotation, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation(), 0.12f);
+            Projectile.rotation = Helper.LerpAngle(Projectile.rotation, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation(), 0.12f);
         }
         public override bool PreDraw(ref Color lightColor)
         {

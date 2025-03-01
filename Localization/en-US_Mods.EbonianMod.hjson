@@ -283,6 +283,7 @@ Projectiles: {
 	CorruptionBalls.DisplayName: Corruption Balls
 	BallLauncherSprite2.DisplayName: Ball Launcher Sprite2
 	BallLauncherCharge.DisplayName: Ball Launcher Charge
+	LatcherSprite.DisplayName: Latcher Sprite
 }
 
 NPCs: {
