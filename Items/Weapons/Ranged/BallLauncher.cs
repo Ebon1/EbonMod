@@ -152,8 +152,6 @@ namespace EbonianMod.Items.Weapons.Ranged
     public class BallLauncherCharge : ModProjectile
     {
 
-        int ChargeMeter = 1;
-        bool IsCharging = true;
         Vector2 Scale = new Vector2(0, 0);
         float ScaleNoise = 1f;
 
@@ -193,10 +191,10 @@ namespace EbonianMod.Items.Weapons.Ranged
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - PiOver2);
             Projectile.ai[0]++;
 
-            if (IsCharging == true)
+            if (Projectile.ai[2] == 0)
             {
                 Scale = Vector2.Lerp(Scale, new Vector2(Main.rand.NextFloat(2f - ScaleNoise, ScaleNoise), Main.rand.NextFloat(2f - ScaleNoise, ScaleNoise)), ScaleNoise / 10);
-                if (ChargeMeter < 120)
+                if (Projectile.ai[1] < 120)
                 {
                     if (Projectile.ai[0] > 15)
                     {
@@ -207,7 +205,7 @@ namespace EbonianMod.Items.Weapons.Ranged
                             Projectile.frameCounter = 0;
                             Projectile.frame++;
                         }
-                        ChargeMeter++;
+                        Projectile.ai[1]++;
                     }
                     else
                     {
@@ -217,12 +215,12 @@ namespace EbonianMod.Items.Weapons.Ranged
                 if (!Main.mouseRight)
                 {
                     Projectile.frame = 6;
-                    IsCharging = false;
-                    for (int i = 0; i < ChargeMeter / 15; i++)
+                    Projectile.ai[2] = 1;
+                    for (int i = 0; i < Projectile.ai[1] / 15; i++)
                     {
                         Scale = new Vector2(0.55f, 1.7f);
                         SoundEngine.PlaySound(SoundID.NPCDeath13, Projectile.Center);
-                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), new Vector2(Projectile.Center.X, Projectile.Center.Y - 10) + Projectile.rotation.ToRotationVector2() * 30, Main.rand.NextFloat(Projectile.rotation - (PiOver2 * 20 / ChargeMeter), Projectile.rotation + (PiOver2 * 20 / ChargeMeter)).ToRotationVector2() * Main.rand.NextFloat(ChargeMeter / 5, ChargeMeter / 8), ProjectileType<CorruptionBalls>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.InheritSource(Projectile), new Vector2(Projectile.Center.X, Projectile.Center.Y - 10) + Projectile.rotation.ToRotationVector2() * 30, Main.rand.NextFloat(Projectile.rotation - (PiOver2 * 20 / Projectile.ai[1]), Projectile.rotation + (PiOver2 * 20 / Projectile.ai[1])).ToRotationVector2() * Main.rand.NextFloat(Projectile.ai[1] / 5, Projectile.ai[1] / 8), ProjectileType<CorruptionBalls>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner);
                         for (int j = 0; j < 58; j++)
                         {
                             if (player.inventory[j].ammo == AmmoID.Rocket && player.inventory[j].stack > 0)
