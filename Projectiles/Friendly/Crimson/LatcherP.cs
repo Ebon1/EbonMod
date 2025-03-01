@@ -54,9 +54,8 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
         }*/
         public override void AI()
         {
+            bool GoAway = false;
             Player player = Main.player[Projectile.owner];
-            if (Main.myPlayer == Projectile.owner && Main.mouseRight)
-                Projectile.Kill();
             if (Projectile.ai[1] == 2)
             {
                 Projectile.rotation = Helper.FromAToB(player.Center, Projectile.Center).ToRotation();
@@ -66,13 +65,10 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
                     Projectile.Center = npc.Center;
                     if (Projectile.timeLeft % 5 == 0 && Projectile.timeLeft > 40)
                     {
-                        if (npc.knockBackResist <= 0.75f)
+                        player.velocity = Vector2.Clamp(Helper.FromAToB(player.Center, Projectile.Center, false) / 7, Vector2.One * -20, Vector2.One * 20);
+                        if(Vector2.Distance(player.Center, Projectile.Center) < 10)
                         {
-                            player.velocity = Vector2.Clamp(Helper.FromAToB(player.Center, Projectile.Center, false) / 7, Vector2.One * -20, Vector2.One * 20);
-                        }
-                        else
-                        {
-                            npc.velocity = Helper.FromAToB(npc.Center, player.Center, false) / 10;
+                            Projectile.Kill();
                         }
                     }
                 }
@@ -81,14 +77,18 @@ namespace EbonianMod.Projectiles.Friendly.Crimson
             }
             else
             {
-                Projectile.rotation = Projectile.velocity.ToRotation();
                 if (Projectile.timeLeft < 30)
                 {
-                    Projectile.Center = Vector2.Lerp(Projectile.Center, player.Center, 0.2f);
-                    if (Projectile.Center.Distance(player.Center) < 140)
-                    {
-                        Projectile.Kill();
-                    }
+                    GoAway = true;
+                }
+            }
+            if(GoAway == true)
+            {
+                Projectile.rotation = Projectile.velocity.ToRotation();
+                Projectile.Center = new Vector2(Projectile.Center.Y + (player.Center.X - Projectile.Center.Y) * 0.01f, Projectile.Center.Y + (player.Center.Y - Projectile.Center.Y) * 0.01f);
+                if (Projectile.Center.Distance(player.Center) < 140)
+                {
+                    Projectile.Kill();
                 }
             }
         }
