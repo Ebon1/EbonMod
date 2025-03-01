@@ -21,6 +21,8 @@ namespace EbonianMod
             Instance = this;
             LoadEffects();
             LoadDrawCache();
+            Main.OnResolutionChanged += (Vector2 obj) => CreateRender();
+            CreateRender();
             sys = new();
         }
         public override void Unload()
@@ -40,8 +42,6 @@ namespace EbonianMod
         {
             EbonianNetCode.HandlePacket(reader, whoAmI);
         }
-
-
         public static List<Action> invisibleMaskCache = [], affectedByInvisibleMaskCache = [],
             blurDrawCache = [], pixelationDrawCachePre = [], pixelationDrawCachePost = [],
             addPixelationDrawCachePre = [], addPixelationDrawCachePost = [], finalDrawCache = [];
@@ -116,6 +116,29 @@ namespace EbonianMod
             Filters.Scene["EbonianMod:HellTint2"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(0.03f, 0f, .18f).UseOpacity(0.425f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:HellTint2"] = new BasicTint();
             Filters.Scene["EbonianMod:ScreenFlash"] = new Filter(new ScreenShaderData(Request<Effect>("EbonianMod/Effects/ScreenFlash", AssetRequestMode.ImmediateLoad), "Flash"), EffectPriority.VeryHigh);
+        }
+        public void CreateRender()
+        {
+            if (Main.netMode != NetmodeID.Server)
+                Main.QueueMainThreadAction(() =>
+                {
+                    for (int i = 0; i < Instance.renders.Length; i++)
+                    {
+                        if (Instance.renders[i] != null && !Instance.renders[i].IsDisposed)
+                            Instance.renders[i].Dispose();
+                        Instance.renders[i] = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                    }
+                    if (Instance.invisRender != null && !Instance.invisRender.IsDisposed)
+                        Instance.invisRender.Dispose();
+                    if (Instance.affectedByInvisRender != null && !Instance.affectedByInvisRender.IsDisposed)
+                        Instance.affectedByInvisRender.Dispose();
+                    if (Instance.blurrender != null && !Instance.blurrender.IsDisposed)
+                        Instance.blurrender.Dispose();
+
+                    Instance.invisRender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                    Instance.affectedByInvisRender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                    Instance.blurrender = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                });
         }
     }
 }

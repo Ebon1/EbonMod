@@ -198,7 +198,8 @@ namespace EbonianMod.Common.Detours
         public void DrawBehindTilesAndWalls(Terraria.On_Main.orig_DrawBG orig, global::Terraria.Main self)
         {
             orig(self);
-            EbonianMod.sys.DrawParticles();
+            if (EbonianMod.sys != null)
+                EbonianMod.sys.DrawParticles();
         }
         void DrawPlayer(On_VanillaPlayerDrawLayer.orig_Draw orig, PlayerDrawLayer self, ref PlayerDrawSet drawInfo)
         {
