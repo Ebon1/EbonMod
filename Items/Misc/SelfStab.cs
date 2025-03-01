@@ -1,5 +1,4 @@
-﻿using EbonianMod.Common.Systems;
-using EbonianMod.Projectiles.Dev;
+﻿using EbonianMod.Projectiles.Dev;
 using EbonianMod.Projectiles.Friendly.Crimson;
 using EbonianMod.Projectiles.VFXProjectiles;
 using Microsoft.Xna.Framework;

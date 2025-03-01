@@ -1,8 +1,7 @@
 ﻿using EbonianMod.Bossbars;
 using EbonianMod.Buffs;
 using EbonianMod.Common;
-using EbonianMod.Common.Systems;
-using EbonianMod.Common.Systems.Misc.Dialogue;
+using EbonianMod.Common.UI.Dialogue;
 using EbonianMod.Dusts;
 using EbonianMod.Items.Armor.Vanity;
 using EbonianMod.Items.BossTreasure;

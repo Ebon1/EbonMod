@@ -17,7 +17,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections;
 using static tModPorter.ProgressUpdate;
-using EbonianMod.Common.Systems;
 using EbonianMod.Items.Consumables.Food;
 using Terraria.Graphics.CameraModifiers;
 
@@ -50,7 +49,8 @@ namespace EbonianMod.Items.Consumables.BossItems
         }
         public override void AddRecipes()
         {
-            CreateRecipe().AddIngredient(ItemType<Potato>(), 5).AddRecipeGroup(RecipeGroupSystem.SilverBars, 5).AddIngredient(ItemID.Glass, 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe().AddIngredient(ItemType<Potato>(), 5).AddIngredient(ItemID.SilverBar, 5).AddIngredient(ItemID.Glass, 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe().AddIngredient(ItemType<Potato>(), 5).AddIngredient(ItemID.TungstenBar, 5).AddIngredient(ItemID.Glass, 10).AddTile(TileID.Anvils).Register();
         }
 
         public override bool CanUseItem(Player player)

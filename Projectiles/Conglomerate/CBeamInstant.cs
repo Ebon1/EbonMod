@@ -1,5 +1,4 @@
-﻿using EbonianMod.Common.Systems;
-using EbonianMod.Dusts;
+﻿using EbonianMod.Dusts;
 using EbonianMod.Projectiles.ArchmageX;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
@@ -71,7 +70,7 @@ namespace EbonianMod.Projectiles.Conglomerate
                 if (EbonianSystem.conglomerateSkyFlash < 20)
                     EbonianSystem.conglomerateSkyFlash = 20f;
                 EbonianSystem.conglomerateSkyFlash = 3;
-                EbonianSystem.ScreenShakeAmount = 10f;
+                CameraSystem.ScreenShakeAmount = 10f;
                 Projectile.NewProjectile(null, Projectile.Center + Projectile.velocity * 10, Vector2.Zero, ModContent.ProjectileType<BlurScream>(), 0, 0);
                 SoundEngine.PlaySound(EbonianSounds.exolDash, Projectile.Center);
 

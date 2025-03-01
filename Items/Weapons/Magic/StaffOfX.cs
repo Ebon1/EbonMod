@@ -16,11 +16,10 @@ using EbonianMod.Projectiles.VFXProjectiles;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;
-using EbonianMod.Common.Systems;
 using EbonianMod.Projectiles.ArchmageX;
-using EbonianMod.Common.Systems.Misc.Dialogue;
 using Terraria.Utilities;
 using Terraria.Graphics.CameraModifiers;
+using EbonianMod.Common.UI.Dialogue;
 
 namespace EbonianMod.Items.Weapons.Magic
 {

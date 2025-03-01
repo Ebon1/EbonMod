@@ -18,7 +18,6 @@ using EbonianMod.Bossbars;
 using System.Linq;
 using Terraria.UI;
 using EbonianMod.Common.Achievements;
-using EbonianMod.Common.Systems;
 using EbonianMod.NPCs.Corruption;
 using Microsoft.VisualBasic;
 using static System.Net.Mime.MediaTypeNames;
@@ -276,8 +275,8 @@ namespace EbonianMod.NPCs.Terrortoma
                 NPC.frameCounter = 0;
                 NPC.immortal = true;
                 NPC.dontTakeDamage = true;
-                EbonianSystem.ChangeCameraPos(NPC.Center, 170, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
-                EbonianSystem.ScreenShakeAmount = 20;
+                CameraSystem.ChangeCameraPos(NPC.Center, 170, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
+                CameraSystem.ScreenShakeAmount = 20;
                 ded = true;
                 AITimer = AITimer2 = 0;
                 NPC.velocity = Vector2.Zero;
@@ -426,8 +425,8 @@ namespace EbonianMod.NPCs.Terrortoma
                     NPC.frameCounter = 0;
                     NPC.immortal = true;
                     NPC.dontTakeDamage = true;
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 170, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
-                    EbonianSystem.ScreenShakeAmount = 20;
+                    CameraSystem.ChangeCameraPos(NPC.Center, 170, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
+                    CameraSystem.ScreenShakeAmount = 20;
                     ded = true;
                     AITimer = AITimer2 = 0;
                     NPC.velocity = Vector2.Zero;
@@ -584,7 +583,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 if (AITimer == 326)
                 {
                     NPC.velocity = Vector2.Zero;
-                    EbonianSystem.ScreenShakeAmount = 15f;
+                    CameraSystem.ScreenShakeAmount = 15f;
                     SoundEngine.PlaySound(EbonianSounds.chargedBeamImpactOnly, NPC.Center);
                     Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, (NPC.rotation + PiOver2).ToRotationVector2(), ProjectileType<TBeam>(), 10000, 0);
                 }
@@ -619,7 +618,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 if (AITimer == 1)
                 {
                     //Helper.SetBossTitle(120, "Terrortoma", Color.LawnGreen, "The Conglomerate", 0);
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 130, new ZoomInfo(2, 1.6f, InOutQuad), 1.5f, easingFunction: InOutCirc);
+                    CameraSystem.ChangeCameraPos(NPC.Center, 130, new ZoomInfo(2, 1.6f, InOutQuad), 1.5f, easingFunction: InOutCirc);
                     //add sound later
                 }
                 if (AITimer2 == 0 && AITimer % 5 == 0 && introFrame.Y < introFrame.Height * 15)
@@ -700,7 +699,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 isLaughing = false;
                 NPC.rotation = Helper.LerpAngle(NPC.rotation, 0, 0.1f);
                 if (AITimer == 30)
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 200, new ZoomInfo(2, 1.1f, InOutQuad, InOutCirc), 1.5f, InOutQuart);
+                    CameraSystem.ChangeCameraPos(NPC.Center, 200, new ZoomInfo(2, 1.1f, InOutQuad, InOutCirc), 1.5f, InOutQuart);
                 if (AITimer < 205 && AITimer >= 30)
                 {
                     rotation = 0;
@@ -928,7 +927,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 if (AITimer == 170 && AITimer2 == 1)
                 {
                     SoundEngine.PlaySound(EbonianSounds.chomp1, NPC.Center);
-                    EbonianSystem.ScreenShakeAmount = 5f;
+                    CameraSystem.ScreenShakeAmount = 5f;
 
                     for (int i = 0; i < 10; i += (hasDonePhase2ApeShitMode ? 1 : 2))
                     {

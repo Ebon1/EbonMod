@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using Terraria.GameContent;
 using EbonianMod.Projectiles.Terrortoma;
-using EbonianMod.Common.Systems;
 using EbonianMod.Items.Misc;
 
 namespace EbonianMod.Projectiles.Friendly.Corruption

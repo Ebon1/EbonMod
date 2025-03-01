@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.Utilities;
 using EbonianMod.Dusts;
 using Terraria.Audio;
-using EbonianMod.Common.Systems;
 using ReLogic.Utilities;
 using EbonianMod.Items.Materials;
 

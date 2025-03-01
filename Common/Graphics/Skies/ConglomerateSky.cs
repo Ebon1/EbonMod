@@ -10,7 +10,7 @@ using Terraria;
 using Terraria.ModLoader;
 using ReLogic.Content;
 
-namespace EbonianMod.Common.Systems.Skies
+namespace EbonianMod.Common.Graphics.Skies
 {
     internal class ConglomerateSky : CustomSky
     {

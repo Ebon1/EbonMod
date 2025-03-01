@@ -9,7 +9,7 @@ using EbonianMod.NPCs.Terrortoma;
 using System;
 using System.Collections.Generic;
 
-namespace EbonianMod.Common.Systems.Misc
+namespace EbonianMod.Common.Systems.CrossMod
 {
     public class BossLogSystem : ModSystem
     {
@@ -42,8 +42,8 @@ namespace EbonianMod.Common.Systems.Misc
 
             var customPortrait = (SpriteBatch sb, Rectangle rect, Color color) =>
             {
-                Texture2D texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/BossLogPreviews/HotGarbagePreviewA").Value;
-                Vector2 centered = new(rect.X + (rect.Width / 2) - (texture.Width / 2), (float)((rect.Height / 0.82) - (texture.Height / 0.82)));
+                Texture2D texture = Request<Texture2D>("EbonianMod/Extras/Sprites/BossLogPreviews/HotGarbagePreviewA").Value;
+                Vector2 centered = new(rect.X + rect.Width / 2 - texture.Width / 2, (float)(rect.Height / 0.82 - texture.Height / 0.82));
                 sb.Draw(texture, centered, color);
             };
 
@@ -74,8 +74,8 @@ namespace EbonianMod.Common.Systems.Misc
 
             var customPortrait = (SpriteBatch sb, Rectangle rect, Color color) =>
             {
-                Texture2D texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/BossLogPreviews/ArchmageXPreview").Value;
-                Vector2 centered = new(rect.X + (rect.Width / 2) - (texture.Width / 2), (float)((rect.Height / 0.8) - (texture.Height / 0.8)));
+                Texture2D texture = Request<Texture2D>("EbonianMod/Extras/Sprites/BossLogPreviews/ArchmageXPreview").Value;
+                Vector2 centered = new(rect.X + rect.Width / 2 - texture.Width / 2, (float)(rect.Height / 0.8 - texture.Height / 0.8));
                 sb.Draw(texture, centered, color);
             };
 
@@ -105,8 +105,8 @@ namespace EbonianMod.Common.Systems.Misc
 
             var customPortrait = (SpriteBatch sb, Rectangle rect, Color color) =>
             {
-                Texture2D texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/BossLogPreviews/CecitiorPreview").Value;
-                Vector2 centered = new(rect.X + (rect.Width / 2) - (texture.Width / 2), (float)((rect.Height / 0.6) - (texture.Height / 0.6)));
+                Texture2D texture = Request<Texture2D>("EbonianMod/Extras/Sprites/BossLogPreviews/CecitiorPreview").Value;
+                Vector2 centered = new(rect.X + rect.Width / 2 - texture.Width / 2, (float)(rect.Height / 0.6 - texture.Height / 0.6));
                 sb.Draw(texture, centered, color);
             };
 
@@ -136,8 +136,8 @@ namespace EbonianMod.Common.Systems.Misc
 
             var customPortrait = (SpriteBatch sb, Rectangle rect, Color color) =>
             {
-                Texture2D texture = ModContent.Request<Texture2D>("EbonianMod/Extras/Sprites/BossLogPreviews/TerrortomaPreview").Value;
-                Vector2 centered = new(rect.X + (rect.Width / 2) - (texture.Width / 2), (float)((rect.Height / 0.7) - (texture.Height / 0.7)));
+                Texture2D texture = Request<Texture2D>("EbonianMod/Extras/Sprites/BossLogPreviews/TerrortomaPreview").Value;
+                Vector2 centered = new(rect.X + rect.Width / 2 - texture.Width / 2, (float)(rect.Height / 0.7 - texture.Height / 0.7));
                 sb.Draw(texture, centered, color);
             };
 

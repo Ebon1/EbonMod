@@ -13,7 +13,6 @@ using EbonianMod.Projectiles.Friendly.Crimson;
 using System.IO;
 using System.Collections.Generic;
 using EbonianMod.NPCs.Corruption;
-using EbonianMod.Common.Systems;
 using EbonianMod.NPCs.Cecitior;
 using EbonianMod.Projectiles.Cecitior;
 

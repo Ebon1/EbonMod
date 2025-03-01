@@ -9,7 +9,7 @@ using Terraria;
 using Terraria.Graphics.Renderers;
 using Terraria.ModLoader;
 
-namespace EbonianMod.Common.Systems
+namespace EbonianMod.Common.Graphics
 {
     public delegate void UpdateFunction(Particle particle);
     public delegate void DrawFunction(Particle particle, SpriteBatch spriteBatch, Vector2 position);

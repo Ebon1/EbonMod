@@ -9,8 +9,8 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
-using EbonianMod.Common.Systems.Misc;
 using EbonianMod.Items.Weapons.Melee;
+using EbonianMod.Common.Systems.Verlets;
 namespace EbonianMod.Projectiles.Friendly.Corruption
 {
     public class TerrortomaFlail : ModProjectile

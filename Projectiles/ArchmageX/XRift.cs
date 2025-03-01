@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
-using EbonianMod.Common.Systems;
 using EbonianMod.Dusts;
 using Terraria.Audio;
 using Terraria.DataStructures;

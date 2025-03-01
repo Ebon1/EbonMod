@@ -11,7 +11,7 @@ using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 
-namespace EbonianMod.Common.Systems.Misc
+namespace EbonianMod.Common.Systems.Verlets
 {
     public class SpawnableVerlet
     {
@@ -41,7 +41,7 @@ namespace EbonianMod.Common.Systems.Misc
                     {
                         if (verlets[i].verlet.gravity > 5)
                             verlets[i].velocity = Vector2.Lerp(verlets[i].velocity, new Vector2(verlets[i].velocity.X * 0.99f, 10), 0.05f);
-                        verlets[i].verlet.gravity = MathHelper.Lerp(verlets[i].verlet.gravity, 10, 0.05f);
+                        verlets[i].verlet.gravity = Lerp(verlets[i].verlet.gravity, 10, 0.05f);
                         for (int j = 0; j < verlets[i].verlet.points.Count; j++)
                         {
                             UnifiedRandom rand = new UnifiedRandom(i + j);

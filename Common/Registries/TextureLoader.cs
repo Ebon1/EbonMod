@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EbonianMod.Common.TextureLoading
+namespace EbonianMod.Common.Registries
 {
     public class TextureLoader : ModSystem
     {

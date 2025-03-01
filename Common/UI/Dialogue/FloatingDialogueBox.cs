@@ -10,7 +10,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.UI.Chat;
 
-namespace EbonianMod.Common.Systems.Misc.Dialogue
+namespace EbonianMod.Common.UI.Dialogue
 {
     [Flags]
     public enum DialogueAnimationIDs
@@ -41,7 +41,7 @@ namespace EbonianMod.Common.Systems.Misc.Dialogue
             this.soundInterval = soundInterval;
             this.sound = sound;
             this.timeLeft = timeLeft;
-            this.timeLeftMax = timeLeft;
+            timeLeftMax = timeLeft;
             Center = center;
             VisibleCenter = center;
             charVisibleCenter = new List<Vector2>(text.Length);
@@ -57,12 +57,12 @@ namespace EbonianMod.Common.Systems.Misc.Dialogue
             }
             this.text = text;
             this.textColor = textColor;
-            this.actualTextColor = textColor;
+            actualTextColor = textColor;
             this.maxWidth = maxWidth;
             this.scale = scale;
-            this.visibleScale = scale;
+            visibleScale = scale;
             this.borderColor = borderColor;
-            this.actualBorderColor = borderColor;
+            actualBorderColor = borderColor;
             this.lerpSpeed = lerpSpeed;
             this.substring = substring;
             this.animationType = animationType;
@@ -76,7 +76,7 @@ namespace EbonianMod.Common.Systems.Misc.Dialogue
                 if (ch == '\n' && newLineAmount < timeLeftMax) newLineAmount += 10;
             }
             float progress = Utils.GetLerpValue(0, timeLeftMax - newLineAmount, timeLeft - newLineAmount);
-            float lerpV = ((MathHelper.Clamp((1f - progress) * lerpSpeed, 0, 1)));
+            float lerpV = Clamp((1f - progress) * lerpSpeed, 0, 1);
 
             int count = (int)(text.Length * lerpV);
             visibleText = $"{text.Substring(0, count)}";
@@ -97,13 +97,13 @@ namespace EbonianMod.Common.Systems.Misc.Dialogue
                     {
                         for (int i = 0; i < visibleText.Length - 1; i++)
                         {
-                            ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.DeathText.Value, visibleText[i].ToString(), charVisibleCenter[i] + new Vector2(FontAssets.DeathText.Value.MeasureString(visibleText.Remove(i)).X * (scale), 0) - Main.screenPosition, charTextColor[i], 0, new Vector2(FontAssets.DeathText.Value.MeasureString(text).X / (2), FontAssets.DeathText.Value.MeasureString(text).Y / 2), new Vector2(charVisibleScale[i], charVisibleScale[i]), maxWidth);
-                            ChatManager.DrawColorCodedStringShadow(spriteBatch, FontAssets.DeathText.Value, visibleText[i].ToString(), charVisibleCenter[i] + new Vector2(FontAssets.DeathText.Value.MeasureString(visibleText.Remove(i)).X * (scale), 0) - Main.screenPosition, charBorderColor[i], 0, new Vector2(FontAssets.DeathText.Value.MeasureString(text).X / (2), FontAssets.DeathText.Value.MeasureString(text).Y / 2), new Vector2(charVisibleScale[i], charVisibleScale[i]), maxWidth);
-                            ChatManager.DrawColorCodedString(spriteBatch, FontAssets.DeathText.Value, visibleText[i].ToString(), charVisibleCenter[i] + new Vector2(FontAssets.DeathText.Value.MeasureString(visibleText.Remove(i)).X * (scale), 0) - Main.screenPosition, charTextColor[i], 0, new Vector2(FontAssets.DeathText.Value.MeasureString(text).X / (2), FontAssets.DeathText.Value.MeasureString(text).Y / 2), new Vector2(charVisibleScale[i], charVisibleScale[i]), maxWidth);
+                            ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.DeathText.Value, visibleText[i].ToString(), charVisibleCenter[i] + new Vector2(FontAssets.DeathText.Value.MeasureString(visibleText.Remove(i)).X * scale, 0) - Main.screenPosition, charTextColor[i], 0, new Vector2(FontAssets.DeathText.Value.MeasureString(text).X / 2, FontAssets.DeathText.Value.MeasureString(text).Y / 2), new Vector2(charVisibleScale[i], charVisibleScale[i]), maxWidth);
+                            ChatManager.DrawColorCodedStringShadow(spriteBatch, FontAssets.DeathText.Value, visibleText[i].ToString(), charVisibleCenter[i] + new Vector2(FontAssets.DeathText.Value.MeasureString(visibleText.Remove(i)).X * scale, 0) - Main.screenPosition, charBorderColor[i], 0, new Vector2(FontAssets.DeathText.Value.MeasureString(text).X / 2, FontAssets.DeathText.Value.MeasureString(text).Y / 2), new Vector2(charVisibleScale[i], charVisibleScale[i]), maxWidth);
+                            ChatManager.DrawColorCodedString(spriteBatch, FontAssets.DeathText.Value, visibleText[i].ToString(), charVisibleCenter[i] + new Vector2(FontAssets.DeathText.Value.MeasureString(visibleText.Remove(i)).X * scale, 0) - Main.screenPosition, charTextColor[i], 0, new Vector2(FontAssets.DeathText.Value.MeasureString(text).X / 2, FontAssets.DeathText.Value.MeasureString(text).Y / 2), new Vector2(charVisibleScale[i], charVisibleScale[i]), maxWidth);
                         }
-                        ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.DeathText.Value, visibleText[visibleText.Length - 1].ToString(), charVisibleCenter[visibleText.Length - 1] + new Vector2(FontAssets.DeathText.Value.MeasureString(visibleText.Remove(visibleText.Length - 1)).X * (scale), 0) - Main.screenPosition, charTextColor[visibleText.Length - 1], 0, new Vector2(FontAssets.DeathText.Value.MeasureString(text).X / (2), FontAssets.DeathText.Value.MeasureString(text).Y / 2), new Vector2(charVisibleScale[visibleText.Length - 1], charVisibleScale[visibleText.Length - 1]), maxWidth);
-                        ChatManager.DrawColorCodedStringShadow(spriteBatch, FontAssets.DeathText.Value, visibleText[visibleText.Length - 1].ToString(), charVisibleCenter[visibleText.Length - 1] + new Vector2(FontAssets.DeathText.Value.MeasureString(visibleText.Remove(visibleText.Length - 1)).X * (scale), 0) - Main.screenPosition, charBorderColor[visibleText.Length - 1], 0, new Vector2(FontAssets.DeathText.Value.MeasureString(text).X / (2), FontAssets.DeathText.Value.MeasureString(text).Y / 2), new Vector2(charVisibleScale[visibleText.Length - 1], charVisibleScale[visibleText.Length - 1]), maxWidth);
-                        ChatManager.DrawColorCodedString(spriteBatch, FontAssets.DeathText.Value, visibleText[visibleText.Length - 1].ToString(), charVisibleCenter[visibleText.Length - 1] + new Vector2(FontAssets.DeathText.Value.MeasureString(visibleText.Remove(visibleText.Length - 1)).X * (scale), 0) - Main.screenPosition, charTextColor[visibleText.Length - 1], 0, new Vector2(FontAssets.DeathText.Value.MeasureString(text).X / (2), FontAssets.DeathText.Value.MeasureString(text).Y / 2), new Vector2(charVisibleScale[visibleText.Length - 1], charVisibleScale[visibleText.Length - 1]), maxWidth);
+                        ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.DeathText.Value, visibleText[visibleText.Length - 1].ToString(), charVisibleCenter[visibleText.Length - 1] + new Vector2(FontAssets.DeathText.Value.MeasureString(visibleText.Remove(visibleText.Length - 1)).X * scale, 0) - Main.screenPosition, charTextColor[visibleText.Length - 1], 0, new Vector2(FontAssets.DeathText.Value.MeasureString(text).X / 2, FontAssets.DeathText.Value.MeasureString(text).Y / 2), new Vector2(charVisibleScale[visibleText.Length - 1], charVisibleScale[visibleText.Length - 1]), maxWidth);
+                        ChatManager.DrawColorCodedStringShadow(spriteBatch, FontAssets.DeathText.Value, visibleText[visibleText.Length - 1].ToString(), charVisibleCenter[visibleText.Length - 1] + new Vector2(FontAssets.DeathText.Value.MeasureString(visibleText.Remove(visibleText.Length - 1)).X * scale, 0) - Main.screenPosition, charBorderColor[visibleText.Length - 1], 0, new Vector2(FontAssets.DeathText.Value.MeasureString(text).X / 2, FontAssets.DeathText.Value.MeasureString(text).Y / 2), new Vector2(charVisibleScale[visibleText.Length - 1], charVisibleScale[visibleText.Length - 1]), maxWidth);
+                        ChatManager.DrawColorCodedString(spriteBatch, FontAssets.DeathText.Value, visibleText[visibleText.Length - 1].ToString(), charVisibleCenter[visibleText.Length - 1] + new Vector2(FontAssets.DeathText.Value.MeasureString(visibleText.Remove(visibleText.Length - 1)).X * scale, 0) - Main.screenPosition, charTextColor[visibleText.Length - 1], 0, new Vector2(FontAssets.DeathText.Value.MeasureString(text).X / 2, FontAssets.DeathText.Value.MeasureString(text).Y / 2), new Vector2(charVisibleScale[visibleText.Length - 1], charVisibleScale[visibleText.Length - 1]), maxWidth);
                     }
                 }
                 else
@@ -127,20 +127,20 @@ namespace EbonianMod.Common.Systems.Misc.Dialogue
             {
                 SetVisibleText();
                 float progress = Utils.GetLerpValue(0, timeLeftMax, timeLeft);
-                float lerpV = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * lerpSpeed, 0, 1);
+                float lerpV = Clamp((float)Math.Sin(progress * Math.PI) * lerpSpeed, 0, 1);
                 if (visibleText.Length > 0)
                 {
                     for (int i = 0; i < visibleText.Length; i++)
                     {
                         charTextColor[i] = Color.Lerp(Color.Lerp(charTextColor[i] * 0, charTextColor[i], lerpV), Color.Lerp(textColor * 0, textColor, lerpV), 0.2f);
                         charBorderColor[i] = Color.Lerp(Color.Lerp(charBorderColor[i] * 0, charBorderColor[i], lerpV), Color.Lerp(borderColor * 0, borderColor, lerpV), 0.2f);
-                        charVisibleScale[i] = MathHelper.Lerp(charVisibleScale[i], scale, 0.25f);
+                        charVisibleScale[i] = Lerp(charVisibleScale[i], scale, 0.25f);
                         charVisibleCenter[i] = Vector2.Lerp(charVisibleCenter[i], Center, 0.25f);
                     }
                 }
                 actualTextColor = Color.Lerp(Color.Lerp(actualTextColor * 0, actualTextColor, lerpV), Color.Lerp(textColor * 0, textColor, lerpV), 0.2f);
                 actualBorderColor = Color.Lerp(borderColor * 0, borderColor, lerpV);
-                visibleScale = MathHelper.Lerp(visibleScale, scale, 0.25f);
+                visibleScale = Lerp(visibleScale, scale, 0.25f);
                 VisibleCenter = Vector2.Lerp(VisibleCenter, Center, 0.25f);
                 if (visibleText.Length > 0)
                 {

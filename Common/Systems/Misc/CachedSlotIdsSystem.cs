@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EbonianMod.Common.Systems
+namespace EbonianMod.Common.Systems.Misc
 {
     public struct LoopedSound
     {

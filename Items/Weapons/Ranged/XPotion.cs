@@ -14,7 +14,6 @@ using Terraria.UI;
 using System.IO;
 using Terraria.GameContent;
 using EbonianMod.Projectiles.ArchmageX;
-using EbonianMod.Common.Systems;
 using EbonianMod.Dusts;
 
 namespace EbonianMod.Items.Weapons.Ranged

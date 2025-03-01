@@ -1,5 +1,4 @@
-﻿using EbonianMod.Common.Systems;
-using EbonianMod.Projectiles.Enemy.Corruption;
+﻿using EbonianMod.Projectiles.Enemy.Corruption;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

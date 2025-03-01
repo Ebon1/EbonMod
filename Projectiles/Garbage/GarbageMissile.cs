@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.Audio;
-using EbonianMod.Common.Systems;
 using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.DataStructures;
 using Terraria.ID;

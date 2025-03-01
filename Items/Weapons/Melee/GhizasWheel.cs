@@ -1,5 +1,4 @@
-﻿using EbonianMod.Common.Systems;
-using EbonianMod.Dusts;
+﻿using EbonianMod.Dusts;
 using EbonianMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

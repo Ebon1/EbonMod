@@ -17,7 +17,6 @@ using Terraria.Audio;
 using System.Xml.Serialization;
 using EbonianMod.Items.Misc;
 using EbonianMod.Projectiles.VFXProjectiles;
-using EbonianMod.Common.Systems;
 using EbonianMod.Items.Materials;
 using EbonianMod.Dusts;
 

@@ -1,5 +1,4 @@
-﻿using EbonianMod.Common.Systems;
-using EbonianMod.Items.Misc;
+﻿using EbonianMod.Items.Misc;
 using EbonianMod.Projectiles.Friendly.Corruption;
 using Microsoft.Xna.Framework;
 using ReLogic.Utilities;

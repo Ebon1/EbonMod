@@ -9,12 +9,11 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using EbonianMod.Common.Systems.Misc;
 using Terraria.DataStructures;
 using ReLogic.Utilities;
 using Terraria.Audio;
-using EbonianMod.Common.Systems;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
+using EbonianMod.Common.Systems.Verlets;
 
 namespace EbonianMod.Items.Weapons.Melee
 {

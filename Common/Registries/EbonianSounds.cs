@@ -9,7 +9,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 
-namespace EbonianMod.Common.Systems
+namespace EbonianMod.Common.Registries
 {
     public class EbonianSounds : ModSystem
     {

@@ -11,10 +11,10 @@ using EbonianMod.Effects.Prims;
 using Microsoft.Xna.Framework.Graphics;
 using EbonianMod.Dusts;
 using Terraria.ID;
-using EbonianMod.Common.Systems.Misc;
 using Terraria.Utilities;
 using Terraria.Audio;
 using Terraria.GameContent;
+using EbonianMod.Common.Systems.Verlets;
 
 namespace EbonianMod.Projectiles.VFXProjectiles
 {
@@ -251,7 +251,7 @@ namespace EbonianMod.Projectiles.VFXProjectiles
         }
         public override void OnSpawn(IEntitySource source)
         {
-            EbonianSystem.ScreenShakeAmount = 5;
+            CameraSystem.ScreenShakeAmount = 5;
 
             Projectile.rotation = Main.rand.NextFloat(0, MathHelper.TwoPi);
 

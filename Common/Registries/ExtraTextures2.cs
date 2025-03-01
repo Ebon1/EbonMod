@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace EbonianMod.Common.TextureLoading
+namespace EbonianMod.Common.Registries
 {
     public static class ExtraTextures2
     {

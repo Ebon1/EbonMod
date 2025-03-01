@@ -16,8 +16,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
-using EbonianMod.Common.Systems;
-using EbonianMod.Common.Systems.Misc;
+using EbonianMod.Common.Systems.Verlets;
 
 namespace EbonianMod.NPCs.Crimson.Fleshformator
 {

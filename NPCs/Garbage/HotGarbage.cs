@@ -18,7 +18,6 @@ using static tModPorter.ProgressUpdate;
 using System.Collections.Generic;
 using Terraria.UI;
 using EbonianMod.Common.Achievements;
-using EbonianMod.Common.Systems;
 using System.Security.Cryptography.X509Certificates;
 using ReLogic.Utilities;
 using EbonianMod.Dusts;
@@ -366,9 +365,9 @@ namespace EbonianMod.NPCs.Garbage
                 NPC.frameCounter = 0;
                 NPC.immortal = true;
                 NPC.dontTakeDamage = true;
-                //EbonianSystem.ChangeCameraPos(NPC.Center, 250, );
+                //CameraSystem.ChangeCameraPos(NPC.Center, 250, );
 
-                EbonianSystem.ScreenShakeAmount = 5;
+                CameraSystem.ScreenShakeAmount = 5;
                 ded = true;
                 AITimer = -75;
                 AITimer2 = -110;
@@ -494,11 +493,11 @@ namespace EbonianMod.NPCs.Garbage
                     {
                         pos = NPC.Center;
                         Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/GarbageSiren");
-                        EbonianSystem.ChangeCameraPos(NPC.Center - new Vector2(0, 50), 130, null, 1.4f, InOutQuart);
+                        CameraSystem.ChangeCameraPos(NPC.Center - new Vector2(0, 50), 130, null, 1.4f, InOutQuart);
                     }
                     if (AITimer == -30)
                     {
-                        EbonianSystem.ChangeZoom(80, new ZoomInfo(2.5f, 1f, InOutElastic, InOutCirc));
+                        CameraSystem.ChangeZoom(80, new ZoomInfo(2.5f, 1f, InOutElastic, InOutCirc));
                         Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<ChargeUp>(), 0, 0);
                     }
                     if (AITimer > -30)
@@ -513,7 +512,7 @@ namespace EbonianMod.NPCs.Garbage
                     JumpCheck();
                 if (AITimer == 0)
                 {
-                    EbonianSystem.ScreenShakeAmount = 20;
+                    CameraSystem.ScreenShakeAmount = 20;
 
                 }
                 if (AITimer % 5 == 0 && AITimer <= 21 && AITimer >= 0)
@@ -620,7 +619,7 @@ namespace EbonianMod.NPCs.Garbage
                         player.JumpMovement();
                         player.velocity.Y = -10;
                         Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + NPC.height * 0.5f * Vector2.UnitY, new Vector2(0, 0), ProjectileType<GarbageImpact>(), 0, 0, 0, 0);
-                        EbonianSystem.ChangeCameraPos(NPC.Center - new Vector2(0, 50), 120, null, 1.5f, InOutQuart);
+                        CameraSystem.ChangeCameraPos(NPC.Center - new Vector2(0, 50), 120, null, 1.5f, InOutQuart);
                     }
                     if (AITimer == 15)
                     {
@@ -628,14 +627,12 @@ namespace EbonianMod.NPCs.Garbage
                     }
                     if (AITimer == 45)
                     {
-                        EbonianSystem.ChangeZoom(75, new ZoomInfo(2, 1f, InOutBounce, InOutCirc));
-                        //EbonianSystem.ChangeCameraPos(NPC.Center, 40, 2f);
+                        CameraSystem.ChangeZoom(75, new ZoomInfo(2, 1f, InOutBounce, InOutCirc));
                         for (int i = 0; i < 3; i++)
                             Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0);
                     }
                     if (AITimer < 30)
                     {
-
                         NPC.frameCounter = 0;
                     }
                 }
@@ -996,7 +993,7 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer == 80)
                 {
-                    EbonianSystem.ScreenShakeAmount = 12;
+                    CameraSystem.ScreenShakeAmount = 12;
                     SoundEngine.PlaySound(SoundID.DD2_FlameburstTowerShot.WithPitchOffset(-0.4f).WithVolumeScale(1.1f), NPC.Center);
                     for (int i = 0; i < 5; i++)
                         Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), 0), new Vector2(NPC.direction * Main.rand.NextFloat(5, 10), -7 - Main.rand.NextFloat(4, 7)), ProjectileType<GarbageGiantFlame>(), 15, 0, ai2: 1);
@@ -1230,7 +1227,7 @@ namespace EbonianMod.NPCs.Garbage
                     Projectile.NewProjectile(null, NPC.Center - new Vector2(6 * NPC.direction, 40), -Vector2.UnitY * 10, ProjectileType<GarbageGiantFlame>(), 20, 0, ai2: 1);
                 if (AITimer > 100 && AITimer < 300 && AITimer % 20 == 0)
                 {
-                    EbonianSystem.ScreenShakeAmount = 5 * AITimer2;
+                    CameraSystem.ScreenShakeAmount = 5 * AITimer2;
                     for (int i = 0; i < 3; i++)
                     {
                         Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center + new Vector2(Main.rand.NextFloat(-15, 15), -40), new Vector2(NPC.direction * Main.rand.NextFloat(-10, 10), -6 - Main.rand.NextFloat(2, 4)), ProjectileType<GarbageFlame>(), 15, 0);
@@ -1249,7 +1246,7 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     SoundEngine.PlaySound(EbonianSounds.eruption.WithVolumeScale(0.8f), NPC.Center);
                     laserSlot = SoundEngine.PlaySound(EbonianSounds.garbageLaser.WithVolumeScale(1.35f), NPC.Center);
-                    EbonianSystem.ScreenShakeAmount = 5;
+                    CameraSystem.ScreenShakeAmount = 5;
                     AITimer2 = 1;
                     Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center - new Vector2(-6 * NPC.direction, NPC.height * 0.75f), -Vector2.UnitY, ProjectileType<HeatBlastVFX>(), 0, 0);
                     Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, -Vector2.UnitY, ProjectileType<GarbageLaserSmall1>(), 100, 0, ai0: NPC.whoAmI);
@@ -1261,7 +1258,7 @@ namespace EbonianMod.NPCs.Garbage
                         sound.Pitch += 0.3f;
                         sound.Volume += 0.3f;
                     }
-                    EbonianSystem.ScreenShakeAmount = 10;
+                    CameraSystem.ScreenShakeAmount = 10;
                     AITimer2 = 1.5f;
                     Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center - new Vector2(-6 * NPC.direction, NPC.height * 0.75f), -Vector2.UnitY, ProjectileType<HeatBlastVFX>(), 0, 0);
                     Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, -Vector2.UnitY, ProjectileType<GarbageLaserSmall2>(), 100, 0, ai0: NPC.whoAmI);
@@ -1273,7 +1270,7 @@ namespace EbonianMod.NPCs.Garbage
                         sound.Pitch += 0.4f;
                         sound.Volume += 0.4f;
                     }
-                    EbonianSystem.ScreenShakeAmount = 15;
+                    CameraSystem.ScreenShakeAmount = 15;
                     AITimer2 = 2.25f;
                     Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center - new Vector2(-6 * NPC.direction, NPC.height * 0.75f), -Vector2.UnitY, ProjectileType<HeatBlastVFX>(), 0, 0);
                     Projectile.NewProjectileDirect(NPC.InheritSource(NPC), NPC.Center, -Vector2.UnitY, ProjectileType<GarbageLaserSmall3>(), 100, 0, ai0: NPC.whoAmI);
@@ -1606,12 +1603,7 @@ namespace EbonianMod.NPCs.Garbage
                     npc.StrikeInstantKill();
                 }
             }
-            EbonianMod.FlashAlpha = 1;
-            //Projectile a = Projectile.NewProjectileDirect(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ProjectileType<ScreenFlash>(), 0, 0);
-        }
-        public override void PostDraw(Color lightColor)
-        {
-
+            EbonianSystem.FlashAlpha = 1;
         }
         float alpha = 1, numberAlpha = 0, number, numberTimer, textAlpha, chevronTimer, chevronTimer2, numberScaleOff = -1f, hazardDistanceMult = 1, onNumberShakeMult;
         float[] chevronAlphas = new float[10];
@@ -1650,7 +1642,7 @@ namespace EbonianMod.NPCs.Garbage
 
             if (Projectile.ai[1] < 180 && Projectile.ai[1] > 60 && !changedCam && Main.LocalPlayer.Center.Distance(targetPos) > 4500 / 2)
             {
-                EbonianSystem.ChangeCameraPos(targetPos, (int)Projectile.ai[1] + 40, null, easingFunction: InOutCirc);
+                CameraSystem.ChangeCameraPos(targetPos, (int)Projectile.ai[1] + 40, null, easingFunction: InOutCirc);
                 changedCam = true;
             }
             if (Main.LocalPlayer.Center.Distance(targetPos) > 4500 / 2 - 100)

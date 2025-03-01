@@ -10,7 +10,6 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
-using EbonianMod.Common.Systems;
 using Terraria.GameContent;
 using EbonianMod.Effects.Prims;
 

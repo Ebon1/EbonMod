@@ -78,12 +78,12 @@ namespace EbonianMod.Projectiles.Conglomerate
             {
                 Projectile.NewProjectile(null, Projectile.Center + Projectile.velocity * 30, Vector2.Zero, ModContent.ProjectileType<BlurScream>(), 0, 0, -1, 0, 0, Projectile.whoAmI);
                 Projectile.NewProjectile(null, Projectile.Center + Projectile.velocity * 30, Vector2.Zero, ModContent.ProjectileType<CFlareExplosion>(), 0, 0, -1, 0, 0, Projectile.whoAmI);
-                EbonianSystem.ScreenShakeAmount = 15;
+                CameraSystem.ScreenShakeAmount = 15;
             }
             if (Projectile.timeLeft % 2 == 0 && Projectile.timeLeft > 5)
             {
-                if (EbonianSystem.ScreenShakeAmount < 13)
-                    EbonianSystem.ScreenShakeAmount = 13;
+                if (CameraSystem.ScreenShakeAmount < 13)
+                    CameraSystem.ScreenShakeAmount = 13;
                 if (Projectile.timeLeft % 8 == 0)
                     Projectile.NewProjectile(null, Projectile.Center + Projectile.velocity * 30, Vector2.Zero, ModContent.ProjectileType<BlurScream>(), 0, 0, -1, 0, 0, Projectile.whoAmI);
                 Projectile.NewProjectile(null, Projectile.Center + Projectile.velocity * 30, Vector2.Zero, ModContent.ProjectileType<CFlareExplosion>(), 0, 0, -1, 0, 0, Projectile.whoAmI);

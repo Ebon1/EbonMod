@@ -16,7 +16,6 @@ using System.Collections;
 using EbonianMod.Dusts;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using Terraria.Audio;
-using EbonianMod.Common.Systems;
 using System.Runtime.InteropServices;
 using static Terraria.GameContent.Bestiary.IL_BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions;
 

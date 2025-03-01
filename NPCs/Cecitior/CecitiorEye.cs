@@ -13,8 +13,7 @@ using System.IO;
 using Terraria.GameContent.Bestiary;
 using System.Linq;
 using EbonianMod.Projectiles.Cecitior;
-using EbonianMod.Common.Systems;
-using EbonianMod.Common.Systems.Misc;
+using EbonianMod.Common.Systems.Verlets;
 
 namespace EbonianMod.NPCs.Cecitior
 {

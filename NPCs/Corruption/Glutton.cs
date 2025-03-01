@@ -16,7 +16,6 @@ using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.Audio;
 using EbonianMod.Projectiles.Terrortoma;
 using System.Net.Sockets;
-using EbonianMod.Common.Systems;
 using EbonianMod.Projectiles.Enemy.Corruption;
 using EbonianMod.Items.Materials;
 using Terraria.Graphics.CameraModifiers;

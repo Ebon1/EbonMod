@@ -9,7 +9,6 @@ using Terraria.DataStructures;
 
 using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.Audio;
-using EbonianMod.Common.Systems;
 using EbonianMod.Projectiles.Cecitior;
 using EbonianMod.Items.Materials;
 namespace EbonianMod.Items.Weapons.Ranged

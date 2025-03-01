@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using EbonianMod.Projectiles.Terrortoma;
 using EbonianMod.Projectiles.Cecitior;
 using Terraria.GameContent;
-using EbonianMod.Common.Systems;
 
 namespace EbonianMod.Items.Weapons.Melee
 {

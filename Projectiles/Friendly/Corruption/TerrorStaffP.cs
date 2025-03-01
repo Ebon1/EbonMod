@@ -8,7 +8,6 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using EbonianMod.Projectiles.Terrortoma;
 using EbonianMod.Projectiles.Minions;
-using EbonianMod.Common.Systems;
 using EbonianMod.Items.Misc;
 
 namespace EbonianMod.Projectiles.Friendly.Corruption

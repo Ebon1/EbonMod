@@ -13,7 +13,6 @@ using Terraria.ModLoader;
 using Terraria;
 using static System.Net.Mime.MediaTypeNames;
 using EbonianMod.Dusts;
-using EbonianMod.Common.Systems;
 
 namespace EbonianMod.Projectiles.ArchmageX
 {

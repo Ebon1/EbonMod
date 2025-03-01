@@ -9,10 +9,10 @@ using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
 using EbonianMod.Projectiles.Terrortoma;
-using EbonianMod.Common.Systems.Misc;
 using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.GameContent;
 using System.Collections.Generic;
+using EbonianMod.Common.Systems.Verlets;
 
 namespace EbonianMod.Items.Accessories
 {

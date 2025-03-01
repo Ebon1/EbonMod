@@ -10,7 +10,6 @@ using Terraria;
 using Terraria.DataStructures;
 using EbonianMod.Dusts;
 using Terraria.Audio;
-using EbonianMod.Common.Systems;
 
 namespace EbonianMod.Projectiles.ArchmageX
 {

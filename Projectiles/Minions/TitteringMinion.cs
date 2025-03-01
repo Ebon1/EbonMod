@@ -1,5 +1,4 @@
-﻿using EbonianMod.Common.Systems;
-using EbonianMod.Items.Weapons.Magic;
+﻿using EbonianMod.Items.Weapons.Magic;
 using EbonianMod.Projectiles.Enemy.Corruption;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

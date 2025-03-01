@@ -9,7 +9,7 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.UI;
 
-namespace EbonianMod.Common.Systems.Misc.Dialogue
+namespace EbonianMod.Common.UI.Dialogue
 {
     public class DialogueSystem : ModSystem
     {

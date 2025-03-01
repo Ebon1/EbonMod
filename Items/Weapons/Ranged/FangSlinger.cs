@@ -8,7 +8,6 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.Bestiary;
-using EbonianMod.Common.Systems;
 using EbonianMod.Projectiles.Friendly.Underworld;
 using Terraria.Audio;
 using EbonianMod.Projectiles.Cecitior;

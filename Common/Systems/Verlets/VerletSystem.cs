@@ -11,7 +11,7 @@ using Terraria.Utilities;
 using XPT.Core.Audio.MP3Sharp.Decoding.Decoders.LayerIII;
 using static Terraria.ModLoader.PlayerDrawLayer;
 
-namespace EbonianMod.Common.Systems.Misc
+namespace EbonianMod.Common.Systems.Verlets
 {
 
     public struct VerletDrawData
@@ -64,7 +64,7 @@ namespace EbonianMod.Common.Systems.Misc
         {
 
             this.gravity = gravity;
-            this.gravityDirection = Vector2.UnitY;
+            gravityDirection = Vector2.UnitY;
             this.stiffness = stiffness;
 
             Load(start, length, count, firstPointLocked, lastPointLocked, collide: collide, colLength: colLength);
@@ -273,10 +273,10 @@ namespace EbonianMod.Common.Systems.Misc
             Vector2 distVector = pointA.position - pointB.position;
             float distance = distVector.Length();
             int attempts = 0;
-            while (distance > tex.Height * (scaleCalcForDist ? clampScaleCalculationForDistCalculation ? MathHelper.Clamp(scale, 0, 1f) : scale : 1f) && !float.IsNaN(distance) && ++attempts < 100)
+            while (distance > tex.Height * (scaleCalcForDist ? clampScaleCalculationForDistCalculation ? Clamp(scale, 0, 1f) : scale : 1f) && !float.IsNaN(distance) && ++attempts < 100)
             {
                 distVector.Normalize();
-                distVector *= tex.Height * (scaleCalcForDist ? clampScaleCalculationForDistCalculation ? MathHelper.Clamp(scale, 0, 1f) : scale : 1f);
+                distVector *= tex.Height * (scaleCalcForDist ? clampScaleCalculationForDistCalculation ? Clamp(scale, 0, 1f) : scale : 1f);
                 center += distVector;
                 distVector = pointA.position - center;
                 distance = distVector.Length();

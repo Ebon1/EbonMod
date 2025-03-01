@@ -23,7 +23,6 @@ using EbonianMod.Projectiles;
 using ReLogic.Utilities;
 using Terraria.UI;
 using EbonianMod.Common.Achievements;
-using EbonianMod.Common.Systems;
 using static System.Net.Mime.MediaTypeNames;
 using Terraria.GameContent.Golf;
 using System.Linq;
@@ -31,7 +30,6 @@ using Steamworks;
 using Terraria.GameContent.UI.Elements;
 using EbonianMod.NPCs.Corruption;
 using static EbonianMod.Helper;
-using EbonianMod.Common.Systems.Misc;
 using EbonianMod.Items.BossTreasure;
 using EbonianMod.Items.Materials;
 using Terraria.GameContent.ItemDropRules;
@@ -42,6 +40,7 @@ using EbonianMod.Items.Misc;
 using EbonianMod.Bossbars;
 using EbonianMod.Items.Tiles;
 using EbonianMod.Items.Armor.Vanity;
+using EbonianMod.Common.Systems.Verlets;
 
 namespace EbonianMod.NPCs.Cecitior
 {
@@ -368,7 +367,7 @@ namespace EbonianMod.NPCs.Cecitior
                 rotation = 0f;
                 openOffset = Vector2.Zero;
                 AITimer2 = 0;
-                EbonianSystem.ChangeCameraPos(NPC.Center, 180, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
+                CameraSystem.ChangeCameraPos(NPC.Center, 180, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
                 NPC.dontTakeDamage = true;
             }
             return AIState == Death;
@@ -519,7 +518,7 @@ namespace EbonianMod.NPCs.Cecitior
                 rotation = 0f;
                 openOffset = Vector2.Zero;
                 AITimer2 = 0;
-                EbonianSystem.ChangeCameraPos(NPC.Center, 180, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
+                CameraSystem.ChangeCameraPos(NPC.Center, 180, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
                 NPC.dontTakeDamage = true;
             }
             if (oldHP == 0)
@@ -621,7 +620,7 @@ namespace EbonianMod.NPCs.Cecitior
                         sound.Stop();
                     }
                     SoundEngine.PlaySound(EbonianSounds.cecitiorClose, NPC.Center);
-                    EbonianSystem.ScreenShakeAmount = 5;
+                    CameraSystem.ScreenShakeAmount = 5;
                 }
                 if (openOffset != Vector2.Zero && AIState != ThrowUpBlood && AIState != LaserRain && NPC.frame.Y == 6 * 102)
                     if (player.Center.Distance(NPC.Center - openOffset) < 75 || player.Center.Distance(NPC.Center + openOffset) < 75)
@@ -641,7 +640,7 @@ namespace EbonianMod.NPCs.Cecitior
                     Projectile.NewProjectile(null, NPC.Center + (openOffset + new Vector2(Main.rand.NextFloat(20, 45), Main.rand.NextFloat(-45, 45))) * Main.rand.NextFloatDirection(), Vector2.Zero, ProjectileType<BloodExplosionWSprite>(), 0, 0);
                     Projectile.NewProjectile(null, NPC.Center + (openOffset + new Vector2(Main.rand.NextFloat(20, 45), Main.rand.NextFloat(-45, 45))) * Main.rand.NextFloatDirection(), Vector2.Zero, ProjectileType<BloodShockwave2>(), 0, 0);
                 }
-                EbonianSystem.ScreenShakeAmount = 10f;
+                CameraSystem.ScreenShakeAmount = 10f;
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position + openOffset, Vector2.UnitX * 5, Find<ModGore>("EbonianMod/Cecitior1").Type, NPC.scale);
                 Gore.NewGore(NPC.GetSource_Death(), NPC.position, -Vector2.UnitX * 5, Find<ModGore>("EbonianMod/Cecitior2").Type, NPC.scale);
                 // if (!EbonianAchievementSystem.acquiredAchievement[2])
@@ -809,11 +808,10 @@ namespace EbonianMod.NPCs.Cecitior
                 {
                     savedPos = NPC.Center;
                     NPC.velocity = Vector2.Zero;
-                    //EbonianSystem.ChangeCameraPos(NPC.Center, 80, 1.2f);
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 110, null, 1.5f, InOutSine);
+                    CameraSystem.ChangeCameraPos(NPC.Center, 110, null, 1.5f, InOutSine);
                 }
                 if (AITimer == 63)
-                    EbonianSystem.ChangeZoom(50, new ZoomInfo(2, 1f, InOutSine, InOutSine, true));
+                    CameraSystem.ChangeZoom(50, new ZoomInfo(2, 1f, InOutSine, InOutSine, true));
                 if (AITimer < 60)
                 {
                     NPC.dontTakeDamage = true;
@@ -821,7 +819,7 @@ namespace EbonianMod.NPCs.Cecitior
                 }
                 if (AITimer < 53 && AITimer > 40)
                 {
-                    EbonianSystem.ScreenShakeAmount = (AITimer - 40) * 0.1f;
+                    CameraSystem.ScreenShakeAmount = (AITimer - 40) * 0.1f;
                 }
                 if (AITimer == 63)
                 {
@@ -870,7 +868,7 @@ namespace EbonianMod.NPCs.Cecitior
                     GenerateNewPattern();
                     NPC.boss = true;
                     Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/EvilMiniboss");
-                    EbonianSystem.ChangeCameraPos(NPC.Center, 260, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
+                    CameraSystem.ChangeCameraPos(NPC.Center, 260, new ZoomInfo(2, 1.1f, InOutElastic, InOutCirc), 1.5f, InOutQuart);
                     for (int i = 0; i < 200; i++)
                     {
                         Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6), Scale: 3);
@@ -887,7 +885,7 @@ namespace EbonianMod.NPCs.Cecitior
                 }
                 if (AITimer == 80)
                 {
-                    EbonianSystem.ScreenShakeAmount = 10f;
+                    CameraSystem.ScreenShakeAmount = 10f;
                     SoundEngine.PlaySound(EbonianSounds.terrortomaFlesh, NPC.Center);
                 }
                 if (AITimer >= 60 && AITimer <= 160)
@@ -1024,7 +1022,7 @@ namespace EbonianMod.NPCs.Cecitior
                         if (openOffset != Vector2.Zero)
                         {
                             SoundEngine.PlaySound(EbonianSounds.cecitiorClose, NPC.Center);
-                            EbonianSystem.ScreenShakeAmount = 5;
+                            CameraSystem.ScreenShakeAmount = 5;
                         }
                         openRotation = 0;
                         //rotation = 0;
@@ -1756,7 +1754,7 @@ namespace EbonianMod.NPCs.Cecitior
                         if (AITimer < 60)
                             AITimer = 61;
                         AITimer2 = 1;
-                        EbonianSystem.ScreenShakeAmount = 5;
+                        CameraSystem.ScreenShakeAmount = 5;
                         NPC.velocity = Vector2.UnitY * -17.5f;
 
                         SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
@@ -1808,7 +1806,7 @@ namespace EbonianMod.NPCs.Cecitior
                             if (AITimer < 80)
                                 AITimer = 81;
                             AITimer2 = 3;
-                            EbonianSystem.ScreenShakeAmount = 5;
+                            CameraSystem.ScreenShakeAmount = 5;
                             NPC.velocity = Vector2.UnitY * Main.rand.NextFloat(-17.5f, -10);
 
                             Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, Vector2.Zero, ProjectileType<FatSmash>(), 0, 0, 0, 0);

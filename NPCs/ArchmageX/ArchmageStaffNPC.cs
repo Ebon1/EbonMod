@@ -1,4 +1,4 @@
-﻿using EbonianMod.Common.Systems.Misc.Dialogue;
+﻿using EbonianMod.Common.UI.Dialogue;
 using EbonianMod.Items.Weapons.Magic;
 using EbonianMod.Projectiles.ArchmageX;
 using EbonianMod.Projectiles.VFXProjectiles;
@@ -505,32 +505,32 @@ namespace EbonianMod.NPCs.ArchmageX
                     }
                     if (projExists)
                     {
-                        EbonianSystem.stickZoomXOffset = Lerp(EbonianSystem.stickZoomXOffset, -88, 0.1f);
+                        CameraSystem.stickZoomXOffset = Lerp(CameraSystem.stickZoomXOffset, -88, 0.1f);
 
-                        EbonianSystem.stickLerpOffset = Lerp(EbonianSystem.stickLerpOffset, 1, 0.1f);
+                        CameraSystem.stickLerpOffset = Lerp(CameraSystem.stickLerpOffset, 1, 0.1f);
                     }
                     else
                     {
-                        EbonianSystem.stickZoomXOffset = Lerp(EbonianSystem.stickZoomXOffset, 0, 0.1f);
+                        CameraSystem.stickZoomXOffset = Lerp(CameraSystem.stickZoomXOffset, 0, 0.1f);
 
-                        if (EbonianSystem.stickZoomXOffset < 0.01f)
-                            EbonianSystem.stickZoomXOffset = 0;
+                        if (CameraSystem.stickZoomXOffset < 0.01f)
+                            CameraSystem.stickZoomXOffset = 0;
 
-                        EbonianSystem.stickLerpOffset = Lerp(EbonianSystem.stickLerpOffset, 0, 0.1f);
+                        CameraSystem.stickLerpOffset = Lerp(CameraSystem.stickLerpOffset, 0, 0.1f);
 
-                        if (EbonianSystem.stickLerpOffset < 0.01f)
-                            EbonianSystem.stickLerpOffset = 0;
+                        if (CameraSystem.stickLerpOffset < 0.01f)
+                            CameraSystem.stickLerpOffset = 0;
                     }
 
 
                     if (!NPC.AnyNPCs(NPCType<ArchmageX>()) && EbonianSystem.xareusFightCooldown <= 0 && !GetInstance<EbonianSystem>().gotTheStaff)
-                        EbonianSystem.stickZoomLerpVal = MathHelper.SmoothStep(EbonianSystem.stickZoomLerpVal, Clamp(MathHelper.SmoothStep(1f, 0, (Main.LocalPlayer.Center.Distance(NPC.Center) / (800f) - EbonianSystem.stickLerpOffset)), 0, 1), 0.2f);
+                        CameraSystem.stickZoomLerpVal = MathHelper.SmoothStep(CameraSystem.stickZoomLerpVal, Clamp(MathHelper.SmoothStep(1f, 0, (Main.LocalPlayer.Center.Distance(NPC.Center) / (800f) - CameraSystem.stickLerpOffset)), 0, 1), 0.2f);
                 }
                 else
                 {
-                    EbonianSystem.stickZoomLerpVal = MathHelper.SmoothStep(EbonianSystem.stickZoomLerpVal, 0, 0.2f);
-                    if (EbonianSystem.stickZoomLerpVal.CloseTo(0, 0.01f))
-                        EbonianSystem.stickZoomLerpVal = 0;
+                    CameraSystem.stickZoomLerpVal = MathHelper.SmoothStep(CameraSystem.stickZoomLerpVal, 0, 0.2f);
+                    if (CameraSystem.stickZoomLerpVal.CloseTo(0, 0.01f))
+                        CameraSystem.stickZoomLerpVal = 0;
                 }
                 if (NPC.AnyNPCs(NPCType<ArchmageX>()) || EbonianSystem.xareusFightCooldown > 0 || GetInstance<EbonianSystem>().gotTheStaff)
                 {
@@ -577,7 +577,7 @@ namespace EbonianMod.NPCs.ArchmageX
         public override int Music => MusicLoader.GetMusicSlot(Mod, "Sounds/Music/ambience2");
         public override bool IsBiomeActive(Player player)
         {
-            return EbonianSystem.stickZoomLerpVal > 0.1f;
+            return CameraSystem.stickZoomLerpVal > 0.1f;
         }
     }
 }

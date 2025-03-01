@@ -1,5 +1,4 @@
-﻿using EbonianMod.Common.Systems;
-using EbonianMod.Items.Materials;
+﻿using EbonianMod.Items.Materials;
 using EbonianMod.NPCs.Crimson.CrimsonWorm;
 using EbonianMod.Projectiles.Terrortoma;
 using Microsoft.Xna.Framework;

@@ -12,10 +12,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;
 using Terraria.DataStructures;
 using Terraria.Utilities;
-using EbonianMod.Common.Systems.Misc.Dialogue;
 using Terraria.Audio;
-using EbonianMod.Common.Systems;
 using ReLogic.Utilities;
+using EbonianMod.Common.UI.Dialogue;
 
 namespace EbonianMod.NPCs.ArchmageX
 {

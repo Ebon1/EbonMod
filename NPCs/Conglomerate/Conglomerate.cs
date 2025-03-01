@@ -14,6 +14,7 @@ using Terraria.Graphics.CameraModifiers;
 using Terraria.GameContent.RGB;
 using EbonianMod.Common.CameraModifiers;
 using Terraria.WorldBuilding;
+using EbonianMod.Common.Systems.Verlets;
 
 namespace EbonianMod.NPCs.Conglomerate
 {
@@ -322,7 +323,7 @@ namespace EbonianMod.NPCs.Conglomerate
                         sound.Stop();
                     }
                     SoundEngine.PlaySound(EbonianSounds.cecitiorClose, NPC.Center);
-                    EbonianSystem.ScreenShakeAmount = 5;
+                    CameraSystem.ScreenShakeAmount = 5;
                 }
                 if (openOffset != Vector2.Zero)
                     if (player.Center.Distance(NPC.Center - openOffset) < 75 || player.Center.Distance(NPC.Center + openOffset) < 75)
@@ -433,7 +434,7 @@ namespace EbonianMod.NPCs.Conglomerate
                                     clawVerlet[i].verlet.gravity = 0;
                                 AITimer2 = 0;
                                 AITimer3 = 0;
-                                EbonianSystem.ChangeZoom(300, new ZoomInfo(1.25f, 2, InOutElastic, InOutCirc));
+                                CameraSystem.ChangeZoom(300, new ZoomInfo(1.25f, 2, InOutElastic, InOutCirc));
                                 for (int i = 0; i < 30; i++)
                                     Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2CircularEdge(500, 500) + Main.rand.NextVector2Circular(300, 300), DustType<IntenseDustFollowPoint>(), newColor: Color.Lerp(Color.Maroon, Color.LawnGreen, Main.rand.NextFloat()), Scale: 0.1f).customData = NPC.Center;
                             }
@@ -454,7 +455,7 @@ namespace EbonianMod.NPCs.Conglomerate
                                 StartLasering();
                                 if (!(AITimer > 350 + 350 && AITimer < 350 + 350 * 2))
                                 {
-                                    EbonianSystem.ScreenShakeAmount = 20f;
+                                    CameraSystem.ScreenShakeAmount = 20f;
                                     SoundStyle s = EbonianSounds.chargedBeamImpactOnly;
                                     laserSound = SoundEngine.PlaySound(s.WithPitchOffset(0.25f), NPC.Center);
 
@@ -527,7 +528,7 @@ namespace EbonianMod.NPCs.Conglomerate
                             {
                                 if (AITimer == 360 + 321)
                                 {
-                                    EbonianSystem.ChangeCameraPos(NPC.Center, 200, new ZoomInfo(2, 2, InOutElastic, InOutSine), 2, InOutSine);
+                                    CameraSystem.ChangeCameraPos(NPC.Center, 200, new ZoomInfo(2, 2, InOutElastic, InOutSine), 2, InOutSine);
                                     isScreaming = false;
                                 }
                                 MoveVerlet(ref spineVerlet, NPC.Center + new Vector2(30, -50));
@@ -575,7 +576,7 @@ namespace EbonianMod.NPCs.Conglomerate
                             AITimer2 = 1;
                         }
                         if (AITimer == -30)
-                            EbonianSystem.ChangeCameraPos(NPC.Center, 200, new ZoomInfo(1.8f, 1.3f, InOutElastic, InOutCubic), 2, InOutCirc);
+                            CameraSystem.ChangeCameraPos(NPC.Center, 200, new ZoomInfo(1.8f, 1.3f, InOutElastic, InOutCubic), 2, InOutCirc);
                         if (AITimer < 180 && AITimer > 1)
                         {
                             if (AITimer % 10 == 0)
@@ -750,7 +751,7 @@ namespace EbonianMod.NPCs.Conglomerate
 
                         if (AITimer == 30 || AITimer == 40 || AITimer == 50)
                         {
-                            EbonianSystem.ScreenShakeAmount = 10f;
+                            CameraSystem.ScreenShakeAmount = 10f;
                             Projectile.NewProjectile(null, NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0);
                             for (int i = -3; i < 4; i++)
                                 NPC.NewNPCDirect(null, NPC.Center + Vector2.One.RotatedBy(i) * 30, NPCType<BloatedEbonfly>());
@@ -899,7 +900,7 @@ namespace EbonianMod.NPCs.Conglomerate
                                 if (openOffset != Vector2.Zero)
                                 {
                                     SoundEngine.PlaySound(EbonianSounds.cecitiorClose, NPC.Center);
-                                    EbonianSystem.ScreenShakeAmount = 5;
+                                    CameraSystem.ScreenShakeAmount = 5;
                                 }
                                 openRotation = 0;
                                 //rotation = 0;
@@ -989,7 +990,7 @@ namespace EbonianMod.NPCs.Conglomerate
                         if (AITimer == 165)
                         {
                             StartLasering();
-                            EbonianSystem.ScreenShakeAmount = 10f;
+                            CameraSystem.ScreenShakeAmount = 10f;
                             SoundStyle s = EbonianSounds.chargedBeamImpactOnly;
                             SoundEngine.PlaySound(s.WithPitchOffset(0.2f), NPC.Center);
 
@@ -1043,7 +1044,7 @@ namespace EbonianMod.NPCs.Conglomerate
                         if (AITimer == 385)
                         {
                             StartLasering();
-                            EbonianSystem.ScreenShakeAmount = 20f;
+                            CameraSystem.ScreenShakeAmount = 20f;
                             SoundStyle s = EbonianSounds.chargedBeamImpactOnly;
                             laserSound = SoundEngine.PlaySound(s.WithPitchOffset(0.25f), NPC.Center);
 
@@ -1320,7 +1321,7 @@ namespace EbonianMod.NPCs.Conglomerate
                                 a.friendly = false;
                                 a.hostile = true;
                             }
-                            EbonianSystem.ScreenShakeAmount = 10;
+                            CameraSystem.ScreenShakeAmount = 10;
                         }
                         if (AITimer == 120)
                         {
@@ -1332,7 +1333,7 @@ namespace EbonianMod.NPCs.Conglomerate
                                 a.friendly = false;
                                 a.hostile = true;
                             }
-                            EbonianSystem.ScreenShakeAmount = 10;
+                            CameraSystem.ScreenShakeAmount = 10;
                         }
                         if (AITimer == 140)
                         {
@@ -1344,7 +1345,7 @@ namespace EbonianMod.NPCs.Conglomerate
                                 a.friendly = false;
                                 a.hostile = true;
                             }
-                            EbonianSystem.ScreenShakeAmount = 10;
+                            CameraSystem.ScreenShakeAmount = 10;
                         }
 
                         if (AITimer >= 140)
@@ -1583,13 +1584,13 @@ namespace EbonianMod.NPCs.Conglomerate
                                 Projectile.NewProjectile(null, NPC.Center + new Vector2(7, -14).RotatedBy(NPC.rotation), Vector2.Zero, ProjectileType<ChargeUp>(), 0, 0);
                             if (AITimer == 110)
                             {
-                                EbonianSystem.ChangeZoom(250, new(1.7f, 1.2f, InOutCirc, InOutSine));
+                                CameraSystem.ChangeZoom(250, new(1.7f, 1.2f, InOutCirc, InOutSine));
                                 Projectile.NewProjectile(null, NPC.Center + new Vector2(7, -14).RotatedBy(NPC.rotation), Vector2.Zero, ProjectileType<GreenChargeUp>(), 0, 0);
                             }
                             if (AITimer == 165)
                             {
                                 StartLasering();
-                                EbonianSystem.ScreenShakeAmount = 10f;
+                                CameraSystem.ScreenShakeAmount = 10f;
                                 SoundStyle s = EbonianSounds.chargedBeamImpactOnly;
                                 SoundEngine.PlaySound(s.WithPitchOffset(0.2f), NPC.Center);
 
@@ -1821,7 +1822,7 @@ namespace EbonianMod.NPCs.Conglomerate
                         if (AITimer < 200 && AITimer > 20)
                         {
                             if (AITimer < 100)
-                                EbonianMod.DarkAlpha = Lerp(0, 0.5f, InOutCirc.Invoke((AITimer - 20) / 80));
+                                EbonianSystem.DarkAlpha = Lerp(0, 0.5f, InOutCirc.Invoke((AITimer - 20) / 80));
                             if (AITimer == 21)
                             {
                                 StartScreaming();
@@ -1853,7 +1854,7 @@ namespace EbonianMod.NPCs.Conglomerate
 
                         if (AITimer >= 100)
                         {
-                            EbonianMod.DarkAlpha = 0.5f;
+                            EbonianSystem.DarkAlpha = 0.5f;
                             if (AITimer == 150)
                             {
                                 SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
@@ -1894,7 +1895,7 @@ namespace EbonianMod.NPCs.Conglomerate
                         if (AITimer == 90)
                         {
                             StartLasering();
-                            EbonianSystem.ScreenShakeAmount = 20f;
+                            CameraSystem.ScreenShakeAmount = 20f;
                             SoundStyle s = EbonianSounds.chargedBeamImpactOnly;
                             laserSound = SoundEngine.PlaySound(s.WithPitchOffset(0.25f), NPC.Center);
 
@@ -2028,7 +2029,7 @@ namespace EbonianMod.NPCs.Conglomerate
                         }
                         if (AITimer > 30 && AITimer < 120 && AITimer % 10 == 0)
                         {
-                            EbonianSystem.ScreenShakeAmount = (AITimer - 50) * 0.2f;
+                            CameraSystem.ScreenShakeAmount = (AITimer - 50) * 0.2f;
                             Vector2 vel = Helper.FromAToB(NPC.Center, disposablePos[0]).RotatedBy(ToRadians((AITimer - 70) * 3));
                             Projectile.NewProjectile(null, spineVerlet.position, vel, ProjectileType<CBeamInstant>(), 0, 0);
 

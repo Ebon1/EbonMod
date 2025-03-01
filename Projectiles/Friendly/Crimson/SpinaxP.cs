@@ -11,8 +11,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.Audio;
-using EbonianMod.Common.Systems.Misc;
 using EbonianMod.Items.Weapons.Melee;
+using EbonianMod.Common.Systems.Verlets;
 
 namespace EbonianMod.Projectiles.Friendly.Crimson
 {

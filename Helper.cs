@@ -648,68 +648,6 @@ namespace EbonianMod
             {
             }
         }
-        public static void SetBossTitle(int progress, string name, Color color, string title = null, int style = -1)
-        {
-            EbonianPlayer player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
-            player.bossTextProgress = progress;
-            player.bossMaxProgress = progress;
-            player.bossName = name;
-            player.bossTitle = title;
-            player.bossColor = color;
-            player.bossStyle = style;
-        }
-        /*public static void SetTimeSlow(int progress, int skips)
-        {
-            EbonianPlayer player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
-            player.timeSlowMax = progress;
-            player.timeSlowProgress = progress;
-            EbonianMod.timeSkips = skips;
-        }*/
-        public static string GetBossText()
-        {
-            var player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
-            if (player.bossTitle == null || player.bossTitle == "")
-                return "";
-            float progress = Utils.GetLerpValue(0, player.bossMaxProgress, player.bossTextProgress);
-            float realProg = ((MathHelper.Clamp((1f - progress) * 3, 0, 1)));
-            string text = player.bossTitle;
-            int count = (int)(text.Length * realProg);
-            string something = $"{text.Substring(0, count)}";
-            return something;
-        }
-        public static string GetDialogueText()
-        {
-            var player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
-            float progress = Utils.GetLerpValue(0, player.dialogueMax, player.dialogueProg);
-            float realProg = ((MathHelper.Clamp((1f - progress) * 5, 0, 1)));
-            string text = player.dialogue;
-            int count = (int)(text.Length * realProg);
-            string something = $"{text.Substring(0, count)}";
-            return something;
-        }//OUTDATED
-        public static void SetDialogue(int progress, string text, Color color)
-        {
-            EbonianPlayer player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
-            player.dialogueMax = progress;
-            player.dialogueProg = progress;
-            player.dialogue = text;
-            player.dialogueColor = color;
-        }//OUTDATED
-        public static void DrawDialogue()
-        {
-            EbonianPlayer player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
-            if (player.dialogueProg > 0)
-            {
-                float progress = Utils.GetLerpValue(0, player.dialogueMax, player.dialogueProg);
-                float alpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
-                string text = GetDialogueText();
-                Main.spriteBatch.Reload(BlendState.Additive);
-                Main.spriteBatch.Draw(ExtraTextures.textGlow, new Vector2(Main.screenWidth / 2, (int)(Main.screenHeight * 0.2f)), null, player.dialogueColor * alpha * 0.5f, 0f, new Vector2(256) / 2, new Vector2(10, 3f), SpriteEffects.None, 0f);
-                Main.spriteBatch.Reload(BlendState.AlphaBlend);
-                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, text, new Vector2(100, Main.screenHeight * 0.2f), player.dialogueColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f), Main.screenWidth - 100);
-                Main.spriteBatch.Reload(Main.DefaultSamplerState);
-            }
-        } //OUTDATED
         public static void QuickDustLine(Vector2 start, Vector2 end, float splits, Color color)
         {
             Dust.QuickDust(start, color).scale = 1f;
@@ -729,70 +667,9 @@ namespace EbonianMod
                 Dust.QuickDustSmall(Vector2.Lerp(start, end, amount), color).scale = 1f;
             }
         }
-        public static void DrawBossTitle()
-        {
-            var player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
-            if (player.bossTextProgress > 0)
-            {
-                float progress = Utils.GetLerpValue(0, player.bossMaxProgress, player.bossTextProgress);
-                float alpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
-                string something = GetBossText();
-                switch (player.bossStyle)
-                {
-                    case -69:
-                        Main.spriteBatch.Draw(GetExtraTexture("textGlow"), new Vector2(Main.screenWidth / 2, Main.screenHeight * 0.2f), null, Color.Black * alpha, 0, GetExtraTexture("textGlow").Size() / 2, 10f, SpriteEffects.None, 0);
-                        if (player.bossTitle != null)
-                            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, something, new Vector2(Main.screenWidth / 2 - FontAssets.MouseText.Value.MeasureString(something).X / 2, Main.screenHeight * 0.2f), player.bossColor * alpha);
-                        DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.MouseText.Value, player.bossName, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(player.bossName).X / 2, Main.screenHeight * 0.175f), Color.SaddleBrown * alpha);
-                        break;
-                    case -2:
-                        Main.spriteBatch.Draw(GetExtraTexture("textGlow"), new Vector2(Main.screenWidth / 2, Main.screenHeight * 0.2f), null, Color.Black * alpha, 0, GetExtraTexture("textGlow").Size() / 2, 10f, SpriteEffects.None, 0);
-                        if (player.bossTitle != null)
-                            DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.DeathText.Value, something, new Vector2(Main.screenWidth / 2 - FontAssets.MouseText.Value.MeasureString(something).X / 2, Main.screenHeight * 0.2f), player.bossColor * alpha);
-                        DynamicSpriteFontExtensionMethods.DrawString(Main.spriteBatch, FontAssets.MouseText.Value, player.bossName, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(player.bossName).X / 2, Main.screenHeight * 0.175f), player.bossColor * alpha);
-                        break;
-                    case -1:
-                        ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.DeathText.Value, player.bossName, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(player.bossName).X / 2, Main.screenHeight * 0.25f), player.bossColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f));
-                        if (player.bossTitle != null)
-                        {
-                            ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, player.bossTitle, new Vector2(Main.screenWidth / 2 - FontAssets.MouseText.Value.MeasureString(player.bossTitle).X / 2, Main.screenHeight * 0.225f), player.bossColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f));
-                        }
-                        break;
-                    case 0:
-                        MiscDrawingMethods.DrawTerrorTitle();
-                        break;
-
-                        /*case 0:
-                            BossTitles.DrawOracleTitle();
-                            break;
-                        case 1:
-                            BossTitles.DrawVagrantTitle();
-                            break;
-                        case 2:
-                            BossTitles.DrawSSWTitle();
-                            break;*/
-                }
-
-            }
-        }
     }
     public class MiscDrawingMethods
     {
-        public static void DrawTerrorTitle()
-        {
-            var player = Main.LocalPlayer.GetModPlayer<EbonianPlayer>();
-            if (player.bossTextProgress > 0)
-            {
-                float progress = Utils.GetLerpValue(0, player.bossMaxProgress, player.bossTextProgress);
-                float alpha = MathHelper.Clamp((float)Math.Sin(progress * Math.PI) * 3, 0, 1);
-                ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.DeathText.Value, player.bossName, new Vector2(Main.screenWidth / 2 - FontAssets.DeathText.Value.MeasureString(player.bossName).X / 2, Main.screenHeight * 0.25f), player.bossColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f));
-
-                if (player.bossTitle != null)
-                {
-                    ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.MouseText.Value, player.bossTitle, new Vector2(Main.screenWidth / 2 - FontAssets.MouseText.Value.MeasureString(player.bossTitle).X / 2, Main.screenHeight * 0.225f), player.bossColor * alpha, 0, new Vector2(0.5f, 0.5f), new Vector2(1f, 1f));
-                }
-            }
-        }
         public static readonly BlendState Subtractive = new BlendState
         {
             ColorSourceBlend = Blend.SourceAlpha,

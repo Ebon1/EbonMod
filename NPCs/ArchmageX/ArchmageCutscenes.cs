@@ -1,6 +1,6 @@
 ﻿using EbonianMod.Common.CameraModifiers;
 using EbonianMod.Common.Systems;
-using EbonianMod.Common.Systems.Misc.Dialogue;
+using EbonianMod.Common.UI.Dialogue;
 using EbonianMod.Projectiles.ArchmageX;
 using EbonianMod.Projectiles.VFXProjectiles;
 using Microsoft.Xna.Framework;

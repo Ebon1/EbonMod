@@ -1,5 +1,4 @@
-﻿using EbonianMod.Common.Systems;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +11,7 @@ using static EbonianMod.NPCs.Cecitior.Cecitior;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
-using EbonianMod.Common.Systems.Misc;
+using EbonianMod.Common.Systems.Verlets;
 
 namespace EbonianMod.Projectiles.Cecitior
 {

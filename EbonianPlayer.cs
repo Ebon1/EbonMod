@@ -1,22 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.DataStructures;
-using Terraria.GameInput;
-using Terraria.ID;
-using System;
-using static Terraria.ModLoader.PlayerDrawLayer;
+﻿using System;
 using EbonianMod.Items.Accessories;
 using Terraria.Graphics.Effects;
 using EbonianMod.Items.Weapons.Melee;
-
-//using EbonianMod.Common.Systems.Worldgen.Subworlds;
 using EbonianMod.NPCs.Crimson.Fleshformator;
-using EbonianMod.NPCs;
 using EbonianMod.Projectiles;
-using EbonianMod.Tiles;
 using EbonianMod.NPCs.ArchmageX;
 using EbonianMod.Projectiles.ArchmageX;
 using EbonianMod.Buffs;
@@ -26,12 +13,7 @@ namespace EbonianMod
 {
     public class EbonianPlayer : ModPlayer
     {
-        public int bossTextProgress, bossMaxProgress, dialogueMax, dialogueProg, timeSlowProgress, timeSlowMax, fleshformators;
-        public string bossName;
-        public string bossTitle;
-        public string dialogue;
-        public int bossStyle;
-        public Color bossColor, dialogueColor;
+        public int timeSlowProgress, timeSlowMax, fleshformators;
         public static EbonianPlayer Instance;
         public Vector2 stabDirection;
         public int reiBoostCool, reiBoostT, xTentCool, consistentTimer;
@@ -73,18 +55,6 @@ namespace EbonianMod
                 fleshformators = 0;
             ToxicGland = false;
             sheep = false;
-        }
-
-        public int platformWhoAmI = -1;
-        public int platformTimer = 0;
-        public int platformDropTimer = 0;
-
-        public Projectile Platform => Main.projectile[platformWhoAmI];
-        public override void PreUpdateMovement()
-        {
-            //if (platformWhoAmI != -1)
-            //  Player.position.X += Platform.velocity.X;
-
         }
         public override void ModifyHurt(ref Player.HurtModifiers modifiers)
         {
@@ -239,24 +209,6 @@ namespace EbonianMod
             {
                 if (Filters.Scene["EbonianMod:ScreenFlash"].IsActive())
                     Filters.Scene["EbonianMod:ScreenFlash"].Deactivate();
-            }
-            if (bossTextProgress > 0)
-                bossTextProgress--;
-            if (bossTextProgress == 0)
-            {
-                bossName = null;
-                bossTitle = null;
-                bossStyle = -1;
-                bossMaxProgress = 0;
-                bossColor = Color.White;
-            }
-            if (dialogueProg > 0)
-                dialogueProg--;
-            if (dialogueProg == 0)
-            {
-                dialogue = null;
-                dialogueMax = 0;
-                dialogueColor = Color.White;
             }
         }
     }

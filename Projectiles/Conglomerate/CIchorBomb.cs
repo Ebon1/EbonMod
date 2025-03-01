@@ -33,7 +33,7 @@ namespace EbonianMod.Projectiles.Conglomerate
         }
         public override void OnKill(int timeLeft)
         {
-            EbonianSystem.ScreenShakeAmount = 5;
+            CameraSystem.ScreenShakeAmount = 5;
             SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.Center);
             Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CFlareExplosion>(), 0, 0);
             for (int i = 0; i < 5; i++)

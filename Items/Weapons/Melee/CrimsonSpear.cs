@@ -1,22 +1,10 @@
-﻿using EbonianMod.Projectiles;
-using System;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.ID;
-using Terraria.DataStructures;
-using Terraria.Audio;
-using System.Collections.Generic;
-using EbonianMod.Projectiles.Friendly.Crimson;
-using EbonianMod.Common.Systems.Misc.Dialogue;
+﻿using EbonianMod.Projectiles.Friendly.Crimson;
 using EbonianMod.Items.Materials;
 
 namespace EbonianMod.Items.Weapons.Melee
 {
     public class CrimsonSpear : ModItem
     {
-
         public override void SetDefaults()
         {
             Item.knockBack = 10f;

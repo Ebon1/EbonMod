@@ -11,7 +11,6 @@ using Terraria.ID;
 using Terraria.DataStructures;
 using EbonianMod.Dusts;
 using Terraria.Audio;
-using EbonianMod.Common.Systems;
 using EbonianMod.Common;
 using Terraria.Localization;
 using Terraria.Graphics.CameraModifiers;

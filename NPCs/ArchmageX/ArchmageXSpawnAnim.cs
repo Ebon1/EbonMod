@@ -8,7 +8,6 @@ using Terraria;
 using Microsoft.Xna.Framework;
 using EbonianMod.Projectiles.ArchmageX;
 using Terraria.Audio;
-using EbonianMod.Common.Systems;
 using Terraria.ID;
 using Terraria.GameContent.ObjectInteractions;
 using EbonianMod.Projectiles.VFXProjectiles;
@@ -150,12 +149,12 @@ namespace EbonianMod.NPCs.ArchmageX
             if (Projectile.timeLeft == 399)
             {
                 SoundEngine.PlaySound(EbonianSounds.buildup, Projectile.Center);
-                //EbonianSystem.ChangeCameraPos(Projectile.Center, 460, null, 2, InOutQuint);
+                //CameraSystem.ChangeCameraPos(Projectile.Center, 460, null, 2, InOutQuint);
             }
             if (Projectile.timeLeft == 299)
-                EbonianSystem.ChangeZoom(120, new ZoomInfo(1.4f, 1.1f, InOutCirc, Rigid1, true));
+                CameraSystem.ChangeZoom(120, new ZoomInfo(1.4f, 1.1f, InOutCirc, Rigid1, true));
             if (Projectile.timeLeft == 199)
-                EbonianSystem.ChangeZoom(220, new ZoomInfo(2, 1.1f, InOutCirc, Rigid1, true, true));
+                CameraSystem.ChangeZoom(220, new ZoomInfo(2, 1.1f, InOutCirc, Rigid1, true, true));
             if (Projectile.timeLeft == 130)
                 SoundEngine.PlaySound(EbonianSounds.BeamWindUp.WithPitchOffset(-0.5f), Projectile.Center);
 
@@ -165,7 +164,7 @@ namespace EbonianMod.NPCs.ArchmageX
                 Projectile.NewProjectile(null, Projectile.Center, Vector2.Zero, ProjectileType<ArchmageChargeUp>(), 0, 0);
             }
             if (Projectile.timeLeft == 25)
-                EbonianSystem.ChangeZoom(40, new ZoomInfo(2, 1.1f, Rigid1, InOutSine, true));
+                CameraSystem.ChangeZoom(40, new ZoomInfo(2, 1.1f, Rigid1, InOutSine, true));
         }
     }
     public class SpawnAnimMusic : ModBiome

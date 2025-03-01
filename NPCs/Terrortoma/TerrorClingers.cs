@@ -14,7 +14,6 @@ using EbonianMod.Projectiles;
 using System.Net.Http.Headers;
 using Terraria.Audio;
 using EbonianMod.Dusts;
-using EbonianMod.Common.Systems;
 using EbonianMod.Projectiles.Friendly.Corruption;
 using EbonianMod.Items.Misc;
 using Terraria.GameContent;
@@ -150,7 +149,7 @@ namespace EbonianMod.NPCs.Terrortoma
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore").Type, NPC.scale);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore2").Type, NPC.scale);
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
-                    EbonianSystem.ScreenShakeAmount += 5f;
+                    CameraSystem.ScreenShakeAmount += 5f;
                     Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                 }
             }
@@ -514,7 +513,7 @@ namespace EbonianMod.NPCs.Terrortoma
                         Gore.NewGore(NPC.GetSource_Death(), NPCcenter, NPC.velocity, Find<ModGore>("EbonianMod/EbonFlyGore3").Type, NPC.scale);
                     }
 
-                    EbonianSystem.ScreenShakeAmount += 5f;
+                    CameraSystem.ScreenShakeAmount += 5f;
                     Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                     for (int i = 0; i < 5; i++)
                     {
@@ -870,7 +869,7 @@ namespace EbonianMod.NPCs.Terrortoma
                 if (center.ai[1] == 100)
                 {
                     NPC.velocity = Vector2.UnitY * 5;
-                    EbonianSystem.ScreenShakeAmount += 5f;
+                    CameraSystem.ScreenShakeAmount += 5f;
                     Projectile.NewProjectile(NPC.GetSource_Death(), NPC.Center, Vector2.Zero, ProjectileType<OstertagiExplosion>(), 0, 0, 0);
                     Vector2 neckOrigin = terrortomaCenter;
                     Vector2 NPCcenter = NPC.Center;
