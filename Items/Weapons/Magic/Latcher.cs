@@ -4,9 +4,7 @@ using Terraria;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
-using EbonianMod.Projectiles.Friendly.Corruption;
 using Terraria.DataStructures;
-
 using EbonianMod.Projectiles.VFXProjectiles;
 using Terraria.Audio;
 using EbonianMod.Projectiles.Friendly.Crimson;
@@ -53,12 +51,15 @@ namespace EbonianMod.Items.Weapons.Magic
     {
         public override string Texture => "EbonianMod/Items/Weapons/Magic/Latcher";
         
-        Vector2 Scale = new Vector2(1, 1);
+        Vector2 Scale = new Vector2(0, 0);
 
         public override void OnSpawn(IEntitySource source)
         {
-            
+            Player player = Main.player[Projectile.owner];
+            Projectile.rotation = Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() + player.direction * Pi;
         }
+
+        public override bool? CanDamage() => false;
 
         public override void SetDefaults()
         {
@@ -71,9 +72,11 @@ namespace EbonianMod.Items.Weapons.Magic
             Projectile.Size = new Vector2(60, 38);
         }
 
+        bool CanShoot = true;
+
         public override void AI()
         {
-            bool CanShoot = true;
+            Scale = Vector2.Lerp(Scale, new Vector2(1, 1), 0.14f);
 
             Player player = Main.player[Projectile.owner];
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - PiOver2);
@@ -84,17 +87,27 @@ namespace EbonianMod.Items.Weapons.Magic
             }
             Projectile.timeLeft = 10;
             Projectile.Center = new Vector2(player.Center.X, player.Center.Y);
-            player.direction = player.Center.X - Main.MouseWorld.X < 0 ? 1 : -1;
-            Projectile.rotation = Helper.LerpAngle(Projectile.rotation, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation(), 0.08f);
-            if(player.channel == false && CanShoot == true)
-            {
-                Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Projectile.rotation.ToRotationVector2()*16, ProjectileType<LatcherP>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                CanShoot = false;
-            }
-            if((player.ownedProjectileCounts[ProjectileType<LatcherP>()] == 0 && CanShoot == false) || !player.active || player.dead || player.CCed || player.noItems)
+
+            if((player.ownedProjectileCounts[ProjectileType<LatcherP>()] < 1 && CanShoot == false) || !player.active || player.dead || player.CCed || player.noItems)
             {
                 Projectile.Kill();
             }
+
+            if(CanShoot == false)
+            {
+                Projectile.rotation = Helper.LerpAngle(Projectile.rotation, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation(), 0.02f);
+            }
+            else
+            {
+                Projectile.rotation = Helper.LerpAngle(Projectile.rotation, Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation(), 0.08f);
+                if(player.channel == false)
+                {
+                    CanShoot = false;
+                    Scale = new Vector2(0.65f, 1.6f);
+                    Projectile.NewProjectile(Projectile.InheritSource(Projectile), new Vector2(Projectile.Center.X, Projectile.Center.Y) + Projectile.rotation.ToRotationVector2() * 30, Projectile.rotation.ToRotationVector2()*37, ProjectileType<LatcherP>(), 1, Projectile.knockBack, Projectile.owner);       
+                }
+            }
+            player.direction = player.Center.X - Main.MouseWorld.X < 0 ? 1 : -1;
         }
         public override bool PreDraw(ref Color lightColor)
         {

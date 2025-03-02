@@ -88,7 +88,6 @@ namespace EbonianMod.Items.Weapons.Ranged
         {
             Player player = Main.player[Projectile.owner];
             Projectile.rotation = Helper.FromAToB(player.Center, Main.MouseWorld).ToRotation() + player.direction * PiOver2;
-            Projectile.scale = 0.2f;
         }
 
         public override void AI()
