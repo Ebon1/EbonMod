@@ -104,8 +104,8 @@ namespace EbonianMod.NPCs.ArchmageX
             }
             if (d != null)
             {
-                d.Center = Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDeath").Value).X * -0.5f + 80, 7);
-                d.VisibleCenter = Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDeath").Value).X * -0.5f + 80, 7);
+                d.Center = Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDeath").Value).X * -0.25f, 7);
+                d.VisibleCenter = Projectile.Center - new Vector2(FontAssets.DeathText.Value.MeasureString(Language.GetText("Mods.EbonianMod.Dialogue.ArchmageXDialogue.XDeath").Value).X * -0.25f, 7);
             }
         }
     }
