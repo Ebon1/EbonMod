@@ -36,7 +36,6 @@ namespace EbonianMod.Common.Detours
                 foreach (Dust d in Main.dust)
                 {
                     FireDust.DrawAll(sb, d);
-                    ColoredFireDust.DrawAll(sb, d);
                     GenericAdditiveDust.DrawAll(sb, d);
                     SparkleDust.DrawAll(sb, d);
                     IntenseDustFollowPoint.DrawAll(sb, d);
@@ -444,6 +443,10 @@ namespace EbonianMod.Common.Detours
                         Color color = Color.Transparent;
                         proj.ModProjectile.PreDraw(ref color);
                     }
+                }
+                foreach (Dust d in Main.dust)
+                {
+                    ColoredFireDust.DrawAll(sb, d);
                 }
                 sb.End();
             }

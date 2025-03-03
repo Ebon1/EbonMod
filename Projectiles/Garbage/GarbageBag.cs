@@ -8,6 +8,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria;
+using EbonianMod.Dusts;
 
 namespace EbonianMod.Projectiles.Garbage
 {
@@ -25,6 +26,7 @@ namespace EbonianMod.Projectiles.Garbage
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.height = 24;
+            Projectile.extraUpdates = 1;
             Projectile.Opacity = 1;
         }
         public override bool? CanDamage() => Projectile.Opacity > 0.5f;
@@ -53,9 +55,11 @@ namespace EbonianMod.Projectiles.Garbage
         public override void AI()
         {
             if (Projectile.frame == 0)
-                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch);
+            {
+                Dust.NewDustPerfect(Projectile.Center + Projectile.velocity, DustType<ColoredFireDust>(), Projectile.velocity * 0.4f, 0, Color.OrangeRed, 0.1f).noGravity = true;
+            }
             Projectile.tileCollide = Projectile.Center.Y > Main.player[Projectile.owner].Center.Y - 20;
-            Projectile.velocity *= 1.025f;
+            Projectile.velocity *= 1.01f;
             if (Projectile.velocity.Y > 0)
                 Projectile.velocity.X = MathHelper.Lerp(Projectile.velocity.X, 0, 0.03f);
             if (Projectile.frame == 0)

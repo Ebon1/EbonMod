@@ -659,6 +659,8 @@ namespace EbonianMod.NPCs.Garbage
                 NPC.dontTakeDamage = false;
                 NPC.damage = 0;
                 AITimer++;
+                NextAttack = OpenLid;
+                NextAttack2 = TrashBags;
                 NPC.rotation = Lerp(NPC.rotation, 0, 0.35f);
                 NPC.scale = Lerp(NPC.scale, 1, 0.35f);
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
@@ -1043,11 +1045,11 @@ namespace EbonianMod.NPCs.Garbage
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
                 if (AITimer <= 60 && AITimer % 5 == 0)
                 {
-                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, new Vector2(Main.rand.NextFloat(-2.5f, 2.5f), Main.rand.NextFloat(-15, -7)), ProjectileType<GarbageBag>(), 15, 0, player.whoAmI).timeLeft = 200;
+                    Projectile.NewProjectileDirect(NPC.GetSource_FromThis(), NPC.Center, new Vector2(Main.rand.NextFloat(-2.5f, 2.5f), Main.rand.NextFloat(-15, -7)) * 0.5f, ProjectileType<GarbageBag>(), 15, 0, player.whoAmI).timeLeft = 200;
                 }
                 if (AITimer % 3 == 0 && AITimer > 100)
                 {
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(player.Center.X + 600 * Main.rand.NextFloat(-1, 1), player.Center.Y - 600), new Vector2(Main.rand.NextFloat(-1, 1), 2), ProjectileType<GarbageBag>(), 15, 0, player.whoAmI);
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), new Vector2(player.Center.X + 600 * Main.rand.NextFloat(-1, 1), player.Center.Y - 600), new Vector2(Main.rand.NextFloat(-1, 1), 2) * 0.5f, ProjectileType<GarbageBag>(), 15, 0, player.whoAmI);
                 }
                 if (AITimer >= 100 && AITimer < 120)
                 {
