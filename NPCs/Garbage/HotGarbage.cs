@@ -659,8 +659,6 @@ namespace EbonianMod.NPCs.Garbage
                 NPC.dontTakeDamage = false;
                 NPC.damage = 0;
                 AITimer++;
-                NextAttack = OpenLid;
-                NextAttack2 = TrashBags;
                 NPC.rotation = Lerp(NPC.rotation, 0, 0.35f);
                 NPC.scale = Lerp(NPC.scale, 1, 0.35f);
                 NPC.spriteDirection = NPC.direction = player.Center.X > NPC.Center.X ? 1 : -1;
