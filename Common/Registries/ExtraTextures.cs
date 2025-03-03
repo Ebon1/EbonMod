@@ -14,7 +14,7 @@ namespace EbonianMod.Common.Registries
         darkShadowflameGradient, EbonianGatlingBullet, Empty, Ex1, exclamation, explosion, explosion2, Extra_201, Extra_209, Fire, fireball, flameEye2, FlamesSeamless,
         flare, GlowyLine, gradation, hazardUnblurred, laser, laser_purple, laser2, laser3, laser3_transparent, laser4, laser5, laserMask, Line, LintyTrail, MagicBurst,
         maroon, pixel, Placeholder, PulseCircle, PulseCircle2, red, redGradient, ring, ripple, rune_alt, rune_alt_bloom, saucerBeam, seamlessNoise, seamlessNoise2,
-        seamlessNoise3, seamlessNoiseHighContrast, shadowflameGradient, space, space_full, speckle, Spotlight, swirlyNoise, Tentacle, textGlow, trail_01, trail_04, TrailShape,
+        seamlessNoise3, seamlessNoiseHighContrast, shadowflameGradient, smearNoise, space, space_full, speckle, Spotlight, swirlyNoise, Tentacle, textGlow, trail_01, trail_04, TrailShape,
         TrailShape_LongSolidWavy, vein, Vignette, vortex, vortex3, wavyLaser, wavyLaser2;
 
         public static void LoadExtraTextures1()
@@ -44,7 +44,6 @@ namespace EbonianMod.Common.Registries
             cone7 = Helper.GetExtraTexture("cone7", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
             crosslight = Helper.GetExtraTexture("crosslight", assetRequestMode: AssetRequestMode.ImmediateLoad);
-
 
             darkShadowflameGradient = Helper.GetExtraTexture("darkShadowflameGradient", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
@@ -138,6 +137,8 @@ namespace EbonianMod.Common.Registries
             seamlessNoiseHighContrast = Helper.GetExtraTexture("seamlessNoiseHighContrast", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
             shadowflameGradient = Helper.GetExtraTexture("shadowflameGradient", assetRequestMode: AssetRequestMode.ImmediateLoad);
+
+            smearNoise = Helper.GetExtraTexture("smearNoise", assetRequestMode: AssetRequestMode.ImmediateLoad);
 
             space = Helper.GetExtraTexture("space", assetRequestMode: AssetRequestMode.ImmediateLoad);
 

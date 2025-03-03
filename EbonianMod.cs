@@ -67,7 +67,7 @@ namespace EbonianMod
             SpriteRotation, TextGradient, TextGradient2, TextGradientY, BeamShader, Lens, Test1,
             Test2, LavaRT, Galaxy, CrystalShine, HorizBlur, TrailShader, RTAlpha, Crack, Blur,
             RTOutline, metaballGradient, metaballGradientNoiseTex, invisibleMask, PullingForce,
-            displacementMap, waterEffect, spherize;
+            displacementMap, waterEffect, spherize, flame;
         public void LoadEffects()
         {
             bloom = Request<Effect>("EbonianMod/Effects/bloom", AssetRequestMode.ImmediateLoad).Value;
@@ -99,6 +99,7 @@ namespace EbonianMod
             displacementMap = Request<Effect>("EbonianMod/Effects/displacementMap", AssetRequestMode.ImmediateLoad).Value;
             waterEffect = Request<Effect>("EbonianMod/Effects/waterEffect", AssetRequestMode.ImmediateLoad).Value;
             spherize = Request<Effect>("EbonianMod/Effects/spherize", AssetRequestMode.ImmediateLoad).Value;
+            flame = Request<Effect>("EbonianMod/Effects/flameEffect", AssetRequestMode.ImmediateLoad).Value;
             Filters.Scene["EbonianMod:CorruptTint"] = new Filter(new BasicScreenTint("FilterMiniTower").UseColor(.68f, .56f, .73f).UseOpacity(0.35f), EffectPriority.Medium);
             SkyManager.Instance["EbonianMod:CorruptTint"] = new BasicTint();
 

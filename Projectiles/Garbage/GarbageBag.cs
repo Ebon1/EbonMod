@@ -52,6 +52,8 @@ namespace EbonianMod.Projectiles.Garbage
         }
         public override void AI()
         {
+            if (Projectile.frame == 0)
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Torch);
             Projectile.tileCollide = Projectile.Center.Y > Main.player[Projectile.owner].Center.Y - 20;
             Projectile.velocity *= 1.025f;
             if (Projectile.velocity.Y > 0)

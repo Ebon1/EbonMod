@@ -123,19 +123,31 @@ namespace EbonianMod.NPCs.Garbage
             spriteBatch.Draw(glow, drawPos, NPC.frame, Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
             if (AIState != Intro && AIState != Idle && AIState != OpenLid && AIState != SpewFire && AIState != CloseLid && AIState != ActualDeath && AIState != FallOver && AIState != SpewFire2 && AIState != BouncingBarrels && NPC.frame.X == 80)
                 spriteBatch.Draw(fire, drawPos + new Vector2(NPC.width * -NPC.direction + (NPC.direction == 1 ? 9 : 0), 2).RotatedBy(NPC.rotation) * NPC.scale, new Rectangle(0, NPC.frame.Y - 76 * 3, 70, 76), Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
-            spriteBatch.Reload(BlendState.Additive);
 
-            for (int i = 0; i < 4; i++)
-            {
-                spriteBatch.Draw(drawTexture, drawPos, NPC.frame, Color.White * flameAlpha, NPC.rotation, origin, NPC.scale, effects, 0);
-                if (AIState != Intro && AIState != Idle && AIState != OpenLid && AIState != SpewFire && AIState != CloseLid && AIState != Death && AIState != ActualDeath && AIState != FallOver && AIState != SpewFire2 && AIState != BouncingBarrels && NPC.frame.X == 80)
-                    spriteBatch.Draw(fire, drawPos + new Vector2(NPC.width * -NPC.direction + (NPC.direction == 1 ? 9 : 0), 2).RotatedBy(NPC.rotation) * NPC.scale, new Rectangle(0, NPC.frame.Y - 76 * 3, 70, 76), Color.White * flameAlpha, NPC.rotation, origin, NPC.scale, effects, 0);
-            }
-
-            //spriteBatch.Draw(fireball, drawPos + new Vector2(3 * NPC.direction, 0), null, Color.OrangeRed * flameAlpha, NPC.rotation + PiOver2 + (NPC.direction == -1 ? Pi : 0), new Vector2(fireball.Width / 2, fireball.Height * 0.475f), NPC.scale * 2.2f, SpriteEffects.None, 0);
-            //spriteBatch.Draw(fireball, drawPos + new Vector2(3 * NPC.direction, 0), null, Color.Gold * flameAlpha, NPC.rotation + PiOver2 + (NPC.direction == -1 ? Pi : 0), new Vector2(fireball.Width / 2, fireball.Height * 0.475f), NPC.scale * 2.15f, SpriteEffects.None, 0);
-            spriteBatch.Reload(BlendState.AlphaBlend);
             return false;
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            Texture2D flame = Helper.GetTexture("NPCs/Garbage/HotGarbage_FlameOverlay");
+            Vector2 origin = new Vector2((flame.Width / 3) * 0.5F, (flame.Height / Main.npcFrameCount[NPC.type]) * 0.5F);
+
+            Vector2 drawPos = new Vector2(
+                NPC.position.X + (NPC.width / 3) - (Helper.GetTexture("NPCs/Garbage/HotGarbage").Width / 3) * NPC.scale / 3f + origin.X * NPC.scale,
+                NPC.position.Y + NPC.height - Helper.GetTexture("NPCs/Garbage/HotGarbage").Height * NPC.scale / Main.npcFrameCount[NPC.type] + 4f + origin.Y * NPC.scale + NPC.gfxOffY);
+            //if (AIState != Intro)
+            SpriteEffects effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.SaveCurrent();
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.None, RasterizerState.CullNone, EbonianMod.flame, Main.GameViewMatrix.TransformationMatrix);
+            EbonianMod.flame.Parameters["uTime"].SetValue(-Main.GlobalTimeWrappedHourly * .4f);
+            EbonianMod.flame.Parameters["tex"].SetValue(ExtraTextures.smearNoise);
+            EbonianMod.flame.Parameters["scale"].SetValue(5);
+            EbonianMod.flame.Parameters["wavinessMult"].SetValue(1);
+            EbonianMod.flame.Parameters["intensity"].SetValue(10);
+            EbonianMod.flame.Parameters["colOverride"].SetValue(new Vector4(1, 0.25f, 0, 1));
+            spriteBatch.Draw(flame, NPC.Center - Main.screenPosition + new Vector2(0, 2), NPC.frame, Color.White, NPC.rotation, origin, NPC.scale, effects, 0);
+            spriteBatch.End();
+            spriteBatch.ApplySaved();
         }
         public override void FindFrame(int f)
         {
@@ -451,6 +463,10 @@ namespace EbonianMod.NPCs.Garbage
                 Lighting.AddLight(NPC.Center, TorchID.Yellow);
             if (greenFrames.Contains(new Vector2(NPC.frame.X, NPC.frame.Y)))
                 Lighting.AddLight(NPC.Center, TorchID.Green);
+            if (NPC.frame.X == 80 * 2 && NPC.frame.Y > 0)
+            {
+                Lighting.AddLight(NPC.Center, TorchID.Torch);
+            }
             if (!player.active || player.dead)
             {
                 NPC.TargetClosest(false);
@@ -489,6 +505,7 @@ namespace EbonianMod.NPCs.Garbage
                 if (NPC.Grounded())
                 {
                     AITimer++;
+                    flameAlpha = Lerp(flameAlpha, 1, 0.1f);
                     if (AITimer == -74)
                     {
                         pos = NPC.Center;
@@ -678,6 +695,7 @@ namespace EbonianMod.NPCs.Garbage
             {
                 NPC.velocity.X *= 0.99f;
                 AITimer++;
+                flameAlpha = Lerp(flameAlpha, 1, 0.1f);
                 if (AITimer == 20)
                 {
                     SoundEngine.PlaySound(SoundID.Zombie66, NPC.Center);
@@ -731,11 +749,14 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     AITimer3 = 0;
                 }
+                if (AITimer > 65 * 3 - 40)
+                    flameAlpha = Lerp(flameAlpha, 0, 0.1f);
                 if (AITimer >= 65 * 3)
                 {
                     NPC.velocity = Vector2.Zero;
                     NextAttack = OpenLid;
                     NextAttack2 = SpewFire;
+                    flameAlpha = 0;
                     AIState = Idle;
                     AITimer = 0;
                     AITimer2 = 0;
@@ -747,6 +768,7 @@ namespace EbonianMod.NPCs.Garbage
             else if (AIState == SlamPreperation)
             {
                 AITimer++;
+                flameAlpha = Lerp(flameAlpha, 1, 0.1f);
                 NPC.rotation += ToRadians(-0.9f * 4 * NPC.direction);
                 if (AITimer >= 25)
                 {
@@ -808,6 +830,7 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer2 >= 1)
                 {
+                    flameAlpha = Lerp(flameAlpha, 0, 0.1f);
                     NPC.velocity.Y += 0.1f;
                     AITimer2++;
                 }
@@ -816,6 +839,7 @@ namespace EbonianMod.NPCs.Garbage
                     NPC.noGravity = false;
                     NPC.velocity = Vector2.Zero;
                     AITimer = 0;
+                    flameAlpha = 0;
                     NPC.damage = 0;
                     NextAttack = WarningForBigDash;
                     AIState = Idle;
@@ -825,6 +849,7 @@ namespace EbonianMod.NPCs.Garbage
             {
                 AITimer++;
                 NPC.velocity.X = Helper.FromAToB(NPC.Center, player.Center).X * -1;
+                flameAlpha = Lerp(flameAlpha, 1, 0.1f);
                 if (AITimer == 10)
                 {
                     SoundEngine.PlaySound(SoundID.Zombie66, NPC.Center);
@@ -856,8 +881,11 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     Projectile.NewProjectile(NPC.GetSource_FromThis(), NPC.Center, new Vector2(-NPC.direction * Main.rand.NextFloat(1, 3), Main.rand.NextFloat(-5, -1)), ProjectileType<GarbageFlame>(), 15, 0);
                 }
+                if (AITimer > 80)
+                    flameAlpha = Lerp(flameAlpha, 0, 0.1f);
                 if (AITimer >= 110)
                 {
+                    flameAlpha = 0;
                     NPC.velocity = Vector2.Zero;
                     AITimer = -50;
                     NPC.damage = 0;
@@ -1116,6 +1144,7 @@ namespace EbonianMod.NPCs.Garbage
                     NPC.rotation += ToRadians(-0.9f * 4 * NPC.direction);
                 if (AITimer < 75 && AITimer > 25)
                 {
+                    flameAlpha = Lerp(flameAlpha, 1, 0.1f);
                     NPC.noTileCollide = true;
                     NPC.velocity.Y--;
                 }
@@ -1157,6 +1186,7 @@ namespace EbonianMod.NPCs.Garbage
                 }
                 if (AITimer2 >= 1)
                 {
+                    flameAlpha = Lerp(flameAlpha, 0, 0.1f);
                     NPC.rotation = Helper.LerpAngle(NPC.rotation, 0, 0.1f);
                     NPC.velocity.Y += 0.1f;
                     AITimer2++;
@@ -1165,6 +1195,7 @@ namespace EbonianMod.NPCs.Garbage
                 {
                     AITimer2 = 0;
                     AITimer = 0;
+                    flameAlpha = 0;
                     NPC.damage = 0;
                     AIState = Idle;
                     NextAttack = OpenLid;
