@@ -573,7 +573,7 @@ Items: {
 		Tooltip: 
 			'''
 			Вы будете полностью пробивать защиту врага, но не сможете наносить критические удары
-			Вы также не сможете лопать фиолетовые шарики
+			Не может лопать фиолетовые шарики
 			'''
 	}
 
@@ -711,7 +711,7 @@ Items: {
 	        }
 			   
         FangSlinger: {
-		DisplayName: Клыкометатель
+		DisplayName: Клыкомёт
 		Tooltip: ""
 	}
 			   
@@ -740,7 +740,7 @@ Items: {
 	}
 			   
 	HotMusic: {
-	        DisplayName: Музыкальная шкатулка (Ядерная помойка)
+	        DisplayName: Музыкальная шкатулка (Горячая помойка)
 	        Tooltip: Воспроизводит «Trash Compactor» от Yuri O
 	}
 			  
@@ -829,7 +829,7 @@ Items: {
 	}
 
 	SelfStab: {
-		DisplayName: Кинжал жертвоприношения
+		DisplayName: Кинжал жертвоприношений
 		Tooltip: Значительно увеличивает ваш урон за определённую плату
 	}
 			  
@@ -962,7 +962,7 @@ Items: {
 	}
 
 	ToothToothbrush: {
-		DisplayName: Зубная зубная щётка
+		DisplayName: Зубастая зубная щётка
 		Tooltip: Обладает уникальной атакой при ударе о землю
 	}
 			  
@@ -1066,7 +1066,7 @@ Items: {
         }
 
 	GarbageTrophy: {
-		DisplayName: Трофей Ядерной помойки
+		DisplayName: Трофей Горячей помойки
 		Tooltip: ""
 	}
 			  
@@ -1096,7 +1096,7 @@ Items: {
 	}
 
 	GarbageRelic: {
-		DisplayName: Реликвия Ядерной помойки
+		DisplayName: Реликвия Горячей помойки
 		Tooltip: ""
 	}
 			  
@@ -1213,7 +1213,7 @@ Items: {
 	}
 
 	WoolDoorI: {
-		DisplayName: Дерстяная дверь
+		DisplayName: Шерстяная дверь
 		Tooltip: ""
 	}
 
@@ -1253,7 +1253,7 @@ Items: {
 	}
 
 	terrortomaFishingRod: {
-		DisplayName: Омралов
+		DisplayName: Мрачнолов
 		Tooltip: ""
 	}
 
@@ -1476,8 +1476,8 @@ Dialogue: {
 
 		XAttack4: {
 			Default: Мерцающий залп!
-			FirstTimeAngry: Мерцающий.. ЧТО БЫ ТАМ НИ БЫЛО, ПРОСТО СДОХНИ!
-			Angry: ПРОСТО СДОХНИ!!
+			FirstTimeAngry: Мерцающий.. ЧТО БЫ ТАМ НИ БЫЛО, ПРОСТО УМРИ!
+			Angry: ПРОСТО ПОДОХНИ!!
 		}
 
 		XAttack5: {
@@ -1508,7 +1508,7 @@ Dialogue: {
 			Default: Щупальца теневого пламени!
 			Angry: СДОХНИ!!!!
 			Angry2: СДОХНИ!!!!!!!!!
-			Angry3: ПОЖАЛУЙСТА, ПРОСТО СДОХНИ!!!!!!!!!!!!!!!!
+			Angry3: ПОЖАЛУЙСТА, ПРОСТО УМРИ!!!!!!!!!!!!!!!!
 			RepeatAngry: СДОХНИ УЖЕ!!!!!!
 		}
 
@@ -1617,7 +1617,7 @@ Dialogue: {
 			Happy4: АХАХАХАХА!
 			Happy5: ЮХУУУ!
 			Happy6: СДОХНИИ!
-			Happy7: ДА, СДОХНИ!
+			Happy7: ДА, ПОДОХНИ!
 		}
 				  
 		InteractionLine: Он интенсивно мерцает, жаждя славной битвы.
