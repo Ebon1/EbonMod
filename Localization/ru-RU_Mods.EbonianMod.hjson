@@ -1,0 +1,1695 @@
+Projectiles: {
+	GreenShockwave.DisplayName: Удавная волна
+	GenericExplosion.DisplayName: Взрыв
+	EyeVFX.DisplayName: Глаз
+	CircleTelegraph.DisplayName: Удавная волна
+	BloodShockwave.DisplayName: Удавная волна
+	TSpike.DisplayName: Шип
+	TFlameThrower3.DisplayName: Проклятые огни
+	TFlameThrower2.DisplayName: Проклятые огни
+	TFlameThrower.DisplayName: Проклятые огни
+	TFang.DisplayName: Клык
+	TExplosion.DisplayName: Взрыв
+	Ripple.DisplayName: Пульсация
+	DoomsdayDrone.DisplayName: Дрон судного дня
+	WeakCursedBullet.DisplayName: Проклятая пуля
+	CorebreakerP.DisplayName: Шар ядролома
+	IchorBlast.DisplayName: Ихорный взрыв
+	LatcherPCecitior.DisplayName: Паразит
+	LatcherP.DisplayName: Паразит
+	IchorGrenade.DisplayName: Граната гатлинга
+	TerrorStaffP.DisplayName: Мерзкое яйца
+	EbonianRocket.DisplayName: Ракета пастезуки
+	CorruptArrow.DisplayName: Искажённая стрела
+	BloodBullet.DisplayName: Кровавая пуля
+	EFireBreath2.DisplayName: Огонь
+	EFireBreath.DisplayName: Огонь
+	EFire.DisplayName: Огонь
+	Rolleg.DisplayName: Роллег
+	CecitiorEyeP.DisplayName: Призрачнчый смотрящий
+	BloodLaser.DisplayName: Кровавый взрыв
+	Pipebomb.DisplayName: Бомба из трубы
+	Mailbox.DisplayName: Почтовый ящие
+	Garbage.DisplayName: Помойка
+	IchorFlintlockP.DisplayName: Сгусток крови
+	EbonianGunP.DisplayName: Проклятый огнестрел
+	BloodOrb.DisplayName: Кровавый шар
+	VileBladeP.DisplayName: Мерзкое лезвие
+	SanguineSlasherP.DisplayName: Мясной клык
+	ExolsawP.DisplayName: Инфернальный диск
+	EbonianScytheP.DisplayName:  Мрачногниющая коса
+	InferosP.DisplayName: Инферномикон
+	PanopticonP.DisplayName: Паноптикум
+	Hightoma.DisplayName: Крошкатома
+	GarbageRemoteP.DisplayName: Запылившийся квантовый компьютер
+	TerrorVilethorn2.DisplayName: Злобная колючка
+	TerrorVilethorn1.DisplayName: Злобная колючка
+	TBeam.DisplayName: Лук
+	TelegraphLine.DisplayName: Линия телеграфа
+	EbonFlyMinion.DisplayName: Эбоновая муха
+	DroneBeam.DisplayName: Луч дрона
+	HeadGoreSceptreEVILSOBBINGRN.DisplayName: Сердце
+	HeadGoreSceptre.DisplayName: Сердце
+	Fangs.DisplayName: Клык
+	VileMeatChunk.DisplayName: Комок мерзкого мяса
+	TerrortomaFlail_Clingers.DisplayName: Кистенотома
+	TerrortomaFlail.DisplayName: Кистенотома
+	CorruptThorn.DisplayName: Искажённая колючка
+	EBoulder2.DisplayName: Валун
+	EBoulder.DisplayName: Валун
+	EBeam.DisplayName: Солнечные лучи
+	CecitiorTeeth.DisplayName: Зубы
+	Soder.DisplayName: Сода
+	MetalCircle.DisplayName: Масляной барабан
+	HotGarbageNuke.DisplayName: Ядерная бомба
+	GarbageFlame.DisplayName: Пламя
+	FatSmash.DisplayName: Ударная волна
+	PepperSprayProjectile.DisplayName: Перцовый балончик
+	IchorGlobSmall.DisplayName: Гобус
+	IchorGlob.DisplayName: Гобус
+	TinyFish.DisplayName: Крошечная рыбёшка
+	RingOfFireP.DisplayName: Кольцо огня
+	RingOfFireP2.DisplayName: Кольцо огня
+	VilethornF2.DisplayName: Мерзкая колючка
+	VilethornF1.DisplayName: Мерзкая колючка
+	MeatCrusherP.DisplayName: Мясной крушитель
+	CrimsonSpearP.DisplayName: Едкий вульж
+	GoreBeam.DisplayName: Дефибриллятор
+	RedSpark.DisplayName: Красная искра
+	BloodShockwave2.DisplayName: Кровавая ударная волна
+	InferosShockwave.DisplayName: Инфернальная ударная волна
+	ExolFireSpiral.DisplayName: Огненая спираль
+	EGeyser.DisplayName: Гейзер
+	InferosShockwave2.DisplayName: Инфернальная ударная волна
+	ESun.DisplayName: Солнце
+	EFire2.DisplayName: Огонь
+	ExolFireExplode.DisplayName: Огненный взрыв
+	InferosShockwave3.DisplayName: Инфернальная ударная волна
+	FlameExplosion.DisplayName: Пламенный взрыв
+	EFire3.DisplayName: Огонь3
+	ESkullEmoji.DisplayName: Эмодзи черепа
+	EPentagramAsh.DisplayName: Пепел пентаграммы
+	FlameExplosion2.DisplayName: Пламенный взрыв
+	ETelegraph.DisplayName: Телеграф
+	Noise.DisplayName: Шум
+	NoiseOverlay.DisplayName: Наложение шума
+	EMine.DisplayName: Мина
+	QuickFlare.DisplayName: Пламя
+	FireGrenadeP.DisplayName: Пламенная граната
+	CursedFlameExplosion.DisplayName: Взрыв проклятого пламени
+	CrimCannonP.DisplayName: Кровавые челюсти
+	Gibs.DisplayName: Гибс
+	SpinaxP.DisplayName: Спинотопор
+	SelfStabP.DisplayName: Кинжал жертвоприношения
+	BloodVignette.DisplayName: Кровавая виньетка
+	EPlatform.DisplayName: Платформа
+	EGroundHazard.DisplayName: Наземная угроза
+	RykardSkull.DisplayName: Череп
+	MagmaBowP.DisplayName: Магматический лук
+	MagmaArrow.DisplayName: Магматическая стрела
+	ReiCapeP.DisplayName: Маска бегущего по пустоте
+	ReiCapeTrail.DisplayName: Маска бегущего по пустоте
+	Djungelskog.DisplayName: Джунгельског
+	ReiExplosion.DisplayName: Маска бегущего по пустоте
+	IgnosSlash.DisplayName: Резящий удар Игноса
+	IgnosSlashTelegraph.DisplayName: Телеграф резящего удара Игноса
+	GarbageSignals.DisplayName: Сигналы помойки
+	GreenShockwave2.DisplayName: Ударная волна
+	OrangeRedShockwave.DisplayName: Ударная волна
+	YellowShockwave.DisplayName: Ударная волна
+	BigGrayShockwave.DisplayName: Ударная волна
+	RykardSkullSpiral.DisplayName: Череп
+	FlameExplosion3.DisplayName: Пламенный взрыв
+	VortexSkull.DisplayName: Череп
+	IgnosLightning.DisplayName: Молния Игноса
+	IgArena.DisplayName: Ig-арена
+	ESwordWave.DisplayName: Взмах меча
+	IgnosEye.DisplayName: Глаз Игноса
+	MagmaArrowHostile.DisplayName: Магматическая стрела
+	TinyRykardSkull.DisplayName: Череп
+	ESickle.DisplayName: Серп
+	OstertagiP.DisplayName: Остертаги
+	OstertagiWorm.DisplayName: Червь
+	OstertagiExplosion.DisplayName: Взрыв проклятых огней
+	ExolGreatArrow.DisplayName: Большая стрела
+	EHomingBeam.DisplayName: Самонаводящийся луч
+	FlameExplosionWSprite.DisplayName: Пламенный взрыв
+	TFlameThrower4.DisplayName: Пламя
+	TerrorStaffPEvil.DisplayName: Посох террора
+	CecitiorBelch.DisplayName: Отрыжка
+	SerrationP.DisplayName: Зазубрины
+	SerrationSpike.DisplayName: Зазубрины
+	CecitiorClawSlash.DisplayName: Удар когтем
+	CecitiorClawWave.DisplayName: Взмах когтя
+	ClawGore.DisplayName: Коготь
+	BloodExplosionWSprite.DisplayName: Кровавый взрыв
+	CecitiorBombThing.DisplayName: Ихорная бомба
+	IchorExplosion.DisplayName: Ихорный взрыв
+	CecitiorSpike.DisplayName: Шип Амавроза
+	CecitiorTeethFriendly.DisplayName: Зуб Амавроза
+	GutlingGunP.DisplayName: Гатлинг
+	CursedToyP.DisplayName: Проклятая кукла
+	CursedToyBeam.DisplayName: Проклятая кукла
+	BigGreenShockwave.DisplayName: Ударная волна
+	CorruptionClawP.DisplayName: Цепной клык
+	DankDiggerProjectileWorm.DisplayName: Промозглый копатель
+	XSpirit.DisplayName: Душа
+	XExplosion.DisplayName: Взрыв
+	VaccumWormP.DisplayName: Вакуумный червь
+	XShadowflame.DisplayName: Выброс теневого пламени
+	XAmethyst.DisplayName: Аместист
+	XBolt.DisplayName: Мерцающий залп
+	XExplosionTiny.DisplayName: Взрыв
+	XSineLaser.DisplayName: Взмах теневого пламени
+	XExplosionInvis.DisplayName: Взрыв
+	XExplosionInvisMask.DisplayName: Взрыв
+	PhantasmalGreatswordP.DisplayName: Теневопламенный рассекатель небес архимага Ксареуса
+	PhantasmalGreatswordP2.DisplayName: Теневопламенный рассекатель небес архимага Ксареуса
+	XAmethystCloseIn.DisplayName: Аметист
+	XLargeAmethyst.DisplayName: Большой аметист
+	XAmethystShard.DisplayName: Осколок аметиста
+	XTentacle.DisplayName: Завиток теневого пламени
+	player_sheep.DisplayName: Овца
+	SheepeningOrb.DisplayName: Овцеобразующий луч
+	XManaPotion.DisplayName: Зелье Ксаеруса
+	XSpiritNoHome.DisplayName: Призрычный взрыв
+	XRift.DisplayName: Разлом
+	XKnife.DisplayName: Аметсит
+	XCloud.DisplayName: Облако теневого пламени
+	XLightningBolt.DisplayName: Выстрел молнией теневого пламени
+	XTelegraphLine.DisplayName: Линия телеграфа
+	RegorgerBolt.DisplayName: Выстрел пережёвывателя
+	RegorgerTelegraph.DisplayName: Телеграф пережёвывателя
+	GhizasWheelP.DisplayName: Короззийный нож
+	VileTearTelegraph.DisplayName: Телеграф едкой слезы
+	AmbientGibs.DisplayName: Гибс
+	XCloudVFXExtra.DisplayName: Облако
+	EquilibriumP.DisplayName: Эквилибриум
+	EquilibriumP2.DisplayName: Эквилибриум
+	GarbageBag.DisplayName: Мусорный мешок
+	GarbageBarrel.DisplayName: Бочка
+	GarbageGiantFlame.DisplayName: Пламя
+	GarbageMissile.DisplayName: Газировка
+	GarbageDrone.DisplayName: Дрон
+	GarbageLightning.DisplayName: Молния
+	GarbageTelegraph.DisplayName: Телеграф Помойки
+	GarbageTelegraphSmall.DisplayName: Телеграф Помойки
+	GarbageLaser.DisplayName: Пламя
+	GarbageLaser1.DisplayName: Пламя
+	GarbageLaser2.DisplayName: Пламя
+	GarbageLaser3.DisplayName: Пламя
+	HeatBlastVFX.DisplayName: Сердечный выстрел
+	GarbageLaserSmall1.DisplayName: Вулканические извержение
+	GarbageLaserSmall2.DisplayName: Вулканические извержение
+	GarbageLaserSmall3.DisplayName: Вулканические извержение
+	ChargeUp.DisplayName: Заряжяйтесь
+	GluttonImpact.DisplayName: Удар
+	GreenChargeUp.DisplayName: Зелёная зарядка
+	ArchmageHead.DisplayName: Голова Ксареуса
+	ArchmageArm.DisplayName: Туловище Ксареуса
+	ArchmageDeath.DisplayName: Смерть Архимага
+	ArchmageXSpawnAnim.DisplayName: Анимация появления Архимага
+	ArchmageChargeUp.DisplayName: Зарядка ПРхимага
+	FangSlingerP.DisplayName: Клыкометатель
+	ThornBowP.DisplayName: Колючий лук
+	ChainswordP.DisplayName: Свалочный бензомеч
+	CBeam.DisplayName: Луч
+	FlareExplosion.DisplayName: Пламя
+	CFlareExplosion.DisplayName: Пламя
+	ScreenFlash.DisplayName: Вспышка экрана
+	CImplosionFlare.DisplayName: Пламя
+	ConglomerateScream.DisplayName: Крик конгломерата
+	CFlesh.DisplayName: Плоть
+	CIchorBomb.DisplayName: Ихоная бомба
+	CIchor.DisplayName: Ихор
+	CecitiorClawMinion.DisplayName: Спиночесалка
+	AnimeSlash.DisplayName: Резящий удар
+	XAnimeSlash.DisplayName: Магия Ксаеруса
+	PipebombP.DisplayName: Бомба из трубы
+	PotatoP.DisplayName: Картошка
+	CrimsonArrow.DisplayName: Багряная стрела
+	CHeart.DisplayName: Сердце
+	EHeartP.DisplayName: Проклятые огни
+	CBeamInstant.DisplayName: Луч
+	CursedScourgePro.DisplayName: Проклятый бич
+	BloodlashPro.DisplayName: Кровопролитие
+	XRiftSmall.DisplayName: Разлом
+	SpawnTheThing.DisplayName: Отладка
+	ArchmageStaffGore.DisplayName: Архипосох
+	XTomeP.DisplayName: Энергия аметиста
+	XTomeSummon.DisplayName: Фантомный дух
+	XBoltFriendly.DisplayName: Мерцающий выстрел
+	CursedFireball.DisplayName: Шар проклятого пламени
+	XareusPotionExplosion.DisplayName: Зелье Ксаеруса
+	XareusPotionPro.DisplayName: Зелье Ксаеруса
+	HostileGibs.DisplayName: Гибс
+	GarbageImpact.DisplayName: Удар
+	GarbageDroneF.DisplayName: Дрон
+	GarbageFlailP.DisplayName: Специфичная углошлифовочная машина
+	TitteringMinion.DisplayName: Пережёвыватель
+	StaffOfXP.DisplayName: Архипосох
+	XImpact.DisplayName: Удар
+	XImpact2.DisplayName: Удар
+	ToothToothbrushP.DisplayName: Зубная зубная щётка
+	CecitiorPetP.DisplayName: Глаз Амавроза
+	GarbagePetP.DisplayName: Мусорный мешок
+	SheepPetP.DisplayName: Овечка
+	MailboxSentry.DisplayName: Почтовыйы ящик-страж
+	PipebombPSentry.DisplayName: Бомба из трубы
+	SalvagedThrusterP.DisplayName: Б/У-шный двигатель
+	NastySnapperPro.DisplayName: Nasty Snapper Pro
+	XBoltFriendly2.DisplayName: Выстрел
+	RedMistVFX.DisplayName: Красный туман V F X
+	PhantasmalWave.DisplayName: Фантомный взмах
+	TFlameThrower2_Inverted.DisplayName: Пламя
+	TerrortomaScream.DisplayName: Крик террортомы
+	TFlameThrowerHoming.DisplayName: Пламя
+	TerrortomeFlame.DisplayName: Пламя Террортомы
+	TerrortomeWorm.DisplayName: Червь Террортомы
+	SawcitiorP.DisplayName: Пиловроз P
+	ClawSlashGreen.DisplayName: Зелёный удар когтем
+	CGhostCeci.DisplayName: C Призрак Амавроза
+	CBeamSmall.DisplayName: C Маленький луч
+	CWorm.DisplayName: C Червь
+	BlurScream.DisplayName: Заблюреный крик
+	Coins.DisplayName: Монеты
+	SilverBasherFlash.DisplayName: Впышка серебрянного молота
+	SilverBasherP.DisplayName: Серебрянный отбойник P
+	terrortomaFishingRodBobber.DisplayName: Поплавок мрачнолова
+	cecitiorFishingRodBobber.DisplayName: Попалвок кровотока
+	VerletBeam.DisplayName: Луч Варле
+	CrimsonBall.DisplayName: Багряный шар
+	BallLauncherSprite.DisplayName: Спрайт шаромёта
+	CorruptionBalls.DisplayName: Искажённый шар
+	BallLauncherSprite2.DisplayName: Спрайт шаромёта2
+	BallLauncherCharge.DisplayName: Зарядка шаромёта
+	LatcherSprite.DisplayName: Спрайт шаромёта
+}
+
+NPCs: {
+	HotGarbage: {
+		DisplayName: Горячая помойка
+
+		BossChecklistIntegration: {
+			SpawnInfo: Используйте [i:{0}], который можно часто найти в золотых сундуках.
+			EntryName: Горячая помойка
+		}
+
+		Bestiary:
+			'''
+			Тяжёловооружённый и бронированный мусорный бак, возможно, предназначенный для боевых целей, но почему-то горящая самого момента своего создания.
+
+			
+			Надпись на боку мелким шрифтом гласит: «Пожалуйста, верните его в штаб-квартиру GenCorp, если нашли».
+			'''
+	}
+
+	ArchmageCutsceneMartian.DisplayName: Архимаг Ксареус
+	ArchmageXDeathAnim.DisplayName: Ксареус
+	ArchmageX: {
+		DisplayName: Ксареус
+		BossLogDisplayName: Архимаг
+		BossChecklistIntegration.SpawnInfo: Поговорите с Архипосохом в подвале Таинственной хижины, предварительно открыв проход с помощью [i:LargeAmethyst].
+		Bestiary:
+			'''
+			Величайший и гениальнейший чародей, когда-либо живший на этой земле... Непревзойдённый мастер волшебства! Настоящий волшебник! АРХИМАГ!!!
+			
+			
+			...cамопровозглашённый, конечно же.
+			'''
+	}
+
+	ArchmageStaffNPC: {
+		DisplayName: Архипосох
+		Bestiary:
+			'''
+			Из всех магических артефактов мира лишь немногие обладают таким могуществом, как Архипосох.
+
+			
+			Его рукоять выкована из чистого железа и митрила, украшена призрачным металлом и падающими звёздами. Её обернули в тончайшую ткань, а массивный драгоценный камень, высеченный из кристаллизованного мерцания и аметиста, венчает посох. В отличие от других, он мгновенно преобразует ману в магическую энергию и создаёт порталы в иные миры, а не просто питает заклинания владельца.
+
+			
+			Этот посох — не просто инструмент, а воплощение магии во всех её проявлениях, высшее достижение как светлых, так и тёмных искусств.
+			'''
+	Cecitior: {
+		DisplayName: Амавроз
+		BossChecklistIntegration.SpawnInfo: Убейте большого наблюдателя, часто появляющегося в багрянце.
+		Bestiary: Мясистый, безобразно созданный конструкт. Несмотря на сходство со многими порождениями багрянца, это существо, похоже, было создано совсем недавно и с неизвестной целью.
+	}
+
+	MassiveSpectator: {
+		DisplayName: Большой наблюдатель
+		Bestiary: Эти выпуклые глаза, похоже, связаны с чем-то в самом корне багрянца. Они появились совсем недавно, поэтому о них пока мало что известно.
+		LowTaperFade: а знаешь, что ещё большое?)
+	}
+
+	CecitiorEye: {
+		DisplayName: Смотрящий
+		Bestiary:
+			'''
+			Органы зрения, используемые Амаврозом. Существо создано беспорядочным образом, что оставляет много недостатков в его существовании. Один из них — отсутствие защищённых глаз.
+
+			
+			Остается только гадать, насколько мучителен был бы лимонный сок, попади он в эти глаза.
+			'''
+	}
+
+	Terrortoma: {
+		DisplayName: Террортома
+		BossChecklistIntegration.SpawnInfo: Уничтожьте гигантский кокон, часто появляющийся в искажении.
+		Bestiary: Необычный конгломерат искаженных сущностей, обладающий странной способностью проявлять эмоции. Оно сформировалось неестественным образом и не является предполагаемым результатом эволюции.
+	}
+
+	TerrortomaBulb.DisplayName: Гигантский кокон
+
+	TerrorClingerSummoner.DisplayName: Цеплятель
+	TerrorClingerRanged.DisplayName: Цеплятель
+	TerrorClingerMelee: {
+		DisplayName: Цеплятель
+		Bestiary: Будучи головами заражённых трупов, они теперь соединены с Террортомой, образуя нечто вроде небольшого коллективного разума.
+	}
+		
+	Glutton: {
+		DisplayName: Чревоугодник
+		Bestiary: Огромный зверь с необычными для искажённого существа чертами — формой и выражением лица. Похоже, когда-то он был намного проще. Причина такой эволюции неизвестна.
+	}
+		
+	CrimsonWormTail.DisplayName: Кишечный червь
+
+	CrimsonWormHead: {
+		DisplayName: Кишечный червь
+		Bestiary: Кишечные черви, по-видимому, являются копией изголодавшихся пожирателей душ из искажения, и, похоже, в них есть всё — от бесконечного голода до переизбытка ихором. Обычно они встречаются довольно редко, поэтому их появление в этом регионе по меньшей мере вызывает беспокойство.
+	}
+		
+	CrimsonWormBody.DisplayName: Кишечный червь
+
+	CrimeraTail.DisplayName: Презреющая
+	CrimeraBody.DisplayName: Презреющая
+	CrimeraHead: {
+		DisplayName: Презреющая
+		Bestiary: Кримера, начавшая эволюционировать во времена распространения багрянца. Её конечности теперь могут создавать туннели, а она сама может выплёвывать часть мёртвых клеток крови, которые её тело вырабатывает с головокружительной скоростью.
+	}
+		
+	Crimera.DisplayName: Кримера
+
+	VileSlime: {
+		DisplayName: Перегной
+		Bestiary: Используя безобидный внешний вид слизня, он подбирается поближе к любой потенциальной жертве и набрасывается на неё с помощью быстро движущегося щупальца. Стоит отметить, что с биологической точки зрения это и не слизень вовсе.
+	}
+
+	RottenSpineBody.DisplayName: Гнилой позвоночник
+	RottenSpineTail.DisplayName: Гнилой позвоночник
+	RottenSpineHead: {
+		DisplayName: Гнилой позвоночник
+		Bestiary: Эволюция искажения повела червей в любопытном направлении, создав исключительно агрессивного червя с головой по обе стороны. Неизвестно, как работает его пищеварительная система.
+	}
+
+	EbonianStrider.DisplayName: Срыгиватель
+
+	EbonFly: {
+		DisplayName: Эбоновая муха
+		Bestiary: Насекомые, предпочитающие летать группами. Они питаются, поедая мёртвую плоть с других поверхностей. Некоторые говорят, что однажды они вырастут слишком большими для своих крыльев и превратятся в червей, которыми славится их родина. Правда это или нет, пока остается неизвестным.
+	}
+
+	EbonCrawler: {
+		DisplayName: Расточитель
+		Bestiary: Расточитель — результат неудач искажения. Это эволюционный сбой, и его единственная цель — стать невольным гнездом для эбоновых мух.
+	}
+
+	TinyBrain.DisplayName: Мозг
+	EbonianHeartNPC.DisplayName: Сердце
+
+	BabyCecity: {
+		DisplayName: Багровый шагатель
+		Bestiary: Эволюция ихорного цеплятеля, у которого из-за распространения биома исчезли конечности. Несмотря на свой внешний вид, они хорошо приспособились к своей спорадической эволюции и симбиозировали, в результате чего они используют отсутствие конечностей на полную, так, как они не пользовались этим даже тогда, когда были бесполезными монстрами.
+	}
+
+	Fleshformator: {
+		DisplayName: Мясоглот
+		Bestiary: Мясоглоты — это те, кто питается в самых глубинах багрянца. Появившись на свет, они покидают своё первоначальное место и устремляются в область, богатую питательными веществами, чтобы взять все, что поместится им в рот, и сожрать это. Никто никогда не видел, что находится на другом конце мясопоглотителей.
+        }
+
+	LetsGoo: {
+		DisplayName: Зубной скрежетатель
+		Bestiary: Зубной скрежетатель — это мышцы, челюсти, инстинктивное желание которых — пожирать добычу любого вида и ничего более.
+	}
+
+	RotlingBody.DisplayName: Гнилой червячок
+	RotlingTail.DisplayName: Гнилой червячок
+	RotlingHead: {
+		DisplayName: Гнилой червячок
+		Bestiary: Гнилые червячки появились на свет из остаточной энергии гниения, оставленной давно умершими существами искажения.
+	}
+
+	DankDiggerBody.DisplayName: Промозглый копатель
+	DankDiggerTail.DisplayName: Промозглый копатель
+	DankDiggerHead: {
+		DisplayName: Теневой копатель
+		Bestiary: Теневые копатели — это признак того, что вы находитесь на пути разрушительного действия Пожирателя миров — всякий раз, когда ломается теневая чушйка, её остатки восстанавливаются настолько быстро, насколько это возможно, и превращаются в промозглого копателя.
+	}
+
+	BloatedEbonfly: {
+		DisplayName: Разбухшая эбоновая муха
+		Bestiary: Странная мутация эбоновой мухи. Поедая то, что было сожжено проклятым пламенем, она продлевает свою продолжительность жизни, а также становится гораздо более нестабильной.
+	}
+
+	Bloodhound: {
+		DisplayName: Кровавая гончая
+		Bestiary: Попытка багрянца создать существо, подобное собаке. Эти охотники часто преследуют ничего не подозревающие души, погибшие в багрянце и возвращающиеся в свои дома, в поисках дополнительной биомассы.
+	}
+
+	ClumpOfMeat: {
+		DisplayName: Мясной сгусток
+		Bestiary: Паразиты — удивительно умные существа, часто собирающиеся в группы, чтобы имитировать других существ, а затем распасться на части и атаковать врагов одновременно. Обычно они появляются в виде слизней, но есть свидетели того, что они могут принимать и гуманоидную форму.
+	}
+
+	Parasite: {
+		DisplayName: Паразит
+		Bestiary: Лучшее применение этих останки других багряных существ — использование их в качестве небольших сосудов, доставляющих кровь более достойным багровым существам.
+	}
+
+	FleshBrickMedium.DisplayName: Осадочник
+	FleshBrickSmall.DisplayName: Осадочник
+	FleshBrickBig: {
+		DisplayName: Осадочник
+		Bestiary: Предполагается, что осадочники формируют стены ульев искажения на ранней стадии развития. Они, как и все остальное в искажении, даже грязь и камни, по которым вы ходите, являются частью ульевого организма.
+	}
+
+	MiniTrumpetBody.DisplayName: Корнет
+	MiniTrumpetHead.DisplayName: Корнет
+	MiniTrumpetTail.DisplayName: Корнет
+	TrumpetTail.DisplayName: Трубач
+	TrumpetBody.DisplayName: Трубач
+	TrumpetHead: {
+		DisplayName: Трубач
+		Bestiary: Задача трубача в заражённом макроорганизме — заботиться о фауне под ним. В отличие от большинства искажённых существ, их, похоже, совершенно не беспокоит ваше присутствие.
+	}
+
+	Rolypoly: {
+		DisplayName: Перекати-червь
+		Bestiary:
+			'''
+			Объединяясь, эти искажённые черви получают гораздо более развитый коллективный разум, жертвуя при этом своей мобильностью.
+			Однако к тому времени, когда они окончательно запутываются, их объединённый разум приходит к выводу, что такая форма довольно глупа.
+			'''
+	}
+
+	JuvenileBrain: {
+		DisplayName: Нейрокусака
+		Bestiary: Он использует примитивную форму нейрокинеза, чтобы заставить свою жертву увидеть своё зеркальное изображение. Эта путаница позволяет нейропасти наносить удары, когда её цель уязвима.
+	}
+
+	WormKing: {
+		DisplayName: Червивый король
+		Bestiary: Червивый король — результат неконтролируемого роста перекати-червя. Действуя как коллективный разум, он управляет червеобразными существами искажения, и многие искатели приключений незадолго до своего конца принимают его за странное дерево.
+	}
+
+	Consumer: {
+		DisplayName: Гниющие челюсти
+		Bestiary: Гниющие челюсти безжалостны и бросаются на добычу в мгновение ока. Их укусы могут легко раздробить крупные кости и прочный панцирь, и от их добычи часто не остаёться даже объедков.
+	}
+
+	Regorger: {
+		DisplayName: Пережёвыватель
+		Bestiary: Смех пережёвывателя разносится эхом издалека, что подпитывает рассказы о нем у походных костров, в которых его изображают как таинственного криптида. Остается неясным, является ли смех существа искренним развлечением или просто биологическим рефлексом после того, как оно извергает пучок проклятого пламени.
+	}
+
+	Vileglider: {
+		DisplayName: Мерзотный летяга
+		Bestiary: Подлые пожиратели нападают, когда их меньше всего ожидаешь, пикируя сверху, чтобы наброситься на добычу. Их атаки невероятно точны и часто не оставляют даже следа от жертвы.
+	}
+
+     	ToxicAbomination: {
+		DisplayName: Токсичный
+		Bestiary: Он накапливает токсичные газы из падали, которую потребляет, и использует этот запас, чтобы на огромной скорости устремиться к своей следующей цели, создавая при этом мощный взрыв.
+	}
+
+	VileTear: {
+		DisplayName: Усмехающийся
+		Bestiary: Усмехающийся — редкий противник, но его внушительные размеры и неизменная улыбка вселяют страх в тех, кто с ним сталкивается. Ему доставляет такое же удовольствие пугать своих жертв, как и пожирать их целиком.
+	}
+
+	BloodHunter: {
+		DisplayName: Кровавый охотник
+		Bestiary: Ужасное паукообразное багрянца. По сравнению со своими родственниками-паукообразными, он предпочитает менее прямолинейный подход, держась на расстоянии с помощью клешней и хвоста-жала, выделяющего сильнодействующий яд.
+	}
+
+	Conglomerate.DisplayName: Конгломерат
+
+	Mosquito: {
+		DisplayName: Кровосос
+		Bestiary: Когда-то неприятное существо превратилось в другого монстра. Способность этих существ сосать кровь делает их раздражающими в одиночку, но опасными в стаях, а их укусы могут вызывать длительные побочные эффекты.
+	}
+
+	Screecher: {
+		DisplayName: Вопящий
+		Bestiary: Существа среднего размера, лишённые кожи, которые бродят по багрянцу в качестве своего рода ходячих сигнализаторов. Их нервы практически обнажены, что позволяет им чувствовать даже малейшее беспокойство и предупреждать об этом весь багрянец.
+	}
+
+	FleshDice.DisplayName: Мясной кубик
+
+    	Sheep: {
+		DisplayName: Овца
+		Bestiary: Овцы — пассивные, дружелюбные животные с толстым слоем шерсти и пристрастием к траве; овечья шерсть довольно часто используется во многих ярких предметах одежды и особенно для создания комфорта, к удивлению немногих.
+	}
+
+	JelleyeFish: {
+		DisplayName: Глазомедуза
+		Bestiary: Мясистые щупальца плавают по залитой кровью местности багрянца. Появившись из кровавых вод багрового моря, эти мерзкие мутанты эволюционировали, чтобы постоянно отращивать многочисленные непросыхающие глаза и плавать в зловонном воздухе, а не в жидкости, как плавали их водные предки. Только не готовьте из них сашими.
+	}
+
+	MiniSpectator: {
+		DisplayName: Зреющий
+		Bestiary: Необычное зрелище в багряных краях. Во всех зарегистрированных случаях, очевидцы, казалось, не были сосредоточены на чём-то одном, анализируя багряных существ, порождений искажения и даже чистых существ с одинаковым отсутствием интенсивности и жуткой пассивностью, до такой степени, что путешественники заявляли, что хотели бы рассказать им анекдоты. Примечательно, что те, которые здесь, сфокусированы на вас.
+	}
+
+	CoinBag.DisplayName: Одержимый мешок
+	Chalice.DisplayName: Кубок
+}	
+		
+Items: {
+	RingOfFire: {
+		DisplayName: Кольцо огня
+		Tooltip: 
+			'''
+			Вы будете полностью пробивать защиту врага, но не сможете наносить критические удары
+			Не может лопать фиолетовые шарики
+			'''
+	}
+
+	ToxicarpMKII: {
+		DisplayName: Гнарвал
+		Tooltip:
+			'''
+			Стреляет градом крошечных рыбёшек, которые сразу понимают, что они не под водой, и погибают
+			«ВЗРЫВ ГНАРВАЛА!»
+			'''
+	}
+
+	ThornBow: {
+	        DisplayName: Колючий лук
+	        Tooltip: ""
+        }
+
+	GutlingGun: {
+		DisplayName: Гатлинг
+		Tooltip: ""
+	}
+				
+	EbonianRocketLauncher: {
+		DisplayName: Пастезука
+		Tooltip:
+			'''
+			Превращает любые ракеты в самонаводящиеся искажённые ракеты
+			Никакие используемые ракеты не смогут разрушать блоки
+			'''
+	            }
+				
+	EbonianGun: {
+		DisplayName: Проклятый огнестрел
+	        Tooltip: Стреляет проклятыми пулями
+	}
+				
+	EbonianGatling: {
+	        DisplayName: Проклятый гатлинг
+		Tooltip: Быстро стреляет проклятыми пулями
+	}
+				
+	Corebreaker: {
+	        DisplayName: Ядролом
+		Tooltip: ""
+	}
+				
+	TerrorFlail: {
+		DisplayName: Кистенотома
+	        Tooltip: ""
+	}
+				
+	SanguineSlasher: {
+	        DisplayName: Мясной клык
+		Tooltip: Восстанавливает {0} ед. здоровья при укусе врага
+        }
+				
+	MeatCrusher: {
+		DisplayName: Мясной крушитель
+	        Tooltip: Имеет уникальную атаку при ударе о землю
+	}
+				
+        Exolsaw: {
+	        DisplayName: Инфернальный диск
+		Tooltip: ""
+	}
+				
+        EbonianScythe: {
+		DisplayName: Мрачногниющая коса
+		Tooltip: Увеличивает максимальную скорость передвижения при использовании
+	}
+				
+	TerrorStaff: {
+ 		DisplayName: Скипетр гнезда
+	        Tooltip:
+		        '''
+		        Призывает вздутых эбоновых мух, которые взрываются рядом с ближайшими врагами
+		        Не занимает слоты миньонов
+	    	     	'''
+	}
+					
+	Latcher: {
+        	DisplayName: Притягиватель
+		 Tooltip:
+			'''
+			Притягивает вас к тяжёлым врагам и притягивает к вам лёгких
+			Нажмите ПКМ, чтобы отменить использование
+		        '''
+	}
+				
+	InferosVolI: {
+		DisplayName: Инферномикон
+		Tooltip: ""
+	}
+
+	GoreSceptre: {
+		DisplayName: Дефибриллятор
+		Tooltip:
+			'''
+			Призывает наэлектризованное сердце, атакующее врагов шоком
+			«ЧИСТО!»
+			'''
+	}
+				
+        EbonHiveI: {
+	        DisplayName: Искажённый комок
+	        Tooltip: ""
+	}
+				
+	Panopticon: {
+		DisplayName: Куб из плоти
+		Tooltip: Призывает куб из плоти
+        }
+				
+	CursedCone: {
+	        DisplayName: Проклятая скрутка
+	        Tooltip: Призывает Крошкотому
+	}
+			   
+	DoomsdayRemote: {
+		DisplayName: Красная кнопка
+		Tooltip:
+			'''
+			Вызывает дрона атаковать в место вашего курсора
+			Один из многих, предположительно неудачных, экспериментов GenCorp
+			'''
+	        }
+			   
+	IchorFlintlock: {
+		DisplayName: Сгусток крови
+	        Tooltip:
+			'''
+		        Стреляет ихорными пулями
+		        Каждая пятая пуля заменяется пронзающим ихорным шаром
+		        '''
+	        }
+			   
+        FangSlinger: {
+		DisplayName: Клыкомёт
+		Tooltip: ""
+	}
+			   
+	CrimCannon: {
+	        DisplayName: Кровавые челюсти
+		Tooltip: Выстреливает кровавыми зубами
+	}
+			   
+	PepperSpray: {
+		DisplayName: Перцовый баллончик
+	        Tooltip: ""
+        }
+			   
+	WormPaintingI: {
+		DisplayName: Картина «Червь»
+		Tooltip: «O. Digger»
+	}
+			   
+	WaspPaintingI: {
+		DisplayName: Картина «Оса»
+	        Tooltip:
+			'''
+		        «Посвящается давно вымершим видам»
+			«E. Fly»
+			'''
+	}
+			   
+	HotMusic: {
+	        DisplayName: Музыкальная шкатулка (Горячая помойка)
+	        Tooltip: Воспроизводит «Trash Compactor» от Yuri O
+	}
+			  
+	ExolMusicI: {
+		DisplayName: Музыкальная шкатулка (Инферос)
+		Tooltip: Воспроизводит «Rage» от Yuri O
+	}
+			  
+	EvilMusicI: {
+		DisplayName: Музыкальная шкатулка (Террортома и Амавроз)
+		Tooltip: Воспроизводит «Forces of Evil» от Yuri O
+	}
+			  
+        DappertomaI: {
+		DisplayName: Картина «Элегантома»
+		Tooltip: «Томас-старший»
+	}
+			  
+	DapperCecitiorI: {
+		DisplayName: Картина «Симпатичный паренёк»
+		Tooltip: «Unsighted-старший»
+	}
+			  	
+	GarbageRemote: {
+		DisplayName: Запылившийся квантовый компьютер
+		Tooltip:
+			'''
+			Позволяет связаться с единственным ИИ, который когда либо достигнет сингулярности
+			Вас предупредили.
+			'''
+		Warning: Вас предупредили.
+	}
+			  
+	ExolWings: {
+		DisplayName: Инфернальные крылья
+		Tooltip: ""
+	}
+			  
+        EbonianHeart: {
+		DisplayName: Гнилое сердце
+		Tooltip:
+			'''
+			Снижает защиту на {0} ед.
+			Увеличивает максимальное количество миньонов на {1}
+			Увеличивает урон призывателя на {2}%
+			Призывает искажённое сердце, которое следует за вами и стреляет проклятым пламенем в ближайших врагов.
+			'''
+	}
+			 
+	BrainAcc: {
+		DisplayName: Сочащийся мозг
+		Tooltip:
+			'''
+			Увеличивает регенерацию здоровья
+			Призывает несколько мозгов, которые служат щитом от непробивающих атак
+			'''
+	        }
+			 
+	IchorGlobScepter: {
+		DisplayName: Посох комочков
+		Tooltip: Стреляет мерзким комочком, который распадается на 3 более мелких кусочка
+	}
+			  
+	VileNoodleBox: {
+		DisplayName: Мерзкая коробка лапши
+		Tooltip:
+			'''
+			Обеспечивает вам 100% гарантированную изжогу
+			Лапша, кажется, шевелится
+			'''
+	}
+			  
+	CorruptionStaff: {
+		DisplayName: Рвин-ачасти
+		Tooltip: Вызывает самонаводящиеся злобные колючки
+	}
+
+	CrimsonSpear: {
+		DisplayName: Едкий вульж
+		Tooltip: Становится сильнее при длительном использовании
+	}
+			  
+	Spinax: {
+		DisplayName: Спинотопор
+		Tooltip: Позвоночник древнего динозавра, пропитанный силой багрянца
+	}
+
+	SelfStab: {
+		DisplayName: Кинжал жертвоприношений
+		Tooltip: Значительно увеличивает ваш урон за определённую плату
+	}
+			  
+	MagmaBow: {
+		DisplayName: Пента-лук
+		Tooltip: Стреляет 5 вулканическими стрелами
+	}
+
+	ReiMask: {
+		DisplayName: Маска бегущего по пустоте
+		Tooltip:
+			'''
+			Немного увеличивает скорость передвижения
+			Нажмите {ReiM_Keybind}, чтобы телепортироваться, пока вы зависаете над врагом
+			'''
+	}
+			  
+	DjungelskogI: {
+		DisplayName: Джунгельског
+		Tooltip: Призывает Джунгельскога
+	}
+
+	Ostertagi: {
+		DisplayName: Остертагиоз
+		Tooltip: Увеличивает ваш урон и скорость атаки за определённую плату
+	}
+			  
+	Potato: {
+		DisplayName: Картошка
+	        Tooltip: Ну что, ты готова?
+	}
+
+	ClementinesCap: {
+		DisplayName: Кровавая бейсбольная кепка
+		Tooltip: «Она определённо повидала лучшие времена»
+	}
+			  
+	InfernoBreastplate: {
+		DisplayName: Инфернальный нагрудник
+		Tooltip: ""
+	}
+
+	InfernoHeadgear: {
+		DisplayName: Инфернальный шлем
+		Tooltip: ""
+	}
+			  
+	InfernoHeadgearAlt: {
+		DisplayName: Инфернальная маска
+		Tooltip: ""
+	}
+
+	InfernoLeggings: {
+		DisplayName: Инфернальные поножи
+	        Tooltip: ""
+	}
+			  
+	Serration: {
+		DisplayName: Зазубрины
+		Tooltip: Обладает уникальной атакой при ударе о землю
+	}
+			  
+	CecitiorBag: {
+	        DisplayName: Мешок с сокровищами ({$Mods.EbonianMod.NPCs.Cecitior.DisplayName})
+		Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
+	}
+			  
+        TerrortomaBag: {
+		DisplayName: Мешок с сокровищами ({$Mods.EbonianMod.NPCs.Terrortoma.DisplayName})
+		Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
+	}
+			  
+	CursedToy: {
+		DisplayName: Проклятая кукла
+		Tooltip: ""
+	}
+
+	CorruptionClaw: {
+		DisplayName: Цепной клык
+		Tooltip: ""
+	}
+			  
+	VaccumWorm: {
+		DisplayName: Вакуумный червь
+	        Tooltip: Всасывает в себя слабых врагов
+	}
+
+	PhantasmalGreatsword: {
+		DisplayName: Теневопламенный рассекатель небес архимага Ксареуса
+		Tooltip:
+			'''
+			Создаёт теневопламенные копии меча при попадании
+			Создан архимагом Ксареусом... в качестве настенного украшения.
+			'''
+	}
+			  
+	GhizasWheel: {
+		DisplayName: Короззийный нож
+		Tooltip: Накладывает дебафф «{$BuffName.CursedInferno}» при попадании
+	}
+
+	Equilibrium: {
+		DisplayName: Эквилибриум
+		Tooltip: ""
+	}
+			  
+	Chainsword: {
+	        DisplayName: Свалочный бензомеч
+		Tooltip: Игнорирует {0} ед. защиты врага
+	}
+
+	CecitiorClawSummon: {
+	        DisplayName: Спиночесалка
+		Tooltip: «Привет, Питер»
+	}
+			  
+	HotShield: {
+		DisplayName: Крышка от мусорного бака
+		Tooltip: Снижает скорость передвижения на {0}%
+	}
+
+	CecitiorMaterial: {
+		DisplayName: Мясистый комок
+		Tooltip: Извивающиеся куски багровой плоти
+	}
+			  
+        TerrortomaMaterial: {
+		DisplayName: Клеточное вещество
+		Tooltip: Извивающиеся куски искажённой материи
+	}
+
+	ToothToothbrush: {
+		DisplayName: Зубастая зубная щётка
+		Tooltip: Обладает уникальной атакой при ударе о землю
+	}
+			  
+	PipebombI: {
+		DisplayName: Бомба из трубы
+		Tooltip:
+			'''
+			Может наность урон городским жителям
+			«Интересно, а что будет, если я-» 
+			'''
+	        }
+
+	SpudCannon: {
+		DisplayName: Картофельная пушка
+		Tooltip: Использует картошку в качестве боеприпасов
+	}
+			  
+        CursedScourge: {
+		DisplayName: Проклятый бич
+		Tooltip: ""
+	}
+
+	Bloodlash: {
+		DisplayName: Кровопролитие
+		Tooltip: ""
+	}
+			  
+	ArchmageXTome: {
+		DisplayName: Том бесконечной мудрости Великого архимага
+	 	Tooltip: Призывает преследующего вас фантомного духа с помощью аметистовой энергии
+	}
+
+	StaffOfXItem: {
+		DisplayName: Посох предмета X
+		Tooltip: ""
+	}
+			  
+	StaffOfX: {
+		DisplayName: Архипосох трагически павшего архимага Ксареуса
+		Tooltip: Выкован из чистейшего порошка молнии, тончайших аметистов из королевства кристаллов... и т.д. и т.п.
+	}
+
+	StaffofXWeapon: {
+		DisplayName: Уменьшенная версия Архипосоха Ксареуса
+		Tooltip: Ему далеко до величия истинного Архипосоха
+	}
+			  
+	XareusPotion: {
+		DisplayName: Зелье нескончаемой маны Ксареуса
+		Tooltip: Смертельно опасно для питья
+	}
+
+	ArchmageBag: {
+		DisplayName: Мешок с сокровищами ({$Mods.EbonianMod.NPCs.ArchmageX.DisplayName})
+		Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
+	}
+			  
+	TerrortomaTrophy: {
+		DisplayName: Трофей Террортомы
+		Tooltip: ""
+	}
+
+	XTentacleAcc: {
+		DisplayName: Щупальце Ксареуса
+		Tooltip: Усиливает ваши магические атаки, сопровождая их отскакивающим аметистом
+	}
+			  
+	GarbageFlail: {
+		DisplayName: Специфичная углошлифовочная машина
+		Tooltip: ""
+	}
+
+	TitteringStaff: {
+		DisplayName: Посох пережёвывателя
+		Tooltip: Призывает крошечных пережёвывателей, которые стреляют проклятым пламенем по ближайшим врагам
+	}
+			  
+	GarbageBagI: {
+		DisplayName: Мешок с сокровищами ({$Mods.EbonianMod.NPCs.HotGarbage.DisplayName})
+		Tooltip: "{$CommonItemTooltip.RightClickToOpen}"
+	}
+
+	CecitiorPet: {
+		DisplayName: Глаз Амавроза
+		Tooltip: Призывает глаз Амавроза
+	}
+			  
+	GarbagePet: {
+		DisplayName: Мусорный мешок
+		Tooltip: Призывает мусорный мешок
+	}
+
+	SheepPet: {
+		DisplayName: Пушистая шерсть
+		Tooltip: Призывает овечку
+	}
+			 
+        CecitiorTrophy: {
+		DisplayName: Трофей Амавроза
+		Tooltip: ""
+        }
+
+	GarbageTrophy: {
+		DisplayName: Трофей Горячей помойки
+		Tooltip: ""
+	}
+			  
+	XMusicI: {
+		DisplayName: Музыкальная шкатулка (Ксареус)
+		Tooltip: Воспроизводит «Die Human Enemy» от Yuri O
+	}
+
+	XTrophy: {
+		DisplayName: Трофей Ксареуса
+		Tooltip: ""
+	}
+			  
+	SheepItem: {
+		DisplayName: Овца
+		Tooltip: ""
+	}
+
+	MailboxStaff: {
+		DisplayName: Посох почтового ящика
+		Tooltip: Призывает почтовый ящик-стража	
+	}
+			  
+	CecitiorRelic: {
+		DisplayName: Реликвия Амавроза
+		Tooltip: ""
+	}
+
+	GarbageRelic: {
+		DisplayName: Реликвия Горячей помойки
+		Tooltip: ""
+	}
+			  
+	TerrortomaRelic: {
+		DisplayName: Реликвия Террортомы
+		Tooltip: ""
+	}
+
+	XRelic: {
+		DisplayName: Реликвия Ксареуса
+		Tooltip: ""
+	}
+			  
+	SalvagedThruster: {
+		DisplayName: Б/У-шный двигатель
+		Tooltip:
+			'''
+			Использует гель в качестве боеприпасов
+			«Совсем капельку спама частицами...»
+			'''
+	}
+
+	NastySnapper: {
+		DisplayName: Противный окунь
+		Tooltip:
+			'''
+			{$CommonItemTooltip.SummonTagDamage}
+			{$CommonItemTooltip.Whips}
+			«Больно он рыбкий сегодня»
+			'''
+	}
+			  
+	WoolenBoots: {
+		DisplayName: Шерстяные сапоги
+		Tooltip:
+			'''
+			Увеличиваает урон хлыстов на {0}%
+			Увеличивает скорость хлыстов на {1}%
+			'''
+	}
+
+	WoolenCoat: {
+		DisplayName: Шерстяная куртка
+		Tooltip:
+			'''
+			Увеличивает урон призывателя на {0}%
+			Увеличивает максимальное количество миньонов на {1}
+			'''
+	}
+			  
+	WoolenUshanka: {
+		DisplayName: Шерстяная ушанка
+		Tooltip: Увеличивает урон призывателя на {0}%
+		SetBonus:
+			'''
+			Увеличивает максимальное количество миньонов на {0}
+			Даёт невосприимчивость к дебаффам «{$BuffName.Chilled}» и «{$BuffName.Frozen}»
+			'''
+	}
+
+	Wool: {
+		DisplayName: Шерсть
+		Tooltip: ""
+	}
+			  
+	XMask: {
+		DisplayName: Маска Ксареуса
+		Tooltip: ""
+	}
+
+	GarbageMask: {
+		DisplayName: Маска Помойки
+		Tooltip: ""
+	}
+
+	CeciMask: {
+		DisplayName: Маска Авармоза
+		Tooltip: ""
+	}
+
+	TTomaMask: {
+		DisplayName: Маска Террортомы
+		Tooltip: ""
+	}
+			  
+	XHouseBrickReplicaItem: {
+		DisplayName: Аметистовый кирпич
+		Tooltip: ""
+	}
+
+	Terrortome: {
+		DisplayName: Террортом
+		Tooltip: ""
+	}
+			  
+	Sawcitior: {
+		DisplayName: Пиловроз
+		Tooltip: ""
+	}
+
+	Shears: {
+		DisplayName: Ножницы
+		Tooltip: Используются для стрижки овец
+	}
+	 		  
+	SheepItemNaked: {
+		DisplayName: Подстриженная овца
+		Tooltip: ""
+	}
+
+	WoolChairI: {
+		DisplayName: Шерстяной стул
+		Tooltip: ""
+	}
+
+	WoolDoorI: {
+		DisplayName: Шерстяная дверь
+		Tooltip: ""
+	}
+
+	WoolLampI: {
+		DisplayName: Шерстяная напольная лампа
+		Tooltip: ""
+	}
+
+	WoolTableI: {
+		DisplayName: Шерстяной стол
+		Tooltip: ""
+	}
+
+	WoolWorkbenchI: {
+		DisplayName: Шерстяной верстак
+		Tooltip: ""
+	}
+
+	WoolWoodI: {
+		DisplayName: Шерстяная древесина
+		Tooltip: ""
+	}
+
+	WoolWoodPlatformI: {
+		DisplayName: Шерстяная платформа
+		Tooltip: ""
+	}
+
+	WoolWoodWallI: {
+		DisplayName: Шерстяная дверь
+		Tooltip: ""
+	}
+
+	SilverBasher: {
+		DisplayName: Серебрянный отбойник
+		Tooltip: ""
+	}
+
+	terrortomaFishingRod: {
+		DisplayName: Мрачнолов
+		Tooltip: ""
+	}
+
+	cecitiorFishingRod: {
+		DisplayName: Кровоток
+		Tooltip: ""
+	}
+
+	BallLauncher: {
+		DisplayName: Шаромёт
+		Tooltip: ""
+	}
+
+	CorruptrotI: {
+		DisplayName: Искажённогнилой блок
+		Tooltip: ""
+	}
+
+	FleshichorI: {
+		DisplayName: Мясоихорный блок
+		Tooltip: ""
+	}
+}
+
+Misc: {
+	Types: {
+		Xareus: Тип: «Великий» маг
+		Staff: Тип: Волшебная палочка
+		Cecitoma: Тип: Органическая конструкция
+		Evil: Тип: Инфицированное существо
+		Organ: Тип: Орган
+		HotGarbage: Тип: Мусорный бак
+		Animal: Тип: Домашний скот
+	}
+}
+
+Buffs: {
+	ExolStun: {
+		DisplayName: Оглушён
+		Description: Вы оглушены
+	}
+
+	PanopticonB: {
+		DisplayName: Куб из плоти
+		Description: Этот куб... вращается вокруг... МЕНЯ!?
+	}
+
+	HightomaB: {
+		DisplayName: Крошкатома
+		Description: Не настолько в здравом уме, чтобы пытаться напасть на тебя
+	}
+
+	RollegB: {
+		DisplayName: Оаоаоаоа ммм))
+		Description: Неко грибочек :3
+	}
+
+	DoomsdayBuff: {
+		DisplayName: Дрон судного дня
+		Description: .
+	}
+
+	SelfStabB: {
+		DisplayName: Принесённый в жертву
+		Description: Урон значительно увеличен
+	}
+
+	DjungelskogB: {
+		DisplayName: Джунгельског
+		Description: En mjuk djungelkompis som gärna följer med på äventyr
+	}
+
+	OstertagiB: {
+		DisplayName: Заражённый
+		Description: Увеличенный урон и скорость атаки
+	}
+
+	Sheepened: {
+		DisplayName: Превращение в овцу
+	 	Description: Это плё-ё-ёхо!
+	}
+
+	XTomeBuff: {
+		DisplayName: Призрачные духи
+		Description: Вы излучаете аметистовую энергию, которая будет сражаться за вас
+	}
+
+	CecitiorClawBuff: {
+		DisplayName: Спиночесатель
+		Description: Из вашей спины вырастают алые когти и сражаются за вас
+	}
+
+	TitteringB: {
+		DisplayName: Пережёвыватель
+	 	Description: Пережёвыватель сражается за вас
+	}
+
+	CecitiorPetB: {
+		DisplayName: Глаз Амавроза
+		Description: Он всё видит
+	}
+
+	GarbagePetB: {
+		DisplayName: Мешок мусора
+		Description: Отвратительно пахнет
+	}
+
+	SheepPetB: {
+		DisplayName: Овечка
+		Description: Шепелявость это воовце не смешно
+	}
+
+	NastySnapperDebuff: {
+		DisplayName: Nasty Snapper Debuff
+		Description: Mods.EbonianMod.Buffs.NastySnapperDebuff.Description
+	}
+}
+
+Dialogue: {
+	DotDotDot: ...
+	Wizard: {
+		WizardAboutX1: Ха! Марсиане действительно здорово отделали старину Ксареуса... Какой дурак.
+		WizardAboutX2: Хм, я вижу, ты позаботился об этом идиотском «архимаге»... Хорошая работа!
+		WizardAboutX3: Итак, ты уже познакомился с так называемым  «архимагом». Тьфу! Он даже не может колдовать с помощью аметистового посоха!
+		WizardAboutX4: «Гений магии», как он себя называет, — это просто высокомерный титул! Я видел и слизняков более волшебных!
+		WizardAboutX5: Это дурачье все ещё на свободе? Не обращай на него внимания, иначе это никогда не закончится!
+		WizardAboutX6: Тебе стоит заглянуть в ту заброшенную фиолетовую лачугу — если я правильно помню, это был дом невероятно безрассудного чудака.
+		WizardAboutX7: Вы всё ещё не проверили эту странную фиолетовую хижину? Там живет самопровозглашенный «Архимаг».
+		WizardAboutX8: Как бы сильно я ни презирал Ксареуса, его заклинание превращения в овцу... впечатляет.
+	}
+
+				
+	ArchmageXDialogue: {
+		AndAgain: И снова!
+		AgainLoud: СНОВА!
+		XIntro1: УБЕРИ СВОИ РУКИ, ТЫ-Ы-Ы-Ы-Ы!!!!!
+		XIntro2: Мой посох... мой МИЛЫЙ ПОСОХ, ТЫ ЕГО ИСПОРТИЛ!
+	        XIntro3: ТЫ ДЬЯВОЛ!!! Я УНИЧТОЖУ ТЕБЯ ВСЕМИ ВОЗМОЖНЫМИ ФИЗИЧЕСКИМИ СПОСОБАМИ!!!
+		XIntro4: Не мог бы ты просто прекратить ЭТО!?
+		XIntro5: Снова ты?!
+		XIntro6: НЕ ТРОЖЬ МОЙ ПОСОХ!
+		XIntro7: В первый раз тебе просто повезло!
+		XIntro8: ОТВАЛИ ОТ МЕНЯ!
+		XIntro9: Чувак, пожалуйста, уже почти полночь, я так устал выигрывать...
+		XIntro10: Я думал, ты уже усвоил урок!
+		XTaunt1: На твоем месте я бы, наверное, тоже попытался украсть свой посох!
+		XTaunt2: Для верховного архимага это всего лишь небольшое неудобство!!
+		XTaunt3: Если бы ты только умел сражаться так же хорошо, как открывать двери!
+	        XTaunt4: Ты практически побеждаешь самого СЕБЯ!
+		XTaunt5: Ты намеренно промахиваешься? Или это моя слава ослепляет тебя?
+		XTaunt6: Ты недостоин даже стать свидетелем моего величайшего волшебства!
+		XTaunt7: Моя величайшая магия сломает твой разум РАНЬШЕ твоего тела!
+	 	XTaunt8: Держу пари, ты даже представить себе не можешь, насколько могущественен Архимаг!
+		XTaunt9: Лучше всего у тебя выходит только принимать неверные решения!
+		XTaunt10: На твоем месте, я бы поклонился и позволил мне уничтожить тебя!
+		XTaunt11: Я не могу поверить, что трачу на это всю свою славу...
+		XTaunt12: Даже если бы ты украл его, ты никогда не стал бы достойным владения моим великолепным посохом!
+		XTaunt13: Я даже не знаю, смеяться или плакать мне с твоих попыток нанести мне удар!
+		XTaunt14: Ещё никто не мог перехитрить мои заклинания!
+		XTaunt15: Ты не нанесёшь мне ни царапины!
+		XTaunt16: Почувствуй силу моей МА-А-А-ГИ-И-ИИ!!!
+		XTaunt17: Ты действительно любитель среди любителей!
+		XTaunt18: Никакой пощады таким ворам, как ты!
+		XTaunt19: Даже если ты сейчас сдашься, я все равно не стану тебя отпускать!
+		XTaunt20: Выхода нет, слабак!
+		XTaunt21: Моя сила на ПРЕДЕЛЕ!!!!!!!!
+		XTaunt22: Невероятно! Я почти завидую твоей настойчивости!
+	  	XTaunt23: В отличие от тебя, я обречён на превосходство!
+		XTaunt24: Мои заклинания — это моя сила!
+		XTaunt25: СДОХНИ!!! ЧЕЛОВЕК!! ВРАГ!!!!!! *кхе, кхе* ПОЛУЧАЙ!!
+		XTaunt26: Х-ХВАТИТ АТАКОВАТЬ ОГНЕМ! ЭТО НОВАЯ МАНТИЯ!
+		XTaunt27: Д-Дурак! На самом деле мне Н-НРАВИТСЯ гореть!
+		XTaunt28: Т-ты думаешь, немного огня будет достаточно, чтобы свалить ВЕЛИКОГО АРХИМАГА!?
+		XTaunt29: Эй! ПРЕКРАТИ! Ты испортишь мою мантию!
+		XTaunt30: Мои зелья слишком сильны, чтобы тратить их на тебя!
+		XTaunt31: Я помню КРЫСУ, которая владела магией лучше, чем ты!
+		XTaunt32: Даже кролик превосходит тебя в магическом мастерстве!
+		XTaunt33: Возможно, тебе стоит отточить свои заклинания перед встречей с Великим архимагом!
+		XTaunt34: И ты называешь ЭТО магией?! Как жалко!
+		XTaunt35: Мой посох больше твоего!
+		XTaunt36: Тебе лучше было бы ударить меня этим посохом!
+		XTaunt37: Твоя магическая сила меня разочаровывает...
+		XTaunt38: Ты , дикарь, недостоин встречаться лицом к лицу с кем-то вроде меня.
+		XTaunt39: Твои удары — всего лишь пустые угрозы для меня!
+		XTaunt40: Размахивать жалким клиноком — это всё, на что ты способен!
+		XTaunt41: О, ЧТО?! Меч слишком тяжелый для твоих дряблых рук, похожих на ветки?!?
+		XTaunt42: Оставайся верен своей цели, тогда, возможно, у тебя появится шанс!
+		XTaunt43: Твоя огневая мощь — ничто по сравнению с мощью моей магии!
+		XTaunt44: Твоя меткость — полный позор!
+		XTaunt45: Ты пытаешься бить стену? Или ты просто ослеплён моей славой?
+		XTaunt46: Ты идиот! Я пуленепробиваемый!
+		XTaunt47: Даже из меня получился бы лучник лучше, чем из тебя!
+	        XTaunt48: КАКОГО ХЕРА?!
+		XTaunt49: ПЕРЕСТАНЬ ИСПОЛЬЗОВАТЬ СВОИ ДЕШЁВЫЕ УЛОВКИ, ТЫ, МАЛЕНЬКИЙ БАНДИТ!
+		XTaunt50: Как насчёт того, чтобы я отхлестал ТЕБЯ в ответ?!
+		XTaunt51: Трус! Численное превосходство бесполезно против МЕНЯ!!!
+		XTaunt52: Ты осмелился встретиться со мной лицом к лицу, приведя своих зловещих порождений?!
+		XTaunt53: Ты нападаешь на меня с МИНЬОНАМИ? СТОЛКНИСЬ СО МНОЙ ЛИЦОМ К ЛИЦУ!
+		XTaunt54: Как ты СМЕЕШЬ? ТЕБЕ БЫ ПОНРАВИЛОСЬ, ЕСЛИ БЫ Я ОКРУЖИЛ ТЕБЯ МИНЬОНАМИ?!
+		XTaunt55: Стоп, слизни?! ТЫ НАСТОЛЬКО плохо подготовлен?!
+		XTaunt56: Подожди... Птицы? Серьезно?? Пфф...
+				   
+				   
+		XAttack1: {
+			Default: Призрачные духи!
+			Angry: УБЕЙТЕ ЭТОГО ВОРА!!!!!
+			RepeatAngry: СЕЙЧАС ЖЕ!!!!
+		}
+
+		XAttack2: {
+			Default: Ивержение теневого пламени!
+			Angry: ГОРИ!!
+			RepeatAngry: Я СКАЗАЛ ГОРИ!
+		}
+
+		XAttack3: {
+			Default: Сверкающие аметисты!!
+			Angry: РААААГХХ!!!!!!
+		}
+
+		XAttack4: {
+			Default: Мерцающий залп!
+			FirstTimeAngry: Мерцающий.. ЧТО БЫ ТАМ НИ БЫЛО, ПРОСТО УМРИ!
+			Angry: ПРОСТО ПОДОХНИ!!
+		}
+
+		XAttack5: {
+			Helix: Спираль теневого пламени!
+			Wave: Волна теневого пламени!
+			Angry: ТЕНЕВОЕ ПЛАМЯ!!
+		}
+
+		XAttack6: {
+			Default: Аметисты, дающие силу!
+		 	Angry: УКРАДИ ЭТО, УБЛЮДОК!!
+			FirstTimeAngry: ОНИ ОЧЕНЬ ДОРОГИЕ!
+			RepeatAngry: ГРАААААААААХ!!!!!
+		}
+
+		XAttack7: {
+			Default: Сверкающие аметисты!
+			Angry: АХАХАХА!!!
+		}
+
+	 	XAttack8: {
+			Default: Великий аметист Архимага!
+			Angry: ОТВАЛИ ОТ МЕНЯ!
+			RepeatAngry: Я ТЕБЯ НЕНАВИЖУ!!!
+		}
+
+		XAttack9: {
+			Default: Щупальца теневого пламени!
+			Angry: СДОХНИ!!!!
+			Angry2: СДОХНИ!!!!!!!!!
+			Angry3: ПОЖАЛУЙСТА, ПРОСТО УМРИ!!!!!!!!!!!!!!!!
+			RepeatAngry: СДОХНИ УЖЕ!!!!!!
+		}
+
+
+		XAttack10: {
+			Default1: Блеяй сейчас же!
+			Default2: «Бе-е-е! Б-е-е!»... Это ты!
+			Default3: Превращение в овцу!
+			Default4: На бойню вместе с тобой!
+			Default5: Полиморф!
+			Angry: С ГЛАЗ ДОЛОЙ!
+			RepeatAngry: УБИРАЙСЯ ОТСЮДА!!
+		}
+				
+		XAttack11: {
+			Default: ЛОВИ ЭТО!
+			Continuation1: И ЭТО!
+			Continuation2: И ЭТО!
+			Continuation3: А ТАКЖЕ ЭТО!
+			Continuation4: И НЕМНОГО ЭТОГО!
+			Continuation5: И ЭТОГО!
+			Continuation6: И КОНЕЧНО ЭТОГО!
+		}
+
+		XAttack12: {
+			Default: Взрыв ФАНТАЗМА!
+			It: УНИЧТОЖЬ ЭТО!
+			Him: УНИЧТОЖЬ ЕГО!
+			Her: УНИЧТОЖЬ ЕЁ!
+			RepeatAngry: ДАВАЙ ЖЕ!
+		}
+
+		XAttack13: {
+			Default1: Подожди, кажется, я кое-что забыл...
+			Default2: Не обращай на меня внимания! Я просто кое-что забыл...
+			Default3: Кажется, я кое-что забыл...
+		 	Default4: Хехехехехе...
+			Angry: СТОЙ СМИРНО!
+			RepeatAngry: Я СКАЗАЛ СТОЙ СМИРНО!
+		}
+ 
+		XAttack14.Angry: ПРОСТО ОСТАВЬ МЕНЯ В ПОКОЕ!
+
+		XAttack15: {
+			Default: Туман теневого пламени!
+			Angry: ТЫ БУДЕШЬ БЛЕЯТЬ!
+			RepeatAngry1: НЕДОСТАТОЧНО БЛЕЯНИЯ!
+			RepeatAngry2: Я СКАЗАЛ... ТЫ БУДЕШЬ БЛЕЯТЬ!
+		}
+
+		XAttack16: {
+			Angry: ХВАТИТ УКЛОНЯТСЯ!
+			RepeatAngry: ПРЕКРАТИ!!
+		}
+
+		XAttack17: {
+			Angry: Я ТАК УСТАЛ ОТ ТВОЕЙ ЧЕПУХИ!
+			FirstTimeAngry: Ты когда-нибудь устаёшь?!... ПОСМОТРИ, ЧТО ТЫ ЗАСТАВЛЯЕШЬ МЕНЯ ДЕЛАТЬ!!!
+			RepeatAngry: ЧЁРТ ПОБЕРИ!!
+			Staff1: ЧТО ТЫ ДЕЛАЕШЬ?!
+			Staff2: КСАРЕУС?!
+			Staff3: ???!
+			Staff4: А?!
+		}
+
+		XPhase2: Ничего бы этого не случилось, если бы ты просто держал свои грязные руки подальше от моих вещей!
+		XPhase2End: Фу... Я чуть не потерял самообладание..
+		XDespawn1: Твоё умение проигрывать поистине непревзойденно!
+		XDespawn2: Просто ещё один мотылёк на моём великолепном пламени!
+		XDespawn3: Ха! Еще одна победа гениального архимага!
+		XDespawn4: Победит ли вас ТАК ЖЕ фиолетовая лазерная указка?
+	       	XDespawn5: Предсказуемое поражение, ВОР!
+		XDespawn6: Подожди, ты действительно НАСТОЛЬКО некомпетентен?! Мне жаль тебя.
+		XDespawn7: *Зевок*
+		XDespawn8: СКАТЕРТЬЮ ДОРОГА!
+		XDespawn9: Фух... То есть, даже не близко!
+		XDeath: БУДЬ ТЫ ПРОКЛЯТ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+		Martian: {
+		 	Line1: ВНЕЗАПНАЯ АТАКА!!!
+			Line2: ПОКА ТЫ ВАЛЯЛ ДУРАКА...
+			Line3: Я ПРОБУДИЛ СВОЮ ИСТИННУЮ СИЛУ!!!
+			Line4: И с этой силой...
+			Line5: Ты...
+			Line6: Будешь...
+			Line7: Ой.
+		}
+				
+	}
+				
+	ArchstaffDialogue: {
+		Weapon: {
+			Yell1: АЙ!
+			Yell2: ХВАТИТ!
+			Yell3: Я БЫЛ СДЕЛАН НЕ ДЛЯ ЭТОГО!
+			Yell4: ЧТО ТЫ ДЕЛАЕШЬ?!
+			Yell5: ПРЕКРАТИ!
+			Yell6: УГОМОНИСЬ!
+			Yell7: ПЕРЕСТАНЬ!
+			Yell8: ОСТАНОВИСЬ!
+			Yell9: БОЛЬНО!
+			Yell10: БУДЬ ТЫ ПРОКЛЯТ!
+			Happy1: ДА!
+			Happy2: УРА!
+			Happy3: ПОЛУЧАЙ!
+			Happy4: АХАХАХАХА!
+			Happy5: ЮХУУУ!
+			Happy6: СДОХНИИ!
+			Happy7: ДА, ПОДОХНИ!
+		}
+				  
+		InteractionLine: Он интенсивно мерцает, жаждя славной битвы.
+		Grab: Взять
+		PsstLine: Псс.
+		YouLine: Ты...
+		ComeHereLine: Подойди ближе...
+		ArchstaffLine1: Хмм...
+	  	ArchstaffLine2: Ты выглядишь.. способным..
+		ArchstaffLine3: Да, да, наконец-то! Новый владелец!
+		ArchstaffLine4: Видишь ли...
+		ArchstaffLine5: Мой владелец... УЖАСНЫЙ маг.
+		ArchstaffLine6: Это довольно унизительно — быть ограниченным таким...
+		ArchstaffLine7: Идиотом!
+		ArchstaffLine8: «Архимаг», Пфф...
+		ArchstaffLine9: Я был выкован из чистого порошка молний, тончайших аметистов из королевства кристаллов,
+		ArchstaffLine10: в пекле тысячи солнц, величайшими гоблинами-кузнецами во всей вселенной!
+		ArchstaffLine11: Типо... Ты можешь себе такое представить?! АРХИМАГ, который отказывается использовать своё величайшее оружие?!
+		ArchstaffLine12: Что за конченая шутка!
+		ArchstaffLine13: И почему этот недалёкий маг отказывается использовать мою силу?!
+		ArchstaffLine14: Потому что он боится, что я поцарапаюсь!
+		ArchstaffLine15: Я — ОРУЖИЕ! Я СОЗДАН ДЛЯ ТОГО, ЧТОБЫ ЦАРАПАТЬСЯ! Я НЕ ВЫСТАВОЧНЫЙ ЭКСПОНАТ!!
+		ArchstaffLine16: МОЕ ПРЕДНАЗНАЧЕНИЕ — БЫТЬ ИСПОЛЬЗОВАННЫМ В БОЮ ВЕЛИЧАЙШИМИ ВОЛШЕБНИКАМИ ВСЕХ ВРЕМЕН И ПОКОЛЕНИЙ,
+		ArchstaffLine17: ПОГИБНУТЬ В БОЮ И ОСТАТЬСЯ В ПАМЯТИ КАК ИСТИННЫЙ ВЕЛИЧАЙШИЙ АРХИПОСОХ ЛЮБОЙ РЕАЛЬНОСТИ!
+		ArchstaffLine18: О, точно!
+		ArchstaffLine19: Ты! Пожалуйста... Пожалуйста, возьми меня! Мой хозяин ОТКАЗЫВАЕТСЯ использовать моё величие!
+		ArchstaffLine20: Его здесь нет! Он даже не заметит!
+		ArchstaffMotivation1: Хахаха! Вернулся для новой СЛАВНОЙ битвы!? Его легко вывести из себя!
+	 	ArchstaffMotivation2: Сражаться с тобой — это самое приятное!
+		ArchstaffMotivation3: Вернулся для еще одного незабываемого боя?
+		ArchstaffMotivation4: О, как мне ХОЧЕТСЯ сражаться!
+		ArchstaffMotivation5: Это была не... самая плохая попытка! Его здесь нет, вы можете попробовать ещё раз!
+		ArchstaffMotivation6: Ты можешь это сделать! Не обращай внимания на его болтовню!
+		ArchstaffMotivation7: Постарайся не умереть на этот раз!
+		ArchstaffMotivation8: Превращение в овцу может выглядеть устрашающе... Потому что так оно и есть!
+		ArchstaffMotivation9: Я много раз говорил ему, чтобы он избавился от заклинания с большим аметистом! Какая досада...
+		ArchstaffMotivation10: Почему он вообще так разбрасывается своими зельями?
+		ArchstaffMotivation11: В конце концов у него закончатся аметисты... Я думаю...
+		ArchstaffVictory1: Вау... Он в самом деле... Использовал меня!
+		ArchstaffVictory2: Какая захватывающая битва! И, и я был в центре всего этого! Великий Архипосох!
+		ArchstaffVictory3: Я не могу вспомнить, когда в последний раз он использовал меня на полную катушку!
+		ArchstaffVictory4: Полагаю, я должен поблагодарить тебя за эту незабываемую битву!
+		ArchstaffVictory5: Хаос! Кровопролитие! Аметисты!! можешь вернуться позже, если захочешь большего!
+		ArchstaffVictory6: Прощай!
+		PostMartianLine1: Я полагаю, ты... в курсе..
+		PostMartianLine2: ...о смерти великого Ксареуса...
+		PostMartianLine3: Нет... нет.. Трагедия не сломит Архипосох!
+		PostMartianLine4: ТЫ! Стань моим новым владельцем!
+		PostMartianLine5: Ты, очевидно, более достоин, чем мастер Ксареус! Вместе мы уничтожим галактики!
+		PostMartianLine6: Да, да! Теперь я это вижу! Твое имя, каким бы оно ни было, и посох Архипосох трагически погибшего мастера Ксареуса!
+		PostMartianLine7: Сила, превосходящая всё, что только можно было представить, даже самые смелые фантазии!
+		PostMartianLine8: Честь! И слава! Нас не остановить!
+		PostMartianLine9: РАААААААААААААААААААААААААААААААААААААААААААААААХХХ!!!!!!!!!!!!!!
+	}
+				
+			   
+	HotGarbageDialogue: {
+		Nuke: ВЗРЫВ БОЕГОЛОВКИ ЧЕРЕЗ
+		Evacuate: НЕМЕДЛЕННО ЭВАКУИРУЙТЕСЬ!
+		Unfunny: Это не смешно, ПОЖАЛУЙСТА, УБЕГАЙ!
+		Dumbass: ЧТО ТЫ ТВОРИШЬ!?
+		Run: БЕГИ
+		Phew: фух...
+		GG: ХОРОШАЯ РАБОТА!
+		HereItComes: ВОТ И ОНО!!!
+	}
+}
+
+DeathMessages: {
+	NukeTP: Игрок {0} решил, что он самый умный.
+	OstertagiDeath: Игрок {0} был не против червей.
+	Suicide: Игрок {0} придумал самый простой путь...
+	ParasiteDeath: Игрок {0} стал пристанищем для паразитов.
+	NukeDeath: Игрок {0} выступал за легализацию ядерных бомб.
+}
